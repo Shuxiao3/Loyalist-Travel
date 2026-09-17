@@ -63,17 +63,11 @@
 
 /* the score band, e.g. "Great" */
 .band {
-  margin-top: var(--s2);
+  margin-top: var(--s3);
   font-family: var(--serif);
-  font-size: var(--t-md);
+  font-size: var(--t-xl);
   color: var(--ivory);
-  letter-spacing: 0.02em;
-}
-
-.scoreMidRow {
-  display: flex;
-  align-items: center;
-  gap: var(--s2);
+  line-height: 1.1;
 }
 
 .scoreSplit {
@@ -346,7 +340,7 @@
 .bigBand {
   margin-top: var(--s3);
   font-family: var(--serif);
-  font-size: var(--t-lg);
+  font-size: var(--t-xl);
   color: var(--ivory);
 }
 

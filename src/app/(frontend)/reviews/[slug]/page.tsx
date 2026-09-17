@@ -138,22 +138,16 @@ export default async function ReviewPage({ params }: Props) {
                 <div className={styles.scoreSplit}>
                   <div>
                     <span className={`label ${styles.scoreLabel}`}>Hard</span>
-                    <div className={styles.scoreMidRow}>
-                      <ScoreRing value={review.totals?.hard} max={hardMax} size={28} stroke={3} label={`Hard product ${score(review.totals?.hard)} of ${hardMax}`} />
-                      <div className={styles.scoreMid}>
-                        {score(review.totals?.hard)}
-                        <small>/{hardMax}</small>
-                      </div>
+                    <div className={styles.scoreMid}>
+                      {score(review.totals?.hard)}
+                      <small>/{hardMax}</small>
                     </div>
                   </div>
                   <div>
                     <span className={`label ${styles.scoreLabel}`}>Soft</span>
-                    <div className={styles.scoreMidRow}>
-                      <ScoreRing value={review.totals?.soft} max={softMax} size={28} stroke={3} label={`Soft product ${score(review.totals?.soft)} of ${softMax}`} />
-                      <div className={styles.scoreMid}>
-                        {score(review.totals?.soft)}
-                        <small>/{softMax}</small>
-                      </div>
+                    <div className={styles.scoreMid}>
+                      {score(review.totals?.soft)}
+                      <small>/{softMax}</small>
                     </div>
                   </div>
                 </div>
