@@ -15,7 +15,7 @@ import type { CollectionSlug, Payload } from 'payload'
 import { getPayload } from 'payload'
 
 import config from '../../src/payload.config'
-import { RUBRIC_V15 } from '../../src/rubric/v15'
+import { RUBRIC_PRE_V15, RUBRIC_V15 } from '../../src/rubric/v15'
 import { htmlToLexical, lexicalWordCount } from './html-to-lexical'
 
 type WebflowItem = {
@@ -195,25 +195,16 @@ const importDestinations = (payload: Payload) =>
   })
 
 // Rubric versions are seeded from code, not Webflow. v15 is the current
-// locked version. The Webflow reviews were scored on the version before it;
-// its maxima are not recorded anywhere exportable, so it is created with
-// blank maxima (validation off) and the same sixteen categories, to be filled
-// in from the scoring workbook.
+// locked version; the Webflow reviews were scored on the version before it.
 async function importRubricVersions(payload: Payload) {
-  const seed = async (slug: string, name: string, notes: string, withMaxima: boolean) => {
+  const seed = async (slug: string, name: string, notes: string, categories: typeof RUBRIC_V15) => {
     const existing = await payload.find({ collection: 'rubric-versions', where: { slug: { equals: slug } }, limit: 1, overrideAccess: true })
     const data = {
       name,
       slug,
       locked: true,
       notes,
-      categories: RUBRIC_V15.map((c) => ({
-        key: c.key,
-        label: c.label,
-        group: c.group,
-        maxCity: withMaxima ? c.maxCity : null,
-        maxResort: withMaxima ? c.maxResort : null,
-      })),
+      categories: categories.map((c) => ({ key: c.key, label: c.label, group: c.group, maxCity: c.maxCity, maxResort: c.maxResort })),
     }
     if (existing.docs[0]) {
       await payload.update({ collection: 'rubric-versions', id: existing.docs[0].id, data, overrideAccess: true })
@@ -222,8 +213,8 @@ async function importRubricVersions(payload: Payload) {
     }
     console.log(`rubric-versions: ${slug}`)
   }
-  await seed('v15', 'Rubric v15', 'Locked Sep 16 2026. City maxima from the proof page; resort maxima to be entered from the scoring workbook.', true)
-  await seed('pre-v15', 'Pre-v15 (Webflow)', 'The version the eight Webflow reviews were scored on. Maxima to be entered from the scoring workbook; until then scores are not validated. These reviews are to be re-scored to v15 after launch.', false)
+  await seed('v15', 'Rubric v15', 'Locked Sep 16 2026. Maxima from the scoring workbook, Luxury Criteria sheet.', RUBRIC_V15)
+  await seed('pre-v15', 'Pre-v15 (Webflow)', 'The version the eight Webflow reviews were scored on: v15 with Bed and sleep out of 5 and Tech out of 3. To be re-scored to v15 after launch.', RUBRIC_PRE_V15)
 }
 
 const rubricVersionId = async (payload: Payload, slug: string) => {
@@ -371,6 +362,11 @@ async function main() {
   for (const s of steps) if (!STEPS[s]) throw new Error(`Unknown step ${s}. Steps: ${Object.keys(STEPS).join(', ')}`)
 
   const payload = await getPayload({ config })
+  // Preload every id map so a partial run can resolve references to
+  // collections imported earlier.
+  for (const c of ['regions', 'programs', 'status-levels', 'brands', 'amenities', 'destinations', 'hotels', 'reviews'] as CollectionSlug[]) {
+    await loadIdMap(payload, c)
+  }
   for (const s of steps) await STEPS[s](payload)
 
   if (droppedImages.length) {
