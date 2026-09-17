@@ -63,8 +63,9 @@ export default async function HomePage() {
       image:
         spotlight.program.images?.heroImageUrl ??
         reviews.docs.find((r) => {
-          const p = rel<Hotel>(r.hotel)?.program
-          return (typeof p === 'object' ? p?.id : p) === spotlight.program.id
+          const hotel = rel<Hotel>(r.hotel)
+          const p = hotel?.program
+          return (typeof p === 'object' ? p?.id : p) === spotlight.program.id && Boolean(r.externalImageUrl ?? hotel?.externalImageUrl)
         })?.externalImageUrl,
       meta: [`${count(spotlight.hotels)} hotels`, `${count(spotlight.scored)} scored ${spotlight.scored === 1 ? 'stay' : 'stays'}`],
       title: spotlight.program.name,
