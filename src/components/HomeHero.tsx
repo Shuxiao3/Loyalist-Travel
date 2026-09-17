@@ -17,23 +17,20 @@ export type HeroSlide = {
   href: string
 }
 
-const INTERVAL_MS = 6000
+const INTERVAL_MS = 2000
 
 // The homepage hero. The panel on the right rotates through the slides
 // with a crossfade; the photograph behind the navy follows the active
-// slide. Auto-advance pauses on hover and focus and is off entirely under
-// prefers-reduced-motion.
+// slide. Auto-advance pauses under a mouse pointer and while a slide has
+// keyboard focus; touch never pauses it. Under prefers-reduced-motion it
+// still rotates, without the fade (see the stylesheet).
 export function HomeHero({ slides, children, stats }: { slides: HeroSlide[]; children: React.ReactNode; stats: React.ReactNode }) {
   const [active, setActive] = useState(0)
   const [paused, setPaused] = useState(false)
-  const reduced = useRef(false)
+  const hovering = useRef(false)
 
   useEffect(() => {
-    reduced.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  }, [])
-
-  useEffect(() => {
-    if (slides.length < 2 || paused || reduced.current) return
+    if (slides.length < 2 || paused) return
     const id = setInterval(() => setActive((i) => (i + 1) % slides.length), INTERVAL_MS)
     return () => clearInterval(id)
   }, [slides.length, paused, active])
@@ -52,10 +49,24 @@ export function HomeHero({ slides, children, stats }: { slides: HeroSlide[]; chi
               className={styles.panel}
               aria-roledescription="carousel"
               aria-label="Highlights"
-              onMouseEnter={() => setPaused(true)}
-              onMouseLeave={() => setPaused(false)}
-              onFocus={() => setPaused(true)}
-              onBlur={() => setPaused(false)}
+              onPointerEnter={(e) => {
+                if (e.pointerType === 'mouse') {
+                  hovering.current = true
+                  setPaused(true)
+                }
+              }}
+              onPointerLeave={(e) => {
+                if (e.pointerType === 'mouse') {
+                  hovering.current = false
+                  setPaused(false)
+                }
+              }}
+              onFocus={(e) => {
+                if (e.target.matches(':focus-visible')) setPaused(true)
+              }}
+              onBlur={() => {
+                if (!hovering.current) setPaused(false)
+              }}
             >
               <div className={styles.stack}>
                 {slides.map((s, i) => (
