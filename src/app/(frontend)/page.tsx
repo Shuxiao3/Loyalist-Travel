@@ -52,14 +52,19 @@ export default async function HomePage() {
   if (featured) {
     const brand = rel<Brand>(featured.hotel.brand)
     const destination = rel<Destination>(featured.hotel.destination)
+    const d = featured.data
     slides.push({
       kind: 'hotel',
       eyebrow: 'Featured hotel',
       image: featured.hotel.externalImageUrl,
       meta: [brand?.name, destination?.locationLabel ?? destination?.name].filter((m): m is string => Boolean(m)),
       title: featured.hotel.name,
-      text: featured.hotel.heroSummary ?? featured.review?.shortVerdict,
-      figure: featured.review ? { value: score(featured.review.totals?.overall), label: 'of 100' } : null,
+      text:
+        featured.hotel.heroSummary ??
+        (d.all
+          ? `${d.all.stays} reader stays. ${d.all.suiteRate ?? 0}% got a suite, ${d.all.breakfastRate ?? 0}% had breakfast as printed, ${d.all.lateCheckoutRate ?? 0}% got late checkout.`
+          : null),
+      figure: d.all?.upgradeRate != null ? { value: `${d.all.upgradeRate}%`, label: 'got an upgrade' } : null,
       cta: 'The hotel',
       href: `/hotels/${featured.hotel.slug}`,
     })

@@ -6,6 +6,7 @@ import type { Where } from 'payload'
 import type { Brand, Destination, Hotel, Program, Review } from '@/payload-types'
 
 import { getPayloadClient } from './payload'
+import { hotelReaderData, MIN_STAYS, type HotelReaderData } from './readerData'
 
 export { getPayloadClient }
 
@@ -134,19 +135,21 @@ export async function getPrograms() {
   )
 }
 
-// The hotel ticked "featured", or failing that the hotel with the highest
-// scored stay.
-export async function getFeaturedHotel(): Promise<{ hotel: Hotel; review: Review | null } | null> {
+// The hotel ticked "featured", or failing that the hotel with the most
+// approved reader stays, provided it has enough for aggregates.
+export async function getFeaturedHotel(): Promise<{ hotel: Hotel; data: HotelReaderData } | null> {
   const payload = await getPayloadClient()
   const featured = await payload.find({ collection: 'hotels', where: { and: [published, { featured: { equals: true } }] }, depth: 1, limit: 1 })
-  if (featured.docs[0]) {
-    const review = await payload.find({ collection: 'reviews', where: { and: [published, { hotel: { equals: featured.docs[0].id } }] }, sort: '-totals.overall', depth: 0, limit: 1 })
-    return { hotel: featured.docs[0], review: review.docs[0] ?? null }
-  }
-  const top = await payload.find({ collection: 'reviews', where: published, sort: '-totals.overall', depth: 1, limit: 1 })
-  const review = top.docs[0]
-  const hotel = review && typeof review.hotel === 'object' ? review.hotel : null
-  return hotel ? { hotel, review } : null
+  if (featured.docs[0]) return { hotel: featured.docs[0], data: await hotelReaderData(featured.docs[0].id) }
+
+  const db = payload.db as unknown as { drizzle: { execute: (q: unknown) => Promise<{ rows: { hotel_id: number; n: string }[] }> } }
+  const { sql } = await import('@payloadcms/db-postgres')
+  const top = await db.drizzle.execute(sql`select hotel_id, count(*)::int as n from reader_stays where status = 'approved' group by hotel_id order by n desc limit 1`)
+  const row = top.rows?.[0]
+  if (!row || Number(row.n) < MIN_STAYS) return null
+  const hotel = await payload.find({ collection: 'hotels', where: { and: [published, { id: { equals: row.hotel_id } }] }, depth: 1, limit: 1 })
+  if (!hotel.docs[0]) return null
+  return { hotel: hotel.docs[0], data: await hotelReaderData(hotel.docs[0].id) }
 }
 
 export async function getSiteCounts() {

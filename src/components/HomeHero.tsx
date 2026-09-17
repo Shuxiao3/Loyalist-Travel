@@ -178,7 +178,7 @@ export function HomeHero({
                         {s.figure ? (
                           <div
                             className={
-                              /^[\d.,]+$/.test(s.figure.value)
+                              /^[\d.,]+%?$/.test(s.figure.value)
                                 ? styles.figure
                                 : styles.figureText
                             }
