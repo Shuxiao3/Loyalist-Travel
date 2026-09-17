@@ -17,7 +17,7 @@ export type HeroSlide = {
   href: string
 }
 
-const INTERVAL_MS = 2000
+const INTERVAL_MS = 4000
 const HOLD_MS = 3000
 const SWIPE_PX = 40
 
