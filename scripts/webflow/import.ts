@@ -413,6 +413,51 @@ async function importLogos(payload: Payload) {
   }
 }
 
+// Mock reader stays on Park Hyatt New York so the reader-data panel can be
+// seen with numbers before real submissions arrive. Tagged with a mock
+// submitter hash; unseed-stays removes exactly these.
+const MOCK_HASH = 'mock-seed'
+async function seedStays(payload: Payload) {
+  const hotel = (await payload.find({ collection: 'hotels', where: { slug: { equals: 'park-hyatt-new-york' } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
+  if (!hotel) throw new Error('park-hyatt-new-york not found')
+  const programId = typeof hotel.program === 'object' ? hotel.program.id : hotel.program
+  const tier = async (slug: string) => (await payload.find({ collection: 'status-levels', where: { slug: { equals: slug } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]?.id
+  const globalist = await tier('hyatt-globalist')
+  const explorist = await tier('hyatt-explorist')
+  const discoverist = await tier('hyatt-discoverist')
+  const lifetime = await tier('hyatt-lifetime-globalist')
+  if (!globalist || !explorist || !discoverist || !lifetime) throw new Error('Hyatt tiers missing')
+  // [tier, month, upgrade, breakfast, lateCheckout]
+  const rows: [number, number, string, string, string][] = [
+    [globalist, 8, 'suite', 'full', 'honoured'], [globalist, 8, 'room-category', 'full', 'honoured'], [globalist, 7, 'room-category', 'full', 'not-requested'],
+    [globalist, 7, 'none', 'full', 'declined'], [globalist, 6, 'suite', 'full', 'honoured'], [globalist, 6, 'room-category', 'capped', 'honoured'],
+    [globalist, 5, 'used-award', 'full', 'honoured'], [globalist, 5, 'room-category', 'full', 'honoured'], [globalist, 4, 'suite', 'full', 'honoured'],
+    [globalist, 3, 'none', 'full', 'honoured'], [globalist, 2, 'room-category', 'full', 'not-requested'], [globalist, 1, 'used-award', 'full', 'honoured'],
+    [lifetime, 8, 'suite', 'full', 'honoured'], [lifetime, 6, 'suite', 'full', 'honoured'], [lifetime, 3, 'room-category', 'full', 'honoured'],
+    [explorist, 8, 'room-category', 'not-eligible', 'honoured'], [explorist, 7, 'none', 'not-eligible', 'declined'], [explorist, 5, 'none', 'not-eligible', 'not-requested'],
+    [explorist, 4, 'room-category', 'not-eligible', 'honoured'], [explorist, 2, 'none', 'not-eligible', 'declined'],
+    [discoverist, 8, 'none', 'not-eligible', 'honoured'], [discoverist, 6, 'none', 'not-eligible', 'not-requested'], [discoverist, 4, 'room-category', 'not-eligible', 'declined'], [discoverist, 1, 'none', 'not-eligible', 'declined'],
+  ]
+  const existing = await payload.count({ collection: 'reader-stays', where: { submitterHash: { equals: MOCK_HASH } }, overrideAccess: true })
+  if (existing.totalDocs > 0) {
+    console.log(`seed-stays: ${existing.totalDocs} mock stays already present; run unseed-stays first`)
+    return
+  }
+  for (const [statusHeld, stayMonth, upgrade, breakfast, lateCheckout] of rows) {
+    await payload.create({
+      collection: 'reader-stays',
+      overrideAccess: true,
+      data: { status: 'approved', hotel: hotel.id, program: programId, statusHeld, stayYear: 2026, stayMonth, upgrade, breakfast, lateCheckout, submitterHash: MOCK_HASH } as never,
+    })
+  }
+  console.log(`seed-stays: ${rows.length} approved mock stays on ${hotel.name}`)
+}
+
+async function unseedStays(payload: Payload) {
+  const res = await payload.delete({ collection: 'reader-stays', where: { submitterHash: { equals: MOCK_HASH } }, overrideAccess: true })
+  console.log(`unseed-stays: removed ${res.docs.length} mock stays`)
+}
+
 // ---- main -------------------------------------------------------------------
 
 const STEPS: Record<string, (p: Payload) => Promise<void>> = {
@@ -428,6 +473,8 @@ const STEPS: Record<string, (p: Payload) => Promise<void>> = {
   publish: publishAll,
   'publish-fast': publishAllFast,
   logos: importLogos,
+  'seed-stays': seedStays,
+  'unseed-stays': unseedStays,
 }
 
 async function main() {
