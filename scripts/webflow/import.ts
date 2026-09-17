@@ -427,7 +427,7 @@ async function seedStays(payload: Payload) {
   const discoverist = await tier('hyatt-discoverist')
   const lifetime = await tier('hyatt-lifetime-globalist')
   if (!globalist || !explorist || !discoverist || !lifetime) throw new Error('Hyatt tiers missing')
-  // [tier, month, upgrade, breakfast, lateCheckout]
+  // [tier, month (ignored), upgrade, breakfast, lateCheckout]
   const rows: [number, number, string, string, string][] = [
     [globalist, 8, 'suite', 'full', 'honoured'], [globalist, 8, 'room-category', 'full', 'honoured'], [globalist, 7, 'room-category', 'full', 'not-requested'],
     [globalist, 7, 'none', 'full', 'declined'], [globalist, 6, 'suite', 'full', 'honoured'], [globalist, 6, 'room-category', 'capped', 'honoured'],
@@ -443,11 +443,11 @@ async function seedStays(payload: Payload) {
     console.log(`seed-stays: ${existing.totalDocs} mock stays already present; run unseed-stays first`)
     return
   }
-  for (const [statusHeld, stayMonth, upgrade, breakfast, lateCheckout] of rows) {
+  for (const [statusHeld, , upgrade, breakfast, lateCheckout] of rows) {
     await payload.create({
       collection: 'reader-stays',
       overrideAccess: true,
-      data: { status: 'approved', hotel: hotel.id, program: programId, statusHeld, stayYear: 2026, stayMonth, upgrade, breakfast, lateCheckout, submitterHash: MOCK_HASH } as never,
+      data: { status: 'approved', hotel: hotel.id, program: programId, statusHeld, stayYear: 2026, upgrade, breakfast, lateCheckout, submitterHash: MOCK_HASH } as never,
     })
   }
   console.log(`seed-stays: ${rows.length} approved mock stays on ${hotel.name}`)

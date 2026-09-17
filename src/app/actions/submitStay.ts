@@ -21,7 +21,6 @@ export async function submitStay(_prev: SubmitStayState, form: FormData): Promis
   const hotelId = Number(form.get('hotel'))
   const tierId = Number(form.get('statusHeld'))
   const stayYear = Number(form.get('stayYear'))
-  const stayMonth = Number(form.get('stayMonth'))
   const upgrade = form.get('upgrade')
   const breakfast = form.get('breakfast')
   const lateCheckout = form.get('lateCheckout')
@@ -29,8 +28,6 @@ export async function submitStay(_prev: SubmitStayState, form: FormData): Promis
   const now = new Date()
   if (!Number.isInteger(hotelId) || !Number.isInteger(tierId)) return { ok: false, error: 'Choose a hotel and the status you held.' }
   if (!Number.isInteger(stayYear) || stayYear < now.getFullYear() - 6 || stayYear > now.getFullYear()) return { ok: false, error: 'Choose the year of the stay.' }
-  if (!Number.isInteger(stayMonth) || stayMonth < 1 || stayMonth > 12) return { ok: false, error: 'Choose the month of the stay.' }
-  if (stayYear === now.getFullYear() && stayMonth > now.getMonth() + 1) return { ok: false, error: 'That month has not happened yet.' }
   if (!inList(upgrade, UPGRADE_OUTCOMES) || !inList(breakfast, BREAKFAST_OUTCOMES) || !inList(lateCheckout, LATE_CHECKOUT_OUTCOMES)) {
     return { ok: false, error: 'Pick an answer for each of the three questions.' }
   }
@@ -53,7 +50,7 @@ export async function submitStay(_prev: SubmitStayState, form: FormData): Promis
 
   const duplicate = await payload.count({
     collection: 'reader-stays',
-    where: { and: [{ submitterHash: { equals: submitterHash } }, { hotel: { equals: hotelId } }, { stayYear: { equals: stayYear } }, { stayMonth: { equals: stayMonth } }] },
+    where: { and: [{ submitterHash: { equals: submitterHash } }, { hotel: { equals: hotelId } }, { stayYear: { equals: stayYear } }] },
     overrideAccess: true,
   })
   if (duplicate.totalDocs > 0) return { ok: true }
@@ -67,7 +64,6 @@ export async function submitStay(_prev: SubmitStayState, form: FormData): Promis
       program: programId,
       statusHeld: tierId,
       stayYear,
-      stayMonth,
       upgrade: upgrade as string,
       breakfast: breakfast as string,
       lateCheckout: lateCheckout as string,

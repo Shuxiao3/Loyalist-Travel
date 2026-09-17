@@ -150,28 +150,26 @@ export default async function HotelPage({ params }: Props) {
         </section>
       )}
 
-      <section className="section" aria-labelledby="rev-h">
-        <div className="wrap">
-          <div className="section-head">
-            <div>
-              <span className="eyebrow on-light">Scored stays</span>
-              <h2 id="rev-h">{reviews.length ? `Reviews of ${hotel.name}` : 'No scored stay yet'}</h2>
+      {reviews.length > 0 && (
+        <section className="section" aria-labelledby="rev-h">
+          <div className="wrap">
+            <div className="section-head">
+              <div>
+                <span className="eyebrow on-light">Scored stays</span>
+                <h2 id="rev-h">Reviews of {hotel.name}</h2>
+              </div>
+              <Link className="more" href="/reviews">
+                All reviews
+              </Link>
             </div>
-            <Link className="more" href="/reviews">
-              All reviews
-            </Link>
-          </div>
-          {reviews.length > 0 ? (
             <div className="cards">
               {reviews.map((r, i) => (
                 <ReviewCard key={r.id} review={r} tone={(['a', 'b', 'c'] as const)[i % 3]} />
               ))}
             </div>
-          ) : (
-            <p className={styles.empty}>This hotel is indexed but has not been stayed at and scored. Reviews are written from a full stay, never from a site inspection.</p>
-          )}
-        </div>
-      </section>
+          </div>
+        </section>
+      )}
 
       <section className={`section ${styles.reader}`} aria-labelledby="reader-h">
         <div className="wrap">

@@ -903,7 +903,6 @@ export interface ReaderStay {
   program: number | Program;
   statusHeld: number | StatusLevel;
   stayYear: number;
-  stayMonth: number;
   upgrade: 'none' | 'room-category' | 'suite' | 'used-award';
   breakfast: 'full' | 'capped' | 'restaurant-credit' | 'none' | 'not-eligible';
   lateCheckout: 'honoured' | 'declined' | 'not-requested';
@@ -1244,7 +1243,6 @@ export interface ReaderStaysSelect<T extends boolean = true> {
   program?: T;
   statusHeld?: T;
   stayYear?: T;
-  stayMonth?: T;
   upgrade?: T;
   breakfast?: T;
   lateCheckout?: T;

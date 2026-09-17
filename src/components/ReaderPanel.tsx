@@ -3,7 +3,6 @@ import { MIN_STAYS } from '@/lib/readerData'
 
 import styles from './ReaderPanel.module.css'
 
-const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 const pct = (v: number | null) => (v == null ? '–' : `${v}%`)
 
 // The reader-data panel on a hotel page: four rates, then a line per tier.
@@ -71,7 +70,7 @@ export function ReaderPanel({ data, hotelName }: { data: HotelReaderData; hotelN
       )}
       <div className="panel-foot">
         From {a.stays} reader {a.stays === 1 ? 'stay' : 'stays'}
-        {a.latest ? `, latest ${MONTHS[a.latest.month - 1]} ${a.latest.year}` : ''}
+        {a.latest ? `, most recent ${a.latest}` : ''}
         {a.awardStays > 0 ? `; ${a.awardStays} on suite ${a.awardStays === 1 ? 'award' : 'awards'}, left out of the upgrade rates` : ''}. Reported by readers, checked before counting, never scored.
       </div>
     </section>

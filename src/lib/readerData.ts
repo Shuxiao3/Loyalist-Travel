@@ -17,12 +17,12 @@ export type ReaderAggregate = {
   suiteRate: number | null // suite, over stays not on an award
   breakfastRate: number | null // full, over stays where eligible
   lateCheckoutRate: number | null // honoured, over stays where it was requested
-  latest: { year: number; month: number } | null
+  latest: number | null // most recent stay year
 }
 
 const pct = (n: number, d: number) => (d > 0 ? Math.round((n / d) * 100) : null)
 
-export function aggregate(stays: Pick<ReaderStay, 'upgrade' | 'breakfast' | 'lateCheckout' | 'stayYear' | 'stayMonth'>[]): ReaderAggregate {
+export function aggregate(stays: Pick<ReaderStay, 'upgrade' | 'breakfast' | 'lateCheckout' | 'stayYear'>[]): ReaderAggregate {
   const n = stays.length
   const organic = stays.filter((s) => s.upgrade !== 'used-award')
   const awardStays = n - organic.length
@@ -32,10 +32,7 @@ export function aggregate(stays: Pick<ReaderStay, 'upgrade' | 'breakfast' | 'lat
   const breakfastFull = breakfastEligible.filter((s) => s.breakfast === 'full').length
   const lateWanted = stays.filter((s) => s.lateCheckout !== 'not-requested')
   const lateGranted = lateWanted.filter((s) => s.lateCheckout === 'honoured').length
-  const latest = stays.reduce<{ year: number; month: number } | null>((acc, s) => {
-    if (!acc || s.stayYear > acc.year || (s.stayYear === acc.year && s.stayMonth > acc.month)) return { year: s.stayYear, month: s.stayMonth }
-    return acc
-  }, null)
+  const latest = stays.reduce<number | null>((acc, s) => (acc == null || s.stayYear > acc ? s.stayYear : acc), null)
   return {
     stays: n,
     awardStays,

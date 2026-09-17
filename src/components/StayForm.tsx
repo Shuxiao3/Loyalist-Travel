@@ -9,8 +9,6 @@ import styles from './StayForm.module.css'
 
 export type StayFormTier = { id: number; name: string; shortName?: string | null }
 
-const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-
 // Two minutes, dropdowns only. Hotel and program come from the page.
 export function StayForm({ hotel, programName, tiers, compact }: { hotel: { id: number; name: string }; programName: string; tiers: StayFormTier[]; compact?: boolean }) {
   const [state, action, pending] = useActionState<SubmitStayState, FormData>(submitStay, null)
@@ -50,34 +48,19 @@ export function StayForm({ hotel, programName, tiers, compact }: { hotel: { id: 
         </select>
       </label>
 
-      <div className={styles.row}>
-        <label className={styles.field}>
-          <span className="label">Month</span>
-          <select name="stayMonth" required defaultValue="">
-            <option value="" disabled>
-              Month
+      <label className={styles.field}>
+        <span className="label">Year of the stay</span>
+        <select name="stayYear" required defaultValue="">
+          <option value="" disabled>
+            Year
+          </option>
+          {years.map((y) => (
+            <option key={y} value={y}>
+              {y}
             </option>
-            {MONTHS.map((m, i) => (
-              <option key={m} value={i + 1}>
-                {m}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className={styles.field}>
-          <span className="label">Year</span>
-          <select name="stayYear" required defaultValue="">
-            <option value="" disabled>
-              Year
-            </option>
-            {years.map((y) => (
-              <option key={y} value={y}>
-                {y}
-              </option>
-            ))}
-          </select>
-        </label>
-      </div>
+          ))}
+        </select>
+      </label>
 
       <label className={styles.field}>
         <span className="label">Upgrade at check-in</span>

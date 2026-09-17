@@ -30,7 +30,7 @@ export const ReaderStays: CollectionConfig = {
   slug: 'reader-stays',
   admin: {
     useAsTitle: 'id',
-    defaultColumns: ['hotel', 'statusHeld', 'stayYear', 'stayMonth', 'upgrade', 'status', 'createdAt'],
+    defaultColumns: ['hotel', 'statusHeld', 'stayYear', 'upgrade', 'status', 'createdAt'],
     group: 'Reader data',
     listSearchableFields: ['hotel'],
     description: 'Approve or reject submissions here. Only approved stays count.',
@@ -65,13 +65,7 @@ export const ReaderStays: CollectionConfig = {
         { name: 'statusHeld', type: 'relationship', relationTo: 'status-levels', required: true, index: true },
       ],
     },
-    {
-      type: 'row',
-      fields: [
-        { name: 'stayYear', type: 'number', required: true, min: 2015, max: 2100 },
-        { name: 'stayMonth', type: 'number', required: true, min: 1, max: 12 },
-      ],
-    },
+    { name: 'stayYear', type: 'number', required: true, min: 2015, max: 2100 },
     {
       type: 'row',
       fields: [
