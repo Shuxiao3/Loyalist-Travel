@@ -21,6 +21,10 @@
   padding-bottom: var(--s8);
 }
 
+.column {
+  min-width: 0;
+}
+
 .panel {
   touch-action: pan-y; /* horizontal swipes are ours, vertical scroll is the page's */
   user-select: none;
@@ -150,11 +154,12 @@
   border-bottom-color: var(--gold-pale);
 }
 
-/* dots */
+/* position bars, under the card, greyscale */
 .dots {
   display: flex;
+  justify-content: center;
   gap: var(--s3);
-  margin-top: var(--s5);
+  margin-top: var(--s4);
 }
 
 .dot {
@@ -162,14 +167,18 @@
   height: 2px;
   padding: 0;
   border: 0;
-  background: var(--gold-border);
+  background: var(--on-navy-dim);
   cursor: pointer;
   border-radius: 1px;
 }
 
-.dot:hover,
-.dotOn {
-  background: var(--gold);
+.dot:hover {
+  background: var(--on-navy-muted);
+}
+
+.dotOn,
+.dotOn:hover {
+  background: var(--light);
 }
 
 .dot:focus-visible {
