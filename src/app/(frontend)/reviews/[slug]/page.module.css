@@ -36,7 +36,8 @@
 
 .scoreTop {
   display: flex;
-  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
   gap: var(--s5);
   padding-bottom: var(--s4);
   border-bottom: 1px solid var(--line-dark);
@@ -71,9 +72,12 @@
 }
 
 .scoreSplit {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--s5);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--s4);
+  text-align: right;
+  padding-bottom: 4px;
 }
 
 .scoreMid {
