@@ -379,6 +379,40 @@ async function publishAllFast(payload: Payload) {
   }
 }
 
+// Downloads each program's Webflow-hosted logo into Media and attaches it.
+// Skips programs that already have one. Needs network access to Webflow's
+// CDN, which the GitHub workflow has.
+async function importLogos(payload: Payload) {
+  const programs = await payload.find({ collection: 'programs', limit: 20, depth: 0, overrideAccess: true })
+  for (const program of programs.docs) {
+    const url = program.images?.logoUrl
+    if (!url) {
+      console.log(`logos: ${program.slug}: no Webflow logo`)
+      continue
+    }
+    if (program.logo) {
+      console.log(`logos: ${program.slug}: already has a logo`)
+      continue
+    }
+    const res = await fetch(url)
+    if (!res.ok) {
+      console.log(`logos: ${program.slug}: download failed (${res.status})`)
+      continue
+    }
+    const data = Buffer.from(await res.arrayBuffer())
+    const mimetype = res.headers.get('content-type')?.split(';')[0] || (url.endsWith('.svg') ? 'image/svg+xml' : 'image/png')
+    const ext = mimetype === 'image/svg+xml' ? 'svg' : mimetype === 'image/jpeg' ? 'jpg' : 'png'
+    const media = await payload.create({
+      collection: 'media',
+      data: { alt: `${program.name} logo`, credit: program.name },
+      file: { data, mimetype, name: `${program.slug}-logo.${ext}`, size: data.length },
+      overrideAccess: true,
+    })
+    await payload.update({ collection: 'programs', id: program.id, data: { logo: media.id }, overrideAccess: true })
+    console.log(`logos: ${program.slug}: ${media.filename} (${data.length} bytes)`)
+  }
+}
+
 // ---- main -------------------------------------------------------------------
 
 const STEPS: Record<string, (p: Payload) => Promise<void>> = {
@@ -393,6 +427,7 @@ const STEPS: Record<string, (p: Payload) => Promise<void>> = {
   reviews: importReviews,
   publish: publishAll,
   'publish-fast': publishAllFast,
+  logos: importLogos,
 }
 
 async function main() {

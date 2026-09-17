@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
     inputs:
       step:
-        description: 'One step only (regions, programs, status-levels, brands, amenities, destinations, rubric-versions, hotels, reviews, publish). Blank runs the import without publish.'
+        description: 'One step only (regions, programs, status-levels, brands, amenities, destinations, rubric-versions, hotels, reviews, publish, logos). Blank runs the import without publish.'
         required: false
         default: ''
 
@@ -21,6 +21,7 @@ jobs:
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
       PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
+      BLOB_READ_WRITE_TOKEN: ${{ secrets.BLOB_READ_WRITE_TOKEN }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

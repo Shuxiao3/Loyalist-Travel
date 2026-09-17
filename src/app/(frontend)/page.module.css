@@ -54,6 +54,21 @@
 }
 
 /* programs grid */
+.progTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s3);
+  min-height: 24px;
+}
+
+.logo {
+  height: 24px;
+  width: auto;
+  max-width: 110px;
+  object-fit: contain;
+}
+
 .prog h3 {
   font-size: var(--t-lg);
   color: var(--heading);

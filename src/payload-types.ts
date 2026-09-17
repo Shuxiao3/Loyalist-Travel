@@ -261,7 +261,11 @@ export interface Program {
     totalDocs?: number;
   };
   /**
-   * Webflow-hosted URLs until owned media is uploaded.
+   * Shown on light surfaces: program cards and the programs index.
+   */
+  logo?: (number | null) | Media;
+  /**
+   * Webflow-hosted URLs, used only where no owned media is uploaded.
    */
   images?: {
     logoUrl?: string | null;
@@ -332,6 +336,26 @@ export interface StatusLevel {
   webflowId?: string | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: number;
+  alt: string;
+  credit?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -852,26 +876,6 @@ export interface RubricVersion {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media".
- */
-export interface Media {
-  id: number;
-  alt: string;
-  credit?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "amenities".
  */
 export interface Amenity {
@@ -1284,6 +1288,7 @@ export interface ProgramsSelect<T extends boolean = true> {
   topTierName?: T;
   secondTierName?: T;
   tiers?: T;
+  logo?: T;
   images?:
     | T
     | {

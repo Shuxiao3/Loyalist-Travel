@@ -20,6 +20,21 @@
   grid-template-columns: 1fr 1fr;
 }
 
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s3);
+  min-height: 28px;
+}
+
+.logo {
+  height: 28px;
+  width: auto;
+  max-width: 120px;
+  object-fit: contain;
+}
+
 .prog h3 {
   font-size: var(--t-xl);
   color: var(--heading);

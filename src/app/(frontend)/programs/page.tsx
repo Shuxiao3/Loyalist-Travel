@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 import { Arrow } from '@/components/Band'
-import { count } from '@/lib/format'
+import { count, mediaUrl } from '@/lib/format'
 import { getPrograms } from '@/lib/queries'
 
 import styles from './page.module.css'
@@ -30,7 +30,10 @@ export default async function ProgramsIndex() {
           <div className="grid-cells">
             {programs.map(({ program, hotels, scored }) => (
               <Link className={`cell ${styles.prog}`} href={`/programs/${program.slug}`} key={program.id}>
-                <span className="label">Program</span>
+                <span className={styles.top}>
+                  <span className="label">Program</span>
+                  {mediaUrl(program.logo) && <img className={styles.logo} src={mediaUrl(program.logo)!} alt="" />}
+                </span>
                 <h3>
                   {program.name}
                   <Arrow size={16} />

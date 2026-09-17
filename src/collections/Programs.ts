@@ -26,10 +26,11 @@ export const Programs: CollectionConfig = {
       ],
     },
     { name: 'tiers', type: 'join', collection: 'status-levels', on: 'program' },
+    { name: 'logo', type: 'upload', relationTo: 'media', admin: { description: 'Shown on light surfaces: program cards and the programs index.' } },
     {
       name: 'images',
       type: 'group',
-      admin: { description: 'Webflow-hosted URLs until owned media is uploaded.' },
+      admin: { description: 'Webflow-hosted URLs, used only where no owned media is uploaded.' },
       fields: [
         { name: 'logoUrl', type: 'text' },
         { name: 'heroImageUrl', type: 'text' },

@@ -3,6 +3,7 @@ import { fileURLToPath } from 'url'
 
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import { buildConfig } from 'payload'
 import sharp from 'sharp'
 
@@ -65,5 +66,10 @@ export default buildConfig({
     push: false,
   }),
   sharp,
-  plugins: [],
+  // Media lives in Vercel Blob wherever BLOB_READ_WRITE_TOKEN is set (Vercel
+  // and the import workflow); on a local machine without it, the media
+  // folder on disk.
+  plugins: process.env.BLOB_READ_WRITE_TOKEN
+    ? [vercelBlobStorage({ collections: { media: true }, token: process.env.BLOB_READ_WRITE_TOKEN })]
+    : [],
 })

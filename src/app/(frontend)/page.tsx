@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Arrow, Band } from '@/components/Band'
 import { HomeHero, type HeroSlide } from '@/components/HomeHero'
 import { ReviewCard } from '@/components/ReviewCard'
-import { count, rel, score } from '@/lib/format'
+import { count, mediaUrl, rel, score } from '@/lib/format'
 import { getFeaturedHotel, getPrograms, getReviews, getSiteCounts } from '@/lib/queries'
 import { readerStayCount, sitewideReaderData } from '@/lib/readerData'
 import type { Brand, Destination, Hotel, Program } from '@/payload-types'
@@ -187,7 +187,10 @@ export default async function HomePage() {
           <div className="grid-cells">
             {programs.map(({ program, hotels, scored }) => (
               <Link className={`cell ${styles.prog}`} href={`/programs/${program.slug}`} key={program.id}>
-                <span className="label">Program</span>
+                <span className={styles.progTop}>
+                  <span className="label">Program</span>
+                  {mediaUrl(program.logo) && <img className={styles.logo} src={mediaUrl(program.logo)!} alt="" />}
+                </span>
                 <h3>
                   {program.name}
                   <Arrow size={16} />

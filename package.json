@@ -22,6 +22,7 @@
     "@payloadcms/db-postgres": "3.89.0",
     "@payloadcms/next": "3.89.0",
     "@payloadcms/richtext-lexical": "3.89.0",
+    "@payloadcms/storage-vercel-blob": "^3.89.0",
     "@payloadcms/ui": "3.89.0",
     "cross-env": "^7.0.3",
     "graphql": "^16.11.0",
@@ -36,8 +37,8 @@
     "@types/node": "^22.15.0",
     "@types/react": "19.1.8",
     "@types/react-dom": "19.1.6",
-    "typescript": "^5.8.3",
-    "tsx": "^4.19.0"
+    "tsx": "^4.19.0",
+    "typescript": "^5.8.3"
   },
   "engines": {
     "node": "^18.20.2 || >=20.9.0"

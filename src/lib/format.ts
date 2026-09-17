@@ -17,6 +17,11 @@ export function score(value?: number | null): string {
   return Number.isInteger(value) ? String(value) : value.toFixed(1)
 }
 
+// The URL of an uploaded image, when populated.
+export function mediaUrl(value: unknown): string | null {
+  return value && typeof value === 'object' && 'url' in value && typeof (value as { url?: unknown }).url === 'string' ? (value as { url: string }).url : null
+}
+
 export function count(n: number): string {
   return n.toLocaleString('en-US')
 }

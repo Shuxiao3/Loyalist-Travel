@@ -22,9 +22,8 @@ Set these in the Vercel project (Settings → Environment Variables) for Product
 |---|---|---|
 | `DATABASE_URL` | Yes | Neon Postgres connection string, pooled, with `?sslmode=require`. The [Neon integration](https://vercel.com/marketplace/neon) on Vercel sets this automatically; otherwise copy it from the Neon console. |
 | `PAYLOAD_SECRET` | Yes | Random string of 32 or more characters that signs Payload sessions and encrypts API keys. Generate one with `openssl rand -hex 32`. Changing it logs every admin user out. |
+| `BLOB_READ_WRITE_TOKEN` | For media | Vercel Blob token. Creating a Blob store under the project's Storage tab sets it automatically. Without it, uploads go to the local `media/` folder, which does not persist on Vercel. Also needed as a repository secret for the import workflow's `logos` step. |
 | `NEXT_PUBLIC_SERVER_URL` | No | Public URL of the site with no trailing slash, for example `https://loyalisttravel.com`. Used for Payload's `serverURL`, CORS and CSRF. Leave it unset on Vercel and the app derives it from `VERCEL_PROJECT_PRODUCTION_URL`; set it once a custom domain is attached. |
-
-Not needed yet: media storage credentials. Milestone 0 stores uploads on the local filesystem (`/media`), which does not persist on Vercel. The Cloudflare R2 or Vercel Blob adapter is wired in with the templates milestone, and will add its own variables here.
 
 ## Vercel build settings
 

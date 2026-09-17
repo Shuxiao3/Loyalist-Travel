@@ -123,7 +123,7 @@ export async function getProgram(slug: string): Promise<Program | null> {
 
 export async function getPrograms() {
   const payload = await getPayloadClient()
-  const programs = await payload.find({ collection: 'programs', sort: 'name', limit: 20, depth: 0 })
+  const programs = await payload.find({ collection: 'programs', sort: 'name', limit: 20, depth: 1 })
   return Promise.all(
     programs.docs.map(async (program) => {
       const [hotels, scored] = await Promise.all([
