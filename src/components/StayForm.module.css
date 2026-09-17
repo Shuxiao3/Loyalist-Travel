@@ -1,0 +1,94 @@
+/* The reader-stay form. On navy inside a panel, or on the page. */
+
+.form {
+  display: grid;
+  gap: var(--s4);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s4);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+  min-width: 0;
+}
+
+.field :global(.label) {
+  color: var(--on-navy-muted);
+}
+
+.field select {
+  width: 100%;
+  min-width: 0;
+  background: var(--navy-deep);
+  border: 1px solid var(--gold-border);
+  color: var(--ivory);
+  padding: 13px 16px;
+  font-size: var(--t-sm);
+  border-radius: var(--r-btn);
+}
+
+.field select:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.hp {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.error {
+  font-size: var(--t-sm);
+  color: var(--gold-pale);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s4);
+  padding-top: var(--s2);
+}
+
+.fine {
+  font-size: var(--t-xs);
+  color: var(--on-navy-dim);
+  letter-spacing: var(--track-fine);
+}
+
+.done {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+}
+
+.done :global(.eyebrow) {
+  display: block;
+}
+
+.done h3 {
+  font-size: var(--t-lg);
+  color: var(--ivory);
+}
+
+.done p {
+  font-size: var(--t-sm);
+  line-height: 1.6;
+  color: var(--light);
+  max-width: 44ch;
+}
+
+@media (max-width: 640px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+}

@@ -75,6 +75,24 @@ a.scorePanel:hover {
   max-width: 56ch;
 }
 
+.readerGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: var(--card-gap);
+  align-items: start;
+}
+
+.stayPanel :global(.eyebrow) {
+  display: block;
+  margin-bottom: var(--s3);
+}
+
+.stayTitle {
+  font-size: var(--t-lg);
+  color: var(--ivory);
+  margin-bottom: var(--s5);
+}
+
 .nearby {
   padding-bottom: var(--section);
 }
@@ -83,6 +101,10 @@ a.scorePanel:hover {
   .heroGrid {
     grid-template-columns: 1fr;
     gap: var(--s7);
+  }
+
+  .readerGrid {
+    grid-template-columns: 1fr;
   }
 
   .scorePanel {

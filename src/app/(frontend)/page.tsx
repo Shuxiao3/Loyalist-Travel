@@ -5,6 +5,7 @@ import { HomeHero, type HeroSlide } from '@/components/HomeHero'
 import { ReviewCard } from '@/components/ReviewCard'
 import { count, rel, score } from '@/lib/format'
 import { getFeaturedHotel, getPrograms, getReviews, getSiteCounts } from '@/lib/queries'
+import { readerStayCount, sitewideReaderData } from '@/lib/readerData'
 import type { Brand, Destination, Hotel, Program } from '@/payload-types'
 
 import styles from './page.module.css'
@@ -15,8 +16,17 @@ export const revalidate = 300
 // through the latest review, the featured hotel and a program spotlight; the
 // latest article joins when Guides arrive with Milestone 3. The reader-data
 // band, lounges, guides and the contribute panel are also Milestone 3.
+// "One in five" reads better than "20%" in a sentence.
+function suiteWords(rate: number): string {
+  if (rate >= 45) return 'About half'
+  if (rate >= 28) return 'One in three'
+  if (rate >= 17) return 'One in five'
+  if (rate >= 8) return 'One in ten'
+  return 'A few'
+}
+
 export default async function HomePage() {
-  const [reviews, programs, counts, featured] = await Promise.all([getReviews({ limit: 4 }), getPrograms(), getSiteCounts(), getFeaturedHotel()])
+  const [reviews, programs, counts, featured, reader, readerCount] = await Promise.all([getReviews({ limit: 4 }), getPrograms(), getSiteCounts(), getFeaturedHotel(), sitewideReaderData(), readerStayCount()])
   const latest = reviews.docs[0]
   const cards = reviews.docs.slice(latest ? 1 : 0, 4)
 
@@ -80,7 +90,7 @@ export default async function HomePage() {
     { n: count(counts.hotels), l: `Hotels indexed across ${['', 'one', 'two', 'three', 'four'][counts.programs] ?? counts.programs} programs` },
     { n: '16', l: 'Categories behind every score' },
     { n: count(counts.reviews), l: 'Scored stays' },
-    { n: '100', l: 'Points on every rubric' },
+    { n: count(readerCount), l: 'Reader-submitted stays' },
   ]
 
   return (
@@ -135,6 +145,29 @@ export default async function HomePage() {
         </section>
       )}
 
+      {reader && reader.topTierCity.stays >= 10 && reader.topTierCity.upgradeRate != null && (
+        <section className="section" aria-labelledby="sb-h">
+          <div className="wrap">
+            <div className={styles.bandInner}>
+              <div className={styles.big}>{reader.topTierCity.upgradeRate}%</div>
+              <div className={styles.rule} />
+              <div>
+                <span className="eyebrow" id="sb-h">
+                  Reader data
+                </span>
+                <div className={styles.say}>
+                  of top-tier stays at city hotels received a room upgrade at check-in.
+                  {reader.topTierCity.suiteRate != null && reader.topTierCity.suiteRate > 0 ? ` ${suiteWords(reader.topTierCity.suiteRate)} got a suite.` : ''}
+                </div>
+                <div className={styles.small}>
+                  From {count(reader.all.stays)} reader-submitted stays. <Link href="/submit-a-stay">Add yours</Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
       <section className={`section ${styles.programs}`} aria-labelledby="prog-h">
         <div className="wrap">
           <div className="section-head">
@@ -171,6 +204,26 @@ export default async function HomePage() {
                 </span>
               </Link>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className={`section ${styles.cta}`} aria-label="Contribute">
+        <div className="wrap">
+          <div className={styles.ctaPanel}>
+            <div className={styles.ctaCol}>
+              <span className="eyebrow">Reader data</span>
+              <h3>Stayed somewhere on status?</h3>
+              <p>Two minutes. Your upgrade, breakfast and late checkout outcome joins the data for that property, and the upgrade odds update for everyone.</p>
+              <Link className="btn" href="/submit-a-stay">
+                Submit a stay
+              </Link>
+            </div>
+            <div className={styles.ctaCol}>
+              <span className="eyebrow">How it works</span>
+              <h3>Dropdowns only. Checked before it counts.</h3>
+              <p>No name, no email, no free text. Every submission is reviewed, and a hotel shows its odds only once five stays are in.</p>
+            </div>
           </div>
         </div>
       </section>

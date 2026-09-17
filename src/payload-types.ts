@@ -69,6 +69,7 @@ export interface Config {
   collections: {
     hotels: Hotel;
     reviews: Review;
+    'reader-stays': ReaderStay;
     'rubric-versions': RubricVersion;
     programs: Program;
     brands: Brand;
@@ -94,6 +95,7 @@ export interface Config {
   collectionsSelect: {
     hotels: HotelsSelect<false> | HotelsSelect<true>;
     reviews: ReviewsSelect<false> | ReviewsSelect<true>;
+    'reader-stays': ReaderStaysSelect<false> | ReaderStaysSelect<true>;
     'rubric-versions': RubricVersionsSelect<false> | RubricVersionsSelect<true>;
     programs: ProgramsSelect<false> | ProgramsSelect<true>;
     brands: BrandsSelect<false> | BrandsSelect<true>;
@@ -885,6 +887,34 @@ export interface Amenity {
   createdAt: string;
 }
 /**
+ * Approve or reject submissions here. Only approved stays count.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reader-stays".
+ */
+export interface ReaderStay {
+  id: number;
+  status: 'pending' | 'approved' | 'rejected';
+  hotel: number | Hotel;
+  program: number | Program;
+  statusHeld: number | StatusLevel;
+  stayYear: number;
+  stayMonth: number;
+  upgrade: 'none' | 'room-category' | 'suite' | 'used-award';
+  breakfast: 'full' | 'capped' | 'restaurant-credit' | 'none' | 'not-eligible';
+  lateCheckout: '4pm-confirmed' | 'on-request' | 'refused' | 'not-needed';
+  /**
+   * Asked only where the hotel has a lounge on record. Arrives with the Lounges collection.
+   */
+  loungeRating?: number | null;
+  /**
+   * Hashed network address, for spotting repeat submissions. Never shown.
+   */
+  submitterHash?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
@@ -940,6 +970,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'reviews';
         value: number | Review;
+      } | null)
+    | ({
+        relationTo: 'reader-stays';
+        value: number | ReaderStay;
       } | null)
     | ({
         relationTo: 'rubric-versions';
@@ -1195,6 +1229,25 @@ export interface ReviewsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reader-stays_select".
+ */
+export interface ReaderStaysSelect<T extends boolean = true> {
+  status?: T;
+  hotel?: T;
+  program?: T;
+  statusHeld?: T;
+  stayYear?: T;
+  stayMonth?: T;
+  upgrade?: T;
+  breakfast?: T;
+  lateCheckout?: T;
+  loungeRating?: T;
+  submitterHash?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

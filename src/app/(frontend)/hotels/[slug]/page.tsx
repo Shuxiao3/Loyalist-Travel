@@ -4,9 +4,12 @@ import { notFound } from 'next/navigation'
 
 import { Arrow, Band } from '@/components/Band'
 import { HotelList } from '@/components/HotelCard'
+import { ReaderPanel } from '@/components/ReaderPanel'
 import { ReviewCard } from '@/components/ReviewCard'
+import { StayForm } from '@/components/StayForm'
 import { rel, score } from '@/lib/format'
-import { getHotel, getHotelsIn, getReviewsForHotel } from '@/lib/queries'
+import { getHotel, getHotelsIn, getPayloadClient, getReviewsForHotel } from '@/lib/queries'
+import { hotelReaderData } from '@/lib/readerData'
 import { PROPERTY_TYPE_LABEL } from '@/lib/site'
 import type { Amenity, Brand, Destination, Program } from '@/payload-types'
 
@@ -36,7 +39,14 @@ export default async function HotelPage({ params }: Props) {
   const program = rel<Program>(hotel.program)
   const destination = rel<Destination>(hotel.destination)
   const amenities = (hotel.amenities ?? []).map((a) => rel<Amenity>(a)).filter((a): a is Amenity => Boolean(a))
-  const reviews = (await getReviewsForHotel(hotel.id)).docs
+  const payload = await getPayloadClient()
+  const [reviewsRes, readerData, tiersRes] = await Promise.all([
+    getReviewsForHotel(hotel.id),
+    hotelReaderData(hotel.id),
+    program ? payload.find({ collection: 'status-levels', where: { program: { equals: program.id } }, sort: 'rank', limit: 20, depth: 0 }) : Promise.resolve(null),
+  ])
+  const reviews = reviewsRes.docs
+  const tiers = (tiersRes?.docs ?? []).map((t) => ({ id: t.id, name: t.name, shortName: t.shortName }))
   const latest = reviews[0]
   const nearby = destination
     ? (await getHotelsIn({ and: [{ destination: { equals: destination.id } }, { id: { not_equals: hotel.id } }] }, 6)).docs
@@ -169,6 +179,23 @@ export default async function HotelPage({ params }: Props) {
           ) : (
             <p className={styles.empty}>This hotel is indexed but has not been stayed at and scored. Reviews are written from a full stay, never from a site inspection.</p>
           )}
+        </div>
+      </section>
+
+      <section className={`section ${styles.reader}`} aria-labelledby="reader-h">
+        <div className="wrap">
+          <div className={styles.readerGrid}>
+            <ReaderPanel data={readerData} hotelName={hotel.name} />
+            <div className={`panel ${styles.stayPanel}`}>
+              <span className="eyebrow">Stayed here on status?</span>
+              <h3 className={styles.stayTitle}>Add your stay. Two minutes.</h3>
+              {program && tiers.length > 0 ? (
+                <StayForm hotel={{ id: hotel.id, name: hotel.name }} programName={program.name} tiers={tiers} compact />
+              ) : (
+                <p className={styles.empty}>This program's tiers are not set up yet.</p>
+              )}
+            </div>
+          </div>
         </div>
       </section>
 

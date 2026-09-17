@@ -1,0 +1,123 @@
+.search {
+  position: relative;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+}
+
+.field :global(.label) {
+  color: var(--on-navy-muted);
+}
+
+.field input {
+  width: 100%;
+  background: var(--navy-deep);
+  border: 1px solid var(--gold-border);
+  color: var(--ivory);
+  padding: 13px 16px;
+  font-size: var(--t-sm);
+  border-radius: var(--r-btn);
+}
+
+.field input::placeholder {
+  color: var(--on-navy-dim);
+}
+
+.field input:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.hits {
+  list-style: none;
+  margin: var(--s2) 0 0;
+  padding: 0;
+  background: var(--navy-deep);
+  border: 1px solid var(--gold-border);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+
+.hits button {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 0;
+  border-top: 1px solid var(--line-dark);
+  padding: var(--s3) var(--s4);
+  color: var(--ivory);
+  cursor: pointer;
+}
+
+.hits li:first-child button {
+  border-top: 0;
+}
+
+.hits button:hover {
+  background: var(--navy);
+}
+
+.hitName {
+  font-family: var(--serif);
+  font-size: var(--t-base);
+}
+
+.hitMeta {
+  font-size: var(--t-xs);
+  color: var(--on-navy-muted);
+  letter-spacing: var(--track-fine);
+}
+
+.chosen {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--s4);
+  padding-bottom: var(--s4);
+  margin-bottom: var(--s4);
+  border-bottom: 1px solid var(--line-dark);
+}
+
+.chosen :global(.label) {
+  display: block;
+  color: var(--on-navy-muted);
+  margin-bottom: 4px;
+}
+
+.chosenName {
+  display: block;
+  font-family: var(--serif);
+  font-size: var(--t-lg);
+  color: var(--ivory);
+}
+
+.chosenPlace {
+  display: block;
+  font-size: var(--t-xs);
+  color: var(--on-navy-muted);
+  margin-top: 4px;
+}
+
+.change {
+  background: none;
+  border: 0;
+  padding: 0;
+  font-size: var(--t-xs);
+  letter-spacing: var(--track-cta);
+  text-transform: uppercase;
+  color: var(--gold);
+  border-bottom: 1px solid var(--gold);
+  cursor: pointer;
+}
+
+.loading {
+  margin-top: var(--s3);
+  font-size: var(--t-sm);
+  color: var(--on-navy-muted);
+}

@@ -79,6 +79,99 @@
   color: var(--heading);
 }
 
+/* reader-data band, from the homepage mockup */
+.bandInner {
+  background: var(--navy);
+  border: 1px solid var(--gold-border);
+  padding: var(--s7);
+  display: flex;
+  align-items: center;
+  gap: var(--s8);
+  color: var(--ivory);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+
+.bandInner :global(.eyebrow) {
+  display: block;
+  margin-bottom: var(--s4);
+}
+
+.big {
+  font-family: var(--serif);
+  font-size: var(--t-big);
+  color: var(--gold);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.rule {
+  width: 1px;
+  align-self: stretch;
+  background: var(--line-dark);
+}
+
+.say {
+  font-family: var(--serif);
+  font-size: var(--t-xl);
+  line-height: 1.35;
+  color: var(--ivory);
+  margin-bottom: var(--s3);
+  text-wrap: pretty;
+  max-width: 34ch;
+}
+
+.small {
+  font-size: var(--t-sm);
+  color: var(--on-navy-muted);
+  letter-spacing: var(--track-fine);
+}
+
+.small a {
+  color: var(--gold);
+}
+
+/* contribute panel */
+.ctaPanel {
+  background: var(--navy);
+  border: 1px solid var(--gold-border);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  color: var(--ivory);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+
+.ctaCol {
+  padding: var(--s7);
+}
+
+.ctaCol + .ctaCol {
+  border-left: 1px solid var(--line-dark);
+}
+
+.ctaCol :global(.eyebrow) {
+  display: block;
+  margin-bottom: var(--s4);
+}
+
+.ctaCol h3 {
+  font-size: var(--t-xl);
+  color: var(--ivory);
+  line-height: 1.2;
+  margin-bottom: var(--s3);
+  text-wrap: pretty;
+}
+
+.ctaCol p {
+  font-size: var(--t-md);
+  line-height: 1.65;
+  color: var(--light);
+  margin-bottom: var(--s5);
+  max-width: 40ch;
+  text-wrap: pretty;
+}
+
 .last {
   height: var(--section);
 }
@@ -104,6 +197,30 @@
   }
 
   .stat:nth-child(4) {
+    border-top: 1px solid var(--line-dark);
+  }
+
+  .bandInner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s5);
+    padding: var(--s6) var(--s5);
+  }
+
+  .rule {
+    display: none;
+  }
+
+  .ctaPanel {
+    grid-template-columns: 1fr;
+  }
+
+  .ctaCol {
+    padding: var(--s6) var(--s5);
+  }
+
+  .ctaCol + .ctaCol {
+    border-left: 0;
     border-top: 1px solid var(--line-dark);
   }
 }

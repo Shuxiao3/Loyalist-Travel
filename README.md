@@ -69,7 +69,9 @@ Any Postgres 16 works locally; a Neon branch is the simplest option and mirrors 
 
 To load it into production, run the **Import Webflow content** workflow from the repository's Actions tab. It needs two repository secrets, `DATABASE_URL` and `PAYLOAD_SECRET`, copied from the Vercel project's environment variables. The job applies migrations, imports, and spot-checks; it is safe to run more than once.
 
-Collections in Payload: Hotels, Reviews, Rubric Versions, Programs, Brands, Status Levels, Destinations, Regions, Amenities, Media. Lounges, Reader Stays, Guides and Content Clusters arrive with Milestone 3.
+Collections in Payload: Hotels, Reviews, Reader Stays, Rubric Versions, Programs, Brands, Status Levels, Destinations, Regions, Amenities, Media. Lounges, Guides and Content Clusters arrive with Milestone 3.
+
+Reader Stays come in through the form on every hotel page and `/submit-a-stay` (a server action; the public API cannot create them), land as pending, and are approved in the admin. `src/lib/readerData.ts` computes upgrade, suite, breakfast and late-checkout rates from approved stays; a hotel shows them once it has five.
 
 Review scores are stored per category and validated against the maxima on the review's rubric version for its property type; hard, soft and overall totals are computed on save. `src/rubric/v15.ts` is the current locked rubric.
 

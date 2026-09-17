@@ -1,0 +1,30 @@
+.hero :global(.wrap) {
+  padding-top: var(--s7);
+  padding-bottom: var(--s7);
+}
+
+.h1 {
+  font-size: var(--t-h1);
+  line-height: 1.1;
+  color: var(--ivory);
+  letter-spacing: -0.01em;
+  margin: 0 0 var(--s5);
+  max-width: 16ch;
+  text-wrap: pretty;
+}
+
+.body {
+  padding-bottom: var(--section);
+}
+
+.panel {
+  max-width: 640px;
+}
+
+.fine {
+  margin-top: var(--s4);
+  font-size: var(--t-xs);
+  color: var(--muted);
+  letter-spacing: var(--track-fine);
+  max-width: 64ch;
+}
