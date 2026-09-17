@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation'
 
 import { RichText } from '@/components/RichText'
 import { rel } from '@/lib/format'
-import { accessLine, getLounge, loungeReaderData } from '@/lib/lounges'
+import { accessLine, getLounge, getLoungeStays, loungeReaderData } from '@/lib/lounges'
 import { MIN_STAYS } from '@/lib/readerData'
 import type { Destination, Hotel, Program, StatusLevel } from '@/payload-types'
 
@@ -13,6 +13,9 @@ import styles from './page.module.css'
 export const revalidate = 300
 
 type Props = { params: Promise<{ slug: string }> }
+
+const ACCESS: Record<string, string> = { given: 'Access given', declined: 'Access declined', 'not-used': 'Did not use it' }
+const WORTH: Record<string, string> = { yes: 'Worth a club room', no: 'Not worth a club room' }
 
 const SERVICE: Record<string, string> = { breakfast: 'Breakfast', 'afternoon-tea': 'Afternoon tea', evening: 'Evening cocktails and canapés', 'all-day': 'All-day snacks and drinks' }
 
@@ -29,7 +32,7 @@ export default async function LoungePage({ params }: Props) {
   const hotel = rel<Hotel>(lounge.hotel)
   const program = hotel ? rel<Program>(hotel.program) : null
   const destination = hotel ? rel<Destination>(hotel.destination) : null
-  const reader = await loungeReaderData(lounge.id)
+  const [reader, stays] = await Promise.all([loungeReaderData(lounge.id), getLoungeStays(lounge.id)])
   const tiers = (lounge.access?.tiers ?? []).map((t) => rel<StatusLevel>(t)).filter((t): t is StatusLevel => Boolean(t))
   const image = lounge.externalImageUrl ?? hotel?.externalImageUrl
 
@@ -166,6 +169,55 @@ export default async function LoungePage({ params }: Props) {
           </div>
         </div>
       </section>
+
+      {stays.length > 0 && (
+        <section className={`section ${styles.stays}`} aria-labelledby="stays-h">
+          <div className="wrap">
+            <div className={styles.staysHead}>
+              <div>
+                <span className="eyebrow on-light">Reader stays</span>
+                <h2 id="stays-h" className={styles.staysH2}>
+                  {stays.length} {stays.length === 1 ? 'stay' : 'stays'} as reported
+                </h2>
+              </div>
+              {hotel && (
+                <Link className="ghost" href={`/hotels/${hotel.slug}#reader-h`}>
+                  Add yours
+                </Link>
+              )}
+            </div>
+            <ol className={styles.stayList}>
+              {stays.map((s) => {
+                const tier = rel<StatusLevel>(s.statusHeld)
+                const a = s.lounge ?? {}
+                return (
+                  <li className={styles.stay} key={s.id}>
+                    <div className={styles.stayWho}>
+                      <span className={styles.stayTier}>{tier?.shortName ?? tier?.name ?? 'Member'}</span>
+                      <span className={styles.stayYear}>Stayed {s.stayYear}</span>
+                    </div>
+                    <div className={styles.stayWhat}>
+                      <span>{ACCESS[a.access ?? ''] ?? 'Access not answered'}</span>
+                      {a.worthIt && <span>{WORTH[a.worthIt]}</span>}
+                    </div>
+                    <div className={styles.stayScore}>
+                      {typeof a.rating === 'number' ? (
+                        <>
+                          <span className={styles.stayN}>{a.rating}</span>
+                          <span className={styles.stayOf}>/10</span>
+                        </>
+                      ) : (
+                        <span className={styles.stayOf}>Not scored</span>
+                      )}
+                    </div>
+                  </li>
+                )
+              })}
+            </ol>
+            <p className={styles.staysNote}>Every stay is checked before it is posted. No names, no free text, and nothing that identifies the reader.</p>
+          </div>
+        </section>
+      )}
     </>
   )
 }

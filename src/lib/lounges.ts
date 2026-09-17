@@ -46,6 +46,21 @@ export async function loungeReaderData(loungeId: number): Promise<{ count: numbe
   return { count: data.stays, data }
 }
 
+// Individual approved stays for the lounge page, newest first. Only the
+// lounge answers, tier and year are shown; nothing identifies the reader.
+export async function getLoungeStays(loungeId: number, limit = 100): Promise<ReaderStay[]> {
+  const payload = await getPayloadClient()
+  const res = await payload.find({
+    collection: 'reader-stays',
+    where: { and: [{ status: { equals: 'approved' } }, { 'lounge.lounge': { equals: loungeId } }] },
+    sort: '-createdAt',
+    limit,
+    depth: 1,
+    overrideAccess: true,
+  })
+  return res.docs
+}
+
 export async function getLounge(slug: string): Promise<Lounge | null> {
   const payload = await getPayloadClient()
   const res = await payload.find({ collection: 'lounges', where: { and: [{ slug: { equals: slug } }, published] }, depth: 2, limit: 1 })
