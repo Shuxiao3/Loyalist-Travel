@@ -47,7 +47,8 @@ async function main() {
     const w = `hotel ${f.slug}`
     check(w, 'name', f.name, d.name)
     check(w, 'slug', f.slug, d.slug)
-    check(w, 'status', h.isDraft ? 'draft' : 'published', d._status)
+    // Publishing on the site is allowed to run ahead of Webflow; the reverse is not.
+    if (!h.isDraft) check(w, 'status', 'published', d._status)
     check(w, 'brand', f.brand, (d.brand as { webflowId?: string })?.webflowId)
     check(w, 'program', f['loyalty-program'], (d.program as { webflowId?: string })?.webflowId)
     check(w, 'destination', f.destination, (d.destination as { webflowId?: string })?.webflowId)
@@ -72,7 +73,7 @@ async function main() {
     check(w, 'country', f.country || null, d.country)
     check(w, 'locationLabel', f['location-label'] || null, d.locationLabel)
     check(w, 'region', f.region, (d.region as { webflowId?: string })?.webflowId)
-    check(w, 'status', x.isDraft ? 'draft' : 'published', d._status)
+    if (!x.isDraft) check(w, 'status', 'published', d._status)
   }
 
   console.log(`Reviews (all)`)
