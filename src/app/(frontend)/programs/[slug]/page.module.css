@@ -1,0 +1,19 @@
+.tiers :global(.eyebrow) {
+  display: block;
+  margin-bottom: var(--s5);
+}
+
+.tierName {
+  display: block;
+  font-family: var(--serif);
+  font-size: var(--t-lg);
+  font-weight: var(--w-heading);
+  color: var(--heading);
+  margin-bottom: var(--s1);
+}
+
+.perks {
+  font-size: var(--t-xs);
+  color: var(--gold-dark);
+  letter-spacing: var(--track-fine);
+}

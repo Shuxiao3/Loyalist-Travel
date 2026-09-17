@@ -1,0 +1,17 @@
+.hero .wrap {
+  padding-top: var(--s7);
+  padding-bottom: var(--s7);
+}
+
+.h1 {
+  font-size: var(--t-h1);
+  line-height: 1.1;
+  color: var(--ivory);
+  letter-spacing: -0.01em;
+  margin: 0 0 var(--s5);
+  text-wrap: pretty;
+}
+
+.list {
+  padding-bottom: var(--section);
+}

@@ -1,0 +1,69 @@
+/* The "glist" pattern from the homepage mockup: rows in a white card. */
+.list {
+  background: var(--card);
+  border: 1px solid var(--line);
+  padding: 6px var(--s6);
+  border-radius: var(--r);
+}
+
+.row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--s5);
+  padding: var(--s5) 0;
+  border-top: 1px solid var(--line);
+  color: inherit;
+}
+
+.row:first-child {
+  border-top: 0;
+}
+
+.row :global(.label) {
+  display: block;
+  margin-bottom: var(--s2);
+}
+
+.title {
+  display: block;
+  font-family: var(--serif);
+  font-size: calc(var(--t-base) + 1px);
+  color: var(--heading);
+  line-height: 1.3;
+}
+
+.row:hover .title {
+  color: var(--gold-dark);
+}
+
+.place {
+  display: block;
+  margin-top: 6px;
+  font-size: var(--t-xs);
+  color: var(--muted);
+  letter-spacing: var(--track-fine);
+}
+
+.right {
+  font-size: var(--t-eyebrow);
+  letter-spacing: var(--track-cta);
+  text-transform: uppercase;
+  color: var(--gold-dark);
+  white-space: nowrap;
+  padding-top: 22px;
+}
+
+@media (max-width: 640px) {
+  .list {
+    padding: 4px var(--s5);
+  }
+
+  .row {
+    padding: var(--s4) 0;
+  }
+
+  .right {
+    display: none;
+  }
+}

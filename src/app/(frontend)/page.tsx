@@ -1,76 +1,81 @@
 import Link from 'next/link'
 
+import { Arrow, Band } from '@/components/Band'
+import { ReviewCard } from '@/components/ReviewCard'
+import { count, rel, score } from '@/lib/format'
+import { getPrograms, getReviews, getSiteCounts } from '@/lib/queries'
+import type { Destination, Hotel, Program } from '@/payload-types'
+
 import styles from './page.module.css'
 
-// Milestone 0 placeholder. The full homepage (latest reviews, reader data
-// band, programs, lounges, guides, contribute) is Milestone 2 and reads from
-// Payload. This page exists to prove the token system end to end.
+export const revalidate = 300
 
-const stats = [
-  { n: '4,539', l: 'Hotels indexed across three programs' },
-  { n: '16', l: 'Categories behind every score' },
-  { n: '412', l: 'Reader-submitted stays' },
-  { n: '38', l: 'Club lounges rated' },
-]
+// Homepage, from docs/loyalist-travel-homepage.html. The reader-data band,
+// lounges, guides and the contribute panel arrive with Milestone 3.
+export default async function HomePage() {
+  const [reviews, programs, counts] = await Promise.all([getReviews({ limit: 4 }), getPrograms(), getSiteCounts()])
+  const latest = reviews.docs[0]
+  const latestHotel = latest ? rel<Hotel>(latest.hotel) : null
+  const latestProgram = latestHotel ? rel<Program>(latestHotel.program) : null
+  const latestDestination = latestHotel ? rel<Destination>(latestHotel.destination) : null
+  const latestImage = latest?.externalImageUrl ?? latestHotel?.externalImageUrl
+  const cards = reviews.docs.slice(latest ? 1 : 0, 4)
 
-export default function HomePage() {
+  const stats = [
+    { n: count(counts.hotels), l: `Hotels indexed across ${['', 'one', 'two', 'three', 'four'][counts.programs] ?? counts.programs} programs` },
+    { n: '16', l: 'Categories behind every score' },
+    { n: count(counts.reviews), l: 'Scored stays' },
+    { n: '100', l: 'Points on every rubric' },
+  ]
+
   return (
     <main>
-      <header className={styles.hero}>
+      <header className={`hero ${styles.hero}`}>
         <div className={`wrap ${styles.heroWrap}`}>
           <div className={styles.heroGrid}>
             <div>
-              <span className={`eyebrow ${styles.eyebrow}`}>Luxury hotel reviews, scored</span>
+              <span className="eyebrow">Luxury hotel reviews, scored</span>
               <h1 className={styles.h1}>What your status actually gets you.</h1>
-              <p className={styles.sub}>
-                Hotels scored on a 100-point rubric. Elite benefits reported as they happened, not as
-                printed. Lounges rated by the people who sat in them.
+              <p className={`sub ${styles.sub}`}>
+                Hotels scored on a 100-point rubric. Elite benefits reported as they happened, not as printed. Lounges rated by the people who sat in them.
               </p>
               <div className={styles.ctas}>
                 <Link className="btn" href="/reviews">
                   Latest reviews
                 </Link>
                 <Link className="ghost" href="/hotels">
-                  Browse 4,500 hotels
-                  <svg
-                    width="15"
-                    height="15"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                    aria-hidden="true"
-                  >
-                    <line x1="4" y1="12" x2="19" y2="12" />
-                    <polyline points="13,6 19,12 13,18" />
-                  </svg>
+                  Browse {count(counts.hotels)} hotels
+                  <Arrow />
                 </Link>
               </div>
             </div>
 
-            <aside className={styles.latest} aria-label="Latest scored stay">
-              <span className={`eyebrow ${styles.eyebrow}`}>Latest scored stay</span>
-              <div className={styles.latestImg} role="img" aria-label="Park Hyatt New York" />
-              <div className={styles.latestMeta}>
-                <span>World of Hyatt</span>
-                <span className={styles.dot}>·</span>
-                <span>New York</span>
-              </div>
-              <h3 className={styles.latestTitle}>Park Hyatt New York</h3>
-              <p className={styles.latestSub}>
-                A hard product that still leads Manhattan, carried by a service culture that is
-                reliable rather than memorable.
-              </p>
-              <div className={styles.latestFoot}>
-                <div className={styles.score}>
-                  81<small>of 100</small>
+            {latest && (
+              <aside className={styles.latest} aria-label="Latest scored stay">
+                <span className="eyebrow">Latest scored stay</span>
+                <div className={styles.latestImg} role="img" aria-label={latest.title} style={latestImage ? { backgroundImage: `url(${latestImage}), var(--img-a)` } : undefined} />
+                <div className={styles.latestMeta}>
+                  <span>{latestProgram?.name ?? 'Scored stay'}</span>
+                  {latestDestination && (
+                    <>
+                      <span className="dot">·</span>
+                      <span>{latestDestination.name}</span>
+                    </>
+                  )}
                 </div>
-                <Link className={styles.read} href="/reviews/park-hyatt-new-york">
-                  Read the review
-                </Link>
-              </div>
-            </aside>
+                <h3 className={styles.latestTitle}>{latest.title}</h3>
+                {latest.shortVerdict && <p className={styles.latestSub}>{latest.shortVerdict}</p>}
+                <div className={styles.latestFoot}>
+                  <div className={styles.score}>
+                    {score(latest.totals?.overall)}
+                    <small>of 100</small>
+                  </div>
+                  <Link className={styles.read} href={`/reviews/${latest.slug}`}>
+                    Read the review
+                  </Link>
+                </div>
+              </aside>
+            )}
           </div>
 
           <div className={styles.stats} aria-label="Site at a glance">
@@ -84,47 +89,70 @@ export default function HomePage() {
         </div>
       </header>
 
-      <section className={styles.rubric} aria-labelledby="rubric-h">
-        <div className="wrap">
-          <div className={styles.sectionHead}>
-            <div>
-              <span className={`eyebrow on-light ${styles.eyebrow}`}>The rubric</span>
-              <h2 id="rubric-h" className={styles.h2}>
-                Sixteen categories, one hundred points.
-              </h2>
+      {cards.length > 0 && (
+        <section className="section" aria-labelledby="rev-h">
+          <div className="wrap">
+            <div className="section-head">
+              <div>
+                <span className="eyebrow on-light">Scored stays</span>
+                <h2 id="rev-h">Latest reviews</h2>
+              </div>
+              <Link className="more" href="/reviews">
+                All reviews
+              </Link>
             </div>
-            <Link className="more" href="/about">
-              How scoring works
+            <div className="cards">
+              {cards.map((r, i) => (
+                <ReviewCard key={r.id} review={r} tone={(['a', 'b', 'c'] as const)[i % 3]} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      <section className={`section ${styles.programs}`} aria-labelledby="prog-h">
+        <div className="wrap">
+          <div className="section-head">
+            <div>
+              <span className="eyebrow on-light">Browse by program</span>
+              <h2 id="prog-h">Where your points work</h2>
+            </div>
+            <Link className="more" href="/hotels">
+              All hotels
             </Link>
           </div>
-          <div className={styles.cells}>
-            <div className={styles.cell}>
-              <span className="label">Hard product</span>
-              <span className={styles.val}>
-                Room, bathroom, bed, tech, amenities, atmosphere, upkeep and location. Fifty-five
-                points at a city hotel.
-              </span>
-            </div>
-            <div className={styles.cell}>
-              <span className="label">Soft product</span>
-              <span className={styles.val}>
-                Check-in, service baseline and peak, operations, housekeeping, dining, density and
-                departure. Forty-five points.
-              </span>
-            </div>
-            <div className={styles.cell}>
-              <span className="label">Elite recognition</span>
-              <span className={`${styles.val} ${styles.gold}`}>
-                Reported as it happened. Never scored.
-              </span>
-            </div>
-            <div className={styles.cell}>
-              <span className="label">Rubric version</span>
-              <span className={styles.val}>v15, locked. Later changes become v16.</span>
-            </div>
+          <div className="grid-cells">
+            {programs.map(({ program, hotels, scored }) => (
+              <Link className={`cell ${styles.prog}`} href={`/programs/${program.slug}`} key={program.id}>
+                <span className="label">Program</span>
+                <h3>
+                  {program.name}
+                  <Arrow size={16} />
+                </h3>
+                <span className={styles.progN}>
+                  {hotels > 0 ? (
+                    <>
+                      <b>{count(hotels)}</b> hotels indexed
+                      <br />
+                      <b>{count(scored)}</b> scored {scored === 1 ? 'stay' : 'stays'}
+                    </>
+                  ) : (
+                    <>
+                      Coming soon
+                      <br />
+                      Portfolio being indexed
+                    </>
+                  )}
+                </span>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
+
+      <div className={styles.last} />
+
+      <Band eyebrow="Not a review" title="The hotel index" text="Every property across four programs, with brand, segment and place. Filter by program, brand, country, or scored stays only." cta="Browse hotels" href="/hotels" />
     </main>
   )
 }

@@ -1,0 +1,16 @@
+.overview {
+  padding-top: var(--s8);
+}
+
+.prose {
+  max-width: 68ch;
+}
+
+.hotels {
+  padding-bottom: var(--section);
+}
+
+.empty {
+  font-size: var(--t-md);
+  color: var(--text-2);
+}

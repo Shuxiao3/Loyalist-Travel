@@ -4,6 +4,7 @@ import React from 'react'
 
 import '@/styles/tokens.css'
 import '@/styles/globals.css'
+import '@/styles/patterns.css'
 
 import { SiteFooter } from '@/components/SiteFooter'
 import { SiteHeader } from '@/components/SiteHeader'
