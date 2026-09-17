@@ -38,6 +38,24 @@ export function groupMax(categories: Category[], group: 'hard' | 'soft'): number
   return categories.filter((c) => c.group === group).reduce((n, c) => n + (c.max ?? 0), 0)
 }
 
+// Score bands from the scoring workbook, on the percentage of the maximum.
+export const SCORE_BANDS: { min: number; label: string }[] = [
+  { min: 95, label: 'World Class' },
+  { min: 90, label: 'Exceptional' },
+  { min: 85, label: 'Excellent' },
+  { min: 80, label: 'Great' },
+  { min: 70, label: 'Very Good' },
+  { min: 60, label: 'Good' },
+  { min: 50, label: 'Fair' },
+  { min: 0, label: 'Needs Work' },
+]
+
+export function bandFor(value: number | null | undefined, max = 100): string | null {
+  if (value == null || max <= 0) return null
+  const pct = (value / max) * 100
+  return SCORE_BANDS.find((b) => pct >= b.min)?.label ?? null
+}
+
 export function labelFor(categories: Category[], key: ScoreKey): string {
   return categories.find((c) => c.key === key)?.label ?? key
 }

@@ -36,8 +36,7 @@
 
 .scoreTop {
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
+  flex-direction: column;
   gap: var(--s5);
   padding-bottom: var(--s4);
   border-bottom: 1px solid var(--line-dark);
@@ -49,6 +48,12 @@
   margin-bottom: var(--s2);
 }
 
+.scoreRow {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+}
+
 .scoreBig {
   font-family: var(--serif);
   font-size: var(--t-num);
@@ -56,11 +61,25 @@
   line-height: 1;
 }
 
-.scoreSplit {
+/* the score band, e.g. "Great" */
+.band {
+  margin-top: var(--s2);
+  font-family: var(--serif);
+  font-size: var(--t-md);
+  color: var(--ivory);
+  letter-spacing: 0.02em;
+}
+
+.scoreMidRow {
   display: flex;
+  align-items: center;
+  gap: var(--s2);
+}
+
+.scoreSplit {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: var(--s5);
-  text-align: right;
-  padding-bottom: 4px;
 }
 
 .scoreMid {
@@ -158,12 +177,12 @@
   border-bottom: 0;
 }
 
-/* bar length is the category's maximum out of 10; fill is the score */
+/* every bar the same width; the fill is the score out of the maximum */
 .bar {
   display: block;
   height: 3px;
   background: var(--cream);
-  width: calc(var(--max) / 10 * 100%);
+  width: 100%;
   position: relative;
   border-radius: 2px;
 }
@@ -306,12 +325,29 @@
   overflow: hidden;
 }
 
+.bigWrap {
+  flex-shrink: 0;
+}
+
+.bigRow {
+  display: flex;
+  align-items: center;
+  gap: var(--s4);
+}
+
 .big {
   font-family: var(--serif);
   font-size: var(--t-big);
   color: var(--gold);
   line-height: 1;
   flex-shrink: 0;
+}
+
+.bigBand {
+  margin-top: var(--s3);
+  font-family: var(--serif);
+  font-size: var(--t-lg);
+  color: var(--ivory);
 }
 
 .rule {
@@ -492,8 +528,7 @@
     padding: var(--s5);
   }
 
-  .scoreTop,
-  .scoreSplit {
+  .scoreTop {
     gap: var(--s4);
   }
 

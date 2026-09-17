@@ -4,9 +4,10 @@ import { notFound } from 'next/navigation'
 
 import { Band } from '@/components/Band'
 import { RichText } from '@/components/RichText'
+import { ScoreRing } from '@/components/ScoreRing'
 import { monthYear, rel, score, shortDate } from '@/lib/format'
 import { getReview, getReviews } from '@/lib/queries'
-import { categoriesFor, groupMax, labelFor, REVIEW_SECTIONS } from '@/lib/rubric'
+import { bandFor, categoriesFor, groupMax, labelFor, REVIEW_SECTIONS } from '@/lib/rubric'
 import { PROPERTY_TYPE_LABEL, RATE_BASIS_LABEL, SITE } from '@/lib/site'
 import type { Brand, Destination, Hotel, Program, Review, RubricVersion, StatusLevel } from '@/payload-types'
 
@@ -50,6 +51,7 @@ export default async function ReviewPage({ params }: Props) {
   const hardMax = groupMax(categories, 'hard')
   const softMax = groupMax(categories, 'soft')
   const typeLabel = PROPERTY_TYPE_LABEL[review.propertyType]
+  const band = bandFor(review.totals?.overall, hardMax + softMax)
   const image = review.externalImageUrl ?? hotel?.externalImageUrl
   const related = (await getReviews({ limit: 3, excludeId: review.id })).docs
 
@@ -127,21 +129,31 @@ export default async function ReviewPage({ params }: Props) {
                   <span className={`label ${styles.scoreLabel}`}>
                     <span className={styles.long}>Loyalist Travel </span>Score
                   </span>
-                  <div className={styles.scoreBig}>{score(review.totals?.overall)}</div>
+                  <div className={styles.scoreRow}>
+                    <ScoreRing value={review.totals?.overall} max={hardMax + softMax} size={56} stroke={4} label={`${score(review.totals?.overall)} of ${hardMax + softMax}`} />
+                    <div className={styles.scoreBig}>{score(review.totals?.overall)}</div>
+                  </div>
+                  {band && <div className={styles.band}>{band}</div>}
                 </div>
                 <div className={styles.scoreSplit}>
                   <div>
                     <span className={`label ${styles.scoreLabel}`}>Hard</span>
-                    <div className={styles.scoreMid}>
-                      {score(review.totals?.hard)}
-                      <small>/{hardMax}</small>
+                    <div className={styles.scoreMidRow}>
+                      <ScoreRing value={review.totals?.hard} max={hardMax} size={28} stroke={3} label={`Hard product ${score(review.totals?.hard)} of ${hardMax}`} />
+                      <div className={styles.scoreMid}>
+                        {score(review.totals?.hard)}
+                        <small>/{hardMax}</small>
+                      </div>
                     </div>
                   </div>
                   <div>
                     <span className={`label ${styles.scoreLabel}`}>Soft</span>
-                    <div className={styles.scoreMid}>
-                      {score(review.totals?.soft)}
-                      <small>/{softMax}</small>
+                    <div className={styles.scoreMidRow}>
+                      <ScoreRing value={review.totals?.soft} max={softMax} size={28} stroke={3} label={`Soft product ${score(review.totals?.soft)} of ${softMax}`} />
+                      <div className={styles.scoreMid}>
+                        {score(review.totals?.soft)}
+                        <small>/{softMax}</small>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -238,7 +250,7 @@ export default async function ReviewPage({ params }: Props) {
               </div>
             ))}
           </div>
-          <p className={styles.scLegend}>Bar length is what the category is worth. Fill is the score. Elite recognition is reported below and not scored.</p>
+          <p className={styles.scLegend}>Each bar fills to the score out of that category's maximum. Elite recognition is reported below and not scored.</p>
         </div>
       </section>
 
@@ -316,7 +328,13 @@ export default async function ReviewPage({ params }: Props) {
               <h2 id="s-verdict">The verdict</h2>
               {review.finalVerdict && <RichText data={review.finalVerdict} />}
               <div className={styles.verdictBand}>
-                <div className={styles.big}>{score(review.totals?.overall)}</div>
+                <div className={styles.bigWrap}>
+                  <div className={styles.bigRow}>
+                    <ScoreRing value={review.totals?.overall} max={hardMax + softMax} size={72} stroke={4} label={`${score(review.totals?.overall)} of ${hardMax + softMax}`} />
+                    <div className={styles.big}>{score(review.totals?.overall)}</div>
+                  </div>
+                  {band && <div className={styles.bigBand}>{band}</div>}
+                </div>
                 <div className={styles.rule} />
                 <div>
                   {review.shortVerdict && <div className={styles.say}>{review.shortVerdict}</div>}
