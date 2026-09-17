@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
     inputs:
       step:
-        description: 'One step only (regions, programs, status-levels, brands, amenities, destinations, rubric-versions, hotels, reviews). Blank runs everything.'
+        description: 'One step only (regions, programs, status-levels, brands, amenities, destinations, rubric-versions, hotels, reviews, publish). Blank runs the import without publish.'
         required: false
         default: ''
 

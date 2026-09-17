@@ -342,6 +342,28 @@ async function importReviews(payload: Payload) {
   })
 }
 
+// Publishes every draft hotel and destination. Webflow held the sourcing
+// master as drafts; the site shows the whole index (decided Sep 17 2026).
+async function publishAll(payload: Payload) {
+  for (const collection of ['destinations', 'hotels'] as const) {
+    const before = await payload.count({ collection, where: { _status: { equals: 'draft' } }, overrideAccess: true })
+    if (before.totalDocs === 0) {
+      console.log(`${collection}: nothing to publish`)
+      continue
+    }
+    const started = Date.now()
+    const res = await payload.update({
+      collection,
+      where: { _status: { equals: 'draft' } },
+      data: { _status: 'published' },
+      depth: 0,
+      overrideAccess: true,
+    })
+    console.log(`${collection}: published ${res.docs.length} (${res.errors.length} errors)  ${Math.round((Date.now() - started) / 1000)}s`)
+    for (const e of res.errors.slice(0, 5)) console.log('  ', e.id, e.message)
+  }
+}
+
 // ---- main -------------------------------------------------------------------
 
 const STEPS: Record<string, (p: Payload) => Promise<void>> = {
@@ -354,6 +376,7 @@ const STEPS: Record<string, (p: Payload) => Promise<void>> = {
   'rubric-versions': importRubricVersions,
   hotels: importHotels,
   reviews: importReviews,
+  publish: publishAll,
 }
 
 async function main() {
