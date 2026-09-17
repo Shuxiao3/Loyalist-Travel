@@ -253,12 +253,21 @@ a.cell:hover h3 {
   line-height: 1.25;
 }
 
-.card h3 a {
+/* the whole card as a link */
+a.card-link {
   color: inherit;
 }
 
-.card h3 a:hover {
+a.card-link:hover {
+  border-color: var(--gold-dark);
+}
+
+a.card-link:hover h3 {
   color: var(--gold-dark);
+}
+
+a.card-link:hover .score {
+  color: var(--gold-deeper);
 }
 
 .card p {
