@@ -1,4 +1,4 @@
-.hero .wrap {
+.hero :global(.wrap) {
   padding-top: var(--s7);
   padding-bottom: var(--s7);
 }

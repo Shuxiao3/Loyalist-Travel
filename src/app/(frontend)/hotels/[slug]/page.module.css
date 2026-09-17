@@ -1,4 +1,4 @@
-.hero .wrap {
+.hero :global(.wrap) {
   padding-top: var(--s7);
 }
 
@@ -91,7 +91,7 @@ a.scorePanel:hover {
 }
 
 @media (max-width: 640px) {
-  .hero .wrap {
+  .hero :global(.wrap) {
     padding-top: var(--s6);
   }
 

@@ -1,4 +1,4 @@
-.main .wrap {
+.main :global(.wrap) {
   padding-top: var(--s9);
   padding-bottom: var(--s9);
 }

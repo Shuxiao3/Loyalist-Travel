@@ -1,6 +1,6 @@
 /* Review template. Ported from docs/park-hyatt-new-york-review.html. */
 
-.hero .wrap {
+.hero :global(.wrap) {
   padding-top: var(--s7);
 }
 
@@ -471,7 +471,7 @@
 
 /* phone */
 @media (max-width: 640px) {
-  .hero .wrap {
+  .hero :global(.wrap) {
     padding-top: var(--s6);
   }
 
