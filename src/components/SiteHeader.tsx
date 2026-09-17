@@ -13,6 +13,27 @@ import styles from './SiteHeader.module.css'
 export function SiteHeader() {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
+  const [hidden, setHidden] = useState(false)
+
+  // Slide away on scroll down, return on scroll up. Always shown near the
+  // top and while the drawer is open.
+  useEffect(() => {
+    let last = window.scrollY
+    let ticking = false
+    const onScroll = () => {
+      if (ticking) return
+      ticking = true
+      requestAnimationFrame(() => {
+        const y = window.scrollY
+        if (y < 80 || y < last - 4) setHidden(false)
+        else if (y > last + 4) setHidden(true)
+        last = y
+        ticking = false
+      })
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   // Close the drawer on navigation.
   useEffect(() => {
@@ -22,7 +43,7 @@ export function SiteHeader() {
   const current = (href: string) => (pathname === href || pathname.startsWith(href + '/') ? 'page' : undefined)
 
   return (
-    <nav className={styles.nav} aria-label="Main">
+    <nav className={`${styles.nav} ${hidden && !open ? styles.hidden : ''}`} aria-label="Main">
       <div className={`wrap ${styles.inner}`}>
         <Link className={styles.brand} href="/">
           Loyalist Travel

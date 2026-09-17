@@ -1,6 +1,20 @@
 .nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
   background: var(--navy);
   border-bottom: 1px solid var(--line-dark);
+  transition: transform 0.25s ease;
+}
+
+.nav.hidden {
+  transform: translateY(-100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav {
+    transition: none;
+  }
 }
 
 .inner {

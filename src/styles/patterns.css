@@ -86,8 +86,7 @@
   color: var(--on-navy-muted);
 }
 
-.crumbs a:hover,
-.crumbs li:last-child a {
+.crumbs a:hover {
   color: var(--gold);
 }
 

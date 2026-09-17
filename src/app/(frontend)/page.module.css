@@ -1,5 +1,13 @@
 /* Homepage hero, stats and programs. Every value is a token. */
 
+/* The latest stay's photograph sits behind the navy, solid on the text
+   side and showing through on the panel side. */
+.hero {
+  background-image: linear-gradient(100deg, var(--navy) 0%, var(--navy) 55%, var(--veil-navy) 74%, var(--veil-navy-soft) 100%), var(--hero-photo, none);
+  background-size: cover;
+  background-position: center;
+}
+
 .heroWrap {
   padding-top: var(--section);
 }
@@ -48,7 +56,7 @@
 }
 
 .latestImg {
-  height: 150px;
+  height: 200px;
   background: var(--img-a);
   background-size: cover;
   background-position: center;
@@ -208,7 +216,7 @@
   }
 
   .latestImg {
-    height: 120px;
+    height: 150px;
   }
 
   .stats {

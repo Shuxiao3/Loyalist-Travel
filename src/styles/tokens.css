@@ -57,6 +57,10 @@
   --line-strong: rgba(12, 10, 5, 0.15);
   --line-dark: rgba(255, 255, 255, 0.1);
 
+  /* navy veils laid over a photograph so text on it stays legible */
+  --veil-navy: rgba(13, 27, 42, 0.96);
+  --veil-navy-soft: rgba(13, 27, 42, 0.72);
+
   /* image placeholders, used until a property has owned photography */
   --img-a: linear-gradient(140deg, #23415f 0%, #12253a 52%, #060d16 100%);
   --img-b: linear-gradient(140deg, #3a4a3f 0%, #1d2a25 55%, #0b1210 100%);

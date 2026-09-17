@@ -30,7 +30,7 @@ export default async function HomePage() {
 
   return (
     <main>
-      <header className={`hero ${styles.hero}`}>
+      <header className={`hero ${styles.hero}`} style={latestImage ? ({ '--hero-photo': `url(${latestImage})` } as React.CSSProperties) : undefined}>
         <div className={`wrap ${styles.heroWrap}`}>
           <div className={styles.heroGrid}>
             <div>
