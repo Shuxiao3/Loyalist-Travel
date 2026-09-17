@@ -95,7 +95,7 @@ export const ReaderStays: CollectionConfig = {
       fields: [
         { name: 'upgrade', type: 'select', required: true, options: UPGRADE_OUTCOMES },
         { name: 'upgradeType', type: 'select', options: UPGRADE_TYPES, admin: { condition: (data) => data?.upgrade === 'yes' } },
-        { name: 'suiteType', type: 'select', options: SUITE_TYPES, admin: { condition: (data) => data?.upgrade === 'yes' && data?.upgradeType === 'suite' } },
+        { name: 'suiteType', type: 'select', options: SUITE_TYPES, admin: { condition: (data) => (data?.upgrade === 'yes' && data?.upgradeType === 'suite') || data?.upgrade === 'award' } },
         { name: 'upgradeHow', type: 'select', options: UPGRADE_HOW, admin: { condition: (data) => data?.upgrade === 'yes' } },
       ],
     },

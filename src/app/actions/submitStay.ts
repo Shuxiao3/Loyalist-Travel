@@ -37,7 +37,8 @@ export async function submitStay(_prev: SubmitStayState, form: FormData): Promis
   }
   const upgraded = upgrade === 'yes'
   if (upgraded && !inList(upgradeType, UPGRADE_TYPES)) return { ok: false, error: 'Say what kind of upgrade it was.' }
-  if (upgraded && upgradeType === 'suite' && !inList(suiteType, SUITE_TYPES)) return { ok: false, error: 'Say which kind of suite.' }
+  const award = upgrade === 'award'
+  if (((upgraded && upgradeType === 'suite') || award) && !inList(suiteType, SUITE_TYPES)) return { ok: false, error: 'Say which kind of suite.' }
   if (upgraded && !inList(upgradeHow, UPGRADE_HOW)) return { ok: false, error: 'Say whether the upgrade was offered or asked for.' }
   const alaCarte = breakfast === 'full' || breakfast === 'a-la-carte'
   if (alaCarte && !inList(alaCarteCap, ALA_CARTE_CAP)) return { ok: false, error: 'Say whether the à la carte was capped.' }
@@ -76,7 +77,7 @@ export async function submitStay(_prev: SubmitStayState, form: FormData): Promis
       stayYear,
       upgrade: upgrade as string,
       upgradeType: upgraded ? (upgradeType as string) : null,
-      suiteType: upgraded && upgradeType === 'suite' ? (suiteType as string) : null,
+      suiteType: (upgraded && upgradeType === 'suite') || award ? (suiteType as string) : null,
       upgradeHow: upgraded ? (upgradeHow as string) : null,
       breakfast: breakfast as string,
       alaCarteCap: alaCarte ? (alaCarteCap as string) : null,

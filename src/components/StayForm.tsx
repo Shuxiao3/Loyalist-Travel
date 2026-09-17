@@ -84,6 +84,11 @@ export function StayForm({ hotel, programName, tiers, compact }: { hotel: { id: 
           <Select name="upgradeHow" label="How it happened" placeholder="Offered or asked" options={UPGRADE_HOW} />
         </div>
       )}
+      {upgrade === 'award' && (
+        <div className={styles.follow}>
+          <Select name="suiteType" label="Which suite were you placed in" placeholder="Which kind" options={SUITE_TYPES} />
+        </div>
+      )}
 
       <Select name="breakfast" label="Breakfast" placeholder="What you got" options={BREAKFAST_OUTCOMES} value={breakfast} onChange={setBreakfast} />
       {alaCarte && (
