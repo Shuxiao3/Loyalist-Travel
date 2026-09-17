@@ -5,7 +5,6 @@ import { HotelList } from '@/components/HotelCard'
 import { Pager } from '@/components/Pager'
 import { count } from '@/lib/format'
 import { findHotels, getHotelFilterOptions, HOTELS_PER_PAGE, type HotelFilters } from '@/lib/queries'
-import { PROPERTY_TYPE_LABEL, SEGMENT_LABEL } from '@/lib/site'
 
 import styles from './page.module.css'
 
@@ -13,7 +12,7 @@ export const revalidate = 300
 
 export const metadata: Metadata = {
   title: 'Hotels',
-  description: 'Every hotel indexed across World of Hyatt, Marriott Bonvoy, IHG One Rewards and Hilton Honors, filterable by program, brand, country and segment.',
+  description: 'Every hotel indexed across World of Hyatt, Marriott Bonvoy, IHG One Rewards and Hilton Honors, filterable by program, brand and country.',
 }
 
 type Props = { searchParams: Promise<Record<string, string | string[] | undefined>> }
@@ -27,8 +26,6 @@ export default async function HotelsIndex({ searchParams }: Props) {
     program: first(sp.program),
     brand: first(sp.brand),
     country: first(sp.country),
-    segment: first(sp.segment),
-    type: first(sp.type),
     scored: first(sp.scored),
     page: Math.max(1, Number(first(sp.page)) || 1),
   }
@@ -59,7 +56,7 @@ export default async function HotelsIndex({ searchParams }: Props) {
             {count(result.totalDocs)} {result.totalDocs === 1 ? 'hotel' : 'hotels'}
             {active ? ' match' : ''}
           </h1>
-          <p className="sub">Every property across four programs, with brand, segment and place. Scored stays are marked. The rest are indexed so a hotel page exists before the review does.</p>
+          <p className="sub">Every property across four programs, with brand and place. Scored stays are marked. The rest are indexed so a hotel page exists before the review does.</p>
         </div>
       </header>
 
@@ -99,28 +96,6 @@ export default async function HotelsIndex({ searchParams }: Props) {
                 {options.countries.map((c) => (
                   <option key={c} value={c}>
                     {c}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label>
-              <span className="label">Segment</span>
-              <select name="segment" defaultValue={filters.segment ?? ''}>
-                <option value="">All segments</option>
-                {Object.entries(SEGMENT_LABEL).map(([v, l]) => (
-                  <option key={v} value={v}>
-                    {l}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label>
-              <span className="label">Type</span>
-              <select name="type" defaultValue={filters.type ?? ''}>
-                <option value="">City and resort</option>
-                {Object.entries(PROPERTY_TYPE_LABEL).map(([v, l]) => (
-                  <option key={v} value={v}>
-                    {l}
                   </option>
                 ))}
               </select>

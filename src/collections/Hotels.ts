@@ -17,7 +17,7 @@ export const Hotels: CollectionConfig = {
   slug: 'hotels',
   admin: {
     useAsTitle: 'name',
-    defaultColumns: ['name', 'brand', 'destination', 'segment', 'reviewStatus', '_status'],
+    defaultColumns: ['name', 'brand', 'destination', 'reviewStatus', '_status'],
     listSearchableFields: ['name', 'slug', 'fullName'],
   },
   access: { read: publishedOrLoggedIn },
@@ -49,7 +49,7 @@ export const Hotels: CollectionConfig = {
     {
       type: 'row',
       fields: [
-        { name: 'segment', type: 'select', options: SEGMENT_OPTIONS, index: true },
+        { name: 'segment', type: 'select', options: SEGMENT_OPTIONS, index: true, admin: { hidden: true } },
         { name: 'propertyType', type: 'select', options: PROPERTY_TYPE_OPTIONS, index: true },
         {
           name: 'reviewStatus',

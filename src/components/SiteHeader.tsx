@@ -64,6 +64,7 @@ export function SiteHeader() {
         </button>
       </div>
       <div className={`${styles.drawer} ${open ? styles.open : ''}`} id="drawer">
+        <div className={styles.drawerInner}>
         <form className={styles.search} role="search" action="/hotels" method="get">
           <SearchIcon size={16} />
           <input type="search" name="q" placeholder="Search hotels" aria-label="Search hotels" />
@@ -77,6 +78,7 @@ export function SiteHeader() {
             </li>
           ))}
         </ul>
+        </div>
       </div>
     </nav>
   )

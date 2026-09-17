@@ -16,7 +16,7 @@ export const Brands: CollectionConfig = {
   slug: 'brands',
   admin: {
     useAsTitle: 'name',
-    defaultColumns: ['name', 'program', 'segment'],
+    defaultColumns: ['name', 'program'],
     group: 'Reference',
   },
   access: { read: () => true },
@@ -24,7 +24,7 @@ export const Brands: CollectionConfig = {
     { name: 'name', type: 'text', required: true },
     slugField,
     { name: 'program', type: 'relationship', relationTo: 'programs', index: true },
-    { name: 'segment', type: 'select', options: SEGMENT_OPTIONS },
+    { name: 'segment', type: 'select', options: SEGMENT_OPTIONS, admin: { hidden: true } },
     { name: 'shortDescription', type: 'textarea' },
     { name: 'overview', type: 'richText' },
     { name: 'logoUrl', type: 'text', admin: { description: 'Webflow-hosted URL until owned media is uploaded.' } },

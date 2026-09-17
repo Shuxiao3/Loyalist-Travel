@@ -5,7 +5,6 @@ import { ReferenceBody } from '@/components/ReferenceBody'
 import { ReferenceHero } from '@/components/ReferenceHero'
 import { count, rel } from '@/lib/format'
 import { getBrand, getHotelsIn, getPayloadClient } from '@/lib/queries'
-import { SEGMENT_LABEL } from '@/lib/site'
 import type { Program } from '@/payload-types'
 
 export const revalidate = 300
@@ -29,7 +28,7 @@ export default async function BrandPage({ params }: Props) {
   return (
     <>
       <ReferenceHero
-        eyebrow={[program?.name, brand.segment ? SEGMENT_LABEL[brand.segment] : null].filter(Boolean).join(' · ') || 'Brand'}
+        eyebrow={program?.name ?? 'Brand'}
         title={brand.name}
         sub={brand.shortDescription}
         crumbs={[{ href: '/hotels', label: 'Hotels' }, ...(program ? [{ href: `/programs/${program.slug}`, label: program.name }] : []), { href: `/brands/${brand.slug}`, label: brand.name }]}

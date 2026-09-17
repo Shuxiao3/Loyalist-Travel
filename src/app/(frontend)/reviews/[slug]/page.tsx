@@ -400,7 +400,7 @@ export default async function ReviewPage({ params }: Props) {
         </div>
       </main>
 
-      <Band eyebrow="Not a review" title="The hotel index" text="Every property across four programs, with brand, segment and place. Filter by program, brand, country, or scored stays only." cta="Browse hotels" href="/hotels" />
+      <Band eyebrow="Not a review" title="The hotel index" text="Every property across four programs, with brand and place. Filter by program, brand, country, or scored stays only." cta="Browse hotels" href="/hotels" />
     </>
   )
 }

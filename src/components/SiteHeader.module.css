@@ -81,14 +81,28 @@
     display: inline-flex;
   }
 
+  /* slides open: the row grows from 0 to its content height */
   .drawer {
-    display: none;
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.25s ease;
     background: var(--navy-deep);
-    border-top: 1px solid var(--line-dark);
+    border-top: 1px solid transparent;
   }
 
   .drawer.open {
-    display: block;
+    grid-template-rows: 1fr;
+    border-top-color: var(--line-dark);
+  }
+
+  .drawerInner {
+    overflow: hidden;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .drawer {
+      transition: none;
+    }
   }
 
   .drawer ul {

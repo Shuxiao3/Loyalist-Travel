@@ -9,20 +9,11 @@ export const NAV_LINKS = [
   { href: '/reviews', label: 'Reviews' },
   { href: '/hotels', label: 'Hotels' },
   { href: '/lounges', label: 'Lounges' },
+  { href: '/programs', label: 'Programs' },
   { href: '/guides', label: 'Articles' },
-  { href: '/about', label: 'About' },
 ]
 
 export const PROPERTY_TYPE_LABEL: Record<string, string> = { city: 'City hotel', resort: 'Resort' }
-
-export const SEGMENT_LABEL: Record<string, string> = {
-  'ultra-luxury': 'Ultra luxury',
-  luxury: 'Luxury',
-  upscale: 'Upscale',
-  midscale: 'Midscale',
-  budget: 'Budget',
-  'extended-stay': 'Extended stay',
-}
 
 export const RATE_BASIS_LABEL: Record<string, string> = {
   cash: 'Cash',

@@ -62,8 +62,6 @@ export type HotelFilters = {
   program?: string
   brand?: string
   country?: string
-  segment?: string
-  type?: string
   scored?: string
   page?: number
 }
@@ -77,8 +75,6 @@ export async function findHotels(f: HotelFilters) {
   if (f.program) and.push({ 'program.slug': { equals: f.program } })
   if (f.brand) and.push({ 'brand.slug': { equals: f.brand } })
   if (f.country) and.push({ 'destination.country': { equals: f.country } })
-  if (f.segment) and.push({ segment: { equals: f.segment } })
-  if (f.type) and.push({ propertyType: { equals: f.type } })
   if (f.scored === 'yes') and.push({ reviewStatus: { equals: 'reviewed' } })
   return payload.find({
     collection: 'hotels',

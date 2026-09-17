@@ -7,7 +7,7 @@ import { HotelList } from '@/components/HotelCard'
 import { ReviewCard } from '@/components/ReviewCard'
 import { rel, score } from '@/lib/format'
 import { getHotel, getHotelsIn, getReviewsForHotel } from '@/lib/queries'
-import { PROPERTY_TYPE_LABEL, SEGMENT_LABEL } from '@/lib/site'
+import { PROPERTY_TYPE_LABEL } from '@/lib/site'
 import type { Amenity, Brand, Destination, Program } from '@/payload-types'
 
 import styles from './page.module.css'
@@ -86,14 +86,10 @@ export default async function HotelPage({ params }: Props) {
               <span className="eyebrow">{brand?.name ?? 'Hotel'}</span>
               <h1 className={styles.h1}>{hotel.name}</h1>
               <p className={`sub ${styles.sub}`}>
-                {hotel.heroSummary ??
-                  [hotel.segment ? SEGMENT_LABEL[hotel.segment] : null, brand?.name, destination ? `in ${destination.locationLabel ?? destination.name}` : null]
-                    .filter(Boolean)
-                    .join(' ')}
+                {hotel.heroSummary ?? [brand?.name, destination ? `in ${destination.locationLabel ?? destination.name}` : null].filter(Boolean).join(' ')}
               </p>
               <div className="chips">
-                {hotel.segment && <span className="chip solid">{SEGMENT_LABEL[hotel.segment]}</span>}
-                {hotel.propertyType && <span className="chip">{PROPERTY_TYPE_LABEL[hotel.propertyType]}</span>}
+                {hotel.propertyType && <span className="chip solid">{PROPERTY_TYPE_LABEL[hotel.propertyType]}</span>}
                 {program && (
                   <Link className="chip" href={`/programs/${program.slug}`}>
                     {program.name}
@@ -193,7 +189,7 @@ export default async function HotelPage({ params }: Props) {
         </section>
       )}
 
-      <Band eyebrow="Not a review" title="The hotel index" text="Every property across four programs, with brand, segment and place. Filter by program, brand, country, or scored stays only." cta="Browse hotels" href="/hotels" />
+      <Band eyebrow="Not a review" title="The hotel index" text="Every property across four programs, with brand and place. Filter by program, brand, country, or scored stays only." cta="Browse hotels" href="/hotels" />
     </>
   )
 }

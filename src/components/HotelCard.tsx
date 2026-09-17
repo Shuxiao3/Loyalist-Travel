@@ -5,15 +5,6 @@ import type { Brand, Destination, Hotel } from '@/payload-types'
 
 import styles from './HotelCard.module.css'
 
-const SEGMENT: Record<string, string> = {
-  'ultra-luxury': 'Ultra luxury',
-  luxury: 'Luxury',
-  upscale: 'Upscale',
-  midscale: 'Midscale',
-  budget: 'Budget',
-  'extended-stay': 'Extended stay',
-}
-
 // A hotel row on index and reference pages: name, brand and place, and
 // whether it has been scored.
 export function HotelCard({ hotel }: { hotel: Hotel }) {
@@ -22,9 +13,7 @@ export function HotelCard({ hotel }: { hotel: Hotel }) {
   return (
     <Link className={styles.row} href={`/hotels/${hotel.slug}`}>
       <span>
-        <span className="label">
-          {[brand?.name, hotel.segment ? SEGMENT[hotel.segment] : null].filter(Boolean).join(' · ')}
-        </span>
+        <span className="label">{brand?.name}</span>
         <span className={styles.title}>{hotel.name}</span>
         {destination && <span className={styles.place}>{destination.locationLabel ?? destination.name}</span>}
       </span>
