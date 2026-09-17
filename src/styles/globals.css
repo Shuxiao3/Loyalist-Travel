@@ -1,0 +1,148 @@
+/*
+  Base styles and the handful of shared primitives every template uses.
+  Every value here is a token from tokens.css.
+*/
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  background: var(--page);
+}
+
+body {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: var(--t-base);
+  line-height: var(--lh-body);
+  color: var(--text);
+  background: var(--page);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--gold-dark);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--gold-deeper);
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-family: var(--serif);
+  font-weight: var(--w-heading);
+  line-height: 1.2;
+}
+
+p {
+  margin: 0;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+/* Content frame: 1440 wide, gutters that collapse from 120px to 20px. */
+.wrap {
+  max-width: var(--frame);
+  margin: 0 auto;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+
+/* Tracked uppercase labels. Eyebrows are gold; on light surfaces use the
+   darker gold. Field labels are grey. */
+.eyebrow {
+  font-size: var(--t-eyebrow);
+  letter-spacing: var(--track-eyebrow);
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.eyebrow.on-light {
+  color: var(--gold-dark);
+}
+
+.label {
+  font-size: var(--t-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Buttons: solid gold, and the bordered ghost. */
+.btn {
+  display: inline-block;
+  text-align: center;
+  background: var(--gold);
+  color: var(--navy);
+  padding: 14px 26px;
+  font-size: var(--t-xs);
+  letter-spacing: var(--track-cta);
+  text-transform: uppercase;
+  border: 1px solid var(--gold);
+  border-radius: var(--r-btn);
+  cursor: pointer;
+}
+
+.btn:hover {
+  color: var(--navy);
+  background: var(--gold-pale);
+  border-color: var(--gold-pale);
+}
+
+.ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s3);
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  padding: 14px 26px;
+  font-size: var(--t-xs);
+  letter-spacing: var(--track-cta);
+  text-transform: uppercase;
+  border-radius: var(--r-btn);
+  background: none;
+  cursor: pointer;
+}
+
+.ghost:hover {
+  color: var(--navy);
+  background: var(--gold);
+}
+
+.ghost:hover svg {
+  stroke: var(--navy);
+}
+
+/* Underlined "more" link on light surfaces. */
+.more {
+  font-size: var(--t-xs);
+  letter-spacing: var(--track-cta);
+  text-transform: uppercase;
+  color: var(--gold-dark);
+  white-space: nowrap;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--gold-dark);
+}
+
+@media (max-width: 640px) {
+  .btn,
+  .ghost {
+    padding: 13px 20px;
+  }
+}

@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Park Hyatt New York review, scored 81 of 100 | Loyalist Travel</title>
+<meta name="description" content="A hard product that still leads Manhattan, carried by a service culture that is reliable rather than memorable. Scored 81 of 100 on the Loyalist Travel rubric.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS ============ */
+/* palette + fonts (colours only are repeated for the viewer's dark flag) */
+:root{
+  --navy:#0d1b2a; --navy-deep:#0a1521;
+  --gold:#d0a060; --gold-dark:#a9783c; --gold-deeper:#725128; --gold-pale:#efd5a3; --gold-border:#3f2c16;
+  --ivory:#faf8f4; --light:#CED1D4; --on-navy-muted:#858482; --on-navy-dim:#555F69;
+  --page:#faf8f4; --cream:#f3eee2; --card:#ffffff;
+  --text:#24221E; --text-2:#545350; --muted:#858482; --heading:#0d1b2a;
+  --line:rgba(12,10,5,.10); --line-strong:rgba(12,10,5,.15); --line-dark:rgba(255,255,255,.10);
+  --serif:"Playfair Display",Georgia,"Times New Roman",serif;
+  --sans:Lato,"Helvetica Neue",Arial,sans-serif;
+  --r:3px; --r-btn:3px;
+
+  /* spacing scale: artboard, decided Sep 16 2026 */
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px; --s8:64px; --s9:96px;
+  --section-d:72px; --section:var(--section-d);
+  --gutter:clamp(20px,8.33cqi,120px);
+  --col-gap:76px; --card-gap:24px; --sidebar:330px;
+
+  /* type scale: editorial, decided Sep 16 2026 */
+  --t-label:10px; --t-eyebrow:11px; --t-xs:12px; --t-sm:13px; --t-md:15px; --t-base:17px;
+  --t-lg:24px; --t-xl:30px;
+  --t-2xl-d:34px; --t-3xl-d:42px; --t-h1-d:66px; --t-hero-d:84px; --t-num-d:72px; --t-stat-d:44px; --t-big-d:80px;
+  --t-2xl:var(--t-2xl-d); --t-3xl:var(--t-3xl-d); --t-h1:var(--t-h1-d); --t-hero:var(--t-hero-d);
+  --t-num:var(--t-num-d); --t-stat:var(--t-stat-d); --t-big:var(--t-big-d);
+  --lh-body:1.65; --lh-article:1.75;
+}
+:root[data-theme="dark"],
+:root:not([data-theme="light"]){
+  --page:#faf8f4; --cream:#f3eee2; --card:#ffffff;
+  --text:#24221E; --text-2:#545350; --muted:#858482; --heading:#0d1b2a;
+  --line:rgba(12,10,5,.10); --line-strong:rgba(12,10,5,.15);
+}
+
+/* ============ BASE ============ */
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;background:var(--page)}
+body{margin:0;font-family:var(--sans);font-size:var(--t-base);line-height:var(--lh-body);color:var(--text);background:var(--page);-webkit-font-smoothing:antialiased}
+a{color:var(--gold-dark);text-decoration:none}
+a:hover{color:var(--gold-deeper)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+h1,h2,h3{margin:0;font-family:var(--serif);font-weight:500;line-height:1.2}
+p{margin:0}
+button,input{font:inherit}
+#stage{overflow:hidden;background:var(--page)}
+#page{container-type:inline-size;background:var(--page)}
+.wrap{max-width:1440px;margin:0 auto;padding-left:var(--gutter);padding-right:var(--gutter)}
+
+.eyebrow{font-size:var(--t-eyebrow);letter-spacing:.20em;text-transform:uppercase;color:var(--gold)}
+.eyebrow.on-light{color:var(--gold-dark)}
+.label{font-size:var(--t-label);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.chip{display:inline-block;font-size:var(--t-eyebrow);color:var(--gold-pale);border:1px solid var(--gold-deeper);padding:5px 11px;letter-spacing:.04em;white-space:nowrap;border-radius:var(--r-btn)}
+.chip.solid{color:var(--navy);background:var(--gold);border-color:var(--gold);letter-spacing:.06em}
+.dot{color:var(--on-navy-dim)}
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:var(--s5);margin-bottom:var(--s6)}
+.section-head .eyebrow{display:block;margin-bottom:var(--s3)}
+.section-head h2{font-size:var(--t-3xl);line-height:1.15;color:var(--heading);text-wrap:pretty}
+.more{font-size:var(--t-xs);letter-spacing:.14em;text-transform:uppercase;color:var(--gold-dark);white-space:nowrap;padding-bottom:6px;border-bottom:1px solid var(--gold-dark)}
+.btn{display:inline-block;text-align:center;background:var(--gold);color:var(--navy);padding:14px 26px;font-size:var(--t-xs);letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--gold);border-radius:var(--r-btn)}
+.btn:hover{color:var(--navy);background:var(--gold-pale);border-color:var(--gold-pale)}
+.ghost{display:inline-flex;align-items:center;gap:12px;border:1px solid var(--gold);color:var(--gold);padding:14px 26px;font-size:var(--t-xs);letter-spacing:.14em;text-transform:uppercase;border-radius:var(--r-btn)}
+.ghost:hover{color:var(--navy);background:var(--gold)}
+.ghost:hover svg{stroke:var(--navy)}
+
+/* nav */
+.nav{background:var(--navy);border-bottom:1px solid var(--line-dark)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:var(--s5);height:76px}
+.brand{font-family:var(--serif);font-size:21px;font-weight:600;color:var(--ivory);white-space:nowrap}
+.nav-links{display:flex;align-items:center;gap:36px;list-style:none;margin:0;padding:0}
+.nav-links a{font-size:var(--t-sm);letter-spacing:.10em;text-transform:uppercase;color:var(--light);white-space:nowrap;padding-bottom:3px;border-bottom:1px solid transparent}
+.nav-links a[aria-current]{color:var(--gold);border-bottom-color:var(--gold)}
+.nav-menu{display:none;background:none;border:0;padding:8px;margin:-8px;color:var(--light);cursor:pointer}
+.nav-drawer{display:none}
+
+/* hero shared */
+.hero{background:var(--navy);color:var(--ivory)}
+.hero .eyebrow{display:block;margin-bottom:var(--s4)}
+.hero .sub{font-size:calc(var(--t-base) + 1px);line-height:var(--lh-body);color:var(--light);max-width:56ch;text-wrap:pretty}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.crumbs{display:flex;flex-wrap:wrap;align-items:center;gap:10px;list-style:none;margin:0 0 var(--s6);padding:0;font-size:var(--t-eyebrow);letter-spacing:.14em;text-transform:uppercase;color:var(--on-navy-dim)}
+.crumbs a{color:var(--on-navy-muted)}
+.crumbs li:last-child a{color:var(--gold)}
+.byline{display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px;padding:var(--s5) 0 var(--s8);border-top:1px solid var(--line-dark);font-size:var(--t-sm);color:var(--on-navy-muted);letter-spacing:.03em}
+.byline .grp{display:inline-flex;align-items:center;gap:18px}
+.byline .grp+.grp::before{content:"·";color:var(--on-navy-dim);margin-right:18px}
+.byline .author{color:var(--light)}
+.byline .verified{color:var(--gold)}
+.hero-img{height:300px;background:linear-gradient(140deg,#23415f 0%,#12253a 52%,#060d16 100%)}
+
+/* homepage hero */
+.home-hero .wrap{padding-top:var(--section)}
+.home-hero .hero-grid{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:var(--s9);align-items:center;padding-bottom:var(--s8)}
+.home-hero h1{font-size:var(--t-hero);line-height:1.05;color:var(--ivory);letter-spacing:-.012em;margin:0 0 var(--s5);max-width:15ch;text-wrap:pretty}
+.home-hero .sub{margin:0 0 var(--s6);max-width:52ch}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:14px}
+.latest{background:var(--navy-deep);border:1px solid var(--gold-border);padding:var(--s6) var(--s6);border-radius:var(--r);overflow:hidden}
+.latest .eyebrow{display:block;margin-bottom:var(--s5)}
+.latest .img{height:150px;background:linear-gradient(140deg,#23415f 0%,#12253a 52%,#060d16 100%);margin-bottom:var(--s5)}
+.latest .meta{display:flex;align-items:center;gap:10px;font-size:var(--t-label);letter-spacing:.16em;text-transform:uppercase;color:var(--on-navy-muted);margin-bottom:var(--s3)}
+.latest h3{font-size:var(--t-xl);color:var(--ivory);line-height:1.2;margin-bottom:var(--s3)}
+.latest p{font-size:var(--t-sm);line-height:1.6;color:var(--light);margin-bottom:var(--s5);text-wrap:pretty}
+.latest .foot{display:flex;align-items:flex-end;justify-content:space-between;gap:var(--s4);padding-top:var(--s4);border-top:1px solid var(--line-dark)}
+.latest .score{font-family:var(--serif);font-size:calc(var(--t-num) * .72);line-height:1;color:var(--gold)}
+.latest .score small{font-family:var(--sans);font-size:var(--t-xs);color:var(--on-navy-muted);margin-left:4px}
+.latest .read{font-size:var(--t-xs);letter-spacing:.14em;text-transform:uppercase;color:var(--gold);padding-bottom:4px;border-bottom:1px solid var(--gold)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line-dark)}
+.stat{padding:var(--s6) var(--s6) var(--s7) 0}
+.stat+.stat{padding-left:var(--s6);border-left:1px solid var(--line-dark)}
+.stat .n{font-family:var(--serif);font-size:var(--t-stat);line-height:1;color:var(--gold);margin-bottom:var(--s3)}
+.stat .l{font-size:var(--t-label);letter-spacing:.16em;text-transform:uppercase;color:var(--on-navy-muted);line-height:1.6}
+
+/* review hero */
+.review-hero .wrap{padding-top:var(--s7)}
+.review-hero .hero-grid{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:var(--s8);align-items:end;padding-bottom:var(--s5)}
+.review-hero h1{font-size:var(--t-h1);line-height:1.1;color:var(--ivory);letter-spacing:-.01em;margin:0 0 var(--s5);text-wrap:pretty}
+.review-hero .sub{margin:0 0 var(--s6)}
+.score-panel{background:var(--navy-deep);border:1px solid var(--gold-border);padding:var(--s5) var(--s6);border-radius:var(--r);overflow:hidden}
+.score-top{display:flex;align-items:flex-end;justify-content:space-between;gap:var(--s5);padding-bottom:var(--s4);border-bottom:1px solid var(--line-dark)}
+.score-top .label{display:block;color:var(--on-navy-muted);margin-bottom:var(--s2)}
+.score-big{font-family:var(--serif);font-size:var(--t-num);color:var(--gold);line-height:1}
+.score-split{display:flex;gap:var(--s5);text-align:right;padding-bottom:4px}
+.score-mid{font-family:var(--serif);font-size:var(--t-xl);color:var(--ivory);line-height:1}
+.score-mid small{font-family:var(--sans);font-size:var(--t-xs);color:var(--on-navy-muted);margin-left:3px}
+.score-note{padding-top:var(--s4);font-size:var(--t-xs);color:var(--on-navy-dim);letter-spacing:.03em}
+
+/* fact grid + cells */
+.facts .wrap{padding-top:var(--section)}
+.facts .eyebrow,.scorecard .eyebrow{display:block;margin-bottom:var(--s5)}
+.grid-cells{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.cell{background:var(--card);padding:var(--s5) var(--s5);display:flex;flex-direction:column;gap:var(--s2)}
+.cell .val{font-size:var(--t-md);line-height:1.5;color:var(--text)}
+.cell .val.gold{color:var(--gold-dark)}
+
+/* scorecard */
+.scorecard .wrap{padding-top:var(--section)}
+.sc-card{display:grid;grid-template-columns:1fr 1fr;background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.sc-col{padding:var(--s5) var(--s6) var(--s4)}
+.sc-col+.sc-col{border-left:1px solid var(--line)}
+.sc-head{display:flex;align-items:baseline;justify-content:space-between;gap:var(--s4);padding-bottom:var(--s4);border-bottom:1px solid var(--line)}
+.sc-head h2{font-size:var(--t-lg);color:var(--heading)}
+.sc-head .sum{font-family:var(--serif);font-size:var(--t-lg);color:var(--gold-dark)}
+.sc-head .sum small{font-family:var(--sans);font-size:var(--t-eyebrow);color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-left:5px}
+.sc-rows{list-style:none;margin:0;padding:0}
+.sc-rows li{display:grid;grid-template-columns:minmax(0,1fr) 34% 48px;gap:var(--s4);align-items:center;padding:var(--s3) 0;border-bottom:1px solid var(--line);font-size:var(--t-sm);color:var(--text-2)}
+.sc-rows li:last-child{border-bottom:0}
+.bar{display:block;height:3px;background:var(--cream);width:calc(var(--max) / 10 * 100%);position:relative;border-radius:2px}
+.bar i{position:absolute;inset:0;width:calc(var(--val) / var(--max) * 100%);background:var(--gold);border-radius:2px}
+.sc-pts{text-align:right;color:var(--heading);font-weight:700}
+.sc-pts small{font-weight:400;color:var(--muted);font-size:var(--t-xs)}
+.sc-legend{margin-top:var(--s4);font-size:var(--t-xs);color:var(--muted);letter-spacing:.02em}
+
+/* article body + sidebar */
+.body .wrap{display:grid;grid-template-columns:minmax(0,1fr) var(--sidebar);gap:var(--col-gap);padding-top:var(--s8);padding-bottom:var(--s9);align-items:start}
+.main{display:flex;flex-direction:column;gap:var(--s6)}
+.main h2{font-size:var(--t-2xl);line-height:1.25;color:var(--heading);margin-top:var(--s3)}
+.main p{font-size:var(--t-base);line-height:var(--lh-article);color:var(--text);text-wrap:pretty}
+.takeaways{background:var(--cream);border-top:2px solid var(--gold);border-bottom:1px solid var(--line);padding:var(--s6) var(--s6)}
+.takeaways .eyebrow{display:block;margin-bottom:var(--s4)}
+.takeaways ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--s3)}
+.takeaways li{position:relative;padding-left:30px;font-size:var(--t-md);line-height:1.6;color:var(--text)}
+.takeaways li::before{content:"";position:absolute;left:0;top:.75em;width:14px;height:1px;background:var(--gold)}
+.panel{background:var(--navy);border:1px solid var(--gold-border);padding:var(--s7) var(--s7);color:var(--ivory);border-radius:var(--r);overflow:hidden}
+.panel .eyebrow{display:block;margin-bottom:var(--s5)}
+.elite-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s5) var(--s7)}
+.elite-grid .label{display:block;color:var(--on-navy-muted);margin-bottom:var(--s2)}
+.elite-grid .val{font-size:var(--t-md);line-height:1.55;color:var(--ivory)}
+.panel-foot{margin-top:var(--s5);padding-top:var(--s5);border-top:1px solid var(--line-dark);font-size:var(--t-xs);color:var(--on-navy-dim);letter-spacing:.02em}
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:var(--s6)}
+.pc h3{font-size:var(--t-lg);color:var(--heading);margin-bottom:var(--s4)}
+.pc ul{list-style:none;margin:0;padding:0}
+.pc li{position:relative;padding:var(--s3) 0 var(--s3) 26px;border-top:1px solid var(--line);font-size:var(--t-md);line-height:1.55;color:var(--text)}
+.pc li:last-child{border-bottom:1px solid var(--line)}
+.pc li::before{content:"";position:absolute;left:0;top:calc(var(--s3) + .75em);width:12px;height:1px;background:var(--gold)}
+.verdict-band,.band-inner{background:var(--navy);border:1px solid var(--gold-border);padding:var(--s7) var(--s7);display:flex;align-items:center;gap:var(--s8);color:var(--ivory);border-radius:var(--r);overflow:hidden}
+.verdict-band .big,.band-inner .big{font-family:var(--serif);font-size:var(--t-big);color:var(--gold);line-height:1;flex-shrink:0}
+.verdict-band .rule,.band-inner .rule{width:1px;align-self:stretch;background:var(--line-dark)}
+.band-inner .eyebrow{display:block;margin-bottom:var(--s4)}
+.verdict-band .say,.band-inner .say{font-family:var(--serif);font-size:var(--t-xl);line-height:1.35;color:var(--ivory);margin-bottom:var(--s3);text-wrap:pretty;max-width:34ch}
+.verdict-band .small,.band-inner .small{font-size:var(--t-sm);color:var(--on-navy-muted);letter-spacing:.03em}
+.band-inner .small a{color:var(--gold)}
+.bookit{grid-template-columns:1fr 1fr}
+.bookit .label{color:var(--gold-dark)}
+.faq{border-top:1px solid var(--line);padding-top:var(--s6)}
+.faq h2{font-size:var(--t-xl);margin:0 0 var(--s5)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:var(--s5);padding:var(--s4) 0;font-size:calc(var(--t-base) - 1px);color:var(--text);cursor:pointer}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary svg{flex-shrink:0;transition:transform .2s ease}
+.faq details[open] summary svg{transform:rotate(45deg)}
+.faq details p{font-size:var(--t-md);line-height:1.7;color:var(--text-2);padding:0 0 var(--s5);max-width:64ch}
+@media (prefers-reduced-motion: reduce){.faq summary svg{transition:none}}
+.side{display:flex;flex-direction:column;gap:var(--s6)}
+.side-card{background:var(--card);border:1px solid var(--line);padding:var(--s5) var(--s5);border-radius:var(--r)}
+.side-card .eyebrow{display:block;margin-bottom:var(--s4)}
+.toc{display:flex;flex-direction:column;gap:var(--s3);list-style:none;margin:0;padding:0}
+.toc a{display:block;font-size:var(--t-sm);color:var(--text-2);border-left:2px solid var(--line-strong);padding-left:12px}
+.toc a.on{color:var(--heading);border-left-color:var(--gold)}
+.side-cta{background:var(--navy);border:1px solid var(--gold-border);padding:var(--s6) var(--s5);color:var(--ivory);border-radius:var(--r)}
+.side-cta h3{font-size:var(--t-lg);color:var(--ivory);line-height:1.3;margin-bottom:var(--s3)}
+.side-cta p{font-size:var(--t-sm);line-height:1.6;color:var(--light);margin-bottom:var(--s5);text-wrap:pretty}
+.side-cta .btn{display:block}
+.related{border-top:1px solid var(--line);padding-top:var(--s5)}
+.related .eyebrow{display:block;margin-bottom:var(--s4)}
+.related ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--s4)}
+.related li{display:flex;flex-direction:column;gap:6px}
+.related a{font-family:var(--serif);font-size:var(--t-base);line-height:1.3;color:var(--heading);text-wrap:pretty}
+
+/* homepage sections */
+.reviews .wrap,.statband .wrap,.programs .wrap,.guides .wrap,.cta .wrap{padding-top:var(--section)}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--card-gap)}
+.card{background:var(--card);border:1px solid var(--line);display:flex;flex-direction:column;border-radius:var(--r);overflow:hidden}
+.card .img{height:190px;background:linear-gradient(140deg,#23415f 0%,#12253a 52%,#060d16 100%)}
+.card .img.b{background:linear-gradient(140deg,#3a4a3f 0%,#1d2a25 55%,#0b1210 100%)}
+.card .img.c{background:linear-gradient(140deg,#5a4a3a 0%,#2c241d 55%,#120e0b 100%)}
+.card .body{padding:var(--s5) var(--s5) var(--s5);display:flex;flex-direction:column;gap:var(--s3);flex:1}
+.card .meta{display:flex;align-items:center;gap:10px;font-size:var(--t-label);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.card .meta .dot{color:var(--line-strong)}
+.card h3{font-size:var(--t-lg);color:var(--heading);line-height:1.25}
+.card h3 a{color:inherit}
+.card p{font-size:var(--t-sm);line-height:1.6;color:var(--text-2);text-wrap:pretty}
+.card .foot{display:flex;align-items:flex-end;justify-content:space-between;gap:var(--s3);margin-top:auto;padding-top:var(--s4);border-top:1px solid var(--line)}
+.card .score{font-family:var(--serif);font-size:calc(var(--t-num) * .5);line-height:1;color:var(--gold-dark)}
+.card .score small{font-family:var(--sans);font-size:var(--t-eyebrow);color:var(--muted);margin-left:3px}
+.card .when{font-size:var(--t-xs);color:var(--muted);letter-spacing:.03em}
+.prog{color:inherit}
+.prog h3{font-size:var(--t-lg);color:var(--heading);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.prog h3 svg{flex-shrink:0}
+.prog .n{font-size:var(--t-sm);color:var(--text-2);line-height:1.6}
+.prog .n b{font-weight:700;color:var(--heading)}
+.lounges .wrap{padding-top:var(--section);display:grid;grid-template-columns:minmax(0,1fr) 560px;gap:var(--s9);align-items:start}
+.lounges .eyebrow{display:block;margin-bottom:var(--s4)}
+.lounges h2{font-size:var(--t-3xl);line-height:1.15;color:var(--heading);margin-bottom:var(--s4);text-wrap:pretty}
+.lounges p{font-size:calc(var(--t-base) - 1px);line-height:1.7;color:var(--text-2);margin-bottom:var(--s6);max-width:44ch;text-wrap:pretty}
+.lounges .ghost{color:var(--gold-dark);border-color:var(--gold-dark)}
+.lounges .ghost svg{stroke:var(--gold-dark)}
+.lounges .ghost:hover{background:var(--gold-dark);color:var(--ivory)}
+.lounges .ghost:hover svg{stroke:var(--ivory)}
+.lrows{background:var(--card);border:1px solid var(--line);padding:6px var(--s6);border-radius:var(--r)}
+.lrow{display:flex;align-items:center;justify-content:space-between;gap:var(--s5);padding:var(--s5) 0;border-top:1px solid var(--line)}
+.lrow:first-child{border-top:0}
+.lrow .t{font-family:var(--serif);font-size:calc(var(--t-base) + 1px);color:var(--heading);line-height:1.3;margin-bottom:6px}
+.lrow .m{font-size:var(--t-xs);color:var(--muted);letter-spacing:.03em}
+.lrow .s{text-align:right;flex-shrink:0}
+.lrow .s .v{font-family:var(--serif);font-size:var(--t-lg);line-height:1;color:var(--gold-dark)}
+.lrow .s .l{font-size:var(--t-label);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:6px}
+.guides-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--card-gap);align-items:start}
+.pillar{background:var(--cream);border-top:2px solid var(--gold);border-bottom:1px solid var(--line);padding:var(--s6) var(--s6);display:flex;flex-direction:column}
+.pillar .label{color:var(--gold-dark);margin-bottom:var(--s4)}
+.pillar h3{font-size:var(--t-xl);color:var(--heading);line-height:1.2;margin-bottom:var(--s4);text-wrap:pretty}
+.pillar p{font-size:var(--t-md);line-height:1.7;color:var(--text-2);margin-bottom:var(--s6);text-wrap:pretty}
+.pillar .more{align-self:flex-start;margin-top:auto}
+.glist{background:var(--card);border:1px solid var(--line);padding:6px var(--s6);border-radius:var(--r)}
+.glist a{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--s5);padding:var(--s5) 0;border-top:1px solid var(--line);color:inherit}
+.glist a:first-child{border-top:0}
+.glist .label{display:block;margin-bottom:var(--s2)}
+.glist .t{font-family:var(--serif);font-size:calc(var(--t-base) + 1px);color:var(--heading);line-height:1.3}
+.glist .r{font-size:var(--t-xs);color:var(--muted);white-space:nowrap;letter-spacing:.03em;padding-top:22px}
+.cta .wrap{padding-bottom:var(--section)}
+.cta-panel{background:var(--navy);border:1px solid var(--gold-border);display:grid;grid-template-columns:1fr 1fr;color:var(--ivory);border-radius:var(--r);overflow:hidden}
+.cta-col{padding:var(--s7) var(--s7)}
+.cta-col+.cta-col{border-left:1px solid var(--line-dark)}
+.cta-col .eyebrow{display:block;margin-bottom:var(--s4)}
+.cta-col h3{font-size:var(--t-xl);color:var(--ivory);line-height:1.2;margin-bottom:var(--s3);text-wrap:pretty}
+.cta-col p{font-size:var(--t-md);line-height:1.65;color:var(--light);margin-bottom:var(--s5);max-width:40ch;text-wrap:pretty}
+.email{display:flex;gap:10px}
+.email input{flex:1;min-width:0;background:var(--navy-deep);border:1px solid var(--gold-border);color:var(--ivory);padding:13px 16px;font-size:var(--t-sm);border-radius:var(--r-btn)}
+.email input::placeholder{color:var(--on-navy-dim)}
+.email .btn{padding:13px 22px}
+.band{background:var(--navy);border-top:1px solid var(--gold-border);color:var(--ivory)}
+.band .wrap{display:flex;align-items:center;justify-content:space-between;gap:var(--s8);padding-top:var(--s8);padding-bottom:var(--s8)}
+.band .eyebrow{display:block;margin-bottom:var(--s4)}
+.band h2{font-size:var(--t-3xl);line-height:1.2;color:var(--ivory);margin-bottom:var(--s3)}
+.band p{font-size:var(--t-md);line-height:1.65;color:var(--light);max-width:64ch;text-wrap:pretty}
+
+/* footer */
+footer{background:var(--navy-deep);color:var(--on-navy-muted);font-size:var(--t-sm)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:var(--s5) var(--s7);padding-top:var(--s7);padding-bottom:var(--s5)}
+footer .brand{font-size:18px;display:block;margin-bottom:var(--s3)}
+footer .tag{font-size:var(--t-sm);color:var(--on-navy-muted);max-width:40ch;line-height:1.6}
+footer ul{display:flex;flex-wrap:wrap;gap:var(--s5);list-style:none;margin:0;padding:0}
+footer ul a{font-size:var(--t-eyebrow);letter-spacing:.14em;text-transform:uppercase;color:var(--light)}
+footer .fine{border-top:1px solid var(--line-dark);padding-top:var(--s4);padding-bottom:var(--s6);font-size:var(--t-xs);color:var(--on-navy-dim);letter-spacing:.02em}
+
+/* ============ TABLET ============ */
+@container (max-width:1100px){
+  .home-hero .hero-grid,.review-hero .hero-grid{grid-template-columns:1fr;gap:var(--s7)}
+  .latest,.score-panel{max-width:560px}
+  .cards{grid-template-columns:1fr 1fr}
+  .grid-cells{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .lounges .wrap{grid-template-columns:1fr;gap:var(--s6)}
+  .guides-grid{grid-template-columns:1fr}
+  .body .wrap{grid-template-columns:1fr;gap:var(--s7)}
+  .toc-card{display:none}
+}
+/* ============ PHONE ============ */
+@container (max-width:640px){
+  #page>*{
+    --t-hero:calc(var(--t-hero-d) * .68); --t-h1:calc(var(--t-h1-d) * .77); --t-3xl:calc(var(--t-3xl-d) * .82);
+    --t-2xl:calc(var(--t-2xl-d) * .87); --t-num:calc(var(--t-num-d) * .82); --t-big:calc(var(--t-big-d) * .9);
+    --t-stat:calc(var(--t-stat-d) * .83); --section:calc(var(--section-d) * .67);
+  }
+  .nav .wrap{height:64px}
+  .nav-links{display:none}
+  .nav-menu{display:inline-flex}
+  .nav-drawer{display:none;background:var(--navy-deep);border-top:1px solid var(--line-dark)}
+  .nav-drawer.open{display:block}
+  .nav-drawer ul{list-style:none;margin:0;padding:8px 0}
+  .nav-drawer a{display:block;padding:14px var(--gutter);font-size:var(--t-xs);letter-spacing:.14em;text-transform:uppercase;color:var(--light)}
+  .nav-drawer a[aria-current]{color:var(--gold)}
+  .nav-search{display:flex;align-items:center;gap:10px;margin:14px var(--gutter) 6px;background:var(--navy);border:1px solid var(--gold-border);padding:0 14px;border-radius:var(--r-btn)}
+  .nav-search svg{flex-shrink:0}
+  .nav-search input{flex:1;min-width:0;background:none;border:0;color:var(--ivory);padding:13px 0;font-size:var(--t-sm);outline:none}
+  .nav-search input::placeholder{color:var(--on-navy-dim)}
+  .nav-search:focus-within{border-color:var(--gold-dark)}
+  .home-hero .wrap{padding-top:var(--s7)}
+  .home-hero .hero-grid{gap:var(--s6);padding-bottom:var(--s7)}
+  .home-hero h1{margin-bottom:var(--s5)}
+  .home-hero .sub{margin-bottom:var(--s6)}
+  .hero-ctas .btn,.hero-ctas .ghost{padding:13px 20px}
+  .latest{padding:var(--s5)}
+  .latest .img{height:120px}
+  .stats{grid-template-columns:1fr 1fr}
+  .stat{padding:var(--s5) var(--s4) var(--s5) 0}
+  .stat+.stat{padding-left:var(--s4)}
+  .stat:nth-child(3){padding-left:0;border-left:0;border-top:1px solid var(--line-dark)}
+  .stat:nth-child(4){border-top:1px solid var(--line-dark)}
+  .review-hero .wrap{padding-top:var(--s6)}
+  .crumbs{margin-bottom:var(--s5);gap:8px}
+  .review-hero .hero-grid{gap:var(--s6);padding-bottom:var(--s5)}
+  .review-hero h1{margin-bottom:var(--s4)}
+  .review-hero .sub{margin-bottom:var(--s5)}
+  .hero .sub{font-size:calc(var(--t-base) - 1px)}
+  .score-panel{padding:var(--s5) var(--s5)}
+  .score-top{gap:var(--s4);padding-bottom:var(--s4)}
+  .score-split{gap:var(--s4)}
+  .long{display:none}
+  .byline{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:var(--s4) 0 var(--s7)}
+  .byline .grp+.grp::before{content:none}
+  .byline .pub,.byline .pub-dot{display:none}
+  .hero-img{height:220px}
+  .section-head{flex-direction:column;align-items:flex-start;gap:var(--s4);margin-bottom:var(--s5)}
+  .cards{grid-template-columns:1fr}
+  .card .img{height:160px}
+  .verdict-band,.band-inner{flex-direction:column;align-items:flex-start;gap:var(--s5);padding:var(--s6) var(--s5)}
+  .verdict-band .rule,.band-inner .rule{display:none}
+  .grid-cells{grid-template-columns:1fr}
+  .cell{padding:var(--s4) var(--s4);gap:7px}
+  .cell .val{font-size:calc(var(--t-md) - 1px)}
+  .sc-card{grid-template-columns:1fr}
+  .sc-col{padding:var(--s5) var(--s5) var(--s4)}
+  .sc-col+.sc-col{border-left:0;border-top:1px solid var(--line)}
+  .sc-rows li{grid-template-columns:minmax(0,1fr) 30% 44px;gap:14px}
+  .body .wrap{padding-top:var(--s7);padding-bottom:var(--s8);gap:var(--s7)}
+  .main{gap:var(--s5)}
+  .main h2{margin-top:var(--s2)}
+  .main p{font-size:calc(var(--t-base) - 1px);line-height:1.7}
+  .takeaways{padding:var(--s5) var(--s5)}
+  .panel{padding:var(--s6) var(--s5)}
+  .elite-grid{grid-template-columns:1fr;gap:var(--s4)}
+  .pc{grid-template-columns:1fr;gap:var(--s5)}
+  .bookit{grid-template-columns:1fr}
+  .lrows{padding:4px var(--s5)}
+  .lrow{gap:var(--s4);padding:var(--s4) 0}
+  .pillar{padding:var(--s5) var(--s5)}
+  .glist{padding:4px var(--s5)}
+  .glist a{padding:var(--s4) 0}
+  .glist .r{display:none}
+  .cta-panel{grid-template-columns:1fr}
+  .cta-col{padding:var(--s6) var(--s5)}
+  .cta-col+.cta-col{border-left:0;border-top:1px solid var(--line-dark)}
+  .email{flex-direction:column}
+  .band .wrap{flex-direction:column;align-items:flex-start;gap:var(--s5)}
+  footer .wrap{flex-direction:column}
+}
+
+/* ============ EXPERIMENT CONTROLS ============ */
+.ctl{position:fixed;right:16px;z-index:10;display:inline-flex;align-items:center;gap:8px;background:var(--navy);color:var(--gold);border:1px solid var(--gold);padding:11px 16px;font:12px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;cursor:pointer;border-radius:var(--r-btn);min-width:190px;justify-content:center}
+#dtoggle{bottom:16px;display:none}
+@media (max-width:1000px){#dtoggle{display:inline-flex}}
+html.artboard body{overflow-x:hidden}
+</style>
+</head>
+<body>
+<div id="stage"><div id="page">
+
+<nav class="nav" aria-label="Main">
+  <div class="wrap">
+    <a class="brand" href="#">Loyalist Travel</a>
+    <ul class="nav-links">
+      <li><a href="#" aria-current="page">Reviews</a></li>
+      <li><a href="#">Hotels</a></li>
+      <li><a href="#">Lounges</a></li>
+      <li><a href="#">Articles</a></li>
+      <li><a href="#">About</a></li>
+      <li aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#CED1D4" stroke-width="1.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="16.2" y1="16.2" x2="21" y2="21"></line></svg></li>
+    </ul>
+    <button class="nav-menu" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="drawer">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="17" x2="20" y2="17"></line></svg>
+    </button>
+  </div>
+  <div class="nav-drawer" id="drawer">
+    <form class="nav-search" role="search" onsubmit="return false">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#858482" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="16.2" y1="16.2" x2="21" y2="21"></line></svg>
+      <input type="search" placeholder="Search hotels, lounges, guides" aria-label="Search">
+    </form>
+    <ul>
+      <li><a href="#" aria-current="page">Reviews</a></li>
+      <li><a href="#">Hotels</a></li>
+      <li><a href="#">Lounges</a></li>
+      <li><a href="#">Articles</a></li>
+      <li><a href="#">About</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero review-hero">
+  <div class="wrap">
+    <ol class="crumbs" aria-label="Breadcrumb">
+      <li><a href="#">Reviews</a></li>
+      <li aria-hidden="true">/</li>
+      <li><a href="#">World of Hyatt</a></li>
+      <li aria-hidden="true">/</li>
+      <li><a href="#">New York</a></li>
+    </ol>
+
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow">Scored stay</span>
+        <h1>Park Hyatt New York</h1>
+        <p class="sub">A hard product that still leads Manhattan, carried by a service culture that is reliable rather than memorable.</p>
+        <div class="chips">
+          <span class="chip solid">City hotel</span>
+          <span class="chip">World of Hyatt</span>
+          <span class="chip">Park Hyatt</span>
+        </div>
+      </div>
+
+      <div class="score-panel" aria-label="Loyalist Travel score 81 of 100">
+        <div class="score-top">
+          <div>
+            <span class="label"><span class="long">Loyalist Travel </span>Score</span>
+            <div class="score-big">81</div>
+          </div>
+          <div class="score-split">
+            <div><span class="label">Hard</span><div class="score-mid">47<small>/55</small></div></div>
+            <div><span class="label">Soft</span><div class="score-mid">34<small>/45</small></div></div>
+          </div>
+        </div>
+        <div class="score-note">Out of 100. Rubric v15, city hotel maxima.</div>
+      </div>
+    </div>
+
+    <div class="byline">
+      <span class="grp"><span class="author">Austin Shuxiao</span><span class="dot">·</span><span>Stayed March 2026</span><span class="dot pub-dot">·</span><span class="pub">Published Apr 2, 2026</span></span>
+      <span class="grp"><span class="verified">Last verified Sep 14, 2026</span><span class="dot">·</span><span>9 min read</span></span>
+    </div>
+  </div>
+</header>
+
+<div class="hero-img" role="img" aria-label="Park Hyatt New York"></div>
+
+<section class="facts" aria-labelledby="facts-h">
+  <div class="wrap">
+    <span class="eyebrow on-light" id="facts-h">The stay</span>
+    <div class="grid-cells">
+      <div class="cell"><span class="label">Room booked</span><span class="val">Park King, standard award</span></div>
+      <div class="cell"><span class="label">Room received</span><span class="val gold">Park Deluxe King, on request</span></div>
+      <div class="cell"><span class="label">Status held</span><span class="val">World of Hyatt Globalist</span></div>
+      <div class="cell"><span class="label">Nights</span><span class="val">Three, midweek</span></div>
+      <div class="cell"><span class="label">Property</span><span class="val">City hotel, 210 keys, opened 2014</span></div>
+      <div class="cell"><span class="label">Breakfast venue</span><span class="val">The Living Room, à la carte</span></div>
+      <div class="cell"><span class="label">Club lounge</span><span class="val">None at this property</span></div>
+      <div class="cell"><span class="label">Late checkout</span><span class="val gold">4pm, confirmed unprompted</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="scorecard" aria-labelledby="sc-h">
+  <div class="wrap">
+    <span class="eyebrow on-light" id="sc-h">Scorecard</span>
+    <div class="sc-card">
+      <div class="sc-col">
+        <div class="sc-head"><h2>Hard product</h2><span class="sum">47<small>of 55</small></span></div>
+        <ul class="sc-rows">
+          <li style="--max:10;--val:9"><span>Room layout</span><span class="bar"><i></i></span><span class="sc-pts">9<small>/10</small></span></li>
+          <li style="--max:8;--val:7"><span>Bathroom</span><span class="bar"><i></i></span><span class="sc-pts">7<small>/8</small></span></li>
+          <li style="--max:6;--val:5"><span>Bed and sleep</span><span class="bar"><i></i></span><span class="sc-pts">5<small>/6</small></span></li>
+          <li style="--max:2;--val:2"><span>Tech</span><span class="bar"><i></i></span><span class="sc-pts">2<small>/2</small></span></li>
+          <li style="--max:7;--val:6"><span>Amenities and programming</span><span class="bar"><i></i></span><span class="sc-pts">6<small>/7</small></span></li>
+          <li style="--max:10;--val:8"><span>Atmosphere and public space</span><span class="bar"><i></i></span><span class="sc-pts">8<small>/10</small></span></li>
+          <li style="--max:5;--val:4"><span>Maintenance and upkeep</span><span class="bar"><i></i></span><span class="sc-pts">4<small>/5</small></span></li>
+          <li style="--max:7;--val:6"><span>Location and setting</span><span class="bar"><i></i></span><span class="sc-pts">6<small>/7</small></span></li>
+        </ul>
+      </div>
+      <div class="sc-col">
+        <div class="sc-head"><h2>Soft product</h2><span class="sum">34<small>of 45</small></span></div>
+        <ul class="sc-rows">
+          <li style="--max:4;--val:3"><span>Check-in</span><span class="bar"><i></i></span><span class="sc-pts">3<small>/4</small></span></li>
+          <li style="--max:10;--val:8"><span>Service baseline</span><span class="bar"><i></i></span><span class="sc-pts">8<small>/10</small></span></li>
+          <li style="--max:5;--val:3"><span>Service peak</span><span class="bar"><i></i></span><span class="sc-pts">3<small>/5</small></span></li>
+          <li style="--max:5;--val:4"><span>Operations</span><span class="bar"><i></i></span><span class="sc-pts">4<small>/5</small></span></li>
+          <li style="--max:5;--val:4"><span>Housekeeping</span><span class="bar"><i></i></span><span class="sc-pts">4<small>/5</small></span></li>
+          <li style="--max:10;--val:7"><span>Breakfast and dining</span><span class="bar"><i></i></span><span class="sc-pts">7<small>/10</small></span></li>
+          <li style="--max:3;--val:2"><span>Density and capacity</span><span class="bar"><i></i></span><span class="sc-pts">2<small>/3</small></span></li>
+          <li style="--max:3;--val:3"><span>Departure</span><span class="bar"><i></i></span><span class="sc-pts">3<small>/3</small></span></li>
+        </ul>
+      </div>
+    </div>
+    <p class="sc-legend">Bar length is what the category is worth. Fill is the score. Elite recognition is reported below and not scored.</p>
+  </div>
+</section>
+
+<main class="body">
+  <div class="wrap">
+    <article class="main">
+
+      <div class="takeaways">
+        <span class="eyebrow on-light">Key takeaways</span>
+        <ul>
+          <li>Standard rooms start near 475 square feet, still the largest entry-level room among Manhattan luxury hotels.</li>
+          <li>Globalist benefits were honoured in full. Breakfast was à la carte with no cap, late checkout confirmed unprompted.</li>
+          <li>Service is consistent rather than anticipatory. Book it for the room and the pool, not for being remembered.</li>
+        </ul>
+      </div>
+
+      <h2 id="s-room">The room</h2>
+      <p>Park rooms start at roughly 475 square feet, which in Manhattan is the whole argument. The entry hall, the bench at the window and a desk that faces the room rather than the wall are the kind of decisions that only show up when the floor plate has room to breathe. The bathroom is Yabu Pushelberg at its most disciplined: a deep soaking tub, a rain shower you can stand in properly, double vanities, and lighting that flatters without lying.</p>
+      <p>Two small deductions. The tub filler is slow, and the stone by the shower door was showing wear on our floor. The bed sits a notch below the best in the city, firmer than the brand's Tokyo standard, with pillows that needed a call to housekeeping to sort out. Tech is quietly perfect: bedside controls that work on the first tap, outlets where your hands already are, and a television you can ignore.</p>
+
+      <h2 id="s-public">Public space and amenities</h2>
+      <p>The 25th-floor pool is the property's signature, a long indoor lane with underwater speakers playing recordings from Carnegie Hall across the street, and it earns most of the amenities score by itself. The gym is complete rather than generous. The spa is good and priced for the address.</p>
+      <p>The lobby lands on the second floor behind a discreet street entrance, which reads as exclusive on arrival and slightly inconvenient by day three. The design is warm and expensive in a way that has aged well over a decade, though the public-area carpet needs its refresh cycle brought forward. Location scores 6 of 7 for a city hotel: Carnegie Hall opposite and the park two blocks north, but the 57th Street block itself is more Billionaires' Row than neighbourhood.</p>
+
+      <h2 id="s-service">Service</h2>
+      <p>Check-in was efficient and warm, though the upgrade conversation had to be started by us. Baseline service is where the hotel is strongest. Every request landed with the right person and came back in one pass, from a forgotten adapter to a restaurant table at short notice.</p>
+      <p>Peak service, the anticipatory moments a Park Hyatt is meant to own, was thinner. Nobody remembered a name after the first evening, and the occasion we mentioned at booking went unmarked until we raised it. Operations were tight: elevators fast, room ready before the stated time, bill correct. Housekeeping was thorough on the first pass and inconsistent on turndown, which happened on two of three nights.</p>
+
+      <section class="panel" aria-labelledby="elite-h">
+        <span class="eyebrow" id="elite-h">Elite recognition, stayed as a Globalist</span>
+        <div class="elite-grid">
+          <div><span class="label">Suite upgrade</span><span class="val">Moved to a Park Deluxe King on request, not a suite. No standard suites showed as available for the dates and none were offered.</span></div>
+          <div><span class="label">Breakfast</span><span class="val">Full à la carte for two at The Living Room. No cap enforced, no items refused.</span></div>
+          <div><span class="label">Late checkout</span><span class="val">4pm, confirmed the evening before without asking.</span></div>
+          <div><span class="label">Welcome amenity</span><span class="val">Points, selected at booking. Posted within a day of checkout.</span></div>
+          <div><span class="label">Club lounge</span><span class="val">None at this property. Breakfast is the entire elite food and drink benefit here.</span></div>
+          <div><span class="label">Guest of Honor</span><span class="val">Not tested on this stay.</span></div>
+        </div>
+        <div class="panel-foot">Reported as it happened. Not scored. Add your own stay and the upgrade rate for this property updates.</div>
+      </section>
+
+      <h2 id="s-dining">Breakfast and dining</h2>
+      <p>Globalist breakfast at The Living Room is a proper à la carte affair and the kitchen does not police it. The room itself is handsome but quiet to the point of stillness before nine. The Back Room is the better evening space, small and well run, with a bartender who knows the difference between a rye and a bourbon Manhattan without asking.</p>
+      <p>Density is well managed for a 210-key hotel; the pool was never shared with more than two other guests. Departure was faultless: a 4pm late checkout confirmed the night before, a car ordered without theatre, and a follow-up note the next day.</p>
+
+      <div class="pc">
+        <div>
+          <h3>What worked</h3>
+          <ul>
+            <li>Standard rooms that make the rest of the city look mean</li>
+            <li>A pool that is a reason to stay in</li>
+            <li>Baseline service that lands every request in one pass</li>
+            <li>Breakfast benefit honoured fully and without friction</li>
+          </ul>
+        </div>
+        <div>
+          <h3>What fell short</h3>
+          <ul>
+            <li>Anticipatory service is inconsistent for the brand</li>
+            <li>Wear showing in stone and carpet ahead of the refresh cycle</li>
+            <li>Turndown missed on two of three nights</li>
+            <li>Cash rates are hard to justify against the points price</li>
+          </ul>
+        </div>
+      </div>
+
+      <h2 id="s-verdict">The verdict</h2>
+      <div class="verdict-band">
+        <div class="big">81</div>
+        <div class="rule"></div>
+        <div>
+          <div class="say">Book it on points, and book it for the room. The service will not let you down, but it will not be the thing you remember.</div>
+          <div class="small">Standard award nights repriced upward in 2026. Still one of the strongest Hyatt redemptions in the city at the current price.</div>
+        </div>
+      </div>
+
+      <div class="grid-cells bookit">
+        <div class="cell"><span class="label">Book it if</span><span class="val">You hold Globalist and a points balance. The breakfast, the late checkout and the room size add up to real money at this address.</span></div>
+        <div class="cell"><span class="label">Skip it if</span><span class="val">You are paying cash above $1,100 a night, or expecting the anticipatory service of the brand's Asian flagships.</span></div>
+      </div>
+
+      <div class="faq">
+        <h2 id="s-faq">Common questions</h2>
+        <details>
+          <summary>Is there a club lounge at Park Hyatt New York?<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a9783c" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></summary>
+          <p>No. Elite recognition here runs through breakfast at The Living Room and the standard Globalist benefits. There is no club floor and no evening service.</p>
+        </details>
+        <details>
+          <summary>Does Globalist breakfast cover the full Living Room menu?<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a9783c" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></summary>
+          <p>On this stay, yes. Two guests ordered freely from the à la carte menu across three mornings and nothing was declined or itemised at checkout.</p>
+        </details>
+        <details>
+          <summary>Is the Park Deluxe King worth asking for?<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a9783c" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></summary>
+          <p>It adds a higher floor and a better sightline rather than square footage. Worth a polite ask at check-in; not worth paying for.</p>
+        </details>
+      </div>
+
+    </article>
+
+    <aside class="side">
+      <div class="side-card toc-card">
+        <span class="eyebrow on-light">On this page</span>
+        <ul class="toc">
+          <li><a class="on" href="#s-room">The room</a></li>
+          <li><a href="#s-public">Public space and amenities</a></li>
+          <li><a href="#s-service">Service</a></li>
+          <li><a href="#elite-h">Elite recognition</a></li>
+          <li><a href="#s-dining">Breakfast and dining</a></li>
+          <li><a href="#s-verdict">The verdict</a></li>
+          <li><a href="#s-faq">Common questions</a></li>
+        </ul>
+      </div>
+
+      <div class="side-cta">
+        <h3>Stayed here?</h3>
+        <p>Two minutes. Your upgrade, breakfast and late checkout outcome joins the reader data for this property.</p>
+        <a class="btn" href="#">Submit a stay</a>
+      </div>
+
+      <div class="related">
+        <span class="eyebrow on-light">Related</span>
+        <ul>
+          <li><span class="label">Elite Benefits</span><a href="#">Which Hyatt hotels have Regency and Grand Clubs</a></li>
+          <li><span class="label">Programs</span><a href="#">World of Hyatt after the May 2026 changes</a></li>
+          <li><span class="label">Points &amp; Awards</span><a href="#">Hyatt's five-tier award chart explained</a></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<section class="band" aria-labelledby="band-h">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Not a review</span>
+      <h2 id="band-h">The lounge directory</h2>
+      <p>Access tiers, hours, what gets served and whether it beats the restaurant. Scored by readers who were actually there.</p>
+    </div>
+    <a class="ghost" href="#">Browse lounges<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#d0a060" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><line x1="4" y1="12" x2="19" y2="12"></line><polyline points="13,6 19,12 13,18"></polyline></svg></a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span class="brand">Loyalist Travel</span>
+    <ul>
+      <li><a href="#">Reviews</a></li>
+      <li><a href="#">Hotels</a></li>
+      <li><a href="#">Lounges</a></li>
+      <li><a href="#">Articles</a></li>
+      <li><a href="#">About</a></li>
+    </ul>
+  </div>
+</footer>
+
+</div></div>
+
+
+<button id="dtoggle" class="ctl" type="button" aria-pressed="false">Desktop layout</button>
+
+<script>
+(function(){
+  var menu=document.querySelector('.nav-menu'),drawer=document.getElementById('drawer');
+  if(menu&&drawer){menu.addEventListener('click',function(){var open=drawer.classList.toggle('open');menu.setAttribute('aria-expanded',open?'true':'false');});}
+  var stage=document.getElementById('stage'),page=document.getElementById('page'),btn=document.getElementById('dtoggle');
+  var on=false;
+  function apply(){
+    if(on){var k=stage.clientWidth/1440;page.style.width='1440px';page.style.transformOrigin='0 0';page.style.transform='scale('+k+')';stage.style.height=(page.offsetHeight*k)+'px';document.documentElement.classList.add('artboard');btn.textContent='Phone layout';btn.setAttribute('aria-pressed','true');}
+    else{page.style.width='';page.style.transform='';page.style.transformOrigin='';stage.style.height='';document.documentElement.classList.remove('artboard');btn.textContent='Desktop layout';btn.setAttribute('aria-pressed','false');}
+  }
+  btn.addEventListener('click',function(){on=!on;apply();window.scrollTo(0,0);});
+  window.addEventListener('resize',function(){if(on)apply();});
+  if(window.ResizeObserver){new ResizeObserver(function(){if(on)apply();}).observe(page);}
+})();
+</script>
+</body>
+</html>

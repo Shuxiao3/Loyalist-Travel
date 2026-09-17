@@ -1,0 +1,60 @@
+.nav {
+  background: var(--navy);
+  border-bottom: 1px solid var(--line-dark);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s5);
+  height: 76px;
+}
+
+.brand {
+  font-family: var(--serif);
+  font-size: 21px;
+  font-weight: var(--w-wordmark);
+  color: var(--ivory);
+  white-space: nowrap;
+}
+
+.brand:hover {
+  color: var(--ivory);
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.links a {
+  font-size: var(--t-sm);
+  letter-spacing: var(--track-nav);
+  text-transform: uppercase;
+  color: var(--light);
+  white-space: nowrap;
+  padding-bottom: 3px;
+  border-bottom: 1px solid transparent;
+}
+
+.links a:hover,
+.links a[aria-current] {
+  color: var(--gold);
+  border-bottom-color: var(--gold);
+}
+
+/* Phone: the drawer arrives with the templates milestone. */
+@media (max-width: 640px) {
+  .inner {
+    height: 64px;
+  }
+
+  .links {
+    display: none;
+  }
+}

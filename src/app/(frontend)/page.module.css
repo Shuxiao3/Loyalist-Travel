@@ -1,0 +1,302 @@
+/* Homepage hero (navy) and the rubric strip (page). Every value is a token. */
+
+.eyebrow {
+  display: block;
+  margin-bottom: var(--s4);
+}
+
+/* ---- hero -------------------------------------------------------------- */
+
+.hero {
+  background: var(--navy);
+  color: var(--ivory);
+}
+
+.heroWrap {
+  padding-top: var(--section);
+}
+
+.heroGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 400px;
+  gap: var(--s9);
+  align-items: center;
+  padding-bottom: var(--s8);
+}
+
+.h1 {
+  font-size: var(--t-hero);
+  line-height: 1.05;
+  color: var(--ivory);
+  letter-spacing: -0.012em;
+  margin: 0 0 var(--s5);
+  max-width: 15ch;
+  text-wrap: pretty;
+}
+
+.sub {
+  font-size: calc(var(--t-base) + 1px);
+  line-height: var(--lh-body);
+  color: var(--light);
+  margin: 0 0 var(--s6);
+  max-width: 52ch;
+  text-wrap: pretty;
+}
+
+.ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+/* latest scored stay: a panel on navy */
+.latest {
+  background: var(--navy-deep);
+  border: 1px solid var(--gold-border);
+  padding: var(--s6);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+
+.latest .eyebrow {
+  margin-bottom: var(--s5);
+}
+
+.latestImg {
+  height: 150px;
+  background: var(--img-a);
+  margin-bottom: var(--s5);
+}
+
+.latestMeta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--t-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--on-navy-muted);
+  margin-bottom: var(--s3);
+}
+
+.dot {
+  color: var(--on-navy-dim);
+}
+
+.latestTitle {
+  font-size: var(--t-xl);
+  color: var(--ivory);
+  line-height: 1.2;
+  margin-bottom: var(--s3);
+}
+
+.latestSub {
+  font-size: var(--t-sm);
+  line-height: 1.6;
+  color: var(--light);
+  margin-bottom: var(--s5);
+  text-wrap: pretty;
+}
+
+.latestFoot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--s4);
+  padding-top: var(--s4);
+  border-top: 1px solid var(--line-dark);
+}
+
+.score {
+  font-family: var(--serif);
+  font-size: calc(var(--t-num) * 0.72);
+  line-height: 1;
+  color: var(--gold);
+}
+
+.score small {
+  font-family: var(--sans);
+  font-size: var(--t-xs);
+  color: var(--on-navy-muted);
+  margin-left: var(--s1);
+}
+
+.read {
+  font-size: var(--t-xs);
+  letter-spacing: var(--track-cta);
+  text-transform: uppercase;
+  color: var(--gold);
+  padding-bottom: var(--s1);
+  border-bottom: 1px solid var(--gold);
+}
+
+.read:hover {
+  color: var(--gold-pale);
+  border-bottom-color: var(--gold-pale);
+}
+
+/* stats row under the hero */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--line-dark);
+}
+
+.stat {
+  padding: var(--s6) var(--s6) var(--s7) 0;
+}
+
+.stat + .stat {
+  padding-left: var(--s6);
+  border-left: 1px solid var(--line-dark);
+}
+
+.statN {
+  font-family: var(--serif);
+  font-size: var(--t-stat);
+  line-height: 1;
+  color: var(--gold);
+  margin-bottom: var(--s3);
+}
+
+.statL {
+  font-size: var(--t-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--on-navy-muted);
+  line-height: 1.6;
+}
+
+/* ---- rubric strip ------------------------------------------------------ */
+
+.rubric .wrap {
+  padding-top: var(--section);
+  padding-bottom: var(--section);
+}
+
+.sectionHead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--s5);
+  margin-bottom: var(--s6);
+}
+
+.sectionHead .eyebrow {
+  margin-bottom: var(--s3);
+}
+
+.h2 {
+  font-size: var(--t-3xl);
+  line-height: 1.15;
+  color: var(--heading);
+  text-wrap: pretty;
+}
+
+/* fact grid: white cells separated by one-pixel gaps on a hairline */
+.cells {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+
+.cell {
+  background: var(--card);
+  padding: var(--s5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+}
+
+.val {
+  font-size: var(--t-md);
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.gold {
+  color: var(--gold-dark);
+}
+
+/* ---- tablet ------------------------------------------------------------ */
+
+@media (max-width: 1100px) {
+  .heroGrid {
+    grid-template-columns: 1fr;
+    gap: var(--s7);
+  }
+
+  .latest {
+    max-width: 560px;
+  }
+
+  .cells {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ---- phone ------------------------------------------------------------- */
+
+@media (max-width: 640px) {
+  .heroWrap {
+    padding-top: var(--s7);
+  }
+
+  .heroGrid {
+    gap: var(--s6);
+    padding-bottom: var(--s7);
+  }
+
+  .sub {
+    font-size: calc(var(--t-base) - 1px);
+  }
+
+  .latest {
+    padding: var(--s5);
+  }
+
+  .latestImg {
+    height: 120px;
+  }
+
+  .stats {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .stat {
+    padding: var(--s5) var(--s4) var(--s5) 0;
+  }
+
+  .stat + .stat {
+    padding-left: var(--s4);
+  }
+
+  .stat:nth-child(3) {
+    padding-left: 0;
+    border-left: 0;
+    border-top: 1px solid var(--line-dark);
+  }
+
+  .stat:nth-child(4) {
+    border-top: 1px solid var(--line-dark);
+  }
+
+  .sectionHead {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s4);
+    margin-bottom: var(--s5);
+  }
+
+  .cells {
+    grid-template-columns: 1fr;
+  }
+
+  .cell {
+    padding: var(--s4);
+  }
+}

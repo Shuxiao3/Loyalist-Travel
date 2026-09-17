@@ -1,0 +1,160 @@
+/*
+  Loyalist Travel design tokens.
+
+  The single source of every colour, font, size, spacing and radius value on
+  the site. Taken from the two signed-off mockups in docs/
+  (loyalist-travel-homepage.html, park-hyatt-new-york-review.html) and the
+  decision log in docs/loyalist-travel-rebuild-plan.md, decided Sep 16 2026:
+
+    corners  soft, 3px
+    spacing  artboard scale (4, 8, 12, 16, 24, 32, 48, 64, 96)
+    type     editorial scale (17px body, headlines up to 84px)
+    palette  fixed in both colour schemes; no dark-mode inversion
+
+  Templates consume these variables and nothing is styled ad hoc. Anything a
+  page needs that is not here gets added here, not applied once.
+
+  Breakpoints (media queries cannot read custom properties, so they are
+  documented rather than tokenised): tablet 1100px, phone 640px.
+*/
+
+:root {
+  /* Palette is fixed in both colour schemes. */
+  color-scheme: light;
+
+  /* ---- Colour ------------------------------------------------------- */
+
+  /* dark surfaces: nav, hero, data panels, bands */
+  --navy: #0d1b2a;
+  --navy-deep: #0a1521; /* panels that sit on navy */
+
+  /* gold, three steps, plus the pale chip text and the dark-panel border */
+  --gold: #d0a060; /* on navy */
+  --gold-dark: #a9783c; /* links and labels on light */
+  --gold-deeper: #725128; /* chip borders, link hover */
+  --gold-pale: #efd5a3; /* chip text on navy */
+  --gold-border: #3f2c16; /* border on dark panels */
+
+  /* text on navy */
+  --ivory: #faf8f4;
+  --light: #ced1d4;
+  --on-navy-muted: #858482;
+  --on-navy-dim: #555f69;
+
+  /* light surfaces */
+  --page: #faf8f4; /* cream page */
+  --cream: #f3eee2; /* warmer cream: filter bars, callouts */
+  --card: #ffffff; /* cells and cards */
+
+  /* text on light */
+  --text: #24221e;
+  --text-2: #545350;
+  --muted: #858482;
+  --heading: #0d1b2a;
+
+  /* hairlines: black at 10 percent on light, white at 10 percent on dark */
+  --line: rgba(12, 10, 5, 0.1);
+  --line-strong: rgba(12, 10, 5, 0.15);
+  --line-dark: rgba(255, 255, 255, 0.1);
+
+  /* image placeholders, used until a property has owned photography */
+  --img-a: linear-gradient(140deg, #23415f 0%, #12253a 52%, #060d16 100%);
+  --img-b: linear-gradient(140deg, #3a4a3f 0%, #1d2a25 55%, #0b1210 100%);
+  --img-c: linear-gradient(140deg, #5a4a3a 0%, #2c241d 55%, #120e0b 100%);
+
+  /* ---- Type --------------------------------------------------------- */
+
+  /* Playfair Display for display, headlines, scores and related-link
+     titles; Lato for body, labels and interface. next/font sets the
+     --font-* variables; the named families are the fallback. */
+  --serif: var(--font-playfair, 'Playfair Display'), Georgia, 'Times New Roman', serif;
+  --sans: var(--font-lato, Lato), 'Helvetica Neue', Arial, sans-serif;
+
+  /* weights */
+  --w-heading: 500;
+  --w-wordmark: 600;
+
+  /* editorial type scale. Fixed sizes. */
+  --t-label: 10px;
+  --t-eyebrow: 11px;
+  --t-xs: 12px;
+  --t-sm: 13px;
+  --t-md: 15px;
+  --t-base: 17px;
+  --t-lg: 24px;
+  --t-xl: 30px;
+
+  /* editorial type scale. Display sizes, desktop values (-d) and the live
+     value that the phone breakpoint below scales down by a fixed ratio. */
+  --t-2xl-d: 34px; /* article h2 */
+  --t-3xl-d: 42px; /* section titles */
+  --t-h1-d: 66px; /* review h1 */
+  --t-hero-d: 84px; /* homepage h1 */
+  --t-num-d: 72px; /* score numerals */
+  --t-stat-d: 44px; /* stat numerals */
+  --t-big-d: 80px; /* band numerals */
+  --t-2xl: var(--t-2xl-d);
+  --t-3xl: var(--t-3xl-d);
+  --t-h1: var(--t-h1-d);
+  --t-hero: var(--t-hero-d);
+  --t-num: var(--t-num-d);
+  --t-stat: var(--t-stat-d);
+  --t-big: var(--t-big-d);
+
+  /* line height */
+  --lh-body: 1.65;
+  --lh-article: 1.75;
+
+  /* tracking for the uppercase labels */
+  --track-eyebrow: 0.2em; /* 11px eyebrows */
+  --track-label: 0.16em; /* 10px cell and field labels */
+  --track-cta: 0.14em; /* buttons, "more" links, breadcrumbs */
+  --track-nav: 0.1em; /* 13px nav */
+  --track-fine: 0.03em; /* small running text */
+
+  /* ---- Structure ---------------------------------------------------- */
+
+  /* soft corners, one-pixel borders, no shadows */
+  --r: 3px;
+  --r-btn: 3px;
+
+  /* ---- Spacing ------------------------------------------------------ */
+
+  /* artboard scale */
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 12px;
+  --s4: 16px;
+  --s5: 24px;
+  --s6: 32px;
+  --s7: 48px;
+  --s8: 64px;
+  --s9: 96px;
+
+  /* sections 72px apart on desktop, scaled at the phone breakpoint */
+  --section-d: 72px;
+  --section: var(--section-d);
+
+  /* 120px gutters inside a 1440 frame, collapsing to 20px */
+  --frame: 1440px;
+  --gutter: clamp(20px, 8.33vw, 120px);
+
+  /* main column to sidebar, and between cards */
+  --col-gap: 76px;
+  --sidebar: 330px;
+  --card-gap: 24px;
+}
+
+/* Phone: display sizes scale down by fixed ratios; body sizes do not change. */
+@media (max-width: 640px) {
+  :root {
+    --t-hero: calc(var(--t-hero-d) * 0.68);
+    --t-h1: calc(var(--t-h1-d) * 0.77);
+    --t-3xl: calc(var(--t-3xl-d) * 0.82);
+    --t-2xl: calc(var(--t-2xl-d) * 0.87);
+    --t-num: calc(var(--t-num-d) * 0.82);
+    --t-big: calc(var(--t-big-d) * 0.9);
+    --t-stat: calc(var(--t-stat-d) * 0.83);
+    --section: calc(var(--section-d) * 0.67);
+  }
+}
