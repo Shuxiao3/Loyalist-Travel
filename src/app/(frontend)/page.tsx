@@ -62,7 +62,7 @@ export default async function HomePage() {
       text:
         featured.hotel.heroSummary ??
         (d.all
-          ? `${d.all.stays} reader stays. ${d.all.suiteRate ?? 0}% got a suite, ${d.all.breakfastRate ?? 0}% had breakfast as printed, ${d.all.lateCheckoutRate ?? 0}% got late checkout.`
+          ? `${d.all.stays} reader stays. ${d.all.suiteRate ?? 0}% got a suite, ${d.all.proactiveRate ?? 0}% of upgrades came unasked, ${d.all.breakfastRate ?? 0}% had breakfast as printed.`
           : null),
       figure: d.all?.upgradeRate != null ? { value: `${d.all.upgradeRate}%`, label: 'got an upgrade' } : null,
       cta: 'The hotel',

@@ -6,18 +6,42 @@ import type { CollectionConfig } from 'payload'
 // only once a hotel has five or more approved stays.
 
 export const UPGRADE_OUTCOMES = [
-  { label: 'No upgrade', value: 'none' },
-  { label: 'Room category upgrade', value: 'room-category' },
-  { label: 'Suite upgrade', value: 'suite' },
-  { label: 'Used a suite award', value: 'used-award' },
+  { label: 'No', value: 'none' },
+  { label: 'Yes', value: 'yes' },
+  { label: 'Used a suite upgrade award', value: 'award' },
+]
+
+export const UPGRADE_TYPES = [
+  { label: 'Higher floor', value: 'floor' },
+  { label: 'Better view', value: 'view' },
+  { label: 'Higher room category', value: 'category' },
+  { label: 'Suite', value: 'suite' },
+]
+
+export const SUITE_TYPES = [
+  { label: 'Junior suite', value: 'junior' },
+  { label: 'One-bedroom suite', value: 'one-bedroom' },
+  { label: 'Two-bedroom suite', value: 'two-bedroom' },
+  { label: 'Specialty suite', value: 'specialty' },
+]
+
+export const UPGRADE_HOW = [
+  { label: 'Offered without asking', value: 'proactive' },
+  { label: 'Given when I asked', value: 'asked' },
 ]
 
 export const BREAKFAST_OUTCOMES = [
-  { label: 'Full breakfast, as printed', value: 'full' },
-  { label: 'Capped or limited', value: 'capped' },
-  { label: 'Restaurant credit instead', value: 'restaurant-credit' },
-  { label: 'Not honoured', value: 'none' },
+  { label: 'Full: buffet and à la carte', value: 'full' },
+  { label: 'Buffet only', value: 'buffet' },
+  { label: 'À la carte only', value: 'a-la-carte' },
+  { label: 'Restaurant or F&B credit', value: 'credit' },
+  { label: 'Not honoured', value: 'not-honoured' },
   { label: 'Not eligible', value: 'not-eligible' },
+]
+
+export const ALA_CARTE_CAP = [
+  { label: 'Uncapped', value: 'uncapped' },
+  { label: 'Capped', value: 'capped' },
 ]
 
 export const LATE_CHECKOUT_OUTCOMES = [
@@ -70,7 +94,16 @@ export const ReaderStays: CollectionConfig = {
       type: 'row',
       fields: [
         { name: 'upgrade', type: 'select', required: true, options: UPGRADE_OUTCOMES },
+        { name: 'upgradeType', type: 'select', options: UPGRADE_TYPES, admin: { condition: (data) => data?.upgrade === 'yes' } },
+        { name: 'suiteType', type: 'select', options: SUITE_TYPES, admin: { condition: (data) => data?.upgrade === 'yes' && data?.upgradeType === 'suite' } },
+        { name: 'upgradeHow', type: 'select', options: UPGRADE_HOW, admin: { condition: (data) => data?.upgrade === 'yes' } },
+      ],
+    },
+    {
+      type: 'row',
+      fields: [
         { name: 'breakfast', type: 'select', required: true, options: BREAKFAST_OUTCOMES },
+        { name: 'alaCarteCap', type: 'select', options: ALA_CARTE_CAP, admin: { condition: (data) => data?.breakfast === 'full' || data?.breakfast === 'a-la-carte' } },
         { name: 'lateCheckout', type: 'select', required: true, options: LATE_CHECKOUT_OUTCOMES },
       ],
     },

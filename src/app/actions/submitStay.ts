@@ -3,7 +3,7 @@
 import { createHash } from 'crypto'
 import { headers } from 'next/headers'
 
-import { BREAKFAST_OUTCOMES, LATE_CHECKOUT_OUTCOMES, UPGRADE_OUTCOMES } from '@/collections/ReaderStays'
+import { ALA_CARTE_CAP, BREAKFAST_OUTCOMES, LATE_CHECKOUT_OUTCOMES, SUITE_TYPES, UPGRADE_HOW, UPGRADE_OUTCOMES, UPGRADE_TYPES } from '@/collections/ReaderStays'
 import { getPayloadClient } from '@/lib/payload'
 
 export type SubmitStayState = { ok: true } | { ok: false; error: string } | null
@@ -22,7 +22,11 @@ export async function submitStay(_prev: SubmitStayState, form: FormData): Promis
   const tierId = Number(form.get('statusHeld'))
   const stayYear = Number(form.get('stayYear'))
   const upgrade = form.get('upgrade')
+  const upgradeType = form.get('upgradeType')
+  const suiteType = form.get('suiteType')
+  const upgradeHow = form.get('upgradeHow')
   const breakfast = form.get('breakfast')
+  const alaCarteCap = form.get('alaCarteCap')
   const lateCheckout = form.get('lateCheckout')
 
   const now = new Date()
@@ -31,6 +35,12 @@ export async function submitStay(_prev: SubmitStayState, form: FormData): Promis
   if (!inList(upgrade, UPGRADE_OUTCOMES) || !inList(breakfast, BREAKFAST_OUTCOMES) || !inList(lateCheckout, LATE_CHECKOUT_OUTCOMES)) {
     return { ok: false, error: 'Pick an answer for each of the three questions.' }
   }
+  const upgraded = upgrade === 'yes'
+  if (upgraded && !inList(upgradeType, UPGRADE_TYPES)) return { ok: false, error: 'Say what kind of upgrade it was.' }
+  if (upgraded && upgradeType === 'suite' && !inList(suiteType, SUITE_TYPES)) return { ok: false, error: 'Say which kind of suite.' }
+  if (upgraded && !inList(upgradeHow, UPGRADE_HOW)) return { ok: false, error: 'Say whether the upgrade was offered or asked for.' }
+  const alaCarte = breakfast === 'full' || breakfast === 'a-la-carte'
+  if (alaCarte && !inList(alaCarteCap, ALA_CARTE_CAP)) return { ok: false, error: 'Say whether the à la carte was capped.' }
 
   const payload = await getPayloadClient()
   const hotel = await payload.findByID({ collection: 'hotels', id: hotelId, depth: 0, overrideAccess: true }).catch(() => null)
@@ -65,7 +75,11 @@ export async function submitStay(_prev: SubmitStayState, form: FormData): Promis
       statusHeld: tierId,
       stayYear,
       upgrade: upgrade as string,
+      upgradeType: upgraded ? (upgradeType as string) : null,
+      suiteType: upgraded && upgradeType === 'suite' ? (suiteType as string) : null,
+      upgradeHow: upgraded ? (upgradeHow as string) : null,
       breakfast: breakfast as string,
+      alaCarteCap: alaCarte ? (alaCarteCap as string) : null,
       lateCheckout: lateCheckout as string,
       submitterHash,
     } as never,

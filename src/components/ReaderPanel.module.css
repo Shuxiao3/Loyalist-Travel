@@ -12,7 +12,7 @@
 
 .figures {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: var(--s5);
 }
 
@@ -63,11 +63,22 @@
 .tiers th:not(:first-child),
 .tiers td:not(:first-child) {
   text-align: right;
-  width: 15%;
+  width: 13%;
+}
+
+@media (max-width: 1100px) {
+  .figures {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 @media (max-width: 640px) {
   .figures {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .tiers th:nth-child(5),
+  .tiers td:nth-child(5) {
+    display: none;
   }
 }

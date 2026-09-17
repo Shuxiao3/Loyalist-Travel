@@ -13,31 +13,34 @@ export const MIN_STAYS_SITEWIDE = 20
 export type ReaderAggregate = {
   stays: number
   awardStays: number // stays on a suite award, reported separately and left out of the upgrade rates
-  upgradeRate: number | null // room category or suite, over stays not on an award
-  suiteRate: number | null // suite, over stays not on an award
-  breakfastRate: number | null // full, over stays where eligible
+  upgradeRate: number | null // any upgrade, over stays not on an award
+  suiteRate: number | null // upgraded to a suite, over stays not on an award
+  proactiveRate: number | null // offered without asking, over upgrades
+  breakfastRate: number | null // full, buffet, or uncapped a la carte, over stays where eligible
   lateCheckoutRate: number | null // honoured, over stays where it was requested
   latest: number | null // most recent stay year
 }
 
 const pct = (n: number, d: number) => (d > 0 ? Math.round((n / d) * 100) : null)
 
-export function aggregate(stays: Pick<ReaderStay, 'upgrade' | 'breakfast' | 'lateCheckout' | 'stayYear'>[]): ReaderAggregate {
+export function aggregate(stays: Pick<ReaderStay, 'upgrade' | 'upgradeType' | 'upgradeHow' | 'breakfast' | 'alaCarteCap' | 'lateCheckout' | 'stayYear'>[]): ReaderAggregate {
   const n = stays.length
-  const organic = stays.filter((s) => s.upgrade !== 'used-award')
+  const organic = stays.filter((s) => s.upgrade !== 'award')
   const awardStays = n - organic.length
-  const upgraded = organic.filter((s) => s.upgrade === 'room-category' || s.upgrade === 'suite').length
-  const suites = organic.filter((s) => s.upgrade === 'suite').length
+  const upgrades = organic.filter((s) => s.upgrade === 'yes')
+  const suites = upgrades.filter((s) => s.upgradeType === 'suite').length
+  const proactive = upgrades.filter((s) => s.upgradeHow === 'proactive').length
   const breakfastEligible = stays.filter((s) => s.breakfast !== 'not-eligible')
-  const breakfastFull = breakfastEligible.filter((s) => s.breakfast === 'full').length
+  const breakfastFull = breakfastEligible.filter((s) => (s.breakfast === 'full' || s.breakfast === 'buffet' || s.breakfast === 'a-la-carte') && s.alaCarteCap !== 'capped').length
   const lateWanted = stays.filter((s) => s.lateCheckout !== 'not-requested')
   const lateGranted = lateWanted.filter((s) => s.lateCheckout === 'honoured').length
   const latest = stays.reduce<number | null>((acc, s) => (acc == null || s.stayYear > acc ? s.stayYear : acc), null)
   return {
     stays: n,
     awardStays,
-    upgradeRate: pct(upgraded, organic.length),
+    upgradeRate: pct(upgrades.length, organic.length),
     suiteRate: pct(suites, organic.length),
+    proactiveRate: pct(proactive, upgrades.length),
     breakfastRate: pct(breakfastFull, breakfastEligible.length),
     lateCheckoutRate: pct(lateGranted, lateWanted.length),
     latest,

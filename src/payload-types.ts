@@ -903,8 +903,12 @@ export interface ReaderStay {
   program: number | Program;
   statusHeld: number | StatusLevel;
   stayYear: number;
-  upgrade: 'none' | 'room-category' | 'suite' | 'used-award';
-  breakfast: 'full' | 'capped' | 'restaurant-credit' | 'none' | 'not-eligible';
+  upgrade: 'none' | 'yes' | 'award';
+  upgradeType?: ('floor' | 'view' | 'category' | 'suite') | null;
+  suiteType?: ('junior' | 'one-bedroom' | 'two-bedroom' | 'specialty') | null;
+  upgradeHow?: ('proactive' | 'asked') | null;
+  breakfast: 'full' | 'buffet' | 'a-la-carte' | 'credit' | 'not-honoured' | 'not-eligible';
+  alaCarteCap?: ('uncapped' | 'capped') | null;
   lateCheckout: 'honoured' | 'declined' | 'not-requested';
   /**
    * Asked only where the hotel has a lounge on record. Arrives with the Lounges collection.
@@ -1244,7 +1248,11 @@ export interface ReaderStaysSelect<T extends boolean = true> {
   statusHeld?: T;
   stayYear?: T;
   upgrade?: T;
+  upgradeType?: T;
+  suiteType?: T;
+  upgradeHow?: T;
   breakfast?: T;
+  alaCarteCap?: T;
   lateCheckout?: T;
   loungeRating?: T;
   submitterHash?: T;

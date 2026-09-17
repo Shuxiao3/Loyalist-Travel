@@ -36,6 +36,10 @@ export function ReaderPanel({ data, hotelName }: { data: HotelReaderData; hotelN
           <div className={styles.l}>Got a suite</div>
         </div>
         <div>
+          <div className={styles.n}>{pct(a.proactiveRate)}</div>
+          <div className={styles.l}>Upgrades offered unasked</div>
+        </div>
+        <div>
           <div className={styles.n}>{pct(a.breakfastRate)}</div>
           <div className={styles.l}>Breakfast as printed</div>
         </div>
@@ -52,6 +56,7 @@ export function ReaderPanel({ data, hotelName }: { data: HotelReaderData; hotelN
               <th>Stays</th>
               <th>Upgrade</th>
               <th>Suite</th>
+              <th>Unasked</th>
               <th>Awards</th>
             </tr>
           </thead>
@@ -62,6 +67,7 @@ export function ReaderPanel({ data, hotelName }: { data: HotelReaderData; hotelN
                 <td>{d.stays}</td>
                 <td>{pct(d.upgradeRate)}</td>
                 <td>{pct(d.suiteRate)}</td>
+                <td>{pct(d.proactiveRate)}</td>
                 <td>{d.awardStays}</td>
               </tr>
             ))}

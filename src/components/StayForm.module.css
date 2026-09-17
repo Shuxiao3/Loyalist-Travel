@@ -38,6 +38,14 @@
   outline-offset: 2px;
 }
 
+/* follow-up questions, indented under the answer that opened them */
+.follow {
+  display: grid;
+  gap: var(--s4);
+  padding-left: var(--s4);
+  border-left: 1px solid var(--gold-border);
+}
+
 .hp {
   position: absolute;
   left: -10000px;

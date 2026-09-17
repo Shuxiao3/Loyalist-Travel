@@ -427,27 +427,43 @@ async function seedStays(payload: Payload) {
   const discoverist = await tier('hyatt-discoverist')
   const lifetime = await tier('hyatt-lifetime-globalist')
   if (!globalist || !explorist || !discoverist || !lifetime) throw new Error('Hyatt tiers missing')
-  // [tier, month (ignored), upgrade, breakfast, lateCheckout]
-  const rows: [number, number, string, string, string][] = [
-    [globalist, 8, 'suite', 'full', 'honoured'], [globalist, 8, 'room-category', 'full', 'honoured'], [globalist, 7, 'room-category', 'full', 'not-requested'],
-    [globalist, 7, 'none', 'full', 'declined'], [globalist, 6, 'suite', 'full', 'honoured'], [globalist, 6, 'room-category', 'capped', 'honoured'],
-    [globalist, 5, 'used-award', 'full', 'honoured'], [globalist, 5, 'room-category', 'full', 'honoured'], [globalist, 4, 'suite', 'full', 'honoured'],
-    [globalist, 3, 'none', 'full', 'honoured'], [globalist, 2, 'room-category', 'full', 'not-requested'], [globalist, 1, 'used-award', 'full', 'honoured'],
-    [lifetime, 8, 'suite', 'full', 'honoured'], [lifetime, 6, 'suite', 'full', 'honoured'], [lifetime, 3, 'room-category', 'full', 'honoured'],
-    [explorist, 8, 'room-category', 'not-eligible', 'honoured'], [explorist, 7, 'none', 'not-eligible', 'declined'], [explorist, 5, 'none', 'not-eligible', 'not-requested'],
-    [explorist, 4, 'room-category', 'not-eligible', 'honoured'], [explorist, 2, 'none', 'not-eligible', 'declined'],
-    [discoverist, 8, 'none', 'not-eligible', 'honoured'], [discoverist, 6, 'none', 'not-eligible', 'not-requested'], [discoverist, 4, 'room-category', 'not-eligible', 'declined'], [discoverist, 1, 'none', 'not-eligible', 'declined'],
+  // [tier, upgrade, upgradeType, suiteType, upgradeHow, breakfast, alaCarteCap, lateCheckout]
+  const rows: [number, string, string | null, string | null, string | null, string, string | null, string][] = [
+    [globalist, 'yes', 'suite', 'junior', 'proactive', 'full', 'uncapped', 'honoured'],
+    [globalist, 'yes', 'category', null, 'proactive', 'full', 'uncapped', 'honoured'],
+    [globalist, 'yes', 'view', null, 'asked', 'full', 'capped', 'not-requested'],
+    [globalist, 'none', null, null, null, 'full', 'uncapped', 'declined'],
+    [globalist, 'yes', 'suite', 'one-bedroom', 'proactive', 'full', 'uncapped', 'honoured'],
+    [globalist, 'yes', 'category', null, 'asked', 'buffet', null, 'honoured'],
+    [globalist, 'award', null, null, null, 'full', 'uncapped', 'honoured'],
+    [globalist, 'yes', 'floor', null, 'proactive', 'full', 'uncapped', 'honoured'],
+    [globalist, 'yes', 'suite', 'junior', 'asked', 'a-la-carte', 'uncapped', 'honoured'],
+    [globalist, 'none', null, null, null, 'a-la-carte', 'capped', 'honoured'],
+    [globalist, 'yes', 'category', null, 'proactive', 'full', 'uncapped', 'not-requested'],
+    [globalist, 'award', null, null, null, 'full', 'uncapped', 'honoured'],
+    [lifetime, 'yes', 'suite', 'one-bedroom', 'proactive', 'full', 'uncapped', 'honoured'],
+    [lifetime, 'yes', 'suite', 'two-bedroom', 'proactive', 'full', 'uncapped', 'honoured'],
+    [lifetime, 'yes', 'category', null, 'proactive', 'full', 'uncapped', 'honoured'],
+    [explorist, 'yes', 'floor', null, 'asked', 'not-eligible', null, 'honoured'],
+    [explorist, 'none', null, null, null, 'not-eligible', null, 'declined'],
+    [explorist, 'none', null, null, null, 'not-eligible', null, 'not-requested'],
+    [explorist, 'yes', 'view', null, 'proactive', 'not-eligible', null, 'honoured'],
+    [explorist, 'none', null, null, null, 'not-eligible', null, 'declined'],
+    [discoverist, 'none', null, null, null, 'not-eligible', null, 'honoured'],
+    [discoverist, 'none', null, null, null, 'not-eligible', null, 'not-requested'],
+    [discoverist, 'yes', 'floor', null, 'asked', 'not-eligible', null, 'declined'],
+    [discoverist, 'none', null, null, null, 'not-eligible', null, 'declined'],
   ]
   const existing = await payload.count({ collection: 'reader-stays', where: { submitterHash: { equals: MOCK_HASH } }, overrideAccess: true })
   if (existing.totalDocs > 0) {
     console.log(`seed-stays: ${existing.totalDocs} mock stays already present; run unseed-stays first`)
     return
   }
-  for (const [statusHeld, , upgrade, breakfast, lateCheckout] of rows) {
+  for (const [statusHeld, upgrade, upgradeType, suiteType, upgradeHow, breakfast, alaCarteCap, lateCheckout] of rows) {
     await payload.create({
       collection: 'reader-stays',
       overrideAccess: true,
-      data: { status: 'approved', hotel: hotel.id, program: programId, statusHeld, stayYear: 2026, upgrade, breakfast, lateCheckout, submitterHash: MOCK_HASH } as never,
+      data: { status: 'approved', hotel: hotel.id, program: programId, statusHeld, stayYear: 2026, upgrade, upgradeType, suiteType, upgradeHow, breakfast, alaCarteCap, lateCheckout, submitterHash: MOCK_HASH } as never,
     })
   }
   console.log(`seed-stays: ${rows.length} approved mock stays on ${hotel.name}`)
