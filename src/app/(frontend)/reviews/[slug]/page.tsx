@@ -4,7 +4,6 @@ import { notFound } from 'next/navigation'
 
 import { Band } from '@/components/Band'
 import { RichText } from '@/components/RichText'
-import { ScoreRing } from '@/components/ScoreRing'
 import { monthYear, rel, score, shortDate } from '@/lib/format'
 import { getReview, getReviews } from '@/lib/queries'
 import { bandFor, categoriesFor, groupMax, labelFor, REVIEW_SECTIONS } from '@/lib/rubric'
@@ -129,10 +128,7 @@ export default async function ReviewPage({ params }: Props) {
                   <span className={`label ${styles.scoreLabel}`}>
                     <span className={styles.long}>Loyalist Travel </span>Score
                   </span>
-                  <div className={styles.scoreRow}>
-                    <ScoreRing value={review.totals?.overall} max={hardMax + softMax} size={56} stroke={4} label={`${score(review.totals?.overall)} of ${hardMax + softMax}`} />
-                    <div className={styles.scoreBig}>{score(review.totals?.overall)}</div>
-                  </div>
+                  <div className={styles.scoreBig}>{score(review.totals?.overall)}</div>
                   {band && <div className={styles.band}>{band}</div>}
                 </div>
                 <div className={styles.scoreSplit}>
@@ -323,10 +319,7 @@ export default async function ReviewPage({ params }: Props) {
               {review.finalVerdict && <RichText data={review.finalVerdict} />}
               <div className={styles.verdictBand}>
                 <div className={styles.bigWrap}>
-                  <div className={styles.bigRow}>
-                    <ScoreRing value={review.totals?.overall} max={hardMax + softMax} size={72} stroke={4} label={`${score(review.totals?.overall)} of ${hardMax + softMax}`} />
-                    <div className={styles.big}>{score(review.totals?.overall)}</div>
-                  </div>
+                  <div className={styles.big}>{score(review.totals?.overall)}</div>
                   {band && <div className={styles.bigBand}>{band}</div>}
                 </div>
                 <div className={styles.rule} />

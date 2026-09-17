@@ -49,12 +49,6 @@
   margin-bottom: var(--s2);
 }
 
-.scoreRow {
-  display: flex;
-  align-items: center;
-  gap: var(--s3);
-}
-
 .scoreBig {
   font-family: var(--serif);
   font-size: var(--t-num);
@@ -325,12 +319,6 @@
 
 .bigWrap {
   flex-shrink: 0;
-}
-
-.bigRow {
-  display: flex;
-  align-items: center;
-  gap: var(--s4);
 }
 
 .big {
