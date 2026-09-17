@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const destination = rel<Destination>(hotel.destination)
   return {
     title: `${hotel.name}${destination ? `, ${destination.name}` : ''}`,
-    description: hotel.heroSummary ?? undefined,
+    description: [rel<Brand>(hotel.brand)?.name, destination ? `in ${destination.locationLabel ?? destination.name}` : null].filter(Boolean).join(' ') || undefined,
   }
 }
 
@@ -95,9 +95,6 @@ export default async function HotelPage({ params }: Props) {
             <div>
               <span className="eyebrow">{brand?.name ?? 'Hotel'}</span>
               <h1 className={styles.h1}>{hotel.name}</h1>
-              <p className={`sub ${styles.sub}`}>
-                {hotel.heroSummary ?? [brand?.name, destination ? `in ${destination.locationLabel ?? destination.name}` : null].filter(Boolean).join(' ')}
-              </p>
               <div className="chips">
                 {hotel.propertyType && <span className="chip solid">{PROPERTY_TYPE_LABEL[hotel.propertyType]}</span>}
                 {program && (
