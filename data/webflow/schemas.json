@@ -1,0 +1,1231 @@
+{
+ "programs": {
+  "id": "6a1b9ce4b53fa628775ca2e6",
+  "name": "Loyalty Programs",
+  "slug": "loyalty-program",
+  "fields": [
+   {
+    "slug": "program-logo",
+    "type": "Image",
+    "req": false
+   },
+   {
+    "slug": "hero-image",
+    "type": "Image",
+    "req": false
+   },
+   {
+    "slug": "short-description",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "program-overview",
+    "type": "RichText",
+    "req": false
+   },
+   {
+    "slug": "seo-title",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "seo-description",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "top-tier-name",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "second-tier-name",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "status-tiers",
+    "type": "MultiReference",
+    "req": false,
+    "ref": "6a1b9e3465d062b2a6c2b8b2"
+   },
+   {
+    "slug": "elite-tiers-description",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "name",
+    "type": "PlainText",
+    "req": true
+   },
+   {
+    "slug": "slug",
+    "type": "PlainText",
+    "req": true
+   }
+  ]
+ },
+ "brands": {
+  "id": "6a1b9dbf9165c2dad25a679b",
+  "name": "Brands",
+  "slug": "brands",
+  "fields": [
+   {
+    "slug": "parent-loyalty-program",
+    "type": "Reference",
+    "req": false,
+    "ref": "6a1b9ce4b53fa628775ca2e6"
+   },
+   {
+    "slug": "brand-segment",
+    "type": "Option",
+    "req": false,
+    "options": {
+     "50780e4939c6477fdc4f9e8b8060ce09": "Ultra Luxury",
+     "d1978ae62459cc334b55003d935f9fb4": "Luxury",
+     "9aa1f35f5626d658b9e38e2311ee85c1": "Upscale",
+     "12882e9f68fbb8e3cc5ca10bce7490c3": "Midscale",
+     "2a077f232f774fb5eac92fc9787d4a0c": "Budget",
+     "77b80cae8efae72433873441b82b9fde": "Extended Stay"
+    }
+   },
+   {
+    "slug": "brand-logo",
+    "type": "Image",
+    "req": false
+   },
+   {
+    "slug": "short-description",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "brand-overview",
+    "type": "RichText",
+    "req": false
+   },
+   {
+    "slug": "name",
+    "type": "PlainText",
+    "req": true
+   },
+   {
+    "slug": "slug",
+    "type": "PlainText",
+    "req": true
+   }
+  ]
+ },
+ "status-levels": {
+  "id": "6a1b9e3465d062b2a6c2b8b2",
+  "name": "Status Levels",
+  "slug": "status-level",
+  "fields": [
+   {
+    "slug": "loyalty-program",
+    "type": "Reference",
+    "req": false,
+    "ref": "6a1b9ce4b53fa628775ca2e6"
+   },
+   {
+    "slug": "status-rank",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "breakfast-eligible",
+    "type": "Switch",
+    "req": false
+   },
+   {
+    "slug": "lounge-eligible",
+    "type": "Switch",
+    "req": false
+   },
+   {
+    "slug": "suite-upgrade-eligible",
+    "type": "Switch",
+    "req": false
+   },
+   {
+    "slug": "late-checkout-eligible",
+    "type": "Switch",
+    "req": false
+   },
+   {
+    "slug": "short-description",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "tier-nights",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "tier-benefits",
+    "type": "RichText",
+    "req": false
+   },
+   {
+    "slug": "is-top-tier",
+    "type": "Switch",
+    "req": false
+   },
+   {
+    "slug": "tier-short-name",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "top-cc-status",
+    "type": "Switch",
+    "req": false
+   },
+   {
+    "slug": "cc-status-source",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "name",
+    "type": "PlainText",
+    "req": true
+   },
+   {
+    "slug": "slug",
+    "type": "PlainText",
+    "req": true
+   }
+  ]
+ },
+ "destinations": {
+  "id": "6a1b9ef66b8fa6046c396410",
+  "name": "Destinations",
+  "slug": "destinations",
+  "fields": [
+   {
+    "slug": "city",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "state-or-region",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "country",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "destination-type",
+    "type": "Option",
+    "req": false,
+    "options": {
+     "1bac88f3c611303d18a6a3252b9450ac": "City",
+     "e88101fdb1a0497c5566501895712d75": "Beach",
+     "a465a10966583a1b63d5ac41100d8c21": "Island",
+     "98580a0a5fa44d90d9e343bb02a038d7": "Ski",
+     "cb74ed5ff55ca36a66abc06fc67fc56b": "Resort",
+     "5bb7cc643e56fac611e77ea176077a7a": "Jungle",
+     "421c635d2dbb2aef51d4846fa6eaa725": "Airport",
+     "9e7c96e1195174d1970989bad61d1549": "Business",
+     "44833a6098917df1f2ac9979cee09aa7": "Luxury"
+    }
+   },
+   {
+    "slug": "image",
+    "type": "Image",
+    "req": false
+   },
+   {
+    "slug": "short-description",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "destination-overview",
+    "type": "RichText",
+    "req": false
+   },
+   {
+    "slug": "seo-title",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "seo-description",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "region",
+    "type": "Reference",
+    "req": false,
+    "ref": "6a1d8e335c79a20a3f129009"
+   },
+   {
+    "slug": "location-label",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "name",
+    "type": "PlainText",
+    "req": true
+   },
+   {
+    "slug": "slug",
+    "type": "PlainText",
+    "req": true
+   }
+  ]
+ },
+ "hotels": {
+  "id": "6a1ba1aa850dcc5431bb3f74",
+  "name": "Hotels",
+  "slug": "hotel",
+  "fields": [
+   {
+    "slug": "brand",
+    "type": "Reference",
+    "req": false,
+    "ref": "6a1b9dbf9165c2dad25a679b"
+   },
+   {
+    "slug": "loyalty-program",
+    "type": "Reference",
+    "req": false,
+    "ref": "6a1b9ce4b53fa628775ca2e6"
+   },
+   {
+    "slug": "destination",
+    "type": "Reference",
+    "req": false,
+    "ref": "6a1b9ef66b8fa6046c396410"
+   },
+   {
+    "slug": "neighborhood",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "property-segment",
+    "type": "Option",
+    "req": false,
+    "options": {
+     "d56e17c69ce6a9554cb1182f85ad564c": "Ultra Luxury",
+     "b27c5414fa5fad1f4a5e3c548383ef75": "Luxury",
+     "2478d4b5259517dc687b285fcf380373": "Upscale",
+     "d0d15fffdaae87aeb6ab2709a9a882ec": "Midscale",
+     "72b4d610753c82bfb18a3443118e1961": "Budget",
+     "32e424dde574d8c697d103eba805be5b": "Extended Stay"
+    }
+   },
+   {
+    "slug": "opening-year",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "renovation-year",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "hero-image",
+    "type": "Image",
+    "req": false
+   },
+   {
+    "slug": "gallery",
+    "type": "MultiImage",
+    "req": false
+   },
+   {
+    "slug": "luxury-to-midscale-review-2",
+    "type": "Reference",
+    "req": false,
+    "ref": "6a1c10c7b187ffdba1371082"
+   },
+   {
+    "slug": "review-status",
+    "type": "Option",
+    "req": false,
+    "options": {
+     "fca6b2098305656c62a9863434374c75": "Reviewed",
+     "6341f796ac30eee934482eddafc9df03": "Not Reviewed",
+     "53a774cd46b48ec80bfa81485e0c8f70": "Coming Soon",
+     "04b2fcc62ec63111fdf5b357d2d38945": "Data Only"
+    }
+   },
+   {
+    "slug": "has-user-data",
+    "type": "Switch",
+    "req": false
+   },
+   {
+    "slug": "number-of-stay-reports",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "average-upgrade-rate",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "breakfast-reliability",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "lounge-access-reliability",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "late-checkout-reliability",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "welcome-amenity-reliability",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "stay-data-last-updated",
+    "type": "DateTime",
+    "req": false
+   },
+   {
+    "slug": "submit-stay-form-url",
+    "type": "Link",
+    "req": false
+   },
+   {
+    "slug": "tier-1-upgrade-rate",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "tier-1-suite-upgrade-rate",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "tier-2-upgrade-rate",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "tier-2-suite-upgrade-rate",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "amenities",
+    "type": "MultiReference",
+    "req": false,
+    "ref": "6a1d8162064058de841039ab"
+   },
+   {
+    "slug": "average-suite-upgrade-rate",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "upgrade-count",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "upgrade-sample",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "suite-upgrade-count",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "suite-upgrade-sample",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "breakfast-count",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "breakfast-sample",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "lounge-count",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "lounge-sample",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "late-checkout-count",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "late-checkout-sample",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "welcome-amenity-count",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "welcome-amenity-sample",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "hero-summary",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "resort-fee",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "points-eligible",
+    "type": "Switch",
+    "req": false
+   },
+   {
+    "slug": "number-of-rooms",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "early-check-in-reliability",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "early-check-in-count",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "early-check-in-sample",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "check-in-time",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "check-out-time",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "phone-number",
+    "type": "Phone",
+    "req": false
+   },
+   {
+    "slug": "booking-link",
+    "type": "Link",
+    "req": false
+   },
+   {
+    "slug": "street-address",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "pet-fee",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "full-name",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "short-name",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "featured",
+    "type": "Option",
+    "req": false,
+    "options": {
+     "40592dafb32f0ce0571d203e68c02ac7": "feature 1",
+     "eba19537820e12d458ca31ab4cfc7a5e": "feature 2",
+     "3f0a85de705828409d8ae1aaf1e0fae9": "freature 3",
+     "adf0c6d4c64e798cbbe18b5d21d39bf4": "feature 4"
+    }
+   },
+   {
+    "slug": "name",
+    "type": "PlainText",
+    "req": true
+   },
+   {
+    "slug": "slug",
+    "type": "PlainText",
+    "req": true
+   }
+  ]
+ },
+ "reviews": {
+  "id": "6a1c10c7b187ffdba1371082",
+  "name": "Reviews",
+  "slug": "hotel-reviews",
+  "fields": [
+   {
+    "slug": "hotel",
+    "type": "Reference",
+    "req": false,
+    "ref": "6a1ba1aa850dcc5431bb3f74"
+   },
+   {
+    "slug": "brand",
+    "type": "Reference",
+    "req": false,
+    "ref": "6a1b9dbf9165c2dad25a679b"
+   },
+   {
+    "slug": "loyalty-program",
+    "type": "Reference",
+    "req": false,
+    "ref": "6a1b9ce4b53fa628775ca2e6"
+   },
+   {
+    "slug": "destination",
+    "type": "Reference",
+    "req": false,
+    "ref": "6a1b9ef66b8fa6046c396410"
+   },
+   {
+    "slug": "stay-date",
+    "type": "DateTime",
+    "req": false
+   },
+   {
+    "slug": "publish-date",
+    "type": "DateTime",
+    "req": false
+   },
+   {
+    "slug": "hero-image",
+    "type": "Image",
+    "req": false
+   },
+   {
+    "slug": "booking-method",
+    "type": "Option",
+    "req": false,
+    "options": {
+     "6a8e52ace8855b3dba4e99648eddd108": "Cash",
+     "7dee21e5f99e65c1d4a3824046cc78fd": "Points",
+     "a10f84a4e05cb1c272643fee176a9e51": "Free Night Certificate",
+     "f0dd0b216e13017b5cfac9a1933c2710": "Credit Card Portal",
+     "34999e1f87bd42979b236a58f151a7cd": "Third Party",
+     "ceccdf4adc6099c79df425898e25461d": "Corporate Rate",
+     "efa049a119d10fae7a0d815fc266841e": "Guest of Honor",
+     "21e7f39b5d1244f1020efa7777223c5d": "Other"
+    }
+   },
+   {
+    "slug": "short-verdict",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "feature-slot",
+    "type": "Option",
+    "req": false,
+    "options": {
+     "f8b27e3def4d7cad421100c60b152ad6": "None",
+     "6ea12455428d3c395b370d97db554956": "Lead",
+     "b82fa4b20c08740ddee56a83883e9f7d": "Secondary"
+    }
+   },
+   {
+    "slug": "property-type",
+    "type": "Option",
+    "req": false,
+    "options": {
+     "6af36923c7b7801bb4998b5a705652a6": "City Hotel",
+     "580a4af74efe18c261a8a4570f139bda": "Resort"
+    }
+   },
+   {
+    "slug": "elite-status-during-stay",
+    "type": "Reference",
+    "req": false,
+    "ref": "6a1b9e3465d062b2a6c2b8b2"
+   },
+   {
+    "slug": "recommended-for",
+    "type": "RichText",
+    "req": false
+   },
+   {
+    "slug": "not-recommended-for",
+    "type": "RichText",
+    "req": false
+   },
+   {
+    "slug": "value-for-cash",
+    "type": "Option",
+    "req": false,
+    "options": {
+     "f8fd1fbf25b4b3d30e44c99fcda0a71d": "Best",
+     "a350fefa2109b12d427c562b454ebfe4": "Great",
+     "130c738c280d4d1aea337fcc16dfbc2d": "Good",
+     "44c2c47d83496dcaa1e10cb5c7f95d5d": "Fair",
+     "94cee98a859f12c6973953bb2cb29442": "Poor"
+    }
+   },
+   {
+    "slug": "value-for-points",
+    "type": "Option",
+    "req": false,
+    "options": {
+     "efd33e96e75536d7ab6f51dc439ade35": "Best",
+     "9dda6e4a21b39c6ef5b49fc21af8ba25": "Great",
+     "00966d23007cd0d9ac728b39d41e505e": "Good",
+     "7d25f1f4c9be27a7f8df38070d85998e": "Fair",
+     "3c50a57323919e1a493cdb9a3f14037c": "Poor"
+    }
+   },
+   {
+    "slug": "cash-points-value-notes",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "room-booked",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "room-received",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "opening-thoughts",
+    "type": "RichText",
+    "req": false
+   },
+   {
+    "slug": "room-layout-score",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "room-layout-review",
+    "type": "RichText",
+    "req": false
+   },
+   {
+    "slug": "bathroom-score",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "bathroom-review",
+    "type": "RichText",
+    "req": false
+   },
+   {
+    "slug": "bed-sleep-score",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "bed-sleep-review",
+    "type": "RichText",
+    "req": false
+   },
+   {
+    "slug": "tech-implementation-score",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "tech-implementation-review",
+    "type": "RichText",
+    "req": false
+   },
+   {
+    "slug": "amenities-score",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "amenities-review",
+    "type": "RichText",
+    "req": false
+   },
+   {
+    "slug": "atmosphere-design-score",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "atmosphere-design-review",
+    "type": "RichText",
+    "req": false
+   },
+   {
+    "slug": "maintenance-upkeep-score",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "maintenance-upkeep-review",
+    "type": "RichText",
+    "req": false
+   },
+   {
+    "slug": "location-and-or-view-score",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "location-and-or-view-review",
+    "type": "RichText",
+    "req": false
+   },
+   {
+    "slug": "check-in-arrival-score",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "check-in-arrival-review",
+    "type": "RichText",
+    "req": false
+   },
+   {
+    "slug": "service-operational-excellence-score",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "service-operational-excellence-review",
+    "type": "RichText",
+    "req": false
+   },
+   {
+    "slug": "service-peak-anticipation-score",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "service-peak-anticipation-review",
+    "type": "RichText",
+    "req": false
+   },
+   {
+    "slug": "operational-excellence-score",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "operational-excellence-review",
+    "type": "RichText",
+    "req": false
+   },
+   {
+    "slug": "housekeeping-score",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "housekeeping-review",
+    "type": "RichText",
+    "req": false
+   },
+   {
+    "slug": "breakfast-score",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "breakfast-review",
+    "type": "RichText",
+    "req": false
+   },
+   {
+    "slug": "crowding-exclusivity-score",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "crowding-exclusivity-review",
+    "type": "RichText",
+    "req": false
+   },
+   {
+    "slug": "departure-experience-score",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "departure-experience-review",
+    "type": "RichText",
+    "req": false
+   },
+   {
+    "slug": "final-verdict",
+    "type": "RichText",
+    "req": false
+   },
+   {
+    "slug": "hard-product-score",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "soft-product-score",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "total-review-score",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "score-band",
+    "type": "Option",
+    "req": false,
+    "options": {
+     "1621d0deea5a203adcc6b7481ce787ca": "World Class",
+     "57fe16f3f8cf7dedcc72cf72a3514114": "Exceptional",
+     "728fb9aa019a30c777d965c026a8d4a4": "Excellent",
+     "611c250bd3cf443eefa6734e5addba53": "Great",
+     "9df48977874a9d3467c9bba2a9f67a44": "Very Good",
+     "b4a3d140df98d1c40a1d3e37e05b7c8a": "Good",
+     "8c117328f9cf00254b5bd65bb486b100": "Fair",
+     "331f9dd729f8807dece8132d49ac1fd8": "Needs Work"
+    }
+   },
+   {
+    "slug": "would-i-stay-here-again",
+    "type": "Option",
+    "req": false,
+    "options": {
+     "e6cc1dbec51736b3d43ed5175b7f0106": "Yes",
+     "829d2937cfe797e802bfb36b780e0cbd": "Maybe",
+     "bf63e16dd7d3b37ae9a4f5301cb3c78b": "No"
+    }
+   },
+   {
+    "slug": "meta-title",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "meta-description",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "name",
+    "type": "PlainText",
+    "req": true
+   },
+   {
+    "slug": "slug",
+    "type": "PlainText",
+    "req": true
+   }
+  ]
+ },
+ "hotel-status-data": {
+  "id": "6a1c16d09c83315aa81818dc",
+  "name": "Hotel Status Data",
+  "slug": "hotel-status-data",
+  "fields": [
+   {
+    "slug": "hotel",
+    "type": "Reference",
+    "req": false,
+    "ref": "6a1ba1aa850dcc5431bb3f74"
+   },
+   {
+    "slug": "loyalty-program",
+    "type": "Reference",
+    "req": false,
+    "ref": "6a1b9ce4b53fa628775ca2e6"
+   },
+   {
+    "slug": "status-level",
+    "type": "Reference",
+    "req": false,
+    "ref": "6a1b9e3465d062b2a6c2b8b2"
+   },
+   {
+    "slug": "has-user-data",
+    "type": "Switch",
+    "req": false
+   },
+   {
+    "slug": "number-of-stay-reports",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "average-upgrade-rates",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "average-suite-upgrade-rate",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "breakfast-reliability",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "lounge-access-reliability",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "late-checkout-reliability",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "name",
+    "type": "PlainText",
+    "req": true
+   },
+   {
+    "slug": "slug",
+    "type": "PlainText",
+    "req": true
+   }
+  ]
+ },
+ "guides": {
+  "id": "6a1c17915999bd4226976ec5",
+  "name": "Guides",
+  "slug": "guides",
+  "fields": [
+   {
+    "slug": "guide-category",
+    "type": "Option",
+    "req": false,
+    "options": {
+     "b00417575b0e5e5ef370140b614557ab": "Loyalty Programs",
+     "0f5ca14bff920c77753abca1d544ed21": "Brand Comparisons",
+     "0e23451b7997aed3a99194724b83de41": "Destination Guides",
+     "05e3eb24c487d04f648e584e95c6cc13": "Points & Perks",
+     "75788f0ff5c037ed3e63631d025ee5b1": "Elite Benefits"
+    }
+   },
+   {
+    "slug": "related-loyalty-program",
+    "type": "Reference",
+    "req": false,
+    "ref": "6a1b9ce4b53fa628775ca2e6"
+   },
+   {
+    "slug": "related-brand",
+    "type": "Reference",
+    "req": false,
+    "ref": "6a1b9dbf9165c2dad25a679b"
+   },
+   {
+    "slug": "related-destination",
+    "type": "Reference",
+    "req": false,
+    "ref": "6a1b9ef66b8fa6046c396410"
+   },
+   {
+    "slug": "related-hotels",
+    "type": "Reference",
+    "req": false,
+    "ref": "6a1ba1aa850dcc5431bb3f74"
+   },
+   {
+    "slug": "hero-image",
+    "type": "Image",
+    "req": false
+   },
+   {
+    "slug": "excerpt",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "body",
+    "type": "RichText",
+    "req": false
+   },
+   {
+    "slug": "publish-date",
+    "type": "DateTime",
+    "req": false
+   },
+   {
+    "slug": "seo-title",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "seo-description",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "name",
+    "type": "PlainText",
+    "req": true
+   },
+   {
+    "slug": "slug",
+    "type": "PlainText",
+    "req": true
+   }
+  ]
+ },
+ "hotel-upgrade-data": {
+  "id": "6a1d7e893239b9ede33ab914",
+  "name": "Hotel Upgrade Data",
+  "slug": "hotel-upgrade-data",
+  "fields": [
+   {
+    "slug": "hotel",
+    "type": "Reference",
+    "req": false,
+    "ref": "6a1ba1aa850dcc5431bb3f74"
+   },
+   {
+    "slug": "status-level",
+    "type": "Reference",
+    "req": false,
+    "ref": "6a1b9e3465d062b2a6c2b8b2"
+   },
+   {
+    "slug": "upgrade-success-rate",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "suite-upgrade-success-rate",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "breakfast-reliability",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "lounge-access-reliability",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "late-checkout-reliability",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "welcome-amenity-reliability",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "notes",
+    "type": "PlainText",
+    "req": false
+   },
+   {
+    "slug": "name",
+    "type": "PlainText",
+    "req": true
+   },
+   {
+    "slug": "slug",
+    "type": "PlainText",
+    "req": true
+   }
+  ]
+ },
+ "amenities": {
+  "id": "6a1d8162064058de841039ab",
+  "name": "Amenities",
+  "slug": "amenities",
+  "fields": [
+   {
+    "slug": "icon",
+    "type": "Image",
+    "req": false
+   },
+   {
+    "slug": "name",
+    "type": "PlainText",
+    "req": true
+   },
+   {
+    "slug": "slug",
+    "type": "PlainText",
+    "req": true
+   }
+  ]
+ },
+ "regions": {
+  "id": "6a1d8e335c79a20a3f129009",
+  "name": "Regions",
+  "slug": "regions",
+  "fields": [
+   {
+    "slug": "display-order",
+    "type": "Number",
+    "req": false
+   },
+   {
+    "slug": "name",
+    "type": "PlainText",
+    "req": true
+   },
+   {
+    "slug": "slug",
+    "type": "PlainText",
+    "req": true
+   }
+  ]
+ }
+}
