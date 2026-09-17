@@ -364,6 +364,21 @@ async function publishAll(payload: Payload) {
   }
 }
 
+// The same as publish, done in SQL: seconds instead of one round trip per
+// record. Safe because neither collection has save hooks. Flips the main
+// row and the latest version row, which is what Payload's publish does.
+async function publishAllFast(payload: Payload) {
+  const { sql } = await import('@payloadcms/db-postgres')
+  const db = payload.db as unknown as { drizzle: { execute: (q: unknown) => Promise<unknown> } }
+  for (const table of ['destinations', 'hotels'] as const) {
+    const before = await payload.count({ collection: table, where: { _status: { equals: 'draft' } }, overrideAccess: true })
+    await db.drizzle.execute(sql.raw(`update ${table} set _status = 'published', updated_at = now() where _status = 'draft'`))
+    await db.drizzle.execute(sql.raw(`update _${table}_v set version__status = 'published', updated_at = now() where latest = true and version__status = 'draft'`))
+    const after = await payload.count({ collection: table, where: { _status: { equals: 'published' } }, overrideAccess: true })
+    console.log(`${table}: published ${before.totalDocs} drafts; ${after.totalDocs} now published`)
+  }
+}
+
 // ---- main -------------------------------------------------------------------
 
 const STEPS: Record<string, (p: Payload) => Promise<void>> = {
@@ -377,6 +392,7 @@ const STEPS: Record<string, (p: Payload) => Promise<void>> = {
   hotels: importHotels,
   reviews: importReviews,
   publish: publishAll,
+  'publish-fast': publishAllFast,
 }
 
 async function main() {
