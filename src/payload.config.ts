@@ -11,6 +11,7 @@ import { Amenities } from './collections/Amenities'
 import { Brands } from './collections/Brands'
 import { Destinations } from './collections/Destinations'
 import { Hotels } from './collections/Hotels'
+import { Lounges } from './collections/Lounges'
 import { Media } from './collections/Media'
 import { Programs } from './collections/Programs'
 import { ReaderStays } from './collections/ReaderStays'
@@ -37,11 +38,12 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  // Lounges, Guides and Content Clusters arrive with Milestone 3.
+  // Guides and Content Clusters arrive with Milestone 3.
   collections: [
     Hotels,
     Reviews,
     ReaderStays,
+    Lounges,
     RubricVersions,
     Programs,
     Brands,

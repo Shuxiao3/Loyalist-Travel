@@ -459,19 +459,54 @@ async function seedStays(payload: Payload) {
     console.log(`seed-stays: ${existing.totalDocs} mock stays already present; run unseed-stays first`)
     return
   }
+  // a mock lounge, so the lounge questions and pages have something to show
+  let lounge = (await payload.find({ collection: 'lounges', where: { slug: { equals: 'mock-park-club-new-york' } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
+  if (!lounge) {
+    lounge = await payload.create({
+      collection: 'lounges',
+      overrideAccess: true,
+      data: {
+        name: 'Park Club (mock)',
+        slug: 'mock-park-club-new-york',
+        hotel: hotel.id,
+        location: '25th floor',
+        access: { tiers: [globalist, lifetime], clubRooms: true, paid: '' },
+        services: [
+          { service: 'breakfast', from: '6:30am', to: '10:30am' },
+          { service: 'afternoon-tea', from: '2:30pm', to: '4:30pm' },
+          { service: 'evening', from: '5:30pm', to: '7:30pm' },
+        ],
+        dressCode: 'Smart casual',
+        _status: 'published',
+      } as never,
+    })
+  }
+  // [access, rating, worthIt] for the Globalist and Lifetime rows; the others are not eligible
+  const loungeAnswers: ([string, number | null, string | null] | null)[] = [
+    ['given', 9, 'yes'], ['given', 8, 'yes'], ['given', 7, 'no'], ['declined', null, null], ['given', 9, 'yes'], ['given', 8, 'yes'],
+    ['given', 9, 'yes'], ['not-used', null, null], ['given', 8, 'yes'], ['given', 6, 'no'], ['given', 8, 'yes'], ['given', 9, 'yes'],
+    ['given', 9, 'yes'], ['given', 10, 'yes'], ['given', 8, 'yes'],
+    null, null, null, null, null, null, null, null, null,
+  ]
+  let i = 0
   for (const [statusHeld, upgrade, upgradeType, suiteType, upgradeHow, breakfast, alaCarteCap, lateCheckout] of rows) {
+    const la = loungeAnswers[i++]
     await payload.create({
       collection: 'reader-stays',
       overrideAccess: true,
-      data: { status: 'approved', hotel: hotel.id, program: programId, statusHeld, stayYear: 2026, upgrade, upgradeType, suiteType, upgradeHow, breakfast, alaCarteCap, lateCheckout, submitterHash: MOCK_HASH } as never,
+      data: {
+        status: 'approved', hotel: hotel.id, program: programId, statusHeld, stayYear: 2026, upgrade, upgradeType, suiteType, upgradeHow, breakfast, alaCarteCap, lateCheckout, submitterHash: MOCK_HASH,
+        lounge: la ? { lounge: lounge.id, access: la[0], rating: la[1], worthIt: la[2] } : undefined,
+      } as never,
     })
   }
-  console.log(`seed-stays: ${rows.length} approved mock stays on ${hotel.name}`)
+  console.log(`seed-stays: ${rows.length} approved mock stays on ${hotel.name}, with a mock lounge`)
 }
 
 async function unseedStays(payload: Payload) {
   const res = await payload.delete({ collection: 'reader-stays', where: { submitterHash: { equals: MOCK_HASH } }, overrideAccess: true })
-  console.log(`unseed-stays: removed ${res.docs.length} mock stays`)
+  const l = await payload.delete({ collection: 'lounges', where: { slug: { equals: 'mock-park-club-new-york' } }, overrideAccess: true })
+  console.log(`unseed-stays: removed ${res.docs.length} mock stays and ${l.docs.length} mock lounge`)
 }
 
 // ---- main -------------------------------------------------------------------

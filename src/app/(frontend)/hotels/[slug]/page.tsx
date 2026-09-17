@@ -9,6 +9,7 @@ import { ReviewCard } from '@/components/ReviewCard'
 import { StayForm } from '@/components/StayForm'
 import { rel, score } from '@/lib/format'
 import { getHotel, getHotelsIn, getPayloadClient, getReviewsForHotel } from '@/lib/queries'
+import { accessLine, getLoungesForHotel, loungeReaderData, servicesLine } from '@/lib/lounges'
 import { hotelReaderData } from '@/lib/readerData'
 import { PROPERTY_TYPE_LABEL } from '@/lib/site'
 import type { Amenity, Brand, Destination, Program } from '@/payload-types'
@@ -40,13 +41,15 @@ export default async function HotelPage({ params }: Props) {
   const destination = rel<Destination>(hotel.destination)
   const amenities = (hotel.amenities ?? []).map((a) => rel<Amenity>(a)).filter((a): a is Amenity => Boolean(a))
   const payload = await getPayloadClient()
-  const [reviewsRes, readerData, tiersRes] = await Promise.all([
+  const [reviewsRes, readerData, tiersRes, lounges] = await Promise.all([
     getReviewsForHotel(hotel.id),
     hotelReaderData(hotel.id),
     program ? payload.find({ collection: 'status-levels', where: { program: { equals: program.id } }, sort: 'rank', limit: 20, depth: 0 }) : Promise.resolve(null),
+    getLoungesForHotel(hotel.id),
   ])
   const reviews = reviewsRes.docs
   const tiers = (tiersRes?.docs ?? []).map((t) => ({ id: t.id, name: t.name, shortName: t.shortName }))
+  const loungeRows = await Promise.all(lounges.map(async (l) => ({ lounge: l, data: (await loungeReaderData(l.id)).data ?? null })))
   const latest = reviews[0]
   const nearby = destination
     ? (await getHotelsIn({ and: [{ destination: { equals: destination.id } }, { id: { not_equals: hotel.id } }] }, 6)).docs
@@ -179,7 +182,7 @@ export default async function HotelPage({ params }: Props) {
               <span className="eyebrow">Stayed here on status?</span>
               <h3 className={styles.stayTitle}>Add your stay. Two minutes.</h3>
               {program && tiers.length > 0 ? (
-                <StayForm hotel={{ id: hotel.id, name: hotel.name }} programName={program.name} tiers={tiers} compact />
+                <StayForm hotel={{ id: hotel.id, name: hotel.name }} programName={program.name} tiers={tiers} lounges={lounges.map((l) => ({ id: l.id, name: l.name }))} compact />
               ) : (
                 <p className={styles.empty}>This program's tiers are not set up yet.</p>
               )}
@@ -187,6 +190,32 @@ export default async function HotelPage({ params }: Props) {
           </div>
         </div>
       </section>
+
+      {loungeRows.length > 0 && (
+        <section className={`section ${styles.loungeSection}`} aria-labelledby="lounge-h">
+          <div className="wrap">
+            <div className="section-head">
+              <div>
+                <span className="eyebrow on-light">Lounge</span>
+                <h2 id="lounge-h">{loungeRows.length === 1 ? loungeRows[0].lounge.name : 'Lounges'}</h2>
+              </div>
+              <Link className="more" href="/lounges">
+                All lounges
+              </Link>
+            </div>
+            <div className={loungeRows.length > 1 ? 'grid-cells two' : `grid-cells ${styles.loungeOne}`}>
+              {loungeRows.map(({ lounge, data }) => (
+                <Link className={`cell ${styles.loungeCell}`} href={`/lounges/${lounge.slug}`} key={lounge.id}>
+                  <span className="label">{accessLine(lounge)}</span>
+                  <span className={styles.loungeName}>{lounge.name}</span>
+                  <span className="val">{servicesLine(lounge) || 'Hours and service not recorded yet.'}</span>
+                  <span className={styles.loungeScore}>{data?.score != null ? `Reader score ${data.score.toFixed(1)} of 10` : 'Not yet rated'}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {nearby.length > 0 && destination && (
         <section className={`section ${styles.nearby}`} aria-labelledby="near-h">

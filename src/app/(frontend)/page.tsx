@@ -5,7 +5,9 @@ import { HomeHero, type HeroSlide } from '@/components/HomeHero'
 import { ReviewCard } from '@/components/ReviewCard'
 import { count, mediaUrl, rel, score } from '@/lib/format'
 import { getFeaturedHotel, getPrograms, getReviews, getSiteCounts } from '@/lib/queries'
+import { getLoungeDirectory } from '@/lib/lounges'
 import { readerStayCount, sitewideReaderData } from '@/lib/readerData'
+import { LoungeRows } from '@/components/LoungeRows'
 import type { Brand, Destination, Hotel, Program } from '@/payload-types'
 
 import styles from './page.module.css'
@@ -26,7 +28,8 @@ function suiteWords(rate: number): string {
 }
 
 export default async function HomePage() {
-  const [reviews, programs, counts, featured, reader, readerCount] = await Promise.all([getReviews({ limit: 4 }), getPrograms(), getSiteCounts(), getFeaturedHotel(), sitewideReaderData(), readerStayCount()])
+  const [reviews, programs, counts, featured, reader, readerCount, lounges] = await Promise.all([getReviews({ limit: 4 }), getPrograms(), getSiteCounts(), getFeaturedHotel(), sitewideReaderData(), readerStayCount(), getLoungeDirectory()])
+  const ratedLounges = lounges.filter((l) => l.data?.score != null).slice(0, 4)
   const latest = reviews.docs[0]
   const cards = reviews.docs.slice(latest ? 1 : 0, 4)
 
@@ -215,6 +218,25 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {ratedLounges.length > 0 && (
+        <section className={`section ${styles.lounges}`} aria-labelledby="lg-h">
+          <div className={`wrap ${styles.loungesGrid}`}>
+            <div>
+              <span className={`eyebrow on-light ${styles.loungesEyebrow}`}>Lounges</span>
+              <h2 id="lg-h" className={styles.loungesH2}>
+                Is the club lounge worth the room category?
+              </h2>
+              <p className={styles.loungesP}>Access rules by status, hours, what actually gets served, and whether it beats the restaurant downstairs. Every lounge scored by readers who sat in it.</p>
+              <Link className={`ghost ${styles.loungesGhost}`} href="/lounges">
+                Browse the directory
+                <Arrow />
+              </Link>
+            </div>
+            <LoungeRows rows={ratedLounges} />
+          </div>
+        </section>
+      )}
 
       <section className={`section ${styles.cta}`} aria-label="Contribute">
         <div className="wrap">

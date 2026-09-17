@@ -30,11 +30,6 @@
   border: 1px solid var(--gold-border);
   padding: var(--s5) var(--s6);
   border-radius: var(--r);
-  color: inherit;
-}
-
-a.scorePanel:hover {
-  border-color: var(--gold-dark);
 }
 
 .scoreLabel {
@@ -68,66 +63,68 @@ a.scorePanel:hover {
   margin-bottom: var(--s5);
 }
 
-.empty {
-  font-size: var(--t-md);
-  line-height: 1.7;
-  color: var(--text-2);
-  max-width: 56ch;
+.body {
+  padding-bottom: var(--section);
 }
 
-.readerGrid {
+.bodyGrid {
   display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: var(--card-gap);
   align-items: start;
 }
 
-.stayPanel :global(.eyebrow) {
-  display: block;
-  margin-bottom: var(--s3);
+.figures {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s5);
 }
 
-.stayTitle {
-  font-size: var(--t-lg);
-  color: var(--ivory);
-  margin-bottom: var(--s5);
-}
-
-.loungeOne {
-  grid-template-columns: minmax(0, 1fr);
-  max-width: 560px;
-}
-
-.loungeCell :global(.label) {
-  color: var(--gold-dark);
-}
-
-.loungeName {
+.n {
   font-family: var(--serif);
-  font-size: var(--t-lg);
-  color: var(--heading);
-  line-height: 1.25;
+  font-size: var(--t-stat);
+  line-height: 1;
+  color: var(--gold);
+  margin-bottom: var(--s2);
 }
 
-.loungeScore {
-  margin-top: var(--s2);
-  font-size: var(--t-xs);
-  color: var(--muted);
-  letter-spacing: var(--track-fine);
+.l {
+  font-size: var(--t-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--on-navy-muted);
+  line-height: 1.6;
 }
 
-.nearby {
-  padding-bottom: var(--section);
+.waiting {
+  font-size: var(--t-md);
+  line-height: 1.6;
+  color: var(--light);
+  max-width: 48ch;
+}
+
+.waiting a {
+  color: var(--gold);
+}
+
+.waiting2 {
+  font-size: var(--t-md);
+  color: var(--text-2);
+}
+
+.noteEyebrow {
+  display: block;
+  margin-bottom: var(--s4);
 }
 
 @media (max-width: 1100px) {
-  .heroGrid {
+  .heroGrid,
+  .bodyGrid {
     grid-template-columns: 1fr;
-    gap: var(--s7);
   }
 
-  .readerGrid {
-    grid-template-columns: 1fr;
+  .heroGrid {
+    gap: var(--s7);
   }
 
   .scorePanel {
@@ -140,15 +137,7 @@ a.scorePanel:hover {
     padding-top: var(--s6);
   }
 
-  .heroGrid {
-    gap: var(--s6);
-  }
-
-  .h1 {
-    margin-bottom: var(--s4);
-  }
-
-  .sub {
-    margin-bottom: var(--s5);
+  .figures {
+    grid-template-columns: 1fr;
   }
 }

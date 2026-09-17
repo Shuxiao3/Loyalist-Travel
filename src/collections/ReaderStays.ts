@@ -44,6 +44,17 @@ export const ALA_CARTE_CAP = [
   { label: 'Capped', value: 'capped' },
 ]
 
+export const LOUNGE_ACCESS = [
+  { label: 'Given', value: 'given' },
+  { label: 'Declined', value: 'declined' },
+  { label: 'Did not use it', value: 'not-used' },
+]
+
+export const LOUNGE_WORTH_IT = [
+  { label: 'Yes', value: 'yes' },
+  { label: 'No', value: 'no' },
+]
+
 export const LATE_CHECKOUT_OUTCOMES = [
   { label: 'Honoured', value: 'honoured' },
   { label: 'Declined', value: 'declined' },
@@ -108,11 +119,20 @@ export const ReaderStays: CollectionConfig = {
       ],
     },
     {
-      name: 'loungeRating',
-      type: 'number',
-      min: 1,
-      max: 10,
-      admin: { description: 'Asked only where the hotel has a lounge on record. Arrives with the Lounges collection.' },
+      name: 'lounge',
+      type: 'group',
+      admin: { description: 'Asked only where the hotel has a lounge on record.' },
+      fields: [
+        {
+          type: 'row',
+          fields: [
+            { name: 'lounge', type: 'relationship', relationTo: 'lounges', index: true },
+            { name: 'access', type: 'select', options: LOUNGE_ACCESS },
+            { name: 'rating', type: 'number', min: 1, max: 10, admin: { description: '1 to 10.' } },
+            { name: 'worthIt', type: 'select', options: LOUNGE_WORTH_IT, label: 'Worth a club room?' },
+          ],
+        },
+      ],
     },
     {
       name: 'submitterHash',

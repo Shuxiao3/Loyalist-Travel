@@ -70,6 +70,7 @@ export interface Config {
     hotels: Hotel;
     reviews: Review;
     'reader-stays': ReaderStay;
+    lounges: Lounge;
     'rubric-versions': RubricVersion;
     programs: Program;
     brands: Brand;
@@ -96,6 +97,7 @@ export interface Config {
     hotels: HotelsSelect<false> | HotelsSelect<true>;
     reviews: ReviewsSelect<false> | ReviewsSelect<true>;
     'reader-stays': ReaderStaysSelect<false> | ReaderStaysSelect<true>;
+    lounges: LoungesSelect<false> | LoungesSelect<true>;
     'rubric-versions': RubricVersionsSelect<false> | RubricVersionsSelect<true>;
     programs: ProgramsSelect<false> | ProgramsSelect<true>;
     brands: BrandsSelect<false> | BrandsSelect<true>;
@@ -911,15 +913,92 @@ export interface ReaderStay {
   alaCarteCap?: ('uncapped' | 'capped') | null;
   lateCheckout: 'honoured' | 'declined' | 'not-requested';
   /**
-   * Asked only where the hotel has a lounge on record. Arrives with the Lounges collection.
+   * Asked only where the hotel has a lounge on record.
    */
-  loungeRating?: number | null;
+  lounge?: {
+    lounge?: (number | null) | Lounge;
+    access?: ('given' | 'declined' | 'not-used') | null;
+    /**
+     * 1 to 10.
+     */
+    rating?: number | null;
+    worthIt?: ('yes' | 'no') | null;
+  };
   /**
    * Hashed network address, for spotting repeat submissions. Never shown.
    */
   submitterHash?: string | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "lounges".
+ */
+export interface Lounge {
+  id: number;
+  /**
+   * As the hotel calls it, e.g. "Grand Club".
+   */
+  name: string;
+  slug: string;
+  hotel: number | Hotel;
+  /**
+   * e.g. "32nd floor".
+   */
+  location?: string | null;
+  /**
+   * Who gets in, as printed.
+   */
+  access?: {
+    /**
+     * Tiers of the hotel's program with lounge access.
+     */
+    tiers?: (number | StatusLevel)[] | null;
+    clubRooms?: boolean | null;
+    /**
+     * Leave blank if none, else the price, e.g. "$120 per person per day".
+     */
+    paid?: string | null;
+  };
+  /**
+   * What is served and when.
+   */
+  services?:
+    | {
+        service: 'breakfast' | 'afternoon-tea' | 'evening' | 'all-day';
+        from?: string | null;
+        to?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  dressCode?: string | null;
+  /**
+   * The editorial take: does it beat the restaurant?
+   */
+  note?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  image?: (number | null) | Media;
+  /**
+   * Hosted image URL until owned media is uploaded.
+   */
+  externalImageUrl?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -981,6 +1060,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'reader-stays';
         value: number | ReaderStay;
+      } | null)
+    | ({
+        relationTo: 'lounges';
+        value: number | Lounge;
       } | null)
     | ({
         relationTo: 'rubric-versions';
@@ -1254,10 +1337,49 @@ export interface ReaderStaysSelect<T extends boolean = true> {
   breakfast?: T;
   alaCarteCap?: T;
   lateCheckout?: T;
-  loungeRating?: T;
+  lounge?:
+    | T
+    | {
+        lounge?: T;
+        access?: T;
+        rating?: T;
+        worthIt?: T;
+      };
   submitterHash?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "lounges_select".
+ */
+export interface LoungesSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  hotel?: T;
+  location?: T;
+  access?:
+    | T
+    | {
+        tiers?: T;
+        clubRooms?: T;
+        paid?: T;
+      };
+  services?:
+    | T
+    | {
+        service?: T;
+        from?: T;
+        to?: T;
+        id?: T;
+      };
+  dressCode?: T;
+  note?: T;
+  image?: T;
+  externalImageUrl?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
