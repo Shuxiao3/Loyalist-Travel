@@ -14,7 +14,9 @@
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "import:webflow": "cross-env NODE_OPTIONS=--no-deprecation node --env-file-if-exists=.env node_modules/.bin/tsx scripts/webflow/import.ts",
+    "import:check": "cross-env NODE_OPTIONS=--no-deprecation node --env-file-if-exists=.env node_modules/.bin/tsx scripts/webflow/spot-check.ts"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "3.89.0",
@@ -23,6 +25,7 @@
     "@payloadcms/ui": "3.89.0",
     "cross-env": "^7.0.3",
     "graphql": "^16.11.0",
+    "htmlparser2": "^10.1.0",
     "next": "15.4.11",
     "payload": "3.89.0",
     "react": "19.1.1",
@@ -33,7 +36,8 @@
     "@types/node": "^22.15.0",
     "@types/react": "19.1.8",
     "@types/react-dom": "19.1.6",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "tsx": "^4.19.0"
   },
   "engines": {
     "node": "^18.20.2 || >=20.9.0"

@@ -67,17 +67,42 @@ export interface Config {
   };
   blocks: {};
   collections: {
-    users: User;
+    hotels: Hotel;
+    reviews: Review;
+    'rubric-versions': RubricVersion;
+    programs: Program;
+    brands: Brand;
+    'status-levels': StatusLevel;
+    destinations: Destination;
+    regions: Region;
+    amenities: Amenity;
     media: Media;
+    users: User;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
-  collectionsJoins: {};
+  collectionsJoins: {
+    hotels: {
+      reviews: 'reviews';
+    };
+    programs: {
+      tiers: 'status-levels';
+    };
+  };
   collectionsSelect: {
-    users: UsersSelect<false> | UsersSelect<true>;
+    hotels: HotelsSelect<false> | HotelsSelect<true>;
+    reviews: ReviewsSelect<false> | ReviewsSelect<true>;
+    'rubric-versions': RubricVersionsSelect<false> | RubricVersionsSelect<true>;
+    programs: ProgramsSelect<false> | ProgramsSelect<true>;
+    brands: BrandsSelect<false> | BrandsSelect<true>;
+    'status-levels': StatusLevelsSelect<false> | StatusLevelsSelect<true>;
+    destinations: DestinationsSelect<false> | DestinationsSelect<true>;
+    regions: RegionsSelect<false> | RegionsSelect<true>;
+    amenities: AmenitiesSelect<false> | AmenitiesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    users: UsersSelect<false> | UsersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -119,6 +144,744 @@ export interface UserAuthOperations {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "hotels".
+ */
+export interface Hotel {
+  id: number;
+  name: string;
+  slug: string;
+  fullName?: string | null;
+  shortName?: string | null;
+  brand: number | Brand;
+  program: number | Program;
+  destination: number | Destination;
+  neighborhood?: string | null;
+  segment?: ('ultra-luxury' | 'luxury' | 'upscale' | 'midscale' | 'budget' | 'extended-stay') | null;
+  propertyType?: ('city' | 'resort') | null;
+  reviewStatus?: ('not-reviewed' | 'reviewed' | 'coming-soon' | 'data-only') | null;
+  heroSummary?: string | null;
+  reviews?: {
+    docs?: (number | Review)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  openingYear?: number | null;
+  renovationYear?: number | null;
+  numberOfRooms?: number | null;
+  amenities?: (number | Amenity)[] | null;
+  checkInTime?: string | null;
+  checkOutTime?: string | null;
+  resortFee?: string | null;
+  petFee?: string | null;
+  pointsEligible?: boolean | null;
+  streetAddress?: string | null;
+  phone?: string | null;
+  bookingLink?: string | null;
+  heroImage?: (number | null) | Media;
+  /**
+   * Webflow-hosted hero, used until owned photography replaces it. Also the og:image fallback.
+   */
+  externalImageUrl?: string | null;
+  enrichmentStatus?: ('none' | 'queued' | 'enriched') | null;
+  webflowId?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "brands".
+ */
+export interface Brand {
+  id: number;
+  name: string;
+  slug: string;
+  program?: (number | null) | Program;
+  segment?: ('ultra-luxury' | 'luxury' | 'upscale' | 'midscale' | 'budget' | 'extended-stay') | null;
+  shortDescription?: string | null;
+  overview?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Webflow-hosted URL until owned media is uploaded.
+   */
+  logoUrl?: string | null;
+  webflowId?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "programs".
+ */
+export interface Program {
+  id: number;
+  name: string;
+  slug: string;
+  shortDescription?: string | null;
+  overview?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  eliteTiersDescription?: string | null;
+  topTierName?: string | null;
+  secondTierName?: string | null;
+  tiers?: {
+    docs?: (number | StatusLevel)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  /**
+   * Webflow-hosted URLs until owned media is uploaded.
+   */
+  images?: {
+    logoUrl?: string | null;
+    heroImageUrl?: string | null;
+  };
+  seo?: {
+    title?: string | null;
+    description?: string | null;
+  };
+  webflowId?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "status-levels".
+ */
+export interface StatusLevel {
+  id: number;
+  name: string;
+  slug: string;
+  program: number | Program;
+  /**
+   * Tier name without the program, e.g. "Globalist".
+   */
+  shortName?: string | null;
+  /**
+   * 1 is the entry tier.
+   */
+  rank?: number | null;
+  isTopTier?: boolean | null;
+  /**
+   * Qualification, e.g. "60 nights".
+   */
+  nights?: string | null;
+  shortDescription?: string | null;
+  benefits?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Which printed benefits this tier is entitled to.
+   */
+  eligibility?: {
+    breakfast?: boolean | null;
+    lounge?: boolean | null;
+    suiteUpgrade?: boolean | null;
+    lateCheckout?: boolean | null;
+  };
+  /**
+   * Where a credit card grants this tier outright.
+   */
+  creditCard?: {
+    grantsStatus?: boolean | null;
+    source?: string | null;
+  };
+  webflowId?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "destinations".
+ */
+export interface Destination {
+  id: number;
+  name: string;
+  slug: string;
+  city?: string | null;
+  stateOrRegion?: string | null;
+  country?: string | null;
+  /**
+   * As shown on cards, e.g. "Eugene, Oregon".
+   */
+  locationLabel?: string | null;
+  region?: (number | null) | Region;
+  type?: ('city' | 'beach' | 'island' | 'ski' | 'resort' | 'jungle' | 'airport' | 'business' | 'luxury') | null;
+  shortDescription?: string | null;
+  overview?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Webflow-hosted URL until owned media is uploaded.
+   */
+  imageUrl?: string | null;
+  seo?: {
+    title?: string | null;
+    description?: string | null;
+  };
+  webflowId?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "regions".
+ */
+export interface Region {
+  id: number;
+  name: string;
+  slug: string;
+  displayOrder?: number | null;
+  webflowId?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reviews".
+ */
+export interface Review {
+  id: number;
+  title: string;
+  slug: string;
+  hotel: number | Hotel;
+  rubricVersion: number | RubricVersion;
+  /**
+   * Drives the maxima.
+   */
+  propertyType: 'city' | 'resort';
+  /**
+   * One sentence under the title and on cards.
+   */
+  shortVerdict?: string | null;
+  /**
+   * Computed on save.
+   */
+  totals?: {
+    hard?: number | null;
+    soft?: number | null;
+    overall?: number | null;
+  };
+  stayDate?: string | null;
+  nights?: number | null;
+  statusHeld?: (number | null) | StatusLevel;
+  roomBooked?: string | null;
+  roomReceived?: string | null;
+  rateBasis?:
+    | (
+        | 'cash'
+        | 'points'
+        | 'certificate'
+        | 'credit-card-portal'
+        | 'third-party'
+        | 'corporate-rate'
+        | 'guest-of-honor'
+        | 'other'
+      )
+    | null;
+  /**
+   * Points price, category, whether it repriced.
+   */
+  awardNote?: string | null;
+  scores?: {
+    roomLayout?: number | null;
+    bathroom?: number | null;
+    bedAndSleep?: number | null;
+    tech?: number | null;
+    amenities?: number | null;
+    atmosphere?: number | null;
+    maintenance?: number | null;
+    location?: number | null;
+    checkIn?: number | null;
+    serviceBaseline?: number | null;
+    servicePeak?: number | null;
+    operations?: number | null;
+    housekeeping?: number | null;
+    breakfastAndDining?: number | null;
+    density?: number | null;
+    departure?: number | null;
+  };
+  openingThoughts?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  narrative?: {
+    roomLayout?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    bathroom?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    bedAndSleep?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    tech?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    amenities?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    atmosphere?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    maintenance?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    location?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    checkIn?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    serviceBaseline?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    servicePeak?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    operations?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    housekeeping?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    breakfastAndDining?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    density?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    departure?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+  };
+  finalVerdict?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  upgrade?: {
+    outcome?: ('none' | 'room-category' | 'suite' | 'used-award') | null;
+    note?: string | null;
+  };
+  breakfast?: {
+    outcome?: ('full' | 'capped' | 'restaurant-credit' | 'none') | null;
+    note?: string | null;
+  };
+  lateCheckout?: {
+    outcome?: ('4pm-confirmed' | 'on-request' | 'refused' | 'not-needed') | null;
+    note?: string | null;
+  };
+  welcomeAmenity?: {
+    outcome?: ('points' | 'gift' | 'food-and-drink' | 'none') | null;
+    note?: string | null;
+  };
+  clubLounge?: {
+    outcome?: ('none-at-property' | 'access' | 'access-with-restrictions') | null;
+    note?: string | null;
+  };
+  guestOfHonor?: {
+    outcome?: ('not-tested' | 'honoured' | 'refused') | null;
+    note?: string | null;
+  };
+  pros?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  cons?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  bookItIf?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  skipItIf?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  wouldStayAgain?: ('yes' | 'maybe' | 'no') | null;
+  valueForCash?: ('best' | 'great' | 'good' | 'fair' | 'poor') | null;
+  valueForPoints?: ('best' | 'great' | 'good' | 'fair' | 'poor') | null;
+  valueNotes?: string | null;
+  publishedDate?: string | null;
+  lastVerifiedDate?: string | null;
+  /**
+   * Minutes.
+   */
+  readTime?: number | null;
+  featureSlot?: ('none' | 'lead' | 'secondary') | null;
+  heroImage?: (number | null) | Media;
+  /**
+   * Webflow-hosted hero until owned photography replaces it.
+   */
+  externalImageUrl?: string | null;
+  seo?: {
+    title?: string | null;
+    description?: string | null;
+  };
+  webflowId?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "rubric-versions".
+ */
+export interface RubricVersion {
+  id: number;
+  name: string;
+  slug: string;
+  /**
+   * A locked version never changes. Start a new version instead.
+   */
+  locked?: boolean | null;
+  notes?: string | null;
+  /**
+   * Order is display order. A blank maximum turns validation off for that category and property type.
+   */
+  categories: {
+    /**
+     * Matches a score field on Reviews.
+     */
+    key: string;
+    label: string;
+    group: 'hard' | 'soft';
+    maxCity?: number | null;
+    maxResort?: number | null;
+    id?: string | null;
+  }[];
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: number;
+  alt: string;
+  credit?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "amenities".
+ */
+export interface Amenity {
+  id: number;
+  name: string;
+  slug: string;
+  /**
+   * Webflow-hosted SVG until owned media is uploaded.
+   */
+  iconUrl?: string | null;
+  webflowId?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
@@ -141,26 +904,6 @@ export interface User {
     | null;
   password?: string | null;
   collection: 'users';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media".
- */
-export interface Media {
-  id: number;
-  alt: string;
-  credit?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -187,12 +930,48 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
-        relationTo: 'users';
-        value: number | User;
+        relationTo: 'hotels';
+        value: number | Hotel;
+      } | null)
+    | ({
+        relationTo: 'reviews';
+        value: number | Review;
+      } | null)
+    | ({
+        relationTo: 'rubric-versions';
+        value: number | RubricVersion;
+      } | null)
+    | ({
+        relationTo: 'programs';
+        value: number | Program;
+      } | null)
+    | ({
+        relationTo: 'brands';
+        value: number | Brand;
+      } | null)
+    | ({
+        relationTo: 'status-levels';
+        value: number | StatusLevel;
+      } | null)
+    | ({
+        relationTo: 'destinations';
+        value: number | Destination;
+      } | null)
+    | ({
+        relationTo: 'regions';
+        value: number | Region;
+      } | null)
+    | ({
+        relationTo: 'amenities';
+        value: number | Amenity;
       } | null)
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'users';
+        value: number | User;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -238,25 +1017,329 @@ export interface PayloadMigration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users_select".
+ * via the `definition` "hotels_select".
  */
-export interface UsersSelect<T extends boolean = true> {
+export interface HotelsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  fullName?: T;
+  shortName?: T;
+  brand?: T;
+  program?: T;
+  destination?: T;
+  neighborhood?: T;
+  segment?: T;
+  propertyType?: T;
+  reviewStatus?: T;
+  heroSummary?: T;
+  reviews?: T;
+  openingYear?: T;
+  renovationYear?: T;
+  numberOfRooms?: T;
+  amenities?: T;
+  checkInTime?: T;
+  checkOutTime?: T;
+  resortFee?: T;
+  petFee?: T;
+  pointsEligible?: T;
+  streetAddress?: T;
+  phone?: T;
+  bookingLink?: T;
+  heroImage?: T;
+  externalImageUrl?: T;
+  enrichmentStatus?: T;
+  webflowId?: T;
   updatedAt?: T;
   createdAt?: T;
-  email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
-  sessions?:
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reviews_select".
+ */
+export interface ReviewsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  hotel?: T;
+  rubricVersion?: T;
+  propertyType?: T;
+  shortVerdict?: T;
+  totals?:
     | T
     | {
-        id?: T;
-        createdAt?: T;
-        expiresAt?: T;
+        hard?: T;
+        soft?: T;
+        overall?: T;
       };
+  stayDate?: T;
+  nights?: T;
+  statusHeld?: T;
+  roomBooked?: T;
+  roomReceived?: T;
+  rateBasis?: T;
+  awardNote?: T;
+  scores?:
+    | T
+    | {
+        roomLayout?: T;
+        bathroom?: T;
+        bedAndSleep?: T;
+        tech?: T;
+        amenities?: T;
+        atmosphere?: T;
+        maintenance?: T;
+        location?: T;
+        checkIn?: T;
+        serviceBaseline?: T;
+        servicePeak?: T;
+        operations?: T;
+        housekeeping?: T;
+        breakfastAndDining?: T;
+        density?: T;
+        departure?: T;
+      };
+  openingThoughts?: T;
+  narrative?:
+    | T
+    | {
+        roomLayout?: T;
+        bathroom?: T;
+        bedAndSleep?: T;
+        tech?: T;
+        amenities?: T;
+        atmosphere?: T;
+        maintenance?: T;
+        location?: T;
+        checkIn?: T;
+        serviceBaseline?: T;
+        servicePeak?: T;
+        operations?: T;
+        housekeeping?: T;
+        breakfastAndDining?: T;
+        density?: T;
+        departure?: T;
+      };
+  finalVerdict?: T;
+  upgrade?:
+    | T
+    | {
+        outcome?: T;
+        note?: T;
+      };
+  breakfast?:
+    | T
+    | {
+        outcome?: T;
+        note?: T;
+      };
+  lateCheckout?:
+    | T
+    | {
+        outcome?: T;
+        note?: T;
+      };
+  welcomeAmenity?:
+    | T
+    | {
+        outcome?: T;
+        note?: T;
+      };
+  clubLounge?:
+    | T
+    | {
+        outcome?: T;
+        note?: T;
+      };
+  guestOfHonor?:
+    | T
+    | {
+        outcome?: T;
+        note?: T;
+      };
+  pros?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  cons?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  bookItIf?: T;
+  skipItIf?: T;
+  wouldStayAgain?: T;
+  valueForCash?: T;
+  valueForPoints?: T;
+  valueNotes?: T;
+  publishedDate?: T;
+  lastVerifiedDate?: T;
+  readTime?: T;
+  featureSlot?: T;
+  heroImage?: T;
+  externalImageUrl?: T;
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  webflowId?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "rubric-versions_select".
+ */
+export interface RubricVersionsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  locked?: T;
+  notes?: T;
+  categories?:
+    | T
+    | {
+        key?: T;
+        label?: T;
+        group?: T;
+        maxCity?: T;
+        maxResort?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "programs_select".
+ */
+export interface ProgramsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  shortDescription?: T;
+  overview?: T;
+  eliteTiersDescription?: T;
+  topTierName?: T;
+  secondTierName?: T;
+  tiers?: T;
+  images?:
+    | T
+    | {
+        logoUrl?: T;
+        heroImageUrl?: T;
+      };
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  webflowId?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "brands_select".
+ */
+export interface BrandsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  program?: T;
+  segment?: T;
+  shortDescription?: T;
+  overview?: T;
+  logoUrl?: T;
+  webflowId?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "status-levels_select".
+ */
+export interface StatusLevelsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  program?: T;
+  shortName?: T;
+  rank?: T;
+  isTopTier?: T;
+  nights?: T;
+  shortDescription?: T;
+  benefits?: T;
+  eligibility?:
+    | T
+    | {
+        breakfast?: T;
+        lounge?: T;
+        suiteUpgrade?: T;
+        lateCheckout?: T;
+      };
+  creditCard?:
+    | T
+    | {
+        grantsStatus?: T;
+        source?: T;
+      };
+  webflowId?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "destinations_select".
+ */
+export interface DestinationsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  city?: T;
+  stateOrRegion?: T;
+  country?: T;
+  locationLabel?: T;
+  region?: T;
+  type?: T;
+  shortDescription?: T;
+  overview?: T;
+  imageUrl?: T;
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  webflowId?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "regions_select".
+ */
+export interface RegionsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  displayOrder?: T;
+  webflowId?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "amenities_select".
+ */
+export interface AmenitiesSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  iconUrl?: T;
+  webflowId?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -276,6 +1359,28 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users_select".
+ */
+export interface UsersSelect<T extends boolean = true> {
+  updatedAt?: T;
+  createdAt?: T;
+  email?: T;
+  resetPasswordToken?: T;
+  resetPasswordExpiration?: T;
+  salt?: T;
+  hash?: T;
+  loginAttempts?: T;
+  lockUntil?: T;
+  sessions?:
+    | T
+    | {
+        id?: T;
+        createdAt?: T;
+        expiresAt?: T;
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

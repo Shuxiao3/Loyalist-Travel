@@ -6,7 +6,16 @@ import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { buildConfig } from 'payload'
 import sharp from 'sharp'
 
+import { Amenities } from './collections/Amenities'
+import { Brands } from './collections/Brands'
+import { Destinations } from './collections/Destinations'
+import { Hotels } from './collections/Hotels'
 import { Media } from './collections/Media'
+import { Programs } from './collections/Programs'
+import { Regions } from './collections/Regions'
+import { Reviews } from './collections/Reviews'
+import { RubricVersions } from './collections/RubricVersions'
+import { StatusLevels } from './collections/StatusLevels'
 import { Users } from './collections/Users'
 
 const filename = fileURLToPath(import.meta.url)
@@ -26,9 +35,20 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  // Milestone 0 ships an empty schema: only the auth collection and Media.
-  // Hotels, Reviews, Rubric Versions and the rest arrive with Milestone 1.
-  collections: [Users, Media],
+  // Lounges, Reader Stays, Guides and Content Clusters arrive with Milestone 3.
+  collections: [
+    Hotels,
+    Reviews,
+    RubricVersions,
+    Programs,
+    Brands,
+    StatusLevels,
+    Destinations,
+    Regions,
+    Amenities,
+    Media,
+    Users,
+  ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
@@ -39,6 +59,8 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URL || '',
     },
     migrationDir: path.resolve(dirname, 'migrations'),
+    // Schema changes ship as migrations everywhere, including dev.
+    push: false,
   }),
   sharp,
   plugins: [],
