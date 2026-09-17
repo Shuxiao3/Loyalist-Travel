@@ -22,6 +22,8 @@
 }
 
 .panel {
+  touch-action: pan-y; /* horizontal swipes are ours, vertical scroll is the page's */
+  user-select: none;
   background: var(--navy-deep);
   border: 1px solid var(--gold-border);
   padding: var(--s6);

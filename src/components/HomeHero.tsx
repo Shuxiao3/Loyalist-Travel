@@ -18,6 +18,8 @@ export type HeroSlide = {
 }
 
 const INTERVAL_MS = 2000
+const HOLD_MS = 3000
+const SWIPE_PX = 40
 
 // The homepage hero. The panel on the right rotates through the slides
 // with a crossfade; the photograph behind the navy follows the active
@@ -37,6 +39,46 @@ export function HomeHero({ slides, children, stats }: { slides: HeroSlide[]; chi
 
   const go = useCallback((i: number) => setActive(i), [])
   const photo = slides[active]?.image
+
+  // A swipe or arrow key moves one slide and holds the auto-advance for a
+  // moment so the chosen slide can be read.
+  const hold = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const step = useCallback(
+    (dir: 1 | -1) => {
+      setActive((i) => (i + dir + slides.length) % slides.length)
+      setPaused(true)
+      if (hold.current) clearTimeout(hold.current)
+      hold.current = setTimeout(() => {
+        if (!hovering.current) setPaused(false)
+      }, HOLD_MS)
+    },
+    [slides.length],
+  )
+  useEffect(() => () => {
+    if (hold.current) clearTimeout(hold.current)
+  }, [])
+
+  const swipe = useRef<{ x: number; y: number; id: number } | null>(null)
+  const onPointerDown = (e: React.PointerEvent) => {
+    swipe.current = { x: e.clientX, y: e.clientY, id: e.pointerId }
+  }
+  const onPointerUp = (e: React.PointerEvent) => {
+    const s = swipe.current
+    swipe.current = null
+    if (!s || s.id !== e.pointerId) return
+    const dx = e.clientX - s.x
+    const dy = e.clientY - s.y
+    if (Math.abs(dx) >= SWIPE_PX && Math.abs(dx) > Math.abs(dy) * 1.5) step(dx < 0 ? 1 : -1)
+  }
+  const onKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowRight') {
+      e.preventDefault()
+      step(1)
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault()
+      step(-1)
+    }
+  }
 
   return (
     <header className={`hero ${styles.hero}`} style={photo ? ({ '--hero-photo': `url(${photo})` } as React.CSSProperties) : undefined}>
@@ -67,6 +109,12 @@ export function HomeHero({ slides, children, stats }: { slides: HeroSlide[]; chi
               onBlur={() => {
                 if (!hovering.current) setPaused(false)
               }}
+              onPointerDown={onPointerDown}
+              onPointerUp={onPointerUp}
+              onPointerCancel={() => {
+                swipe.current = null
+              }}
+              onKeyDown={onKeyDown}
             >
               <div className={styles.stack}>
                 {slides.map((s, i) => (
