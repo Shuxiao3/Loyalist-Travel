@@ -1,25 +1,79 @@
 import Link from 'next/link'
 
 import { Arrow, Band } from '@/components/Band'
+import { HomeHero, type HeroSlide } from '@/components/HomeHero'
 import { ReviewCard } from '@/components/ReviewCard'
 import { count, rel, score } from '@/lib/format'
-import { getPrograms, getReviews, getSiteCounts } from '@/lib/queries'
-import type { Destination, Hotel, Program } from '@/payload-types'
+import { getFeaturedHotel, getPrograms, getReviews, getSiteCounts } from '@/lib/queries'
+import type { Brand, Destination, Hotel, Program } from '@/payload-types'
 
 import styles from './page.module.css'
 
 export const revalidate = 300
 
-// Homepage, from docs/loyalist-travel-homepage.html. The reader-data band,
-// lounges, guides and the contribute panel arrive with Milestone 3.
+// Homepage, from docs/loyalist-travel-homepage.html. The hero panel rotates
+// through the latest review, the featured hotel and a program spotlight; the
+// latest article joins when Guides arrive with Milestone 3. The reader-data
+// band, lounges, guides and the contribute panel are also Milestone 3.
 export default async function HomePage() {
-  const [reviews, programs, counts] = await Promise.all([getReviews({ limit: 4 }), getPrograms(), getSiteCounts()])
+  const [reviews, programs, counts, featured] = await Promise.all([getReviews({ limit: 4 }), getPrograms(), getSiteCounts(), getFeaturedHotel()])
   const latest = reviews.docs[0]
-  const latestHotel = latest ? rel<Hotel>(latest.hotel) : null
-  const latestProgram = latestHotel ? rel<Program>(latestHotel.program) : null
-  const latestDestination = latestHotel ? rel<Destination>(latestHotel.destination) : null
-  const latestImage = latest?.externalImageUrl ?? latestHotel?.externalImageUrl
   const cards = reviews.docs.slice(latest ? 1 : 0, 4)
+
+  const slides: HeroSlide[] = []
+
+  if (latest) {
+    const hotel = rel<Hotel>(latest.hotel)
+    const program = hotel ? rel<Program>(hotel.program) : null
+    const destination = hotel ? rel<Destination>(hotel.destination) : null
+    slides.push({
+      kind: 'review',
+      eyebrow: 'Latest scored stay',
+      image: latest.externalImageUrl ?? hotel?.externalImageUrl,
+      meta: [program?.name, destination?.name].filter((m): m is string => Boolean(m)),
+      title: latest.title,
+      text: latest.shortVerdict,
+      figure: { value: score(latest.totals?.overall), label: 'of 100' },
+      cta: 'Read the review',
+      href: `/reviews/${latest.slug}`,
+    })
+  }
+
+  if (featured) {
+    const brand = rel<Brand>(featured.hotel.brand)
+    const destination = rel<Destination>(featured.hotel.destination)
+    slides.push({
+      kind: 'hotel',
+      eyebrow: 'Featured hotel',
+      image: featured.hotel.externalImageUrl,
+      meta: [brand?.name, destination?.locationLabel ?? destination?.name].filter((m): m is string => Boolean(m)),
+      title: featured.hotel.name,
+      text: featured.hotel.heroSummary ?? featured.review?.shortVerdict,
+      figure: featured.review ? { value: score(featured.review.totals?.overall), label: 'of 100' } : null,
+      cta: 'The hotel',
+      href: `/hotels/${featured.hotel.slug}`,
+    })
+  }
+
+  const spotlight = [...programs].sort((a, b) => b.scored - a.scored || b.hotels - a.hotels)[0]
+  if (spotlight && spotlight.hotels > 0) {
+    slides.push({
+      kind: 'program',
+      eyebrow: 'Program spotlight',
+      image:
+        spotlight.program.images?.heroImageUrl ??
+        reviews.docs.find((r) => {
+          const p = rel<Hotel>(r.hotel)?.program
+          return (typeof p === 'object' ? p?.id : p) === spotlight.program.id
+        })?.externalImageUrl,
+      meta: [`${count(spotlight.hotels)} hotels`, `${count(spotlight.scored)} scored ${spotlight.scored === 1 ? 'stay' : 'stays'}`],
+      title: spotlight.program.name,
+      text: spotlight.program.shortDescription,
+      figure: spotlight.program.topTierName ? { value: spotlight.program.topTierName, label: 'top tier' } : null,
+      cta: 'The program',
+      href: `/programs/${spotlight.program.slug}`,
+    })
+  }
 
   const stats = [
     { n: count(counts.hotels), l: `Hotels indexed across ${['', 'one', 'two', 'three', 'four'][counts.programs] ?? counts.programs} programs` },
@@ -30,54 +84,9 @@ export default async function HomePage() {
 
   return (
     <main>
-      <header className={`hero ${styles.hero}`} style={latestImage ? ({ '--hero-photo': `url(${latestImage})` } as React.CSSProperties) : undefined}>
-        <div className={`wrap ${styles.heroWrap}`}>
-          <div className={styles.heroGrid}>
-            <div>
-              <span className="eyebrow">Luxury hotel reviews, scored</span>
-              <h1 className={styles.h1}>What your status actually gets you.</h1>
-              <p className={`sub ${styles.sub}`}>
-                Hotels scored on a 100-point rubric. Elite benefits reported as they happened, not as printed. Lounges rated by the people who sat in them.
-              </p>
-              <div className={styles.ctas}>
-                <Link className="btn" href="/reviews">
-                  Latest reviews
-                </Link>
-                <Link className="ghost" href="/hotels">
-                  Browse {count(counts.hotels)} hotels
-                  <Arrow />
-                </Link>
-              </div>
-            </div>
-
-            {latest && (
-              <aside className={styles.latest} aria-label="Latest scored stay">
-                <span className="eyebrow">Latest scored stay</span>
-                <div className={styles.latestImg} role="img" aria-label={latest.title} style={latestImage ? { backgroundImage: `url(${latestImage}), var(--img-a)` } : undefined} />
-                <div className={styles.latestMeta}>
-                  <span>{latestProgram?.name ?? 'Scored stay'}</span>
-                  {latestDestination && (
-                    <>
-                      <span className="dot">·</span>
-                      <span>{latestDestination.name}</span>
-                    </>
-                  )}
-                </div>
-                <h3 className={styles.latestTitle}>{latest.title}</h3>
-                {latest.shortVerdict && <p className={styles.latestSub}>{latest.shortVerdict}</p>}
-                <div className={styles.latestFoot}>
-                  <div className={styles.score}>
-                    {score(latest.totals?.overall)}
-                    <small>of 100</small>
-                  </div>
-                  <Link className={styles.read} href={`/reviews/${latest.slug}`}>
-                    Read the review
-                  </Link>
-                </div>
-              </aside>
-            )}
-          </div>
-
+      <HomeHero
+        slides={slides}
+        stats={
           <div className={styles.stats} aria-label="Site at a glance">
             {stats.map((stat) => (
               <div className={styles.stat} key={stat.l}>
@@ -86,8 +95,23 @@ export default async function HomePage() {
               </div>
             ))}
           </div>
+        }
+      >
+        <span className="eyebrow">Luxury hotel reviews, scored</span>
+        <h1 className={styles.h1}>What your status actually gets you.</h1>
+        <p className={`sub ${styles.sub}`}>
+          Hotels scored on a 100-point rubric. Elite benefits reported as they happened, not as printed. Lounges rated by the people who sat in them.
+        </p>
+        <div className={styles.ctas}>
+          <Link className="btn" href="/reviews">
+            Latest reviews
+          </Link>
+          <Link className="ghost" href="/hotels">
+            Browse {count(counts.hotels)} hotels
+            <Arrow />
+          </Link>
         </div>
-      </header>
+      </HomeHero>
 
       {cards.length > 0 && (
         <section className="section" aria-labelledby="rev-h">
@@ -117,8 +141,8 @@ export default async function HomePage() {
               <span className="eyebrow on-light">Browse by program</span>
               <h2 id="prog-h">Where your points work</h2>
             </div>
-            <Link className="more" href="/hotels">
-              All hotels
+            <Link className="more" href="/programs">
+              All programs
             </Link>
           </div>
           <div className="grid-cells">

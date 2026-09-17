@@ -134,6 +134,21 @@ export async function getPrograms() {
   )
 }
 
+// The hotel ticked "featured", or failing that the hotel with the highest
+// scored stay.
+export async function getFeaturedHotel(): Promise<{ hotel: Hotel; review: Review | null } | null> {
+  const payload = await getPayloadClient()
+  const featured = await payload.find({ collection: 'hotels', where: { and: [published, { featured: { equals: true } }] }, depth: 1, limit: 1 })
+  if (featured.docs[0]) {
+    const review = await payload.find({ collection: 'reviews', where: { and: [published, { hotel: { equals: featured.docs[0].id } }] }, sort: '-totals.overall', depth: 0, limit: 1 })
+    return { hotel: featured.docs[0], review: review.docs[0] ?? null }
+  }
+  const top = await payload.find({ collection: 'reviews', where: published, sort: '-totals.overall', depth: 1, limit: 1 })
+  const review = top.docs[0]
+  const hotel = review && typeof review.hotel === 'object' ? review.hotel : null
+  return hotel ? { hotel, review } : null
+}
+
 export async function getSiteCounts() {
   const payload = await getPayloadClient()
   const [hotels, reviews, programs] = await Promise.all([

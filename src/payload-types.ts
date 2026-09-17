@@ -182,6 +182,10 @@ export interface Hotel {
    * Webflow-hosted hero, used until owned photography replaces it. Also the og:image fallback.
    */
   externalImageUrl?: string | null;
+  /**
+   * Shown as the featured hotel in the homepage carousel.
+   */
+  featured?: boolean | null;
   enrichmentStatus?: ('none' | 'queued' | 'enriched') | null;
   webflowId?: string | null;
   updatedAt: string;
@@ -1047,6 +1051,7 @@ export interface HotelsSelect<T extends boolean = true> {
   bookingLink?: T;
   heroImage?: T;
   externalImageUrl?: T;
+  featured?: T;
   enrichmentStatus?: T;
   webflowId?: T;
   updatedAt?: T;

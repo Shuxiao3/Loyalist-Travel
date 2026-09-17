@@ -1,0 +1,206 @@
+/* Homepage hero with the rotating panel. Every value is a token. */
+
+/* the active slide's photograph behind the navy: solid on the text side,
+   veiled on the panel side */
+.hero {
+  background-image: linear-gradient(100deg, var(--navy) 0%, var(--navy) 55%, var(--veil-navy) 74%, var(--veil-navy-soft) 100%), var(--hero-photo, none);
+  background-size: cover;
+  background-position: center;
+  transition: background-image 0.6s ease;
+}
+
+.wrap {
+  padding-top: var(--section);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 400px;
+  gap: var(--s9);
+  align-items: center;
+  padding-bottom: var(--s8);
+}
+
+.panel {
+  background: var(--navy-deep);
+  border: 1px solid var(--gold-border);
+  padding: var(--s6);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+
+/* slides stack in one grid cell so the panel takes the tallest one's height */
+.stack {
+  display: grid;
+}
+
+.slide {
+  grid-area: 1 / 1;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.6s ease, visibility 0s linear 0.6s;
+}
+
+.slide.on {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.6s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero,
+  .slide,
+  .slide.on {
+    transition: none;
+  }
+}
+
+.slide :global(.eyebrow) {
+  display: block;
+  margin-bottom: var(--s5);
+}
+
+.img {
+  height: 200px;
+  background: var(--img-a);
+  background-size: cover;
+  background-position: center;
+  margin-bottom: var(--s5);
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--t-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--on-navy-muted);
+  margin-bottom: var(--s3);
+}
+
+.title {
+  font-size: var(--t-xl);
+  color: var(--ivory);
+  line-height: 1.2;
+  margin-bottom: var(--s3);
+}
+
+.text {
+  font-size: var(--t-sm);
+  line-height: 1.6;
+  color: var(--light);
+  margin-bottom: var(--s5);
+  text-wrap: pretty;
+}
+
+.foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--s4);
+  padding-top: var(--s4);
+  border-top: 1px solid var(--line-dark);
+}
+
+.figure {
+  font-family: var(--serif);
+  font-size: calc(var(--t-num) * 0.72);
+  line-height: 1;
+  color: var(--gold);
+}
+
+/* a word rather than a number, e.g. the top tier name */
+.figureText {
+  font-family: var(--serif);
+  font-size: var(--t-lg);
+  line-height: 1.2;
+  color: var(--gold);
+}
+
+.figureText small {
+  font-family: var(--sans);
+  font-size: var(--t-xs);
+  color: var(--on-navy-muted);
+  margin-left: var(--s2);
+  white-space: nowrap;
+}
+
+.figure small {
+  font-family: var(--sans);
+  font-size: var(--t-xs);
+  color: var(--on-navy-muted);
+  margin-left: var(--s1);
+}
+
+.read {
+  font-size: var(--t-xs);
+  letter-spacing: var(--track-cta);
+  text-transform: uppercase;
+  color: var(--gold);
+  padding-bottom: var(--s1);
+  border-bottom: 1px solid var(--gold);
+  white-space: nowrap;
+}
+
+.read:hover {
+  color: var(--gold-pale);
+  border-bottom-color: var(--gold-pale);
+}
+
+/* dots */
+.dots {
+  display: flex;
+  gap: var(--s3);
+  margin-top: var(--s5);
+}
+
+.dot {
+  width: 24px;
+  height: 2px;
+  padding: 0;
+  border: 0;
+  background: var(--gold-border);
+  cursor: pointer;
+  border-radius: 1px;
+}
+
+.dot:hover,
+.dotOn {
+  background: var(--gold);
+}
+
+.dot:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+}
+
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: var(--s7);
+  }
+
+  .panel {
+    max-width: 560px;
+  }
+}
+
+@media (max-width: 640px) {
+  .wrap {
+    padding-top: var(--s7);
+  }
+
+  .grid {
+    gap: var(--s6);
+    padding-bottom: var(--s7);
+  }
+
+  .panel {
+    padding: var(--s5);
+  }
+
+  .img {
+    height: 150px;
+  }
+}

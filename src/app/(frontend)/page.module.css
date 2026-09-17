@@ -1,25 +1,5 @@
 /* Homepage hero, stats and programs. Every value is a token. */
 
-/* The latest stay's photograph sits behind the navy, solid on the text
-   side and showing through on the panel side. */
-.hero {
-  background-image: linear-gradient(100deg, var(--navy) 0%, var(--navy) 55%, var(--veil-navy) 74%, var(--veil-navy-soft) 100%), var(--hero-photo, none);
-  background-size: cover;
-  background-position: center;
-}
-
-.heroWrap {
-  padding-top: var(--section);
-}
-
-.heroGrid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 400px;
-  gap: var(--s9);
-  align-items: center;
-  padding-bottom: var(--s8);
-}
-
 .h1 {
   font-size: var(--t-hero);
   line-height: 1.05;
@@ -39,91 +19,6 @@
   display: flex;
   flex-wrap: wrap;
   gap: 14px;
-}
-
-/* latest scored stay: a panel on navy */
-.latest {
-  background: var(--navy-deep);
-  border: 1px solid var(--gold-border);
-  padding: var(--s6);
-  border-radius: var(--r);
-  overflow: hidden;
-}
-
-.latest :global(.eyebrow) {
-  display: block;
-  margin-bottom: var(--s5);
-}
-
-.latestImg {
-  height: 200px;
-  background: var(--img-a);
-  background-size: cover;
-  background-position: center;
-  margin-bottom: var(--s5);
-}
-
-.latestMeta {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: var(--t-label);
-  letter-spacing: var(--track-label);
-  text-transform: uppercase;
-  color: var(--on-navy-muted);
-  margin-bottom: var(--s3);
-}
-
-.latestTitle {
-  font-size: var(--t-xl);
-  color: var(--ivory);
-  line-height: 1.2;
-  margin-bottom: var(--s3);
-}
-
-.latestSub {
-  font-size: var(--t-sm);
-  line-height: 1.6;
-  color: var(--light);
-  margin-bottom: var(--s5);
-  text-wrap: pretty;
-}
-
-.latestFoot {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: var(--s4);
-  padding-top: var(--s4);
-  border-top: 1px solid var(--line-dark);
-}
-
-.score {
-  font-family: var(--serif);
-  font-size: calc(var(--t-num) * 0.72);
-  line-height: 1;
-  color: var(--gold);
-}
-
-.score small {
-  font-family: var(--sans);
-  font-size: var(--t-xs);
-  color: var(--on-navy-muted);
-  margin-left: var(--s1);
-}
-
-.read {
-  font-size: var(--t-xs);
-  letter-spacing: var(--track-cta);
-  text-transform: uppercase;
-  color: var(--gold);
-  padding-bottom: var(--s1);
-  border-bottom: 1px solid var(--gold);
-}
-
-.read:hover {
-  color: var(--gold-pale);
-  border-bottom-color: var(--gold-pale);
 }
 
 /* stats row under the hero */
@@ -188,37 +83,8 @@
   height: var(--section);
 }
 
-/* tablet */
-@media (max-width: 1100px) {
-  .heroGrid {
-    grid-template-columns: 1fr;
-    gap: var(--s7);
-  }
-
-  .latest {
-    max-width: 560px;
-  }
-}
-
 /* phone */
 @media (max-width: 640px) {
-  .heroWrap {
-    padding-top: var(--s7);
-  }
-
-  .heroGrid {
-    gap: var(--s6);
-    padding-bottom: var(--s7);
-  }
-
-  .latest {
-    padding: var(--s5);
-  }
-
-  .latestImg {
-    height: 150px;
-  }
-
   .stats {
     grid-template-columns: 1fr 1fr;
   }

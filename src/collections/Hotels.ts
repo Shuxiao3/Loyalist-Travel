@@ -121,6 +121,13 @@ export const Hotels: CollectionConfig = {
       ],
     },
     {
+      name: 'featured',
+      type: 'checkbox',
+      defaultValue: false,
+      index: true,
+      admin: { position: 'sidebar', description: 'Shown as the featured hotel in the homepage carousel.' },
+    },
+    {
       name: 'enrichmentStatus',
       type: 'select',
       defaultValue: 'none',
