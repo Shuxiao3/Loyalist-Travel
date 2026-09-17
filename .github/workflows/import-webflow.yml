@@ -1,0 +1,36 @@
+# Runs the Webflow import against the production database.
+#
+# Manual only: Actions tab → "Import Webflow content" → Run workflow.
+# Needs two repository secrets, copied from the Vercel project's environment
+# variables: DATABASE_URL and PAYLOAD_SECRET. The import is idempotent, so
+# running it again is safe.
+name: Import Webflow content
+
+on:
+  workflow_dispatch:
+    inputs:
+      step:
+        description: 'One step only (regions, programs, status-levels, brands, amenities, destinations, rubric-versions, hotels, reviews). Blank runs everything.'
+        required: false
+        default: ''
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Apply migrations
+        run: npm run migrate
+      - name: Import
+        run: npm run import:webflow -- ${{ github.event.inputs.step }}
+      - name: Spot-check
+        run: npm run import:check -- 20
