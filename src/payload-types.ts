@@ -906,7 +906,7 @@ export interface ReaderStay {
   stayMonth: number;
   upgrade: 'none' | 'room-category' | 'suite' | 'used-award';
   breakfast: 'full' | 'capped' | 'restaurant-credit' | 'none' | 'not-eligible';
-  lateCheckout: '4pm-confirmed' | 'on-request' | 'refused' | 'not-needed';
+  lateCheckout: 'honoured' | 'declined' | 'not-requested';
   /**
    * Asked only where the hotel has a lounge on record. Arrives with the Lounges collection.
    */

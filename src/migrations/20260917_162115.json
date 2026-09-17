@@ -1,0 +1,6815 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.hotels": {
+      "name": "hotels",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "slug": {
+          "name": "slug",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "full_name": {
+          "name": "full_name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "short_name": {
+          "name": "short_name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "brand_id": {
+          "name": "brand_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "program_id": {
+          "name": "program_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "destination_id": {
+          "name": "destination_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "neighborhood": {
+          "name": "neighborhood",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "segment": {
+          "name": "segment",
+          "type": "enum_hotels_segment",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "property_type": {
+          "name": "property_type",
+          "type": "enum_hotels_property_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "review_status": {
+          "name": "review_status",
+          "type": "enum_hotels_review_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'not-reviewed'"
+        },
+        "hero_summary": {
+          "name": "hero_summary",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "opening_year": {
+          "name": "opening_year",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "renovation_year": {
+          "name": "renovation_year",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "number_of_rooms": {
+          "name": "number_of_rooms",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "check_in_time": {
+          "name": "check_in_time",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "check_out_time": {
+          "name": "check_out_time",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "resort_fee": {
+          "name": "resort_fee",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "pet_fee": {
+          "name": "pet_fee",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "points_eligible": {
+          "name": "points_eligible",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": true
+        },
+        "street_address": {
+          "name": "street_address",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "phone": {
+          "name": "phone",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "booking_link": {
+          "name": "booking_link",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "hero_image_id": {
+          "name": "hero_image_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "external_image_url": {
+          "name": "external_image_url",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "featured": {
+          "name": "featured",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
+        "enrichment_status": {
+          "name": "enrichment_status",
+          "type": "enum_hotels_enrichment_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'none'"
+        },
+        "webflow_id": {
+          "name": "webflow_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "_status": {
+          "name": "_status",
+          "type": "enum_hotels_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'draft'"
+        }
+      },
+      "indexes": {
+        "hotels_slug_idx": {
+          "name": "hotels_slug_idx",
+          "columns": [
+            {
+              "expression": "slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "hotels_brand_idx": {
+          "name": "hotels_brand_idx",
+          "columns": [
+            {
+              "expression": "brand_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "hotels_program_idx": {
+          "name": "hotels_program_idx",
+          "columns": [
+            {
+              "expression": "program_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "hotels_destination_idx": {
+          "name": "hotels_destination_idx",
+          "columns": [
+            {
+              "expression": "destination_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "hotels_segment_idx": {
+          "name": "hotels_segment_idx",
+          "columns": [
+            {
+              "expression": "segment",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "hotels_property_type_idx": {
+          "name": "hotels_property_type_idx",
+          "columns": [
+            {
+              "expression": "property_type",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "hotels_review_status_idx": {
+          "name": "hotels_review_status_idx",
+          "columns": [
+            {
+              "expression": "review_status",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "hotels_hero_image_idx": {
+          "name": "hotels_hero_image_idx",
+          "columns": [
+            {
+              "expression": "hero_image_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "hotels_featured_idx": {
+          "name": "hotels_featured_idx",
+          "columns": [
+            {
+              "expression": "featured",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "hotels_webflow_id_idx": {
+          "name": "hotels_webflow_id_idx",
+          "columns": [
+            {
+              "expression": "webflow_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "hotels_updated_at_idx": {
+          "name": "hotels_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "hotels_created_at_idx": {
+          "name": "hotels_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "hotels__status_idx": {
+          "name": "hotels__status_idx",
+          "columns": [
+            {
+              "expression": "_status",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "hotels_brand_id_brands_id_fk": {
+          "name": "hotels_brand_id_brands_id_fk",
+          "tableFrom": "hotels",
+          "tableTo": "brands",
+          "columnsFrom": [
+            "brand_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "hotels_program_id_programs_id_fk": {
+          "name": "hotels_program_id_programs_id_fk",
+          "tableFrom": "hotels",
+          "tableTo": "programs",
+          "columnsFrom": [
+            "program_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "hotels_destination_id_destinations_id_fk": {
+          "name": "hotels_destination_id_destinations_id_fk",
+          "tableFrom": "hotels",
+          "tableTo": "destinations",
+          "columnsFrom": [
+            "destination_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "hotels_hero_image_id_media_id_fk": {
+          "name": "hotels_hero_image_id_media_id_fk",
+          "tableFrom": "hotels",
+          "tableTo": "media",
+          "columnsFrom": [
+            "hero_image_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.hotels_rels": {
+      "name": "hotels_rels",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "order": {
+          "name": "order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "parent_id": {
+          "name": "parent_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "path": {
+          "name": "path",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "amenities_id": {
+          "name": "amenities_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "hotels_rels_order_idx": {
+          "name": "hotels_rels_order_idx",
+          "columns": [
+            {
+              "expression": "order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "hotels_rels_parent_idx": {
+          "name": "hotels_rels_parent_idx",
+          "columns": [
+            {
+              "expression": "parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "hotels_rels_path_idx": {
+          "name": "hotels_rels_path_idx",
+          "columns": [
+            {
+              "expression": "path",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "hotels_rels_amenities_id_idx": {
+          "name": "hotels_rels_amenities_id_idx",
+          "columns": [
+            {
+              "expression": "amenities_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "hotels_rels_parent_fk": {
+          "name": "hotels_rels_parent_fk",
+          "tableFrom": "hotels_rels",
+          "tableTo": "hotels",
+          "columnsFrom": [
+            "parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "hotels_rels_amenities_fk": {
+          "name": "hotels_rels_amenities_fk",
+          "tableFrom": "hotels_rels",
+          "tableTo": "amenities",
+          "columnsFrom": [
+            "amenities_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public._hotels_v": {
+      "name": "_hotels_v",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "parent_id": {
+          "name": "parent_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_name": {
+          "name": "version_name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_slug": {
+          "name": "version_slug",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_full_name": {
+          "name": "version_full_name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_short_name": {
+          "name": "version_short_name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_brand_id": {
+          "name": "version_brand_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_program_id": {
+          "name": "version_program_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_destination_id": {
+          "name": "version_destination_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_neighborhood": {
+          "name": "version_neighborhood",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_segment": {
+          "name": "version_segment",
+          "type": "enum__hotels_v_version_segment",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_property_type": {
+          "name": "version_property_type",
+          "type": "enum__hotels_v_version_property_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_review_status": {
+          "name": "version_review_status",
+          "type": "enum__hotels_v_version_review_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'not-reviewed'"
+        },
+        "version_hero_summary": {
+          "name": "version_hero_summary",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_opening_year": {
+          "name": "version_opening_year",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_renovation_year": {
+          "name": "version_renovation_year",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_number_of_rooms": {
+          "name": "version_number_of_rooms",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_check_in_time": {
+          "name": "version_check_in_time",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_check_out_time": {
+          "name": "version_check_out_time",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_resort_fee": {
+          "name": "version_resort_fee",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_pet_fee": {
+          "name": "version_pet_fee",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_points_eligible": {
+          "name": "version_points_eligible",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": true
+        },
+        "version_street_address": {
+          "name": "version_street_address",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_phone": {
+          "name": "version_phone",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_booking_link": {
+          "name": "version_booking_link",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_hero_image_id": {
+          "name": "version_hero_image_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_external_image_url": {
+          "name": "version_external_image_url",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_featured": {
+          "name": "version_featured",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
+        "version_enrichment_status": {
+          "name": "version_enrichment_status",
+          "type": "enum__hotels_v_version_enrichment_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'none'"
+        },
+        "version_webflow_id": {
+          "name": "version_webflow_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_updated_at": {
+          "name": "version_updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_created_at": {
+          "name": "version_created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version__status": {
+          "name": "version__status",
+          "type": "enum__hotels_v_version_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'draft'"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "latest": {
+          "name": "latest",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "_hotels_v_parent_idx": {
+          "name": "_hotels_v_parent_idx",
+          "columns": [
+            {
+              "expression": "parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_hotels_v_version_version_slug_idx": {
+          "name": "_hotels_v_version_version_slug_idx",
+          "columns": [
+            {
+              "expression": "version_slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_hotels_v_version_version_brand_idx": {
+          "name": "_hotels_v_version_version_brand_idx",
+          "columns": [
+            {
+              "expression": "version_brand_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_hotels_v_version_version_program_idx": {
+          "name": "_hotels_v_version_version_program_idx",
+          "columns": [
+            {
+              "expression": "version_program_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_hotels_v_version_version_destination_idx": {
+          "name": "_hotels_v_version_version_destination_idx",
+          "columns": [
+            {
+              "expression": "version_destination_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_hotels_v_version_version_segment_idx": {
+          "name": "_hotels_v_version_version_segment_idx",
+          "columns": [
+            {
+              "expression": "version_segment",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_hotels_v_version_version_property_type_idx": {
+          "name": "_hotels_v_version_version_property_type_idx",
+          "columns": [
+            {
+              "expression": "version_property_type",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_hotels_v_version_version_review_status_idx": {
+          "name": "_hotels_v_version_version_review_status_idx",
+          "columns": [
+            {
+              "expression": "version_review_status",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_hotels_v_version_version_hero_image_idx": {
+          "name": "_hotels_v_version_version_hero_image_idx",
+          "columns": [
+            {
+              "expression": "version_hero_image_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_hotels_v_version_version_featured_idx": {
+          "name": "_hotels_v_version_version_featured_idx",
+          "columns": [
+            {
+              "expression": "version_featured",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_hotels_v_version_version_webflow_id_idx": {
+          "name": "_hotels_v_version_version_webflow_id_idx",
+          "columns": [
+            {
+              "expression": "version_webflow_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_hotels_v_version_version_updated_at_idx": {
+          "name": "_hotels_v_version_version_updated_at_idx",
+          "columns": [
+            {
+              "expression": "version_updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_hotels_v_version_version_created_at_idx": {
+          "name": "_hotels_v_version_version_created_at_idx",
+          "columns": [
+            {
+              "expression": "version_created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_hotels_v_version_version__status_idx": {
+          "name": "_hotels_v_version_version__status_idx",
+          "columns": [
+            {
+              "expression": "version__status",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_hotels_v_created_at_idx": {
+          "name": "_hotels_v_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_hotels_v_updated_at_idx": {
+          "name": "_hotels_v_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_hotels_v_latest_idx": {
+          "name": "_hotels_v_latest_idx",
+          "columns": [
+            {
+              "expression": "latest",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "_hotels_v_parent_id_hotels_id_fk": {
+          "name": "_hotels_v_parent_id_hotels_id_fk",
+          "tableFrom": "_hotels_v",
+          "tableTo": "hotels",
+          "columnsFrom": [
+            "parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "_hotels_v_version_brand_id_brands_id_fk": {
+          "name": "_hotels_v_version_brand_id_brands_id_fk",
+          "tableFrom": "_hotels_v",
+          "tableTo": "brands",
+          "columnsFrom": [
+            "version_brand_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "_hotels_v_version_program_id_programs_id_fk": {
+          "name": "_hotels_v_version_program_id_programs_id_fk",
+          "tableFrom": "_hotels_v",
+          "tableTo": "programs",
+          "columnsFrom": [
+            "version_program_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "_hotels_v_version_destination_id_destinations_id_fk": {
+          "name": "_hotels_v_version_destination_id_destinations_id_fk",
+          "tableFrom": "_hotels_v",
+          "tableTo": "destinations",
+          "columnsFrom": [
+            "version_destination_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "_hotels_v_version_hero_image_id_media_id_fk": {
+          "name": "_hotels_v_version_hero_image_id_media_id_fk",
+          "tableFrom": "_hotels_v",
+          "tableTo": "media",
+          "columnsFrom": [
+            "version_hero_image_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public._hotels_v_rels": {
+      "name": "_hotels_v_rels",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "order": {
+          "name": "order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "parent_id": {
+          "name": "parent_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "path": {
+          "name": "path",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "amenities_id": {
+          "name": "amenities_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "_hotels_v_rels_order_idx": {
+          "name": "_hotels_v_rels_order_idx",
+          "columns": [
+            {
+              "expression": "order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_hotels_v_rels_parent_idx": {
+          "name": "_hotels_v_rels_parent_idx",
+          "columns": [
+            {
+              "expression": "parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_hotels_v_rels_path_idx": {
+          "name": "_hotels_v_rels_path_idx",
+          "columns": [
+            {
+              "expression": "path",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_hotels_v_rels_amenities_id_idx": {
+          "name": "_hotels_v_rels_amenities_id_idx",
+          "columns": [
+            {
+              "expression": "amenities_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "_hotels_v_rels_parent_fk": {
+          "name": "_hotels_v_rels_parent_fk",
+          "tableFrom": "_hotels_v_rels",
+          "tableTo": "_hotels_v",
+          "columnsFrom": [
+            "parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "_hotels_v_rels_amenities_fk": {
+          "name": "_hotels_v_rels_amenities_fk",
+          "tableFrom": "_hotels_v_rels",
+          "tableTo": "amenities",
+          "columnsFrom": [
+            "amenities_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.reviews_pros": {
+      "name": "reviews_pros",
+      "schema": "",
+      "columns": {
+        "_order": {
+          "name": "_order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "_parent_id": {
+          "name": "_parent_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id": {
+          "name": "id",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "text": {
+          "name": "text",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "reviews_pros_order_idx": {
+          "name": "reviews_pros_order_idx",
+          "columns": [
+            {
+              "expression": "_order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "reviews_pros_parent_id_idx": {
+          "name": "reviews_pros_parent_id_idx",
+          "columns": [
+            {
+              "expression": "_parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "reviews_pros_parent_id_fk": {
+          "name": "reviews_pros_parent_id_fk",
+          "tableFrom": "reviews_pros",
+          "tableTo": "reviews",
+          "columnsFrom": [
+            "_parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.reviews_cons": {
+      "name": "reviews_cons",
+      "schema": "",
+      "columns": {
+        "_order": {
+          "name": "_order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "_parent_id": {
+          "name": "_parent_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id": {
+          "name": "id",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "text": {
+          "name": "text",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "reviews_cons_order_idx": {
+          "name": "reviews_cons_order_idx",
+          "columns": [
+            {
+              "expression": "_order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "reviews_cons_parent_id_idx": {
+          "name": "reviews_cons_parent_id_idx",
+          "columns": [
+            {
+              "expression": "_parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "reviews_cons_parent_id_fk": {
+          "name": "reviews_cons_parent_id_fk",
+          "tableFrom": "reviews_cons",
+          "tableTo": "reviews",
+          "columnsFrom": [
+            "_parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.reviews": {
+      "name": "reviews",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "slug": {
+          "name": "slug",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "hotel_id": {
+          "name": "hotel_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "rubric_version_id": {
+          "name": "rubric_version_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "property_type": {
+          "name": "property_type",
+          "type": "enum_reviews_property_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "short_verdict": {
+          "name": "short_verdict",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "totals_hard": {
+          "name": "totals_hard",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "totals_soft": {
+          "name": "totals_soft",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "totals_overall": {
+          "name": "totals_overall",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "stay_date": {
+          "name": "stay_date",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nights": {
+          "name": "nights",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status_held_id": {
+          "name": "status_held_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "room_booked": {
+          "name": "room_booked",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "room_received": {
+          "name": "room_received",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "rate_basis": {
+          "name": "rate_basis",
+          "type": "enum_reviews_rate_basis",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "award_note": {
+          "name": "award_note",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "scores_room_layout": {
+          "name": "scores_room_layout",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "scores_bathroom": {
+          "name": "scores_bathroom",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "scores_bed_and_sleep": {
+          "name": "scores_bed_and_sleep",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "scores_tech": {
+          "name": "scores_tech",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "scores_amenities": {
+          "name": "scores_amenities",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "scores_atmosphere": {
+          "name": "scores_atmosphere",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "scores_maintenance": {
+          "name": "scores_maintenance",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "scores_location": {
+          "name": "scores_location",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "scores_check_in": {
+          "name": "scores_check_in",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "scores_service_baseline": {
+          "name": "scores_service_baseline",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "scores_service_peak": {
+          "name": "scores_service_peak",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "scores_operations": {
+          "name": "scores_operations",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "scores_housekeeping": {
+          "name": "scores_housekeeping",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "scores_breakfast_and_dining": {
+          "name": "scores_breakfast_and_dining",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "scores_density": {
+          "name": "scores_density",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "scores_departure": {
+          "name": "scores_departure",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "opening_thoughts": {
+          "name": "opening_thoughts",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "narrative_room_layout": {
+          "name": "narrative_room_layout",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "narrative_bathroom": {
+          "name": "narrative_bathroom",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "narrative_bed_and_sleep": {
+          "name": "narrative_bed_and_sleep",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "narrative_tech": {
+          "name": "narrative_tech",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "narrative_amenities": {
+          "name": "narrative_amenities",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "narrative_atmosphere": {
+          "name": "narrative_atmosphere",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "narrative_maintenance": {
+          "name": "narrative_maintenance",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "narrative_location": {
+          "name": "narrative_location",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "narrative_check_in": {
+          "name": "narrative_check_in",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "narrative_service_baseline": {
+          "name": "narrative_service_baseline",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "narrative_service_peak": {
+          "name": "narrative_service_peak",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "narrative_operations": {
+          "name": "narrative_operations",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "narrative_housekeeping": {
+          "name": "narrative_housekeeping",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "narrative_breakfast_and_dining": {
+          "name": "narrative_breakfast_and_dining",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "narrative_density": {
+          "name": "narrative_density",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "narrative_departure": {
+          "name": "narrative_departure",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "final_verdict": {
+          "name": "final_verdict",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "upgrade_outcome": {
+          "name": "upgrade_outcome",
+          "type": "enum_reviews_upgrade_outcome",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "upgrade_note": {
+          "name": "upgrade_note",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "breakfast_outcome": {
+          "name": "breakfast_outcome",
+          "type": "enum_reviews_breakfast_outcome",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "breakfast_note": {
+          "name": "breakfast_note",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "late_checkout_outcome": {
+          "name": "late_checkout_outcome",
+          "type": "enum_reviews_late_checkout_outcome",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "late_checkout_note": {
+          "name": "late_checkout_note",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "welcome_amenity_outcome": {
+          "name": "welcome_amenity_outcome",
+          "type": "enum_reviews_welcome_amenity_outcome",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "welcome_amenity_note": {
+          "name": "welcome_amenity_note",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "club_lounge_outcome": {
+          "name": "club_lounge_outcome",
+          "type": "enum_reviews_club_lounge_outcome",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "club_lounge_note": {
+          "name": "club_lounge_note",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "guest_of_honor_outcome": {
+          "name": "guest_of_honor_outcome",
+          "type": "enum_reviews_guest_of_honor_outcome",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "guest_of_honor_note": {
+          "name": "guest_of_honor_note",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "book_it_if": {
+          "name": "book_it_if",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "skip_it_if": {
+          "name": "skip_it_if",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "would_stay_again": {
+          "name": "would_stay_again",
+          "type": "enum_reviews_would_stay_again",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "value_for_cash": {
+          "name": "value_for_cash",
+          "type": "enum_reviews_value_for_cash",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "value_for_points": {
+          "name": "value_for_points",
+          "type": "enum_reviews_value_for_points",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "value_notes": {
+          "name": "value_notes",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "published_date": {
+          "name": "published_date",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "last_verified_date": {
+          "name": "last_verified_date",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "read_time": {
+          "name": "read_time",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "feature_slot": {
+          "name": "feature_slot",
+          "type": "enum_reviews_feature_slot",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "hero_image_id": {
+          "name": "hero_image_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "external_image_url": {
+          "name": "external_image_url",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "seo_title": {
+          "name": "seo_title",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "seo_description": {
+          "name": "seo_description",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "webflow_id": {
+          "name": "webflow_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "_status": {
+          "name": "_status",
+          "type": "enum_reviews_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'draft'"
+        }
+      },
+      "indexes": {
+        "reviews_slug_idx": {
+          "name": "reviews_slug_idx",
+          "columns": [
+            {
+              "expression": "slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "reviews_hotel_idx": {
+          "name": "reviews_hotel_idx",
+          "columns": [
+            {
+              "expression": "hotel_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "reviews_rubric_version_idx": {
+          "name": "reviews_rubric_version_idx",
+          "columns": [
+            {
+              "expression": "rubric_version_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "reviews_totals_totals_overall_idx": {
+          "name": "reviews_totals_totals_overall_idx",
+          "columns": [
+            {
+              "expression": "totals_overall",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "reviews_status_held_idx": {
+          "name": "reviews_status_held_idx",
+          "columns": [
+            {
+              "expression": "status_held_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "reviews_hero_image_idx": {
+          "name": "reviews_hero_image_idx",
+          "columns": [
+            {
+              "expression": "hero_image_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "reviews_webflow_id_idx": {
+          "name": "reviews_webflow_id_idx",
+          "columns": [
+            {
+              "expression": "webflow_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "reviews_updated_at_idx": {
+          "name": "reviews_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "reviews_created_at_idx": {
+          "name": "reviews_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "reviews__status_idx": {
+          "name": "reviews__status_idx",
+          "columns": [
+            {
+              "expression": "_status",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "reviews_hotel_id_hotels_id_fk": {
+          "name": "reviews_hotel_id_hotels_id_fk",
+          "tableFrom": "reviews",
+          "tableTo": "hotels",
+          "columnsFrom": [
+            "hotel_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "reviews_rubric_version_id_rubric_versions_id_fk": {
+          "name": "reviews_rubric_version_id_rubric_versions_id_fk",
+          "tableFrom": "reviews",
+          "tableTo": "rubric_versions",
+          "columnsFrom": [
+            "rubric_version_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "reviews_status_held_id_status_levels_id_fk": {
+          "name": "reviews_status_held_id_status_levels_id_fk",
+          "tableFrom": "reviews",
+          "tableTo": "status_levels",
+          "columnsFrom": [
+            "status_held_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "reviews_hero_image_id_media_id_fk": {
+          "name": "reviews_hero_image_id_media_id_fk",
+          "tableFrom": "reviews",
+          "tableTo": "media",
+          "columnsFrom": [
+            "hero_image_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public._reviews_v_version_pros": {
+      "name": "_reviews_v_version_pros",
+      "schema": "",
+      "columns": {
+        "_order": {
+          "name": "_order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "_parent_id": {
+          "name": "_parent_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "text": {
+          "name": "text",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "_uuid": {
+          "name": "_uuid",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "_reviews_v_version_pros_order_idx": {
+          "name": "_reviews_v_version_pros_order_idx",
+          "columns": [
+            {
+              "expression": "_order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_reviews_v_version_pros_parent_id_idx": {
+          "name": "_reviews_v_version_pros_parent_id_idx",
+          "columns": [
+            {
+              "expression": "_parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "_reviews_v_version_pros_parent_id_fk": {
+          "name": "_reviews_v_version_pros_parent_id_fk",
+          "tableFrom": "_reviews_v_version_pros",
+          "tableTo": "_reviews_v",
+          "columnsFrom": [
+            "_parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public._reviews_v_version_cons": {
+      "name": "_reviews_v_version_cons",
+      "schema": "",
+      "columns": {
+        "_order": {
+          "name": "_order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "_parent_id": {
+          "name": "_parent_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "text": {
+          "name": "text",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "_uuid": {
+          "name": "_uuid",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "_reviews_v_version_cons_order_idx": {
+          "name": "_reviews_v_version_cons_order_idx",
+          "columns": [
+            {
+              "expression": "_order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_reviews_v_version_cons_parent_id_idx": {
+          "name": "_reviews_v_version_cons_parent_id_idx",
+          "columns": [
+            {
+              "expression": "_parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "_reviews_v_version_cons_parent_id_fk": {
+          "name": "_reviews_v_version_cons_parent_id_fk",
+          "tableFrom": "_reviews_v_version_cons",
+          "tableTo": "_reviews_v",
+          "columnsFrom": [
+            "_parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public._reviews_v": {
+      "name": "_reviews_v",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "parent_id": {
+          "name": "parent_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_title": {
+          "name": "version_title",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_slug": {
+          "name": "version_slug",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_hotel_id": {
+          "name": "version_hotel_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_rubric_version_id": {
+          "name": "version_rubric_version_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_property_type": {
+          "name": "version_property_type",
+          "type": "enum__reviews_v_version_property_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_short_verdict": {
+          "name": "version_short_verdict",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_totals_hard": {
+          "name": "version_totals_hard",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_totals_soft": {
+          "name": "version_totals_soft",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_totals_overall": {
+          "name": "version_totals_overall",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_stay_date": {
+          "name": "version_stay_date",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_nights": {
+          "name": "version_nights",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_status_held_id": {
+          "name": "version_status_held_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_room_booked": {
+          "name": "version_room_booked",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_room_received": {
+          "name": "version_room_received",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_rate_basis": {
+          "name": "version_rate_basis",
+          "type": "enum__reviews_v_version_rate_basis",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_award_note": {
+          "name": "version_award_note",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_scores_room_layout": {
+          "name": "version_scores_room_layout",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_scores_bathroom": {
+          "name": "version_scores_bathroom",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_scores_bed_and_sleep": {
+          "name": "version_scores_bed_and_sleep",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_scores_tech": {
+          "name": "version_scores_tech",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_scores_amenities": {
+          "name": "version_scores_amenities",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_scores_atmosphere": {
+          "name": "version_scores_atmosphere",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_scores_maintenance": {
+          "name": "version_scores_maintenance",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_scores_location": {
+          "name": "version_scores_location",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_scores_check_in": {
+          "name": "version_scores_check_in",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_scores_service_baseline": {
+          "name": "version_scores_service_baseline",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_scores_service_peak": {
+          "name": "version_scores_service_peak",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_scores_operations": {
+          "name": "version_scores_operations",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_scores_housekeeping": {
+          "name": "version_scores_housekeeping",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_scores_breakfast_and_dining": {
+          "name": "version_scores_breakfast_and_dining",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_scores_density": {
+          "name": "version_scores_density",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_scores_departure": {
+          "name": "version_scores_departure",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_opening_thoughts": {
+          "name": "version_opening_thoughts",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_narrative_room_layout": {
+          "name": "version_narrative_room_layout",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_narrative_bathroom": {
+          "name": "version_narrative_bathroom",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_narrative_bed_and_sleep": {
+          "name": "version_narrative_bed_and_sleep",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_narrative_tech": {
+          "name": "version_narrative_tech",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_narrative_amenities": {
+          "name": "version_narrative_amenities",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_narrative_atmosphere": {
+          "name": "version_narrative_atmosphere",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_narrative_maintenance": {
+          "name": "version_narrative_maintenance",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_narrative_location": {
+          "name": "version_narrative_location",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_narrative_check_in": {
+          "name": "version_narrative_check_in",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_narrative_service_baseline": {
+          "name": "version_narrative_service_baseline",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_narrative_service_peak": {
+          "name": "version_narrative_service_peak",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_narrative_operations": {
+          "name": "version_narrative_operations",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_narrative_housekeeping": {
+          "name": "version_narrative_housekeeping",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_narrative_breakfast_and_dining": {
+          "name": "version_narrative_breakfast_and_dining",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_narrative_density": {
+          "name": "version_narrative_density",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_narrative_departure": {
+          "name": "version_narrative_departure",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_final_verdict": {
+          "name": "version_final_verdict",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_upgrade_outcome": {
+          "name": "version_upgrade_outcome",
+          "type": "enum__reviews_v_version_upgrade_outcome",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_upgrade_note": {
+          "name": "version_upgrade_note",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_breakfast_outcome": {
+          "name": "version_breakfast_outcome",
+          "type": "enum__reviews_v_version_breakfast_outcome",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_breakfast_note": {
+          "name": "version_breakfast_note",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_late_checkout_outcome": {
+          "name": "version_late_checkout_outcome",
+          "type": "enum__reviews_v_version_late_checkout_outcome",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_late_checkout_note": {
+          "name": "version_late_checkout_note",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_welcome_amenity_outcome": {
+          "name": "version_welcome_amenity_outcome",
+          "type": "enum__reviews_v_version_welcome_amenity_outcome",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_welcome_amenity_note": {
+          "name": "version_welcome_amenity_note",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_club_lounge_outcome": {
+          "name": "version_club_lounge_outcome",
+          "type": "enum__reviews_v_version_club_lounge_outcome",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_club_lounge_note": {
+          "name": "version_club_lounge_note",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_guest_of_honor_outcome": {
+          "name": "version_guest_of_honor_outcome",
+          "type": "enum__reviews_v_version_guest_of_honor_outcome",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_guest_of_honor_note": {
+          "name": "version_guest_of_honor_note",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_book_it_if": {
+          "name": "version_book_it_if",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_skip_it_if": {
+          "name": "version_skip_it_if",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_would_stay_again": {
+          "name": "version_would_stay_again",
+          "type": "enum__reviews_v_version_would_stay_again",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_value_for_cash": {
+          "name": "version_value_for_cash",
+          "type": "enum__reviews_v_version_value_for_cash",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_value_for_points": {
+          "name": "version_value_for_points",
+          "type": "enum__reviews_v_version_value_for_points",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_value_notes": {
+          "name": "version_value_notes",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_published_date": {
+          "name": "version_published_date",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_last_verified_date": {
+          "name": "version_last_verified_date",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_read_time": {
+          "name": "version_read_time",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_feature_slot": {
+          "name": "version_feature_slot",
+          "type": "enum__reviews_v_version_feature_slot",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_hero_image_id": {
+          "name": "version_hero_image_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_external_image_url": {
+          "name": "version_external_image_url",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_seo_title": {
+          "name": "version_seo_title",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_seo_description": {
+          "name": "version_seo_description",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_webflow_id": {
+          "name": "version_webflow_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_updated_at": {
+          "name": "version_updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_created_at": {
+          "name": "version_created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version__status": {
+          "name": "version__status",
+          "type": "enum__reviews_v_version_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'draft'"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "latest": {
+          "name": "latest",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "_reviews_v_parent_idx": {
+          "name": "_reviews_v_parent_idx",
+          "columns": [
+            {
+              "expression": "parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_reviews_v_version_version_slug_idx": {
+          "name": "_reviews_v_version_version_slug_idx",
+          "columns": [
+            {
+              "expression": "version_slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_reviews_v_version_version_hotel_idx": {
+          "name": "_reviews_v_version_version_hotel_idx",
+          "columns": [
+            {
+              "expression": "version_hotel_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_reviews_v_version_version_rubric_version_idx": {
+          "name": "_reviews_v_version_version_rubric_version_idx",
+          "columns": [
+            {
+              "expression": "version_rubric_version_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_reviews_v_version_totals_version_totals_overall_idx": {
+          "name": "_reviews_v_version_totals_version_totals_overall_idx",
+          "columns": [
+            {
+              "expression": "version_totals_overall",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_reviews_v_version_version_status_held_idx": {
+          "name": "_reviews_v_version_version_status_held_idx",
+          "columns": [
+            {
+              "expression": "version_status_held_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_reviews_v_version_version_hero_image_idx": {
+          "name": "_reviews_v_version_version_hero_image_idx",
+          "columns": [
+            {
+              "expression": "version_hero_image_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_reviews_v_version_version_webflow_id_idx": {
+          "name": "_reviews_v_version_version_webflow_id_idx",
+          "columns": [
+            {
+              "expression": "version_webflow_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_reviews_v_version_version_updated_at_idx": {
+          "name": "_reviews_v_version_version_updated_at_idx",
+          "columns": [
+            {
+              "expression": "version_updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_reviews_v_version_version_created_at_idx": {
+          "name": "_reviews_v_version_version_created_at_idx",
+          "columns": [
+            {
+              "expression": "version_created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_reviews_v_version_version__status_idx": {
+          "name": "_reviews_v_version_version__status_idx",
+          "columns": [
+            {
+              "expression": "version__status",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_reviews_v_created_at_idx": {
+          "name": "_reviews_v_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_reviews_v_updated_at_idx": {
+          "name": "_reviews_v_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_reviews_v_latest_idx": {
+          "name": "_reviews_v_latest_idx",
+          "columns": [
+            {
+              "expression": "latest",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "_reviews_v_parent_id_reviews_id_fk": {
+          "name": "_reviews_v_parent_id_reviews_id_fk",
+          "tableFrom": "_reviews_v",
+          "tableTo": "reviews",
+          "columnsFrom": [
+            "parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "_reviews_v_version_hotel_id_hotels_id_fk": {
+          "name": "_reviews_v_version_hotel_id_hotels_id_fk",
+          "tableFrom": "_reviews_v",
+          "tableTo": "hotels",
+          "columnsFrom": [
+            "version_hotel_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "_reviews_v_version_rubric_version_id_rubric_versions_id_fk": {
+          "name": "_reviews_v_version_rubric_version_id_rubric_versions_id_fk",
+          "tableFrom": "_reviews_v",
+          "tableTo": "rubric_versions",
+          "columnsFrom": [
+            "version_rubric_version_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "_reviews_v_version_status_held_id_status_levels_id_fk": {
+          "name": "_reviews_v_version_status_held_id_status_levels_id_fk",
+          "tableFrom": "_reviews_v",
+          "tableTo": "status_levels",
+          "columnsFrom": [
+            "version_status_held_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "_reviews_v_version_hero_image_id_media_id_fk": {
+          "name": "_reviews_v_version_hero_image_id_media_id_fk",
+          "tableFrom": "_reviews_v",
+          "tableTo": "media",
+          "columnsFrom": [
+            "version_hero_image_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.reader_stays": {
+      "name": "reader_stays",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "enum_reader_stays_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'pending'"
+        },
+        "hotel_id": {
+          "name": "hotel_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "program_id": {
+          "name": "program_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status_held_id": {
+          "name": "status_held_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "stay_year": {
+          "name": "stay_year",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "stay_month": {
+          "name": "stay_month",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "upgrade": {
+          "name": "upgrade",
+          "type": "enum_reader_stays_upgrade",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "breakfast": {
+          "name": "breakfast",
+          "type": "enum_reader_stays_breakfast",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "late_checkout": {
+          "name": "late_checkout",
+          "type": "enum_reader_stays_late_checkout",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "lounge_rating": {
+          "name": "lounge_rating",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "submitter_hash": {
+          "name": "submitter_hash",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "reader_stays_status_idx": {
+          "name": "reader_stays_status_idx",
+          "columns": [
+            {
+              "expression": "status",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "reader_stays_hotel_idx": {
+          "name": "reader_stays_hotel_idx",
+          "columns": [
+            {
+              "expression": "hotel_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "reader_stays_program_idx": {
+          "name": "reader_stays_program_idx",
+          "columns": [
+            {
+              "expression": "program_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "reader_stays_status_held_idx": {
+          "name": "reader_stays_status_held_idx",
+          "columns": [
+            {
+              "expression": "status_held_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "reader_stays_submitter_hash_idx": {
+          "name": "reader_stays_submitter_hash_idx",
+          "columns": [
+            {
+              "expression": "submitter_hash",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "reader_stays_updated_at_idx": {
+          "name": "reader_stays_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "reader_stays_created_at_idx": {
+          "name": "reader_stays_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "reader_stays_hotel_id_hotels_id_fk": {
+          "name": "reader_stays_hotel_id_hotels_id_fk",
+          "tableFrom": "reader_stays",
+          "tableTo": "hotels",
+          "columnsFrom": [
+            "hotel_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "reader_stays_program_id_programs_id_fk": {
+          "name": "reader_stays_program_id_programs_id_fk",
+          "tableFrom": "reader_stays",
+          "tableTo": "programs",
+          "columnsFrom": [
+            "program_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "reader_stays_status_held_id_status_levels_id_fk": {
+          "name": "reader_stays_status_held_id_status_levels_id_fk",
+          "tableFrom": "reader_stays",
+          "tableTo": "status_levels",
+          "columnsFrom": [
+            "status_held_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.rubric_versions_categories": {
+      "name": "rubric_versions_categories",
+      "schema": "",
+      "columns": {
+        "_order": {
+          "name": "_order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "_parent_id": {
+          "name": "_parent_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id": {
+          "name": "id",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "key": {
+          "name": "key",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "label": {
+          "name": "label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "group": {
+          "name": "group",
+          "type": "enum_rubric_versions_categories_group",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "max_city": {
+          "name": "max_city",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "max_resort": {
+          "name": "max_resort",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "rubric_versions_categories_order_idx": {
+          "name": "rubric_versions_categories_order_idx",
+          "columns": [
+            {
+              "expression": "_order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "rubric_versions_categories_parent_id_idx": {
+          "name": "rubric_versions_categories_parent_id_idx",
+          "columns": [
+            {
+              "expression": "_parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "rubric_versions_categories_parent_id_fk": {
+          "name": "rubric_versions_categories_parent_id_fk",
+          "tableFrom": "rubric_versions_categories",
+          "tableTo": "rubric_versions",
+          "columnsFrom": [
+            "_parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.rubric_versions": {
+      "name": "rubric_versions",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "slug": {
+          "name": "slug",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "locked": {
+          "name": "locked",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
+        "notes": {
+          "name": "notes",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "rubric_versions_slug_idx": {
+          "name": "rubric_versions_slug_idx",
+          "columns": [
+            {
+              "expression": "slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "rubric_versions_updated_at_idx": {
+          "name": "rubric_versions_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "rubric_versions_created_at_idx": {
+          "name": "rubric_versions_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.programs": {
+      "name": "programs",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "slug": {
+          "name": "slug",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "short_description": {
+          "name": "short_description",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "overview": {
+          "name": "overview",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "elite_tiers_description": {
+          "name": "elite_tiers_description",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "top_tier_name": {
+          "name": "top_tier_name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "second_tier_name": {
+          "name": "second_tier_name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "logo_id": {
+          "name": "logo_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "images_logo_url": {
+          "name": "images_logo_url",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "images_hero_image_url": {
+          "name": "images_hero_image_url",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "seo_title": {
+          "name": "seo_title",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "seo_description": {
+          "name": "seo_description",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "webflow_id": {
+          "name": "webflow_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "programs_slug_idx": {
+          "name": "programs_slug_idx",
+          "columns": [
+            {
+              "expression": "slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "programs_logo_idx": {
+          "name": "programs_logo_idx",
+          "columns": [
+            {
+              "expression": "logo_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "programs_webflow_id_idx": {
+          "name": "programs_webflow_id_idx",
+          "columns": [
+            {
+              "expression": "webflow_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "programs_updated_at_idx": {
+          "name": "programs_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "programs_created_at_idx": {
+          "name": "programs_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "programs_logo_id_media_id_fk": {
+          "name": "programs_logo_id_media_id_fk",
+          "tableFrom": "programs",
+          "tableTo": "media",
+          "columnsFrom": [
+            "logo_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.brands": {
+      "name": "brands",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "slug": {
+          "name": "slug",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "program_id": {
+          "name": "program_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "segment": {
+          "name": "segment",
+          "type": "enum_brands_segment",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "short_description": {
+          "name": "short_description",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "overview": {
+          "name": "overview",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "logo_url": {
+          "name": "logo_url",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "webflow_id": {
+          "name": "webflow_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "brands_slug_idx": {
+          "name": "brands_slug_idx",
+          "columns": [
+            {
+              "expression": "slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "brands_program_idx": {
+          "name": "brands_program_idx",
+          "columns": [
+            {
+              "expression": "program_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "brands_webflow_id_idx": {
+          "name": "brands_webflow_id_idx",
+          "columns": [
+            {
+              "expression": "webflow_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "brands_updated_at_idx": {
+          "name": "brands_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "brands_created_at_idx": {
+          "name": "brands_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "brands_program_id_programs_id_fk": {
+          "name": "brands_program_id_programs_id_fk",
+          "tableFrom": "brands",
+          "tableTo": "programs",
+          "columnsFrom": [
+            "program_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.status_levels": {
+      "name": "status_levels",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "slug": {
+          "name": "slug",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "program_id": {
+          "name": "program_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "short_name": {
+          "name": "short_name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "rank": {
+          "name": "rank",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_top_tier": {
+          "name": "is_top_tier",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
+        "nights": {
+          "name": "nights",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "short_description": {
+          "name": "short_description",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "benefits": {
+          "name": "benefits",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "eligibility_breakfast": {
+          "name": "eligibility_breakfast",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
+        "eligibility_lounge": {
+          "name": "eligibility_lounge",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
+        "eligibility_suite_upgrade": {
+          "name": "eligibility_suite_upgrade",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
+        "eligibility_late_checkout": {
+          "name": "eligibility_late_checkout",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
+        "credit_card_grants_status": {
+          "name": "credit_card_grants_status",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
+        "credit_card_source": {
+          "name": "credit_card_source",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "webflow_id": {
+          "name": "webflow_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "status_levels_slug_idx": {
+          "name": "status_levels_slug_idx",
+          "columns": [
+            {
+              "expression": "slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "status_levels_program_idx": {
+          "name": "status_levels_program_idx",
+          "columns": [
+            {
+              "expression": "program_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "status_levels_webflow_id_idx": {
+          "name": "status_levels_webflow_id_idx",
+          "columns": [
+            {
+              "expression": "webflow_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "status_levels_updated_at_idx": {
+          "name": "status_levels_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "status_levels_created_at_idx": {
+          "name": "status_levels_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "status_levels_program_id_programs_id_fk": {
+          "name": "status_levels_program_id_programs_id_fk",
+          "tableFrom": "status_levels",
+          "tableTo": "programs",
+          "columnsFrom": [
+            "program_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.destinations": {
+      "name": "destinations",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "slug": {
+          "name": "slug",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "city": {
+          "name": "city",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "state_or_region": {
+          "name": "state_or_region",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "country": {
+          "name": "country",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "location_label": {
+          "name": "location_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "region_id": {
+          "name": "region_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "type": {
+          "name": "type",
+          "type": "enum_destinations_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "short_description": {
+          "name": "short_description",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "overview": {
+          "name": "overview",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "image_url": {
+          "name": "image_url",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "seo_title": {
+          "name": "seo_title",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "seo_description": {
+          "name": "seo_description",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "webflow_id": {
+          "name": "webflow_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "_status": {
+          "name": "_status",
+          "type": "enum_destinations_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'draft'"
+        }
+      },
+      "indexes": {
+        "destinations_slug_idx": {
+          "name": "destinations_slug_idx",
+          "columns": [
+            {
+              "expression": "slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "destinations_country_idx": {
+          "name": "destinations_country_idx",
+          "columns": [
+            {
+              "expression": "country",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "destinations_region_idx": {
+          "name": "destinations_region_idx",
+          "columns": [
+            {
+              "expression": "region_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "destinations_webflow_id_idx": {
+          "name": "destinations_webflow_id_idx",
+          "columns": [
+            {
+              "expression": "webflow_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "destinations_updated_at_idx": {
+          "name": "destinations_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "destinations_created_at_idx": {
+          "name": "destinations_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "destinations__status_idx": {
+          "name": "destinations__status_idx",
+          "columns": [
+            {
+              "expression": "_status",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "destinations_region_id_regions_id_fk": {
+          "name": "destinations_region_id_regions_id_fk",
+          "tableFrom": "destinations",
+          "tableTo": "regions",
+          "columnsFrom": [
+            "region_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public._destinations_v": {
+      "name": "_destinations_v",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "parent_id": {
+          "name": "parent_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_name": {
+          "name": "version_name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_slug": {
+          "name": "version_slug",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_city": {
+          "name": "version_city",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_state_or_region": {
+          "name": "version_state_or_region",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_country": {
+          "name": "version_country",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_location_label": {
+          "name": "version_location_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_region_id": {
+          "name": "version_region_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_type": {
+          "name": "version_type",
+          "type": "enum__destinations_v_version_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_short_description": {
+          "name": "version_short_description",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_overview": {
+          "name": "version_overview",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_image_url": {
+          "name": "version_image_url",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_seo_title": {
+          "name": "version_seo_title",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_seo_description": {
+          "name": "version_seo_description",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_webflow_id": {
+          "name": "version_webflow_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_updated_at": {
+          "name": "version_updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_created_at": {
+          "name": "version_created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version__status": {
+          "name": "version__status",
+          "type": "enum__destinations_v_version_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'draft'"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "latest": {
+          "name": "latest",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "_destinations_v_parent_idx": {
+          "name": "_destinations_v_parent_idx",
+          "columns": [
+            {
+              "expression": "parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_destinations_v_version_version_slug_idx": {
+          "name": "_destinations_v_version_version_slug_idx",
+          "columns": [
+            {
+              "expression": "version_slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_destinations_v_version_version_country_idx": {
+          "name": "_destinations_v_version_version_country_idx",
+          "columns": [
+            {
+              "expression": "version_country",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_destinations_v_version_version_region_idx": {
+          "name": "_destinations_v_version_version_region_idx",
+          "columns": [
+            {
+              "expression": "version_region_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_destinations_v_version_version_webflow_id_idx": {
+          "name": "_destinations_v_version_version_webflow_id_idx",
+          "columns": [
+            {
+              "expression": "version_webflow_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_destinations_v_version_version_updated_at_idx": {
+          "name": "_destinations_v_version_version_updated_at_idx",
+          "columns": [
+            {
+              "expression": "version_updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_destinations_v_version_version_created_at_idx": {
+          "name": "_destinations_v_version_version_created_at_idx",
+          "columns": [
+            {
+              "expression": "version_created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_destinations_v_version_version__status_idx": {
+          "name": "_destinations_v_version_version__status_idx",
+          "columns": [
+            {
+              "expression": "version__status",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_destinations_v_created_at_idx": {
+          "name": "_destinations_v_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_destinations_v_updated_at_idx": {
+          "name": "_destinations_v_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_destinations_v_latest_idx": {
+          "name": "_destinations_v_latest_idx",
+          "columns": [
+            {
+              "expression": "latest",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "_destinations_v_parent_id_destinations_id_fk": {
+          "name": "_destinations_v_parent_id_destinations_id_fk",
+          "tableFrom": "_destinations_v",
+          "tableTo": "destinations",
+          "columnsFrom": [
+            "parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "_destinations_v_version_region_id_regions_id_fk": {
+          "name": "_destinations_v_version_region_id_regions_id_fk",
+          "tableFrom": "_destinations_v",
+          "tableTo": "regions",
+          "columnsFrom": [
+            "version_region_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.regions": {
+      "name": "regions",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "slug": {
+          "name": "slug",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "display_order": {
+          "name": "display_order",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "webflow_id": {
+          "name": "webflow_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "regions_slug_idx": {
+          "name": "regions_slug_idx",
+          "columns": [
+            {
+              "expression": "slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "regions_webflow_id_idx": {
+          "name": "regions_webflow_id_idx",
+          "columns": [
+            {
+              "expression": "webflow_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "regions_updated_at_idx": {
+          "name": "regions_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "regions_created_at_idx": {
+          "name": "regions_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.amenities": {
+      "name": "amenities",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "slug": {
+          "name": "slug",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "icon_url": {
+          "name": "icon_url",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "webflow_id": {
+          "name": "webflow_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "amenities_slug_idx": {
+          "name": "amenities_slug_idx",
+          "columns": [
+            {
+              "expression": "slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "amenities_webflow_id_idx": {
+          "name": "amenities_webflow_id_idx",
+          "columns": [
+            {
+              "expression": "webflow_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "amenities_updated_at_idx": {
+          "name": "amenities_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "amenities_created_at_idx": {
+          "name": "amenities_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.media": {
+      "name": "media",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "alt": {
+          "name": "alt",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "credit": {
+          "name": "credit",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "url": {
+          "name": "url",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "thumbnail_u_r_l": {
+          "name": "thumbnail_u_r_l",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "filename": {
+          "name": "filename",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "mime_type": {
+          "name": "mime_type",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "filesize": {
+          "name": "filesize",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "width": {
+          "name": "width",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "height": {
+          "name": "height",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "focal_x": {
+          "name": "focal_x",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "focal_y": {
+          "name": "focal_y",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "media_updated_at_idx": {
+          "name": "media_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "media_created_at_idx": {
+          "name": "media_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "media_filename_idx": {
+          "name": "media_filename_idx",
+          "columns": [
+            {
+              "expression": "filename",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.users_sessions": {
+      "name": "users_sessions",
+      "schema": "",
+      "columns": {
+        "_order": {
+          "name": "_order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "_parent_id": {
+          "name": "_parent_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id": {
+          "name": "id",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "users_sessions_order_idx": {
+          "name": "users_sessions_order_idx",
+          "columns": [
+            {
+              "expression": "_order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "users_sessions_parent_id_idx": {
+          "name": "users_sessions_parent_id_idx",
+          "columns": [
+            {
+              "expression": "_parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "users_sessions_parent_id_fk": {
+          "name": "users_sessions_parent_id_fk",
+          "tableFrom": "users_sessions",
+          "tableTo": "users",
+          "columnsFrom": [
+            "_parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.users": {
+      "name": "users",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "reset_password_token": {
+          "name": "reset_password_token",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "reset_password_expiration": {
+          "name": "reset_password_expiration",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "salt": {
+          "name": "salt",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "hash": {
+          "name": "hash",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "login_attempts": {
+          "name": "login_attempts",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 0
+        },
+        "lock_until": {
+          "name": "lock_until",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "users_updated_at_idx": {
+          "name": "users_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "users_created_at_idx": {
+          "name": "users_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "users_email_idx": {
+          "name": "users_email_idx",
+          "columns": [
+            {
+              "expression": "email",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.payload_kv": {
+      "name": "payload_kv",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "key": {
+          "name": "key",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "data": {
+          "name": "data",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "payload_kv_key_idx": {
+          "name": "payload_kv_key_idx",
+          "columns": [
+            {
+              "expression": "key",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.payload_locked_documents": {
+      "name": "payload_locked_documents",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "global_slug": {
+          "name": "global_slug",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "payload_locked_documents_global_slug_idx": {
+          "name": "payload_locked_documents_global_slug_idx",
+          "columns": [
+            {
+              "expression": "global_slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_locked_documents_updated_at_idx": {
+          "name": "payload_locked_documents_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_locked_documents_created_at_idx": {
+          "name": "payload_locked_documents_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.payload_locked_documents_rels": {
+      "name": "payload_locked_documents_rels",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "order": {
+          "name": "order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "parent_id": {
+          "name": "parent_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "path": {
+          "name": "path",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "hotels_id": {
+          "name": "hotels_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "reviews_id": {
+          "name": "reviews_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "reader_stays_id": {
+          "name": "reader_stays_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "rubric_versions_id": {
+          "name": "rubric_versions_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "programs_id": {
+          "name": "programs_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "brands_id": {
+          "name": "brands_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status_levels_id": {
+          "name": "status_levels_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "destinations_id": {
+          "name": "destinations_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "regions_id": {
+          "name": "regions_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "amenities_id": {
+          "name": "amenities_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "media_id": {
+          "name": "media_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "users_id": {
+          "name": "users_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "payload_locked_documents_rels_order_idx": {
+          "name": "payload_locked_documents_rels_order_idx",
+          "columns": [
+            {
+              "expression": "order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_locked_documents_rels_parent_idx": {
+          "name": "payload_locked_documents_rels_parent_idx",
+          "columns": [
+            {
+              "expression": "parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_locked_documents_rels_path_idx": {
+          "name": "payload_locked_documents_rels_path_idx",
+          "columns": [
+            {
+              "expression": "path",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_locked_documents_rels_hotels_id_idx": {
+          "name": "payload_locked_documents_rels_hotels_id_idx",
+          "columns": [
+            {
+              "expression": "hotels_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_locked_documents_rels_reviews_id_idx": {
+          "name": "payload_locked_documents_rels_reviews_id_idx",
+          "columns": [
+            {
+              "expression": "reviews_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_locked_documents_rels_reader_stays_id_idx": {
+          "name": "payload_locked_documents_rels_reader_stays_id_idx",
+          "columns": [
+            {
+              "expression": "reader_stays_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_locked_documents_rels_rubric_versions_id_idx": {
+          "name": "payload_locked_documents_rels_rubric_versions_id_idx",
+          "columns": [
+            {
+              "expression": "rubric_versions_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_locked_documents_rels_programs_id_idx": {
+          "name": "payload_locked_documents_rels_programs_id_idx",
+          "columns": [
+            {
+              "expression": "programs_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_locked_documents_rels_brands_id_idx": {
+          "name": "payload_locked_documents_rels_brands_id_idx",
+          "columns": [
+            {
+              "expression": "brands_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_locked_documents_rels_status_levels_id_idx": {
+          "name": "payload_locked_documents_rels_status_levels_id_idx",
+          "columns": [
+            {
+              "expression": "status_levels_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_locked_documents_rels_destinations_id_idx": {
+          "name": "payload_locked_documents_rels_destinations_id_idx",
+          "columns": [
+            {
+              "expression": "destinations_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_locked_documents_rels_regions_id_idx": {
+          "name": "payload_locked_documents_rels_regions_id_idx",
+          "columns": [
+            {
+              "expression": "regions_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_locked_documents_rels_amenities_id_idx": {
+          "name": "payload_locked_documents_rels_amenities_id_idx",
+          "columns": [
+            {
+              "expression": "amenities_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_locked_documents_rels_media_id_idx": {
+          "name": "payload_locked_documents_rels_media_id_idx",
+          "columns": [
+            {
+              "expression": "media_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_locked_documents_rels_users_id_idx": {
+          "name": "payload_locked_documents_rels_users_id_idx",
+          "columns": [
+            {
+              "expression": "users_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "payload_locked_documents_rels_parent_fk": {
+          "name": "payload_locked_documents_rels_parent_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "payload_locked_documents",
+          "columnsFrom": [
+            "parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_hotels_fk": {
+          "name": "payload_locked_documents_rels_hotels_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "hotels",
+          "columnsFrom": [
+            "hotels_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_reviews_fk": {
+          "name": "payload_locked_documents_rels_reviews_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "reviews",
+          "columnsFrom": [
+            "reviews_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_reader_stays_fk": {
+          "name": "payload_locked_documents_rels_reader_stays_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "reader_stays",
+          "columnsFrom": [
+            "reader_stays_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_rubric_versions_fk": {
+          "name": "payload_locked_documents_rels_rubric_versions_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "rubric_versions",
+          "columnsFrom": [
+            "rubric_versions_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_programs_fk": {
+          "name": "payload_locked_documents_rels_programs_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "programs",
+          "columnsFrom": [
+            "programs_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_brands_fk": {
+          "name": "payload_locked_documents_rels_brands_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "brands",
+          "columnsFrom": [
+            "brands_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_status_levels_fk": {
+          "name": "payload_locked_documents_rels_status_levels_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "status_levels",
+          "columnsFrom": [
+            "status_levels_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_destinations_fk": {
+          "name": "payload_locked_documents_rels_destinations_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "destinations",
+          "columnsFrom": [
+            "destinations_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_regions_fk": {
+          "name": "payload_locked_documents_rels_regions_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "regions",
+          "columnsFrom": [
+            "regions_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_amenities_fk": {
+          "name": "payload_locked_documents_rels_amenities_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "amenities",
+          "columnsFrom": [
+            "amenities_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_media_fk": {
+          "name": "payload_locked_documents_rels_media_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "media",
+          "columnsFrom": [
+            "media_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_users_fk": {
+          "name": "payload_locked_documents_rels_users_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "users",
+          "columnsFrom": [
+            "users_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.payload_preferences": {
+      "name": "payload_preferences",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "key": {
+          "name": "key",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "value": {
+          "name": "value",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "payload_preferences_key_idx": {
+          "name": "payload_preferences_key_idx",
+          "columns": [
+            {
+              "expression": "key",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_preferences_updated_at_idx": {
+          "name": "payload_preferences_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_preferences_created_at_idx": {
+          "name": "payload_preferences_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.payload_preferences_rels": {
+      "name": "payload_preferences_rels",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "order": {
+          "name": "order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "parent_id": {
+          "name": "parent_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "path": {
+          "name": "path",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "users_id": {
+          "name": "users_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "payload_preferences_rels_order_idx": {
+          "name": "payload_preferences_rels_order_idx",
+          "columns": [
+            {
+              "expression": "order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_preferences_rels_parent_idx": {
+          "name": "payload_preferences_rels_parent_idx",
+          "columns": [
+            {
+              "expression": "parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_preferences_rels_path_idx": {
+          "name": "payload_preferences_rels_path_idx",
+          "columns": [
+            {
+              "expression": "path",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_preferences_rels_users_id_idx": {
+          "name": "payload_preferences_rels_users_id_idx",
+          "columns": [
+            {
+              "expression": "users_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "payload_preferences_rels_parent_fk": {
+          "name": "payload_preferences_rels_parent_fk",
+          "tableFrom": "payload_preferences_rels",
+          "tableTo": "payload_preferences",
+          "columnsFrom": [
+            "parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_preferences_rels_users_fk": {
+          "name": "payload_preferences_rels_users_fk",
+          "tableFrom": "payload_preferences_rels",
+          "tableTo": "users",
+          "columnsFrom": [
+            "users_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.payload_migrations": {
+      "name": "payload_migrations",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "batch": {
+          "name": "batch",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "payload_migrations_updated_at_idx": {
+          "name": "payload_migrations_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_migrations_created_at_idx": {
+          "name": "payload_migrations_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {
+    "public.enum_hotels_segment": {
+      "name": "enum_hotels_segment",
+      "schema": "public",
+      "values": [
+        "ultra-luxury",
+        "luxury",
+        "upscale",
+        "midscale",
+        "budget",
+        "extended-stay"
+      ]
+    },
+    "public.enum_hotels_property_type": {
+      "name": "enum_hotels_property_type",
+      "schema": "public",
+      "values": [
+        "city",
+        "resort"
+      ]
+    },
+    "public.enum_hotels_review_status": {
+      "name": "enum_hotels_review_status",
+      "schema": "public",
+      "values": [
+        "not-reviewed",
+        "reviewed",
+        "coming-soon",
+        "data-only"
+      ]
+    },
+    "public.enum_hotels_enrichment_status": {
+      "name": "enum_hotels_enrichment_status",
+      "schema": "public",
+      "values": [
+        "none",
+        "queued",
+        "enriched"
+      ]
+    },
+    "public.enum_hotels_status": {
+      "name": "enum_hotels_status",
+      "schema": "public",
+      "values": [
+        "draft",
+        "published"
+      ]
+    },
+    "public.enum__hotels_v_version_segment": {
+      "name": "enum__hotels_v_version_segment",
+      "schema": "public",
+      "values": [
+        "ultra-luxury",
+        "luxury",
+        "upscale",
+        "midscale",
+        "budget",
+        "extended-stay"
+      ]
+    },
+    "public.enum__hotels_v_version_property_type": {
+      "name": "enum__hotels_v_version_property_type",
+      "schema": "public",
+      "values": [
+        "city",
+        "resort"
+      ]
+    },
+    "public.enum__hotels_v_version_review_status": {
+      "name": "enum__hotels_v_version_review_status",
+      "schema": "public",
+      "values": [
+        "not-reviewed",
+        "reviewed",
+        "coming-soon",
+        "data-only"
+      ]
+    },
+    "public.enum__hotels_v_version_enrichment_status": {
+      "name": "enum__hotels_v_version_enrichment_status",
+      "schema": "public",
+      "values": [
+        "none",
+        "queued",
+        "enriched"
+      ]
+    },
+    "public.enum__hotels_v_version_status": {
+      "name": "enum__hotels_v_version_status",
+      "schema": "public",
+      "values": [
+        "draft",
+        "published"
+      ]
+    },
+    "public.enum_reviews_property_type": {
+      "name": "enum_reviews_property_type",
+      "schema": "public",
+      "values": [
+        "city",
+        "resort"
+      ]
+    },
+    "public.enum_reviews_rate_basis": {
+      "name": "enum_reviews_rate_basis",
+      "schema": "public",
+      "values": [
+        "cash",
+        "points",
+        "certificate",
+        "credit-card-portal",
+        "third-party",
+        "corporate-rate",
+        "guest-of-honor",
+        "other"
+      ]
+    },
+    "public.enum_reviews_upgrade_outcome": {
+      "name": "enum_reviews_upgrade_outcome",
+      "schema": "public",
+      "values": [
+        "none",
+        "room-category",
+        "suite",
+        "used-award"
+      ]
+    },
+    "public.enum_reviews_breakfast_outcome": {
+      "name": "enum_reviews_breakfast_outcome",
+      "schema": "public",
+      "values": [
+        "full",
+        "capped",
+        "restaurant-credit",
+        "none"
+      ]
+    },
+    "public.enum_reviews_late_checkout_outcome": {
+      "name": "enum_reviews_late_checkout_outcome",
+      "schema": "public",
+      "values": [
+        "4pm-confirmed",
+        "on-request",
+        "refused",
+        "not-needed"
+      ]
+    },
+    "public.enum_reviews_welcome_amenity_outcome": {
+      "name": "enum_reviews_welcome_amenity_outcome",
+      "schema": "public",
+      "values": [
+        "points",
+        "gift",
+        "food-and-drink",
+        "none"
+      ]
+    },
+    "public.enum_reviews_club_lounge_outcome": {
+      "name": "enum_reviews_club_lounge_outcome",
+      "schema": "public",
+      "values": [
+        "none-at-property",
+        "access",
+        "access-with-restrictions"
+      ]
+    },
+    "public.enum_reviews_guest_of_honor_outcome": {
+      "name": "enum_reviews_guest_of_honor_outcome",
+      "schema": "public",
+      "values": [
+        "not-tested",
+        "honoured",
+        "refused"
+      ]
+    },
+    "public.enum_reviews_would_stay_again": {
+      "name": "enum_reviews_would_stay_again",
+      "schema": "public",
+      "values": [
+        "yes",
+        "maybe",
+        "no"
+      ]
+    },
+    "public.enum_reviews_value_for_cash": {
+      "name": "enum_reviews_value_for_cash",
+      "schema": "public",
+      "values": [
+        "best",
+        "great",
+        "good",
+        "fair",
+        "poor"
+      ]
+    },
+    "public.enum_reviews_value_for_points": {
+      "name": "enum_reviews_value_for_points",
+      "schema": "public",
+      "values": [
+        "best",
+        "great",
+        "good",
+        "fair",
+        "poor"
+      ]
+    },
+    "public.enum_reviews_feature_slot": {
+      "name": "enum_reviews_feature_slot",
+      "schema": "public",
+      "values": [
+        "none",
+        "lead",
+        "secondary"
+      ]
+    },
+    "public.enum_reviews_status": {
+      "name": "enum_reviews_status",
+      "schema": "public",
+      "values": [
+        "draft",
+        "published"
+      ]
+    },
+    "public.enum__reviews_v_version_property_type": {
+      "name": "enum__reviews_v_version_property_type",
+      "schema": "public",
+      "values": [
+        "city",
+        "resort"
+      ]
+    },
+    "public.enum__reviews_v_version_rate_basis": {
+      "name": "enum__reviews_v_version_rate_basis",
+      "schema": "public",
+      "values": [
+        "cash",
+        "points",
+        "certificate",
+        "credit-card-portal",
+        "third-party",
+        "corporate-rate",
+        "guest-of-honor",
+        "other"
+      ]
+    },
+    "public.enum__reviews_v_version_upgrade_outcome": {
+      "name": "enum__reviews_v_version_upgrade_outcome",
+      "schema": "public",
+      "values": [
+        "none",
+        "room-category",
+        "suite",
+        "used-award"
+      ]
+    },
+    "public.enum__reviews_v_version_breakfast_outcome": {
+      "name": "enum__reviews_v_version_breakfast_outcome",
+      "schema": "public",
+      "values": [
+        "full",
+        "capped",
+        "restaurant-credit",
+        "none"
+      ]
+    },
+    "public.enum__reviews_v_version_late_checkout_outcome": {
+      "name": "enum__reviews_v_version_late_checkout_outcome",
+      "schema": "public",
+      "values": [
+        "4pm-confirmed",
+        "on-request",
+        "refused",
+        "not-needed"
+      ]
+    },
+    "public.enum__reviews_v_version_welcome_amenity_outcome": {
+      "name": "enum__reviews_v_version_welcome_amenity_outcome",
+      "schema": "public",
+      "values": [
+        "points",
+        "gift",
+        "food-and-drink",
+        "none"
+      ]
+    },
+    "public.enum__reviews_v_version_club_lounge_outcome": {
+      "name": "enum__reviews_v_version_club_lounge_outcome",
+      "schema": "public",
+      "values": [
+        "none-at-property",
+        "access",
+        "access-with-restrictions"
+      ]
+    },
+    "public.enum__reviews_v_version_guest_of_honor_outcome": {
+      "name": "enum__reviews_v_version_guest_of_honor_outcome",
+      "schema": "public",
+      "values": [
+        "not-tested",
+        "honoured",
+        "refused"
+      ]
+    },
+    "public.enum__reviews_v_version_would_stay_again": {
+      "name": "enum__reviews_v_version_would_stay_again",
+      "schema": "public",
+      "values": [
+        "yes",
+        "maybe",
+        "no"
+      ]
+    },
+    "public.enum__reviews_v_version_value_for_cash": {
+      "name": "enum__reviews_v_version_value_for_cash",
+      "schema": "public",
+      "values": [
+        "best",
+        "great",
+        "good",
+        "fair",
+        "poor"
+      ]
+    },
+    "public.enum__reviews_v_version_value_for_points": {
+      "name": "enum__reviews_v_version_value_for_points",
+      "schema": "public",
+      "values": [
+        "best",
+        "great",
+        "good",
+        "fair",
+        "poor"
+      ]
+    },
+    "public.enum__reviews_v_version_feature_slot": {
+      "name": "enum__reviews_v_version_feature_slot",
+      "schema": "public",
+      "values": [
+        "none",
+        "lead",
+        "secondary"
+      ]
+    },
+    "public.enum__reviews_v_version_status": {
+      "name": "enum__reviews_v_version_status",
+      "schema": "public",
+      "values": [
+        "draft",
+        "published"
+      ]
+    },
+    "public.enum_reader_stays_status": {
+      "name": "enum_reader_stays_status",
+      "schema": "public",
+      "values": [
+        "pending",
+        "approved",
+        "rejected"
+      ]
+    },
+    "public.enum_reader_stays_upgrade": {
+      "name": "enum_reader_stays_upgrade",
+      "schema": "public",
+      "values": [
+        "none",
+        "room-category",
+        "suite",
+        "used-award"
+      ]
+    },
+    "public.enum_reader_stays_breakfast": {
+      "name": "enum_reader_stays_breakfast",
+      "schema": "public",
+      "values": [
+        "full",
+        "capped",
+        "restaurant-credit",
+        "none",
+        "not-eligible"
+      ]
+    },
+    "public.enum_reader_stays_late_checkout": {
+      "name": "enum_reader_stays_late_checkout",
+      "schema": "public",
+      "values": [
+        "honoured",
+        "declined",
+        "not-requested"
+      ]
+    },
+    "public.enum_rubric_versions_categories_group": {
+      "name": "enum_rubric_versions_categories_group",
+      "schema": "public",
+      "values": [
+        "hard",
+        "soft"
+      ]
+    },
+    "public.enum_brands_segment": {
+      "name": "enum_brands_segment",
+      "schema": "public",
+      "values": [
+        "ultra-luxury",
+        "luxury",
+        "upscale",
+        "midscale",
+        "budget",
+        "extended-stay"
+      ]
+    },
+    "public.enum_destinations_type": {
+      "name": "enum_destinations_type",
+      "schema": "public",
+      "values": [
+        "city",
+        "beach",
+        "island",
+        "ski",
+        "resort",
+        "jungle",
+        "airport",
+        "business",
+        "luxury"
+      ]
+    },
+    "public.enum_destinations_status": {
+      "name": "enum_destinations_status",
+      "schema": "public",
+      "values": [
+        "draft",
+        "published"
+      ]
+    },
+    "public.enum__destinations_v_version_type": {
+      "name": "enum__destinations_v_version_type",
+      "schema": "public",
+      "values": [
+        "city",
+        "beach",
+        "island",
+        "ski",
+        "resort",
+        "jungle",
+        "airport",
+        "business",
+        "luxury"
+      ]
+    },
+    "public.enum__destinations_v_version_status": {
+      "name": "enum__destinations_v_version_status",
+      "schema": "public",
+      "values": [
+        "draft",
+        "published"
+      ]
+    }
+  },
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  },
+  "id": "5b0bbbdf-2597-41b4-bde6-71b175df2b17",
+  "prevId": "00000000-0000-0000-0000-000000000000"
+}

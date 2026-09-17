@@ -63,7 +63,7 @@
 .tiers th:not(:first-child),
 .tiers td:not(:first-child) {
   text-align: right;
-  width: 18%;
+  width: 15%;
 }
 
 @media (max-width: 640px) {

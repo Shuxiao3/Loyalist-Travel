@@ -21,10 +21,9 @@ export const BREAKFAST_OUTCOMES = [
 ]
 
 export const LATE_CHECKOUT_OUTCOMES = [
-  { label: '4pm, confirmed', value: '4pm-confirmed' },
-  { label: 'Granted on request', value: 'on-request' },
-  { label: 'Refused', value: 'refused' },
-  { label: 'Did not need it', value: 'not-needed' },
+  { label: 'Honoured', value: 'honoured' },
+  { label: 'Declined', value: 'declined' },
+  { label: 'Not requested', value: 'not-requested' },
 ]
 
 export const ReaderStays: CollectionConfig = {

@@ -53,6 +53,7 @@ export function ReaderPanel({ data, hotelName }: { data: HotelReaderData; hotelN
               <th>Stays</th>
               <th>Upgrade</th>
               <th>Suite</th>
+              <th>Awards</th>
             </tr>
           </thead>
           <tbody>
@@ -62,6 +63,7 @@ export function ReaderPanel({ data, hotelName }: { data: HotelReaderData; hotelN
                 <td>{d.stays}</td>
                 <td>{pct(d.upgradeRate)}</td>
                 <td>{pct(d.suiteRate)}</td>
+                <td>{d.awardStays}</td>
               </tr>
             ))}
           </tbody>
@@ -69,7 +71,8 @@ export function ReaderPanel({ data, hotelName }: { data: HotelReaderData; hotelN
       )}
       <div className="panel-foot">
         From {a.stays} reader {a.stays === 1 ? 'stay' : 'stays'}
-        {a.latest ? `, latest ${MONTHS[a.latest.month - 1]} ${a.latest.year}` : ''}. Reported by readers, checked before counting, never scored.
+        {a.latest ? `, latest ${MONTHS[a.latest.month - 1]} ${a.latest.year}` : ''}
+        {a.awardStays > 0 ? `; ${a.awardStays} on suite ${a.awardStays === 1 ? 'award' : 'awards'}, left out of the upgrade rates` : ''}. Reported by readers, checked before counting, never scored.
       </div>
     </section>
   )
