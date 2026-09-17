@@ -113,18 +113,12 @@ export default async function HotelPage({ params }: Props) {
               </div>
             </div>
 
-            {latest ? (
+            {latest && (
               <Link className={styles.scorePanel} href={`/reviews/${latest.slug}`} aria-label={`Loyalist Travel score ${score(latest.totals?.overall)} of 100`}>
                 <span className={`label ${styles.scoreLabel}`}>Loyalist Travel score</span>
                 <span className={styles.scoreBig}>{score(latest.totals?.overall)}</span>
                 <span className={styles.scoreNote}>Out of 100. Read the review</span>
               </Link>
-            ) : (
-              <div className={styles.scorePanel}>
-                <span className={`label ${styles.scoreLabel}`}>Loyalist Travel score</span>
-                <span className={styles.scoreBig}>–</span>
-                <span className={styles.scoreNote}>{hotel.reviewStatus === 'coming-soon' ? 'Review coming soon.' : 'Not yet scored.'}</span>
-              </div>
             )}
           </div>
 
