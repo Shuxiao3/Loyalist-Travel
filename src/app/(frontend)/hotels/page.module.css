@@ -21,7 +21,7 @@
 
 .form {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr)) auto;
+  grid-template-columns: 1.4fr repeat(6, minmax(0, 1fr)) auto;
   gap: var(--s4);
   align-items: end;
   padding: var(--s5) 0;
@@ -31,10 +31,13 @@
   display: flex;
   flex-direction: column;
   gap: var(--s2);
+  min-width: 0;
 }
 
-.form select {
+.form select,
+.form input {
   min-width: 0;
+  width: 100%;
   background: var(--card);
   border: 1px solid var(--line-strong);
   color: var(--text);
@@ -43,7 +46,8 @@
   border-radius: var(--r-btn);
 }
 
-.form select:focus-visible {
+.form select:focus-visible,
+.form input:focus-visible {
   outline: 2px solid var(--gold);
   outline-offset: 2px;
 }
@@ -70,6 +74,10 @@
 @media (max-width: 1100px) {
   .form {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .q {
+    grid-column: 1 / -1;
   }
 
   .actions {

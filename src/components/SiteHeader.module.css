@@ -48,7 +48,26 @@
   border-bottom-color: var(--gold);
 }
 
-/* Phone: the drawer arrives with the templates milestone. */
+.searchLink {
+  display: inline-flex;
+  border-bottom: 0 !important;
+}
+
+.menu {
+  display: none;
+  background: none;
+  border: 0;
+  padding: 8px;
+  margin: -8px;
+  color: var(--light);
+  cursor: pointer;
+}
+
+.drawer {
+  display: none;
+}
+
+/* Phone: links collapse into the drawer. */
 @media (max-width: 640px) {
   .inner {
     height: 64px;
@@ -56,5 +75,73 @@
 
   .links {
     display: none;
+  }
+
+  .menu {
+    display: inline-flex;
+  }
+
+  .drawer {
+    display: none;
+    background: var(--navy-deep);
+    border-top: 1px solid var(--line-dark);
+  }
+
+  .drawer.open {
+    display: block;
+  }
+
+  .drawer ul {
+    list-style: none;
+    margin: 0;
+    padding: 8px 0;
+  }
+
+  .drawer ul a {
+    display: block;
+    padding: 14px var(--gutter);
+    font-size: var(--t-xs);
+    letter-spacing: var(--track-cta);
+    text-transform: uppercase;
+    color: var(--light);
+  }
+
+  .drawer ul a[aria-current] {
+    color: var(--gold);
+  }
+
+  .search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 14px var(--gutter) 6px;
+    background: var(--navy);
+    border: 1px solid var(--gold-border);
+    padding: 0 14px;
+    border-radius: var(--r-btn);
+    color: var(--on-navy-muted);
+  }
+
+  .search svg {
+    flex-shrink: 0;
+  }
+
+  .search input {
+    flex: 1;
+    min-width: 0;
+    background: none;
+    border: 0;
+    color: var(--ivory);
+    padding: 13px 0;
+    font-size: var(--t-sm);
+    outline: none;
+  }
+
+  .search input::placeholder {
+    color: var(--on-navy-dim);
+  }
+
+  .search:focus-within {
+    border-color: var(--gold-dark);
   }
 }

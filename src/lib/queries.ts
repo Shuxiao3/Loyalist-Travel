@@ -58,6 +58,7 @@ export async function getHotel(slug: string): Promise<Hotel | null> {
 }
 
 export type HotelFilters = {
+  q?: string
   program?: string
   brand?: string
   country?: string
@@ -72,6 +73,7 @@ export const HOTELS_PER_PAGE = 48
 export async function findHotels(f: HotelFilters) {
   const payload = await getPayloadClient()
   const and: Where[] = [published]
+  if (f.q) and.push({ or: [{ name: { contains: f.q } }, { fullName: { contains: f.q } }] })
   if (f.program) and.push({ 'program.slug': { equals: f.program } })
   if (f.brand) and.push({ 'brand.slug': { equals: f.brand } })
   if (f.country) and.push({ 'destination.country': { equals: f.country } })

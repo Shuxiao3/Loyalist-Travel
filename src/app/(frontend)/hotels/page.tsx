@@ -23,6 +23,7 @@ const first = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v
 export default async function HotelsIndex({ searchParams }: Props) {
   const sp = await searchParams
   const filters: HotelFilters = {
+    q: first(sp.q)?.trim() || undefined,
     program: first(sp.program),
     brand: first(sp.brand),
     country: first(sp.country),
@@ -54,7 +55,10 @@ export default async function HotelsIndex({ searchParams }: Props) {
       <header className={`hero ${styles.hero}`}>
         <div className="wrap">
           <span className="eyebrow">Hotel index</span>
-          <h1 className={styles.h1}>{count(result.totalDocs)} hotels{active ? ' match' : ''}</h1>
+          <h1 className={styles.h1}>
+            {count(result.totalDocs)} {result.totalDocs === 1 ? 'hotel' : 'hotels'}
+            {active ? ' match' : ''}
+          </h1>
           <p className="sub">Every property across four programs, with brand, segment and place. Scored stays are marked. The rest are indexed so a hotel page exists before the review does.</p>
         </div>
       </header>
@@ -62,6 +66,10 @@ export default async function HotelsIndex({ searchParams }: Props) {
       <section className={`section ${styles.filters}`}>
         <div className="wrap">
           <form className={styles.form} method="get" action="/hotels">
+            <label className={styles.q}>
+              <span className="label">Search</span>
+              <input type="search" name="q" defaultValue={filters.q ?? ''} placeholder="Hotel name" />
+            </label>
             <label>
               <span className="label">Program</span>
               <select name="program" defaultValue={filters.program ?? ''}>

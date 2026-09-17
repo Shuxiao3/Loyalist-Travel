@@ -1,6 +1,7 @@
 import Link from 'next/link'
 
-import { navLinks } from './SiteHeader'
+import { NAV_LINKS } from '@/lib/site'
+
 import styles from './SiteFooter.module.css'
 
 export function SiteFooter() {
@@ -15,7 +16,7 @@ export function SiteFooter() {
           </p>
         </div>
         <ul className={styles.links}>
-          {navLinks.map((link) => (
+          {NAV_LINKS.map((link) => (
             <li key={link.href}>
               <Link href={link.href}>{link.label}</Link>
             </li>

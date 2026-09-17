@@ -5,6 +5,14 @@ export const SITE = {
   rubricNote: 'Scores follow the Loyalist Travel rubric, v15. No paid placements, no sponsored stays.',
 }
 
+export const NAV_LINKS = [
+  { href: '/reviews', label: 'Reviews' },
+  { href: '/hotels', label: 'Hotels' },
+  { href: '/lounges', label: 'Lounges' },
+  { href: '/guides', label: 'Articles' },
+  { href: '/about', label: 'About' },
+]
+
 export const PROPERTY_TYPE_LABEL: Record<string, string> = { city: 'City hotel', resort: 'Resort' }
 
 export const SEGMENT_LABEL: Record<string, string> = {
