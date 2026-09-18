@@ -3,7 +3,7 @@
 
 import type { Where } from 'payload'
 
-import { LOUNGE_FACTORS, type LoungeFactor } from '@/collections/ReaderStays'
+import { LOUNGE_FACTORS, type LoungeFactor } from '@/lib/stayOptions'
 import type { Hotel, Lounge, ReaderStay } from '@/payload-types'
 
 import { getPayloadClient } from './payload'

@@ -1,4 +1,4 @@
-import { BREAKFAST_OUTCOMES, LATE_CHECKOUT_OUTCOMES, SUITE_TYPES, UPGRADE_TYPES } from '@/collections/ReaderStays'
+import { BREAKFAST_OUTCOMES, LATE_CHECKOUT_OUTCOMES, SUITE_TYPES, UPGRADE_TYPES } from '@/lib/stayOptions'
 import { rel } from '@/lib/format'
 import type { Reader, ReaderStay, StatusLevel } from '@/payload-types'
 

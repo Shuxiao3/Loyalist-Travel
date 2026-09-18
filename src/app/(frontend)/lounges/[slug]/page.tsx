@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
-import { LOUNGE_FACTORS } from '@/collections/ReaderStays'
+import { LOUNGE_FACTORS } from '@/lib/stayOptions'
 import { Comments } from '@/components/Comments'
 import { RichText } from '@/components/RichText'
 import { ScoreBar } from '@/components/ScoreBar'
