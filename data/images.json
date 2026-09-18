@@ -1,6 +1,6 @@
 {
   "_note": "Photographs by hotel slug, as a site path under public/images/hotels or a full URL. Applied by `import:webflow -- images`; the 'Add a hotel photo' workflow downloads an image and fills this in. A review without its own image falls back to its hotel's.",
   "hotels": {
-    "hyatt-centric-downtown-denver": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/21/bb/f9/08/view-of-outdoor-rooftop.jpg?w=1600&h=1000&s=1"
+    "hyatt-centric-downtown-denver": "/images/hotels/hyatt-centric-downtown-denver.jpg"
   }
 }
