@@ -56,19 +56,50 @@ const locs = (xml: string): string[] => [...xml.matchAll(/<loc>\s*([^<\s]+)\s*<\
 
 const HOTEL_URL = /^https:\/\/www\.hilton\.com\/en\/hotels\/([a-z0-9]{7})-([a-z0-9-]+)\/$/
 
-// Every hotel home page URL, from the sitemap index and its children.
+const typesArg = args.indexOf('--types')
+const TYPES = new RegExp(typesArg >= 0 ? args[typesArg + 1] : 'hotel|propert', 'i')
+
+async function mapLimit<T, R>(items: T[], limit: number, fn: (t: T) => Promise<R>): Promise<R[]> {
+  const out: R[] = []
+  let i = 0
+  await Promise.all(Array.from({ length: Math.min(limit, items.length) }, async () => {
+    while (i < items.length) out.push(await fn(items[i++]))
+  }))
+  return out
+}
+
+// Every hotel home page URL. The index lists one sitemap per language, each
+// with ~1,000 children named by type (location, hotel, ...). Only the
+// English tree is walked, and only the children whose name matches TYPES.
 async function discover(): Promise<string[]> {
+  const index = await get('https://www.hilton.com/sitemap.xml')
+  if (index.status !== 200) throw new Error(`sitemap index: HTTP ${index.status}`)
+  const languages = locs(index.body)
+  const en = languages.find((u) => /\/sitemap\/en\/sitemap-en\.xml$/.test(u)) ?? languages.find((u) => /\/en\//.test(u))
+  if (!en) throw new Error(`no English sitemap among: ${languages.slice(0, 10).join(', ')}`)
+  const tree = await get(en)
+  if (tree.status !== 200) throw new Error(`${en}: HTTP ${tree.status}`)
+  const children = locs(tree.body)
+  const patterns: Record<string, number> = {}
+  for (const c of children) {
+    const key = c.replace(/-\d+\.xml(\.gz)?$/, '-N.xml').replace(/^.*\//, '')
+    patterns[key] = (patterns[key] ?? 0) + 1
+  }
+  console.log(`${en}: ${children.length} children`)
+  for (const [k, v] of Object.entries(patterns)) console.log(`  ${k} x${v}`)
+  let chosen = children.filter((c) => TYPES.test(c.replace(/^.*\//, '')))
+  if (chosen.length === 0) {
+    console.log(`no child sitemap matched /${TYPES.source}/; walking everything except location and offer sitemaps`)
+    chosen = children.filter((c) => !/location|offer|blog|explore|event/i.test(c.replace(/^.*\//, '')))
+  }
+  console.log(`walking ${chosen.length} sitemaps`)
   const seen = new Set<string>()
-  const queue = ['https://www.hilton.com/sitemap.xml', 'https://www.hilton.com/sitemap_index.xml', 'https://www.hilton.com/en/sitemap.xml']
-  const visited = new Set<string>()
-  while (queue.length) {
-    const url = queue.shift()!
-    if (visited.has(url)) continue
-    visited.add(url)
+  let done = 0
+  await mapLimit(chosen, 6, async (url) => {
     const { status, body } = await get(url)
     if (status !== 200) {
-      console.log(`sitemap ${url}: HTTP ${status}`)
-      continue
+      console.log(`${url}: HTTP ${status}`)
+      return
     }
     const entries = locs(body)
     let hotels = 0
@@ -76,11 +107,12 @@ async function discover(): Promise<string[]> {
       if (HOTEL_URL.test(loc)) {
         seen.add(loc)
         hotels++
-      } else if (/sitemap[^/]*\.xml(\.gz)?$/i.test(loc) && !visited.has(loc)) queue.push(loc)
+      }
     }
-    console.log(`sitemap ${url}: ${entries.length} entries, ${hotels} hotel pages, ${queue.length} more sitemaps queued`)
-    if (entries.length === 0) console.log(body.slice(0, 600))
-  }
+    done++
+    if (done <= 3 || done % 50 === 0) console.log(`${url}: ${entries.length} entries, ${hotels} hotel home pages (${done}/${chosen.length})`)
+    if (done <= 2 && hotels === 0) console.log('  e.g. ' + entries.slice(0, 5).join('\n       '))
+  })
   return [...seen].sort()
 }
 
