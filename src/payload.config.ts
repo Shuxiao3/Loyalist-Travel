@@ -8,6 +8,7 @@ import { buildConfig } from 'payload'
 import sharp from 'sharp'
 
 import { Amenities } from './collections/Amenities'
+import { Articles } from './collections/Articles'
 import { Brands } from './collections/Brands'
 import { Destinations } from './collections/Destinations'
 import { Hotels } from './collections/Hotels'
@@ -38,10 +39,10 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  // Guides and Content Clusters arrive with Milestone 3.
   collections: [
     Hotels,
     Reviews,
+    Articles,
     ReaderStays,
     Lounges,
     RubricVersions,

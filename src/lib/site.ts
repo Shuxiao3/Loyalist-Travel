@@ -1,7 +1,7 @@
 // Site-wide constants. Editorial facts that are not (yet) content.
 export const SITE = {
   name: 'Loyalist Travel',
-  author: 'The Loyalist', // pen name; the site never carries a real name
+  author: 'Anonymous Loyalist', // pen name; the site never carries a real name
   rubricNote: 'Scores follow the Loyalist Travel rubric, v15. No paid placements, no sponsored stays.',
 }
 
@@ -10,7 +10,7 @@ export const NAV_LINKS = [
   { href: '/hotels', label: 'Hotels' },
   { href: '/lounges', label: 'Lounges' },
   { href: '/programs', label: 'Programs' },
-  { href: '/guides', label: 'Articles' },
+  { href: '/articles', label: 'Articles' },
 ]
 
 export const PROPERTY_TYPE_LABEL: Record<string, string> = { city: 'City hotel', resort: 'Resort' }

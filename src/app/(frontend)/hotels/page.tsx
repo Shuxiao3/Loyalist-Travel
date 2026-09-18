@@ -58,7 +58,7 @@ export default async function HotelsIndex({ searchParams }: Props) {
     <>
       <LandingHero
         eyebrow="Hotel"
-        title="Every hotel, indexed."
+        title="Find the hotel. See the odds."
         text="Search by name, or filter by program, brand and country. Each hotel page carries the upgrade odds readers have reported there, its lounge if it has one, and the review when there is one."
         photo={fHotel?.externalImageUrl}
         card={

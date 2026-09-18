@@ -1,0 +1,139 @@
+.hero :global(.wrap) {
+  padding-top: var(--s7);
+}
+
+.hero :global(.crumbs) {
+  margin-bottom: var(--s6);
+}
+
+.h1 {
+  font-size: var(--t-h1);
+  line-height: 1.1;
+  color: var(--ivory);
+  letter-spacing: -0.01em;
+  margin: 0 0 var(--s5);
+  max-width: 20ch;
+  text-wrap: pretty;
+}
+
+.sub {
+  margin: 0 0 var(--s6);
+}
+
+.byline {
+  padding-bottom: var(--s7);
+}
+
+/* body and sidebar */
+.body {
+  background: var(--page);
+}
+
+.bodyWrap {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--sidebar);
+  gap: var(--col-gap);
+  padding-top: var(--s8);
+  padding-bottom: var(--s9);
+  align-items: start;
+}
+
+.main {
+  min-width: 0;
+}
+
+.main :global(.prose h2) {
+  font-size: var(--t-2xl);
+  line-height: 1.25;
+  color: var(--heading);
+  margin: var(--s7) 0 var(--s4);
+}
+
+.main :global(.prose h3) {
+  font-size: var(--t-lg);
+  line-height: 1.3;
+  color: var(--heading);
+  margin: var(--s6) 0 var(--s3);
+}
+
+.side {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s6);
+}
+
+.sideCta {
+  background: var(--navy);
+  border: 1px solid var(--gold-border);
+  padding: var(--s6) var(--s5);
+  color: var(--ivory);
+  border-radius: var(--r);
+}
+
+.sideCta h3 {
+  font-size: var(--t-lg);
+  color: var(--ivory);
+  line-height: 1.3;
+  margin-bottom: var(--s3);
+}
+
+.sideCta p {
+  font-size: var(--t-sm);
+  line-height: 1.6;
+  color: var(--light);
+  margin-bottom: var(--s5);
+  text-wrap: pretty;
+}
+
+.sideCta :global(.btn) {
+  display: block;
+}
+
+.related {
+  border-top: 1px solid var(--line);
+  padding-top: var(--s5);
+}
+
+.related :global(.eyebrow) {
+  display: block;
+  margin-bottom: var(--s4);
+}
+
+.related ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s4);
+}
+
+.related li {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.related li a {
+  font-family: var(--serif);
+  font-size: var(--t-base);
+  line-height: 1.3;
+  color: var(--heading);
+  text-wrap: pretty;
+}
+
+.related li a:hover {
+  color: var(--gold-dark);
+}
+
+@media (max-width: 1100px) {
+  .bodyWrap {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero :global(.wrap) {
+    padding-top: var(--s6);
+  }
+}

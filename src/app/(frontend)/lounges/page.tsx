@@ -30,7 +30,7 @@ export default async function LoungesIndex({ searchParams }: Props) {
     <>
       <LandingHero
         eyebrow="Lounges"
-        title="Hotel Lounges Rated"
+        title="Hotel lounges rated"
         text="Readers score every club lounge on food, drink, space and ambiance, and service, give it an overall mark out of five, and say whether it was worth booking a club room. Access rules and hours sit alongside, as printed."
         photo={top?.lounge.externalImageUrl ?? top?.hotel?.externalImageUrl}
         card={

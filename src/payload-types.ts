@@ -69,6 +69,7 @@ export interface Config {
   collections: {
     hotels: Hotel;
     reviews: Review;
+    articles: Article;
     'reader-stays': ReaderStay;
     lounges: Lounge;
     'rubric-versions': RubricVersion;
@@ -96,6 +97,7 @@ export interface Config {
   collectionsSelect: {
     hotels: HotelsSelect<false> | HotelsSelect<true>;
     reviews: ReviewsSelect<false> | ReviewsSelect<true>;
+    articles: ArticlesSelect<false> | ArticlesSelect<true>;
     'reader-stays': ReaderStaysSelect<false> | ReaderStaysSelect<true>;
     lounges: LoungesSelect<false> | LoungesSelect<true>;
     'rubric-versions': RubricVersionsSelect<false> | RubricVersionsSelect<true>;
@@ -893,63 +895,55 @@ export interface Amenity {
   createdAt: string;
 }
 /**
- * Approve or reject submissions here. Only approved stays count.
- *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "reader-stays".
+ * via the `definition` "articles".
  */
-export interface ReaderStay {
+export interface Article {
   id: number;
-  status: 'pending' | 'approved' | 'rejected';
-  hotel: number | Hotel;
-  program: number | Program;
-  statusHeld: number | StatusLevel;
-  stayYear: number;
-  upgrade: 'none' | 'yes' | 'award';
-  upgradeType?: ('floor' | 'view' | 'category' | 'suite') | null;
-  suiteType?: ('junior' | 'one-bedroom' | 'two-bedroom' | 'specialty') | null;
-  upgradeHow?: ('proactive' | 'asked') | null;
-  breakfast: 'full' | 'buffet' | 'a-la-carte' | 'credit' | 'not-honoured' | 'not-eligible';
-  alaCarteCap?: ('uncapped' | 'capped') | null;
-  lateCheckout: 'honoured' | 'declined' | 'not-requested';
+  title: string;
+  slug: string;
+  category: 'elite-benefits' | 'programs' | 'points-awards' | 'credit-cards' | 'lounges' | 'hotels';
+  publishedDate: string;
   /**
-   * Asked only where the hotel has a lounge on record.
+   * One or two sentences under the title and on cards.
    */
-  lounge?: {
-    lounge?: (number | null) | Lounge;
-    access?: ('given' | 'declined' | 'not-used') | null;
-    worthIt?: ('yes' | 'no') | null;
-    /**
-     * 1 to 5.
-     */
-    food?: number | null;
-    /**
-     * 1 to 5.
-     */
-    drink?: number | null;
-    /**
-     * 1 to 5.
-     */
-    space?: number | null;
-    /**
-     * 1 to 5.
-     */
-    service?: number | null;
-    /**
-     * 1 to 5.
-     */
-    overall?: number | null;
-    /**
-     * Shown on the lounge page once the stay is approved. Read it first.
-     */
-    comment?: string | null;
+  dek?: string | null;
+  body: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
   };
   /**
-   * Hashed network address, for spotting repeat submissions. Never shown.
+   * Shown in the sidebar.
    */
-  submitterHash?: string | null;
+  related?: {
+    hotels?: (number | Hotel)[] | null;
+    programs?: (number | Program)[] | null;
+    lounges?: (number | Lounge)[] | null;
+    articles?: (number | Article)[] | null;
+  };
+  heroImage?: (number | null) | Media;
+  /**
+   * Hosted image URL until owned media is uploaded.
+   */
+  externalImageUrl?: string | null;
+  /**
+   * Pin to the top of the hub and the homepage.
+   */
+  featured?: boolean | null;
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1021,6 +1015,65 @@ export interface Lounge {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Approve or reject submissions here. Only approved stays count.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reader-stays".
+ */
+export interface ReaderStay {
+  id: number;
+  status: 'pending' | 'approved' | 'rejected';
+  hotel: number | Hotel;
+  program: number | Program;
+  statusHeld: number | StatusLevel;
+  stayYear: number;
+  upgrade: 'none' | 'yes' | 'award';
+  upgradeType?: ('floor' | 'view' | 'category' | 'suite') | null;
+  suiteType?: ('junior' | 'one-bedroom' | 'two-bedroom' | 'specialty') | null;
+  upgradeHow?: ('proactive' | 'asked') | null;
+  breakfast: 'full' | 'buffet' | 'a-la-carte' | 'credit' | 'not-honoured' | 'not-eligible';
+  alaCarteCap?: ('uncapped' | 'capped') | null;
+  lateCheckout: 'honoured' | 'declined' | 'not-requested';
+  /**
+   * Asked only where the hotel has a lounge on record.
+   */
+  lounge?: {
+    lounge?: (number | null) | Lounge;
+    access?: ('given' | 'declined' | 'not-used') | null;
+    worthIt?: ('yes' | 'no') | null;
+    /**
+     * 1 to 5.
+     */
+    food?: number | null;
+    /**
+     * 1 to 5.
+     */
+    drink?: number | null;
+    /**
+     * 1 to 5.
+     */
+    space?: number | null;
+    /**
+     * 1 to 5.
+     */
+    service?: number | null;
+    /**
+     * 1 to 5.
+     */
+    overall?: number | null;
+    /**
+     * Shown on the lounge page once the stay is approved. Read it first.
+     */
+    comment?: string | null;
+  };
+  /**
+   * Hashed network address, for spotting repeat submissions. Never shown.
+   */
+  submitterHash?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
@@ -1076,6 +1129,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'reviews';
         value: number | Review;
+      } | null)
+    | ({
+        relationTo: 'articles';
+        value: number | Article;
       } | null)
     | ({
         relationTo: 'reader-stays';
@@ -1336,6 +1393,32 @@ export interface ReviewsSelect<T extends boolean = true> {
         description?: T;
       };
   webflowId?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "articles_select".
+ */
+export interface ArticlesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  category?: T;
+  publishedDate?: T;
+  dek?: T;
+  body?: T;
+  related?:
+    | T
+    | {
+        hotels?: T;
+        programs?: T;
+        lounges?: T;
+        articles?: T;
+      };
+  heroImage?: T;
+  externalImageUrl?: T;
+  featured?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;

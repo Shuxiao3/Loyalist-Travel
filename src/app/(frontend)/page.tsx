@@ -2,9 +2,12 @@ import Link from 'next/link'
 
 import { Arrow, Band } from '@/components/Band'
 import { HomeHero, type HeroSlide } from '@/components/HomeHero'
+import { ArticleCard } from '@/components/ArticleCard'
 import { ReviewCard } from '@/components/ReviewCard'
-import { count, mediaUrl, rel, score } from '@/lib/format'
+import { count, mediaUrl, rel, score, shortDate } from '@/lib/format'
+import { ARTICLE_CATEGORY_LABEL } from '@/collections/Articles'
 import { getFeaturedHotel, getPrograms, getReviews, getSiteCounts } from '@/lib/queries'
+import { articleImage, getArticles } from '@/lib/articles'
 import { getLoungeDirectory } from '@/lib/lounges'
 import { readerStayCount, sitewideReaderData } from '@/lib/readerData'
 import { LoungeRows } from '@/components/LoungeRows'
@@ -16,8 +19,6 @@ export const revalidate = 300
 
 // Homepage, from docs/loyalist-travel-homepage.html. The hero panel rotates
 // through the latest review, the featured hotel and a program spotlight; the
-// latest article joins when Guides arrive with Milestone 3. The reader-data
-// band, lounges, guides and the contribute panel are also Milestone 3.
 // "One in five" reads better than "20%" in a sentence.
 function suiteWords(rate: number): string {
   if (rate >= 45) return 'About half'
@@ -28,7 +29,8 @@ function suiteWords(rate: number): string {
 }
 
 export default async function HomePage() {
-  const [reviews, programs, counts, featured, reader, readerCount, lounges] = await Promise.all([getReviews({ limit: 4 }), getPrograms(), getSiteCounts(), getFeaturedHotel(), sitewideReaderData(), readerStayCount(), getLoungeDirectory()])
+  const [reviews, programs, counts, featured, reader, readerCount, lounges, articles] = await Promise.all([getReviews({ limit: 4 }), getPrograms(), getSiteCounts(), getFeaturedHotel(), sitewideReaderData(), readerStayCount(), getLoungeDirectory(), getArticles({ limit: 3, featuredFirst: true })])
+  const latestArticle = articles.docs[0]
   const ratedLounges = lounges.filter((l) => l.data?.score != null).slice(0, 4)
   const latest = reviews.docs[0]
   const cards = reviews.docs.slice(latest ? 1 : 0, 4)
@@ -93,6 +95,19 @@ export default async function HomePage() {
       href: `/programs/${spotlight.program.slug}`,
     })
   }
+  if (latestArticle) {
+    slides.push({
+      kind: 'article',
+      eyebrow: latestArticle.featured ? 'Featured article' : 'Latest article',
+      image: articleImage(latestArticle),
+      meta: [ARTICLE_CATEGORY_LABEL[latestArticle.category] ?? latestArticle.category, shortDate(latestArticle.publishedDate) ?? ''].filter(Boolean),
+      title: latestArticle.title,
+      text: latestArticle.dek,
+      figure: null,
+      cta: 'Read the article',
+      href: `/articles/${latestArticle.slug}`,
+    })
+  }
 
   const stats = [
     { n: count(counts.hotels), l: `Hotels indexed across ${['', 'one', 'two', 'three', 'four'][counts.programs] ?? counts.programs} programs` },
@@ -117,7 +132,7 @@ export default async function HomePage() {
         }
       >
         <span className="eyebrow">Loyalty travel, reported</span>
-        <h1 className={styles.h1}>Hotel reviews, upgrade odds and lounges rated.</h1>
+        <h1 className={styles.h1}>Find what elite status gets you at hotels and lounges.</h1>
         <p className={`sub ${styles.sub}`}>
           Readers report what their status actually got them, so every hotel shows its real upgrade odds. Club lounges are rated by the people who sat in them. And every review is scored on the same 100-point rubric.
         </p>
@@ -218,6 +233,27 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {articles.docs.length > 0 && (
+        <section className="section" aria-labelledby="art-h">
+          <div className="wrap">
+            <div className="section-head">
+              <div>
+                <span className="eyebrow on-light">Articles</span>
+                <h2 id="art-h">How the programs actually work</h2>
+              </div>
+              <Link className="more" href="/articles">
+                All articles
+              </Link>
+            </div>
+            <div className="cards">
+              {articles.docs.map((a, i) => (
+                <ArticleCard key={a.id} article={a} tone={(['b', 'c', 'a'] as const)[i % 3]} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {ratedLounges.length > 0 && (
         <section className={`section ${styles.lounges}`} aria-labelledby="lg-h">

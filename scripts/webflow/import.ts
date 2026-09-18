@@ -540,6 +540,46 @@ async function applyImages(payload: Payload) {
   console.log(`images: set ${n} hotel photograph(s)`)
 }
 
+// Six short mock articles, one per category, so the hub and template have
+// something to show. Removed by unseed-articles.
+const MOCK_ARTICLES: { title: string; slug: string; category: string; dek: string; date: string; paras: string[] }[] = [
+  { title: 'What Globalist actually gets you at check-in (mock)', slug: 'mock-globalist-check-in', category: 'elite-benefits', date: '2026-09-10', dek: 'The printed benefits, then what readers report receiving. The gap is the point.', paras: ['World of Hyatt prints a clear list for Globalist: a room upgrade including standard suites, 4pm late checkout, free breakfast or club access, and waived resort fees. The question is how often the front desk delivers.', 'Reader stays say most of it holds. Upgrades come more often than not, and late checkout is nearly automatic. The suite line is where it thins out, and where city hotels and resorts part ways.', 'Read the odds on each hotel page before you book, and add your own stay after.'] },
+  { title: 'World of Hyatt in one page (mock)', slug: 'mock-world-of-hyatt-in-one-page', category: 'programs', date: '2026-09-04', dek: 'Tiers, what each unlocks, and the two ways most people reach the top.', paras: ['Four tiers: Discoverist at 10 nights, Explorist at 30, Globalist at 60, and Lifetime Globalist after a million base points. Milestone rewards along the way are the quiet strength of the program.', 'Most readers who hold Globalist got there through a mix of paid stays and the credit card night credits, then kept it with the annual spend.', 'The program pages on this site list every hotel under each brand, with reader odds where enough stays are in.'] },
+  { title: 'Are points or cash the better deal at Park Hyatt New York? (mock)', slug: 'mock-points-or-cash-park-hyatt-new-york', category: 'points-awards', date: '2026-08-28', dek: 'A worked example with real rates, and the value threshold where points win.', paras: ['At 45,000 points a night against cash rates that sit near $1,400, the redemption clears two cents per point on most dates. That is well above what the points cost to earn.', 'Suite awards change the maths again. A confirmed suite upgrade on a points stay at this property is one of the strongest uses in the program.', 'The lounge is the tie-breaker for many readers: it is included on both, but only Globalists and club-room guests get in.'] },
+  { title: 'Which hotel card is worth the fee this year (mock)', slug: 'mock-which-hotel-card-is-worth-the-fee', category: 'credit-cards', date: '2026-08-20', dek: 'Four cards, one question: does the free night and status cover the annual fee on its own?', paras: ['The honest answer is that a free night certificate you will actually use covers the fee on all four cards. The difference is in what else comes with it.', 'Automatic mid-tier status matters most where it changes the stay: breakfast, late checkout, and a shot at a better room. On the pages here you can see how each tier fares at a given hotel.', 'We hold no card partnerships, so there is no link to click. Pick the card for the program you already stay with.'] },
+  { title: 'How we rate a club lounge (mock)', slug: 'mock-how-we-rate-a-club-lounge', category: 'lounges', date: '2026-08-12', dek: 'Food, drink, space and service, each out of five, plus the only question that matters: was it worth a club room?', paras: ['Readers who used a lounge score four things from one to five and give an overall mark. They also say whether they would book a club room to get in. Those answers become the lounge score once five stays are in.', 'Access is reported separately. A lounge that prints Globalist access but turns Globalists away shows a low access-honoured rate, and that number is on the lounge page.', 'Hours, dress code and what is served are recorded as printed, so you can check whether cocktail hour lines up with your evening.'] },
+  { title: 'Five city hotels where the suite upgrade actually happens (mock)', slug: 'mock-five-city-hotels-suite-upgrade', category: 'hotels', date: '2026-08-02', dek: 'Ranked by reader-reported suite rate, not by our opinion.', paras: ['Every hotel on this site shows how often top-tier guests got a suite, once enough stays are reported. These five lead the city list.', 'The pattern is clear: newer builds with a deep suite inventory upgrade far more often than grand old houses with twelve suites and a waiting list.', 'Check the hotel page for the current figure before you book. The numbers move as more stays come in.'] },
+]
+
+function paragraphs(paras: string[]) {
+  return {
+    root: {
+      type: 'root', format: '', indent: 0, version: 1, direction: 'ltr' as const,
+      children: paras.map((t) => ({ type: 'paragraph', format: '', indent: 0, version: 1, direction: 'ltr' as const, textFormat: 0, textStyle: '', children: [{ type: 'text', text: t, format: 0, style: '', mode: 'normal', detail: 0, version: 1 }] })),
+    },
+  }
+}
+
+async function seedArticles(payload: Payload) {
+  let n = 0
+  for (const a of MOCK_ARTICLES) {
+    const exists = await payload.count({ collection: 'articles', where: { slug: { equals: a.slug } }, overrideAccess: true })
+    if (exists.totalDocs) continue
+    await payload.create({
+      collection: 'articles',
+      overrideAccess: true,
+      data: { title: a.title, slug: a.slug, category: a.category, publishedDate: a.date, dek: a.dek, body: paragraphs(a.paras), featured: n === 0, _status: 'published' } as never,
+    })
+    n++
+  }
+  console.log(`seed-articles: created ${n} mock articles`)
+}
+
+async function unseedArticles(payload: Payload) {
+  const res = await payload.delete({ collection: 'articles', where: { slug: { like: 'mock-' } }, overrideAccess: true })
+  console.log(`unseed-articles: removed ${res.docs.length} mock articles`)
+}
+
 // ---- main -------------------------------------------------------------------
 
 const STEPS: Record<string, (p: Payload) => Promise<void>> = {
@@ -558,6 +598,8 @@ const STEPS: Record<string, (p: Payload) => Promise<void>> = {
   'seed-stays': seedStays,
   'unseed-stays': unseedStays,
   images: applyImages,
+  'seed-articles': seedArticles,
+  'unseed-articles': unseedArticles,
 }
 
 async function main() {

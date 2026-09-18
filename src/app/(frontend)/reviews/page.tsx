@@ -47,7 +47,7 @@ export default async function ReviewsIndex({ searchParams }: Props) {
     <>
       <LandingHero
         eyebrow="Scored stays"
-        title="Brand Hotel Reviews"
+        title="Brand hotel reviews"
         text="Every stay is booked under a private name and paid for in full, so the hotel has no idea it is being reviewed. Sixteen categories, one hundred points, the same rubric every time."
         photo={image}
         card={
