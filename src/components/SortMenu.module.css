@@ -1,0 +1,85 @@
+/* Sort button and its menu, beside the Filter button on the cream bar. */
+
+.wrap {
+  position: relative;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: var(--card);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-btn);
+  color: var(--text-2);
+  cursor: pointer;
+  padding: 0;
+}
+
+.btn:hover {
+  border-color: var(--gold-dark);
+  color: var(--gold-dark);
+}
+
+.on {
+  border-color: var(--gold-dark);
+  color: var(--gold-dark);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.menu {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 200px;
+  background: var(--card);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r);
+  box-shadow: 0 8px 24px rgba(12, 10, 5, 0.12);
+  padding: var(--s2) 0;
+}
+
+.head {
+  display: block;
+  padding: var(--s2) var(--s4) var(--s2);
+  color: var(--muted);
+}
+
+.item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 0;
+  padding: 10px var(--s4);
+  font-size: var(--t-sm);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.item:hover {
+  background: var(--cream);
+}
+
+.itemOn {
+  color: var(--gold-dark);
+  font-weight: 700;
+}
+
+.itemOn::after {
+  content: ' ✓';
+}
+
+@media (max-width: 640px) {
+  .menu {
+    right: auto;
+    left: 0;
+  }
+}

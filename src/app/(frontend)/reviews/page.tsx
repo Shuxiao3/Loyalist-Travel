@@ -3,6 +3,7 @@ import Link from 'next/link'
 
 import { LandingHero } from '@/components/LandingHero'
 import { Pager } from '@/components/Pager'
+import { SortMenu } from '@/components/SortMenu'
 import { ReviewCard } from '@/components/ReviewCard'
 import { count, rel, score } from '@/lib/format'
 import { getHotelFilterOptions, getReviews, type ReviewFilters } from '@/lib/queries'
@@ -116,18 +117,18 @@ export default async function ReviewsIndex({ searchParams }: Props) {
                 <option value="resort">Resorts</option>
               </select>
             </label>
-            <label>
-              <span className="label">Sort</span>
-              <select name="sort" defaultValue={filters.sort ?? ''}>
-                <option value="">Newest first</option>
-                <option value="top">Highest score</option>
-                <option value="low">Lowest score</option>
-              </select>
-            </label>
             <div className={styles.actions}>
               <button className="btn" type="submit">
                 Filter
               </button>
+              <SortMenu
+                value={filters.sort}
+                options={[
+                  { value: '', label: 'Newest first' },
+                  { value: 'top', label: 'Highest score' },
+                  { value: 'low', label: 'Lowest score' },
+                ]}
+              />
               {(active || filters.sort) && (
                 <Link className="more" href="/reviews">
                   Clear

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { HotelList } from '@/components/HotelCard'
 import { LandingHero } from '@/components/LandingHero'
 import { Pager } from '@/components/Pager'
+import { SortMenu } from '@/components/SortMenu'
 import { count, rel } from '@/lib/format'
 import { findHotels, getFeaturedHotel, getHotelFilterOptions, HOTELS_PER_PAGE, type HotelFilters } from '@/lib/queries'
 import type { Brand, Destination, Program } from '@/payload-types'
@@ -124,19 +125,19 @@ export default async function HotelsIndex({ searchParams }: Props) {
                 <option value="yes">Scored stays only</option>
               </select>
             </label>
-            <label>
-              <span className="label">Sort</span>
-              <select name="sort" defaultValue={filters.sort ?? ''}>
-                <option value="">Name, A to Z</option>
-                <option value="za">Name, Z to A</option>
-                <option value="popular">Most popular</option>
-                <option value="stays">Most submissions</option>
-              </select>
-            </label>
             <div className={styles.actions}>
               <button className="btn" type="submit">
                 Filter
               </button>
+              <SortMenu
+                value={filters.sort}
+                options={[
+                  { value: '', label: 'Name, A to Z' },
+                  { value: 'za', label: 'Name, Z to A' },
+                  { value: 'popular', label: 'Most popular' },
+                  { value: 'stays', label: 'Most submissions' },
+                ]}
+              />
               {(active > 0 || filters.sort) && (
                 <Link className="more" href="/hotels">
                   Clear
