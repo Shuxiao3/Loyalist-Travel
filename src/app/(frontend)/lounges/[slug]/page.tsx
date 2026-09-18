@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 import { LOUNGE_FACTORS } from '@/collections/ReaderStays'
+import { Comments } from '@/components/Comments'
 import { RichText } from '@/components/RichText'
 import { ScoreBar } from '@/components/ScoreBar'
 import { rel } from '@/lib/format'
@@ -249,6 +250,8 @@ export default async function LoungePage({ params }: Props) {
           </div>
         </section>
       )}
+
+      <Comments kind="lounges" id={lounge.id} />
     </>
   )
 }

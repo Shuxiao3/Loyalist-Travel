@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 import { Band } from '@/components/Band'
+import { Comments } from '@/components/Comments'
 import { RichText } from '@/components/RichText'
 import { monthYear, rel, score, shortDate } from '@/lib/format'
 import { getReview, getReviews } from '@/lib/queries'
@@ -404,6 +405,8 @@ export default async function ReviewPage({ params }: Props) {
           </aside>
         </div>
       </main>
+
+      <Comments kind="reviews" id={review.id} />
 
       <Band eyebrow="Not a review" title="The hotel index" text="Every property across four programs, with brand and place. Filter by program, brand, country, or scored stays only." cta="Browse hotels" href="/hotels" />
     </>

@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 
 import { Arrow, Band } from '@/components/Band'
 import { HotelList } from '@/components/HotelCard'
+import { LatestStays } from '@/components/LatestStays'
 import { ReaderPanel } from '@/components/ReaderPanel'
 import { ReviewCard } from '@/components/ReviewCard'
 import { StayForm } from '@/components/StayForm'
@@ -11,7 +12,7 @@ import { ViewBeacon } from '@/components/ViewBeacon'
 import { rel, score } from '@/lib/format'
 import { getHotel, getHotelsIn, getPayloadClient, getReviewsForHotel } from '@/lib/queries'
 import { accessLine, getLoungesForHotel, loungeReaderData, servicesLine } from '@/lib/lounges'
-import { hotelReaderData } from '@/lib/readerData'
+import { hotelReaderData, latestStays } from '@/lib/readerData'
 import { PROPERTY_TYPE_LABEL } from '@/lib/site'
 import type { Amenity, Brand, Destination, Program } from '@/payload-types'
 
@@ -42,11 +43,12 @@ export default async function HotelPage({ params }: Props) {
   const destination = rel<Destination>(hotel.destination)
   const amenities = (hotel.amenities ?? []).map((a) => rel<Amenity>(a)).filter((a): a is Amenity => Boolean(a))
   const payload = await getPayloadClient()
-  const [reviewsRes, readerData, tiersRes, lounges] = await Promise.all([
+  const [reviewsRes, readerData, tiersRes, lounges, recentStays] = await Promise.all([
     getReviewsForHotel(hotel.id),
     hotelReaderData(hotel.id),
     program ? payload.find({ collection: 'status-levels', where: { program: { equals: program.id } }, sort: 'rank', limit: 20, depth: 0 }) : Promise.resolve(null),
     getLoungesForHotel(hotel.id),
+    latestStays(hotel.id),
   ])
   const reviews = reviewsRes.docs
   const tiers = (tiersRes?.docs ?? []).map((t) => ({ id: t.id, name: t.name, shortName: t.shortName }))
@@ -190,6 +192,11 @@ export default async function HotelPage({ params }: Props) {
               )}
             </div>
           </div>
+          {recentStays.length > 0 && (
+            <div className={styles.latest}>
+              <LatestStays stays={recentStays} />
+            </div>
+          )}
         </div>
       </section>
 

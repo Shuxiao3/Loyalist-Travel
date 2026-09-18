@@ -10,6 +10,7 @@ import sharp from 'sharp'
 import { Amenities } from './collections/Amenities'
 import { Articles } from './collections/Articles'
 import { Brands } from './collections/Brands'
+import { Comments } from './collections/Comments'
 import { Destinations } from './collections/Destinations'
 import { Hotels } from './collections/Hotels'
 import { Lounges } from './collections/Lounges'
@@ -46,6 +47,7 @@ export default buildConfig({
     Articles,
     ReaderStays,
     Readers,
+    Comments,
     Lounges,
     RubricVersions,
     Programs,

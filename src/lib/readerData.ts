@@ -92,3 +92,10 @@ export async function readerStayCount(): Promise<number> {
   const res = await payload.count({ collection: 'reader-stays', where: { status: { equals: 'approved' } }, overrideAccess: true })
   return res.totalDocs
 }
+
+// The most recent approved stays at a hotel, with the reader and tier populated.
+export async function latestStays(hotelId: number, limit = 8): Promise<ReaderStay[]> {
+  const payload = await getPayloadClient()
+  const res = await payload.find({ collection: 'reader-stays', where: { and: [{ hotel: { equals: hotelId } }, { status: { equals: 'approved' } }] }, sort: '-createdAt', limit, depth: 1, overrideAccess: true })
+  return res.docs
+}

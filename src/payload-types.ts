@@ -72,6 +72,7 @@ export interface Config {
     articles: Article;
     'reader-stays': ReaderStay;
     readers: Reader;
+    comments: Comment;
     lounges: Lounge;
     'rubric-versions': RubricVersion;
     programs: Program;
@@ -101,6 +102,7 @@ export interface Config {
     articles: ArticlesSelect<false> | ArticlesSelect<true>;
     'reader-stays': ReaderStaysSelect<false> | ReaderStaysSelect<true>;
     readers: ReadersSelect<false> | ReadersSelect<true>;
+    comments: CommentsSelect<false> | CommentsSelect<true>;
     lounges: LoungesSelect<false> | LoungesSelect<true>;
     'rubric-versions': RubricVersionsSelect<false> | RubricVersionsSelect<true>;
     programs: ProgramsSelect<false> | ProgramsSelect<true>;
@@ -1114,6 +1116,40 @@ export interface Reader {
   createdAt: string;
 }
 /**
+ * Approve or reject here. Only approved comments show on the site.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "comments".
+ */
+export interface Comment {
+  id: number;
+  status: 'pending' | 'approved' | 'rejected';
+  reader: number | Reader;
+  /**
+   * The page the comment sits under.
+   */
+  on:
+    | {
+        relationTo: 'reviews';
+        value: number | Review;
+      }
+    | {
+        relationTo: 'articles';
+        value: number | Article;
+      }
+    | {
+        relationTo: 'lounges';
+        value: number | Lounge;
+      };
+  body: string;
+  /**
+   * Hashed network address. Never shown.
+   */
+  submitterHash?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
@@ -1181,6 +1217,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'readers';
         value: number | Reader;
+      } | null)
+    | ({
+        relationTo: 'comments';
+        value: number | Comment;
       } | null)
     | ({
         relationTo: 'lounges';
@@ -1514,6 +1554,19 @@ export interface ReadersSelect<T extends boolean = true> {
   status?: T;
   googleSub?: T;
   lastSeenAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "comments_select".
+ */
+export interface CommentsSelect<T extends boolean = true> {
+  status?: T;
+  reader?: T;
+  on?: T;
+  body?: T;
+  submitterHash?: T;
   updatedAt?: T;
   createdAt?: T;
 }

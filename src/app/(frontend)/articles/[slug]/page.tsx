@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 import { ARTICLE_CATEGORY_LABEL } from '@/collections/Articles'
+import { Comments } from '@/components/Comments'
 import { RichText } from '@/components/RichText'
 import { articleImage, getArticle, getArticles } from '@/lib/articles'
 import { rel, shortDate } from '@/lib/format'
@@ -128,6 +129,8 @@ export default async function ArticlePage({ params }: Props) {
           </aside>
         </div>
       </main>
+
+      <Comments kind="articles" id={article.id} />
     </>
   )
 }

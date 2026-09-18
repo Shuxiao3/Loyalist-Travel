@@ -75,6 +75,10 @@ a.scorePanel:hover {
   max-width: 56ch;
 }
 
+.latest {
+  margin-top: var(--s7);
+}
+
 .readerGrid {
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
