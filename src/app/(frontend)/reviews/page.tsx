@@ -25,8 +25,8 @@ const first = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v
 export default async function ReviewsIndex({ searchParams }: Props) {
   const sp = await searchParams
   const page = Math.max(1, Number(first(sp.page)) || 1)
-  const filters: ReviewFilters = { program: first(sp.program), country: first(sp.country), type: first(sp.type), sort: first(sp.sort) }
-  const active = Boolean(filters.program || filters.country || filters.type)
+  const filters: ReviewFilters = { q: first(sp.q)?.trim() || undefined, program: first(sp.program), country: first(sp.country), type: first(sp.type), sort: first(sp.sort) }
+  const active = Boolean(filters.q || filters.program || filters.country || filters.type)
   const [result, latestRes, topRes, options] = await Promise.all([getReviews({ limit: PER_PAGE, page, ...filters }), getReviews({ limit: 1 }), getReviews({ limit: 3, sort: 'top' }), getHotelFilterOptions()])
   const podium = topRes.docs.filter((r) => typeof r.totals?.overall === 'number')
 
@@ -82,6 +82,10 @@ export default async function ReviewsIndex({ searchParams }: Props) {
       <section className={`section ${styles.filters}`}>
         <div className="wrap">
           <form className={styles.form} method="get" action="/reviews">
+            <label className={styles.q}>
+              <span className="label">Search</span>
+              <input type="search" name="q" defaultValue={filters.q ?? ''} placeholder="Hotel or city" />
+            </label>
             <label>
               <span className="label">Program</span>
               <select name="program" defaultValue={filters.program ?? ''}>

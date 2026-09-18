@@ -29,10 +29,11 @@ export default async function HotelsIndex({ searchParams }: Props) {
     brand: first(sp.brand),
     country: first(sp.country),
     scored: first(sp.scored),
+    sort: first(sp.sort),
     page: Math.max(1, Number(first(sp.page)) || 1),
   }
   const [result, options, featured] = await Promise.all([findHotels(filters), getHotelFilterOptions(), getFeaturedHotel()])
-  const active = Object.entries(filters).filter(([k, v]) => k !== 'page' && v).length
+  const active = Object.entries(filters).filter(([k, v]) => k !== 'page' && k !== 'sort' && v).length
   const fHotel = featured?.hotel
   const fBrand = fHotel ? rel<Brand>(fHotel.brand) : null
   const fProgram = fHotel ? rel<Program>(fHotel.program) : null
@@ -123,11 +124,20 @@ export default async function HotelsIndex({ searchParams }: Props) {
                 <option value="yes">Scored stays only</option>
               </select>
             </label>
+            <label>
+              <span className="label">Sort</span>
+              <select name="sort" defaultValue={filters.sort ?? ''}>
+                <option value="">Name, A to Z</option>
+                <option value="za">Name, Z to A</option>
+                <option value="new">Recently added</option>
+                <option value="rooms">Most rooms</option>
+              </select>
+            </label>
             <div className={styles.actions}>
               <button className="btn" type="submit">
                 Filter
               </button>
-              {active > 0 && (
+              {(active > 0 || filters.sort) && (
                 <Link className="more" href="/hotels">
                   Clear
                 </Link>

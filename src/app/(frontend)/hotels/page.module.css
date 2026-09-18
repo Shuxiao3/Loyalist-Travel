@@ -7,7 +7,7 @@
 
 .form {
   display: grid;
-  grid-template-columns: 1.4fr repeat(4, minmax(0, 1fr)) auto;
+  grid-template-columns: 1.3fr repeat(5, minmax(0, 1fr)) auto;
   gap: var(--s4);
   align-items: end;
   padding: var(--s5) 0;

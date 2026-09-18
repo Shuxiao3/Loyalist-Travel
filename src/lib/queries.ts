@@ -23,12 +23,13 @@ export async function getReview(slug: string): Promise<Review | null> {
   return res.docs[0] ?? null
 }
 
-export type ReviewFilters = { program?: string; country?: string; type?: string; sort?: string }
+export type ReviewFilters = { q?: string; program?: string; country?: string; type?: string; sort?: string }
 
 export async function getReviews(opts: { limit?: number; page?: number; excludeId?: number } & ReviewFilters = {}) {
   const payload = await getPayloadClient()
   const and: Where[] = [published]
   if (opts.excludeId) and.push({ id: { not_equals: opts.excludeId } })
+  if (opts.q) and.push({ or: [{ title: { contains: opts.q } }, { 'hotel.name': { contains: opts.q } }, { 'hotel.destination.name': { contains: opts.q } }, { 'hotel.destination.country': { contains: opts.q } }] })
   if (opts.program) and.push({ 'hotel.program.slug': { equals: opts.program } })
   if (opts.country) and.push({ 'hotel.destination.country': { equals: opts.country } })
   if (opts.type === 'city' || opts.type === 'resort') and.push({ propertyType: { equals: opts.type } })
@@ -70,6 +71,7 @@ export type HotelFilters = {
   program?: string
   brand?: string
   country?: string
+  sort?: string
   scored?: string
   page?: number
 }
@@ -84,10 +86,11 @@ export async function findHotels(f: HotelFilters) {
   if (f.brand) and.push({ 'brand.slug': { equals: f.brand } })
   if (f.country) and.push({ 'destination.country': { equals: f.country } })
   if (f.scored === 'yes') and.push({ reviewStatus: { equals: 'reviewed' } })
+  const sort = f.sort === 'za' ? '-name' : f.sort === 'new' ? '-createdAt' : f.sort === 'rooms' ? '-numberOfRooms' : 'name'
   return payload.find({
     collection: 'hotels',
     where: { and },
-    sort: 'name',
+    sort,
     depth: 1,
     limit: HOTELS_PER_PAGE,
     page: f.page ?? 1,

@@ -7,7 +7,7 @@
 
 .form {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 220px)) auto;
+  grid-template-columns: 1.3fr repeat(4, minmax(0, 1fr)) auto;
   gap: var(--s4);
   align-items: end;
   padding: var(--s5) 0;
@@ -20,7 +20,8 @@
   min-width: 0;
 }
 
-.form select {
+.form select,
+.form input {
   width: 100%;
   min-width: 0;
   background: var(--card);
@@ -31,7 +32,8 @@
   border-radius: var(--r-btn);
 }
 
-.form select:focus-visible {
+.form select:focus-visible,
+.form input:focus-visible {
   outline: 2px solid var(--gold);
   outline-offset: 2px;
 }
@@ -163,6 +165,10 @@
 @media (max-width: 900px) {
   .form {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .q {
+    grid-column: 1 / -1;
   }
 
   .actions {
