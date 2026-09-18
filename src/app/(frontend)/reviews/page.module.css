@@ -46,51 +46,105 @@
   padding: 12px 22px;
 }
 
-/* the top three, with a medal on each card */
+/* the top three, a small panel beside the hero text */
 .podium {
-  padding-bottom: 0;
+  background: var(--navy-deep);
+  border: 1px solid var(--gold-border);
+  border-radius: var(--r);
+  padding: var(--s5);
+  min-width: 0;
 }
 
-.podiumCards {
-  padding-bottom: var(--s7);
-  border-bottom: 1px solid var(--line);
+.podium :global(.eyebrow) {
+  display: block;
+  margin-bottom: var(--s4);
 }
 
-.place {
-  position: relative;
-  --medal: var(--gold-dark);
-  --medal-text: var(--ivory);
+.podiumList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-.place :global(.card) {
-  border-color: var(--medal);
+.podiumRow {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--s3);
+  padding: var(--s3) 0;
+  border-top: 1px solid var(--line-dark);
+  color: inherit;
+}
+
+.podiumList li:first-child .podiumRow {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.medal {
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--medal);
+  color: var(--medal-text, var(--ivory));
+  font-family: var(--serif);
+  font-size: var(--t-sm);
+  line-height: 1;
+}
+
+.gold {
+  --medal: var(--gold);
+  --medal-text: var(--navy);
 }
 
 .silver {
-  --medal: #a6a9ad;
-  --medal-text: #1d2126;
+  --medal: #b7babe;
+  --medal-text: var(--navy);
 }
 
 .bronze {
   --medal: #a8703f;
 }
 
-.medal {
-  position: absolute;
-  z-index: 1;
-  top: var(--s4);
-  left: var(--s4);
-  width: 40px;
-  height: 40px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  background: var(--medal);
-  color: var(--medal-text);
+.podiumName {
+  font-family: var(--serif);
+  font-size: var(--t-md);
+  color: var(--ivory);
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.podiumRow:hover .podiumName {
+  color: var(--gold-pale);
+}
+
+.podiumScore {
   font-family: var(--serif);
   font-size: var(--t-lg);
+  color: var(--gold);
   line-height: 1;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+.podiumScore small {
+  font-family: var(--sans);
+  font-size: var(--t-xs);
+  color: var(--on-navy-muted);
+  margin-left: 2px;
+}
+
+.podiumMore {
+  display: inline-block;
+  margin-top: var(--s4);
+  font-size: var(--t-xs);
+  letter-spacing: var(--track-cta);
+  text-transform: uppercase;
+  color: var(--gold);
+  border-bottom: 1px solid var(--gold);
+  padding-bottom: 2px;
 }
 
 .list {

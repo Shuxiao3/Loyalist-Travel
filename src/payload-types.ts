@@ -902,7 +902,7 @@ export interface Article {
   id: number;
   title: string;
   slug: string;
-  category: 'elite-benefits' | 'programs' | 'points-awards' | 'credit-cards' | 'lounges' | 'hotels';
+  category: 'elite-benefits' | 'programs' | 'points-awards' | 'credit-cards' | 'hotels-lounges';
   publishedDate: string;
   /**
    * One or two sentences under the title and on cards.

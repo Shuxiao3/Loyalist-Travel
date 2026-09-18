@@ -4,9 +4,9 @@ import Link from 'next/link'
 import { LandingHero } from '@/components/LandingHero'
 import { Pager } from '@/components/Pager'
 import { ReviewCard } from '@/components/ReviewCard'
-import { count, monthYear, rel, score } from '@/lib/format'
+import { count, rel, score } from '@/lib/format'
 import { getHotelFilterOptions, getReviews, type ReviewFilters } from '@/lib/queries'
-import type { Hotel, Program } from '@/payload-types'
+import type { Hotel } from '@/payload-types'
 
 import styles from './page.module.css'
 
@@ -40,7 +40,6 @@ export default async function ReviewsIndex({ searchParams }: Props) {
 
   const latest = latestRes.docs[0]
   const latestHotel = latest ? rel<Hotel>(latest.hotel) : null
-  const latestProgram = latestHotel ? rel<Program>(latestHotel.program) : null
   const image = latest?.externalImageUrl ?? latestHotel?.externalImageUrl
 
   return (
@@ -50,18 +49,33 @@ export default async function ReviewsIndex({ searchParams }: Props) {
         title="Brand hotel reviews"
         text="Every stay is booked under a private name and paid for in full, so the hotel has no idea it is being reviewed. Sixteen categories, one hundred points, the same rubric every time."
         photo={image}
-        card={
-          latest
-            ? {
-                eyebrow: 'Latest scored stay',
-                image,
-                meta: [latestProgram?.name ?? (latest.propertyType === 'resort' ? 'Resort' : 'City hotel'), latest.stayDate ? `Stayed ${monthYear(latest.stayDate)}` : null].filter((m): m is string => Boolean(m)),
-                title: latest.title,
-                figure: { value: score(latest.totals?.overall), label: 'of 100' },
-                cta: 'Read the review',
-                href: `/reviews/${latest.slug}`,
-              }
-            : null
+        aside={
+          podium.length > 0 ? (
+            <aside className={styles.podium} aria-labelledby="podium-h">
+              <span className="eyebrow" id="podium-h">
+                Highest scored
+              </span>
+              <ol className={styles.podiumList}>
+                {podium.map((r, i) => (
+                  <li key={r.id}>
+                    <Link className={styles.podiumRow} href={`/reviews/${r.slug}`}>
+                      <span className={`${styles.medal} ${[styles.gold, styles.silver, styles.bronze][i]}`} aria-label={['First', 'Second', 'Third'][i]}>
+                        {i + 1}
+                      </span>
+                      <span className={styles.podiumName}>{r.title}</span>
+                      <span className={styles.podiumScore}>
+                        {score(r.totals?.overall)}
+                        <small>/100</small>
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ol>
+              <Link className={styles.podiumMore} href="/reviews?sort=top">
+                Full ranking
+              </Link>
+            </aside>
+          ) : null
         }
       />
 
@@ -119,32 +133,6 @@ export default async function ReviewsIndex({ searchParams }: Props) {
           </form>
         </div>
       </section>
-
-      {!active && !filters.sort && page === 1 && podium.length === 3 && (
-        <section className={`section ${styles.podium}`} aria-labelledby="podium-h">
-          <div className="wrap">
-            <div className="section-head">
-              <div>
-                <span className="eyebrow on-light">The podium</span>
-                <h2 id="podium-h">Highest scored stays</h2>
-              </div>
-              <Link className="more" href="/reviews?sort=top">
-                Ranked list
-              </Link>
-            </div>
-            <div className={`cards ${styles.podiumCards}`}>
-              {podium.map((r, i) => (
-                <div className={`${styles.place} ${[styles.gold, styles.silver, styles.bronze][i]}`} key={r.id}>
-                  <span className={styles.medal} aria-label={['First', 'Second', 'Third'][i]}>
-                    {i + 1}
-                  </span>
-                  <ReviewCard review={r} tone={(['a', 'b', 'c'] as const)[i]} />
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
 
       <section className={`section ${styles.list}`}>
         <div className="wrap">

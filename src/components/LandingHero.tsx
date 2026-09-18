@@ -15,17 +15,18 @@ export type HeroCard = {
 // The hero on a category landing page: eyebrow, headline and a sentence on
 // the left, one compact landscape card on the right. `photo`, when given,
 // sits behind the navy on the card side.
-export function LandingHero({ eyebrow, title, text, card, photo, children }: { eyebrow: string; title: React.ReactNode; text: string; card?: HeroCard | null; photo?: string | null; children?: React.ReactNode }) {
+export function LandingHero({ eyebrow, title, text, card, aside, photo, children }: { eyebrow: string; title: React.ReactNode; text: string; card?: HeroCard | null; aside?: React.ReactNode; photo?: string | null; children?: React.ReactNode }) {
   return (
     <header className={`hero ${styles.hero}`} style={photo ? ({ '--hero-photo': `url(${photo})` } as React.CSSProperties) : undefined}>
       <div className={`wrap ${styles.wrap}`}>
-        <div className={`${styles.grid} ${card ? '' : styles.noCard}`}>
+        <div className={`${styles.grid} ${card || aside ? '' : styles.noCard}`}>
           <div>
             <span className="eyebrow">{eyebrow}</span>
             <h1 className={styles.h1}>{title}</h1>
             <p className="sub">{text}</p>
             {children}
           </div>
+          {aside}
           {card && (
             <Link className={`${styles.card} ${card.image === null ? styles.noImg : ''}`} href={card.href}>
               {card.image !== null && <span className={styles.img} role="img" aria-label={card.title} style={card.image ? { backgroundImage: `url(${card.image}), var(--img-a)` } : undefined} />}

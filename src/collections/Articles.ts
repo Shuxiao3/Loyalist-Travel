@@ -9,8 +9,7 @@ export const ARTICLE_CATEGORIES = [
   { label: 'Programs', value: 'programs' },
   { label: 'Points & awards', value: 'points-awards' },
   { label: 'Credit cards', value: 'credit-cards' },
-  { label: 'Lounges', value: 'lounges' },
-  { label: 'Hotels', value: 'hotels' },
+  { label: 'Hotels & lounges', value: 'hotels-lounges' },
 ]
 export type ArticleCategory = (typeof ARTICLE_CATEGORIES)[number]['value']
 export const ARTICLE_CATEGORY_LABEL: Record<string, string> = Object.fromEntries(ARTICLE_CATEGORIES.map((c) => [c.value, c.label]))
