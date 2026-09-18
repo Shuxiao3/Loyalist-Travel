@@ -1,0 +1,55 @@
+# Builds the Hilton hotel list from hilton.com's public sitemap and hotel
+# pages, commits it to data/hilton/hotels.json, then imports it.
+#
+# Manual: Actions tab → "Fetch Hilton hotels" → Run workflow. Give a limit
+# (e.g. 30) to test the parser on a sample first; leave blank for all.
+name: Fetch Hilton hotels
+
+on:
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: 'Only fetch this many hotel pages (blank = all)'
+        required: false
+        default: ''
+      import:
+        description: 'Import into the database after fetching (yes/no)'
+        required: false
+        default: 'yes'
+
+permissions:
+  contents: write
+
+jobs:
+  hilton:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Fetch
+        run: |
+          if [ -n "${{ github.event.inputs.limit }}" ]; then
+            npm run fetch:hilton -- --limit ${{ github.event.inputs.limit }}
+          else
+            npm run fetch:hilton
+          fi
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add data/hilton/hotels.json
+          git commit -m "Hilton hotel list" || echo "nothing to commit"
+          git push
+      - name: Import
+        if: github.event.inputs.import == 'yes'
+        run: |
+          npm run migrate
+          npm run import:webflow -- hilton

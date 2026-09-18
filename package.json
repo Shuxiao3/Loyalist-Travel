@@ -16,6 +16,7 @@
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "typecheck": "tsc --noEmit",
     "import:webflow": "cross-env NODE_OPTIONS=--no-deprecation node --env-file-if-exists=.env node_modules/.bin/tsx scripts/webflow/import.ts",
+    "fetch:hilton": "node node_modules/.bin/tsx scripts/hilton/fetch.ts",
     "import:check": "cross-env NODE_OPTIONS=--no-deprecation node --env-file-if-exists=.env node_modules/.bin/tsx scripts/webflow/spot-check.ts"
   },
   "dependencies": {

@@ -622,6 +622,173 @@ async function unseedArticles(payload: Payload) {
   console.log(`unseed-articles: removed ${res.docs.length} mock articles`)
 }
 
+// ---- Hilton -----------------------------------------------------------------
+// data/hilton/hotels.json comes from scripts/hilton/fetch.ts. Hilton brand
+// codes (the last two letters of each hotel code) map to our brand slugs;
+// anything not listed (Hampton, Garden Inn, Tru...) is skipped.
+
+const HILTON_BRANDS: Record<string, string> = {
+  WA: 'waldorf-astoria',
+  CH: 'conrad',
+  OL: 'lxr',
+  SA: 'signia',
+  NM: 'nomad',
+  SL: 'small-luxury-hotels',
+  HI: 'hilton-hotels-resorts',
+  HH: 'hilton-hotels-resorts',
+  PY: 'canopy',
+  QQ: 'curio-collection',
+  UP: 'tapestry-collection',
+  DT: 'doubletree',
+  DI: 'doubletree',
+  ES: 'embassy-suites',
+  GU: 'graduate-by-hilton',
+  PO: 'tempo',
+  UA: 'motto',
+}
+
+const COUNTRY_ALIASES: Record<string, string> = {
+  USA: 'United States', US: 'United States', 'United States of America': 'United States',
+  UK: 'United Kingdom', GB: 'United Kingdom', 'Great Britain': 'United Kingdom', England: 'United Kingdom', Scotland: 'United Kingdom', Wales: 'United Kingdom', 'Northern Ireland': 'United Kingdom',
+  UAE: 'United Arab Emirates', 'Hong Kong SAR China': 'Hong Kong', 'Hong Kong SAR': 'Hong Kong', 'Macao SAR China': 'Macau', Macao: 'Macau',
+  Türkiye: 'Turkey', Czechia: 'Czech Republic', 'Korea, Republic of': 'South Korea', Korea: 'South Korea', 'Viet Nam': 'Vietnam',
+  'Russian Federation': 'Russia', 'Taiwan, Province of China': 'Taiwan', Curaçao: 'Curacao', 'Virgin Islands, U.S.': 'U.S. Virgin Islands', 'US Virgin Islands': 'U.S. Virgin Islands',
+  "Cote d'Ivoire": 'Ivory Coast', 'Côte d’Ivoire': 'Ivory Coast', 'Trinidad & Tobago': 'Trinidad and Tobago', 'St. Kitts & Nevis': 'Saint Kitts and Nevis', 'Bosnia & Herzegovina': 'Bosnia and Herzegovina',
+}
+
+const US_STATES: Record<string, string> = {
+  AL: 'Alabama', AK: 'Alaska', AZ: 'Arizona', AR: 'Arkansas', CA: 'California', CO: 'Colorado', CT: 'Connecticut', DE: 'Delaware', DC: 'District of Columbia', FL: 'Florida', GA: 'Georgia', HI: 'Hawaii', ID: 'Idaho', IL: 'Illinois', IN: 'Indiana', IA: 'Iowa', KS: 'Kansas', KY: 'Kentucky', LA: 'Louisiana', ME: 'Maine', MD: 'Maryland', MA: 'Massachusetts', MI: 'Michigan', MN: 'Minnesota', MS: 'Mississippi', MO: 'Missouri', MT: 'Montana', NE: 'Nebraska', NV: 'Nevada', NH: 'New Hampshire', NJ: 'New Jersey', NM: 'New Mexico', NY: 'New York', NC: 'North Carolina', ND: 'North Dakota', OH: 'Ohio', OK: 'Oklahoma', OR: 'Oregon', PA: 'Pennsylvania', RI: 'Rhode Island', SC: 'South Carolina', SD: 'South Dakota', TN: 'Tennessee', TX: 'Texas', UT: 'Utah', VT: 'Vermont', VA: 'Virginia', WA: 'Washington', WV: 'West Virginia', WI: 'Wisconsin', WY: 'Wyoming', PR: 'Puerto Rico',
+}
+
+function countryName(raw: string | null): string | null {
+  if (!raw) return null
+  const t = raw.trim()
+  if (COUNTRY_ALIASES[t]) return COUNTRY_ALIASES[t]
+  if (/^[A-Z]{2}$/.test(t)) {
+    const n = new Intl.DisplayNames(['en'], { type: 'region' }).of(t) ?? t
+    return COUNTRY_ALIASES[n] ?? n
+  }
+  return t
+}
+
+type HiltonRecord = { ctyhocn: string; brandCode: string | null; url: string; name: string | null; streetAddress: string | null; city: string | null; region: string | null; postalCode: string | null; country: string | null; phone: string | null; rooms: number | null }
+
+async function importHilton(payload: Payload) {
+  const file = path.resolve(process.cwd(), 'data/hilton/hotels.json')
+  if (!fs.existsSync(file)) throw new Error('data/hilton/hotels.json is missing; run fetch:hilton first')
+  const records = JSON.parse(fs.readFileSync(file, 'utf8')) as HiltonRecord[]
+  const program = (await payload.find({ collection: 'programs', where: { slug: { equals: 'hilton-honors' } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
+  if (!program) throw new Error('Hilton Honors program missing')
+  const brands = new Map((await payload.find({ collection: 'brands', limit: 500, depth: 0, overrideAccess: true })).docs.map((b) => [b.slug, b.id]))
+
+  // destinations by "city|country", and each country's usual region
+  const dests = (await payload.find({ collection: 'destinations', limit: 5000, depth: 0, overrideAccess: true })).docs
+  const destByKey = new Map<string, number>()
+  const regionByCountry = new Map<string, Map<number, number>>()
+  const destSlugs = new Set<string>()
+  for (const d of dests) {
+    destSlugs.add(d.slug)
+    if (d.city && d.country) destByKey.set(`${d.city.toLowerCase()}|${d.country.toLowerCase()}`, d.id)
+    if (d.name && d.country) destByKey.set(`${d.name.toLowerCase()}|${d.country.toLowerCase()}`, d.id)
+    const region = typeof d.region === 'object' ? d.region?.id : d.region
+    if (d.country && region) {
+      const m = regionByCountry.get(d.country) ?? new Map<number, number>()
+      m.set(region, (m.get(region) ?? 0) + 1)
+      regionByCountry.set(d.country, m)
+    }
+  }
+  const usualRegion = (country: string) => {
+    const m = regionByCountry.get(country)
+    return m ? [...m.entries()].sort((a, b) => b[1] - a[1])[0][0] : null
+  }
+
+  // existing hotels in the program, by hotel code in the booking link and by name
+  const existing = (await payload.find({ collection: 'hotels', where: { program: { equals: program.id } }, limit: 10000, depth: 0, overrideAccess: true })).docs
+  const byCode = new Map<string, (typeof existing)[number]>()
+  const byName = new Map<string, (typeof existing)[number]>()
+  for (const h of existing) {
+    const m = h.bookingLink?.match(/hilton\.com\/en\/hotels\/([a-z0-9]{7})-/i)
+    if (m) byCode.set(m[1].toUpperCase(), h)
+    byName.set(h.name.toLowerCase(), h)
+  }
+  const allSlugs = new Set((await payload.find({ collection: 'hotels', limit: 20000, depth: 0, overrideAccess: true, select: { slug: true } })).docs.map((h) => h.slug))
+
+  let created = 0
+  let updated = 0
+  let skipped = 0
+  let newDests = 0
+  const skippedBrands: Record<string, number> = {}
+  for (const r of records) {
+    const brandSlug = r.brandCode ? HILTON_BRANDS[r.brandCode] : null
+    const brandId = brandSlug ? brands.get(brandSlug) : null
+    if (!brandId) {
+      skippedBrands[r.brandCode ?? '??'] = (skippedBrands[r.brandCode ?? '??'] ?? 0) + 1
+      skipped++
+      continue
+    }
+    if (!r.name || !r.city || !r.country) {
+      skipped++
+      continue
+    }
+    const country = countryName(r.country)!
+    const region = country === 'United States' && r.region && US_STATES[r.region.toUpperCase()] ? US_STATES[r.region.toUpperCase()] : r.region
+    const key = `${r.city.toLowerCase()}|${country.toLowerCase()}`
+    let destId = destByKey.get(key)
+    if (!destId) {
+      let slug = slugify(r.city)!
+      if (destSlugs.has(slug)) slug = slugify(`${r.city} ${country}`)!
+      if (destSlugs.has(slug)) slug = slugify(`${r.city} ${region ?? ''} ${country}`)!
+      const d = await payload.create({
+        collection: 'destinations',
+        overrideAccess: true,
+        data: { name: r.city, slug, city: r.city, stateOrRegion: region, country, locationLabel: country === 'United States' && region ? `${r.city}, ${region}` : `${r.city}, ${country}`, region: usualRegion(country), _status: 'published' } as never,
+      })
+      destId = d.id
+      destByKey.set(key, destId)
+      destSlugs.add(slug)
+      newDests++
+    }
+
+    const data = {
+      brand: brandId,
+      program: program.id,
+      destination: destId,
+      streetAddress: [r.streetAddress, r.city, region && country === 'United States' ? `${r.region} ${r.postalCode ?? ''}`.trim() : [r.postalCode, country].filter(Boolean).join(' ')].filter(Boolean).join(', '),
+      phone: r.phone,
+      bookingLink: r.url,
+      numberOfRooms: r.rooms,
+    }
+    const found = byCode.get(r.ctyhocn) ?? byName.get(r.name.toLowerCase())
+    if (found) {
+      // fill blanks only; never overwrite what the editor already has
+      const patch: Record<string, unknown> = {}
+      for (const [k, v] of Object.entries(data)) if (v != null && (found as unknown as Record<string, unknown>)[k] == null) patch[k] = v
+      if (!found.bookingLink) patch.bookingLink = r.url
+      if (Object.keys(patch).length) {
+        await payload.update({ collection: 'hotels', id: found.id, data: patch as never, depth: 0, overrideAccess: true })
+        updated++
+      }
+      continue
+    }
+    let slug = slugify(r.name)!
+    if (allSlugs.has(slug)) slug = slugify(`${r.name} ${r.city}`)!
+    if (allSlugs.has(slug)) slug = `${slug}-${r.ctyhocn.toLowerCase()}`
+    const doc = await payload.create({
+      collection: 'hotels',
+      overrideAccess: true,
+      depth: 0,
+      data: { name: r.name, slug, reviewStatus: 'not-reviewed', pointsEligible: true, ...data, _status: 'published' } as never,
+    })
+    allSlugs.add(slug)
+    byCode.set(r.ctyhocn, doc)
+    byName.set(r.name.toLowerCase(), doc)
+    created++
+    if ((created + updated) % 250 === 0) console.log(`hilton: ${created} created, ${updated} updated`)
+  }
+  console.log(`hilton: ${created} created, ${updated} updated, ${skipped} skipped, ${newDests} new destinations`)
+  console.log('skipped brand codes:', Object.entries(skippedBrands).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${k} ${v}`).join(', ') || 'none')
+}
+
 // ---- main -------------------------------------------------------------------
 
 const STEPS: Record<string, (p: Payload) => Promise<void>> = {
@@ -641,6 +808,7 @@ const STEPS: Record<string, (p: Payload) => Promise<void>> = {
   'unseed-stays': unseedStays,
   images: applyImages,
   'logos-local': fetchLogos,
+  hilton: importHilton,
   'seed-articles': seedArticles,
   'unseed-articles': unseedArticles,
 }
