@@ -1,4 +1,4 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig, PayloadRequest } from 'payload'
 
 // Reader submissions: dropdown-only, no typing (decision log, content model
 // 4). Hotel and program are prefilled from a hotel page. Aggregates from
@@ -73,8 +73,26 @@ export const LATE_CHECKOUT_OUTCOMES = [
   { label: 'Not requested', value: 'not-requested' },
 ]
 
+// After any change or delete, recount the hotel's approved stays.
+async function recount(req: PayloadRequest, hotelId: number | null | undefined) {
+  if (!hotelId) return
+  // `req` carries the open transaction; without it these calls wait on it forever
+  const n = await req.payload.count({ collection: 'reader-stays', where: { and: [{ hotel: { equals: hotelId } }, { status: { equals: 'approved' } }] }, overrideAccess: true, req })
+  await req.payload.update({ collection: 'hotels', id: hotelId, data: { stayCount: n.totalDocs }, overrideAccess: true, depth: 0, req })
+}
+const hotelIdOf = (doc: { hotel?: number | { id: number } | null } | undefined) => (doc?.hotel && typeof doc.hotel === 'object' ? doc.hotel.id : (doc?.hotel as number | null | undefined))
+
 export const ReaderStays: CollectionConfig = {
   slug: 'reader-stays',
+  hooks: {
+    afterChange: [
+      async ({ doc, previousDoc, req }) => {
+        await recount(req, hotelIdOf(doc))
+        if (previousDoc && hotelIdOf(previousDoc) !== hotelIdOf(doc)) await recount(req, hotelIdOf(previousDoc))
+      },
+    ],
+    afterDelete: [async ({ doc, req }) => recount(req, hotelIdOf(doc))],
+  },
   admin: {
     useAsTitle: 'id',
     defaultColumns: ['hotel', 'statusHeld', 'stayYear', 'upgrade', 'status', 'createdAt'],

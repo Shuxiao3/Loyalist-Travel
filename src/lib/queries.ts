@@ -86,7 +86,7 @@ export async function findHotels(f: HotelFilters) {
   if (f.brand) and.push({ 'brand.slug': { equals: f.brand } })
   if (f.country) and.push({ 'destination.country': { equals: f.country } })
   if (f.scored === 'yes') and.push({ reviewStatus: { equals: 'reviewed' } })
-  const sort = f.sort === 'za' ? '-name' : f.sort === 'new' ? '-createdAt' : f.sort === 'rooms' ? '-numberOfRooms' : 'name'
+  const sort = f.sort === 'za' ? '-name' : f.sort === 'popular' ? ['-views', 'name'] : f.sort === 'stays' ? ['-stayCount', 'name'] : 'name'
   return payload.find({
     collection: 'hotels',
     where: { and },

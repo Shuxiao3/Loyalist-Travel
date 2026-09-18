@@ -129,8 +129,8 @@ export default async function HotelsIndex({ searchParams }: Props) {
               <select name="sort" defaultValue={filters.sort ?? ''}>
                 <option value="">Name, A to Z</option>
                 <option value="za">Name, Z to A</option>
-                <option value="new">Recently added</option>
-                <option value="rooms">Most rooms</option>
+                <option value="popular">Most popular</option>
+                <option value="stays">Most submissions</option>
               </select>
             </label>
             <div className={styles.actions}>

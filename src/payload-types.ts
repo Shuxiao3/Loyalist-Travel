@@ -189,6 +189,14 @@ export interface Hotel {
    */
   externalImageUrl?: string | null;
   /**
+   * Page views, counted by the site.
+   */
+  views?: number | null;
+  /**
+   * Approved reader stays. Kept in step automatically.
+   */
+  stayCount?: number | null;
+  /**
    * Shown as the featured hotel in the homepage carousel.
    */
   featured?: boolean | null;
@@ -1252,6 +1260,8 @@ export interface HotelsSelect<T extends boolean = true> {
   bookingLink?: T;
   heroImage?: T;
   externalImageUrl?: T;
+  views?: T;
+  stayCount?: T;
   featured?: T;
   enrichmentStatus?: T;
   webflowId?: T;

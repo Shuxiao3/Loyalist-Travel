@@ -121,6 +121,20 @@ export const Hotels: CollectionConfig = {
       ],
     },
     {
+      name: 'views',
+      type: 'number',
+      defaultValue: 0,
+      index: true,
+      admin: { position: 'sidebar', readOnly: true, description: 'Page views, counted by the site.' },
+    },
+    {
+      name: 'stayCount',
+      type: 'number',
+      defaultValue: 0,
+      index: true,
+      admin: { position: 'sidebar', readOnly: true, description: 'Approved reader stays. Kept in step automatically.' },
+    },
+    {
       name: 'featured',
       type: 'checkbox',
       defaultValue: false,

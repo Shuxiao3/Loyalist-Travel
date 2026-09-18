@@ -7,6 +7,7 @@ import { HotelList } from '@/components/HotelCard'
 import { ReaderPanel } from '@/components/ReaderPanel'
 import { ReviewCard } from '@/components/ReviewCard'
 import { StayForm } from '@/components/StayForm'
+import { ViewBeacon } from '@/components/ViewBeacon'
 import { rel, score } from '@/lib/format'
 import { getHotel, getHotelsIn, getPayloadClient, getReviewsForHotel } from '@/lib/queries'
 import { accessLine, getLoungesForHotel, loungeReaderData, servicesLine } from '@/lib/lounges'
@@ -70,6 +71,7 @@ export default async function HotelPage({ params }: Props) {
 
   return (
     <>
+      <ViewBeacon hotel={hotel.id} />
       <header className={`hero ${styles.hero}`}>
         <div className="wrap">
           <ol className="crumbs" aria-label="Breadcrumb">
