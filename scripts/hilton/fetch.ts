@@ -148,7 +148,7 @@ function parse(url: string, html: string): HiltonHotel {
   const hotel = ld.find((o) => /Hotel|LodgingBusiness|Resort/.test(String(o['@type']))) ?? ld.find((o) => o.address) ?? {}
   const address = (hotel.address && typeof hotel.address === 'object' ? hotel.address : {}) as Record<string, unknown>
   const first = (re: RegExp) => html.match(re)?.[1] ?? null
-  const rooms = first(/"(?:totalRooms|numberOfRooms|roomCount)"\s*:\s*"?(\d{1,4})/) ?? first(/(\d{2,4})\s+(?:guest\s+)?rooms/i)
+  const rooms = first(/"(?:totalRooms|numberOfRooms|roomCount|totalNumberOfRooms)"\s*:\s*"?(\d{1,4})/)
   return {
     ctyhocn: ctyhocn.toUpperCase(),
     brandCode: first(/"brandCode"\s*:\s*"([A-Z0-9]{2})"/) ?? ctyhocn.slice(-2).toUpperCase(),
@@ -170,7 +170,20 @@ function parse(url: string, html: string): HiltonHotel {
 // `id_` flag returns the page as it was served, without the archive's own
 // toolbar. A page never archived comes back 404.
 async function getArchived(url: string): Promise<{ status: number; body: string }> {
-  return get(`https://web.archive.org/web/2026id_/${url}`)
+  // the archive's index: the last few captures that were a real 200
+  const cdx = await get(`https://web.archive.org/cdx/search/cdx?url=${encodeURIComponent(url)}&filter=statuscode:200&fl=timestamp&limit=-5&output=json`)
+  let stamps: string[] = []
+  try {
+    stamps = (JSON.parse(cdx.body) as string[][]).slice(1).map((r) => r[0]).reverse()
+  } catch {
+    stamps = []
+  }
+  if (stamps.length === 0) stamps = ['2026']
+  for (const ts of stamps) {
+    const res = await get(`https://web.archive.org/web/${ts}id_/${url}`)
+    if (res.status === 200 && /application\/ld\+json/.test(res.body) && !/Access Denied|Reference #\d/.test(res.body.slice(0, 3000))) return res
+  }
+  return { status: 404, body: `no usable capture (${stamps.length} tried)` }
 }
 
 async function main() {
