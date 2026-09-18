@@ -97,9 +97,7 @@ export default async function LoungesIndex({ searchParams }: Props) {
                 {active ? ' match' : ''}
               </h2>
             </div>
-            <Link className="more" href="/submit-a-stay">
-              Rate one
-            </Link>
+            <span className={styles.fineHead}>Open a lounge to rate it</span>
           </div>
           {rows.length > 0 ? <LoungeRows rows={rows} /> : <p className={styles.empty}>No lounges on record yet{active ? ' for those filters' : ''}.</p>}
           <p className={styles.fine}>Reader scores appear once a lounge has five rated stays. Access and hours are as printed; whether access was honoured is reported by readers.</p>

@@ -13,6 +13,7 @@ import { Brands } from './collections/Brands'
 import { Comments } from './collections/Comments'
 import { Destinations } from './collections/Destinations'
 import { Hotels } from './collections/Hotels'
+import { LoungeRatings } from './collections/LoungeRatings'
 import { Lounges } from './collections/Lounges'
 import { Media } from './collections/Media'
 import { Programs } from './collections/Programs'
@@ -49,6 +50,7 @@ export default buildConfig({
     Readers,
     Comments,
     Lounges,
+    LoungeRatings,
     RubricVersions,
     Programs,
     Brands,

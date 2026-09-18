@@ -74,6 +74,7 @@ export interface Config {
     readers: Reader;
     comments: Comment;
     lounges: Lounge;
+    'lounge-ratings': LoungeRating;
     'rubric-versions': RubricVersion;
     programs: Program;
     brands: Brand;
@@ -104,6 +105,7 @@ export interface Config {
     readers: ReadersSelect<false> | ReadersSelect<true>;
     comments: CommentsSelect<false> | CommentsSelect<true>;
     lounges: LoungesSelect<false> | LoungesSelect<true>;
+    'lounge-ratings': LoungeRatingsSelect<false> | LoungeRatingsSelect<true>;
     'rubric-versions': RubricVersionsSelect<false> | RubricVersionsSelect<true>;
     programs: ProgramsSelect<false> | ProgramsSelect<true>;
     brands: BrandsSelect<false> | BrandsSelect<true>;
@@ -1047,39 +1049,7 @@ export interface ReaderStay {
   alaCarteCap?: ('uncapped' | 'capped') | null;
   lateCheckout: 'honoured' | 'declined' | 'not-requested';
   /**
-   * Asked only where the hotel has a lounge on record.
-   */
-  lounge?: {
-    lounge?: (number | null) | Lounge;
-    access?: ('given' | 'declined' | 'not-used') | null;
-    worthIt?: ('yes' | 'no') | null;
-    /**
-     * 1 to 5.
-     */
-    food?: number | null;
-    /**
-     * 1 to 5.
-     */
-    drink?: number | null;
-    /**
-     * 1 to 5.
-     */
-    space?: number | null;
-    /**
-     * 1 to 5.
-     */
-    service?: number | null;
-    /**
-     * 1 to 5.
-     */
-    overall?: number | null;
-    /**
-     * Shown on the lounge page once the stay is approved. Read it first.
-     */
-    comment?: string | null;
-  };
-  /**
-   * Set when the stay was submitted while signed in. Names the lounge rating and comment; the stay itself stays anonymous.
+   * Set when the stay was submitted while signed in. Shows the display name on the latest-stays list.
    */
   reader?: (number | null) | Reader;
   /**
@@ -1142,6 +1112,55 @@ export interface Comment {
         value: number | Lounge;
       };
   body: string;
+  /**
+   * Hashed network address. Never shown.
+   */
+  submitterHash?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Approve or reject here. Only approved ratings count.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "lounge-ratings".
+ */
+export interface LoungeRating {
+  id: number;
+  status: 'pending' | 'approved' | 'rejected';
+  lounge: number | Lounge;
+  statusHeld: number | StatusLevel;
+  stayYear: number;
+  access: 'given' | 'declined' | 'not-used';
+  worthIt?: ('yes' | 'no') | null;
+  /**
+   * 1 to 5.
+   */
+  food?: number | null;
+  /**
+   * 1 to 5.
+   */
+  drink?: number | null;
+  /**
+   * 1 to 5.
+   */
+  space?: number | null;
+  /**
+   * 1 to 5.
+   */
+  service?: number | null;
+  /**
+   * 1 to 5.
+   */
+  overall?: number | null;
+  /**
+   * Shown on the lounge page once approved. Read it first.
+   */
+  comment?: string | null;
+  /**
+   * Set when submitted while signed in; names the rating.
+   */
+  reader?: (number | null) | Reader;
   /**
    * Hashed network address. Never shown.
    */
@@ -1225,6 +1244,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'lounges';
         value: number | Lounge;
+      } | null)
+    | ({
+        relationTo: 'lounge-ratings';
+        value: number | LoungeRating;
       } | null)
     | ({
         relationTo: 'rubric-versions';
@@ -1526,19 +1549,6 @@ export interface ReaderStaysSelect<T extends boolean = true> {
   breakfast?: T;
   alaCarteCap?: T;
   lateCheckout?: T;
-  lounge?:
-    | T
-    | {
-        lounge?: T;
-        access?: T;
-        worthIt?: T;
-        food?: T;
-        drink?: T;
-        space?: T;
-        service?: T;
-        overall?: T;
-        comment?: T;
-      };
   reader?: T;
   submitterHash?: T;
   updatedAt?: T;
@@ -1601,6 +1611,28 @@ export interface LoungesSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "lounge-ratings_select".
+ */
+export interface LoungeRatingsSelect<T extends boolean = true> {
+  status?: T;
+  lounge?: T;
+  statusHeld?: T;
+  stayYear?: T;
+  access?: T;
+  worthIt?: T;
+  food?: T;
+  drink?: T;
+  space?: T;
+  service?: T;
+  overall?: T;
+  comment?: T;
+  reader?: T;
+  submitterHash?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

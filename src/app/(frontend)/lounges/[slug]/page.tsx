@@ -7,7 +7,9 @@ import { Comments } from '@/components/Comments'
 import { RichText } from '@/components/RichText'
 import { ScoreBar } from '@/components/ScoreBar'
 import { rel } from '@/lib/format'
-import { accessLine, getLounge, getLoungeStays, loungeReaderData } from '@/lib/lounges'
+import { accessLine, getLounge, getLoungeRatings, loungeReaderData } from '@/lib/lounges'
+import { LoungeRatingForm } from '@/components/LoungeRatingForm'
+import { getPayloadClient } from '@/lib/payload'
 import { MIN_STAYS } from '@/lib/readerData'
 import type { Destination, Hotel, Program, Reader, StatusLevel } from '@/payload-types'
 
@@ -35,7 +37,13 @@ export default async function LoungePage({ params }: Props) {
   const hotel = rel<Hotel>(lounge.hotel)
   const program = hotel ? rel<Program>(hotel.program) : null
   const destination = hotel ? rel<Destination>(hotel.destination) : null
-  const [reader, stays] = await Promise.all([loungeReaderData(lounge.id), getLoungeStays(lounge.id)])
+  const payload = await getPayloadClient()
+  const [reader, stays, tiersRes] = await Promise.all([
+    loungeReaderData(lounge.id),
+    getLoungeRatings(lounge.id),
+    program ? payload.find({ collection: 'status-levels', where: { program: { equals: program.id } }, sort: 'rank', limit: 20, depth: 0 }) : Promise.resolve(null),
+  ])
+  const programTiers = (tiersRes?.docs ?? []).map((t) => ({ id: t.id, name: t.name, shortName: t.shortName }))
   const tiers = (lounge.access?.tiers ?? []).map((t) => rel<StatusLevel>(t)).filter((t): t is StatusLevel => Boolean(t))
   const image = lounge.externalImageUrl ?? hotel?.externalImageUrl
 
@@ -93,7 +101,7 @@ export default async function LoungePage({ params }: Props) {
                 <span className={styles.scoreOf}>/5</span>
               </span>
               <span className={styles.scoreNote}>
-                {reader.data ? `Overall, from ${reader.data.stays} rated stays.` : `${reader.count} rated ${reader.count === 1 ? 'stay' : 'stays'} so far. Scores appear at ${MIN_STAYS}.`}
+                {reader.data ? `Overall, from ${reader.data.stays} ratings.` : `${reader.count} ${reader.count === 1 ? 'rating' : 'ratings'} so far. Scores appear at ${MIN_STAYS}.`}
               </span>
             </div>
           </div>
@@ -154,17 +162,13 @@ export default async function LoungePage({ params }: Props) {
                     <ScoreBar key={f.name} label={f.label} value={reader.data?.factors[f.name]} tone="dark" />
                   ))}
                 </div>
-                <div className="panel-foot">From {reader.data.stays} reader stays that used the lounge. Reported by readers, checked before counting.</div>
+                <div className="panel-foot">From {reader.data.stays} readers who used the lounge. Checked before counting.</div>
               </>
             ) : (
               <p className={styles.waiting}>
-                {reader.count === 0 ? 'No reader stays yet. ' : `${reader.count} rated ${reader.count === 1 ? 'stay' : 'stays'} so far. `}Numbers appear once {MIN_STAYS} stays have been checked.
-                {hotel && (
-                  <>
-                    {' '}
-                    <Link href={`/hotels/${hotel.slug}#reader-h`}>Add yours on the hotel page.</Link>
-                  </>
-                )}
+                {reader.count === 0 ? 'No ratings yet. ' : `${reader.count} ${reader.count === 1 ? 'rating' : 'ratings'} so far. `}Numbers appear once {MIN_STAYS} have been checked.
+                {' '}
+                <a href="#rate-h">Rate it below.</a>
               </p>
             )}
           </section>
@@ -181,27 +185,40 @@ export default async function LoungePage({ params }: Props) {
         </div>
       </section>
 
+      <section className={`section ${styles.rate}`} aria-labelledby="rate-h">
+        <div className={`wrap ${styles.rateGrid}`}>
+          <div>
+            <span className="eyebrow on-light">Rate this lounge</span>
+            <h2 id="rate-h" className={styles.rateH2}>
+              Sat in {lounge.name}?
+            </h2>
+            <p className={styles.rateP}>Whether you got in, then food, drink, space and service out of five, and whether it was worth a club room. Two minutes. Read before it counts.</p>
+          </div>
+          <div className={`panel ${styles.ratePanel}`}>
+            {program && programTiers.length > 0 ? <LoungeRatingForm lounge={{ id: lounge.id, name: lounge.name }} programName={program.name} tiers={programTiers} /> : <p className={styles.waiting}>This program's tiers are not set up yet.</p>}
+          </div>
+        </div>
+      </section>
+
       {stays.length > 0 && (
         <section className={`section ${styles.stays}`} aria-labelledby="stays-h">
           <div className="wrap">
             <div className={styles.staysHead}>
               <div>
-                <span className="eyebrow on-light">Reader stays</span>
+                <span className="eyebrow on-light">Reader ratings</span>
                 <h2 id="stays-h" className={styles.staysH2}>
-                  {stays.length} {stays.length === 1 ? 'stay' : 'stays'} as reported
+                  {stays.length} {stays.length === 1 ? 'rating' : 'ratings'} as reported
                 </h2>
               </div>
-              {hotel && (
-                <Link className="ghost" href={`/hotels/${hotel.slug}#reader-h`}>
-                  Add yours
-                </Link>
-              )}
+              <a className="ghost" href="#rate-h">
+                Add yours
+              </a>
             </div>
             <ol className={styles.stayList}>
               {stays.map((s) => {
                 const tier = rel<StatusLevel>(s.statusHeld)
                 const who = rel<Reader>(s.reader)
-                const a = s.lounge ?? {}
+                const a = s
                 return (
                   <li className={styles.stay} key={s.id}>
                     <div className={styles.stayWho}>

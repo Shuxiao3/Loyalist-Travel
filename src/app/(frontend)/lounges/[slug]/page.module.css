@@ -279,9 +279,44 @@
   max-width: 60ch;
 }
 
+/* the rating form */
+.rate {
+  border-top: 1px solid var(--line);
+}
+
+.rateGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: var(--card-gap);
+  align-items: start;
+}
+
+.rateGrid :global(.eyebrow) {
+  display: block;
+  margin-bottom: var(--s3);
+}
+
+.rateH2 {
+  font-size: var(--t-3xl);
+  line-height: 1.15;
+  margin: 0 0 var(--s4);
+}
+
+.rateP {
+  font-size: var(--t-md);
+  line-height: 1.6;
+  color: var(--text-2);
+  max-width: 44ch;
+}
+
+.ratePanel {
+  min-width: 0;
+}
+
 @media (max-width: 1100px) {
   .heroGrid,
-  .bodyGrid {
+  .bodyGrid,
+  .rateGrid {
     grid-template-columns: 1fr;
   }
 

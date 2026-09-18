@@ -4,7 +4,7 @@
 import type { Where } from 'payload'
 
 import { LOUNGE_FACTORS, type LoungeFactor } from '@/lib/stayOptions'
-import type { Hotel, Lounge, ReaderStay } from '@/payload-types'
+import type { Hotel, Lounge, LoungeRating } from '@/payload-types'
 
 import { getPayloadClient } from './payload'
 import { MIN_STAYS } from './readerData'
@@ -24,8 +24,7 @@ function mean(values: number[]): number | null {
   return values.length ? Math.round((values.reduce((a, b) => a + b, 0) / values.length) * 10) / 10 : null
 }
 
-export function aggregateLounge(stays: Pick<ReaderStay, 'lounge'>[]): LoungeAggregate {
-  const answers = stays.map((s) => s.lounge).filter((l): l is NonNullable<ReaderStay['lounge']> => Boolean(l))
+export function aggregateLounge(answers: Pick<LoungeRating, 'access' | 'worthIt' | 'comment' | 'food' | 'drink' | 'space' | 'service' | 'overall'>[]): LoungeAggregate {
   const asked = answers.filter((l) => l.access === 'given' || l.access === 'declined')
   const given = asked.filter((l) => l.access === 'given').length
   const rated = answers.filter((l) => typeof l.overall === 'number')
@@ -45,8 +44,8 @@ export function aggregateLounge(stays: Pick<ReaderStay, 'lounge'>[]): LoungeAggr
 export async function loungeReaderData(loungeId: number): Promise<{ count: number; data?: LoungeAggregate }> {
   const payload = await getPayloadClient()
   const res = await payload.find({
-    collection: 'reader-stays',
-    where: { and: [{ status: { equals: 'approved' } }, { 'lounge.lounge': { equals: loungeId } }] },
+    collection: 'lounge-ratings',
+    where: { and: [{ status: { equals: 'approved' } }, { lounge: { equals: loungeId } }] },
     limit: 5000,
     depth: 0,
     overrideAccess: true,
@@ -56,13 +55,13 @@ export async function loungeReaderData(loungeId: number): Promise<{ count: numbe
   return { count: data.stays, data }
 }
 
-// Individual approved stays for the lounge page, newest first. Only the
-// lounge answers, tier and year are shown; nothing identifies the reader.
-export async function getLoungeStays(loungeId: number, limit = 100): Promise<ReaderStay[]> {
+// Individual approved ratings for the lounge page, newest first, with the
+// tier and (if signed in) the reader populated.
+export async function getLoungeRatings(loungeId: number, limit = 100): Promise<LoungeRating[]> {
   const payload = await getPayloadClient()
   const res = await payload.find({
-    collection: 'reader-stays',
-    where: { and: [{ status: { equals: 'approved' } }, { 'lounge.lounge': { equals: loungeId } }] },
+    collection: 'lounge-ratings',
+    where: { and: [{ status: { equals: 'approved' } }, { lounge: { equals: loungeId } }] },
     sort: '-createdAt',
     limit,
     depth: 1,

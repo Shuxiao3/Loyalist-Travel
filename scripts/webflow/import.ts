@@ -503,24 +503,31 @@ async function seedStays(payload: Payload) {
     null, null, null, null, null, null, null, null, null,
   ]
   let i = 0
+  let ratings = 0
   for (const [statusHeld, upgrade, upgradeType, suiteType, upgradeHow, breakfast, alaCarteCap, lateCheckout] of rows) {
     const la = loungeAnswers[i++]
     await payload.create({
       collection: 'reader-stays',
       overrideAccess: true,
-      data: {
-        status: 'approved', hotel: hotel.id, program: programId, statusHeld, stayYear: 2026, upgrade, upgradeType, suiteType, upgradeHow, breakfast, alaCarteCap, lateCheckout, submitterHash: MOCK_HASH,
-        lounge: la ? { lounge: lounge.id, access: la[0], food: la[1], drink: la[2], space: la[3], service: la[4], overall: la[5], worthIt: la[6], comment: la[7] } : undefined,
-      } as never,
+      data: { status: 'approved', hotel: hotel.id, program: programId, statusHeld, stayYear: 2026, upgrade, upgradeType, suiteType, upgradeHow, breakfast, alaCarteCap, lateCheckout, submitterHash: MOCK_HASH } as never,
     })
+    if (la) {
+      await payload.create({
+        collection: 'lounge-ratings',
+        overrideAccess: true,
+        data: { status: 'approved', lounge: lounge.id, statusHeld, stayYear: 2026, access: la[0], food: la[1], drink: la[2], space: la[3], service: la[4], overall: la[5], worthIt: la[6], comment: la[7], submitterHash: MOCK_HASH } as never,
+      })
+      ratings++
+    }
   }
-  console.log(`seed-stays: ${rows.length} approved mock stays on ${hotel.name}, with a mock lounge`)
+  console.log(`seed-stays: ${rows.length} approved mock stays on ${hotel.name}, a mock lounge and ${ratings} lounge ratings`)
 }
 
 async function unseedStays(payload: Payload) {
   const res = await payload.delete({ collection: 'reader-stays', where: { submitterHash: { equals: MOCK_HASH } }, overrideAccess: true })
+  const r = await payload.delete({ collection: 'lounge-ratings', where: { submitterHash: { equals: MOCK_HASH } }, overrideAccess: true })
   const l = await payload.delete({ collection: 'lounges', where: { slug: { equals: 'mock-park-club-new-york' } }, overrideAccess: true })
-  console.log(`unseed-stays: removed ${res.docs.length} mock stays and ${l.docs.length} mock lounge`)
+  console.log(`unseed-stays: removed ${res.docs.length} mock stays, ${r.docs.length} lounge ratings and ${l.docs.length} mock lounge`)
 }
 
 // Program logos from Webflow, downloaded into public/images/programs so the

@@ -186,7 +186,7 @@ export default async function HotelPage({ params }: Props) {
               <span className="eyebrow">Stayed here on status?</span>
               <h3 className={styles.stayTitle}>Add your stay. Two minutes.</h3>
               {program && tiers.length > 0 ? (
-                <StayForm hotel={{ id: hotel.id, name: hotel.name }} programName={program.name} tiers={tiers} lounges={lounges.map((l) => ({ id: l.id, name: l.name }))} compact />
+                <StayForm hotel={{ id: hotel.id, name: hotel.name }} programName={program.name} tiers={tiers} compact />
               ) : (
                 <p className={styles.empty}>This program's tiers are not set up yet.</p>
               )}

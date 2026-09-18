@@ -3,15 +3,11 @@
 import { useActionState, useState } from 'react'
 
 import { submitStay, type SubmitStayState } from '@/app/actions/submitStay'
-import { ALA_CARTE_CAP, BREAKFAST_OUTCOMES, LATE_CHECKOUT_OUTCOMES, LOUNGE_ACCESS, LOUNGE_COMMENT_MAX, LOUNGE_FACTORS, type LoungeFactor, LOUNGE_WORTH_IT, SUITE_TYPES, UPGRADE_HOW, UPGRADE_OUTCOMES, UPGRADE_TYPES } from '@/lib/stayOptions'
+import { ALA_CARTE_CAP, BREAKFAST_OUTCOMES, LATE_CHECKOUT_OUTCOMES, SUITE_TYPES, UPGRADE_HOW, UPGRADE_OUTCOMES, UPGRADE_TYPES } from '@/lib/stayOptions'
 
-import { useReader } from '@/lib/useReader'
-
-import { SegmentBar } from './SegmentBar'
 import styles from './StayForm.module.css'
 
 export type StayFormTier = { id: number; name: string; shortName?: string | null }
-export type StayFormLounge = { id: number; name: string }
 
 type Option = { label: string; value: string }
 
@@ -37,15 +33,11 @@ function Select({ name, label, options, placeholder, value, onChange }: { name: 
 
 // Two minutes, dropdowns only. Hotel and program come from the page. The
 // upgrade and breakfast questions unfold only as far as the answer needs.
-export function StayForm({ hotel, programName, tiers, lounges = [], compact }: { hotel: { id: number; name: string }; programName: string; tiers: StayFormTier[]; lounges?: StayFormLounge[]; compact?: boolean }) {
+export function StayForm({ hotel, programName, tiers, compact }: { hotel: { id: number; name: string }; programName: string; tiers: StayFormTier[]; compact?: boolean }) {
   const [state, action, pending] = useActionState<SubmitStayState, FormData>(submitStay, null)
   const [upgrade, setUpgrade] = useState('')
   const [upgradeType, setUpgradeType] = useState('')
   const [breakfast, setBreakfast] = useState('')
-  const [loungeId, setLoungeId] = useState(lounges.length === 1 ? String(lounges[0].id) : '')
-  const [loungeAccess, setLoungeAccess] = useState('')
-  const reader = useReader()
-  const [loungeScores, setLoungeScores] = useState<Record<LoungeFactor, number>>({ food: 0, drink: 0, space: 0, service: 0, overall: 0 })
   const now = new Date()
   const years = Array.from({ length: 6 }, (_, i) => now.getFullYear() - i)
 
@@ -106,42 +98,6 @@ export function StayForm({ hotel, programName, tiers, lounges = [], compact }: {
       )}
 
       <Select name="lateCheckout" label="Late checkout" placeholder="What happened" options={LATE_CHECKOUT_OUTCOMES} />
-
-      {lounges.length > 0 && (
-        <>
-          {lounges.length === 1 ? (
-            <input type="hidden" name="lounge" value={lounges[0].id} />
-          ) : (
-            <Select name="lounge" label="Which lounge" placeholder="Choose a lounge" options={lounges.map((l) => ({ value: String(l.id), label: l.name }))} value={loungeId} onChange={setLoungeId} />
-          )}
-          {loungeId && (
-            <>
-              <Select name="loungeAccess" label={`Lounge access · ${lounges.find((l) => String(l.id) === loungeId)?.name ?? 'lounge'}`} placeholder="What happened" options={LOUNGE_ACCESS} value={loungeAccess} onChange={setLoungeAccess} />
-              {loungeAccess === 'given' && (
-                <div className={styles.follow}>
-                  <p className={styles.hint}>Tap the bar to score each one, 1 to 5.</p>
-                  {LOUNGE_FACTORS.map((f) => (
-                    <SegmentBar key={f.name} name={`lounge_${f.name}`} label={f.label} value={loungeScores[f.name]} onChange={(v) => setLoungeScores((s) => ({ ...s, [f.name]: v }))} />
-                  ))}
-                  <Select name="loungeWorthIt" label="Worth booking a club room for it?" placeholder="Yes or no" options={LOUNGE_WORTH_IT} />
-                </div>
-              )}
-              {loungeAccess && reader.loaded && (
-                reader.signedIn && !reader.blocked ? (
-                  <label className={styles.field}>
-                    <span className="label">A line about the lounge · optional{reader.name ? ` · as ${reader.name}` : ''}</span>
-                    <textarea name="loungeComment" maxLength={LOUNGE_COMMENT_MAX} rows={3} placeholder="What was good, what was not. Read before it posts." />
-                  </label>
-                ) : (
-                  <p className={styles.hint}>
-                    <a href={`/login?next=${encodeURIComponent(typeof window !== 'undefined' ? window.location.pathname : '/')}`}>Sign in</a> to add a line about the lounge under your name. Scores count either way.
-                  </p>
-                )
-              )}
-            </>
-          )}
-        </>
-      )}
 
       {state && !state.ok && (
         <p className={styles.error} role="alert">

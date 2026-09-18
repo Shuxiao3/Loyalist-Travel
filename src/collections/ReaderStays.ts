@@ -6,7 +6,7 @@ import type { CollectionConfig, PayloadRequest } from 'payload'
 // only once a hotel has five or more approved stays.
 
 export * from '../lib/stayOptions'
-import { LOUNGE_ACCESS, LOUNGE_COMMENT_MAX, LOUNGE_FACTORS, LOUNGE_WORTH_IT, UPGRADE_OUTCOMES, UPGRADE_TYPES, SUITE_TYPES, UPGRADE_HOW, BREAKFAST_OUTCOMES, ALA_CARTE_CAP, LATE_CHECKOUT_OUTCOMES } from '../lib/stayOptions'
+import { UPGRADE_OUTCOMES, UPGRADE_TYPES, SUITE_TYPES, UPGRADE_HOW, BREAKFAST_OUTCOMES, ALA_CARTE_CAP, LATE_CHECKOUT_OUTCOMES } from '../lib/stayOptions'
 
 // After any change or delete, recount the hotel's approved stays. Plain SQL
 // inside the request's transaction: a document update here would write a
@@ -89,36 +89,11 @@ export const ReaderStays: CollectionConfig = {
       ],
     },
     {
-      name: 'lounge',
-      type: 'group',
-      admin: { description: 'Asked only where the hotel has a lounge on record.' },
-      fields: [
-        {
-          type: 'row',
-          fields: [
-            { name: 'lounge', type: 'relationship', relationTo: 'lounges', index: true },
-            { name: 'access', type: 'select', options: LOUNGE_ACCESS },
-            { name: 'worthIt', type: 'select', options: LOUNGE_WORTH_IT, label: 'Worth a club room?' },
-          ],
-        },
-        {
-          type: 'row',
-          fields: LOUNGE_FACTORS.map((f) => ({ name: f.name, label: f.label, type: 'number' as const, min: 1, max: 5, admin: { description: '1 to 5.' } })),
-        },
-        {
-          name: 'comment',
-          type: 'textarea',
-          maxLength: LOUNGE_COMMENT_MAX,
-          admin: { description: 'Shown on the lounge page once the stay is approved. Read it first.' },
-        },
-      ],
-    },
-    {
       name: 'reader',
       type: 'relationship',
       relationTo: 'readers',
       index: true,
-      admin: { position: 'sidebar', description: 'Set when the stay was submitted while signed in. Names the lounge rating and comment; the stay itself stays anonymous.' },
+      admin: { position: 'sidebar', description: 'Set when the stay was submitted while signed in. Shows the display name on the latest-stays list.' },
     },
     {
       name: 'submitterHash',
