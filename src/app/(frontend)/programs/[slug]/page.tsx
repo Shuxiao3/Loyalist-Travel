@@ -7,6 +7,8 @@ import { count } from '@/lib/format'
 import { getHotelsIn, getPayloadClient, getProgram } from '@/lib/queries'
 import type { StatusLevel } from '@/payload-types'
 
+import { pageMeta } from '@/lib/seo'
+
 import styles from './page.module.css'
 
 export const revalidate = 300
@@ -15,7 +17,7 @@ type Props = { params: Promise<{ slug: string }> }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const p = await getProgram((await params).slug)
-  return p ? { title: p.seo?.title ?? p.name, description: p.seo?.description ?? p.shortDescription ?? undefined } : {}
+  return p ? pageMeta({ title: p.seo?.title ?? p.name, description: p.seo?.description ?? p.shortDescription, path: `/programs/${p.slug}`, image: p.images?.heroImageUrl }) : {}
 }
 
 export default async function ProgramPage({ params }: Props) {

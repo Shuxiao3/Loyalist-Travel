@@ -1,13 +1,12 @@
 import type { Metadata } from 'next'
 
+import { pageMeta } from '@/lib/seo'
+
 import { StayPicker } from '@/components/StayPicker'
 
 import styles from './page.module.css'
 
-export const metadata: Metadata = {
-  title: 'Submit a stay',
-  description: 'Two minutes, no typing. Your upgrade, breakfast and late-checkout outcome joins the data for that hotel.',
-}
+export const metadata: Metadata = pageMeta({ title: 'Submit a stay', description: 'Two minutes, no typing. Your upgrade, breakfast and late-checkout outcome joins the data for that hotel.', path: '/submit-a-stay' })
 
 export default function SubmitStayPage() {
   return (

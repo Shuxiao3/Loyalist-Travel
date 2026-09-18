@@ -1,4 +1,6 @@
 import type { Metadata } from 'next'
+
+import { pageMeta } from '@/lib/seo'
 import Link from 'next/link'
 
 import { LandingHero } from '@/components/LandingHero'
@@ -13,10 +15,7 @@ import styles from './page.module.css'
 
 export const revalidate = 300
 
-export const metadata: Metadata = {
-  title: 'Reviews',
-  description: 'Every scored stay, on a 100-point rubric, written from a full stay and never a site inspection.',
-}
+export const metadata: Metadata = pageMeta({ title: 'Reviews', description: 'Every scored stay, on a 100-point rubric, written from a full stay and never a site inspection.', path: '/reviews' })
 
 const PER_PAGE = 12
 

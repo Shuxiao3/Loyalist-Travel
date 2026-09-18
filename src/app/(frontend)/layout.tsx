@@ -7,6 +7,7 @@ import '@/styles/globals.css'
 import '@/styles/patterns.css'
 
 import { SiteFooter } from '@/components/SiteFooter'
+import { DEFAULT_DESCRIPTION, DEFAULT_TITLE, SITE_URL } from '@/lib/seo'
 import { SiteHeader } from '@/components/SiteHeader'
 
 // Google Fonts, self-hosted via next/font. The variables feed --serif and
@@ -26,12 +27,23 @@ const lato = Lato({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Loyalist Travel | Luxury hotel reviews, scored. Elite benefits, reported.',
+    default: DEFAULT_TITLE,
     template: '%s | Loyalist Travel',
   },
-  description:
-    'Luxury hotels scored on a 100-point rubric. Elite benefits reported as they happened, not as printed. Lounges rated by the people who sat in them.',
+  description: DEFAULT_DESCRIPTION,
+  alternates: { canonical: '/' },
+  openGraph: {
+    type: 'website',
+    siteName: 'Loyalist Travel',
+    locale: 'en_US',
+    url: '/',
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
+  },
+  twitter: { card: 'summary_large_image' },
+  robots: { index: true, follow: true },
 }
 
 // The palette is fixed in both colour schemes; never invert for dark mode.

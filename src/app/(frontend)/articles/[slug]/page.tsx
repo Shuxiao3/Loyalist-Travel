@@ -10,6 +10,8 @@ import { rel, shortDate } from '@/lib/format'
 import { SITE } from '@/lib/site'
 import type { Article, Destination, Hotel, Lounge, Program } from '@/payload-types'
 
+import { pageMeta } from '@/lib/seo'
+
 import styles from './page.module.css'
 
 export const revalidate = 300
@@ -19,7 +21,7 @@ type Props = { params: Promise<{ slug: string }> }
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const article = await getArticle((await params).slug)
   if (!article) return {}
-  return { title: article.title, description: article.dek ?? undefined }
+  return pageMeta({ title: article.title, description: article.dek, path: `/articles/${article.slug}`, image: articleImage(article), type: 'article' })
 }
 
 export default async function ArticlePage({ params }: Props) {

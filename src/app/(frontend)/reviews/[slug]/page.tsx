@@ -11,6 +11,8 @@ import { bandFor, categoriesFor, groupMax, labelFor, REVIEW_SECTIONS } from '@/l
 import { PROPERTY_TYPE_LABEL, RATE_BASIS_LABEL, SITE } from '@/lib/site'
 import type { Brand, Destination, Hotel, Program, Review, RubricVersion, StatusLevel } from '@/payload-types'
 
+import { pageMeta } from '@/lib/seo'
+
 import styles from './page.module.css'
 
 export const revalidate = 300
@@ -21,10 +23,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const review = await getReview(slug)
   if (!review) return {}
-  return {
+  const hotel = rel<Hotel>(review.hotel)
+  return pageMeta({
     title: review.seo?.title ?? `${review.title} review, scored ${score(review.totals?.overall)} of 100`,
-    description: review.seo?.description ?? review.shortVerdict ?? undefined,
-  }
+    description: review.seo?.description ?? review.shortVerdict,
+    path: `/reviews/${review.slug}`,
+    image: review.externalImageUrl ?? hotel?.externalImageUrl,
+    type: 'article',
+  })
 }
 
 const ELITE: { key: 'upgrade' | 'breakfast' | 'lateCheckout' | 'welcomeAmenity' | 'clubLounge' | 'guestOfHonor'; label: string; outcomes: Record<string, string> }[] = [

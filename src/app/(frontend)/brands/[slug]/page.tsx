@@ -5,6 +5,7 @@ import { ReferenceBody } from '@/components/ReferenceBody'
 import { ReferenceHero } from '@/components/ReferenceHero'
 import { count, rel } from '@/lib/format'
 import { getBrand, getHotelsIn, getPayloadClient } from '@/lib/queries'
+import { pageMeta } from '@/lib/seo'
 import type { Program } from '@/payload-types'
 
 export const revalidate = 300
@@ -13,7 +14,7 @@ type Props = { params: Promise<{ slug: string }> }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const brand = await getBrand((await params).slug)
-  return brand ? { title: brand.name, description: brand.shortDescription ?? undefined } : {}
+  return brand ? pageMeta({ title: brand.name, description: brand.shortDescription, path: `/brands/${brand.slug}` }) : {}
 }
 
 export default async function BrandPage({ params }: Props) {

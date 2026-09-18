@@ -1,4 +1,6 @@
 import type { Metadata } from 'next'
+
+import { pageMeta } from '@/lib/seo'
 import Link from 'next/link'
 
 import { Arrow } from '@/components/Band'
@@ -10,10 +12,7 @@ import styles from './page.module.css'
 
 export const revalidate = 300
 
-export const metadata: Metadata = {
-  title: 'Loyalty programs',
-  description: 'World of Hyatt, Marriott Bonvoy, IHG One Rewards and Hilton Honors: elite tiers, what each actually delivers, and every hotel indexed under each.',
-}
+export const metadata: Metadata = pageMeta({ title: 'Loyalty programs', description: 'World of Hyatt, Marriott Bonvoy, IHG One Rewards and Hilton Honors: elite tiers, what each actually delivers, and every hotel indexed under each.', path: '/programs' })
 
 export default async function ProgramsIndex() {
   const programs = await getPrograms()

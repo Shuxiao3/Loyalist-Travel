@@ -1,4 +1,6 @@
 import type { Metadata } from 'next'
+
+import { pageMeta } from '@/lib/seo'
 import Link from 'next/link'
 
 import { LandingHero } from '@/components/LandingHero'
@@ -11,10 +13,7 @@ import styles from './page.module.css'
 
 export const revalidate = 300
 
-export const metadata: Metadata = {
-  title: 'Lounges',
-  description: 'Club and executive lounges: who gets in, hours, what is served, and whether it beats the restaurant, scored by readers who sat in them.',
-}
+export const metadata: Metadata = pageMeta({ title: 'Lounges', description: 'Club and executive lounges: who gets in, hours, what is served, and whether it beats the restaurant, scored by readers who sat in them.', path: '/lounges' })
 
 type Props = { searchParams: Promise<Record<string, string | string[] | undefined>> }
 const first = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v) || undefined

@@ -13,6 +13,7 @@ import { rel, score } from '@/lib/format'
 import { getHotel, getHotelsIn, getPayloadClient, getReviewsForHotel } from '@/lib/queries'
 import { accessLine, getLoungesForHotel, loungeReaderData, servicesLine } from '@/lib/lounges'
 import { hotelReaderData, latestStays } from '@/lib/readerData'
+import { pageMeta } from '@/lib/seo'
 import { PROPERTY_TYPE_LABEL } from '@/lib/site'
 import type { Amenity, Brand, Destination, Program } from '@/payload-types'
 
@@ -27,10 +28,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const hotel = await getHotel(slug)
   if (!hotel) return {}
   const destination = rel<Destination>(hotel.destination)
-  return {
-    title: `${hotel.name}${destination ? `, ${destination.name}` : ''}`,
-    description: [rel<Brand>(hotel.brand)?.name, destination ? `in ${destination.locationLabel ?? destination.name}` : null].filter(Boolean).join(' ') || undefined,
-  }
+  const program = rel<Program>(hotel.program)
+  const brand = rel<Brand>(hotel.brand)
+  const where = destination ? ` in ${destination.locationLabel ?? destination.name}` : ''
+  const elites = program ? `${program.name} elites` : 'elite members'
+  const description = hotel.reviewStatus === 'reviewed'
+    ? `${hotel.name}${where}: our scored review, plus reader-reported upgrade odds, breakfast and late checkout outcomes for ${elites}.`
+    : `${hotel.name}${where}${brand ? `, ${brand.name}` : ''}: reader-reported upgrade odds, breakfast and late checkout outcomes for ${elites}. Add your stay in two minutes.`
+  return pageMeta({ title: `${hotel.name}${destination ? `, ${destination.name}` : ''}`, description, path: `/hotels/${hotel.slug}`, image: hotel.externalImageUrl })
 }
 
 export default async function HotelPage({ params }: Props) {

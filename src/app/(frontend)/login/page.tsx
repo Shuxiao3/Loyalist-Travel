@@ -6,7 +6,7 @@ import { auth, authEnabled, signIn } from '@/auth'
 
 import styles from './page.module.css'
 
-export const metadata: Metadata = { title: 'Sign in', description: 'Sign in to put your name on lounge ratings and comments.' }
+export const metadata: Metadata = { title: 'Sign in', description: 'Sign in to put your name on lounge ratings and comments.', robots: { index: false, follow: false } }
 export const dynamic = 'force-dynamic'
 
 type Props = { searchParams: Promise<{ next?: string; error?: string }> }

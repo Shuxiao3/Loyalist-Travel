@@ -7,7 +7,7 @@ import { currentReader } from '@/lib/reader'
 
 import styles from './page.module.css'
 
-export const metadata: Metadata = { title: 'Your account' }
+export const metadata: Metadata = { title: 'Your account', robots: { index: false, follow: false } }
 export const dynamic = 'force-dynamic'
 
 export default async function AccountPage() {
