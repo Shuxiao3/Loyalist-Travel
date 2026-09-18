@@ -1,0 +1,69 @@
+# Downloads a photograph into the repository and points a hotel at it, so
+# the site serves the image itself instead of hotlinking another host.
+#
+# Manual: Actions tab → "Add a hotel photo" → Run workflow, with the hotel's
+# slug (from its URL on the site) and the address of the image.
+name: Add a hotel photo
+
+on:
+  workflow_dispatch:
+    inputs:
+      slug:
+        description: 'Hotel slug, e.g. hyatt-centric-downtown-denver'
+        required: true
+      url:
+        description: 'Image address (jpg, png or webp)'
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  photo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Download
+        run: |
+          set -e
+          slug='${{ github.event.inputs.slug }}'
+          url='${{ github.event.inputs.url }}'
+          tmp=$(mktemp)
+          curl -fsSL -A 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Safari/537.36' -o "$tmp" "$url"
+          type=$(file -b --mime-type "$tmp")
+          case "$type" in
+            image/jpeg) ext=jpg ;;
+            image/png) ext=png ;;
+            image/webp) ext=webp ;;
+            *) echo "Not an image: $type"; exit 1 ;;
+          esac
+          mkdir -p public/images/hotels
+          rm -f public/images/hotels/"$slug".*
+          mv "$tmp" public/images/hotels/"$slug.$ext"
+          node -e "
+            const fs = require('fs');
+            const f = 'data/images.json';
+            const d = JSON.parse(fs.readFileSync(f, 'utf8'));
+            d.hotels = d.hotels || {};
+            d.hotels['$slug'] = '/images/hotels/$slug.$ext';
+            fs.writeFileSync(f, JSON.stringify(d, null, 2) + '\n');
+          "
+          ls -la public/images/hotels
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add public/images/hotels data/images.json
+          git commit -m "Photo: ${{ github.event.inputs.slug }}" || echo "nothing to commit"
+          git push
+      - run: npm ci
+      - name: Point the hotel at it
+        run: npm run import:webflow -- images
