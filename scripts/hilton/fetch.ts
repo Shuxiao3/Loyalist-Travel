@@ -136,6 +136,8 @@ async function mapLimit<T, R>(items: T[], limit: number, fn: (t: T) => Promise<R
 // Every hotel home page URL. The index lists one sitemap per language, each
 // with ~1,000 children named by type (location, hotel, ...). Only the
 // English tree is walked, and only the children whose name matches TYPES.
+const SITEMAP_BRAND = new Map<string, string>() // hotel url -> brand code from the sitemap file it was listed in
+
 async function discover(): Promise<string[]> {
   const index = await get('https://www.hilton.com/sitemap.xml')
   if (index.status !== 200) throw new Error(`sitemap index: HTTP ${index.status}`)
@@ -173,10 +175,12 @@ async function discover(): Promise<string[]> {
       return
     }
     const entries = locs(body)
+    const brand = url.replace(/^.*\//, '').match(/^sitemap-en-prop-([a-z]{2})-/)?.[1].toUpperCase() ?? null
     let hotels = 0
     for (const loc of entries) {
       if (HOTEL_URL.test(loc)) {
         seen.add(loc)
+        if (brand) SITEMAP_BRAND.set(loc, brand)
         hotels++
       }
     }
@@ -311,6 +315,12 @@ async function main() {
   // keep records from earlier runs for pages not fetched this time (a --limit run)
   const merged = new Map<string, HiltonHotel>(Object.entries(existing))
   for (const r of results) merged.set(r.url, r)
+  // the sitemap a hotel was listed under is the authoritative brand; the
+  // code inside the hotel code has variants (HF, TW, HN for Hilton, CI for Conrad)
+  for (const r of merged.values()) {
+    const b = SITEMAP_BRAND.get(r.url)
+    if (b) r.brandCode = b
+  }
   const all = [...merged.values()].sort((a, b) => a.url.localeCompare(b.url))
   fs.mkdirSync(path.dirname(OUT), { recursive: true })
   fs.writeFileSync(OUT, JSON.stringify(all, null, 1) + '\n')
