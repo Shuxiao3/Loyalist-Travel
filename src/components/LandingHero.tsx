@@ -36,9 +36,9 @@ export function LandingHero({ eyebrow, title, text, stats, card, photo, children
               {card.meta.length > 0 && (
                 <span className={styles.meta}>
                   {card.meta.map((m, j) => (
-                    <span key={m}>
+                    <span key={m} className={styles.metaItem}>
                       {j > 0 && <span className="dot">·</span>}
-                      {m}
+                      <span>{m}</span>
                     </span>
                   ))}
                 </span>

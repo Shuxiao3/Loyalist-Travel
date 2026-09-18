@@ -32,7 +32,7 @@ export async function getReviews(opts: { limit?: number; page?: number; excludeI
   if (opts.program) and.push({ 'hotel.program.slug': { equals: opts.program } })
   if (opts.country) and.push({ 'hotel.destination.country': { equals: opts.country } })
   if (opts.type === 'city' || opts.type === 'resort') and.push({ propertyType: { equals: opts.type } })
-  const sort = opts.sort === 'top' ? '-totals.overall' : opts.sort === 'low' ? 'totals.overall' : '-publishedDate'
+  const sort = opts.sort === 'top' ? '-totals.overall' : opts.sort === 'low' ? 'totals.overall' : '-stayDate'
   return payload.find({
     collection: 'reviews',
     where: { and },

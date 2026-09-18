@@ -27,7 +27,8 @@ export default async function ReviewsIndex({ searchParams }: Props) {
   const page = Math.max(1, Number(first(sp.page)) || 1)
   const filters: ReviewFilters = { program: first(sp.program), country: first(sp.country), type: first(sp.type), sort: first(sp.sort) }
   const active = Boolean(filters.program || filters.country || filters.type)
-  const [result, latestRes, stats, options] = await Promise.all([getReviews({ limit: PER_PAGE, page, ...filters }), getReviews({ limit: 1 }), getReviewStats(), getHotelFilterOptions()])
+  const [result, latestRes, topRes, stats, options] = await Promise.all([getReviews({ limit: PER_PAGE, page, ...filters }), getReviews({ limit: 1 }), getReviews({ limit: 3, sort: 'top' }), getReviewStats(), getHotelFilterOptions()])
+  const podium = topRes.docs.filter((r) => typeof r.totals?.overall === 'number')
 
   const href = (p: number) => {
     const q = new URLSearchParams()
@@ -46,8 +47,8 @@ export default async function ReviewsIndex({ searchParams }: Props) {
     <>
       <LandingHero
         eyebrow="Scored stays"
-        title="Every review, scored."
-        text="Sixteen categories, one hundred points, every one of them from a stay we paid for. Elite benefits are reported alongside, never scored."
+        title="Brand Hotel Reviews"
+        text="Every stay is booked under a private name and paid for in full, so the hotel has no idea it is being reviewed. Sixteen categories, one hundred points, the same rubric every time."
         photo={image}
         stats={[
           { n: count(stats.count), l: 'Scored stays' },
@@ -126,11 +127,37 @@ export default async function ReviewsIndex({ searchParams }: Props) {
         </div>
       </section>
 
+      {!active && !filters.sort && page === 1 && podium.length === 3 && (
+        <section className={`section ${styles.podium}`} aria-labelledby="podium-h">
+          <div className="wrap">
+            <div className="section-head">
+              <div>
+                <span className="eyebrow on-light">The podium</span>
+                <h2 id="podium-h">Highest scored stays</h2>
+              </div>
+              <Link className="more" href="/reviews?sort=top">
+                Ranked list
+              </Link>
+            </div>
+            <div className={`cards ${styles.podiumCards}`}>
+              {podium.map((r, i) => (
+                <div className={`${styles.place} ${[styles.gold, styles.silver, styles.bronze][i]}`} key={r.id}>
+                  <span className={styles.medal} aria-label={['First', 'Second', 'Third'][i]}>
+                    {i + 1}
+                  </span>
+                  <ReviewCard review={r} tone={(['a', 'b', 'c'] as const)[i]} />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       <section className={`section ${styles.list}`}>
         <div className="wrap">
           <div className="section-head">
             <div>
-              <span className="eyebrow on-light">{active ? 'Filtered' : 'All reviews'}</span>
+              <span className="eyebrow on-light">{active ? 'Filtered' : filters.sort ? 'Ranked' : 'Most recent'}</span>
               <h2>
                 {count(result.totalDocs)} {result.totalDocs === 1 ? 'review' : 'reviews'}
                 {active ? ' match' : ''}

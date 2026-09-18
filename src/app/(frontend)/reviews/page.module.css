@@ -46,6 +46,53 @@
   padding: 12px 22px;
 }
 
+/* the top three, with a medal on each card */
+.podium {
+  padding-bottom: 0;
+}
+
+.podiumCards {
+  padding-bottom: var(--s7);
+  border-bottom: 1px solid var(--line);
+}
+
+.place {
+  position: relative;
+  --medal: var(--gold-dark);
+  --medal-text: var(--ivory);
+}
+
+.place :global(.card) {
+  border-color: var(--medal);
+}
+
+.silver {
+  --medal: #a6a9ad;
+  --medal-text: #1d2126;
+}
+
+.bronze {
+  --medal: #a8703f;
+}
+
+.medal {
+  position: absolute;
+  z-index: 1;
+  top: var(--s4);
+  left: var(--s4);
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--medal);
+  color: var(--medal-text);
+  font-family: var(--serif);
+  font-size: var(--t-lg);
+  line-height: 1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
 .list {
   padding-bottom: var(--section);
 }

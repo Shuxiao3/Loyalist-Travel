@@ -116,10 +116,10 @@ export default async function HomePage() {
           </div>
         }
       >
-        <span className="eyebrow">Luxury hotel reviews, scored</span>
-        <h1 className={styles.h1}>What your status actually gets you.</h1>
+        <span className="eyebrow">Loyalty travel, reported</span>
+        <h1 className={styles.h1}>Hotel reviews, upgrade odds and lounges rated.</h1>
         <p className={`sub ${styles.sub}`}>
-          Hotels scored on a 100-point rubric. Elite benefits reported as they happened, not as printed. Lounges rated by the people who sat in them.
+          Readers report what their status actually got them, so every hotel shows its real upgrade odds. Club lounges are rated by the people who sat in them. And every review is scored on the same 100-point rubric.
         </p>
         <div className={styles.ctas}>
           <Link className="btn" href="/reviews">

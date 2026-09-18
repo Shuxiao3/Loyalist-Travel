@@ -523,6 +523,23 @@ async function unseedStays(payload: Payload) {
   console.log(`unseed-stays: removed ${res.docs.length} mock stays and ${l.docs.length} mock lounge`)
 }
 
+// Photographs from data/images.json, by hotel slug, onto externalImageUrl.
+async function applyImages(payload: Payload) {
+  const file = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'data/images.json'), 'utf8')) as { hotels?: Record<string, string> }
+  let n = 0
+  for (const [slug, url] of Object.entries(file.hotels ?? {})) {
+    const hotel = (await payload.find({ collection: 'hotels', where: { slug: { equals: slug } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
+    if (!hotel) {
+      console.log(`images: no hotel with slug ${slug}`)
+      continue
+    }
+    if (hotel.externalImageUrl === url) continue
+    await payload.update({ collection: 'hotels', id: hotel.id, data: { externalImageUrl: url }, overrideAccess: true })
+    n++
+  }
+  console.log(`images: set ${n} hotel photograph(s)`)
+}
+
 // ---- main -------------------------------------------------------------------
 
 const STEPS: Record<string, (p: Payload) => Promise<void>> = {
@@ -540,6 +557,7 @@ const STEPS: Record<string, (p: Payload) => Promise<void>> = {
   logos: importLogos,
   'seed-stays': seedStays,
   'unseed-stays': unseedStays,
+  images: applyImages,
 }
 
 async function main() {

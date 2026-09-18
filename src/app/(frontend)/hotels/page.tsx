@@ -57,14 +57,9 @@ export default async function HotelsIndex({ searchParams }: Props) {
   return (
     <>
       <LandingHero
-        eyebrow="Hotel index"
-        title={
-          <>
-            {count(result.totalDocs)} {result.totalDocs === 1 ? 'hotel' : 'hotels'}
-            {active ? ' match' : ''}
-          </>
-        }
-        text="Every property across four programs, with brand and place. Scored stays are marked. The rest are indexed so a hotel page exists before the review does."
+        eyebrow="Hotel"
+        title="Every hotel, indexed."
+        text="Search by name, or filter by program, brand and country. Each hotel page carries the upgrade odds readers have reported there, its lounge if it has one, and the review when there is one."
         photo={fHotel?.externalImageUrl}
         stats={[
           { n: count(counts.hotels), l: 'Hotels indexed' },
@@ -151,6 +146,15 @@ export default async function HotelsIndex({ searchParams }: Props) {
 
       <section className={`section ${styles.results}`}>
         <div className="wrap">
+          <div className="section-head">
+            <div>
+              <span className="eyebrow on-light">{active ? 'Filtered' : 'A to Z'}</span>
+              <h2>
+                {count(result.totalDocs)} {result.totalDocs === 1 ? 'hotel' : 'hotels'}
+                {active ? ' match' : ''}
+              </h2>
+            </div>
+          </div>
           {result.docs.length > 0 ? (
             <HotelList hotels={result.docs} />
           ) : (

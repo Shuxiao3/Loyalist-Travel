@@ -1,7 +1,7 @@
 // Site-wide constants. Editorial facts that are not (yet) content.
 export const SITE = {
   name: 'Loyalist Travel',
-  author: 'Austin Shuxiao',
+  author: 'The Loyalist', // pen name; the site never carries a real name
   rubricNote: 'Scores follow the Loyalist Travel rubric, v15. No paid placements, no sponsored stays.',
 }
 
