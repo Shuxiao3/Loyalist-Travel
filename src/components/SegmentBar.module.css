@@ -1,0 +1,72 @@
+/* Five-segment score picker, on navy inside the stay form. */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+  min-width: 0;
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--s3);
+}
+
+.head :global(.label) {
+  color: var(--on-navy-muted);
+}
+
+.value {
+  font-family: var(--serif);
+  font-size: var(--t-md);
+  color: var(--gold);
+  line-height: 1;
+}
+
+.bar {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 3px;
+}
+
+.seg {
+  height: 22px;
+  border: 1px solid var(--gold-border);
+  background: var(--navy-deep);
+  border-radius: 2px;
+  cursor: pointer;
+  padding: 0;
+  transition: background 120ms ease, border-color 120ms ease;
+}
+
+.seg:first-child {
+  border-radius: var(--r-btn) 2px 2px var(--r-btn);
+}
+
+.seg:last-child {
+  border-radius: 2px var(--r-btn) var(--r-btn) 2px;
+}
+
+.on {
+  background: var(--gold);
+  border-color: var(--gold);
+}
+
+.preview {
+  background: var(--gold-deeper);
+  border-color: var(--gold-deeper);
+}
+
+.seg:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+@media (hover: none) {
+  .preview {
+    background: var(--gold);
+    border-color: var(--gold);
+  }
+}

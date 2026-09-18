@@ -33,9 +33,35 @@
   border-radius: var(--r-btn);
 }
 
-.field select:focus-visible {
+.field select:focus-visible,
+.field textarea:focus-visible {
   outline: 2px solid var(--gold);
   outline-offset: 2px;
+}
+
+.field textarea {
+  width: 100%;
+  min-width: 0;
+  background: var(--navy-deep);
+  border: 1px solid var(--gold-border);
+  color: var(--ivory);
+  padding: 12px 16px;
+  font: inherit;
+  font-size: var(--t-sm);
+  line-height: 1.5;
+  border-radius: var(--r-btn);
+  resize: vertical;
+}
+
+.field textarea::placeholder {
+  color: var(--on-navy-dim);
+}
+
+.hint {
+  font-size: var(--t-xs);
+  color: var(--on-navy-dim);
+  letter-spacing: var(--track-fine);
+  margin: 0;
 }
 
 /* follow-up questions, indented under the answer that opened them */

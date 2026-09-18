@@ -21,7 +21,10 @@ export function LoungeRows({ rows }: { rows: LoungeRow[] }) {
           <div className={styles.s}>
             {data?.score != null ? (
               <>
-                <div className={styles.v}>{data.score.toFixed(1)}</div>
+                <div className={styles.v}>
+                  {data.score.toFixed(1)}
+                  <span className={styles.of}>/5</span>
+                </div>
                 <div className={styles.l}>Reader score</div>
               </>
             ) : (

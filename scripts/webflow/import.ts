@@ -482,10 +482,24 @@ async function seedStays(payload: Payload) {
     })
   }
   // [access, rating, worthIt] for the Globalist and Lifetime rows; the others are not eligible
-  const loungeAnswers: ([string, number | null, string | null] | null)[] = [
-    ['given', 9, 'yes'], ['given', 8, 'yes'], ['given', 7, 'no'], ['declined', null, null], ['given', 9, 'yes'], ['given', 8, 'yes'],
-    ['given', 9, 'yes'], ['not-used', null, null], ['given', 8, 'yes'], ['given', 6, 'no'], ['given', 8, 'yes'], ['given', 9, 'yes'],
-    ['given', 9, 'yes'], ['given', 10, 'yes'], ['given', 8, 'yes'],
+  // [access, food, drink, space, service, overall, worthIt, comment]
+  type LA = [string, number | null, number | null, number | null, number | null, number | null, string | null, string | null]
+  const loungeAnswers: (LA | null)[] = [
+    ['given', 4, 4, 5, 4, 4, 'yes', 'Breakfast is the same kitchen as the restaurant, served in a quieter room. Evening spread is enough for dinner if you are not fussy.'],
+    ['given', 4, 3, 4, 4, 4, 'yes', null],
+    ['given', 3, 3, 4, 3, 3, 'no', 'Pleasant, but at these rates I would rather eat downstairs.'],
+    ['declined', null, null, null, null, null, null, 'Told Globalist access only comes with the club room now. Worth checking before you book.'],
+    ['given', 5, 4, 5, 5, 5, 'yes', 'Staff remembered our names by day two. The 25th-floor view at cocktail hour is the reason to book here.'],
+    ['given', 4, 4, 4, 4, 4, 'yes', null],
+    ['given', 4, 5, 5, 4, 5, 'yes', 'Proper cocktails, made to order, and a decent Sancerre. Rare.'],
+    ['not-used', null, null, null, null, null, null, null],
+    ['given', 4, 3, 4, 4, 4, 'yes', null],
+    ['given', 3, 2, 4, 3, 3, 'no', 'Wine list is thin and the canapés ran out by seven on a Saturday.'],
+    ['given', 4, 4, 4, 4, 4, 'yes', null],
+    ['given', 5, 4, 5, 5, 5, 'yes', null],
+    ['given', 5, 4, 5, 5, 5, 'yes', 'Lifetime here. Quietest lounge in the Hyatt system I have used, and the afternoon tea is genuinely good.'],
+    ['given', 5, 5, 5, 5, 5, 'yes', null],
+    ['given', 4, 4, 5, 4, 4, 'yes', null],
     null, null, null, null, null, null, null, null, null,
   ]
   let i = 0
@@ -496,7 +510,7 @@ async function seedStays(payload: Payload) {
       overrideAccess: true,
       data: {
         status: 'approved', hotel: hotel.id, program: programId, statusHeld, stayYear: 2026, upgrade, upgradeType, suiteType, upgradeHow, breakfast, alaCarteCap, lateCheckout, submitterHash: MOCK_HASH,
-        lounge: la ? { lounge: lounge.id, access: la[0], rating: la[1], worthIt: la[2] } : undefined,
+        lounge: la ? { lounge: lounge.id, access: la[0], food: la[1], drink: la[2], space: la[3], service: la[4], overall: la[5], worthIt: la[6], comment: la[7] } : undefined,
       } as never,
     })
   }

@@ -252,7 +252,7 @@ export default async function HomePage() {
             <div className={styles.ctaCol}>
               <span className="eyebrow">How it works</span>
               <h3>Dropdowns only. Checked before it counts.</h3>
-              <p>No name, no email, no free text. Every submission is reviewed, and a hotel shows its odds only once five stays are in.</p>
+              <p>No name, no email. Every submission is reviewed, and a hotel shows its odds only once five stays are in.</p>
             </div>
           </div>
         </div>

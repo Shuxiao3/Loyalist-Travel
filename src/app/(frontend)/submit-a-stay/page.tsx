@@ -16,7 +16,7 @@ export default function SubmitStayPage() {
         <div className="wrap">
           <span className="eyebrow">Reader data</span>
           <h1 className={styles.h1}>Stayed somewhere on status?</h1>
-          <p className="sub">Two minutes, dropdowns only. Your upgrade, breakfast and late-checkout outcome joins the data for that property, and the upgrade odds update for everyone. No name, no email, no comment.</p>
+          <p className="sub">Two minutes, dropdowns only. Your upgrade, breakfast and late-checkout outcome joins the data for that property, and the upgrade odds update for everyone. No name, no email.</p>
         </div>
       </header>
       <section className={`section ${styles.body}`}>

@@ -49,6 +49,13 @@
   color: var(--gold-dark);
 }
 
+.of {
+  font-family: var(--sans);
+  font-size: var(--t-xs);
+  color: var(--muted);
+  margin-left: 2px;
+}
+
 .l {
   font-size: var(--t-label);
   letter-spacing: var(--track-label);

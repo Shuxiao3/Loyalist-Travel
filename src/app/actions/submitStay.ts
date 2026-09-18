@@ -3,7 +3,7 @@
 import { createHash } from 'crypto'
 import { headers } from 'next/headers'
 
-import { ALA_CARTE_CAP, BREAKFAST_OUTCOMES, LATE_CHECKOUT_OUTCOMES, LOUNGE_ACCESS, LOUNGE_WORTH_IT, SUITE_TYPES, UPGRADE_HOW, UPGRADE_OUTCOMES, UPGRADE_TYPES } from '@/collections/ReaderStays'
+import { ALA_CARTE_CAP, BREAKFAST_OUTCOMES, LATE_CHECKOUT_OUTCOMES, LOUNGE_ACCESS, LOUNGE_COMMENT_MAX, LOUNGE_FACTORS, LOUNGE_WORTH_IT, SUITE_TYPES, UPGRADE_HOW, UPGRADE_OUTCOMES, UPGRADE_TYPES } from '@/collections/ReaderStays'
 import { getPayloadClient } from '@/lib/payload'
 
 export type SubmitStayState = { ok: true } | { ok: false; error: string } | null
@@ -30,8 +30,13 @@ export async function submitStay(_prev: SubmitStayState, form: FormData): Promis
   const lateCheckout = form.get('lateCheckout')
   const loungeId = form.get('lounge') ? Number(form.get('lounge')) : null
   const loungeAccess = form.get('loungeAccess')
-  const loungeRating = form.get('loungeRating') ? Number(form.get('loungeRating')) : null
   const loungeWorthIt = form.get('loungeWorthIt')
+  const loungeScores = Object.fromEntries(LOUNGE_FACTORS.map((f) => [f.name, form.get(`lounge_${f.name}`) ? Number(form.get(`lounge_${f.name}`)) : null]))
+  // Plain text only: trim, drop control characters, cap the length.
+  const loungeComment = String(form.get('loungeComment') ?? '')
+    .replace(/[\u0000-\u0008\u000b-\u001f\u007f]/g, '')
+    .trim()
+    .slice(0, LOUNGE_COMMENT_MAX)
 
   const now = new Date()
   if (!Number.isInteger(hotelId) || !Number.isInteger(tierId)) return { ok: false, error: 'Choose a hotel and the status you held.' }
@@ -56,16 +61,25 @@ export async function submitStay(_prev: SubmitStayState, form: FormData): Promis
   if (!tier || tierProgram !== programId) return { ok: false, error: "That status does not belong to this hotel's program." }
 
   // Lounge answers only where the lounge belongs to this hotel.
-  let lounge: { lounge: number; access: string | null; rating: number | null; worthIt: string | null } | null = null
+  let lounge: Record<string, string | number | null> | null = null
   if (loungeId) {
     const l = await payload.findByID({ collection: 'lounges', id: loungeId, depth: 0, overrideAccess: true }).catch(() => null)
     const lHotel = l && (typeof l.hotel === 'object' ? l.hotel.id : l.hotel)
     if (!l || lHotel !== hotelId) return { ok: false, error: 'That lounge is not at this hotel.' }
     if (!inList(loungeAccess, LOUNGE_ACCESS)) return { ok: false, error: 'Say whether you got into the lounge.' }
     const used = loungeAccess === 'given'
-    if (used && (loungeRating == null || !Number.isInteger(loungeRating) || loungeRating < 1 || loungeRating > 10)) return { ok: false, error: 'Rate the lounge from 1 to 10.' }
+    for (const f of LOUNGE_FACTORS) {
+      const n = loungeScores[f.name]
+      if (used && (n == null || !Number.isInteger(n) || n < 1 || n > 5)) return { ok: false, error: `Score the lounge for ${f.label.toLowerCase()}, 1 to 5.` }
+    }
     if (used && !inList(loungeWorthIt, LOUNGE_WORTH_IT)) return { ok: false, error: 'Say whether the lounge was worth a club room.' }
-    lounge = { lounge: loungeId, access: loungeAccess as string, rating: used ? loungeRating : null, worthIt: used ? (loungeWorthIt as string) : null }
+    lounge = {
+      lounge: loungeId,
+      access: loungeAccess as string,
+      ...Object.fromEntries(LOUNGE_FACTORS.map((f) => [f.name, used ? loungeScores[f.name] : null])),
+      worthIt: used ? (loungeWorthIt as string) : null,
+      comment: loungeComment || null,
+    }
   }
 
   const h = await headers()

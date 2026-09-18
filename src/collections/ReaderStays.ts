@@ -50,6 +50,18 @@ export const LOUNGE_ACCESS = [
   { label: 'Did not use it', value: 'not-used' },
 ]
 
+// The five things a reader scores about a lounge, each 1 to 5. Overall is
+// its own score, not an average of the other four.
+export const LOUNGE_FACTORS = [
+  { name: 'food', label: 'Food' },
+  { name: 'drink', label: 'Drink' },
+  { name: 'space', label: 'Space and ambiance' },
+  { name: 'service', label: 'Service' },
+  { name: 'overall', label: 'Overall' },
+] as const
+export type LoungeFactor = (typeof LOUNGE_FACTORS)[number]['name']
+export const LOUNGE_COMMENT_MAX = 600
+
 export const LOUNGE_WORTH_IT = [
   { label: 'Yes', value: 'yes' },
   { label: 'No', value: 'no' },
@@ -128,9 +140,18 @@ export const ReaderStays: CollectionConfig = {
           fields: [
             { name: 'lounge', type: 'relationship', relationTo: 'lounges', index: true },
             { name: 'access', type: 'select', options: LOUNGE_ACCESS },
-            { name: 'rating', type: 'number', min: 1, max: 10, admin: { description: '1 to 10.' } },
             { name: 'worthIt', type: 'select', options: LOUNGE_WORTH_IT, label: 'Worth a club room?' },
           ],
+        },
+        {
+          type: 'row',
+          fields: LOUNGE_FACTORS.map((f) => ({ name: f.name, label: f.label, type: 'number' as const, min: 1, max: 5, admin: { description: '1 to 5.' } })),
+        },
+        {
+          name: 'comment',
+          type: 'textarea',
+          maxLength: LOUNGE_COMMENT_MAX,
+          admin: { description: 'Shown on the lounge page once the stay is approved. Read it first.' },
         },
       ],
     },

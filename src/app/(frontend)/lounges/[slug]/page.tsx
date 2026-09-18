@@ -2,7 +2,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
+import { LOUNGE_FACTORS } from '@/collections/ReaderStays'
 import { RichText } from '@/components/RichText'
+import { ScoreBar } from '@/components/ScoreBar'
 import { rel } from '@/lib/format'
 import { accessLine, getLounge, getLoungeStays, loungeReaderData } from '@/lib/lounges'
 import { MIN_STAYS } from '@/lib/readerData'
@@ -85,9 +87,12 @@ export default async function LoungePage({ params }: Props) {
             </div>
             <div className={styles.scorePanel}>
               <span className={`label ${styles.scoreLabel}`}>Reader score</span>
-              <span className={styles.scoreBig}>{reader.data?.score != null ? reader.data.score.toFixed(1) : '–'}</span>
+              <span className={styles.scoreBig}>
+                {reader.data?.score != null ? reader.data.score.toFixed(1) : '–'}
+                <span className={styles.scoreOf}>/5</span>
+              </span>
               <span className={styles.scoreNote}>
-                {reader.data ? `Out of 10, from ${reader.data.stays} rated stays.` : `${reader.count} rated ${reader.count === 1 ? 'stay' : 'stays'} so far. Scores appear at ${MIN_STAYS}.`}
+                {reader.data ? `Overall, from ${reader.data.stays} rated stays.` : `${reader.count} rated ${reader.count === 1 ? 'stay' : 'stays'} so far. Scores appear at ${MIN_STAYS}.`}
               </span>
             </div>
           </div>
@@ -136,12 +141,17 @@ export default async function LoungePage({ params }: Props) {
                   </div>
                   <div>
                     <div className={styles.n}>{reader.data.score?.toFixed(1) ?? '–'}</div>
-                    <div className={styles.l}>Score out of 10</div>
+                    <div className={styles.l}>Overall, out of 5</div>
                   </div>
                   <div>
                     <div className={styles.n}>{reader.data.worthItRate != null ? `${reader.data.worthItRate}%` : '–'}</div>
                     <div className={styles.l}>Say it is worth a club room</div>
                   </div>
+                </div>
+                <div className={styles.factors}>
+                  {LOUNGE_FACTORS.filter((f) => f.name !== 'overall').map((f) => (
+                    <ScoreBar key={f.name} label={f.label} value={reader.data?.factors[f.name]} tone="dark" />
+                  ))}
                 </div>
                 <div className="panel-foot">From {reader.data.stays} reader stays that used the lounge. Reported by readers, checked before counting.</div>
               </>
@@ -201,20 +211,38 @@ export default async function LoungePage({ params }: Props) {
                       {a.worthIt && <span>{WORTH[a.worthIt]}</span>}
                     </div>
                     <div className={styles.stayScore}>
-                      {typeof a.rating === 'number' ? (
+                      {typeof a.overall === 'number' ? (
                         <>
-                          <span className={styles.stayN}>{a.rating}</span>
-                          <span className={styles.stayOf}>/10</span>
+                          <span className={styles.stayN}>{a.overall}</span>
+                          <span className={styles.stayOf}>/5</span>
                         </>
                       ) : (
                         <span className={styles.stayOf}>Not scored</span>
                       )}
                     </div>
+                    {typeof a.overall === 'number' && (
+                      <dl className={styles.stayFactors}>
+                        {LOUNGE_FACTORS.filter((f) => f.name !== 'overall').map((f) => (
+                          <div key={f.name}>
+                            <dt>{f.label}</dt>
+                            <dd>
+                              <span className={styles.mini} aria-hidden="true">
+                                {[1, 2, 3, 4, 5].map((n) => (
+                                  <i key={n} className={n <= (a[f.name] ?? 0) ? styles.miniOn : ''} />
+                                ))}
+                              </span>
+                              {a[f.name] ?? '–'}
+                            </dd>
+                          </div>
+                        ))}
+                      </dl>
+                    )}
+                    {a.comment?.trim() && <p className={styles.stayComment}>“{a.comment.trim()}”</p>}
                   </li>
                 )
               })}
             </ol>
-            <p className={styles.staysNote}>Every stay is checked before it is posted. No names, no free text, and nothing that identifies the reader.</p>
+            <p className={styles.staysNote}>Every stay and every comment is read before it is posted. No names, and nothing that identifies the reader.</p>
           </div>
         </section>
       )}

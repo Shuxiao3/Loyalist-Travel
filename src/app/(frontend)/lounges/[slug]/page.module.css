@@ -45,6 +45,21 @@
   line-height: 1;
 }
 
+.scoreOf {
+  font-family: var(--sans);
+  font-size: var(--t-md);
+  color: var(--on-navy-muted);
+  margin-left: 4px;
+}
+
+.factors {
+  display: grid;
+  gap: var(--s3);
+  margin-top: var(--s5);
+  padding-top: var(--s5);
+  border-top: 1px solid var(--line-dark);
+}
+
 .scoreNote {
   margin-top: var(--s4);
   padding-top: var(--s4);
@@ -184,6 +199,67 @@
   color: var(--text-2);
 }
 
+.stayFactors {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2) var(--s6);
+  margin: 0;
+  padding-top: var(--s2);
+}
+
+.stayFactors > div {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+}
+
+.stayFactors dt {
+  font-size: var(--t-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.stayFactors dd {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  margin: 0;
+  font-family: var(--serif);
+  font-size: var(--t-sm);
+  color: var(--text);
+}
+
+.mini {
+  display: inline-grid;
+  grid-template-columns: repeat(5, 9px);
+  gap: 2px;
+}
+
+.mini i {
+  display: block;
+  height: 6px;
+  background: var(--cream);
+  border: 1px solid var(--line-strong);
+  border-radius: 1px;
+}
+
+.mini .miniOn {
+  background: var(--gold-dark);
+  border-color: var(--gold-dark);
+}
+
+.stayComment {
+  grid-column: 1 / -1;
+  margin: var(--s2) 0 0;
+  font-family: var(--serif);
+  font-size: var(--t-md);
+  line-height: 1.55;
+  color: var(--text);
+  max-width: 68ch;
+}
+
 .stayScore {
   display: flex;
   align-items: baseline;
@@ -240,7 +316,68 @@
     grid-column: 1 / -1;
   }
 
-  .stayScore {
+  .stayFactors {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2) var(--s6);
+  margin: 0;
+  padding-top: var(--s2);
+}
+
+.stayFactors > div {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+}
+
+.stayFactors dt {
+  font-size: var(--t-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.stayFactors dd {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  margin: 0;
+  font-family: var(--serif);
+  font-size: var(--t-sm);
+  color: var(--text);
+}
+
+.mini {
+  display: inline-grid;
+  grid-template-columns: repeat(5, 9px);
+  gap: 2px;
+}
+
+.mini i {
+  display: block;
+  height: 6px;
+  background: var(--cream);
+  border: 1px solid var(--line-strong);
+  border-radius: 1px;
+}
+
+.mini .miniOn {
+  background: var(--gold-dark);
+  border-color: var(--gold-dark);
+}
+
+.stayComment {
+  grid-column: 1 / -1;
+  margin: var(--s2) 0 0;
+  font-family: var(--serif);
+  font-size: var(--t-md);
+  line-height: 1.55;
+  color: var(--text);
+  max-width: 68ch;
+}
+
+.stayScore {
     grid-row: 1;
     grid-column: 2;
   }

@@ -918,11 +918,31 @@ export interface ReaderStay {
   lounge?: {
     lounge?: (number | null) | Lounge;
     access?: ('given' | 'declined' | 'not-used') | null;
-    /**
-     * 1 to 10.
-     */
-    rating?: number | null;
     worthIt?: ('yes' | 'no') | null;
+    /**
+     * 1 to 5.
+     */
+    food?: number | null;
+    /**
+     * 1 to 5.
+     */
+    drink?: number | null;
+    /**
+     * 1 to 5.
+     */
+    space?: number | null;
+    /**
+     * 1 to 5.
+     */
+    service?: number | null;
+    /**
+     * 1 to 5.
+     */
+    overall?: number | null;
+    /**
+     * Shown on the lounge page once the stay is approved. Read it first.
+     */
+    comment?: string | null;
   };
   /**
    * Hashed network address, for spotting repeat submissions. Never shown.
@@ -1342,8 +1362,13 @@ export interface ReaderStaysSelect<T extends boolean = true> {
     | {
         lounge?: T;
         access?: T;
-        rating?: T;
         worthIt?: T;
+        food?: T;
+        drink?: T;
+        space?: T;
+        service?: T;
+        overall?: T;
+        comment?: T;
       };
   submitterHash?: T;
   updatedAt?: T;

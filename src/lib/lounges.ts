@@ -3,6 +3,7 @@
 
 import type { Where } from 'payload'
 
+import { LOUNGE_FACTORS, type LoungeFactor } from '@/collections/ReaderStays'
 import type { Hotel, Lounge, ReaderStay } from '@/payload-types'
 
 import { getPayloadClient } from './payload'
@@ -11,24 +12,33 @@ import { MIN_STAYS } from './readerData'
 const published: Where = { _status: { equals: 'published' } }
 
 export type LoungeAggregate = {
-  stays: number // stays that used the lounge and rated it
+  stays: number // stays that used the lounge and gave an overall score
   accessRate: number | null // given over given plus declined
-  score: number | null // mean rating, one decimal
+  score: number | null // mean overall score out of 5, one decimal
+  factors: Record<LoungeFactor, number | null> // mean of each 1-5 score
   worthItRate: number | null // yes over yes plus no
+  comments: number // stays that left a comment
+}
+
+function mean(values: number[]): number | null {
+  return values.length ? Math.round((values.reduce((a, b) => a + b, 0) / values.length) * 10) / 10 : null
 }
 
 export function aggregateLounge(stays: Pick<ReaderStay, 'lounge'>[]): LoungeAggregate {
   const answers = stays.map((s) => s.lounge).filter((l): l is NonNullable<ReaderStay['lounge']> => Boolean(l))
   const asked = answers.filter((l) => l.access === 'given' || l.access === 'declined')
   const given = asked.filter((l) => l.access === 'given').length
-  const rated = answers.filter((l) => typeof l.rating === 'number')
+  const rated = answers.filter((l) => typeof l.overall === 'number')
   const worth = answers.filter((l) => l.worthIt === 'yes' || l.worthIt === 'no')
   const yes = worth.filter((l) => l.worthIt === 'yes').length
+  const factors = Object.fromEntries(LOUNGE_FACTORS.map((f) => [f.name, mean(answers.map((l) => l[f.name]).filter((n): n is number => typeof n === 'number'))])) as Record<LoungeFactor, number | null>
   return {
     stays: rated.length,
     accessRate: asked.length ? Math.round((given / asked.length) * 100) : null,
-    score: rated.length ? Math.round((rated.reduce((n, l) => n + (l.rating ?? 0), 0) / rated.length) * 10) / 10 : null,
+    score: factors.overall,
+    factors,
     worthItRate: worth.length ? Math.round((yes / worth.length) * 100) : null,
+    comments: answers.filter((l) => l.comment?.trim()).length,
   }
 }
 

@@ -3,8 +3,9 @@
 import { useActionState, useState } from 'react'
 
 import { submitStay, type SubmitStayState } from '@/app/actions/submitStay'
-import { ALA_CARTE_CAP, BREAKFAST_OUTCOMES, LATE_CHECKOUT_OUTCOMES, LOUNGE_ACCESS, LOUNGE_WORTH_IT, SUITE_TYPES, UPGRADE_HOW, UPGRADE_OUTCOMES, UPGRADE_TYPES } from '@/collections/ReaderStays'
+import { ALA_CARTE_CAP, BREAKFAST_OUTCOMES, LATE_CHECKOUT_OUTCOMES, LOUNGE_ACCESS, LOUNGE_COMMENT_MAX, LOUNGE_FACTORS, type LoungeFactor, LOUNGE_WORTH_IT, SUITE_TYPES, UPGRADE_HOW, UPGRADE_OUTCOMES, UPGRADE_TYPES } from '@/collections/ReaderStays'
 
+import { SegmentBar } from './SegmentBar'
 import styles from './StayForm.module.css'
 
 export type StayFormTier = { id: number; name: string; shortName?: string | null }
@@ -41,6 +42,7 @@ export function StayForm({ hotel, programName, tiers, lounges = [], compact }: {
   const [breakfast, setBreakfast] = useState('')
   const [loungeId, setLoungeId] = useState(lounges.length === 1 ? String(lounges[0].id) : '')
   const [loungeAccess, setLoungeAccess] = useState('')
+  const [loungeScores, setLoungeScores] = useState<Record<LoungeFactor, number>>({ food: 0, drink: 0, space: 0, service: 0, overall: 0 })
   const now = new Date()
   const years = Array.from({ length: 6 }, (_, i) => now.getFullYear() - i)
 
@@ -114,9 +116,18 @@ export function StayForm({ hotel, programName, tiers, lounges = [], compact }: {
               <Select name="loungeAccess" label={`Lounge access · ${lounges.find((l) => String(l.id) === loungeId)?.name ?? 'lounge'}`} placeholder="What happened" options={LOUNGE_ACCESS} value={loungeAccess} onChange={setLoungeAccess} />
               {loungeAccess === 'given' && (
                 <div className={styles.follow}>
-                  <Select name="loungeRating" label="Lounge score, 1 to 10" placeholder="Score" options={Array.from({ length: 10 }, (_, i) => ({ value: String(10 - i), label: String(10 - i) }))} />
+                  <p className={styles.hint}>Tap the bar to score each one, 1 to 5.</p>
+                  {LOUNGE_FACTORS.map((f) => (
+                    <SegmentBar key={f.name} name={`lounge_${f.name}`} label={f.label} value={loungeScores[f.name]} onChange={(v) => setLoungeScores((s) => ({ ...s, [f.name]: v }))} />
+                  ))}
                   <Select name="loungeWorthIt" label="Worth booking a club room for it?" placeholder="Yes or no" options={LOUNGE_WORTH_IT} />
                 </div>
+              )}
+              {loungeAccess && (
+                <label className={styles.field}>
+                  <span className="label">A line about the lounge · optional</span>
+                  <textarea name="loungeComment" maxLength={LOUNGE_COMMENT_MAX} rows={3} placeholder="What was good, what was not. Read before it posts." />
+                </label>
               )}
             </>
           )}
@@ -133,7 +144,7 @@ export function StayForm({ hotel, programName, tiers, lounges = [], compact }: {
         <button className="btn" type="submit" disabled={pending}>
           {pending ? 'Sending' : 'Submit the stay'}
         </button>
-        <span className={styles.fine}>No name, no email, no comment. Checked before it counts.</span>
+        <span className={styles.fine}>No name, no email. Checked before it counts.</span>
       </div>
     </form>
   )

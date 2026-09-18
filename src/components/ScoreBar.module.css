@@ -1,0 +1,73 @@
+/* Read-only five-segment score bar. Light (page) by default; .dark for navy. */
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 132px) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--s4);
+  --seg-bg: var(--cream);
+  --seg-line: var(--line-strong);
+  --seg-fill: var(--gold-dark);
+  --seg-text: var(--text);
+  --seg-label: var(--text-2);
+  --seg-count: var(--muted);
+}
+
+.dark {
+  --seg-bg: var(--navy);
+  --seg-line: var(--gold-border);
+  --seg-fill: var(--gold);
+  --seg-text: var(--gold);
+  --seg-label: var(--light);
+  --seg-count: var(--on-navy-dim);
+}
+
+.label {
+  font-size: var(--t-sm);
+  color: var(--seg-label);
+}
+
+.bar {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 3px;
+}
+
+.seg {
+  display: block;
+  height: 10px;
+  background: var(--seg-bg);
+  border: 1px solid var(--seg-line);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.fill {
+  display: block;
+  height: 100%;
+  background: var(--seg-fill);
+}
+
+.n {
+  font-family: var(--serif);
+  font-size: var(--t-md);
+  color: var(--seg-text);
+  line-height: 1;
+  min-width: 2.2em;
+  text-align: right;
+}
+
+.count {
+  display: block;
+  font-family: var(--sans);
+  font-size: var(--t-label);
+  letter-spacing: var(--track-fine);
+  color: var(--seg-count);
+  margin-top: 3px;
+}
+
+@media (max-width: 640px) {
+  .row {
+    grid-template-columns: minmax(0, 104px) minmax(0, 1fr) auto;
+  }
+}
