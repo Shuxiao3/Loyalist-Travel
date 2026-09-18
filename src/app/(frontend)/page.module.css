@@ -59,28 +59,32 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--s3);
-  min-height: 24px;
+}
+
+.progTop svg {
+  color: var(--gold-dark);
+}
+
+/* every logo sits in the same box, left aligned, scaled to fit */
+.logoBox {
+  display: flex;
+  align-items: center;
+  width: 150px;
+  height: 40px;
 }
 
 .logo {
-  height: 24px;
+  height: 100%;
   width: auto;
-  max-width: 110px;
+  max-width: 100%;
   object-fit: contain;
+  object-position: left center;
 }
 
-.prog h3 {
+.progName {
   font-size: var(--t-lg);
   color: var(--heading);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.prog h3 svg {
-  flex-shrink: 0;
-  color: var(--gold-dark);
+  margin: var(--s2) 0;
 }
 
 .progN {

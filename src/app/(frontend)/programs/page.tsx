@@ -46,11 +46,19 @@ export default async function ProgramsIndex() {
               <Link className={`cell ${styles.prog}`} href={`/programs/${program.slug}`} key={program.id}>
                 <span className={styles.top}>
                   <span className="label">Program</span>
-                  {(mediaUrl(program.logo) ?? program.images?.logoUrl) && <img className={styles.logo} src={(mediaUrl(program.logo) ?? program.images?.logoUrl)!} alt="" />}
-                </span>
-                <h3>
-                  {program.name}
                   <Arrow size={16} />
+                </span>
+                <h3 className={styles.name}>
+                  {mediaUrl(program.logo) ?? program.images?.logoUrl ? (
+                    <>
+                      <span className={styles.logoBox}>
+                        <img className={styles.logo} src={(mediaUrl(program.logo) ?? program.images?.logoUrl)!} alt={program.name} />
+                      </span>
+                      <span className="sr-only">{program.name}</span>
+                    </>
+                  ) : (
+                    program.name
+                  )}
                 </h3>
                 {program.shortDescription && <span className={styles.desc}>{program.shortDescription}</span>}
                 <span className={styles.n}>

@@ -11,28 +11,31 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--s3);
-  min-height: 28px;
+}
+
+.top svg {
+  color: var(--gold-dark);
+}
+
+.logoBox {
+  display: flex;
+  align-items: center;
+  width: 172px;
+  height: 48px;
 }
 
 .logo {
-  height: 28px;
+  height: 100%;
   width: auto;
-  max-width: 120px;
+  max-width: 100%;
   object-fit: contain;
+  object-position: left center;
 }
 
-.prog h3 {
+.name {
   font-size: var(--t-xl);
   color: var(--heading);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.prog h3 svg {
-  flex-shrink: 0;
-  color: var(--gold-dark);
+  margin: var(--s2) 0 var(--s1);
 }
 
 .desc {

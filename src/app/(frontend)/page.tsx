@@ -207,11 +207,19 @@ export default async function HomePage() {
               <Link className={`cell ${styles.prog}`} href={`/programs/${program.slug}`} key={program.id}>
                 <span className={styles.progTop}>
                   <span className="label">Program</span>
-                  {(mediaUrl(program.logo) ?? program.images?.logoUrl) && <img className={styles.logo} src={(mediaUrl(program.logo) ?? program.images?.logoUrl)!} alt="" />}
-                </span>
-                <h3>
-                  {program.name}
                   <Arrow size={16} />
+                </span>
+                <h3 className={styles.progName}>
+                  {mediaUrl(program.logo) ?? program.images?.logoUrl ? (
+                    <>
+                      <span className={styles.logoBox}>
+                        <img className={styles.logo} src={(mediaUrl(program.logo) ?? program.images?.logoUrl)!} alt={program.name} />
+                      </span>
+                      <span className="sr-only">{program.name}</span>
+                    </>
+                  ) : (
+                    program.name
+                  )}
                 </h3>
                 <span className={styles.progN}>
                   {hotels > 0 ? (
