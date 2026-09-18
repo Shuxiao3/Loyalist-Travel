@@ -2,9 +2,11 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 import { HotelList } from '@/components/HotelCard'
+import { LandingHero } from '@/components/LandingHero'
 import { Pager } from '@/components/Pager'
-import { count } from '@/lib/format'
-import { findHotels, getHotelFilterOptions, HOTELS_PER_PAGE, type HotelFilters } from '@/lib/queries'
+import { count, rel } from '@/lib/format'
+import { findHotels, getFeaturedHotel, getHotelFilterOptions, getSiteCounts, HOTELS_PER_PAGE, type HotelFilters } from '@/lib/queries'
+import type { Brand, Destination, Program } from '@/payload-types'
 
 import styles from './page.module.css'
 
@@ -29,8 +31,13 @@ export default async function HotelsIndex({ searchParams }: Props) {
     scored: first(sp.scored),
     page: Math.max(1, Number(first(sp.page)) || 1),
   }
-  const [result, options] = await Promise.all([findHotels(filters), getHotelFilterOptions()])
+  const [result, options, counts, featured] = await Promise.all([findHotels(filters), getHotelFilterOptions(), getSiteCounts(), getFeaturedHotel()])
   const active = Object.entries(filters).filter(([k, v]) => k !== 'page' && v).length
+  const fHotel = featured?.hotel
+  const fBrand = fHotel ? rel<Brand>(fHotel.brand) : null
+  const fProgram = fHotel ? rel<Program>(fHotel.program) : null
+  const fDest = fHotel ? rel<Destination>(fHotel.destination) : null
+  const fData = featured?.data.all
 
   const href = (page: number) => {
     const q = new URLSearchParams()
@@ -49,16 +56,37 @@ export default async function HotelsIndex({ searchParams }: Props) {
 
   return (
     <>
-      <header className={`hero ${styles.hero}`}>
-        <div className="wrap">
-          <span className="eyebrow">Hotel index</span>
-          <h1 className={styles.h1}>
+      <LandingHero
+        eyebrow="Hotel index"
+        title={
+          <>
             {count(result.totalDocs)} {result.totalDocs === 1 ? 'hotel' : 'hotels'}
             {active ? ' match' : ''}
-          </h1>
-          <p className="sub">Every property across four programs, with brand and place. Scored stays are marked. The rest are indexed so a hotel page exists before the review does.</p>
-        </div>
-      </header>
+          </>
+        }
+        text="Every property across four programs, with brand and place. Scored stays are marked. The rest are indexed so a hotel page exists before the review does."
+        photo={fHotel?.externalImageUrl}
+        stats={[
+          { n: count(counts.hotels), l: 'Hotels indexed' },
+          { n: count(counts.programs), l: 'Loyalty programs' },
+          { n: count(options.countries.length), l: 'Countries' },
+          { n: count(counts.reviews), l: 'Scored stays' },
+        ]}
+        card={
+          fHotel
+            ? {
+                eyebrow: 'Readers report',
+                image: fHotel.externalImageUrl,
+                meta: [fBrand?.name ?? fProgram?.name, fDest?.name].filter((m): m is string => Boolean(m)),
+                title: fHotel.name,
+                text: fData ? `${fData.stays} reader stays. ${fData.upgradeRate != null ? `${fData.upgradeRate}% got an upgrade` : ''}${fData.breakfastRate != null ? `, ${fData.breakfastRate}% got breakfast as printed` : ''}.` : null,
+                figure: fData?.upgradeRate != null ? { value: `${fData.upgradeRate}%`, label: 'upgrade rate' } : null,
+                cta: 'See the hotel',
+                href: `/hotels/${fHotel.slug}`,
+              }
+            : null
+        }
+      />
 
       <section className={`section ${styles.filters}`}>
         <div className="wrap">

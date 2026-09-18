@@ -1,0 +1,223 @@
+/* Category landing hero: text, one featured card, a figures row. */
+
+.hero {
+  background-image: linear-gradient(100deg, var(--navy) 0%, var(--navy) 55%, var(--veil-navy) 74%, var(--veil-navy-soft) 100%), var(--hero-photo, none);
+  background-size: cover;
+  background-position: center;
+}
+
+.wrap {
+  padding-top: var(--s8);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 380px;
+  gap: var(--s9);
+  align-items: center;
+  padding-bottom: var(--s7);
+}
+
+.noCard {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.h1 {
+  font-size: var(--t-h1);
+  line-height: 1.1;
+  color: var(--ivory);
+  letter-spacing: -0.01em;
+  margin: 0 0 var(--s5);
+  max-width: 16ch;
+  text-wrap: pretty;
+}
+
+/* the featured card; the whole card is the link */
+.card {
+  display: block;
+  color: inherit;
+  background: var(--navy-deep);
+  border: 1px solid var(--gold-border);
+  padding: var(--s6);
+  border-radius: var(--r);
+  min-width: 0;
+}
+
+.card :global(.eyebrow) {
+  display: block;
+  margin-bottom: var(--s5);
+}
+
+.img {
+  display: block;
+  height: 180px;
+  background: var(--img-a);
+  background-size: cover;
+  background-position: center;
+  margin-bottom: var(--s5);
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--t-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--on-navy-muted);
+  margin-bottom: var(--s3);
+}
+
+.title {
+  display: block;
+  font-family: var(--serif);
+  font-size: var(--t-xl);
+  color: var(--ivory);
+  line-height: 1.2;
+  margin-bottom: var(--s3);
+}
+
+.card:hover .title {
+  color: var(--gold-pale);
+}
+
+.text {
+  display: block;
+  font-size: var(--t-sm);
+  line-height: 1.6;
+  color: var(--light);
+  margin-bottom: var(--s5);
+  text-wrap: pretty;
+}
+
+.foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--s4);
+  padding-top: var(--s4);
+  border-top: 1px solid var(--line-dark);
+}
+
+.figure {
+  font-family: var(--serif);
+  font-size: calc(var(--t-num) * 0.72);
+  line-height: 1;
+  color: var(--gold);
+}
+
+.figureText {
+  font-family: var(--serif);
+  font-size: var(--t-lg);
+  line-height: 1.2;
+  color: var(--gold);
+}
+
+.figure small,
+.figureText small {
+  font-family: var(--sans);
+  font-size: var(--t-xs);
+  color: var(--on-navy-muted);
+  margin-left: var(--s1);
+  white-space: nowrap;
+}
+
+.read {
+  font-size: var(--t-xs);
+  letter-spacing: var(--track-cta);
+  text-transform: uppercase;
+  color: var(--gold);
+  padding-bottom: var(--s1);
+  border-bottom: 1px solid var(--gold);
+  white-space: nowrap;
+}
+
+.card:hover .read {
+  color: var(--gold-pale);
+  border-bottom-color: var(--gold-pale);
+}
+
+/* figures row */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--line-dark);
+}
+
+.stat {
+  padding: var(--s6) var(--s6) var(--s7) 0;
+}
+
+.stat + .stat {
+  padding-left: var(--s6);
+  border-left: 1px solid var(--line-dark);
+}
+
+.statN {
+  font-family: var(--serif);
+  font-size: var(--t-stat);
+  line-height: 1;
+  color: var(--gold);
+  margin-bottom: var(--s3);
+}
+
+.statL {
+  font-size: var(--t-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--on-navy-muted);
+  line-height: 1.6;
+}
+
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: var(--s7);
+  }
+
+  .card {
+    max-width: 560px;
+  }
+}
+
+@media (max-width: 640px) {
+  .wrap {
+    padding-top: var(--s7);
+  }
+
+  .grid {
+    gap: var(--s6);
+    padding-bottom: var(--s6);
+  }
+
+  .card {
+    padding: var(--s5);
+  }
+
+  .img {
+    height: 140px;
+  }
+
+  .stats {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .stat {
+    padding: var(--s5) var(--s4) var(--s5) 0;
+  }
+
+  .stat + .stat {
+    padding-left: var(--s4);
+  }
+
+  .stat:nth-child(3) {
+    border-left: 0;
+    padding-left: 0;
+    border-top: 1px solid var(--line-dark);
+  }
+
+  .stat:nth-child(4) {
+    border-top: 1px solid var(--line-dark);
+  }
+}

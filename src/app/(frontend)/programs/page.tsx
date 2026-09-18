@@ -2,8 +2,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 import { Arrow } from '@/components/Band'
+import { LandingHero } from '@/components/LandingHero'
 import { count, mediaUrl } from '@/lib/format'
-import { getPrograms } from '@/lib/queries'
+import { getPrograms, getSiteCounts, getTierCount } from '@/lib/queries'
 
 import styles from './page.module.css'
 
@@ -15,16 +16,36 @@ export const metadata: Metadata = {
 }
 
 export default async function ProgramsIndex() {
-  const programs = await getPrograms()
+  const [programs, counts, tiers] = await Promise.all([getPrograms(), getSiteCounts(), getTierCount()])
+  const spotlight = [...programs].sort((a, b) => b.scored - a.scored || b.hotels - a.hotels)[0]
   return (
     <>
-      <header className={`hero ${styles.hero}`}>
-        <div className="wrap">
-          <span className="eyebrow">Loyalty programs</span>
-          <h1 className={styles.h1}>Where your points work</h1>
-          <p className="sub">Four programs, their elite tiers, and what each tier got us at the front desk. Every hotel on the site is indexed under one of them.</p>
-        </div>
-      </header>
+      <LandingHero
+        eyebrow="Loyalty programs"
+        title="Where your points work"
+        text="Four programs, their elite tiers, and what each tier got us at the front desk. Every hotel on the site is indexed under one of them."
+        photo={spotlight?.program.images?.heroImageUrl}
+        stats={[
+          { n: count(counts.programs), l: 'Programs covered' },
+          { n: count(tiers), l: 'Elite tiers tracked' },
+          { n: count(counts.hotels), l: 'Hotels indexed' },
+          { n: count(counts.reviews), l: 'Scored stays' },
+        ]}
+        card={
+          spotlight
+            ? {
+                eyebrow: 'Most reviewed',
+                image: spotlight.program.images?.heroImageUrl ?? null,
+                meta: [`${count(spotlight.hotels)} hotels`, `${count(spotlight.scored)} scored ${spotlight.scored === 1 ? 'stay' : 'stays'}`],
+                title: spotlight.program.name,
+                text: spotlight.program.shortDescription,
+                figure: spotlight.program.topTierName ? { value: spotlight.program.topTierName, label: 'top tier' } : null,
+                cta: 'See the program',
+                href: `/programs/${spotlight.program.slug}`,
+              }
+            : null
+        }
+      />
       <section className={`section ${styles.list}`}>
         <div className="wrap">
           <div className="grid-cells">

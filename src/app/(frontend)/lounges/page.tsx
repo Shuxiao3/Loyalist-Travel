@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
+import { LandingHero } from '@/components/LandingHero'
 import { LoungeRows } from '@/components/LoungeRows'
 import { count } from '@/lib/format'
 import { getLoungeDirectory } from '@/lib/lounges'
@@ -21,17 +22,40 @@ const first = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v
 export default async function LoungesIndex({ searchParams }: Props) {
   const sp = await searchParams
   const filters = { program: first(sp.program), country: first(sp.country) }
-  const [rows, options] = await Promise.all([getLoungeDirectory(filters), getHotelFilterOptions()])
+  const [rows, all, options] = await Promise.all([getLoungeDirectory(filters), getLoungeDirectory(), getHotelFilterOptions()])
   const active = Boolean(filters.program || filters.country)
+  const rated = all.filter((r) => r.data?.score != null)
+  const top = rated[0]
+  const avg = rated.length ? Math.round((rated.reduce((n, r) => n + (r.data?.score ?? 0), 0) / rated.length) * 10) / 10 : null
+  const ratedStays = all.reduce((n, r) => n + (r.data?.stays ?? 0), 0)
   return (
     <>
-      <header className={`hero ${styles.hero}`}>
-        <div className="wrap">
-          <span className="eyebrow">Lounges</span>
-          <h1 className={styles.h1}>Is the club lounge worth the room category?</h1>
-          <p className="sub">Access rules by status, hours, what actually gets served, and whether it beats the restaurant downstairs. Every lounge scored by readers who sat in it.</p>
-        </div>
-      </header>
+      <LandingHero
+        eyebrow="Lounges"
+        title="Is the club lounge worth the room category?"
+        text="Access rules by status, hours, what actually gets served, and whether it beats the restaurant downstairs. Every lounge scored by readers who sat in it."
+        photo={top?.lounge.externalImageUrl ?? top?.hotel?.externalImageUrl}
+        stats={[
+          { n: count(all.length), l: 'Lounges on record' },
+          { n: count(rated.length), l: 'Rated by readers' },
+          { n: avg != null ? avg.toFixed(1) : '–', l: 'Average score of 5' },
+          { n: count(ratedStays), l: 'Rated stays' },
+        ]}
+        card={
+          top
+            ? {
+                eyebrow: 'Top rated lounge',
+                image: top.lounge.externalImageUrl ?? top.hotel?.externalImageUrl,
+                meta: [top.hotel?.name, `${top.data?.stays ?? 0} rated ${top.data?.stays === 1 ? 'stay' : 'stays'}`].filter((m): m is string => Boolean(m)),
+                title: top.lounge.name,
+                text: top.data?.worthItRate != null ? `${top.data.worthItRate}% of readers say it is worth booking a club room for.` : null,
+                figure: top.data?.score != null ? { value: top.data.score.toFixed(1), label: 'of 5' } : null,
+                cta: 'See the lounge',
+                href: `/lounges/${top.lounge.slug}`,
+              }
+            : null
+        }
+      />
 
       <section className={`section ${styles.filters}`}>
         <div className="wrap">

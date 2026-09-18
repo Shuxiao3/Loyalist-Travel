@@ -23,13 +23,20 @@ export async function getReview(slug: string): Promise<Review | null> {
   return res.docs[0] ?? null
 }
 
-export async function getReviews(opts: { limit?: number; page?: number; excludeId?: number } = {}) {
+export type ReviewFilters = { program?: string; country?: string; type?: string; sort?: string }
+
+export async function getReviews(opts: { limit?: number; page?: number; excludeId?: number } & ReviewFilters = {}) {
   const payload = await getPayloadClient()
-  const where: Where = opts.excludeId ? { and: [published, { id: { not_equals: opts.excludeId } }] } : published
+  const and: Where[] = [published]
+  if (opts.excludeId) and.push({ id: { not_equals: opts.excludeId } })
+  if (opts.program) and.push({ 'hotel.program.slug': { equals: opts.program } })
+  if (opts.country) and.push({ 'hotel.destination.country': { equals: opts.country } })
+  if (opts.type === 'city' || opts.type === 'resort') and.push({ propertyType: { equals: opts.type } })
+  const sort = opts.sort === 'top' ? '-totals.overall' : opts.sort === 'low' ? 'totals.overall' : '-publishedDate'
   return payload.find({
     collection: 'reviews',
-    where,
-    sort: '-publishedDate',
+    where: { and },
+    sort,
     depth: 1,
     limit: opts.limit ?? 12,
     page: opts.page ?? 1,
@@ -150,6 +157,25 @@ export async function getFeaturedHotel(): Promise<{ hotel: Hotel; data: HotelRea
   const hotel = await payload.find({ collection: 'hotels', where: { and: [published, { id: { equals: row.hotel_id } }] }, depth: 1, limit: 1 })
   if (!hotel.docs[0]) return null
   return { hotel: hotel.docs[0], data: await hotelReaderData(hotel.docs[0].id) }
+}
+
+// Figures for the reviews landing hero.
+export async function getReviewStats() {
+  const payload = await getPayloadClient()
+  const res = await payload.find({ collection: 'reviews', where: published, limit: 1000, depth: 0, select: { totals: true, hotel: true } })
+  const scores = res.docs.map((r) => r.totals?.overall).filter((n): n is number => typeof n === 'number')
+  const hotels = new Set(res.docs.map((r) => (typeof r.hotel === 'object' ? r.hotel?.id : r.hotel)).filter(Boolean))
+  return {
+    count: res.totalDocs,
+    hotels: hotels.size,
+    average: scores.length ? Math.round((scores.reduce((a, b) => a + b, 0) / scores.length) * 10) / 10 : null,
+    best: scores.length ? Math.max(...scores) : null,
+  }
+}
+
+export async function getTierCount() {
+  const payload = await getPayloadClient()
+  return (await payload.count({ collection: 'status-levels' })).totalDocs
 }
 
 export async function getSiteCounts() {
