@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react'
 
 import { NAV_LINKS } from '@/lib/site'
 
+import { AccountLink } from './AccountLink'
+
 import styles from './SiteHeader.module.css'
 
 // Navy nav with the wordmark, tracked uppercase links, and on phones a
@@ -61,6 +63,9 @@ export function SiteHeader() {
               <SearchIcon size={18} />
             </Link>
           </li>
+          <li>
+            <AccountLink className={styles.account} />
+          </li>
         </ul>
         <button
           className={styles.menu}
@@ -98,6 +103,9 @@ export function SiteHeader() {
               </Link>
             </li>
           ))}
+          <li>
+            <AccountLink />
+          </li>
         </ul>
         </div>
       </div>

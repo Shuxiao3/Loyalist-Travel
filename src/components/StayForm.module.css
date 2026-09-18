@@ -64,6 +64,10 @@
   margin: 0;
 }
 
+.hint a {
+  color: var(--gold);
+}
+
 /* follow-up questions, indented under the answer that opened them */
 .follow {
   display: grid;

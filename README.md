@@ -106,3 +106,17 @@ src/
 - **2. Templates**: review, hotel, brand, destination, hotels index with filters, full homepage.
 - **3. Guides and lounges**: section built to the IA spec, lounge submission form, approval view.
 - **4. SEO and launch**: JSON-LD, sitemap, OG images, redirects, DNS cutover.
+
+## Reader sign-in
+
+Readers sign in with Google (Auth.js). Set these in Vercel and in GitHub
+Actions secrets; sign-in stays hidden until all three exist.
+
+| Variable | What |
+| --- | --- |
+| `AUTH_SECRET` | Long random string that signs session cookies. |
+| `AUTH_GOOGLE_ID` | OAuth client ID from Google Cloud, APIs & Services, Credentials. |
+| `AUTH_GOOGLE_SECRET` | Its client secret. |
+
+The Google client needs the site's address as an authorised origin and
+`<site>/api/auth/callback/google` as an authorised redirect URI.

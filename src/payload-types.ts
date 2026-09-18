@@ -71,6 +71,7 @@ export interface Config {
     reviews: Review;
     articles: Article;
     'reader-stays': ReaderStay;
+    readers: Reader;
     lounges: Lounge;
     'rubric-versions': RubricVersion;
     programs: Program;
@@ -99,6 +100,7 @@ export interface Config {
     reviews: ReviewsSelect<false> | ReviewsSelect<true>;
     articles: ArticlesSelect<false> | ArticlesSelect<true>;
     'reader-stays': ReaderStaysSelect<false> | ReaderStaysSelect<true>;
+    readers: ReadersSelect<false> | ReadersSelect<true>;
     lounges: LoungesSelect<false> | LoungesSelect<true>;
     'rubric-versions': RubricVersionsSelect<false> | RubricVersionsSelect<true>;
     programs: ProgramsSelect<false> | ProgramsSelect<true>;
@@ -1075,9 +1077,39 @@ export interface ReaderStay {
     comment?: string | null;
   };
   /**
+   * Set when the stay was submitted while signed in. Names the lounge rating and comment; the stay itself stays anonymous.
+   */
+  reader?: (number | null) | Reader;
+  /**
    * Hashed network address, for spotting repeat submissions. Never shown.
    */
   submitterHash?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "readers".
+ */
+export interface Reader {
+  id: number;
+  /**
+   * Never shown on the site.
+   */
+  email: string;
+  /**
+   * Chosen by the reader on first sign-in. Shown on comments and lounge ratings.
+   */
+  displayName?: string | null;
+  /**
+   * Blocked readers can still sign in but cannot post.
+   */
+  status?: ('active' | 'blocked') | null;
+  /**
+   * Google's stable id for the account.
+   */
+  googleSub?: string | null;
+  lastSeenAt?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1145,6 +1177,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'reader-stays';
         value: number | ReaderStay;
+      } | null)
+    | ({
+        relationTo: 'readers';
+        value: number | Reader;
       } | null)
     | ({
         relationTo: 'lounges';
@@ -1463,7 +1499,21 @@ export interface ReaderStaysSelect<T extends boolean = true> {
         overall?: T;
         comment?: T;
       };
+  reader?: T;
   submitterHash?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "readers_select".
+ */
+export interface ReadersSelect<T extends boolean = true> {
+  email?: T;
+  displayName?: T;
+  status?: T;
+  googleSub?: T;
+  lastSeenAt?: T;
   updatedAt?: T;
   createdAt?: T;
 }

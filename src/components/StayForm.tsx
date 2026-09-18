@@ -5,6 +5,8 @@ import { useActionState, useState } from 'react'
 import { submitStay, type SubmitStayState } from '@/app/actions/submitStay'
 import { ALA_CARTE_CAP, BREAKFAST_OUTCOMES, LATE_CHECKOUT_OUTCOMES, LOUNGE_ACCESS, LOUNGE_COMMENT_MAX, LOUNGE_FACTORS, type LoungeFactor, LOUNGE_WORTH_IT, SUITE_TYPES, UPGRADE_HOW, UPGRADE_OUTCOMES, UPGRADE_TYPES } from '@/collections/ReaderStays'
 
+import { useReader } from '@/lib/useReader'
+
 import { SegmentBar } from './SegmentBar'
 import styles from './StayForm.module.css'
 
@@ -42,6 +44,7 @@ export function StayForm({ hotel, programName, tiers, lounges = [], compact }: {
   const [breakfast, setBreakfast] = useState('')
   const [loungeId, setLoungeId] = useState(lounges.length === 1 ? String(lounges[0].id) : '')
   const [loungeAccess, setLoungeAccess] = useState('')
+  const reader = useReader()
   const [loungeScores, setLoungeScores] = useState<Record<LoungeFactor, number>>({ food: 0, drink: 0, space: 0, service: 0, overall: 0 })
   const now = new Date()
   const years = Array.from({ length: 6 }, (_, i) => now.getFullYear() - i)
@@ -123,11 +126,17 @@ export function StayForm({ hotel, programName, tiers, lounges = [], compact }: {
                   <Select name="loungeWorthIt" label="Worth booking a club room for it?" placeholder="Yes or no" options={LOUNGE_WORTH_IT} />
                 </div>
               )}
-              {loungeAccess && (
-                <label className={styles.field}>
-                  <span className="label">A line about the lounge · optional</span>
-                  <textarea name="loungeComment" maxLength={LOUNGE_COMMENT_MAX} rows={3} placeholder="What was good, what was not. Read before it posts." />
-                </label>
+              {loungeAccess && reader.loaded && (
+                reader.signedIn && !reader.blocked ? (
+                  <label className={styles.field}>
+                    <span className="label">A line about the lounge · optional{reader.name ? ` · as ${reader.name}` : ''}</span>
+                    <textarea name="loungeComment" maxLength={LOUNGE_COMMENT_MAX} rows={3} placeholder="What was good, what was not. Read before it posts." />
+                  </label>
+                ) : (
+                  <p className={styles.hint}>
+                    <a href={`/login?next=${encodeURIComponent(typeof window !== 'undefined' ? window.location.pathname : '/')}`}>Sign in</a> to add a line about the lounge under your name. Scores count either way.
+                  </p>
+                )
               )}
             </>
           )}

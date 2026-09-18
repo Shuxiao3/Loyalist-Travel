@@ -8,7 +8,7 @@ import { ScoreBar } from '@/components/ScoreBar'
 import { rel } from '@/lib/format'
 import { accessLine, getLounge, getLoungeStays, loungeReaderData } from '@/lib/lounges'
 import { MIN_STAYS } from '@/lib/readerData'
-import type { Destination, Hotel, Program, StatusLevel } from '@/payload-types'
+import type { Destination, Hotel, Program, Reader, StatusLevel } from '@/payload-types'
 
 import styles from './page.module.css'
 
@@ -199,12 +199,15 @@ export default async function LoungePage({ params }: Props) {
             <ol className={styles.stayList}>
               {stays.map((s) => {
                 const tier = rel<StatusLevel>(s.statusHeld)
+                const who = rel<Reader>(s.reader)
                 const a = s.lounge ?? {}
                 return (
                   <li className={styles.stay} key={s.id}>
                     <div className={styles.stayWho}>
-                      <span className={styles.stayTier}>{tier?.shortName ?? tier?.name ?? 'Member'}</span>
-                      <span className={styles.stayYear}>Stayed {s.stayYear}</span>
+                      <span className={styles.stayTier}>{who?.displayName ?? 'Anonymous reader'}</span>
+                      <span className={styles.stayYear}>
+                        {tier?.shortName ?? tier?.name ?? 'Member'} · Stayed {s.stayYear}
+                      </span>
                     </div>
                     <div className={styles.stayWhat}>
                       <span>{ACCESS[a.access ?? ''] ?? 'Access not answered'}</span>

@@ -1,0 +1,57 @@
+.hero :global(.wrap) {
+  padding-top: var(--s7);
+  padding-bottom: var(--s7);
+}
+
+.h1 {
+  font-size: var(--t-h1);
+  line-height: 1.1;
+  color: var(--ivory);
+  letter-spacing: -0.01em;
+  margin: 0 0 var(--s5);
+}
+
+.body {
+  padding-bottom: var(--section);
+}
+
+.panel {
+  max-width: 480px;
+}
+
+.google {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s3);
+  background: var(--ivory);
+  border-color: var(--ivory);
+  color: var(--navy);
+}
+
+.google:hover {
+  background: var(--gold-pale);
+  border-color: var(--gold-pale);
+}
+
+.fine {
+  margin-top: var(--s5);
+  font-size: var(--t-xs);
+  line-height: 1.6;
+  color: var(--on-navy-dim);
+  letter-spacing: var(--track-fine);
+}
+
+.error {
+  margin-top: var(--s4);
+  font-size: var(--t-sm);
+  color: var(--gold-pale);
+}
+
+.back {
+  margin-top: var(--s5);
+  font-size: var(--t-sm);
+}
+
+.back a {
+  color: var(--gold-dark);
+}

@@ -174,6 +174,13 @@ export const ReaderStays: CollectionConfig = {
       ],
     },
     {
+      name: 'reader',
+      type: 'relationship',
+      relationTo: 'readers',
+      index: true,
+      admin: { position: 'sidebar', description: 'Set when the stay was submitted while signed in. Names the lounge rating and comment; the stay itself stays anonymous.' },
+    },
+    {
       name: 'submitterHash',
       type: 'text',
       index: true,

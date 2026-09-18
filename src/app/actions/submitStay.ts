@@ -5,6 +5,7 @@ import { headers } from 'next/headers'
 
 import { ALA_CARTE_CAP, BREAKFAST_OUTCOMES, LATE_CHECKOUT_OUTCOMES, LOUNGE_ACCESS, LOUNGE_COMMENT_MAX, LOUNGE_FACTORS, LOUNGE_WORTH_IT, SUITE_TYPES, UPGRADE_HOW, UPGRADE_OUTCOMES, UPGRADE_TYPES } from '@/collections/ReaderStays'
 import { getPayloadClient } from '@/lib/payload'
+import { currentReader } from '@/lib/reader'
 
 export type SubmitStayState = { ok: true } | { ok: false; error: string } | null
 
@@ -52,6 +53,7 @@ export async function submitStay(_prev: SubmitStayState, form: FormData): Promis
   const alaCarte = breakfast === 'full' || breakfast === 'a-la-carte'
   if (alaCarte && !inList(alaCarteCap, ALA_CARTE_CAP)) return { ok: false, error: 'Say whether the à la carte was capped.' }
 
+  const reader = await currentReader().catch(() => null)
   const payload = await getPayloadClient()
   const hotel = await payload.findByID({ collection: 'hotels', id: hotelId, depth: 0, overrideAccess: true }).catch(() => null)
   if (!hotel || hotel._status !== 'published') return { ok: false, error: 'That hotel is not on the site.' }
@@ -78,7 +80,7 @@ export async function submitStay(_prev: SubmitStayState, form: FormData): Promis
       access: loungeAccess as string,
       ...Object.fromEntries(LOUNGE_FACTORS.map((f) => [f.name, used ? loungeScores[f.name] : null])),
       worthIt: used ? (loungeWorthIt as string) : null,
-      comment: loungeComment || null,
+      comment: reader && !reader.blocked && loungeComment ? loungeComment : null,
     }
   }
 
@@ -114,6 +116,7 @@ export async function submitStay(_prev: SubmitStayState, form: FormData): Promis
       alaCarteCap: alaCarte ? (alaCarteCap as string) : null,
       lateCheckout: lateCheckout as string,
       lounge,
+      reader: reader?.id ?? null,
       submitterHash,
     } as never,
   })

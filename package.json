@@ -29,6 +29,7 @@
     "graphql": "^16.11.0",
     "htmlparser2": "^10.1.0",
     "next": "15.4.11",
+    "next-auth": "^5.0.0-beta.32",
     "payload": "3.89.0",
     "react": "19.1.1",
     "react-dom": "19.1.1",

@@ -62,6 +62,17 @@
   border-bottom-color: var(--gold);
 }
 
+.account {
+  border: 1px solid var(--gold-border);
+  padding: 8px 14px !important;
+  border-radius: var(--r-btn);
+  color: var(--gold) !important;
+}
+
+.account:hover {
+  border-color: var(--gold);
+}
+
 .searchLink {
   display: inline-flex;
   border-bottom: 0 !important;

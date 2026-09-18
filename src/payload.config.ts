@@ -15,6 +15,7 @@ import { Hotels } from './collections/Hotels'
 import { Lounges } from './collections/Lounges'
 import { Media } from './collections/Media'
 import { Programs } from './collections/Programs'
+import { Readers } from './collections/Readers'
 import { ReaderStays } from './collections/ReaderStays'
 import { Regions } from './collections/Regions'
 import { Reviews } from './collections/Reviews'
@@ -44,6 +45,7 @@ export default buildConfig({
     Reviews,
     Articles,
     ReaderStays,
+    Readers,
     Lounges,
     RubricVersions,
     Programs,
