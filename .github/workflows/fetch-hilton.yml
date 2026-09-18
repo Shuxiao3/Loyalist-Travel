@@ -34,8 +34,6 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - name: Browser
-        run: npx playwright install --with-deps chromium
       - name: Fetch
         run: |
           if [ -n "${{ github.event.inputs.limit }}" ]; then

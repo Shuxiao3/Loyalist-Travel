@@ -96,6 +96,11 @@ async function discover(): Promise<string[]> {
   })
   if (chosen.length === 0) throw new Error('no property sitemaps matched the brand list; see the names above')
   console.log(`walking ${chosen.length} property sitemaps for brands ${BRANDS.join(', ')}`)
+  const loc = children.find((c) => /sitemap-en-location-dt-001\.xml/.test(c))
+  if (loc) {
+    const sample = await get(loc)
+    console.log(`location sitemap sample (${loc}):\n  ` + locs(sample.body).slice(0, 8).join('\n  '))
+  }
   const seen = new Set<string>()
   let done = 0
   await mapLimit(chosen, 6, async (url) => {
@@ -160,41 +165,12 @@ function parse(url: string, html: string): HiltonHotel {
   }
 }
 
-// Hotel pages sit behind bot protection that refuses a plain request, so
-// they are loaded in a headless browser. Images, fonts and media are not
-// requested; only the document is read.
-type Browser = import('playwright').Browser
-let browser: Browser | null = null
-async function getBrowser(): Promise<Browser> {
-  if (browser) return browser
-  const { chromium } = await import('playwright')
-  browser = await chromium.launch({ args: ['--disable-blink-features=AutomationControlled'] })
-  return browser
-}
-
-async function getPage(url: string): Promise<{ status: number; body: string }> {
-  const b = await getBrowser()
-  const context = await b.newContext({ userAgent: UA, locale: 'en-US', viewport: { width: 1280, height: 900 } })
-  await context.route('**/*', (route) => {
-    const t = route.request().resourceType()
-    if (t === 'image' || t === 'font' || t === 'media' || t === 'stylesheet') return route.abort()
-    return route.continue()
-  })
-  const page = await context.newPage()
-  try {
-    const res = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 })
-    let body = await page.content()
-    // give a challenge page a moment to resolve, then read again
-    if (!/application\/ld\+json/.test(body) || /Access Denied|Reference #/.test(body)) {
-      await page.waitForTimeout(4000)
-      body = await page.content()
-    }
-    return { status: res?.status() ?? 0, body }
-  } catch (e) {
-    return { status: 0, body: String(e) }
-  } finally {
-    await context.close()
-  }
+// Hotel pages refuse requests from data-centre addresses, so each page is
+// read from the Internet Archive's most recent saved copy instead. The
+// `id_` flag returns the page as it was served, without the archive's own
+// toolbar. A page never archived comes back 404.
+async function getArchived(url: string): Promise<{ status: number; body: string }> {
+  return get(`https://web.archive.org/web/2026id_/${url}`)
 }
 
 async function main() {
@@ -205,12 +181,12 @@ async function main() {
     process.exit(1)
   }
   const todo = urls.slice(0, LIMIT)
-  // plain requests first; switch to the browser as soon as one is refused
-  let useBrowser = false
+  // a direct request first; if Hilton refuses it, read the archive copies
+  let useArchive = false
   const probe = await get(todo[0])
   if (probe.status !== 200 || !/application\/ld\+json/.test(probe.body)) {
-    console.log(`plain request refused (HTTP ${probe.status}); loading pages in a browser instead`)
-    useBrowser = true
+    console.log(`direct request refused (HTTP ${probe.status}); reading archived copies instead`)
+    useArchive = true
   }
   const existing: Record<string, HiltonHotel> = fs.existsSync(OUT) ? Object.fromEntries((JSON.parse(fs.readFileSync(OUT, 'utf8')) as HiltonHotel[]).map((h) => [h.url, h])) : {}
   const results: HiltonHotel[] = []
@@ -220,12 +196,12 @@ async function main() {
   const worker = async () => {
     while (i < todo.length) {
       const url = todo[i++]
-      const { status, body } = useBrowser ? await getPage(url) : await get(url)
+      const { status, body } = useArchive ? await getArchived(url) : await get(url)
       const ok = status === 200 && /application\/ld\+json/.test(body)
       if (!ok) {
         failures++
         if (existing[url]) results.push(existing[url])
-        if (failures <= 5) console.log(`${url}: HTTP ${status} ${/Access Denied/.test(body) ? '(access denied)' : ''} ${body.slice(0, 200).replace(/\s+/g, ' ')}`)
+        if (failures <= 8) console.log(`${url}: HTTP ${status} ${body.slice(0, 120).replace(/\s+/g, ' ')}`)
         continue
       }
       const rec = parse(url, body)
@@ -237,8 +213,7 @@ async function main() {
       if (results.length % 250 === 0) console.log(`${results.length} / ${todo.length}`)
     }
   }
-  await Promise.all(Array.from({ length: useBrowser ? 4 : CONCURRENCY }, worker))
-  if (browser) await browser.close()
+  await Promise.all(Array.from({ length: useArchive ? 3 : CONCURRENCY }, worker))
 
   // keep records from earlier runs for pages not fetched this time (a --limit run)
   const merged = new Map<string, HiltonHotel>(Object.entries(existing))
@@ -252,6 +227,7 @@ async function main() {
   console.log(`\nfetched ${results.length}, failed ${failures}, saved ${all.length}`)
   console.log('by brand code:', Object.entries(byBrand).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${k} ${v}`).join(', '))
   console.log(`missing name ${results.filter((r) => !r.name).length}, missing city ${results.filter((r) => !r.city).length}, missing country ${results.filter((r) => !r.country).length}, with rooms ${results.filter((r) => r.rooms).length}`)
+  process.exit(0)
 }
 
 main().catch((e) => {
