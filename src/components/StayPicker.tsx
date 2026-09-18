@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 
-import { StayForm, type StayFormTier } from './StayForm'
+import { StayForm, type StayFormLounge, type StayFormTier } from './StayForm'
 import styles from './StayPicker.module.css'
 
 type HotelHit = { id: number; name: string; program: { id: number; name: string } | number; destination?: { locationLabel?: string | null; name?: string } | number | null }
@@ -13,6 +13,7 @@ export function StayPicker() {
   const [hits, setHits] = useState<HotelHit[]>([])
   const [chosen, setChosen] = useState<HotelHit | null>(null)
   const [tiers, setTiers] = useState<StayFormTier[] | null>(null)
+  const [lounges, setLounges] = useState<StayFormLounge[] | null>(null)
 
   useEffect(() => {
     if (chosen || q.trim().length < 2) {
@@ -44,6 +45,12 @@ export function StayPicker() {
       .then((r) => r.json())
       .then((d) => setTiers(d.docs ?? []))
       .catch(() => setTiers([]))
+    // the hotel's lounges, so the lounge questions appear here too
+    const lp = new URLSearchParams({ limit: '10', depth: '0', 'where[hotel][equals]': String(chosen.id), 'where[_status][equals]': 'published', sort: 'name' })
+    fetch(`/api/lounges?${lp}`)
+      .then((r) => r.json())
+      .then((d) => setLounges((d.docs ?? []).map((l: { id: number; name: string }) => ({ id: l.id, name: l.name }))))
+      .catch(() => setLounges([]))
   }, [chosen])
 
   if (chosen) {
@@ -63,12 +70,13 @@ export function StayPicker() {
             onClick={() => {
               setChosen(null)
               setTiers(null)
+              setLounges(null)
             }}
           >
             Change
           </button>
         </div>
-        {tiers ? <StayForm hotel={{ id: chosen.id, name: chosen.name }} programName={programName} tiers={tiers} /> : <p className={styles.loading}>Loading tiers…</p>}
+        {tiers && lounges ? <StayForm hotel={{ id: chosen.id, name: chosen.name }} programName={programName} tiers={tiers} lounges={lounges} /> : <p className={styles.loading}>Loading tiers…</p>}
       </div>
     )
   }
