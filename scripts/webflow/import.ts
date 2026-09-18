@@ -671,7 +671,7 @@ function countryName(raw: string | null): string | null {
   return t
 }
 
-type HiltonRecord = { ctyhocn: string; brandCode: string | null; url: string; name: string | null; streetAddress: string | null; city: string | null; region: string | null; postalCode: string | null; country: string | null; phone: string | null; rooms: number | null }
+type HiltonRecord = { ctyhocn: string; brandCode: string | null; url: string; name: string | null; streetAddress: string | null; city: string | null; region: string | null; postalCode: string | null; country: string | null; phone: string | null; rooms: number | null; source?: 'page' | 'slug' }
 
 async function importHilton(payload: Payload) {
   const file = path.resolve(process.cwd(), 'data/hilton/hotels.json')
@@ -760,10 +760,15 @@ async function importHilton(payload: Payload) {
     }
     const found = byCode.get(r.ctyhocn) ?? byName.get(r.name.toLowerCase())
     if (found) {
-      // fill blanks only; never overwrite what the editor already has
       const patch: Record<string, unknown> = {}
-      for (const [k, v] of Object.entries(data)) if (v != null && (found as unknown as Record<string, unknown>)[k] == null) patch[k] = v
-      if (!found.bookingLink) patch.bookingLink = r.url
+      if (found.enrichmentStatus === 'queued' && r.source === 'page') {
+        // created earlier from the address alone; the page's facts replace it
+        Object.assign(patch, data, { name: r.name, enrichmentStatus: 'enriched' })
+      } else {
+        // fill blanks only; never overwrite what the editor already has
+        for (const [k, v] of Object.entries(data)) if (v != null && (found as unknown as Record<string, unknown>)[k] == null) patch[k] = v
+        if (!found.bookingLink) patch.bookingLink = r.url
+      }
       if (Object.keys(patch).length) {
         await payload.update({ collection: 'hotels', id: found.id, data: patch as never, depth: 0, overrideAccess: true })
         updated++
@@ -777,7 +782,7 @@ async function importHilton(payload: Payload) {
       collection: 'hotels',
       overrideAccess: true,
       depth: 0,
-      data: { name: r.name, slug, reviewStatus: 'not-reviewed', pointsEligible: true, ...data, _status: 'published' } as never,
+      data: { name: r.name, slug, reviewStatus: 'not-reviewed', pointsEligible: true, enrichmentStatus: r.source === 'slug' ? 'queued' : 'enriched', ...data, _status: 'published' } as never,
     })
     allSlugs.add(slug)
     byCode.set(r.ctyhocn, doc)

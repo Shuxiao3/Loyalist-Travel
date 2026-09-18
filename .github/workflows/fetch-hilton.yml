@@ -16,6 +16,10 @@ on:
         description: 'Import into the database after fetching (yes/no)'
         required: false
         default: 'yes'
+      minutes:
+        description: 'Minutes to spend reading hotel pages before saving what is done (re-run to continue)'
+        required: false
+        default: '100'
 
 permissions:
   contents: write
@@ -23,7 +27,7 @@ permissions:
 jobs:
   hilton:
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 150
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
       PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
@@ -37,9 +41,9 @@ jobs:
       - name: Fetch
         run: |
           if [ -n "${{ github.event.inputs.limit }}" ]; then
-            npm run fetch:hilton -- --limit ${{ github.event.inputs.limit }}
+            npm run fetch:hilton -- --limit ${{ github.event.inputs.limit }} --minutes ${{ github.event.inputs.minutes || 100 }}
           else
-            npm run fetch:hilton
+            npm run fetch:hilton -- --minutes ${{ github.event.inputs.minutes || 100 }}
           fi
       - name: Commit
         run: |

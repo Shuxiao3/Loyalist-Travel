@@ -27,11 +27,74 @@ export type HiltonHotel = {
   country: string | null
   phone: string | null
   rooms: number | null
+  source: 'page' | 'slug' // page: read from the hotel's own page; slug: derived from the address and city code
 }
 
 const args = process.argv.slice(2)
 const limitArg = args.indexOf('--limit')
 const LIMIT = limitArg >= 0 ? Number(args[limitArg + 1]) : Infinity
+// stop reading archived pages after this many minutes; the rest get slug
+// records this run and are retried next run
+const minutesArg = args.indexOf('--minutes')
+const MINUTES = minutesArg >= 0 ? Number(args[minutesArg + 1]) : 100
+const STARTED = Date.now()
+
+// Hilton city codes (first three letters of a hotel code) to place, built
+// from the public OurAirports data plus metropolitan codes.
+const CITY_CODES = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'data/hilton/city-codes.json'), 'utf8')) as Record<string, { city: string; region: string; country: string }>
+
+const SMALL = new Set(['of', 'by', 'the', 'and', 'at', 'on', 'in', 'de', 'la', 'del', 'du', 'des', 'a', 'an', 'to'])
+const UPPER = new Set(['dc', 'nyc', 'jfk', 'lax', 'sfo', 'uk', 'usa', 'ii', 'iii', 'teca', 'cbd'])
+const BRAND_PREFIX: Record<string, [RegExp, string]> = {
+  DT: [/^doubletree(-by-hilton)?(-hotel)?(-suites)?-?/, 'DoubleTree by Hilton '],
+  ES: [/^embassy-suites(-by-hilton)?(-hotel)?-?/, 'Embassy Suites by Hilton '],
+  PY: [/^canopy(-by-hilton)?-?/, 'Canopy by Hilton '],
+  SA: [/^signia(-by-hilton)?-?/, 'Signia by Hilton '],
+  GU: [/^graduate(-by-hilton)?(-hotel)?-?/, 'Graduate by Hilton '],
+  PO: [/^tempo(-by-hilton)?-?/, 'Tempo by Hilton '],
+  UA: [/^motto(-by-hilton)?-?/, 'Motto by Hilton '],
+  WA: [/^waldorf-astoria-?/, 'Waldorf Astoria '],
+  CH: [/^conrad-?/, 'Conrad '],
+  ND: [/^nomad-?/, 'NoMad '],
+  HI: [/^$/, ''],
+}
+const BRAND_SUFFIX: Record<string, string> = { QQ: ', Curio Collection by Hilton', UP: ', Tapestry Collection by Hilton', OL: ', LXR Hotels & Resorts' }
+
+// "abidtdt-doubletree-abilene-downtown-convention-center" -> a readable name
+export function nameFromSlug(slug: string, brandCode: string): string {
+  let rest = slug
+  let prefix = ''
+  const rule = BRAND_PREFIX[brandCode]
+  if (rule && rule[0].test(rest)) {
+    rest = rest.replace(rule[0], '')
+    prefix = rule[1]
+  }
+  rest = rest.replace(/-?(curio-collection|tapestry-collection|lxr-hotels(-and)?-resorts|lxr)(-by-hilton)?$/, '')
+  const words = rest.split('-').filter(Boolean).map((w, i) => (UPPER.has(w) ? w.toUpperCase() : SMALL.has(w) && i > 0 ? w : w.charAt(0).toUpperCase() + w.slice(1)))
+  return (prefix + words.join(' ')).trim() + (BRAND_SUFFIX[brandCode] ?? '')
+}
+
+function fromSlug(url: string): HiltonHotel {
+  const m = url.match(HOTEL_URL)!
+  const ctyhocn = m[1].toUpperCase()
+  const brandCode = ctyhocn.slice(-2)
+  const place = CITY_CODES[ctyhocn.slice(0, 3)]
+  return {
+    ctyhocn,
+    brandCode,
+    brandName: null,
+    url,
+    name: nameFromSlug(m[2], brandCode),
+    streetAddress: null,
+    city: place?.city ?? null,
+    region: place?.region ?? null,
+    postalCode: null,
+    country: place?.country ?? null,
+    phone: null,
+    rooms: null,
+    source: 'slug',
+  }
+}
 
 async function get(url: string): Promise<{ status: number; body: string }> {
   for (let attempt = 0; attempt < 3; attempt++) {
@@ -45,7 +108,7 @@ async function get(url: string): Promise<{ status: number; body: string }> {
       }
       return { status: res.status, body }
     } catch (e) {
-      if (attempt === 2) throw e
+      if (attempt === 2) return { status: 0, body: String(e).slice(0, 200) }
       await new Promise((r) => setTimeout(r, 2000 * (attempt + 1)))
     }
   }
@@ -162,6 +225,7 @@ function parse(url: string, html: string): HiltonHotel {
     country: decode(str(typeof address.addressCountry === 'object' && address.addressCountry ? (address.addressCountry as Record<string, unknown>).name : address.addressCountry)),
     phone: decode(str(hotel.telephone)),
     rooms: rooms ? Number(rooms) : null,
+    source: 'page',
   }
 }
 
@@ -193,40 +257,56 @@ async function main() {
     console.log('Nothing to fetch; the sitemap layout may have changed.')
     process.exit(1)
   }
-  const todo = urls.slice(0, LIMIT)
+  const existing: Record<string, HiltonHotel> = fs.existsSync(OUT) ? Object.fromEntries((JSON.parse(fs.readFileSync(OUT, 'utf8')) as HiltonHotel[]).map((h) => [h.url, h])) : {}
+  const pending = urls.filter((u) => existing[u]?.source !== 'page')
+  const todo = pending.slice(0, LIMIT)
+  console.log(`${Object.values(existing).filter((h) => h.source === 'page').length} already read from their pages; ${pending.length} to do; ${todo.length} this run`)
+
   // a direct request first; if Hilton refuses it, read the archive copies
   let useArchive = false
-  const probe = await get(todo[0])
-  if (probe.status !== 200 || !/application\/ld\+json/.test(probe.body)) {
-    console.log(`direct request refused (HTTP ${probe.status}); reading archived copies instead`)
-    useArchive = true
+  if (todo.length) {
+    const probe = await get(todo[0])
+    if (probe.status !== 200 || !/application\/ld\+json/.test(probe.body)) {
+      console.log(`direct request refused (HTTP ${probe.status}); reading archived copies instead`)
+      useArchive = true
+    }
   }
-  const existing: Record<string, HiltonHotel> = fs.existsSync(OUT) ? Object.fromEntries((JSON.parse(fs.readFileSync(OUT, 'utf8')) as HiltonHotel[]).map((h) => [h.url, h])) : {}
   const results: HiltonHotel[] = []
   let i = 0
   let failures = 0
   let shown = 0
+  let fromPage = 0
   const worker = async () => {
     while (i < todo.length) {
       const url = todo[i++]
-      const { status, body } = useArchive ? await getArchived(url) : await get(url)
+      const outOfTime = (Date.now() - STARTED) / 60000 > MINUTES
+      const { status, body } = outOfTime ? { status: 0, body: 'out of time' } : useArchive ? await getArchived(url) : await get(url)
       const ok = status === 200 && /application\/ld\+json/.test(body)
       if (!ok) {
         failures++
-        if (existing[url]) results.push(existing[url])
+        results.push(existing[url] ?? fromSlug(url))
         if (failures <= 8) console.log(`${url}: HTTP ${status} ${body.slice(0, 120).replace(/\s+/g, ' ')}`)
         continue
       }
       const rec = parse(url, body)
-      results.push(rec)
+      if (!rec.name || !rec.city || !rec.country) {
+        // a page without the facts we need: keep the slug record instead
+        const fb = fromSlug(url)
+        results.push({ ...fb, name: rec.name ?? fb.name, city: rec.city ?? fb.city, country: rec.country ?? fb.country, region: rec.region ?? fb.region, streetAddress: rec.streetAddress, phone: rec.phone, rooms: rec.rooms, brandName: rec.brandName })
+      } else {
+        results.push(rec)
+        fromPage++
+      }
       if (shown < 3) {
         shown++
         console.log(JSON.stringify(rec))
       }
-      if (results.length % 250 === 0) console.log(`${results.length} / ${todo.length}`)
+      if (results.length % 100 === 0) console.log(`${results.length} / ${todo.length} (${fromPage} from pages) after ${Math.round((Date.now() - STARTED) / 60000)} min`)
     }
   }
-  await Promise.all(Array.from({ length: useArchive ? 3 : CONCURRENCY }, worker))
+  await Promise.all(Array.from({ length: useArchive ? 4 : CONCURRENCY }, worker))
+  // everything never attempted this run still gets a slug record so it can be imported now
+  for (const url of pending.slice(todo.length)) if (!existing[url]) results.push(fromSlug(url))
 
   // keep records from earlier runs for pages not fetched this time (a --limit run)
   const merged = new Map<string, HiltonHotel>(Object.entries(existing))
@@ -236,14 +316,14 @@ async function main() {
   fs.writeFileSync(OUT, JSON.stringify(all, null, 1) + '\n')
 
   const byBrand: Record<string, number> = {}
-  for (const r of results) byBrand[r.brandCode ?? '??'] = (byBrand[r.brandCode ?? '??'] ?? 0) + 1
-  console.log(`\nfetched ${results.length}, failed ${failures}, saved ${all.length}`)
+  for (const r of all) byBrand[r.brandCode ?? '??'] = (byBrand[r.brandCode ?? '??'] ?? 0) + 1
+  console.log(`\nthis run: ${fromPage} read from pages, ${failures} not readable; file now holds ${all.length} hotels, ${all.filter((r) => r.source === 'page').length} from pages, ${all.filter((r) => r.source === 'slug').length} from slugs`)
   console.log('by brand code:', Object.entries(byBrand).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${k} ${v}`).join(', '))
-  console.log(`missing name ${results.filter((r) => !r.name).length}, missing city ${results.filter((r) => !r.city).length}, missing country ${results.filter((r) => !r.country).length}, with rooms ${results.filter((r) => r.rooms).length}`)
+  console.log(`missing city ${all.filter((r) => !r.city).length}, missing country ${all.filter((r) => !r.country).length}, with rooms ${all.filter((r) => r.rooms).length}`)
   process.exit(0)
 }
 
-main().catch((e) => {
+if (process.argv[1]?.endsWith("fetch.ts")) main().catch((e) => {
   console.error(e)
   process.exit(1)
 })
