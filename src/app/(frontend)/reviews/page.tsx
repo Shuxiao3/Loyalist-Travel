@@ -5,7 +5,7 @@ import { LandingHero } from '@/components/LandingHero'
 import { Pager } from '@/components/Pager'
 import { ReviewCard } from '@/components/ReviewCard'
 import { count, monthYear, rel, score } from '@/lib/format'
-import { getHotelFilterOptions, getReviews, getReviewStats, type ReviewFilters } from '@/lib/queries'
+import { getHotelFilterOptions, getReviews, type ReviewFilters } from '@/lib/queries'
 import type { Hotel, Program } from '@/payload-types'
 
 import styles from './page.module.css'
@@ -27,7 +27,7 @@ export default async function ReviewsIndex({ searchParams }: Props) {
   const page = Math.max(1, Number(first(sp.page)) || 1)
   const filters: ReviewFilters = { program: first(sp.program), country: first(sp.country), type: first(sp.type), sort: first(sp.sort) }
   const active = Boolean(filters.program || filters.country || filters.type)
-  const [result, latestRes, topRes, stats, options] = await Promise.all([getReviews({ limit: PER_PAGE, page, ...filters }), getReviews({ limit: 1 }), getReviews({ limit: 3, sort: 'top' }), getReviewStats(), getHotelFilterOptions()])
+  const [result, latestRes, topRes, options] = await Promise.all([getReviews({ limit: PER_PAGE, page, ...filters }), getReviews({ limit: 1 }), getReviews({ limit: 3, sort: 'top' }), getHotelFilterOptions()])
   const podium = topRes.docs.filter((r) => typeof r.totals?.overall === 'number')
 
   const href = (p: number) => {
@@ -50,12 +50,6 @@ export default async function ReviewsIndex({ searchParams }: Props) {
         title="Brand Hotel Reviews"
         text="Every stay is booked under a private name and paid for in full, so the hotel has no idea it is being reviewed. Sixteen categories, one hundred points, the same rubric every time."
         photo={image}
-        stats={[
-          { n: count(stats.count), l: 'Scored stays' },
-          { n: count(stats.hotels), l: 'Hotels reviewed' },
-          { n: stats.average != null ? score(stats.average) : '–', l: 'Average score of 100' },
-          { n: stats.best != null ? score(stats.best) : '–', l: 'Highest score so far' },
-        ]}
         card={
           latest
             ? {
@@ -63,7 +57,6 @@ export default async function ReviewsIndex({ searchParams }: Props) {
                 image,
                 meta: [latestProgram?.name ?? (latest.propertyType === 'resort' ? 'Resort' : 'City hotel'), latest.stayDate ? `Stayed ${monthYear(latest.stayDate)}` : null].filter((m): m is string => Boolean(m)),
                 title: latest.title,
-                text: latest.shortVerdict,
                 figure: { value: score(latest.totals?.overall), label: 'of 100' },
                 cta: 'Read the review',
                 href: `/reviews/${latest.slug}`,

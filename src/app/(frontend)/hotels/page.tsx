@@ -5,7 +5,7 @@ import { HotelList } from '@/components/HotelCard'
 import { LandingHero } from '@/components/LandingHero'
 import { Pager } from '@/components/Pager'
 import { count, rel } from '@/lib/format'
-import { findHotels, getFeaturedHotel, getHotelFilterOptions, getSiteCounts, HOTELS_PER_PAGE, type HotelFilters } from '@/lib/queries'
+import { findHotels, getFeaturedHotel, getHotelFilterOptions, HOTELS_PER_PAGE, type HotelFilters } from '@/lib/queries'
 import type { Brand, Destination, Program } from '@/payload-types'
 
 import styles from './page.module.css'
@@ -31,7 +31,7 @@ export default async function HotelsIndex({ searchParams }: Props) {
     scored: first(sp.scored),
     page: Math.max(1, Number(first(sp.page)) || 1),
   }
-  const [result, options, counts, featured] = await Promise.all([findHotels(filters), getHotelFilterOptions(), getSiteCounts(), getFeaturedHotel()])
+  const [result, options, featured] = await Promise.all([findHotels(filters), getHotelFilterOptions(), getFeaturedHotel()])
   const active = Object.entries(filters).filter(([k, v]) => k !== 'page' && v).length
   const fHotel = featured?.hotel
   const fBrand = fHotel ? rel<Brand>(fHotel.brand) : null
@@ -61,12 +61,6 @@ export default async function HotelsIndex({ searchParams }: Props) {
         title="Every hotel, indexed."
         text="Search by name, or filter by program, brand and country. Each hotel page carries the upgrade odds readers have reported there, its lounge if it has one, and the review when there is one."
         photo={fHotel?.externalImageUrl}
-        stats={[
-          { n: count(counts.hotels), l: 'Hotels indexed' },
-          { n: count(counts.programs), l: 'Loyalty programs' },
-          { n: count(options.countries.length), l: 'Countries' },
-          { n: count(counts.reviews), l: 'Scored stays' },
-        ]}
         card={
           fHotel
             ? {
@@ -74,7 +68,6 @@ export default async function HotelsIndex({ searchParams }: Props) {
                 image: fHotel.externalImageUrl,
                 meta: [fBrand?.name ?? fProgram?.name, fDest?.name].filter((m): m is string => Boolean(m)),
                 title: fHotel.name,
-                text: fData ? `${fData.stays} reader stays. ${fData.upgradeRate != null ? `${fData.upgradeRate}% got an upgrade` : ''}${fData.breakfastRate != null ? `, ${fData.breakfastRate}% got breakfast as printed` : ''}.` : null,
                 figure: fData?.upgradeRate != null ? { value: `${fData.upgradeRate}%`, label: 'upgrade rate' } : null,
                 cta: 'See the hotel',
                 href: `/hotels/${fHotel.slug}`,

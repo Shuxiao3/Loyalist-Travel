@@ -1,4 +1,4 @@
-/* Category landing hero: text, one featured card, a figures row. */
+/* Category landing hero: text on the left, one compact landscape card. */
 
 .hero {
   background-image: linear-gradient(100deg, var(--navy) 0%, var(--navy) 55%, var(--veil-navy) 74%, var(--veil-navy-soft) 100%), var(--hero-photo, none);
@@ -8,14 +8,14 @@
 
 .wrap {
   padding-top: var(--s8);
+  padding-bottom: var(--s8);
 }
 
 .grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 380px;
+  grid-template-columns: minmax(0, 1fr) 440px;
   gap: var(--s9);
   align-items: center;
-  padding-bottom: var(--s7);
 }
 
 .noCard {
@@ -32,90 +32,86 @@
   text-wrap: pretty;
 }
 
-/* the featured card; the whole card is the link */
+/* the featured card: photo on the left, a few lines on the right */
 .card {
-  display: block;
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
   color: inherit;
   background: var(--navy-deep);
   border: 1px solid var(--gold-border);
-  padding: var(--s6);
   border-radius: var(--r);
+  overflow: hidden;
   min-width: 0;
 }
 
-.card :global(.eyebrow) {
-  display: block;
-  margin-bottom: var(--s5);
+.noImg {
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .img {
   display: block;
-  height: 180px;
+  min-height: 100%;
   background: var(--img-a);
   background-size: cover;
   background-position: center;
-  margin-bottom: var(--s5);
 }
 
-.meta {
+.body {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 10px;
-  font-size: var(--t-label);
-  letter-spacing: var(--track-label);
-  text-transform: uppercase;
-  color: var(--on-navy-muted);
-  margin-bottom: var(--s3);
+  flex-direction: column;
+  padding: var(--s5);
+  min-width: 0;
 }
 
-.metaItem {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
+.body :global(.eyebrow) {
+  display: block;
+  margin-bottom: var(--s3);
 }
 
 .title {
   display: block;
   font-family: var(--serif);
-  font-size: var(--t-xl);
+  font-size: var(--t-lg);
   color: var(--ivory);
   line-height: 1.2;
-  margin-bottom: var(--s3);
+  margin-bottom: var(--s2);
 }
 
 .card:hover .title {
   color: var(--gold-pale);
 }
 
-.text {
+.meta {
   display: block;
-  font-size: var(--t-sm);
-  line-height: 1.6;
-  color: var(--light);
-  margin-bottom: var(--s5);
-  text-wrap: pretty;
+  font-size: var(--t-label);
+  line-height: 1.7;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--on-navy-muted);
+  margin-bottom: var(--s4);
 }
 
 .foot {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-end;
   justify-content: space-between;
   gap: var(--s4);
-  padding-top: var(--s4);
+  margin-top: auto;
+  padding-top: var(--s3);
   border-top: 1px solid var(--line-dark);
 }
 
 .figure {
   font-family: var(--serif);
-  font-size: calc(var(--t-num) * 0.72);
+  font-size: var(--t-xl);
   line-height: 1;
   color: var(--gold);
 }
 
 .figureText {
   font-family: var(--serif);
-  font-size: var(--t-lg);
+  font-size: var(--t-md);
   line-height: 1.2;
   color: var(--gold);
 }
@@ -144,38 +140,6 @@
   border-bottom-color: var(--gold-pale);
 }
 
-/* figures row */
-.stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  border-top: 1px solid var(--line-dark);
-}
-
-.stat {
-  padding: var(--s6) var(--s6) var(--s7) 0;
-}
-
-.stat + .stat {
-  padding-left: var(--s6);
-  border-left: 1px solid var(--line-dark);
-}
-
-.statN {
-  font-family: var(--serif);
-  font-size: var(--t-stat);
-  line-height: 1;
-  color: var(--gold);
-  margin-bottom: var(--s3);
-}
-
-.statL {
-  font-size: var(--t-label);
-  letter-spacing: var(--track-label);
-  text-transform: uppercase;
-  color: var(--on-navy-muted);
-  line-height: 1.6;
-}
-
 @media (max-width: 1100px) {
   .grid {
     grid-template-columns: 1fr;
@@ -183,47 +147,29 @@
   }
 
   .card {
-    max-width: 560px;
+    max-width: 520px;
   }
 }
 
 @media (max-width: 640px) {
   .wrap {
     padding-top: var(--s7);
+    padding-bottom: var(--s7);
   }
 
   .grid {
     gap: var(--s6);
-    padding-bottom: var(--s6);
   }
 
-  .card {
-    padding: var(--s5);
+  .card:not(.noImg) {
+    grid-template-columns: 96px minmax(0, 1fr);
   }
 
-  .img {
-    height: 140px;
+  .read {
+    white-space: normal;
   }
 
-  .stats {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .stat {
-    padding: var(--s5) var(--s4) var(--s5) 0;
-  }
-
-  .stat + .stat {
-    padding-left: var(--s4);
-  }
-
-  .stat:nth-child(3) {
-    border-left: 0;
-    padding-left: 0;
-    border-top: 1px solid var(--line-dark);
-  }
-
-  .stat:nth-child(4) {
-    border-top: 1px solid var(--line-dark);
+  .body {
+    padding: var(--s4);
   }
 }
