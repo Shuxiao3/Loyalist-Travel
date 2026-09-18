@@ -523,10 +523,52 @@ async function unseedStays(payload: Payload) {
   console.log(`unseed-stays: removed ${res.docs.length} mock stays and ${l.docs.length} mock lounge`)
 }
 
-// Photographs from data/images.json, by hotel slug, onto externalImageUrl.
+// Program logos from Webflow, downloaded into public/images/programs so the
+// site serves them itself. Records the paths in data/images.json; the
+// images step then points each program at its copy.
+async function fetchLogos(payload: Payload) {
+  const programs = await payload.find({ collection: 'programs', limit: 20, depth: 0, overrideAccess: true })
+  const file = path.resolve(process.cwd(), 'data/images.json')
+  const json = JSON.parse(fs.readFileSync(file, 'utf8')) as { programs?: Record<string, string> }
+  json.programs = json.programs ?? {}
+  const dir = path.resolve(process.cwd(), 'public/images/programs')
+  fs.mkdirSync(dir, { recursive: true })
+  for (const program of programs.docs) {
+    const url = program.images?.logoUrl
+    if (!url || !/^https?:/.test(url)) {
+      console.log(`logos-local: ${program.slug}: nothing to fetch`)
+      continue
+    }
+    const res = await fetch(url)
+    if (!res.ok) {
+      console.log(`logos-local: ${program.slug}: download failed (${res.status})`)
+      continue
+    }
+    const data = Buffer.from(await res.arrayBuffer())
+    const type = res.headers.get('content-type')?.split(';')[0] ?? ''
+    const ext = type === 'image/svg+xml' || url.endsWith('.svg') ? 'svg' : type === 'image/jpeg' ? 'jpg' : type === 'image/webp' ? 'webp' : 'png'
+    fs.writeFileSync(path.join(dir, `${program.slug}.${ext}`), data)
+    json.programs[program.slug] = `/images/programs/${program.slug}.${ext}`
+    console.log(`logos-local: ${program.slug}: ${data.length} bytes`)
+  }
+  fs.writeFileSync(file, JSON.stringify(json, null, 2) + '\n')
+}
+
+// Photographs from data/images.json onto hotels (externalImageUrl) and
+// program logos (images.logoUrl), by slug.
 async function applyImages(payload: Payload) {
-  const file = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'data/images.json'), 'utf8')) as { hotels?: Record<string, string> }
+  const file = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'data/images.json'), 'utf8')) as { hotels?: Record<string, string>; programs?: Record<string, string> }
   let n = 0
+  for (const [slug, url] of Object.entries(file.programs ?? {})) {
+    const program = (await payload.find({ collection: 'programs', where: { slug: { equals: slug } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
+    if (!program) {
+      console.log(`images: no program with slug ${slug}`)
+      continue
+    }
+    if (program.images?.logoUrl === url) continue
+    await payload.update({ collection: 'programs', id: program.id, data: { images: { ...(program.images ?? {}), logoUrl: url } }, overrideAccess: true })
+    n++
+  }
   for (const [slug, url] of Object.entries(file.hotels ?? {})) {
     const hotel = (await payload.find({ collection: 'hotels', where: { slug: { equals: slug } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
     if (!hotel) {
@@ -537,7 +579,7 @@ async function applyImages(payload: Payload) {
     await payload.update({ collection: 'hotels', id: hotel.id, data: { externalImageUrl: url }, overrideAccess: true })
     n++
   }
-  console.log(`images: set ${n} hotel photograph(s)`)
+  console.log(`images: set ${n} image path(s)`)
 }
 
 // Six short mock articles, one per category, so the hub and template have
@@ -598,6 +640,7 @@ const STEPS: Record<string, (p: Payload) => Promise<void>> = {
   'seed-stays': seedStays,
   'unseed-stays': unseedStays,
   images: applyImages,
+  'logos-local': fetchLogos,
   'seed-articles': seedArticles,
   'unseed-articles': unseedArticles,
 }
