@@ -56,8 +56,10 @@ const locs = (xml: string): string[] => [...xml.matchAll(/<loc>\s*([^<\s]+)\s*<\
 
 const HOTEL_URL = /^https:\/\/www\.hilton\.com\/en\/hotels\/([a-z0-9]{7})-([a-z0-9-]+)\/$/
 
-const typesArg = args.indexOf('--types')
-const TYPES = new RegExp(typesArg >= 0 ? args[typesArg + 1] : 'hotel|propert', 'i')
+// Hilton brand codes, as they appear in the sitemap file names and at the
+// end of each hotel code. Only these brands are fetched.
+const brandsArg = args.indexOf('--brands')
+const BRANDS = (brandsArg >= 0 ? args[brandsArg + 1] : 'wa,ch,ol,sa,nd,hi,py,qq,up,dt,es,gu,po,ua').split(',').map((b) => b.trim().toLowerCase())
 
 async function mapLimit<T, R>(items: T[], limit: number, fn: (t: T) => Promise<R>): Promise<R[]> {
   const out: R[] = []
@@ -87,12 +89,13 @@ async function discover(): Promise<string[]> {
   }
   console.log(`${en}: ${children.length} children`)
   for (const [k, v] of Object.entries(patterns)) console.log(`  ${k} x${v}`)
-  let chosen = children.filter((c) => TYPES.test(c.replace(/^.*\//, '')))
-  if (chosen.length === 0) {
-    console.log(`no child sitemap matched /${TYPES.source}/; walking everything except location and offer sitemaps`)
-    chosen = children.filter((c) => !/location|offer|blog|explore|event/i.test(c.replace(/^.*\//, '')))
-  }
-  console.log(`walking ${chosen.length} sitemaps`)
+  // property sitemaps are named sitemap-en-prop-<brand>-NNN.xml
+  const chosen = children.filter((c) => {
+    const m = c.replace(/^.*\//, '').match(/^sitemap-en-prop-([a-z]{2})-\d+\.xml/)
+    return m && BRANDS.includes(m[1])
+  })
+  if (chosen.length === 0) throw new Error('no property sitemaps matched the brand list; see the names above')
+  console.log(`walking ${chosen.length} property sitemaps for brands ${BRANDS.join(', ')}`)
   const seen = new Set<string>()
   let done = 0
   await mapLimit(chosen, 6, async (url) => {
@@ -157,6 +160,43 @@ function parse(url: string, html: string): HiltonHotel {
   }
 }
 
+// Hotel pages sit behind bot protection that refuses a plain request, so
+// they are loaded in a headless browser. Images, fonts and media are not
+// requested; only the document is read.
+type Browser = import('playwright').Browser
+let browser: Browser | null = null
+async function getBrowser(): Promise<Browser> {
+  if (browser) return browser
+  const { chromium } = await import('playwright')
+  browser = await chromium.launch({ args: ['--disable-blink-features=AutomationControlled'] })
+  return browser
+}
+
+async function getPage(url: string): Promise<{ status: number; body: string }> {
+  const b = await getBrowser()
+  const context = await b.newContext({ userAgent: UA, locale: 'en-US', viewport: { width: 1280, height: 900 } })
+  await context.route('**/*', (route) => {
+    const t = route.request().resourceType()
+    if (t === 'image' || t === 'font' || t === 'media' || t === 'stylesheet') return route.abort()
+    return route.continue()
+  })
+  const page = await context.newPage()
+  try {
+    const res = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 })
+    let body = await page.content()
+    // give a challenge page a moment to resolve, then read again
+    if (!/application\/ld\+json/.test(body) || /Access Denied|Reference #/.test(body)) {
+      await page.waitForTimeout(4000)
+      body = await page.content()
+    }
+    return { status: res?.status() ?? 0, body }
+  } catch (e) {
+    return { status: 0, body: String(e) }
+  } finally {
+    await context.close()
+  }
+}
+
 async function main() {
   const urls = await discover()
   console.log(`\n${urls.length} hotel pages found`)
@@ -165,6 +205,13 @@ async function main() {
     process.exit(1)
   }
   const todo = urls.slice(0, LIMIT)
+  // plain requests first; switch to the browser as soon as one is refused
+  let useBrowser = false
+  const probe = await get(todo[0])
+  if (probe.status !== 200 || !/application\/ld\+json/.test(probe.body)) {
+    console.log(`plain request refused (HTTP ${probe.status}); loading pages in a browser instead`)
+    useBrowser = true
+  }
   const existing: Record<string, HiltonHotel> = fs.existsSync(OUT) ? Object.fromEntries((JSON.parse(fs.readFileSync(OUT, 'utf8')) as HiltonHotel[]).map((h) => [h.url, h])) : {}
   const results: HiltonHotel[] = []
   let i = 0
@@ -173,11 +220,12 @@ async function main() {
   const worker = async () => {
     while (i < todo.length) {
       const url = todo[i++]
-      const { status, body } = await get(url)
-      if (status !== 200) {
+      const { status, body } = useBrowser ? await getPage(url) : await get(url)
+      const ok = status === 200 && /application\/ld\+json/.test(body)
+      if (!ok) {
         failures++
         if (existing[url]) results.push(existing[url])
-        console.log(`${url}: HTTP ${status}`)
+        if (failures <= 5) console.log(`${url}: HTTP ${status} ${/Access Denied/.test(body) ? '(access denied)' : ''} ${body.slice(0, 200).replace(/\s+/g, ' ')}`)
         continue
       }
       const rec = parse(url, body)
@@ -189,7 +237,8 @@ async function main() {
       if (results.length % 250 === 0) console.log(`${results.length} / ${todo.length}`)
     }
   }
-  await Promise.all(Array.from({ length: CONCURRENCY }, worker))
+  await Promise.all(Array.from({ length: useBrowser ? 4 : CONCURRENCY }, worker))
+  if (browser) await browser.close()
 
   // keep records from earlier runs for pages not fetched this time (a --limit run)
   const merged = new Map<string, HiltonHotel>(Object.entries(existing))
