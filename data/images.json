@@ -2,5 +2,11 @@
   "_note": "Photographs by hotel slug, as a site path under public/images/hotels or a full URL. Applied by `import:webflow -- images`; the 'Add a hotel photo' workflow downloads an image and fills this in. A review without its own image falls back to its hotel's.",
   "hotels": {
     "hyatt-centric-downtown-denver": "/images/hotels/hyatt-centric-downtown-denver.jpg"
+  },
+  "programs": {
+    "ihg-one-rewards": "/images/programs/ihg-one-rewards.png",
+    "hilton-honors": "/images/programs/hilton-honors.png",
+    "marriott-bonvoy": "/images/programs/marriott-bonvoy.png",
+    "world-of-hyatt": "/images/programs/world-of-hyatt.svg"
   }
 }
