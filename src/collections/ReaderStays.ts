@@ -73,13 +73,18 @@ export const LATE_CHECKOUT_OUTCOMES = [
   { label: 'Not requested', value: 'not-requested' },
 ]
 
-// After any change or delete, recount the hotel's approved stays.
+// After any change or delete, recount the hotel's approved stays. Plain SQL
+// inside the request's transaction: a document update here would write a
+// hotel version from within the stay's own operation, which Payload rejects.
 async function recount(req: PayloadRequest, hotelId: number | null | undefined) {
   if (!hotelId) return
-  // `req` carries the open transaction; without it these calls wait on it forever
-  const n = await req.payload.count({ collection: 'reader-stays', where: { and: [{ hotel: { equals: hotelId } }, { status: { equals: 'approved' } }] }, overrideAccess: true, req })
-  await req.payload.update({ collection: 'hotels', id: hotelId, data: { stayCount: n.totalDocs }, overrideAccess: true, depth: 0, req })
+  const { sql } = await import('@payloadcms/db-postgres')
+  const adapter = req.payload.db as unknown as { drizzle: { execute: (q: unknown) => Promise<unknown> }; sessions?: Record<string, { db: { execute: (q: unknown) => Promise<unknown> } }> }
+  const db = (req.transactionID && adapter.sessions?.[String(req.transactionID)]?.db) || adapter.drizzle
+  await db.execute(sql`update hotels set stay_count = (select count(*) from reader_stays where hotel_id = ${hotelId} and status = 'approved') where id = ${hotelId}`)
+  await db.execute(sql`update _hotels_v set version_stay_count = (select stay_count from hotels where id = ${hotelId}) where parent_id = ${hotelId} and id = (select max(id) from _hotels_v where parent_id = ${hotelId})`)
 }
+
 const hotelIdOf = (doc: { hotel?: number | { id: number } | null } | undefined) => (doc?.hotel && typeof doc.hotel === 'object' ? doc.hotel.id : (doc?.hotel as number | null | undefined))
 
 export const ReaderStays: CollectionConfig = {
