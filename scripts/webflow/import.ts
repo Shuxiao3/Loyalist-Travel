@@ -663,6 +663,37 @@ async function retireTiers(payload: Payload) {
   console.log(`retire-tiers: moved ${moved} references to Globalist and removed Lifetime Globalist`)
 }
 
+// ---- Club lounge flags ---------------------------------------------------------
+// data/lounges/<program>.json comes from scripts/lounges/fetch.ts. Applies the
+// yes/no to hotels that have no answer yet; an editor's answer is kept.
+async function loungeFlags(payload: Payload) {
+  const dir = path.resolve(process.cwd(), 'data/lounges')
+  if (!fs.existsSync(dir)) {
+    console.log('lounge-flags: no data')
+    return
+  }
+  let set = 0
+  let kept = 0
+  let missing = 0
+  for (const file of fs.readdirSync(dir).filter((f) => f.endsWith('.json'))) {
+    const rows = JSON.parse(fs.readFileSync(path.join(dir, file), 'utf8')) as Record<string, { lounge: boolean }>
+    for (const [slug, r] of Object.entries(rows)) {
+      const hotel = (await payload.find({ collection: 'hotels', where: { slug: { equals: slug } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
+      if (!hotel) {
+        missing++
+        continue
+      }
+      if (hotel.clubLounge) {
+        kept++
+        continue
+      }
+      await payload.update({ collection: 'hotels', id: hotel.id, data: { clubLounge: r.lounge ? 'yes' : 'no' }, depth: 0, overrideAccess: true })
+      set++
+    }
+  }
+  console.log(`lounge-flags: ${set} set, ${kept} already answered, ${missing} hotels not found`)
+}
+
 // ---- Hilton -----------------------------------------------------------------
 // data/hilton/hotels.json comes from scripts/hilton/fetch.ts. Hilton brand
 // codes (the last two letters of each hotel code) map to our brand slugs;
@@ -864,6 +895,7 @@ const STEPS: Record<string, (p: Payload) => Promise<void>> = {
   'seed-articles': seedArticles,
   'unseed-articles': unseedArticles,
   'retire-tiers': retireTiers,
+  'lounge-flags': loungeFlags,
 }
 
 async function main() {

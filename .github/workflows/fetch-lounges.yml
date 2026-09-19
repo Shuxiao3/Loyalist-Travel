@@ -1,0 +1,68 @@
+# Reads each hotel's page on its chain's site for a club or executive
+# lounge, commits the answers to data/lounges/<program>.json, then applies
+# them to the database.
+#
+# Manual: Actions tab → "Fetch club lounges" → Run workflow. Start with a
+# limit and dump=yes to see the matches before trusting them.
+name: Fetch club lounges
+
+on:
+  workflow_dispatch:
+    inputs:
+      program:
+        description: 'Program slug: world-of-hyatt, marriott-bonvoy or ihg-one-rewards'
+        required: true
+        default: 'world-of-hyatt'
+      limit:
+        description: 'Only read this many hotel pages (blank = all)'
+        required: false
+        default: ''
+      minutes:
+        description: 'Minutes to spend reading before saving what is done (re-run to continue)'
+        required: false
+        default: '100'
+      dump:
+        description: 'Print the matched text for each hotel (yes/no)'
+        required: false
+        default: 'no'
+      import:
+        description: 'Apply the answers to the database after reading (yes/no)'
+        required: false
+        default: 'yes'
+
+permissions:
+  contents: write
+
+jobs:
+  lounges:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Read
+        run: |
+          npm run fetch:lounges -- --program "${{ github.event.inputs.program }}" \
+            ${{ github.event.inputs.limit && format('--limit {0}', github.event.inputs.limit) || '' }} \
+            --minutes ${{ github.event.inputs.minutes || 100 }} \
+            ${{ github.event.inputs.dump == 'yes' && '--dump' || '' }}
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add data/lounges
+          git commit -m "Club lounges: ${{ github.event.inputs.program }}" || echo "nothing to commit"
+          # main may have moved while this ran: bring it in, then push, a few tries
+          for i in 1 2 3 4; do git pull --rebase origin main && git push && break; sleep 10; done
+      - name: Apply
+        if: github.event.inputs.import == 'yes'
+        run: |
+          npm run migrate
+          npm run import:webflow -- lounge-flags
