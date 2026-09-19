@@ -56,6 +56,20 @@ const DOMAINS: Record<string, RegExp> = {
 
 type Result = { url: string; lounge: boolean; hits: string[]; at: string }
 
+// Other addresses the same hotel page has had, for the archive to look under.
+// Marriott moved from /hotels/travel/<code>-<slug> to /en-us/hotels/<code>-<slug>/overview/
+// in 2022; the older address was crawled for many years.
+function alternateAddresses(url: string): string[] {
+  const m = url.match(/marriott\.com\/(?:en-us\/)?hotels\/(?:travel\/)?([a-z0-9]{5})-/i)
+  if (m) {
+    const code = m[1].toLowerCase()
+    return [`https://www.marriott.com/hotels/travel/${code}-*`, `https://www.marriott.com/en-us/hotels/${code}-*`, `https://www.marriott.com/hotels/hotel-information/travel/${code}-*`]
+  }
+  const r = url.match(/ritzcarlton\.com\/en\/hotels\/([a-z0-9]{5})-/i)
+  if (r) return [`https://www.ritzcarlton.com/en/hotels/${r[1].toLowerCase()}-*`]
+  return []
+}
+
 function detect(html: string, words: RegExp): { lounge: boolean; hits: string[] } {
   // strip tags so context reads as text
   const text = html
@@ -113,6 +127,8 @@ async function main() {
     console.log(`\nthis run: ${read} read, ${failed} not readable`)
     console.log(`lounges: ${all.filter((r) => r.lounge).length} with, ${all.filter((r) => !r.lounge).length} without, ${candidates.length - all.length} not checked`)
   }
+  // keep the process alive while pages are in flight, whatever a stuck socket does
+  const heartbeat = setInterval(() => {}, 30000)
   let finished = false
   process.on('beforeExit', () => {
     if (finished) return
@@ -124,7 +140,7 @@ async function main() {
   await mapLimit(todo, useArchive ? 4 : 5, async (h) => {
     const url = h.bookingLink!
     const outOfTime = (Date.now() - STARTED) / 60000 > MINUTES
-    const res = outOfTime ? { status: 0, body: 'out of time' } : useArchive ? await getArchived(url, looksRight) : await get(url)
+    const res = outOfTime ? { status: 0, body: 'out of time' } : useArchive ? await getArchived(url, looksRight, alternateAddresses(url)) : await get(url)
     done++
     if (res.status !== 200 || !looksRight(res.body)) {
       failed++
@@ -150,6 +166,7 @@ async function main() {
     if (done % 100 === 0) console.log(`${done} / ${todo.length} (${read} read) after ${Math.round((Date.now() - STARTED) / 60000)} min`)
   })
 
+  clearInterval(heartbeat)
   finished = true
   save()
   summary()
