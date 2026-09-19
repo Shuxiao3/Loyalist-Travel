@@ -38,7 +38,7 @@ const OUT = path.resolve(process.cwd(), `data/lounges/${PROGRAM}.json`)
 // is not inside talk about elite benefits in general (those phrases appear
 // on every page of the chain, lounge or not).
 const WORDS: Record<string, RegExp> = {
-  'world-of-hyatt': /Regency Club|Grand Club|Club Lounge|Executive Lounge|Club Access|"clubLounge"/gi,
+  'world-of-hyatt': /Regency Club|Grand Club|Club Lounge|Executive Lounge|(?<!Kids )Club Access|"clubLounge"/gi, // "Kids Club access" is not a lounge
   'marriott-bonvoy': /Executive Lounge|Club Lounge|Concierge Lounge|M Club|Club Level|Ritz-Carlton Club|Executive Club|St\. Regis Club|"executiveLounge"|"mClub"/gi,
   'ihg-one-rewards': /Club InterContinental|Club Lounge|Executive Lounge|Club Floor|Executive Club|"clubLounge"/gi,
 }
