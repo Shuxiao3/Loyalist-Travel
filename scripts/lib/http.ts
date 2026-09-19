@@ -11,7 +11,7 @@ export type Got = { status: number; body: string }
 export async function get(url: string): Promise<Got> {
   for (let attempt = 0; attempt < 3; attempt++) {
     try {
-      const res = await fetch(url, { headers: { 'user-agent': UA, accept: 'text/html,application/xml,text/xml,*/*', 'accept-language': 'en-US,en;q=0.9' }, redirect: 'follow' })
+      const res = await fetch(url, { headers: { 'user-agent': UA, accept: 'text/html,application/xml,text/xml,*/*', 'accept-language': 'en-US,en;q=0.9' }, redirect: 'follow', signal: AbortSignal.timeout(60000) })
       const buf = Buffer.from(await res.arrayBuffer())
       const body = url.endsWith('.gz') || buf.subarray(0, 2).equals(Buffer.from([0x1f, 0x8b])) ? zlib.gunzipSync(buf).toString('utf8') : buf.toString('utf8')
       if (res.status === 429 || res.status >= 500) {

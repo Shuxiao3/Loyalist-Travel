@@ -22,7 +22,7 @@ on:
         required: false
         default: '100'
       dump:
-        description: 'Print the matched text for each hotel (yes/no)'
+        description: 'Print the matched text for each hotel (yes/no); explore prints every lounge mention on the first pages'
         required: false
         default: 'no'
       import:
@@ -52,7 +52,7 @@ jobs:
           npm run fetch:lounges -- --program "${{ github.event.inputs.program }}" \
             ${{ github.event.inputs.limit && format('--limit {0}', github.event.inputs.limit) || '' }} \
             --minutes ${{ github.event.inputs.minutes || 100 }} \
-            ${{ github.event.inputs.dump == 'yes' && '--dump' || '' }}
+            ${{ github.event.inputs.dump == 'yes' && '--dump' || github.event.inputs.dump == 'explore' && '--dump --explore' || '' }}
       - name: Commit
         run: |
           git config user.name 'github-actions[bot]'

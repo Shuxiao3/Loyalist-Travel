@@ -27,6 +27,8 @@ const PROGRAM = arg('--program')
 const LIMIT = arg('--limit') ? Number(arg('--limit')) : Infinity
 const MINUTES = arg('--minutes') ? Number(arg('--minutes')) : 100
 const DUMP = args.includes('--dump')
+// print every mention of a lounge on the first few pages, filtered or not, to learn what a real one looks like
+const EXPLORE = args.includes('--explore')
 const STARTED = Date.now()
 if (!PROGRAM) {
   console.log('Give a program: --program world-of-hyatt | marriott-bonvoy | ihg-one-rewards')
@@ -43,6 +45,8 @@ const WORDS: Record<string, RegExp> = {
   'ihg-one-rewards': /Club InterContinental|Club Lounge|Executive Lounge|Club Floor|Executive Club|"clubLounge"/gi,
 }
 const NOT_THIS_HOTEL = /globalist|explorist|discoverist|platinum|titanium|ambassador|diamond|elite|status|member benefit|bonvoy benefit|tier|earn |points/i
+// translation strings and templates shipped on every page of a chain's site
+const TEMPLATE = /\{HOTEL NAME\}|\{[A-Z_ ]+\}|hws\.|"[a-z]+(\.[a-zA-Z]+){2,}":|\.answer\.|\.question\./
 // which domains count as the chain's own page
 const DOMAINS: Record<string, RegExp> = {
   'world-of-hyatt': /hyatt\.com/,
@@ -65,7 +69,7 @@ function detect(html: string, words: RegExp): { lounge: boolean; hits: string[] 
     const ctx = text.slice(Math.max(0, m.index! - 70), m.index! + m[0].length + 70)
     // the benefit-talk check looks only at the words right next to the match
     const near = text.slice(Math.max(0, m.index! - 40), m.index! + m[0].length + 40)
-    if (NOT_THIS_HOTEL.test(near)) continue
+    if (NOT_THIS_HOTEL.test(near) || TEMPLATE.test(ctx)) continue
     hits.push(ctx.trim())
     if (hits.length >= 4) break
   }
@@ -100,6 +104,23 @@ async function main() {
   let done = 0
   let read = 0
   let failed = 0
+  const save = () => {
+    fs.mkdirSync(path.dirname(OUT), { recursive: true })
+    fs.writeFileSync(OUT, JSON.stringify(existing, null, 1) + '\n')
+  }
+  const summary = () => {
+    const all = Object.values(existing)
+    console.log(`\nthis run: ${read} read, ${failed} not readable`)
+    console.log(`lounges: ${all.filter((r) => r.lounge).length} with, ${all.filter((r) => !r.lounge).length} without, ${candidates.length - all.length} not checked`)
+  }
+  let finished = false
+  process.on('beforeExit', () => {
+    if (finished) return
+    finished = true
+    console.log('\nthe event loop drained before every page came back; saving what is done')
+    save()
+    summary()
+  })
   await mapLimit(todo, useArchive ? 4 : 5, async (h) => {
     const url = h.bookingLink!
     const outOfTime = (Date.now() - STARTED) / 60000 > MINUTES
@@ -113,15 +134,25 @@ async function main() {
     const d = detect(res.body, words)
     existing[h.slug] = { url, lounge: d.lounge, hits: d.hits.slice(0, 2), at: new Date().toISOString().slice(0, 10) }
     read++
+    if (read % 25 === 0) save()
+    if (EXPLORE && read <= 10) {
+      const text = res.body.replace(/<script[\s\S]*?<\/script>/gi, ' ').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ')
+      const raw = res.body.replace(/\s+/g, ' ')
+      const show = (label: string, src: string) => {
+        const found = [...src.matchAll(/lounge|m club|club level/gi)].slice(0, 6).map((m) => src.slice(Math.max(0, m.index! - 90), m.index! + 90).trim())
+        console.log(`  [${label}] ${found.length} mention(s)${found.map((f) => `\n      …${f}…`).join('')}`)
+      }
+      console.log(`\nEXPLORE ${h.name} (${res.body.length} bytes)`)
+      show('visible text', text)
+      show('scripts too', raw)
+    }
     if (DUMP) console.log(`\n${h.name} -> ${d.lounge ? 'LOUNGE' : 'no'}${d.hits.map((x) => `\n    …${x}…`).join('')}`)
     if (done % 100 === 0) console.log(`${done} / ${todo.length} (${read} read) after ${Math.round((Date.now() - STARTED) / 60000)} min`)
   })
 
-  fs.mkdirSync(path.dirname(OUT), { recursive: true })
-  fs.writeFileSync(OUT, JSON.stringify(existing, null, 1) + '\n')
-  const all = Object.values(existing)
-  console.log(`\nthis run: ${read} read, ${failed} not readable`)
-  console.log(`lounges: ${all.filter((r) => r.lounge).length} with, ${all.filter((r) => !r.lounge).length} without, ${candidates.length - all.length} not checked`)
+  finished = true
+  save()
+  summary()
   process.exit(0)
 }
 
