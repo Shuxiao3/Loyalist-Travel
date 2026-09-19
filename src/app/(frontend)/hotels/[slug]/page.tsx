@@ -7,10 +7,11 @@ import { HotelList } from '@/components/HotelCard'
 import { LatestStays } from '@/components/LatestStays'
 import { MobileTabs } from '@/components/MobileTabs'
 import { ReaderPanel } from '@/components/ReaderPanel'
-import { ReviewCard } from '@/components/ReviewCard'
+import { StickyReview } from '@/components/StickyReview'
 import { StayForm } from '@/components/StayForm'
 import { ViewBeacon } from '@/components/ViewBeacon'
 import { rel, score } from '@/lib/format'
+import { bandFor } from '@/lib/rubric'
 import { getHotel, getHotelsIn, getPayloadClient, getReviewsForHotel } from '@/lib/queries'
 import { accessLine, getLoungesForHotel, loungeReaderData, servicesLine } from '@/lib/lounges'
 import { hotelReaderData, latestStays } from '@/lib/readerData'
@@ -81,7 +82,7 @@ export default async function HotelPage({ params }: Props) {
   return (
     <>
       <ViewBeacon hotel={hotel.id} />
-      <header className={`hero ${styles.hero}`}>
+      <header className={`hero ${styles.hero}`} id="hotel-hero">
         <div className="wrap">
           <ol className="crumbs" aria-label="Breadcrumb">
             <li>
@@ -132,6 +133,7 @@ export default async function HotelPage({ params }: Props) {
               </Link>
             )}
           </div>
+          {latest && <StickyReview heroId="hotel-hero" href={`/reviews/${latest.slug}`} score={score(latest.totals?.overall)} band={bandFor(latest.totals?.overall, 100)} title={hotel.name} />}
 
           <div className={`byline ${styles.byline}`}>
             {hotel.bookingLink && (
@@ -145,45 +147,6 @@ export default async function HotelPage({ params }: Props) {
       </header>
 
       <div className="hero-img" role="img" aria-label={hotel.name} style={hotel.externalImageUrl ? { backgroundImage: `url(${hotel.externalImageUrl}), var(--img-a)` } : undefined} />
-
-      {facts.length > 0 && (
-        <section className={`section ${styles.facts}`} aria-labelledby="facts-h">
-          <div className="wrap">
-            <span className="eyebrow on-light" id="facts-h">
-              The property
-            </span>
-            <div className="grid-cells">
-              {facts.map((f) => (
-                <div className="cell" key={f.label}>
-                  <span className="label">{f.label}</span>
-                  <span className="val">{f.value}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {reviews.length > 0 && (
-        <section className="section" aria-labelledby="rev-h">
-          <div className="wrap">
-            <div className="section-head">
-              <div>
-                <span className="eyebrow on-light">Scored stays</span>
-                <h2 id="rev-h">Reviews of {hotel.name}</h2>
-              </div>
-              <Link className="more" href="/reviews">
-                All reviews
-              </Link>
-            </div>
-            <div className="cards rail-m">
-              {reviews.map((r, i) => (
-                <ReviewCard key={r.id} review={r} tone={(['a', 'b', 'c'] as const)[i % 3]} />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
 
       <section className={`section ${styles.reader}`} aria-labelledby="data-h">
         <div className="wrap">
@@ -234,6 +197,24 @@ export default async function HotelPage({ params }: Props) {
           )}
         </div>
       </section>
+
+      {facts.length > 0 && (
+        <section className={`section ${styles.facts}`} aria-labelledby="facts-h">
+          <div className="wrap">
+            <span className="eyebrow on-light" id="facts-h">
+              The property
+            </span>
+            <div className="grid-cells">
+              {facts.map((f) => (
+                <div className="cell" key={f.label}>
+                  <span className="label">{f.label}</span>
+                  <span className="val">{f.value}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {loungeRows.length > 0 && (
         <section className={`section ${styles.loungeSection}`} aria-labelledby="lounge-h">
