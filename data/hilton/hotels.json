@@ -57,6 +57,7 @@
   "country": "US",
   "phone": "+1 325-999-1878",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -72,6 +73,7 @@
   "country": "US",
   "phone": "+1 505-242-9090",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -117,6 +119,7 @@
   "country": "NG",
   "phone": "+234 803 901 3000",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -132,6 +135,7 @@
   "country": "GB",
   "phone": "+44 1224 984111",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -147,6 +151,7 @@
   "country": "GH",
   "phone": "+233 30 275 2299",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -252,6 +257,7 @@
   "country": "ET",
   "phone": "+251 11 517 0000",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -297,6 +303,7 @@
   "country": "ES",
   "phone": "+34 951 50 51 01",
   "rooms": 290,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -327,6 +334,7 @@
   "country": "US",
   "phone": "+1 706-737-8888",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -342,6 +350,7 @@
   "country": "US",
   "phone": "+1 706-855-8100",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -372,6 +381,7 @@
   "country": "NZ",
   "phone": "+64 9 978 2000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -387,6 +397,7 @@
   "country": "NZ",
   "phone": "+64 9 296 2002",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -417,6 +428,7 @@
   "country": "KZ",
   "phone": "+7 727 320 4200",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -447,6 +459,7 @@
   "country": "US",
   "phone": "+1 518-290-9090",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -462,6 +475,7 @@
   "country": "US",
   "phone": "+1 518-462-6611",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -477,6 +491,7 @@
   "country": "US",
   "phone": "+1 518-584-4000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -492,6 +507,7 @@
   "country": "US",
   "phone": "+1 505-247-3344",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -507,6 +523,7 @@
   "country": "US",
   "phone": "+1 518-869-9100",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -522,6 +539,7 @@
   "country": "ES",
   "phone": "+34 965 27 09 10",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -537,6 +555,7 @@
   "country": "US",
   "phone": "+1 407-830-1985",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -552,6 +571,7 @@
   "country": "EG",
   "phone": "+20 3 5490935",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -582,6 +602,7 @@
   "country": "EG",
   "phone": "+20 3 4530180",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -597,6 +618,7 @@
   "country": "US",
   "phone": "+1 806-803-5500",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -612,6 +634,7 @@
   "country": "IN",
   "phone": "+91 79 4105 0000",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -627,6 +650,7 @@
   "country": "JO",
   "phone": "+962 6 590 0400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -642,6 +666,7 @@
   "country": "JO",
   "phone": "+962 5 349 3000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -657,6 +682,7 @@
   "country": "JO",
   "phone": "+962 6 520 0200",
   "rooms": 271,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -672,6 +698,7 @@
   "country": "JO",
   "phone": "+962 6 500 4500",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -687,6 +714,7 @@
   "country": "JO",
   "phone": "+962 5 349 3000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -702,6 +730,7 @@
   "country": "NL",
   "phone": "+31 20 722 0666",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -717,6 +746,7 @@
   "country": "NL",
   "phone": "+31 20 710 4000",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -747,6 +777,7 @@
   "country": "NL",
   "phone": "+31 70 710 7000",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -777,6 +808,7 @@
   "country": "NL",
   "phone": "+31 20 718 4600",
   "rooms": 93,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -792,6 +824,7 @@
   "country": "US",
   "phone": "+1 907-272-7411",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -807,6 +840,7 @@
   "country": "US",
   "phone": "+1 907-332-7000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -822,6 +856,7 @@
   "country": "TR",
   "phone": "+90 312 666 03 01",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -852,6 +887,7 @@
   "country": "TR",
   "phone": "+90 312 455 00 00",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -867,6 +903,7 @@
   "country": "US",
   "phone": "+1 410-224-3150",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -882,6 +919,7 @@
   "country": "US",
   "phone": "+1 410-263-7777",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -897,6 +935,7 @@
   "country": "BE",
   "phone": "+32 3 204 12 12",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -912,6 +951,7 @@
   "country": "CN",
   "phone": "+86 412 251 7777",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -927,6 +967,7 @@
   "country": "US",
   "phone": "+1 707-224-3400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -942,6 +983,7 @@
   "country": "US",
   "phone": "+1 239-593-8733",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -957,6 +999,7 @@
   "country": "US",
   "phone": "+1 239-649-5500",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -972,6 +1015,7 @@
   "country": "US",
   "phone": "+1 239-430-4900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1002,6 +1046,7 @@
   "country": "JO",
   "phone": "+962 3 209 3209",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1017,6 +1062,7 @@
   "country": "US",
   "phone": "+1 734-769-9800",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1032,6 +1078,7 @@
   "country": "US",
   "phone": "+1 734-769-2200",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1047,6 +1094,7 @@
   "country": "US",
   "phone": "+1 817-640-3322",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1062,6 +1110,7 @@
   "country": "US",
   "phone": "+1 970-340-8000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1077,6 +1126,7 @@
   "country": "US",
   "phone": "+1 603-886-1200",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1092,6 +1142,7 @@
   "country": "AU",
   "phone": "+61 8 8950 8000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1107,6 +1158,7 @@
   "country": "PY",
   "phone": "+595 21 442 251",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1122,6 +1174,7 @@
   "country": "GR",
   "phone": "+30 21 4409 1800",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1137,6 +1190,7 @@
   "country": "GR",
   "phone": "+30 21 4444 8946",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1152,6 +1206,7 @@
   "country": "GR",
   "phone": "+30 21 0728 1000",
   "rooms": 307,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -1167,6 +1222,7 @@
   "country": "GR",
   "phone": "+30 2741 440140",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1182,6 +1238,7 @@
   "country": "US",
   "phone": "+1 404-767-9000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1197,6 +1254,7 @@
   "country": "US",
   "phone": "+1 770-622-6391",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1212,6 +1270,7 @@
   "country": "US",
   "phone": "+1 404-659-2000",
   "rooms": 1249,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1227,6 +1286,7 @@
   "country": "US",
   "phone": "+1 404-763-1600",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1242,6 +1302,7 @@
   "country": "US",
   "phone": "+1 678-566-8800",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1257,6 +1318,7 @@
   "country": "US",
   "phone": "+1 404-768-1500",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1272,6 +1334,7 @@
   "country": "US",
   "phone": "+1 404-523-1200",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1287,6 +1350,7 @@
   "country": "US",
   "phone": "+1 770-777-1820",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1302,6 +1366,7 @@
   "country": "US",
   "phone": "+1 770-980-1900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1317,6 +1382,7 @@
   "country": "US",
   "phone": "+1 404-223-2300",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1332,6 +1398,7 @@
   "country": "US",
   "phone": "+1 770-984-9300",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1347,6 +1414,7 @@
   "country": "US",
   "phone": "+1 770-447-4747",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1362,6 +1430,7 @@
   "country": "US",
   "phone": "+1 770-420-2505",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1377,6 +1446,7 @@
   "country": "US",
   "phone": "+1 770-938-1026",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1392,6 +1462,7 @@
   "country": "US",
   "phone": "+1 404-844-4555",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1407,6 +1478,7 @@
   "country": "US",
   "phone": "+1 404-261-7733",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1422,6 +1494,7 @@
   "country": "US",
   "phone": "+1 770-427-2500",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1437,6 +1510,7 @@
   "country": "US",
   "phone": "+1 404-685-1677",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1452,6 +1526,7 @@
   "country": "US",
   "phone": "+1 770-274-5907",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1467,6 +1542,7 @@
   "country": "US",
   "phone": "+1 888-391-1148",
   "rooms": 245,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1482,6 +1558,7 @@
   "country": "US",
   "phone": "+1 770-487-2000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1497,6 +1574,7 @@
   "country": "US",
   "phone": "+1 770-394-5454",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1512,6 +1590,7 @@
   "country": "US",
   "phone": "+1 706-378-4837",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1527,6 +1606,7 @@
   "country": "US",
   "phone": "+1 770-992-9600",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1542,6 +1622,7 @@
   "country": "US",
   "phone": "+1 404-767-1988",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1557,6 +1638,7 @@
   "country": "US",
   "phone": "+1 678-240-9222",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -1572,6 +1654,7 @@
   "country": "US",
   "phone": "+1 404-892-6000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1587,6 +1670,7 @@
   "country": "US",
   "phone": "+1 404-688-8600",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1602,6 +1686,7 @@
   "country": "US",
   "phone": "+1 904-203-5038",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1632,6 +1717,7 @@
   "country": "US",
   "phone": "+1 404-995-7500",
   "rooms": 127,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1647,6 +1733,7 @@
   "country": "US",
   "phone": "+1 404-223-4414",
   "rooms": 976,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1662,6 +1749,7 @@
   "country": "US",
   "phone": "+1 678-347-0022",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1677,6 +1765,7 @@
   "country": "US",
   "phone": "+1 770-457-6363",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1692,6 +1781,7 @@
   "country": "US",
   "phone": "+1 770-272-9441",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1707,6 +1797,7 @@
   "country": "US",
   "phone": "+1 470-437-4400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1722,6 +1813,7 @@
   "country": "US",
   "phone": "+1 920-733-8000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1737,6 +1829,7 @@
   "country": "AW",
   "phone": "+297 586 6555",
   "rooms": 358,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1782,6 +1875,7 @@
   "country": "US",
   "phone": "+1 334-752-4100",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1797,6 +1891,7 @@
   "country": "AE",
   "phone": "+971 2 811 5555",
   "rooms": 576,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1812,6 +1907,7 @@
   "country": "AE",
   "phone": "+971 2 656 1000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1827,6 +1923,7 @@
   "country": "AE",
   "phone": "+971 2 672 4000",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -1842,6 +1939,7 @@
   "country": "AE",
   "phone": "+971 2 815 0000",
   "rooms": 257,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1857,6 +1955,7 @@
   "country": "AE",
   "phone": "+971 2 208 6888",
   "rooms": 545,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -1872,6 +1971,7 @@
   "country": "AE",
   "phone": "+971 2 692 7777",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1887,6 +1987,7 @@
   "country": "US",
   "phone": "+1 507-433-1000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1902,6 +2003,7 @@
   "country": "US",
   "phone": "+1 512-385-6767",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1932,6 +2034,7 @@
   "country": "US",
   "phone": "+1 512-343-0888",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1947,6 +2050,7 @@
   "country": "US",
   "phone": "+1 512-454-8004",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1962,6 +2066,7 @@
   "country": "US",
   "phone": "+1 512-482-8000",
   "rooms": 801,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1977,6 +2082,7 @@
   "country": "US",
   "phone": "+1 512-372-8771",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -1992,6 +2098,7 @@
   "country": "US",
   "phone": "+1 512-478-7000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2007,6 +2114,7 @@
   "country": "US",
   "phone": "+1 512-479-4000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2022,6 +2130,7 @@
   "country": "US",
   "phone": "+1 512-469-9000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2037,6 +2146,7 @@
   "country": "US",
   "phone": "+1 512-454-3737",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2052,6 +2162,7 @@
   "country": "US",
   "phone": "+1 512-448-2222",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2067,6 +2178,7 @@
   "country": "US",
   "phone": "+1 512-308-3883",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2082,6 +2194,7 @@
   "country": "US",
   "phone": "+1 512-991-3100",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2097,6 +2210,7 @@
   "country": "CN",
   "phone": "+86 851 3366 9666",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -2112,6 +2226,7 @@
   "country": "US",
   "phone": "+1 828-274-1800",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2127,6 +2242,7 @@
   "country": "US",
   "phone": "+1 828-209-2700",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2142,6 +2258,7 @@
   "country": "US",
   "phone": "+1 828-552-8545",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2157,6 +2274,7 @@
   "country": "US",
   "phone": "+1 828-407-0422",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2172,6 +2290,7 @@
   "country": "US",
   "phone": "+1 828-505-8500",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2187,6 +2306,7 @@
   "country": "US",
   "phone": "+1 828-412-0200",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2202,6 +2322,7 @@
   "country": "US",
   "phone": "+1 828-456-3551",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2232,6 +2353,7 @@
   "country": "AI",
   "phone": "+1 264-584-0001",
   "rooms": 77,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2247,6 +2369,7 @@
   "country": "TR",
   "phone": "+90 242 814 70 00",
   "rooms": 324,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2262,6 +2385,7 @@
   "country": "TR",
   "phone": "+90 242 231 00 42",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2277,6 +2401,7 @@
   "country": "US",
   "phone": "+1 269-380-0320",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2292,6 +2417,7 @@
   "country": "BH",
   "phone": "+973 7797 7777",
   "rooms": 98,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2307,6 +2433,7 @@
   "country": "BH",
   "phone": "+973 7701 0100",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -2322,6 +2449,7 @@
   "country": "BH",
   "phone": "+973 7775 0000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2337,6 +2465,7 @@
   "country": "US",
   "phone": "+1 410-584-1400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2352,6 +2481,7 @@
   "country": "US",
   "phone": "+1 410-850-0747",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2367,6 +2497,7 @@
   "country": "GB",
   "phone": "+44 1225 463411",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2382,6 +2513,7 @@
   "country": "ES",
   "phone": "+34 935 07 07 07",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -2397,6 +2529,7 @@
   "country": "ES",
   "phone": "+34 934 95 77 77",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -2412,6 +2545,7 @@
   "country": "ES",
   "phone": "+34 934 67 71 66",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2427,6 +2561,7 @@
   "country": "ES",
   "phone": "+34 932 50 31 66",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2442,6 +2577,7 @@
   "country": "US",
   "phone": "+1 561-368-9500",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2457,6 +2593,7 @@
   "country": "US",
   "phone": "+1 561-483-3600",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2472,6 +2609,7 @@
   "country": "US",
   "phone": "+1 561-994-8200",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2487,6 +2625,7 @@
   "country": "US",
   "phone": "+1 860-589-7766",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2502,6 +2641,7 @@
   "country": "US",
   "phone": "+1 860-627-5171",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2517,6 +2657,7 @@
   "country": "US",
   "phone": "+1 860-427-7888",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2532,6 +2673,7 @@
   "country": "ID",
   "phone": "+62 22 86051300",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -2562,6 +2704,7 @@
   "country": "US",
   "phone": "+1 203-967-2222",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2577,6 +2720,7 @@
   "country": "RS",
   "phone": "+381 11 7555700",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -2592,6 +2736,7 @@
   "country": "DE",
   "phone": "+49 30 21270",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -2607,6 +2752,7 @@
   "country": "DE",
   "phone": "+49 30 202300",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -2622,6 +2768,7 @@
   "country": "DE",
   "phone": "+49 30 8140000",
   "rooms": 232,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2637,6 +2784,7 @@
   "country": "GB",
   "phone": "+44 28 9024 1001",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2652,6 +2800,7 @@
   "country": "GB",
   "phone": "+44 28 9027 7000",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -2667,6 +2816,7 @@
   "country": "GB",
   "phone": "+44 28 9443 5500",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2682,6 +2832,7 @@
   "country": "BB",
   "phone": "+1 246-426-0200",
   "rooms": 342,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2697,6 +2848,7 @@
   "country": "US",
   "phone": "+1 607-722-7575",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2727,6 +2879,7 @@
   "country": "US",
   "phone": "+1 205-957-6829",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2757,6 +2910,7 @@
   "country": "US",
   "phone": "+1 205-933-9000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2772,6 +2926,7 @@
   "country": "US",
   "phone": "+1 205-985-9994",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2787,6 +2942,7 @@
   "country": "US",
   "phone": "+1 205-967-2700",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2802,6 +2958,7 @@
   "country": "US",
   "phone": "+1 205-354-0171",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2817,6 +2974,7 @@
   "country": "US",
   "phone": "+1 205-879-7400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2832,6 +2990,7 @@
   "country": "GB",
   "phone": "+44 121 780 4242",
   "rooms": 795,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -2847,6 +3006,7 @@
   "country": "GB",
   "phone": "+44 1684 296200",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2862,6 +3022,7 @@
   "country": "GB",
   "phone": "+44 1789 271000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2877,6 +3038,7 @@
   "country": "US",
   "phone": "+1 406-252-7400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2892,6 +3054,7 @@
   "country": "US",
   "phone": "+1 701-551-0120",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2907,6 +3070,7 @@
   "country": "US",
   "phone": "+1 228-546-3100",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2922,6 +3086,7 @@
   "country": "US",
   "phone": "+1 218-441-4400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -2937,6 +3102,7 @@
   "country": "CN",
   "phone": "+86 10 8507 5000",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -2952,6 +3118,7 @@
   "country": "CN",
   "phone": "+86 10 6016 8888",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -2967,6 +3134,7 @@
   "country": "CN",
   "phone": "+86 10 6458 8888",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -2982,6 +3150,7 @@
   "country": "CN",
   "phone": "+86 10 6584 6000",
   "rooms": 289,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -2997,6 +3166,7 @@
   "country": "CN",
   "phone": "+86 10 6338 1888",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -3042,6 +3212,7 @@
   "country": "CN",
   "phone": "+86 10 5097 6666",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -3057,6 +3228,7 @@
   "country": "CN",
   "phone": "+86 10 8520 8989",
   "rooms": 175,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -3072,6 +3244,7 @@
   "country": "CN",
   "phone": "+86 10 5812 8888",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -3087,6 +3260,7 @@
   "country": "TR",
   "phone": "+90 252 211 27 00",
   "rooms": 70,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -3102,6 +3276,7 @@
   "country": "TR",
   "phone": "+90 252 313 03 56",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -3117,6 +3292,7 @@
   "country": "TR",
   "phone": "+90 252 311 30 00",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -3132,6 +3308,7 @@
   "country": "TR",
   "phone": "+90 252 337 10 10",
   "rooms": 277,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -3147,6 +3324,7 @@
   "country": "MX",
   "phone": "+52 415 690 6851",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -3162,6 +3340,7 @@
   "country": "ES",
   "phone": "+34 927 15 33 32",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -3177,6 +3356,7 @@
   "country": "MY",
   "phone": "+60 88-356 000",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -3192,6 +3372,7 @@
   "country": "TH",
   "phone": "+66 2 204 4000",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -3207,6 +3388,7 @@
   "country": "TH",
   "phone": "+66 2 662 6262",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -3222,6 +3404,7 @@
   "country": "TH",
   "phone": "+66 2 690 9999",
   "rooms": 391,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -3237,6 +3420,7 @@
   "country": "TH",
   "phone": "+66 2 442 2000",
   "rooms": 533,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -3252,6 +3436,7 @@
   "country": "TH",
   "phone": "+66 38 253 000",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -3282,6 +3467,7 @@
   "country": "TH",
   "phone": "+66 2 078 8488",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -3297,6 +3483,7 @@
   "country": "TH",
   "phone": "+66 2 690 9555",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -3312,6 +3499,7 @@
   "country": "TH",
   "phone": "+66 2 262 2999",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -3327,6 +3515,7 @@
   "country": "TH",
   "phone": "+66 2 649 6666",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -3342,6 +3531,7 @@
   "country": "TH",
   "phone": "+66 2 620 6666",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -3357,6 +3547,7 @@
   "country": "TH",
   "phone": "+66 2 118 7777",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -3387,6 +3578,7 @@
   "country": "TH",
   "phone": "+66 2 846 8888",
   "rooms": 171,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -3402,6 +3594,7 @@
   "country": "US",
   "phone": "+1 360-756-1005",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -3432,6 +3625,7 @@
   "country": "IN",
   "phone": "+91 80 6901 2345",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -3447,6 +3641,7 @@
   "country": "IN",
   "phone": "+91 80 2214 4444",
   "rooms": 285,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -3462,6 +3657,7 @@
   "country": "IN",
   "phone": "+91 80 6944 9999",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -3477,6 +3673,7 @@
   "country": "IN",
   "phone": "+91 8071 117 222",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -3492,6 +3689,7 @@
   "country": "IN",
   "phone": "+91 80676 56565",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -3507,6 +3705,7 @@
   "country": "IN",
   "phone": "+91 80667 99999",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -3537,6 +3736,7 @@
   "country": "IN",
   "phone": "+91 80 6934 5500",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -3552,6 +3752,7 @@
   "country": "US",
   "phone": "+1 309-664-6446",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -3567,6 +3768,7 @@
   "country": "US",
   "phone": "+1 615-370-0111",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -3582,6 +3784,7 @@
   "country": "US",
   "phone": "+1 615-736-7100",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -3597,6 +3800,7 @@
   "country": "US",
   "phone": "+1 615-244-8200",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -3612,6 +3816,7 @@
   "country": "US",
   "phone": "+1 615-889-8889",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -3627,6 +3832,7 @@
   "country": "US",
   "phone": "+1 615-320-8899",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -3642,6 +3848,7 @@
   "country": "US",
   "phone": "+1 615-515-5151",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -3657,6 +3864,7 @@
   "country": "US",
   "phone": "+1 615-771-1995",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -3672,6 +3880,7 @@
   "country": "US",
   "phone": "+1 615-358-8509",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -3687,6 +3896,7 @@
   "country": "US",
   "phone": "+1 615-551-2700",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -3702,6 +3912,7 @@
   "country": "US",
   "phone": "+1 615-297-9979",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -3717,6 +3928,7 @@
   "country": "US",
   "phone": "+1 615-208-1000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -3732,6 +3944,7 @@
   "country": "US",
   "phone": "+1 615-798-0990",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -3747,6 +3960,7 @@
   "country": "US",
   "phone": "+1 615-327-8000",
   "rooms": 234,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -3777,6 +3991,7 @@
   "country": "US",
   "phone": "+1 615-321-1007",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -3792,6 +4007,7 @@
   "country": "US",
   "phone": "+1 615-871-0033",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -3807,6 +4023,7 @@
   "country": "US",
   "phone": "+1 615-620-1000",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -3837,6 +4054,7 @@
   "country": "US",
   "phone": "+1 629-224-3959",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -3852,6 +4070,7 @@
   "country": "US",
   "phone": "+1 615-206-7510",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -3867,6 +4086,7 @@
   "country": "US",
   "phone": "+1 615-208-1200",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -3882,6 +4102,7 @@
   "country": "US",
   "phone": "+1 479-845-7770",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -3897,6 +4118,7 @@
   "country": "FR",
   "phone": "+33 5 64 37 64 00",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -3912,6 +4134,7 @@
   "country": "CO",
   "phone": "+57 601 6006100",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -3927,6 +4150,7 @@
   "country": "CO",
   "phone": "+57 601 4434400",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -3957,6 +4181,7 @@
   "country": "CO",
   "phone": "+57 601 7477333",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -3972,6 +4197,7 @@
   "country": "CO",
   "phone": "+57 601 6444000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -3987,6 +4213,7 @@
   "country": "CO",
   "phone": "+57 601 3171313",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4002,6 +4229,7 @@
   "country": "CO",
   "phone": "+57 1 6506900",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -4017,6 +4245,7 @@
   "country": "CO",
   "phone": "+57 601 4199990",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4032,6 +4261,7 @@
   "country": "GB",
   "phone": "+44 1202 804775",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4047,6 +4277,7 @@
   "country": "IN",
   "phone": "+91 22 6199 0000",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -4077,6 +4308,7 @@
   "country": "US",
   "phone": "+1 617-884-2900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4092,6 +4324,7 @@
   "country": "US",
   "phone": "+1 617-567-5000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4107,6 +4340,7 @@
   "country": "US",
   "phone": "+1 617-236-1100",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4122,6 +4356,7 @@
   "country": "US",
   "phone": "+1 781-932-0999",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -4137,6 +4372,7 @@
   "country": "US",
   "phone": "+1 617-822-3600",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4152,6 +4388,7 @@
   "country": "US",
   "phone": "+1 617-956-7900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4167,6 +4404,7 @@
   "country": "US",
   "phone": "+1 617-557-9955",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4182,6 +4420,7 @@
   "country": "US",
   "phone": "+1 617-491-8000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4197,6 +4436,7 @@
   "country": "US",
   "phone": "+1 617-568-6700",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4212,6 +4452,7 @@
   "country": "US",
   "phone": "+1 508-485-5900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4227,6 +4468,7 @@
   "country": "US",
   "phone": "+1 508-478-7010",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4242,6 +4484,7 @@
   "country": "US",
   "phone": "+1 978-777-2500",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4257,6 +4500,7 @@
   "country": "US",
   "phone": "+1 978-975-3600",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4272,6 +4516,7 @@
   "country": "US",
   "phone": "+1 508-653-8800",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4287,6 +4532,7 @@
   "country": "US",
   "phone": "+1 781-871-0545",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4302,6 +4548,7 @@
   "country": "US",
   "phone": "+1 617-783-0090",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4317,6 +4564,7 @@
   "country": "US",
   "phone": "+1 617-426-2000",
   "rooms": 1060,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4332,6 +4580,7 @@
   "country": "US",
   "phone": "+1 857-758-4410",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4347,6 +4596,7 @@
   "country": "US",
   "phone": "+1 781-890-6767",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4362,6 +4612,7 @@
   "country": "US",
   "phone": "+1 508-366-5511",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4377,6 +4628,7 @@
   "country": "Indonesia",
   "phone": "+62 361 778788",
   "rooms": 368,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4407,6 +4659,7 @@
   "country": "US",
   "phone": "+1 912-264-3300",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4422,6 +4675,7 @@
   "country": "US",
   "phone": "+1 912-638-3351",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4437,6 +4691,7 @@
   "country": "GB",
   "phone": "+44 118 977 2550",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4467,6 +4722,7 @@
   "country": "GB",
   "phone": "+44 117 926 0041",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4482,6 +4738,7 @@
   "country": "BE",
   "phone": "+32 2 203 62 00",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4497,6 +4754,7 @@
   "country": "BE",
   "phone": "+32 2 548 42 11",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -4512,6 +4770,7 @@
   "country": "GB",
   "phone": "+44 1273 775432",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4527,6 +4786,7 @@
   "country": "GB",
   "phone": "+44 1454 201144",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4542,6 +4802,7 @@
   "country": "US",
   "phone": "+1 912-264-6100",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4557,6 +4818,7 @@
   "country": "US",
   "phone": "+1 225-925-1005",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4572,6 +4834,7 @@
   "country": "US",
   "phone": "+1 225-344-5866",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4587,6 +4850,7 @@
   "country": "US",
   "phone": "+1 225-924-6566",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4602,6 +4866,7 @@
   "country": "SK",
   "phone": "+421 2/323 401 11",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4617,6 +4882,7 @@
   "country": "US",
   "phone": "+1 802-658-6500",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4632,6 +4898,7 @@
   "country": "US",
   "phone": "+1 802-865-6600",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4647,6 +4914,7 @@
   "country": "US",
   "phone": "+1 802-223-5252",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4662,6 +4930,7 @@
   "country": "TR",
   "phone": "+90 224 500 05 05",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -4677,6 +4946,7 @@
   "country": "HU",
   "phone": "+36 1 889 6600",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -4692,6 +4962,7 @@
   "country": "AR",
   "phone": "+54 11 4834-3200",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4707,6 +4978,7 @@
   "country": "AR",
   "phone": "+54 11 4891-0000",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -4722,6 +4994,7 @@
   "country": "AR",
   "phone": "+54 230 453-3800",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4737,6 +5010,7 @@
   "country": "AR",
   "phone": "+54 11 5263-5800",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4752,6 +5026,7 @@
   "country": "US",
   "phone": "+1 716-842-1000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4767,6 +5042,7 @@
   "country": "US",
   "phone": "+1 716-689-4414",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4782,6 +5058,7 @@
   "country": "US",
   "phone": "+1 716-276-9600",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4812,6 +5089,7 @@
   "country": "US",
   "phone": "+1 818-709-7054",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4827,6 +5105,7 @@
   "country": "US",
   "phone": "+1 818-550-0828",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4842,6 +5121,7 @@
   "country": "US",
   "phone": "+1 818-956-5466",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4857,6 +5137,7 @@
   "country": "US",
   "phone": "+1 661-265-1749",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4872,6 +5153,7 @@
   "country": "US",
   "phone": "+1 818-506-2500",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4887,6 +5169,7 @@
   "country": "US",
   "phone": "+1 818-595-1000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4902,6 +5185,7 @@
   "country": "GE",
   "phone": "+995 422 22 22 99",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -4917,6 +5201,7 @@
   "country": "CN",
   "phone": "+86 312 567 7777",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -4932,6 +5217,7 @@
   "country": "US",
   "phone": "+1 270-715-3001",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4947,6 +5233,7 @@
   "country": "US",
   "phone": "+1 410-694-0808",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4962,6 +5249,7 @@
   "country": "US",
   "phone": "+1 410-859-8400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4977,6 +5265,7 @@
   "country": "US",
   "phone": "+1 443-573-8700",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -4992,6 +5281,7 @@
   "country": "US",
   "phone": "+1 410-997-1060",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5007,6 +5297,7 @@
   "country": "US",
   "phone": "+1 410-235-5400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5022,6 +5313,7 @@
   "country": "US",
   "phone": "+1 443-422-6679",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5037,6 +5329,7 @@
   "country": "US",
   "phone": "+1 301-776-5300",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5067,6 +5360,7 @@
   "country": "US",
   "phone": "+1 410-289-1234",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5082,6 +5376,7 @@
   "country": "CG",
   "phone": "+242 06 783 0000",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -5112,6 +5407,7 @@
   "country": "US",
   "phone": "+1 803-744-7800",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5127,6 +5423,7 @@
   "country": "US",
   "phone": "+1 803-731-0300",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -5142,6 +5439,7 @@
   "country": "US",
   "phone": "+1 803-779-7779",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5157,6 +5455,7 @@
   "country": "EG",
   "phone": "+20 2 21300700",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -5172,6 +5471,7 @@
   "country": "EG",
   "phone": "+20 2 22677730",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -5187,6 +5487,7 @@
   "country": "EG",
   "phone": null,
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -5202,6 +5503,7 @@
   "country": "EG",
   "phone": "+20 2 21280100",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -5232,6 +5534,7 @@
   "country": "EG",
   "phone": "+20 2 26960000",
   "rooms": 252,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5247,6 +5550,7 @@
   "country": "EG",
   "phone": "+20 2 27370055",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5262,6 +5566,7 @@
   "country": "US",
   "phone": "+1 330-471-8000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5277,6 +5582,7 @@
   "country": "US",
   "phone": "+1 330-867-5000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5292,6 +5598,7 @@
   "country": "US",
   "phone": "+1 330-305-0500",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5322,6 +5629,7 @@
   "country": "CN",
   "phone": "+86 20 6683 9999",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -5337,6 +5645,7 @@
   "country": "CN",
   "phone": "+86 20 6660 0666",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -5352,6 +5661,7 @@
   "country": "CN",
   "phone": "+86 20 8880 0999",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -5367,6 +5677,7 @@
   "country": "CN",
   "phone": "+86 20 8310 8888",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5382,6 +5693,7 @@
   "country": "CN",
   "phone": "+86 20 2833 2888",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -5412,6 +5724,7 @@
   "country": "CN",
   "phone": "+86 20 8318 9888",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5427,6 +5740,7 @@
   "country": "CN",
   "phone": "+86 20 3739 2222",
   "rooms": 309,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -5457,6 +5771,7 @@
   "country": "MA",
   "phone": "+212 5224-17272",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5472,6 +5787,7 @@
   "country": "US",
   "phone": "+1 321-799-0003",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5487,6 +5803,7 @@
   "country": "FR",
   "phone": "+33 1 85 36 00 00",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5502,6 +5819,7 @@
   "country": "FR",
   "phone": "+33 1 49 19 77 77",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -5532,6 +5850,7 @@
   "country": "FR",
   "phone": "+33 1 30 84 50 00",
   "rooms": 199,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5547,6 +5866,7 @@
   "country": "TH",
   "phone": "+66 53 798 555",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5562,6 +5882,7 @@
   "country": "FR",
   "phone": "+33 4 92 99 73 00",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5577,6 +5898,7 @@
   "country": "GR",
   "phone": "+30 2834 055000",
   "rooms": 136,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5592,6 +5914,7 @@
   "country": "BR",
   "phone": "+55 11 3509-9620",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5607,6 +5930,7 @@
   "country": "DE",
   "phone": "+49 221 130710",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5622,6 +5946,7 @@
   "country": "DE",
   "phone": "+49 221 20080",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5667,6 +5992,7 @@
   "country": "CN",
   "phone": "+86 371 8996 0888",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -5697,6 +6023,7 @@
   "country": "US",
   "phone": "+1 423-756-3400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5712,6 +6039,7 @@
   "country": "US",
   "phone": "+1 423-954-0969",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5727,6 +6055,7 @@
   "country": "US",
   "phone": "+1 423-756-5150",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5742,6 +6071,7 @@
   "country": "US",
   "phone": "+1 423-602-5100",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5757,6 +6087,7 @@
   "country": "US",
   "phone": "+1 423-874-7866",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5772,6 +6103,7 @@
   "country": "US",
   "phone": "+1 423-485-1185",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5787,6 +6119,7 @@
   "country": "NZ",
   "phone": "+64 3 348 8999",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5802,6 +6135,7 @@
   "country": "US",
   "phone": "+1 847-364-7600",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5817,6 +6151,7 @@
   "country": "US",
   "phone": "+1 708-371-7300",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5832,6 +6167,7 @@
   "country": "US",
   "phone": "+1 630-850-5555",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -5847,6 +6183,7 @@
   "country": "US",
   "phone": "+1 847-679-7000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5862,6 +6199,7 @@
   "country": "US",
   "phone": "+1 312-922-4400",
   "rooms": 1544,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5877,6 +6215,7 @@
   "country": "US",
   "phone": "+1 312-787-2200",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5892,6 +6231,7 @@
   "country": "US",
   "phone": "+1 847-292-9100",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5907,6 +6247,7 @@
   "country": "US",
   "phone": "+1 312-943-3800",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5922,6 +6263,7 @@
   "country": "US",
   "phone": "+1 773-809-6750",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5937,6 +6279,7 @@
   "country": "US",
   "phone": "+1 312-357-1200",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5952,6 +6295,7 @@
   "country": "US",
   "phone": "+1 630-969-7500",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5967,6 +6311,7 @@
   "country": "US",
   "phone": "+1 773-525-7010",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5982,6 +6327,7 @@
   "country": "US",
   "phone": "+1 312-787-6100",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -5997,6 +6343,7 @@
   "country": "US",
   "phone": "+1 847-949-5100",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6012,6 +6359,7 @@
   "country": "US",
   "phone": "+1 630-799-5900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6027,6 +6375,7 @@
   "country": "US",
   "phone": "+1 847-480-7500",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6042,6 +6391,7 @@
   "country": "US",
   "phone": "+1 630-472-6000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6057,6 +6407,7 @@
   "country": "US",
   "phone": "+1 773-686-8000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6072,6 +6423,7 @@
   "country": "US",
   "phone": "+1 630-941-0100",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6087,6 +6439,7 @@
   "country": "US",
   "phone": "+1 312-726-7500",
   "rooms": 1641,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6102,6 +6455,7 @@
   "country": "US",
   "phone": "+1 872-710-5700",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6117,6 +6471,7 @@
   "country": "US",
   "phone": "+1 312-836-5900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6132,6 +6487,7 @@
   "country": "US",
   "phone": "+1 847-678-4000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6147,6 +6503,7 @@
   "country": "US",
   "phone": "+1 847-397-1313",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6162,6 +6519,7 @@
   "country": "US",
   "phone": "+1 847-605-9222",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6177,6 +6535,7 @@
   "country": "US",
   "phone": "+1 217-600-5129",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6192,6 +6551,7 @@
   "country": "US",
   "phone": "+1 312-646-1300",
   "rooms": 214,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6207,6 +6567,7 @@
   "country": "US",
   "phone": "+1 630-860-2900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6237,6 +6598,7 @@
   "country": "US",
   "phone": "+1 434-295-4333",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6252,6 +6614,7 @@
   "country": "US",
   "phone": "+1 434-973-2121",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6267,6 +6630,7 @@
   "country": "GR",
   "phone": "+30 302825083014",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6282,6 +6646,7 @@
   "country": "US",
   "phone": "+1 843-576-0300",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6297,6 +6662,7 @@
   "country": "US",
   "phone": "+1 843-747-1882",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6312,6 +6678,7 @@
   "country": "US",
   "phone": "+1 843-723-6900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6327,6 +6694,7 @@
   "country": "US",
   "phone": "+1 843-352-5100",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6342,6 +6710,7 @@
   "country": "US",
   "phone": "+1 843-518-6200",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6357,6 +6726,7 @@
   "country": "US",
   "phone": "+1 854-888-2800",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6372,6 +6742,7 @@
   "country": "US",
   "phone": "+1 843-577-2400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6387,6 +6758,7 @@
   "country": "US",
   "phone": "+1 843-981-5700",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6402,6 +6774,7 @@
   "country": "US",
   "phone": "+1 843-766-4322",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6417,6 +6790,7 @@
   "country": "IT",
   "phone": "+39 06 997071",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6432,6 +6806,7 @@
   "country": "US",
   "phone": "+1 530-345-2491",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6447,6 +6822,7 @@
   "country": "US",
   "phone": "+1 319-731-4444",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6462,6 +6838,7 @@
   "country": "US",
   "phone": "+1 319-337-4058",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6477,6 +6854,7 @@
   "country": "KZ",
   "phone": "+7 7252 55 12 12",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6492,6 +6870,7 @@
   "country": "CN",
   "phone": "+86 23 6515 8888",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -6507,6 +6886,7 @@
   "country": "CN",
   "phone": "+86 23 6289 8888",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -6522,6 +6902,7 @@
   "country": "CN",
   "phone": "+86 23 5899 9999",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -6552,6 +6933,7 @@
   "country": "CN",
   "phone": "+86 23 8903 9999",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -6567,6 +6949,7 @@
   "country": "CN",
   "phone": "+86 23 6771 6666",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -6582,6 +6965,7 @@
   "country": "CN",
   "phone": "+86 23 6230 8888",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -6612,6 +6996,7 @@
   "country": "US",
   "phone": "+1 931-919-5044",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6627,6 +7012,7 @@
   "country": "TR",
   "phone": "+90 286 295 55 55",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6642,6 +7028,7 @@
   "country": "US",
   "phone": "+1 216-765-8066",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6657,6 +7044,7 @@
   "country": "US",
   "phone": "+1 216-413-5000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6672,6 +7060,7 @@
   "country": "US",
   "phone": "+1 216-986-9900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6687,6 +7076,7 @@
   "country": "US",
   "phone": "+1 216-455-1260",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6702,6 +7092,7 @@
   "country": "RO",
   "phone": "+40 264 450 101",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6717,6 +7108,7 @@
   "country": "US",
   "phone": "+1 979-693-7500",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6732,6 +7124,7 @@
   "country": "US",
   "phone": "+1 979-260-6000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6747,6 +7140,7 @@
   "country": "US",
   "phone": "+1 704-357-1414",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -6762,6 +7156,7 @@
   "country": "US",
   "phone": "+1 704-357-9100",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6777,6 +7172,7 @@
   "country": "US",
   "phone": "+1 704-455-8200",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6792,6 +7188,7 @@
   "country": "US",
   "phone": "+1 704-527-8000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6807,6 +7204,7 @@
   "country": "US",
   "phone": "+1 704-335-5400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6822,6 +7220,7 @@
   "country": "US",
   "phone": "+1 704-364-2400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6837,6 +7236,7 @@
   "country": "US",
   "phone": "+1 704-377-1500",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6852,6 +7252,7 @@
   "country": "US",
   "phone": "+1 704-547-7444",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -6867,6 +7268,7 @@
   "country": "US",
   "phone": "+1 704-940-2517",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6882,6 +7284,7 @@
   "country": "US",
   "phone": "+1 704-552-1715",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6912,6 +7315,7 @@
   "country": "US",
   "phone": "+1 704-970-5400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6927,6 +7331,7 @@
   "country": "US",
   "phone": "+1 704-527-8400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6942,6 +7347,7 @@
   "country": "US",
   "phone": "+1 614-536-0500",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6957,6 +7363,7 @@
   "country": "US",
   "phone": "+1 614-890-8600",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6972,6 +7379,7 @@
   "country": "US",
   "phone": "+1 614-414-5000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -6987,6 +7395,7 @@
   "country": "US",
   "phone": "+1 614-484-1900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7002,6 +7411,7 @@
   "country": "US",
   "phone": "+1 614-384-8600",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7017,6 +7427,7 @@
   "country": "US",
   "phone": "+1 614-790-9000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7032,6 +7443,7 @@
   "country": "US",
   "phone": "+1 740-322-6455",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7047,6 +7459,7 @@
   "country": "US",
   "phone": "+1 614-885-1600",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -7062,6 +7475,7 @@
   "country": "US",
   "phone": "+1 614-223-1400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7077,6 +7491,7 @@
   "country": "AU",
   "phone": "+61 7 4050 6070",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7107,6 +7522,7 @@
   "country": "US",
   "phone": "+1 435-355-0595",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7122,6 +7538,7 @@
   "country": "GB",
   "phone": "+44 1932 864471",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7137,6 +7554,7 @@
   "country": "LK",
   "phone": "+94 112 492 492",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -7152,6 +7570,7 @@
   "country": "LK",
   "phone": "+94 115 344 644",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7167,6 +7586,7 @@
   "country": "US",
   "phone": "+1 925-827-2000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7182,6 +7602,7 @@
   "country": "US",
   "phone": "+1 603-857-7800",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7197,6 +7618,7 @@
   "country": "US",
   "phone": "+1 719-599-9100",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7212,6 +7634,7 @@
   "country": "US",
   "phone": "+1 573-875-7000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7227,6 +7650,7 @@
   "country": "ZA",
   "phone": "+27 21 569 8880",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7242,6 +7666,7 @@
   "country": "ZA",
   "phone": "+27 21 404 0570",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7287,6 +7712,7 @@
   "country": "GB",
   "phone": "+44 20 8680 3000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7302,6 +7728,7 @@
   "country": "US",
   "phone": "+1 361-883-9700",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7317,6 +7744,7 @@
   "country": "US",
   "phone": "+1 361-853-7899",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7332,6 +7760,7 @@
   "country": "US",
   "phone": "+1 304-347-8700",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7347,6 +7776,7 @@
   "country": "US",
   "phone": "+1 706-327-6868",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7362,6 +7792,7 @@
   "country": "CN",
   "phone": "+86 731 8830 8888",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -7392,6 +7823,7 @@
   "country": "CN",
   "phone": "+86 731 2777 9999",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -7437,6 +7869,7 @@
   "country": "IT",
   "phone": "+39 0942 986384",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7452,6 +7885,7 @@
   "country": "CO",
   "phone": "+57 605 6948000",
   "rooms": 348,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -7467,6 +7901,7 @@
   "country": "CO",
   "phone": "+57 605 6517050",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7482,6 +7917,7 @@
   "country": "JP",
   "phone": "+81 136-44-3311",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7497,6 +7933,7 @@
   "country": "JP",
   "phone": "+81 136-43-2078",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7512,6 +7949,7 @@
   "country": "JP",
   "phone": "+81 136-44-1111",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7527,6 +7965,7 @@
   "country": "CN",
   "phone": "+86 28 6738 9999",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -7572,6 +8011,7 @@
   "country": "CN",
   "phone": "+86 28 6521 6666",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7587,6 +8027,7 @@
   "country": "CN",
   "phone": "+86 28 6100 9999",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -7632,6 +8073,7 @@
   "country": "CN",
   "phone": "+86 28 8888 1199",
   "rooms": 289,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7692,6 +8134,7 @@
   "country": "MX",
   "phone": "+52 984 195 1050",
   "rooms": 349,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7707,6 +8150,7 @@
   "country": "MX",
   "phone": "+52 984 206 5500",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7722,6 +8166,7 @@
   "country": "MX",
   "phone": "+52 984 195 1100",
   "rooms": 735,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7737,6 +8182,7 @@
   "country": "MX",
   "phone": "+52 998 689 1193",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7752,6 +8198,7 @@
   "country": "MX",
   "phone": "+52 998 689 2660",
   "rooms": 540,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7767,6 +8214,7 @@
   "country": "MX",
   "phone": "+52 998 432 0300",
   "rooms": 715,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7782,6 +8230,7 @@
   "country": "MX",
   "phone": "+52 998 432 0350",
   "rooms": 173,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7797,6 +8246,7 @@
   "country": "CW",
   "phone": "+599 9 434 0650",
   "rooms": 384,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7812,6 +8262,7 @@
   "country": "CW",
   "phone": "+0059994340650",
   "rooms": 399,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7827,6 +8278,7 @@
   "country": "PE",
   "phone": "+51 5184302360",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7842,6 +8294,7 @@
   "country": "US",
   "phone": "+1 513-733-8900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7857,6 +8310,7 @@
   "country": "US",
   "phone": "+1 513-381-3000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7872,6 +8326,7 @@
   "country": "US",
   "phone": "+1 859-371-4400",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -7887,6 +8342,7 @@
   "country": "US",
   "phone": "+1 859-261-8400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7902,6 +8358,7 @@
   "country": "US",
   "phone": "+1 513-487-3800",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7917,6 +8374,7 @@
   "country": "US",
   "phone": "+1 859-371-6166",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7932,6 +8390,7 @@
   "country": "US",
   "phone": "+1 513-489-3636",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7947,6 +8406,7 @@
   "country": "US",
   "phone": "+1 812-539-8888",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7962,6 +8422,7 @@
   "country": "US",
   "phone": "+1 513-421-9100",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7977,6 +8438,7 @@
   "country": "US",
   "phone": "+1 513-954-4100",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -7992,6 +8454,7 @@
   "country": "GB",
   "phone": "+44 24 7660 3000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8007,6 +8470,7 @@
   "country": "GB",
   "phone": "+44 24 7693 3340",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8037,6 +8501,7 @@
   "country": "BR",
   "phone": "+55 41 3097-9900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8052,6 +8517,7 @@
   "country": "GB",
   "phone": "+44 29 2064 6300",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -8067,6 +8533,7 @@
   "country": "BR",
   "phone": "+55 54 3303-2300",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8082,6 +8549,7 @@
   "country": "MX",
   "phone": "+52 461 249 0930",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8097,6 +8565,7 @@
   "country": "MX",
   "phone": "+52 984 257 2100",
   "rooms": 60,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8112,6 +8581,7 @@
   "country": "MX",
   "phone": "+52 984 390 6000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8127,6 +8597,7 @@
   "country": "CN",
   "phone": "+86 519 8998 8888",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -8142,6 +8613,7 @@
   "country": "US",
   "phone": "+1 386-254-8200",
   "rooms": 744,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8157,6 +8629,7 @@
   "country": "VN",
   "phone": "+84 236 3874 000",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -8172,6 +8645,7 @@
   "country": "VN",
   "phone": "+84 235 3927 345",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8187,6 +8661,7 @@
   "country": "US",
   "phone": "+1 972-231-9600",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8202,6 +8677,7 @@
   "country": "US",
   "phone": "+1 214-520-7969",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8217,6 +8693,7 @@
   "country": "US",
   "phone": "+1 972-724-2600",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8232,6 +8709,7 @@
   "country": "US",
   "phone": "+1 972-364-3640",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8247,6 +8725,7 @@
   "country": "US",
   "phone": "+1 972-506-0055",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8262,6 +8741,7 @@
   "country": "US",
   "phone": "+1 972-712-7200",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8277,6 +8757,7 @@
   "country": "US",
   "phone": "+1 214-630-5332",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8292,6 +8773,7 @@
   "country": "US",
   "phone": "+1 214-219-2400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8307,6 +8789,7 @@
   "country": "US",
   "phone": "+1 972-373-8900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8322,6 +8805,7 @@
   "country": "US",
   "phone": "+1 214-357-4500",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8337,6 +8821,7 @@
   "country": "US",
   "phone": "+1 214-357-8500",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8352,6 +8837,7 @@
   "country": "US",
   "phone": "+1 214-741-7481",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8367,6 +8853,7 @@
   "country": "US",
   "phone": "+1 972-624-6990",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8382,6 +8869,7 @@
   "country": "US",
   "phone": "+1 214-368-0400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8397,6 +8885,7 @@
   "country": "US",
   "phone": "+1 469-353-5000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8412,6 +8901,7 @@
   "country": "US",
   "phone": "+1 972-644-4000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8427,6 +8917,7 @@
   "country": "US",
   "phone": "+1 214-771-3700",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8442,6 +8933,7 @@
   "country": "US",
   "phone": "+1 972-234-3300",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8457,6 +8949,7 @@
   "country": "US",
   "phone": "+1 972-385-9000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8472,6 +8965,7 @@
   "country": "US",
   "phone": "+1 937-222-7000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8487,6 +8981,7 @@
   "country": "US",
   "phone": "+1 937-426-7800",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8502,6 +8997,7 @@
   "country": "US",
   "phone": "+1 563-585-0415",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8517,6 +9013,7 @@
   "country": "HR",
   "phone": "+385 20 320 320",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -8547,6 +9044,7 @@
   "country": "US",
   "phone": "+1 703-416-4100",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8562,6 +9060,7 @@
   "country": "US",
   "phone": "+1 703-845-1010",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8577,6 +9076,7 @@
   "country": "US",
   "phone": "+1 301-882-9400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8592,6 +9092,7 @@
   "country": "US",
   "phone": "+1 202-488-2500",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8607,6 +9108,7 @@
   "country": "US",
   "phone": "+1 202-628-2100",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8622,6 +9124,7 @@
   "country": "US",
   "phone": "+1 301-897-5600",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8637,6 +9140,7 @@
   "country": "US",
   "phone": "+1 202-293-8000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8652,6 +9156,7 @@
   "country": "US",
   "phone": "+1 202-484-1000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8682,6 +9187,7 @@
   "country": "US",
   "phone": "+1 301-589-0800",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8697,6 +9203,7 @@
   "country": "US",
   "phone": "+1 703-662-1900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8712,6 +9219,7 @@
   "country": "US",
   "phone": "+1 202-738-4250",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8727,6 +9235,7 @@
   "country": "US",
   "phone": "+1 703-418-6800",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8742,6 +9251,7 @@
   "country": "US",
   "phone": "+1 202-280-2288",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8757,6 +9267,7 @@
   "country": "US",
   "phone": "+1 703-837-0440",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8772,6 +9283,7 @@
   "country": "US",
   "phone": "+1 703-952-1900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8787,6 +9299,7 @@
   "country": "US",
   "phone": "+1 202-393-1000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8802,6 +9315,7 @@
   "country": "US",
   "phone": "+1 571-339-2000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8832,6 +9346,7 @@
   "country": "US",
   "phone": "+1 703-528-6000",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -8847,6 +9362,7 @@
   "country": "US",
   "phone": "+1 202-695-1100",
   "rooms": 263,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8862,6 +9378,7 @@
   "country": "US",
   "phone": "+1 202-483-3000",
   "rooms": 1107,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8877,6 +9394,7 @@
   "country": "US",
   "phone": "+1 256-355-3150",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8892,6 +9410,7 @@
   "country": "US",
   "phone": "+1 781-329-7900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8907,6 +9426,7 @@
   "country": "US",
   "phone": "+1 954-426-0478",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8922,6 +9442,7 @@
   "country": "US",
   "phone": "+1 847-945-4500",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8937,6 +9458,7 @@
   "country": "IN",
   "phone": "+91 124 491 1234",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -8967,6 +9489,7 @@
   "country": "IN",
   "phone": "+91 124 442 0000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8982,6 +9505,7 @@
   "country": "US",
   "phone": "+1 303-574-1300",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -8997,6 +9521,7 @@
   "country": "US",
   "phone": "+1 303-375-0400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9012,6 +9537,7 @@
   "country": "US",
   "phone": "+1 303-443-2600",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9042,6 +9568,7 @@
   "country": "US",
   "phone": "+1 303-388-5561",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9057,6 +9584,7 @@
   "country": "US",
   "phone": "+1 303-297-1300",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9072,6 +9600,7 @@
   "country": "US",
   "phone": "+1 303-592-1000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9087,6 +9616,7 @@
   "country": "US",
   "phone": "+1 303-779-6161",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9102,6 +9632,7 @@
   "country": "US",
   "phone": "+1 970-304-0000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9117,6 +9648,7 @@
   "country": "US",
   "phone": "+1 303-574-3000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9132,6 +9664,7 @@
   "country": "US",
   "phone": "+1 303-799-5800",
   "rooms": 302,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9147,6 +9680,7 @@
   "country": "US",
   "phone": "+1 303-337-2800",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9162,6 +9696,7 @@
   "country": "US",
   "phone": "+1 303-427-4000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9177,6 +9712,7 @@
   "country": "US",
   "phone": "+1 303-572-8000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9192,6 +9728,7 @@
   "country": "US",
   "phone": "+1 303-792-0433",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9207,6 +9744,7 @@
   "country": "US",
   "phone": "+1 303-920-8000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9222,6 +9760,7 @@
   "country": "US",
   "phone": "+1 303-292-5000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9237,6 +9776,7 @@
   "country": "US",
   "phone": "+1 954-427-7700",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9252,6 +9792,7 @@
   "country": "US",
   "phone": "+1 850-267-9500",
   "rooms": 590,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9267,6 +9808,7 @@
   "country": "US",
   "phone": "+1 734-728-9200",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9282,6 +9824,7 @@
   "country": "US",
   "phone": "+1 817-481-8444",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9297,6 +9840,7 @@
   "country": "US",
   "phone": "+1 214-748-1200",
   "rooms": 1617,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9312,6 +9856,7 @@
   "country": "US",
   "phone": "+1 214-691-8700",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9327,6 +9872,7 @@
   "country": "US",
   "phone": "+1 469-242-6252",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9342,6 +9888,7 @@
   "country": "US",
   "phone": "+1 469-200-6161",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9357,6 +9904,7 @@
   "country": "US",
   "phone": "+1 972-929-8181",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9387,6 +9935,7 @@
   "country": "US",
   "phone": "+1 972-934-8400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9402,6 +9951,7 @@
   "country": "US",
   "phone": "+1 817-624-0002",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9417,6 +9967,7 @@
   "country": "US",
   "phone": "+1 940-243-3799",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9432,6 +9983,7 @@
   "country": "US",
   "phone": "+1 214-522-2929",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9447,6 +9999,7 @@
   "country": "US",
   "phone": "+1 817-640-7712",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9462,6 +10015,7 @@
   "country": "US",
   "phone": "+1 817-442-9900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9477,6 +10031,7 @@
   "country": "US",
   "phone": "+1 214-459-3930",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9492,6 +10047,7 @@
   "country": "SA",
   "phone": "+966 13 331 1144",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9507,6 +10063,7 @@
   "country": "US",
   "phone": "+1 334-699-1400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9537,6 +10094,7 @@
   "country": "CN",
   "phone": "+86 411 3925 8888",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -9552,6 +10110,7 @@
   "country": "CN",
   "phone": "+86 411 8677 6666",
   "rooms": 210,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -9567,6 +10126,7 @@
   "country": "CN",
   "phone": "+86 411 8677 0000",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -9582,6 +10142,7 @@
   "country": "TR",
   "phone": "+90 252 444 19 81",
   "rooms": 550,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9597,6 +10158,7 @@
   "country": "CN",
   "phone": "+86 872 668 8888",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -9627,6 +10189,7 @@
   "country": "SA",
   "phone": "+966 13 806 4666",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -9657,6 +10220,7 @@
   "country": "QA",
   "phone": "+974 4004 7000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9672,6 +10236,7 @@
   "country": "QA",
   "phone": "+974 4426 7777",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9687,6 +10252,7 @@
   "country": "QA",
   "phone": "+974 4423 3333",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -9702,6 +10268,7 @@
   "country": "QA",
   "phone": "+974 4030 1555",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9717,6 +10284,7 @@
   "country": "QA",
   "phone": "+974 4489 9000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9732,6 +10300,7 @@
   "country": "QA",
   "phone": "+974 4008 9000",
   "rooms": 333,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9747,6 +10316,7 @@
   "country": "QA",
   "phone": "+974 4034 3333",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9762,6 +10332,7 @@
   "country": "QA",
   "phone": "+974 4144 6666",
   "rooms": 33,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9777,6 +10348,7 @@
   "country": "QA",
   "phone": "+974 4492 4444",
   "rooms": 359,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9792,6 +10364,7 @@
   "country": "QA",
   "phone": "+974 97444024444",
   "rooms": 15,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9807,6 +10380,7 @@
   "country": "QA",
   "phone": "+974 4456 5656",
   "rooms": 432,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9822,6 +10396,7 @@
   "country": "QA",
   "phone": "+974 4004 7400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9837,6 +10412,7 @@
   "country": "QA",
   "phone": "+974 4423 6666",
   "rooms": 361,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9852,6 +10428,7 @@
   "country": "QA",
   "phone": "+974 4040 2222",
   "rooms": 290,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9867,6 +10444,7 @@
   "country": "PR",
   "phone": "+1 787-796-6125",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9882,6 +10460,7 @@
   "country": "ID",
   "phone": "+62 361 773377",
   "rooms": 420,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -9897,6 +10476,7 @@
   "country": "ID",
   "phone": "+62 361 3007000",
   "rooms": 72,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9912,6 +10492,7 @@
   "country": "DE",
   "phone": "+49 351 86420",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -9927,6 +10508,7 @@
   "country": "AU",
   "phone": "+61 8 8980 0800",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9942,6 +10524,7 @@
   "country": "AU",
   "phone": "+61 8 8982 0000",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -9972,6 +10555,7 @@
   "country": "US",
   "phone": "+1 850-337-7000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -9987,6 +10571,7 @@
   "country": "US",
   "phone": "+1 515-528-7733",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10002,6 +10587,7 @@
   "country": "US",
   "phone": "+1 515-241-1456",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10017,6 +10603,7 @@
   "country": "US",
   "phone": "+1 515-244-1700",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10032,6 +10619,7 @@
   "country": "US",
   "phone": "+1 515-309-3900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10047,6 +10635,7 @@
   "country": "US",
   "phone": "+1 515-270-2424",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10062,6 +10651,7 @@
   "country": "US",
   "phone": "+1 515-276-1126",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10077,6 +10667,7 @@
   "country": "US",
   "phone": "+1 313-336-3340",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10092,6 +10683,7 @@
   "country": "US",
   "phone": "+1 313-963-5600",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10107,6 +10699,7 @@
   "country": "US",
   "phone": "+1 734-462-6000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10122,6 +10715,7 @@
   "country": "US",
   "phone": "+1 248-879-7500",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10137,6 +10731,7 @@
   "country": "US",
   "phone": "+1 248-644-1400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10152,6 +10747,7 @@
   "country": "US",
   "phone": "+1 248-283-4200",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10167,6 +10763,7 @@
   "country": "US",
   "phone": "+1 313-385-0000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10182,6 +10779,7 @@
   "country": "US",
   "phone": "+1 810-359-7201",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10197,6 +10795,7 @@
   "country": "US",
   "phone": "+1 248-344-8800",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10212,6 +10811,7 @@
   "country": "IE",
   "phone": "+353 1 866 1800",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10227,6 +10827,7 @@
   "country": "US",
   "phone": "+1 614-956-3400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10242,6 +10843,7 @@
   "country": "IE",
   "phone": "+353 1 402 9988",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10257,6 +10859,7 @@
   "country": "IE",
   "phone": "+353 1 602 8900",
   "rooms": 192,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10272,6 +10875,7 @@
   "country": "IE",
   "phone": "+353 1 420 1800",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10287,6 +10891,7 @@
   "country": "IE",
   "phone": "+353 1 887 2400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10302,6 +10907,7 @@
   "country": "DE",
   "phone": "+49 211 43770",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -10317,6 +10923,7 @@
   "country": "AE",
   "phone": "+971 4 437 3333",
   "rooms": 1004,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -10332,6 +10939,7 @@
   "country": "AE",
   "phone": "+971 4 494 0000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10347,6 +10955,7 @@
   "country": "AE",
   "phone": "+971 4 707 7080",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10362,6 +10971,7 @@
   "country": "AE",
   "phone": "+971 4 551 1544",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10377,6 +10987,7 @@
   "country": "AE",
   "phone": "+971 4 374 7999",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -10392,6 +11003,7 @@
   "country": "AE",
   "phone": "+971 4 444 7444",
   "rooms": 555,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -10407,6 +11019,7 @@
   "country": "AE",
   "phone": "+971 4 294 2777",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10422,6 +11035,7 @@
   "country": "AE",
   "phone": "+971 4 517 1111",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10437,6 +11051,7 @@
   "country": "AE",
   "phone": "+971 4 318 2999",
   "rooms": 390,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -10467,6 +11082,7 @@
   "country": "AE",
   "phone": "+971 4 217 5100",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10482,6 +11098,7 @@
   "country": "AE",
   "phone": "+971 4 818 2222",
   "rooms": 312,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10497,6 +11114,7 @@
   "country": "AE",
   "phone": "+971 4 230 0000",
   "rooms": 605,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -10512,6 +11130,7 @@
   "country": "AE",
   "phone": "+971 4 707 7077",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10527,6 +11146,7 @@
   "country": "AE",
   "phone": "+971 4 453 3333",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10542,6 +11162,7 @@
   "country": "AE",
   "phone": "+971 4 436 6666",
   "rooms": 356,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -10557,6 +11178,7 @@
   "country": "AE",
   "phone": "+971 4 515 9999",
   "rooms": 247,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10572,6 +11194,7 @@
   "country": "AE",
   "phone": "+971 4 871 9900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10587,6 +11210,7 @@
   "country": "TJ",
   "phone": "+992 44 603 0000",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -10617,6 +11241,7 @@
   "country": "US",
   "phone": "+1 715-835-8888",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10632,6 +11257,7 @@
   "country": "US",
   "phone": "+1 850-328-5545",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10647,6 +11273,7 @@
   "country": "GB",
   "phone": "+44 131 519 4400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10662,6 +11289,7 @@
   "country": "GB",
   "phone": "+44 131 472 3000",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -10677,6 +11305,7 @@
   "country": "GB",
   "phone": "+44 131 221 5555",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10692,6 +11321,7 @@
   "country": "GB",
   "phone": "+44 1383 410000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10707,6 +11337,7 @@
   "country": "GB",
   "phone": "+44 131 222 8888",
   "rooms": 235,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10722,6 +11353,7 @@
   "country": "US",
   "phone": "+1 970-476-2739",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10737,6 +11369,7 @@
   "country": "US",
   "phone": "+1 574-389-7900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10752,6 +11385,7 @@
   "country": "US",
   "phone": "+1 870-677-6303",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10767,6 +11401,7 @@
   "country": "US",
   "phone": "+1 607-962-5000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10782,6 +11417,7 @@
   "country": "US",
   "phone": "+1 915-532-8733",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10797,6 +11433,7 @@
   "country": "US",
   "phone": "+1 915-779-6222",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10812,6 +11449,7 @@
   "country": "GB",
   "phone": "+44 1283 240444",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -10842,6 +11480,7 @@
   "country": "GB",
   "phone": "+44 115 934 9700",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10857,6 +11496,7 @@
   "country": "GB",
   "phone": "+44 115 979 4949",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10872,6 +11512,7 @@
   "country": "US",
   "phone": "+1 626-270-2788",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10887,6 +11528,7 @@
   "country": "FR",
   "phone": "+33 3 56 63 16 31",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10917,6 +11559,7 @@
   "country": "AM",
   "phone": "+374 11 555333",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10932,6 +11575,7 @@
   "country": "US",
   "phone": "+1 812-423-5002",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10947,6 +11591,7 @@
   "country": "US",
   "phone": "+1 252-658-9000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10962,6 +11607,7 @@
   "country": "US",
   "phone": "+1 201-241-4664",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10977,6 +11623,7 @@
   "country": "US",
   "phone": "+1 908-351-3900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -10992,6 +11639,7 @@
   "country": "US",
   "phone": "+1 908-897-1970",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11007,6 +11655,7 @@
   "country": "US",
   "phone": "+1 732-828-2000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11022,6 +11671,7 @@
   "country": "US",
   "phone": "+1 908-558-0752",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11037,6 +11687,7 @@
   "country": "US",
   "phone": "+1 973-227-9200",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11052,6 +11703,7 @@
   "country": "US",
   "phone": "+1 973-622-5000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11067,6 +11719,7 @@
   "country": "US",
   "phone": "+1 201-288-6100",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11082,6 +11735,7 @@
   "country": "US",
   "phone": "+1 732-515-5505",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11097,6 +11751,7 @@
   "country": "US",
   "phone": "+1 973-690-5500",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11127,6 +11782,7 @@
   "country": "US",
   "phone": "+1 973-379-0100",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -11142,6 +11798,7 @@
   "country": "US",
   "phone": "+1 908-542-1111",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11157,6 +11814,7 @@
   "country": "US",
   "phone": "+1 609-662-3271",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11172,6 +11830,7 @@
   "country": "US",
   "phone": "+1 201-499-2400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11187,6 +11846,7 @@
   "country": "US",
   "phone": "+1 305-296-3535",
   "rooms": 311,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11202,6 +11862,7 @@
   "country": "US",
   "phone": "+1 305-293-1818",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11232,6 +11893,7 @@
   "country": "US",
   "phone": "+1 305-296-5000",
   "rooms": 150,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11247,6 +11909,7 @@
   "country": "TR",
   "phone": "+90 424 234 50 00",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11262,6 +11925,7 @@
   "country": "US",
   "phone": "+1 907-456-7722",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11277,6 +11941,7 @@
   "country": "PT",
   "phone": "+351 289 350 700",
   "rooms": 154,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11292,6 +11957,7 @@
   "country": "PT",
   "phone": "+351 289 304 000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11322,6 +11988,7 @@
   "country": "US",
   "phone": "+1 559-268-1000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11337,6 +12004,7 @@
   "country": "US",
   "phone": "+1 910-323-8282",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11352,6 +12020,7 @@
   "country": "US",
   "phone": "+1 910-826-3600",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11367,6 +12036,7 @@
   "country": "IT",
   "phone": "+39 06 422 9001",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11382,6 +12052,7 @@
   "country": "IT",
   "phone": "+39 06 3972 0948",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11397,6 +12068,7 @@
   "country": "IT",
   "phone": "+39 06 4577 4500",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11427,6 +12099,7 @@
   "country": "CD",
   "phone": "+243 815 590 080",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -11442,6 +12115,7 @@
   "country": "AE",
   "phone": "+971 9 206 0600",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11457,6 +12131,7 @@
   "country": "US",
   "phone": "+1 928-774-4333",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11472,6 +12147,7 @@
   "country": "US",
   "phone": "+1 928-773-8888",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11487,6 +12163,7 @@
   "country": "US",
   "phone": "+1 305-466-7775",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11502,6 +12179,7 @@
   "country": "US",
   "phone": "+1 954-764-2233",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11517,6 +12195,7 @@
   "country": "US",
   "phone": "+1 954-414-5100",
   "rooms": 290,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11532,6 +12211,7 @@
   "country": "US",
   "phone": "+1 954-602-6000",
   "rooms": 1000,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11547,6 +12227,7 @@
   "country": "US",
   "phone": "+1 954-414-2222",
   "rooms": 375,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11562,6 +12243,7 @@
   "country": "US",
   "phone": "+1 954-463-4000",
   "rooms": 595,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11577,6 +12259,7 @@
   "country": "US",
   "phone": "+1 954-773-7174",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11592,6 +12275,7 @@
   "country": "US",
   "phone": "+1 305-918-8984",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11607,6 +12291,7 @@
   "country": "US",
   "phone": "+1 954-851-1020",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11622,6 +12307,7 @@
   "country": "US",
   "phone": "+1 954-527-2700",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11637,6 +12323,7 @@
   "country": "US",
   "phone": "+1 954-565-3800",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11652,6 +12339,7 @@
   "country": "US",
   "phone": "+1 954-524-9595",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11667,6 +12355,7 @@
   "country": "US",
   "phone": "+1 843-629-0100",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11682,6 +12371,7 @@
   "country": "IT",
   "phone": "+39 055 78711",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -11712,6 +12402,7 @@
   "country": "US",
   "phone": "+1 239-482-2900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11727,6 +12418,7 @@
   "country": "US",
   "phone": "+1 239-949-4222",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11742,6 +12434,7 @@
   "country": "US",
   "phone": "+1 239-337-3446",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11757,6 +12450,7 @@
   "country": "US",
   "phone": "+1 970-482-2626",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -11772,6 +12466,7 @@
   "country": "US",
   "phone": "+1 970-593-6200",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11787,6 +12482,7 @@
   "country": "CN",
   "phone": "+86 591 8830 7777",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -11802,6 +12498,7 @@
   "country": "CN",
   "phone": "+86 594 235 8888",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -11817,6 +12514,7 @@
   "country": "DE",
   "phone": "+49 69 26012000",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -11832,6 +12530,7 @@
   "country": "DE",
   "phone": "+49 69 133800",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -11847,6 +12546,7 @@
   "country": "US",
   "phone": "+1 540-631-3050",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11862,6 +12562,7 @@
   "country": "US",
   "phone": "+1 605-275-4120",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11877,6 +12578,7 @@
   "country": "US",
   "phone": "+1 201-461-9000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11892,6 +12594,7 @@
   "country": "US",
   "phone": "+1 817-332-6900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11907,6 +12610,7 @@
   "country": "US",
   "phone": "+1 817-870-2100",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11922,6 +12626,7 @@
   "country": "US",
   "phone": "+1 682-432-3000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11937,6 +12642,7 @@
   "country": "US",
   "phone": "+1 817-293-3088",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11967,6 +12673,7 @@
   "country": "US",
   "phone": "+1 714-579-7400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -11982,6 +12689,7 @@
   "country": "CN",
   "phone": "+86 757 8306 9999",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -11997,6 +12705,7 @@
   "country": "CN",
   "phone": "+86 757 8667 7777",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12012,6 +12721,7 @@
   "country": "CN",
   "phone": "+86 757 2668 3333",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -12027,6 +12737,7 @@
   "country": "US",
   "phone": "+1 260-420-1100",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12057,6 +12768,7 @@
   "country": "US",
   "phone": "+1 479-751-7200",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12072,6 +12784,7 @@
   "country": "US",
   "phone": "+1 479-442-5555",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12087,6 +12800,7 @@
   "country": "US",
   "phone": "+1 301-977-8900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12102,6 +12816,7 @@
   "country": "GB",
   "phone": "+44 1322 284444",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12162,6 +12877,7 @@
   "country": "MX",
   "phone": "+52 33 3942 5200",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12177,6 +12893,7 @@
   "country": "MX",
   "phone": "+52 33 4160 0160",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -12192,6 +12909,7 @@
   "country": "PL",
   "phone": "+48 58 778 71 00",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12222,6 +12940,7 @@
   "country": "US",
   "phone": "+1 970-241-8888",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12252,6 +12971,7 @@
   "country": "US",
   "phone": "+1 865-280-0140",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12267,6 +12987,7 @@
   "country": "US",
   "phone": "+1 865-436-9211",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12282,6 +13003,7 @@
   "country": "GB",
   "phone": "+44 141 332 3311",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -12297,6 +13019,7 @@
   "country": "GB",
   "phone": "+44 141 204 5555",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -12312,6 +13035,7 @@
   "country": "GB",
   "phone": "+44 1698 395500",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12327,6 +13051,7 @@
   "country": "GB",
   "phone": "+44 1242 222021",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12342,6 +13067,7 @@
   "country": "US",
   "phone": "+1 409-762-4141",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12357,6 +13083,7 @@
   "country": "US",
   "phone": "+1 409-744-5000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12387,6 +13114,7 @@
   "country": "US",
   "phone": "+1 352-375-2400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12402,6 +13130,7 @@
   "country": "TR",
   "phone": "+90 414 290 66 66",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12417,6 +13146,7 @@
   "country": "IT",
   "phone": "+39 010 27721",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12432,6 +13162,7 @@
   "country": "IN",
   "phone": "+91 832 665 5666",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12447,6 +13178,7 @@
   "country": "IN",
   "phone": "+91 832 671 9234",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -12462,6 +13194,7 @@
   "country": "IN",
   "phone": "+91 832 664 9800",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12477,6 +13210,7 @@
   "country": "CN",
   "phone": "+86 979 896 9999",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12492,6 +13226,7 @@
   "country": "EC",
   "phone": "+593 97 951 6758",
   "rooms": 21,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12522,6 +13257,7 @@
   "country": "ES",
   "phone": "+34 972 41 46 00",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12537,6 +13273,7 @@
   "country": "US",
   "phone": "+1 616-957-0100",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12552,6 +13289,7 @@
   "country": "US",
   "phone": "+1 616-796-2100",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12567,6 +13305,7 @@
   "country": "US",
   "phone": "+1 616-456-6200",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12582,6 +13321,7 @@
   "country": "US",
   "phone": "+1 616-394-0111",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12597,6 +13337,7 @@
   "country": "US",
   "phone": "+1 616-512-5700",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12612,6 +13353,7 @@
   "country": "US",
   "phone": "+1 616-774-2000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12627,6 +13369,7 @@
   "country": "BR",
   "phone": "+55 11 3509-9620",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12642,6 +13385,7 @@
   "country": "US",
   "phone": "+1 336-668-0421",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12657,6 +13401,7 @@
   "country": "US",
   "phone": "+1 336-668-4535",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12672,6 +13417,7 @@
   "country": "US",
   "phone": "+1 864-676-9090",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12687,6 +13433,7 @@
   "country": "US",
   "phone": "+1 864-263-4800",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12702,6 +13449,7 @@
   "country": "US",
   "phone": "+1 864-400-7500",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12717,6 +13465,7 @@
   "country": "US",
   "phone": "+1 336-292-4004",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12732,6 +13481,7 @@
   "country": "US",
   "phone": "+1 864-232-4747",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12762,6 +13512,7 @@
   "country": "GT",
   "phone": "+502 2427 0000",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -12777,6 +13528,7 @@
   "country": "US",
   "phone": "+1 251-200-4644",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12792,6 +13544,7 @@
   "country": "GU",
   "phone": "+1 671-646-1835",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -12807,6 +13560,7 @@
   "country": "CH",
   "phone": "+41 22 747 02 02",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -12822,6 +13576,7 @@
   "country": "US",
   "phone": "+1 352-371-3600",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12852,6 +13607,7 @@
   "country": "AZ",
   "phone": "+994 12 464 50 00",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -12867,6 +13623,7 @@
   "country": "EC",
   "phone": "+593 4-501-5888",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12882,6 +13639,7 @@
   "country": "EC",
   "phone": "+593 4-501-0000",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -12897,6 +13655,7 @@
   "country": "TR",
   "phone": "+90 342 999 41 11",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12912,6 +13671,7 @@
   "country": "DE",
   "phone": "+49 511 3495159",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12927,6 +13687,7 @@
   "country": "CN",
   "phone": "+86 898 3679 8888",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -12942,6 +13703,7 @@
   "country": "CN",
   "phone": "+86 898 3265 8888",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -12957,6 +13719,7 @@
   "country": "CN",
   "phone": "+86 898 3738 8999",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -12972,6 +13735,7 @@
   "country": "CN",
   "phone": "+86 898 3639 8888",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -12987,6 +13751,7 @@
   "country": "CN",
   "phone": "+86 898 3199 8888",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -13002,6 +13767,7 @@
   "country": "DE",
   "phone": "+49 40 9876340",
   "rooms": 283,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -13017,6 +13783,7 @@
   "country": "AU",
   "phone": "+61 3 6213 0000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13032,6 +13799,7 @@
   "country": "US",
   "phone": "+1 601-296-0302",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13047,6 +13815,7 @@
   "country": "DE",
   "phone": "+49 6221 7339090",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -13077,6 +13846,7 @@
   "country": "FI",
   "phone": "+358 300 308488",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -13092,6 +13862,7 @@
   "country": "FI",
   "phone": "+358 300 308487",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13107,6 +13878,7 @@
   "country": "FI",
   "phone": "+358 9 88600100",
   "rooms": 116,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13122,6 +13894,7 @@
   "country": "GR",
   "phone": "+30 2841 041924",
   "rooms": 201,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13137,6 +13910,7 @@
   "country": "GR",
   "phone": "+30 2821 821200",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13152,6 +13926,7 @@
   "country": "GR",
   "phone": "+30 2821 440820",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13197,6 +13972,7 @@
   "country": "GR",
   "phone": "+30 2834 055002",
   "rooms": 178,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13212,6 +13988,7 @@
   "country": "ES",
   "phone": "+34 959 20 45 00",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13227,6 +14004,7 @@
   "country": "US",
   "phone": "+1 860-728-5151",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13242,6 +14020,7 @@
   "country": "CN",
   "phone": "+86 551 6280 8888",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -13257,6 +14036,7 @@
   "country": "CN",
   "phone": "+86 571 5696 6666",
   "rooms": 306,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -13272,6 +14052,7 @@
   "country": "CN",
   "phone": "+86 573 8489 8888",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -13287,6 +14068,7 @@
   "country": "CN",
   "phone": "+86 571 8989 8888",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -13317,6 +14099,7 @@
   "country": "CN",
   "phone": "+86 573 8266 6666",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -13332,6 +14115,7 @@
   "country": "CN",
   "phone": "+86 894 588 8666",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -13347,6 +14131,7 @@
   "country": "CN",
   "phone": "+86 571 6508 6666",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13377,6 +14162,7 @@
   "country": "CN",
   "phone": "+86 571 8897 8888",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13392,6 +14178,7 @@
   "country": "CN",
   "phone": "+86 575 8836 8888",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -13407,6 +14194,7 @@
   "country": "CN",
   "phone": "+86 571 6370 8888",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13437,6 +14225,7 @@
   "country": "CN",
   "phone": "+86 571 6431 2777",
   "rooms": 78,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13452,6 +14241,7 @@
   "country": "CN",
   "phone": "+86 575 8765 8888",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -13467,6 +14257,7 @@
   "country": "US",
   "phone": "+1 843-842-3100",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13482,6 +14273,7 @@
   "country": "US",
   "phone": "+1 843-686-8400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13497,6 +14289,7 @@
   "country": "TH",
   "phone": "+66 32 538 999",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -13527,6 +14320,7 @@
   "country": "HK",
   "phone": "+852 2521 3838",
   "rooms": 513,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -13542,6 +14336,7 @@
   "country": "HK",
   "phone": "+852 3417 8888",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13572,6 +14367,7 @@
   "country": "TH",
   "phone": "+66 76 340 850",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13587,6 +14383,7 @@
   "country": "US",
   "phone": "+1 406-443-2200",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13617,6 +14414,7 @@
   "country": "US",
   "phone": "+1 808-921-2345",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13632,6 +14430,7 @@
   "country": "US",
   "phone": "+1 808-949-4321",
   "rooms": 2882,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13647,6 +14446,7 @@
   "country": "US",
   "phone": "+1 808-941-7275",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13662,6 +14462,7 @@
   "country": "US",
   "phone": "+1 808-922-0811",
   "rooms": 601,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13677,6 +14478,7 @@
   "country": "US",
   "phone": "+1 808-683-7777",
   "rooms": 462,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13692,6 +14494,7 @@
   "country": "US",
   "phone": "+1 501-624-9200",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13707,6 +14510,7 @@
   "country": "US",
   "phone": "+1 501-525-1391",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13722,6 +14526,7 @@
   "country": "US",
   "phone": "+1 501-321-0001",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13737,6 +14542,7 @@
   "country": "US",
   "phone": "+1 281-848-4000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13752,6 +14558,7 @@
   "country": "US",
   "phone": "+1 713-759-0202",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13767,6 +14574,7 @@
   "country": "US",
   "phone": "+1 713-739-8000",
   "rooms": 1207,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -13797,6 +14605,7 @@
   "country": "US",
   "phone": "+1 713-626-5444",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13812,6 +14621,7 @@
   "country": "US",
   "phone": "+1 281-531-7300",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13827,6 +14637,7 @@
   "country": "US",
   "phone": "+1 281-875-2222",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13842,6 +14653,7 @@
   "country": "US",
   "phone": "+1 713-629-1200",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13857,6 +14669,7 @@
   "country": "US",
   "phone": "+1 713-645-3000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13872,6 +14685,7 @@
   "country": "US",
   "phone": "+1 713-313-4000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13887,6 +14701,7 @@
   "country": "US",
   "phone": "+1 713-528-7744",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13902,6 +14717,7 @@
   "country": "US",
   "phone": "+1 281-398-0900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13917,6 +14733,7 @@
   "country": "US",
   "phone": "+1 713-961-9000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13932,6 +14749,7 @@
   "country": "US",
   "phone": "+1 832-734-8888",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13947,6 +14765,7 @@
   "country": "US",
   "phone": "+1 832-200-8800",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13962,6 +14781,7 @@
   "country": "US",
   "phone": "+1 832-531-6300",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13977,6 +14797,7 @@
   "country": "US",
   "phone": "+1 713-974-1000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -13992,6 +14813,7 @@
   "country": "US",
   "phone": "+1 203-363-7900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14007,6 +14829,7 @@
   "country": "CN",
   "phone": "+86 451 5171 7777",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -14022,6 +14845,7 @@
   "country": "EG",
   "phone": "+20 10 93444468",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14037,6 +14861,7 @@
   "country": "EG",
   "phone": "+20 65 3615755",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14052,6 +14877,7 @@
   "country": "US",
   "phone": "+1 417-336-5400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14067,6 +14893,7 @@
   "country": "US",
   "phone": "+1 417-336-5500",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14082,6 +14909,7 @@
   "country": "US",
   "phone": "+1 540-433-2521",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14097,6 +14925,7 @@
   "country": "CN",
   "phone": "+86 580 386 6666",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -14112,6 +14941,7 @@
   "country": "US",
   "phone": "+1 256-539-7373",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14127,6 +14957,7 @@
   "country": "US",
   "phone": "+1 256-288-0128",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14172,6 +15003,7 @@
   "country": "US",
   "phone": "+1 714-845-8000",
   "rooms": 437,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14187,6 +15019,7 @@
   "country": "GB",
   "phone": "+44 1522 565180",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14202,6 +15035,7 @@
   "country": "GB",
   "phone": "+44 1482 755500",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14217,6 +15051,7 @@
   "country": "CN",
   "phone": "+86 762 229 8888",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -14247,6 +15082,7 @@
   "country": "CN",
   "phone": "+86 752 588 0888",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -14262,6 +15098,7 @@
   "country": "US",
   "phone": "+1 475-207-7070",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14277,6 +15114,7 @@
   "country": "US",
   "phone": "+1 203-780-7800",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14292,6 +15130,7 @@
   "country": "US",
   "phone": "+1 954-454-4334",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14307,6 +15146,7 @@
   "country": "US",
   "phone": "+1 508-771-1700",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14322,6 +15162,7 @@
   "country": "IN",
   "phone": "+91 40 2377 8899",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14337,6 +15178,7 @@
   "country": "CN",
   "phone": "+86 576 8771 8888",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14352,6 +15194,7 @@
   "country": "CN",
   "phone": "+86 576 8806 8888",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -14367,6 +15210,7 @@
   "country": "US",
   "phone": "+1 703-478-2900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14382,6 +15226,7 @@
   "country": "US",
   "phone": "+1 703-653-6000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14397,6 +15242,7 @@
   "country": "US",
   "phone": "+1 703-420-5000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14412,6 +15258,7 @@
   "country": "US",
   "phone": "+1 301-468-1100",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14427,6 +15274,7 @@
   "country": "US",
   "phone": "+1 703-230-0077",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -14442,6 +15290,7 @@
   "country": "US",
   "phone": "+1 716-524-3333",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14457,6 +15306,7 @@
   "country": "CA",
   "phone": "+1 289-932-1990",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14472,6 +15322,7 @@
   "country": "US",
   "phone": "+1 713-586-2444",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14487,6 +15338,7 @@
   "country": "US",
   "phone": "+1 281-298-2900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14502,6 +15354,7 @@
   "country": "US",
   "phone": "+1 713-532-5400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14517,6 +15370,7 @@
   "country": "US",
   "phone": "+1 281-367-1100",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14532,6 +15386,7 @@
   "country": "US",
   "phone": "+1 713-961-9300",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14547,6 +15402,7 @@
   "country": "ES",
   "phone": "+34 971 33 45 30",
   "rooms": 292,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14562,6 +15418,7 @@
   "country": "US",
   "phone": "+1 208-382-5621",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14577,6 +15434,7 @@
   "country": "US",
   "phone": "+1 316-945-5272",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14607,6 +15465,7 @@
   "country": "US",
   "phone": "+1 302-454-1500",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14622,6 +15481,7 @@
   "country": "US",
   "phone": "+1 302-478-6000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14652,6 +15512,7 @@
   "country": "US",
   "phone": "+1 910-765-1131",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14667,6 +15528,7 @@
   "country": "US",
   "phone": "+1 910-458-8334",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14697,6 +15559,7 @@
   "country": "US",
   "phone": "+1 910-392-1101",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14712,6 +15575,7 @@
   "country": "US",
   "phone": "+1 910-763-5900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14727,6 +15591,7 @@
   "country": "US",
   "phone": "+1 317-713-5000",
   "rooms": 247,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14742,6 +15607,7 @@
   "country": "US",
   "phone": null,
   "rooms": 800,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14757,6 +15623,7 @@
   "country": "US",
   "phone": "+1 317-972-0600",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14772,6 +15639,7 @@
   "country": "US",
   "phone": "+1 317-284-3000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14787,6 +15655,7 @@
   "country": "US",
   "phone": "+1 812-994-0500",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14802,6 +15671,7 @@
   "country": "US",
   "phone": "+1 317-674-1900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14817,6 +15687,7 @@
   "country": "US",
   "phone": "+1 317-872-7700",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14832,6 +15703,7 @@
   "country": "US",
   "phone": "+1 317-839-1106",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14847,6 +15719,7 @@
   "country": "US",
   "phone": "+1 317-236-1800",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14862,6 +15735,7 @@
   "country": "US",
   "phone": "+1 336-724-2300",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14877,6 +15751,7 @@
   "country": "US",
   "phone": "+1 336-767-9595",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14892,6 +15767,7 @@
   "country": "MY",
   "phone": "+60 5-684 3333",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -14907,6 +15783,7 @@
   "country": "PE",
   "phone": "+51 65 222555",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14922,6 +15799,7 @@
   "country": "PK",
   "phone": "+92 992 355760",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14952,6 +15830,7 @@
   "country": "TR",
   "phone": "+90 530 913 04 08",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -14967,6 +15846,7 @@
   "country": "TR",
   "phone": "+90 212 456 46 46",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -14997,6 +15877,7 @@
   "country": "TR",
   "phone": "+90 212 375 30 00",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -15012,6 +15893,7 @@
   "country": "TR",
   "phone": "+90 216 266 82 80",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15027,6 +15909,7 @@
   "country": "TR",
   "phone": "+90 212 999 96 00",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15042,6 +15925,7 @@
   "country": "TR",
   "phone": "+90 212 310 25 25",
   "rooms": 539,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -15057,6 +15941,7 @@
   "country": "TR",
   "phone": "+90 212 315 60 00",
   "rooms": 475,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -15072,6 +15957,7 @@
   "country": "TR",
   "phone": "+90 212 912 42 12",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15087,6 +15973,7 @@
   "country": "TR",
   "phone": "+90 212 942 25 00",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -15102,6 +15989,7 @@
   "country": "TR",
   "phone": "+90 212 311 43 11",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15117,6 +16005,7 @@
   "country": "TR",
   "phone": "+90 216 542 43 44",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -15132,6 +16021,7 @@
   "country": "TR",
   "phone": "+90 216 468 00 00",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -15147,6 +16037,7 @@
   "country": "TR",
   "phone": "+90 212 305 10 00",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -15162,6 +16053,7 @@
   "country": "TR",
   "phone": "+90 212 692 26 00",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -15192,6 +16084,7 @@
   "country": "TR",
   "phone": "+90 212 453 58 00",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15207,6 +16100,7 @@
   "country": "TR",
   "phone": "+90 212 249 51 51",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15237,6 +16131,7 @@
   "country": "TR",
   "phone": "+90 212 906 36 66",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15252,6 +16147,7 @@
   "country": "TR",
   "phone": "+90 212 513 25 50",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15267,6 +16163,7 @@
   "country": "TR",
   "phone": "+90 216 266 33 70",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15282,6 +16179,7 @@
   "country": "TR",
   "phone": "+90 212 939 59 00",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15297,6 +16195,7 @@
   "country": "TR",
   "phone": "+90 212 942 27 00",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15312,6 +16211,7 @@
   "country": "TR",
   "phone": "+90 216 613 00 00",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15327,6 +16227,7 @@
   "country": "US",
   "phone": "+1 607-277-0230",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15342,6 +16243,7 @@
   "country": "JP",
   "phone": "+81 75-533-7070",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15357,6 +16259,7 @@
   "country": "JP",
   "phone": "+81 75-212-8007",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -15372,6 +16275,7 @@
   "country": "JP",
   "phone": "+81 75-606-1320",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -15387,6 +16291,7 @@
   "country": "JP",
   "phone": "+81 75-320-0111",
   "rooms": 114,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15417,6 +16322,7 @@
   "country": "IN",
   "phone": "+91 1762 321 200",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15432,6 +16338,7 @@
   "country": "TR",
   "phone": "+90 232 498 00 35",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15447,6 +16354,7 @@
   "country": "TR",
   "phone": "+90 232 402 02 02",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15462,6 +16370,7 @@
   "country": "TR",
   "phone": "+90 232 999 20 25",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15492,6 +16401,7 @@
   "country": "IN",
   "phone": "+91 1426 227 850",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15522,6 +16432,7 @@
   "country": "IN",
   "phone": "+91 141 417 0000",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -15537,6 +16448,7 @@
   "country": "US",
   "phone": "+1 601-957-2800",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15552,6 +16464,7 @@
   "country": "US",
   "phone": "+1 601-607-7112",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15567,6 +16480,7 @@
   "country": "US",
   "phone": "+1 904-741-1997",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15582,6 +16496,7 @@
   "country": "US",
   "phone": "+1 904-731-3555",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15597,6 +16512,7 @@
   "country": "US",
   "phone": "+1 904-398-8800",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15627,6 +16543,7 @@
   "country": "US",
   "phone": "+1 510-548-7920",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15642,6 +16559,7 @@
   "country": "US",
   "phone": "+1 870-619-4482",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15672,6 +16590,7 @@
   "country": "SA",
   "phone": "+966 9200 06043",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15687,6 +16606,7 @@
   "country": "SA",
   "phone": "+966 12 422 2555",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15702,6 +16622,7 @@
   "country": "SA",
   "phone": "+966 9200 03800",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -15717,6 +16638,7 @@
   "country": "SA",
   "phone": "+966 9200 09565",
   "rooms": 46,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15732,6 +16654,7 @@
   "country": "US",
   "phone": "+1 573-636-5101",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15747,6 +16670,7 @@
   "country": "US",
   "phone": "+1 732-544-9300",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15762,6 +16686,7 @@
   "country": "US",
   "phone": "+1 718-322-2300",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15777,6 +16702,7 @@
   "country": "MY",
   "phone": "+60 7-268 6868",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -15792,6 +16718,7 @@
   "country": "US",
   "phone": "+1 808-875-1234",
   "rooms": 795,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15807,6 +16734,7 @@
   "country": "US",
   "phone": "+1 716-488-7227",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15822,6 +16750,7 @@
   "country": "CN",
   "phone": "+86 595 8516 6666",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -15837,6 +16766,7 @@
   "country": "ID",
   "phone": "+62 21 50833900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15852,6 +16782,7 @@
   "country": "ID",
   "phone": "+62 21 50955800",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -15867,6 +16798,7 @@
   "country": "ID",
   "phone": "+62 21 29568800",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15882,6 +16814,7 @@
   "country": "GR",
   "phone": "+30 2289 072806",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15927,6 +16860,7 @@
   "country": "US",
   "phone": "+1 808-674-8222",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15942,6 +16876,7 @@
   "country": "IL",
   "phone": "+972 2-542-3333",
   "rooms": 226,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15957,6 +16892,7 @@
   "country": "GR",
   "phone": "+30 2286 441000",
   "rooms": 66,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -15972,6 +16908,7 @@
   "country": "GR",
   "phone": "+30 2286 440600",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16002,6 +16939,7 @@
   "country": "CN",
   "phone": "+86 570 275 6666",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -16017,6 +16955,7 @@
   "country": "CN",
   "phone": "+86 837 819 8000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16032,6 +16971,7 @@
   "country": "CN",
   "phone": "+86 837 779 9999",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16047,6 +16987,7 @@
   "country": "CA",
   "phone": "+1 250-851-0026",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16062,6 +17003,7 @@
   "country": "UA",
   "phone": "+380 44 393 5400",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -16077,6 +17019,7 @@
   "country": "LK",
   "phone": "+94 472 555 555",
   "rooms": 42,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16107,6 +17050,7 @@
   "country": "RW",
   "phone": "+250 788 156 100",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16122,6 +17066,7 @@
   "country": "CN",
   "phone": "+86 794 788 9999",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16137,6 +17082,7 @@
   "country": "JM",
   "phone": "+1 876-619-7651",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16152,6 +17098,7 @@
   "country": "CN",
   "phone": "+86 871 6716 8888",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16167,6 +17114,7 @@
   "country": "US",
   "phone": "+1 865-970-4300",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16182,6 +17130,7 @@
   "country": "US",
   "phone": "+1 865-523-2300",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16197,6 +17146,7 @@
   "country": "US",
   "phone": "+1 808-886-1234",
   "rooms": 661,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16212,6 +17162,7 @@
   "country": "US",
   "phone": "+1 949-553-8332",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16227,6 +17178,7 @@
   "country": "PL",
   "phone": "+48 12 201 40 00",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16242,6 +17194,7 @@
   "country": "PL",
   "phone": "+48 12 333 42 70",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16257,6 +17210,7 @@
   "country": "TR",
   "phone": "+90 272 220 03 03",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16272,6 +17226,7 @@
   "country": "SK",
   "phone": "+421 55/325 11 00",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16287,6 +17242,7 @@
   "country": "TR",
   "phone": "+90 474 502 87 87",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16302,6 +17258,7 @@
   "country": "NP",
   "phone": "+977 1-5970497",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -16317,6 +17274,7 @@
   "country": "MY",
   "phone": "+60 82-223 888",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -16347,6 +17305,7 @@
   "country": "MY",
   "phone": "+60 3-2264 2264",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -16362,6 +17321,7 @@
   "country": "MY",
   "phone": "+60 3-8890 0000",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -16377,6 +17337,7 @@
   "country": "MY",
   "phone": "+60 3-7802 5200",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -16392,6 +17353,7 @@
   "country": "MY",
   "phone": null,
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -16407,6 +17369,7 @@
   "country": "MY",
   "phone": null,
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16422,6 +17385,7 @@
   "country": "CN",
   "phone": "+86 851 8227 7777",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -16452,6 +17416,7 @@
   "country": "KW",
   "phone": "+965 2477 4444",
   "rooms": 200,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16467,6 +17432,7 @@
   "country": "US",
   "phone": "+1 305-852-5553",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16482,6 +17448,7 @@
   "country": "KR",
   "phone": "+82 54-745-7788",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -16497,6 +17464,7 @@
   "country": "RU",
   "phone": "+7 843 210-00-21",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16512,6 +17480,7 @@
   "country": "US",
   "phone": "+1 765-446-0900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16527,6 +17496,7 @@
   "country": "US",
   "phone": "+1 517-482-0188",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16542,6 +17512,7 @@
   "country": "US",
   "phone": "+1 517-348-0900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16557,6 +17528,7 @@
   "country": "MX",
   "phone": null,
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16572,6 +17544,7 @@
   "country": "US",
   "phone": "+1 760-777-1711",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16587,6 +17560,7 @@
   "country": "US",
   "phone": "+1 702-893-8000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16602,6 +17576,7 @@
   "country": "US",
   "phone": "+1 702-676-7000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16632,6 +17607,7 @@
   "country": "US",
   "phone": "+1 702-948-4000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16647,6 +17623,7 @@
   "country": "US",
   "phone": "+1 702-795-2800",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16662,6 +17639,7 @@
   "country": "US",
   "phone": "+1 702-473-6400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16677,6 +17655,7 @@
   "country": "US",
   "phone": "+1 702-676-7000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16692,6 +17671,7 @@
   "country": "US",
   "phone": "+1 702-567-4700",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16707,6 +17687,7 @@
   "country": "US",
   "phone": "+1 702-693-5000",
   "rooms": 1503,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16722,6 +17703,7 @@
   "country": "US",
   "phone": "+1 702-590-8888",
   "rooms": 392,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16737,6 +17719,7 @@
   "country": "US",
   "phone": "+1 310-215-1000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16752,6 +17735,7 @@
   "country": "US",
   "phone": "+1 310-410-4000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16767,6 +17751,7 @@
   "country": "US",
   "phone": "+1 657-439-0060",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16797,6 +17782,7 @@
   "country": "US",
   "phone": "+1 213-349-8585",
   "rooms": 305,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16812,6 +17798,7 @@
   "country": "US",
   "phone": "+1 310-274-7777",
   "rooms": 349,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16827,6 +17814,7 @@
   "country": "US",
   "phone": "+1 714-522-7000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16842,6 +17830,7 @@
   "country": "US",
   "phone": "+1 714-990-6000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16857,6 +17846,7 @@
   "country": "US",
   "phone": "+1 310-215-3000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16872,6 +17862,7 @@
   "country": "US",
   "phone": "+1 213-624-0000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16887,6 +17878,7 @@
   "country": "US",
   "phone": "+1 323-887-8100",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16902,6 +17894,7 @@
   "country": "US",
   "phone": "+1 213-629-1200",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16917,6 +17910,7 @@
   "country": "US",
   "phone": "+1 562-861-1900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16932,6 +17926,7 @@
   "country": "US",
   "phone": "+1 213-463-2162",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16947,6 +17942,7 @@
   "country": "US",
   "phone": "+1 310-750-0300",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16962,6 +17958,7 @@
   "country": "US",
   "phone": "+1 310-640-3600",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16977,6 +17974,7 @@
   "country": "US",
   "phone": "+1 714-539-3300",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -16992,6 +17990,7 @@
   "country": "US",
   "phone": "+1 626-445-8525",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17007,6 +18006,7 @@
   "country": "US",
   "phone": "+1 310-484-7300",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17022,6 +18022,7 @@
   "country": "US",
   "phone": "+1 310-376-0746",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17037,6 +18038,7 @@
   "country": "US",
   "phone": "+1 310-822-8555",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17052,6 +18054,7 @@
   "country": "US",
   "phone": "+1 310-277-2800",
   "rooms": 138,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17067,6 +18070,7 @@
   "country": "US",
   "phone": "+1 310-823-5333",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17097,6 +18101,7 @@
   "country": "US",
   "phone": "+1 626-357-1900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17112,6 +18117,7 @@
   "country": "US",
   "phone": "+1 562-863-5555",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17127,6 +18133,7 @@
   "country": "US",
   "phone": "+1 323-722-8800",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17142,6 +18149,7 @@
   "country": "US",
   "phone": "+1 626-270-2700",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17157,6 +18165,7 @@
   "country": "US",
   "phone": "+1 310-540-0500",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17172,6 +18181,7 @@
   "country": "US",
   "phone": "+1 951-676-5656",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17187,6 +18197,7 @@
   "country": "US",
   "phone": "+1 310-860-6666",
   "rooms": 170,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17202,6 +18213,7 @@
   "country": "US",
   "phone": "+1 310-649-1776",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17232,6 +18244,7 @@
   "country": "US",
   "phone": "+1 562-945-8511",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17247,6 +18260,7 @@
   "country": "GB",
   "phone": "+44 113 241 1000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17262,6 +18276,7 @@
   "country": "GB",
   "phone": "+44 1423 700300",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17277,6 +18292,7 @@
   "country": "GB",
   "phone": "+44 1904 610653",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17292,6 +18308,7 @@
   "country": "GB",
   "phone": "+44 1904 638086",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17307,6 +18324,7 @@
   "country": "GB",
   "phone": "+44 1904 648111",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17322,6 +18340,7 @@
   "country": "US",
   "phone": "+1 806-771-7000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17337,6 +18356,7 @@
   "country": "US",
   "phone": "+1 806-516-0400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17352,6 +18372,7 @@
   "country": "ES",
   "phone": "+34 981 39 62 52",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17367,6 +18388,7 @@
   "country": "US",
   "phone": "+1 337-527-0858",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17382,6 +18404,7 @@
   "country": "PL",
   "phone": "+48 42 208 80 00",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17397,6 +18420,7 @@
   "country": "PT",
   "phone": "+351 21 054 0559",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17412,6 +18436,7 @@
   "country": "GB",
   "phone": "+44 20 4559 1745",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17427,6 +18452,7 @@
   "country": "GB",
   "phone": "+44 28 7136 5800",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17442,6 +18468,7 @@
   "country": "GB",
   "phone": "+44 28 7053 1233",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17457,6 +18484,7 @@
   "country": "RU",
   "phone": "+7 812 647-74-84",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -17472,6 +18500,7 @@
   "country": "GB",
   "phone": "+44 113 244 2000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17487,6 +18516,7 @@
   "country": "US",
   "phone": "+1 859-231-9000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17502,6 +18532,7 @@
   "country": "US",
   "phone": "+1 859-455-5000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17517,6 +18548,7 @@
   "country": "US",
   "phone": "+1 859-231-1777",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17532,6 +18564,7 @@
   "country": "US",
   "phone": "+1 859-271-4000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17547,6 +18580,7 @@
   "country": "US",
   "phone": "+1 859-255-4281",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17562,6 +18596,7 @@
   "country": "US",
   "phone": "+1 859-268-0060",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17577,6 +18612,7 @@
   "country": "US",
   "phone": "+1 337-235-6111",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -17592,6 +18628,7 @@
   "country": "US",
   "phone": "+1 914-241-2600",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17622,6 +18659,7 @@
   "country": "US",
   "phone": "+1 516-625-2700",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17637,6 +18675,7 @@
   "country": "US",
   "phone": "+1 310-830-9200",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17652,6 +18691,7 @@
   "country": "US",
   "phone": "+1 562-983-3400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17667,6 +18707,7 @@
   "country": "US",
   "phone": "+1 310-514-3344",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17697,6 +18738,7 @@
   "country": "GB",
   "phone": "+44 20 8759 7755",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -17705,13 +18747,14 @@
   "brandName": "Hilton Hotels \\u0026 Resorts",
   "url": "https://www.hilton.com/en/hotels/lhrathi-hilton-london-heathrow-airport-terminal-5/",
   "name": "Hilton London Heathrow Airport Terminal 5",
-  "streetAddress": "Poyle Road",
+  "streetAddress": "Poyle Road, Colnbrook SL3 0FF, United Kingdom",
   "city": "Colnbrook",
   "region": null,
   "postalCode": "SL3 0FF",
   "country": "GB",
   "phone": "+44 1753 686860",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -17727,6 +18770,7 @@
   "country": "GB",
   "phone": "+44 20 8564 4450",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17742,6 +18786,7 @@
   "country": "GB",
   "phone": "+44 20 7603 3355",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17757,6 +18802,7 @@
   "country": "GB",
   "phone": "+44 118 916 9000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17772,6 +18818,7 @@
   "country": "GB",
   "phone": "+44 20 7242 2828",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17787,6 +18834,7 @@
   "country": "GB",
   "phone": "+44 20 7603 3333",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17802,6 +18850,7 @@
   "country": "GB",
   "phone": "+44 20 7870 7777",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17817,6 +18866,7 @@
   "country": "CN",
   "phone": "+86 931 852 5888",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -17832,6 +18882,7 @@
   "country": "US",
   "phone": "+1 808-353-4000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17847,6 +18898,7 @@
   "country": "FR",
   "phone": "+33 3 20 42 46 46",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -17862,6 +18914,7 @@
   "country": "PE",
   "phone": "+51 1 6128484",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17877,6 +18930,7 @@
   "country": "PE",
   "phone": "+51 1 2008000",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -17892,6 +18946,7 @@
   "country": "PE",
   "phone": "+51 1 6171000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17922,6 +18977,7 @@
   "country": "CR",
   "phone": "+506 4104 0700",
   "rooms": 188,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17967,6 +19023,7 @@
   "country": "PT",
   "phone": "+351 21 041 8500",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17982,6 +19039,7 @@
   "country": "PT",
   "phone": "+351 21 150 6110",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -17997,6 +19055,7 @@
   "country": "PT",
   "phone": "+351 21 041 0600",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18012,6 +19071,7 @@
   "country": "US",
   "phone": "+1 501-312-9000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18027,6 +19087,7 @@
   "country": "US",
   "phone": "+1 501-224-8051",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18042,6 +19103,7 @@
   "country": "US",
   "phone": "+1 501-372-4371",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18057,6 +19119,7 @@
   "country": "CN",
   "phone": "+86 888 668 8888",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -18072,6 +19135,7 @@
   "country": "SI",
   "phone": "+386 1 588 25 00",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18087,6 +19151,7 @@
   "country": "IN",
   "phone": null,
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -18102,6 +19167,7 @@
   "country": "US",
   "phone": "+1 402-474-1111",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18117,6 +19183,7 @@
   "country": "US",
   "phone": "+1 402-475-4011",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18132,6 +19199,7 @@
   "country": "US",
   "phone": "+1 717-625-1300",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18147,6 +19215,7 @@
   "country": "US",
   "phone": "+1 717-464-2711",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18162,6 +19231,7 @@
   "country": "US",
   "phone": "+1 717-848-1111",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18177,6 +19247,7 @@
   "country": "US",
   "phone": "+1 805-735-8311",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18192,6 +19263,7 @@
   "country": "GB",
   "phone": "+44 20 7309 9700",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18207,6 +19279,7 @@
   "country": "GB",
   "phone": "+44 20 4553 0555",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18222,6 +19295,7 @@
   "country": "GB",
   "phone": "+44 20 3301 8080",
   "rooms": 256,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -18237,6 +19311,7 @@
   "country": "GB",
   "phone": "+44 20 7987 1157",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18252,6 +19327,7 @@
   "country": "GB",
   "phone": "+44 20 3002 2300",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -18267,6 +19343,7 @@
   "country": "GB",
   "phone": "+44 20 8896 8400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18297,6 +19374,7 @@
   "country": "GB",
   "phone": "+44 20 8153 8510",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18312,6 +19390,7 @@
   "country": "GB",
   "phone": "+44 20 7943 4500",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18327,6 +19406,7 @@
   "country": "GB",
   "phone": "+44 20 7540 4820",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18342,6 +19422,7 @@
   "country": "GB",
   "phone": "+44 20 4549 7600",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18357,6 +19438,7 @@
   "country": "GB",
   "phone": "+44 20 8469 4440",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18372,6 +19454,7 @@
   "country": "GB",
   "phone": "+44 20 7493 8000",
   "rooms": 453,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -18387,6 +19470,7 @@
   "country": "GB",
   "phone": "+44 20 7221 2217",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18402,6 +19486,7 @@
   "country": "GB",
   "phone": "+44 20 7229 1212",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18417,6 +19502,7 @@
   "country": "GB",
   "phone": "+44 20 7354 7700",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -18432,6 +19518,7 @@
   "country": "GB",
   "phone": "+44 20 3096 0099",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18447,6 +19534,7 @@
   "country": "GB",
   "phone": "+44 20 7411 2200",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18462,6 +19550,7 @@
   "country": "GB",
   "phone": "+44 20 8214 9988",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18477,6 +19566,7 @@
   "country": "GB",
   "phone": "+44 20 7282 5500",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -18492,6 +19582,7 @@
   "country": "GB",
   "phone": "+44 20 7373 7878",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18522,6 +19613,7 @@
   "country": "GB",
   "phone": "+44 20 7935 2361",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18537,6 +19629,7 @@
   "country": "GB",
   "phone": "+44 20 7402 4141",
   "rooms": 1100,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -18552,6 +19645,7 @@
   "country": "GB",
   "phone": "+44 20 3906 1600",
   "rooms": 91,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18567,6 +19661,7 @@
   "country": "GB",
   "phone": "+44 20 7850 0500",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -18582,6 +19677,7 @@
   "country": "GB",
   "phone": "+44 20 3988 7480",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18597,6 +19693,7 @@
   "country": "GB",
   "phone": "+44 344 879 9132",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18612,6 +19709,7 @@
   "country": "GB",
   "phone": "+44 20 3667 5600",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -18627,6 +19725,7 @@
   "country": "GB",
   "phone": "+44 20 3995 3655",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18642,6 +19741,7 @@
   "country": "GB",
   "phone": "+44 20 3002 4300",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -18657,6 +19757,7 @@
   "country": "GB",
   "phone": "+44 20 7709 1000",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -18672,6 +19773,7 @@
   "country": "GB",
   "phone": "+44 20 7870 2900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18687,6 +19789,7 @@
   "country": "GB",
   "phone": "+44 20 7834 8123",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18702,6 +19805,7 @@
   "country": "GB",
   "phone": "+44 20 7836 2400",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -18717,6 +19821,7 @@
   "country": "NG",
   "phone": "+234 201 460 8200",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18732,6 +19837,7 @@
   "country": "GB",
   "phone": "+44 151 556 1222",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18747,6 +19853,7 @@
   "country": "GB",
   "phone": "+44 151 708 4200",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -18762,6 +19869,7 @@
   "country": "US",
   "phone": "+1 956-723-9100",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18777,6 +19885,7 @@
   "country": "US",
   "phone": "+1 956-602-1820",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18792,6 +19901,7 @@
   "country": "GB",
   "phone": "+44 1908 364170",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18822,6 +19932,7 @@
   "country": "FR",
   "phone": "+33 4 22 47 01 01",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18837,6 +19948,7 @@
   "country": "US",
   "phone": "+1 513-905-0404",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18852,6 +19964,7 @@
   "country": "EG",
   "phone": "+20 95 2399999",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18867,6 +19980,7 @@
   "country": "US",
   "phone": "+1 785-841-7077",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18882,6 +19996,7 @@
   "country": "US",
   "phone": "+1 785-843-1200",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18897,6 +20012,7 @@
   "country": "LU",
   "phone": "+352 4378",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18927,6 +20043,7 @@
   "country": "US",
   "phone": "+1 434-329-3200",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18942,6 +20059,7 @@
   "country": "FR",
   "phone": "+33 4 37 25 25 25",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -18957,6 +20075,7 @@
   "country": "IN",
   "phone": "+91 44 3085 5555",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -18972,6 +20091,7 @@
   "country": "ES",
   "phone": "+34 911 53 40 00",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -18987,6 +20107,7 @@
   "country": "ES",
   "phone": "+34 911 08 06 60",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19002,6 +20123,7 @@
   "country": "ES",
   "phone": "+34 919 04 96 62",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19017,6 +20139,7 @@
   "country": "ES",
   "phone": "+34 911 78 18 00",
   "rooms": 314,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19032,6 +20155,7 @@
   "country": "ES",
   "phone": "+34 913 60 08 20",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19062,6 +20186,7 @@
   "country": "US",
   "phone": "+1 432-225-6600",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19077,6 +20202,7 @@
   "country": "SA",
   "phone": "+966 12 526 0000",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -19092,6 +20218,7 @@
   "country": "SA",
   "phone": "+966 12 526 7700",
   "rooms": 438,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -19107,6 +20234,7 @@
   "country": "SA",
   "phone": "+966 12 556 0700",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19137,6 +20265,7 @@
   "country": "SA",
   "phone": "+966 12 556 7000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19167,6 +20296,7 @@
   "country": "GB",
   "phone": "+44 1782 609988",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19182,6 +20312,7 @@
   "country": "GB",
   "phone": "+44 1244 408800",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19197,6 +20328,7 @@
   "country": "GB",
   "phone": "+44 161 435 3000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19212,6 +20344,7 @@
   "country": "GB",
   "phone": "+44 161 242 1000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19227,6 +20360,7 @@
   "country": "US",
   "phone": "+1 989-891-6000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19242,6 +20376,7 @@
   "country": "US",
   "phone": "+1 615-895-5555",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19257,6 +20392,7 @@
   "country": "US",
   "phone": "+1 615-890-4464",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19272,6 +20408,7 @@
   "country": "US",
   "phone": "+1 816-891-8900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19287,6 +20424,7 @@
   "country": "US",
   "phone": "+1 913-353-9280",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19302,6 +20440,7 @@
   "country": "US",
   "phone": "+1 913-451-6100",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19317,6 +20456,7 @@
   "country": "US",
   "phone": "+1 816-221-9490",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19332,6 +20472,7 @@
   "country": "US",
   "phone": "+1 703-893-2100",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19347,6 +20488,7 @@
   "country": "US",
   "phone": "+1 703-847-5000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19362,6 +20504,7 @@
   "country": "US",
   "phone": "+1 407-888-9339",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19377,6 +20520,7 @@
   "country": "US",
   "phone": "+1 407-827-2727",
   "rooms": 1011,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19392,6 +20536,7 @@
   "country": "US",
   "phone": "+1 407-841-1000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19407,6 +20552,7 @@
   "country": "US",
   "phone": "+1 407-934-1000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19422,6 +20568,7 @@
   "country": "US",
   "phone": "+1 407-856-0100",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19437,6 +20584,7 @@
   "country": "US",
   "phone": "+1 407-345-8250",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19452,6 +20600,7 @@
   "country": "US",
   "phone": "+1 407-597-4000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19467,6 +20616,7 @@
   "country": "US",
   "phone": "+1 407-425-4455",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19482,6 +20632,7 @@
   "country": "US",
   "phone": "+1 407-352-1400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19497,6 +20648,7 @@
   "country": "US",
   "phone": "+1 407-834-2400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19512,6 +20664,7 @@
   "country": "US",
   "phone": "+1 407-352-1100",
   "rooms": 1042,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19527,6 +20680,7 @@
   "country": "US",
   "phone": "+1 321-237-2427",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19542,6 +20696,7 @@
   "country": "US",
   "phone": "+1 407-351-1000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19557,6 +20712,7 @@
   "country": "US",
   "phone": "+1 407-239-1144",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19602,6 +20758,7 @@
   "country": "OM",
   "phone": "+968 24 776666",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19617,6 +20774,7 @@
   "country": "OM",
   "phone": "+968 96822540000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19647,6 +20805,7 @@
   "country": "US",
   "phone": "+1 717-233-6000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19662,6 +20821,7 @@
   "country": "US",
   "phone": "+1 814-778-0300",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19677,6 +20837,7 @@
   "country": "US",
   "phone": "+1 312-787-4980",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19692,6 +20853,7 @@
   "country": "US",
   "phone": "+1 708-563-6490",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19722,6 +20884,7 @@
   "country": "AR",
   "phone": "+54 261 348-0100",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19737,6 +20900,7 @@
   "country": "AR",
   "phone": "+54 261 521-8800",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19752,6 +20916,7 @@
   "country": "SA",
   "phone": "+966 14 821 9100",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19782,6 +20947,7 @@
   "country": "SA",
   "phone": "+966 14 504 1000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19797,6 +20963,7 @@
   "country": "AU",
   "phone": "+61 3 9116 8888",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -19812,6 +20979,7 @@
   "country": "AU",
   "phone": "+61 3 9654 6888",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19842,6 +21010,7 @@
   "country": "AU",
   "phone": "+61 3 9118 3333",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -19857,6 +21026,7 @@
   "country": "US",
   "phone": "+1 901-479-1001",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19872,6 +21042,7 @@
   "country": "US",
   "phone": "+1 901-524-5247",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19887,6 +21058,7 @@
   "country": "US",
   "phone": "+1 901-767-6666",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19902,6 +21074,7 @@
   "country": "US",
   "phone": "+1 901-684-1777",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19917,6 +21090,7 @@
   "country": "US",
   "phone": "+1 901-684-6664",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19932,6 +21106,7 @@
   "country": "TR",
   "phone": "+90 324 241 50 00",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -19947,6 +21122,7 @@
   "country": "US",
   "phone": "+1 480-833-5555",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -19962,6 +21138,7 @@
   "country": "MX",
   "phone": "+52 55 5133 0500",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -19977,6 +21154,7 @@
   "country": "MX",
   "phone": "+52 55 5130 5300",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -19992,6 +21170,7 @@
   "country": "MX",
   "phone": "+52 55 5985 9000",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -20007,6 +21186,7 @@
   "country": "MX",
   "phone": "+52 55 1105 5030",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20037,6 +21217,7 @@
   "country": "US",
   "phone": "+1 956-688-8329",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20052,6 +21233,7 @@
   "country": "US",
   "phone": "+1 956-686-3000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20067,6 +21249,7 @@
   "country": "MO",
   "phone": "+853 2882 9000",
   "rooms": 659,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20082,6 +21265,7 @@
   "country": "NI",
   "phone": "+505 2255 5777",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -20097,6 +21281,7 @@
   "country": "NI",
   "phone": "+505 2280 9810",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20112,6 +21297,7 @@
   "country": "US",
   "phone": "+1 334-269-5055",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20127,6 +21313,7 @@
   "country": "US",
   "phone": "+1 334-245-2320",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20142,6 +21329,7 @@
   "country": "US",
   "phone": "+1 304-777-4100",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20172,6 +21360,7 @@
   "country": "US",
   "phone": "+1 603-625-1000",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -20187,6 +21376,7 @@
   "country": "US",
   "phone": "+1 305-262-1000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20217,6 +21407,7 @@
   "country": "US",
   "phone": "+1 305-372-0313",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20232,6 +21423,7 @@
   "country": "US",
   "phone": "+1 305-763-8300",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20247,6 +21439,7 @@
   "country": "US",
   "phone": "+1 786-975-1920",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20277,6 +21470,7 @@
   "country": "US",
   "phone": "+1 305-374-0000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20292,6 +21486,7 @@
   "country": "US",
   "phone": "+1 305-673-0199",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20307,6 +21502,7 @@
   "country": "US",
   "phone": "+1 305-949-1300",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20322,6 +21518,7 @@
   "country": "US",
   "phone": "+1 305-667-5611",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20352,6 +21549,7 @@
   "country": "US",
   "phone": "+1 305-864-6261",
   "rooms": 231,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20367,6 +21565,7 @@
   "country": "US",
   "phone": "+1 305-751-8001",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20382,6 +21581,7 @@
   "country": "US",
   "phone": "+1 786-528-2500",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20397,6 +21597,7 @@
   "country": "US",
   "phone": "+1 305-634-5000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20412,6 +21613,7 @@
   "country": "US",
   "phone": "+1 305-532-4999",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20427,6 +21629,7 @@
   "country": "MX",
   "phone": "+52 999 942 9000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20457,6 +21660,7 @@
   "country": "US",
   "phone": "+1 408-942-0400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20472,6 +21676,7 @@
   "country": "IT",
   "phone": "+39 02 928831",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20487,6 +21692,7 @@
   "country": "IT",
   "phone": "+39 02 69831",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -20502,6 +21708,7 @@
   "country": "IT",
   "phone": "+39 02 241121",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20517,6 +21724,7 @@
   "country": "TN",
   "phone": "+216 31 377 737",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20532,6 +21740,7 @@
   "country": "ES",
   "phone": "+34 968 03 19 73",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20547,6 +21756,7 @@
   "country": "US",
   "phone": "+1 816-469-5800",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20577,6 +21787,7 @@
   "country": "US",
   "phone": "+1 816-443-4200",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20592,6 +21803,7 @@
   "country": "US",
   "phone": "+1 816-221-7000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20607,6 +21819,7 @@
   "country": "US",
   "phone": "+1 816-931-4400",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20622,6 +21835,7 @@
   "country": "US",
   "phone": "+1 913-649-7060",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20637,6 +21851,7 @@
   "country": "US",
   "phone": "+1 816-464-2345",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20652,6 +21867,7 @@
   "country": "US",
   "phone": "+1 816-891-7788",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20667,6 +21883,7 @@
   "country": "US",
   "phone": "+1 262-792-1212",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20682,6 +21899,7 @@
   "country": "US",
   "phone": "+1 414-273-2950",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20697,6 +21915,7 @@
   "country": "US",
   "phone": "+1 262-782-2900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20712,6 +21931,7 @@
   "country": "US",
   "phone": "+1 414-271-7250",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -20727,6 +21947,7 @@
   "country": "US",
   "phone": "+1 262-857-3377",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20742,6 +21963,7 @@
   "country": "US",
   "phone": "+1 731-664-6900",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20757,6 +21979,7 @@
   "country": "MY",
   "phone": "+60 6-222 3333",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20772,6 +21995,7 @@
   "country": "MT",
   "phone": "+356 2138 3383",
   "rooms": 413,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -20787,6 +22011,7 @@
   "country": "MT",
   "phone": "+356 2355 2355",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20802,6 +22027,7 @@
   "country": "US",
   "phone": "+1 321-723-4222",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20817,6 +22043,7 @@
   "country": "US",
   "phone": "+1 321-777-5000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20847,6 +22074,7 @@
   "country": "US",
   "phone": "+1 321-361-3663",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20862,6 +22090,7 @@
   "country": "MV",
   "phone": "+960 664-6364",
   "rooms": 109,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20877,6 +22106,7 @@
   "country": "MV",
   "phone": "+960 665-1300",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20892,6 +22122,7 @@
   "country": "MV",
   "phone": "+960 668-0629",
   "rooms": 151,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20907,6 +22138,7 @@
   "country": "MV",
   "phone": "+960 400-0300",
   "rooms": 117,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20922,6 +22154,7 @@
   "country": "US",
   "phone": "+1 563-322-2200",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20937,6 +22170,7 @@
   "country": "US",
   "phone": "+1 309-640-0060",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20952,6 +22186,7 @@
   "country": "US",
   "phone": "+1 318-460-3966",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20967,6 +22202,7 @@
   "country": "JP",
   "phone": "+81 267-41-6990",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -20982,6 +22218,7 @@
   "country": "PH",
   "phone": "+63 2 8833 9999",
   "rooms": 347,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -20997,6 +22234,7 @@
   "country": "PH",
   "phone": "+63 2 7239 7788",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -21012,6 +22250,7 @@
   "country": "RU",
   "phone": "+7 495 980-70-00",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -21027,6 +22266,7 @@
   "country": "US",
   "phone": "+1 203-245-1404",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -21042,6 +22282,7 @@
   "country": "US",
   "phone": "+1 239-394-5000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -21057,6 +22298,7 @@
   "country": "MU",
   "phone": "+230 403 1000",
   "rooms": 193,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -21072,6 +22314,7 @@
   "country": "US",
   "phone": "+1 831-393-1115",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -21087,6 +22330,7 @@
   "country": "US",
   "phone": "+1 831-688-7300",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -21102,6 +22346,7 @@
   "country": "US",
   "phone": "+1 608-740-6870",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -21117,6 +22362,7 @@
   "country": "US",
   "phone": "+1 608-251-5511",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -21132,6 +22378,7 @@
   "country": "US",
   "phone": "+1 608-257-4391",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -21147,6 +22394,7 @@
   "country": "US",
   "phone": "+1 608-244-4703",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -21162,6 +22410,7 @@
   "country": "US",
   "phone": "+1 608-255-5100",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -21177,6 +22426,7 @@
   "country": "US",
   "phone": "+1 651-636-4567",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -21192,6 +22442,7 @@
   "country": "US",
   "phone": "+1 952-854-2100",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -21207,6 +22458,7 @@
   "country": "US",
   "phone": "+1 952-854-1000",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -21222,6 +22474,7 @@
   "country": "US",
   "phone": "+1 763-560-2700",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -21237,6 +22490,7 @@
   "country": "US",
   "phone": "+1 952-835-7800",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
@@ -21252,6 +22506,7 @@
   "country": "US",
   "phone": "+1 952-893-9500",
   "rooms": null,
+  "lounge": true,
   "source": "page"
  },
  {
@@ -21267,6 +22522,7 @@
   "country": "US",
   "phone": "+1 612-333-4545",
   "rooms": null,
+  "lounge": false,
   "source": "page"
  },
  {
