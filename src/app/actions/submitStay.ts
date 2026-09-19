@@ -6,6 +6,7 @@ import { headers } from 'next/headers'
 import { ALA_CARTE_CAP, BREAKFAST_OUTCOMES, LATE_CHECKOUT_OUTCOMES, SUITE_TYPES, UPGRADE_HOW, UPGRADE_OUTCOMES, UPGRADE_TYPES } from '@/lib/stayOptions'
 import { getPayloadClient } from '@/lib/payload'
 import { currentReader } from '@/lib/reader'
+import { TURNSTILE_FIELD, verifyTurnstile } from '@/lib/turnstile'
 
 export type SubmitStayState = { ok: true } | { ok: false; error: string } | null
 
@@ -18,6 +19,10 @@ const DAILY_LIMIT = 10
 export async function submitStay(_prev: SubmitStayState, form: FormData): Promise<SubmitStayState> {
   // Honeypot: real people never fill this.
   if (form.get('website')) return { ok: true }
+
+  const h = await headers()
+  const ip = (h.get('x-forwarded-for') ?? '').split(',')[0].trim() || h.get('x-real-ip') || 'unknown'
+  if (!(await verifyTurnstile(form.get(TURNSTILE_FIELD), ip))) return { ok: false, error: 'The check did not pass. Try once more.' }
 
   const hotelId = Number(form.get('hotel'))
   const tierId = Number(form.get('statusHeld'))
@@ -52,8 +57,6 @@ export async function submitStay(_prev: SubmitStayState, form: FormData): Promis
   const tierProgram = tier && (typeof tier.program === 'object' ? tier.program.id : tier.program)
   if (!tier || tierProgram !== programId) return { ok: false, error: "That status does not belong to this hotel's program." }
 
-  const h = await headers()
-  const ip = (h.get('x-forwarded-for') ?? '').split(',')[0].trim() || h.get('x-real-ip') || 'unknown'
   const submitterHash = createHash('sha256').update(`${ip}|${process.env.PAYLOAD_SECRET ?? ''}`).digest('hex').slice(0, 32)
 
   const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()

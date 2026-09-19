@@ -8,6 +8,7 @@ import { useReader } from '@/lib/useReader'
 
 import { SegmentBar } from './SegmentBar'
 import type { StayFormTier } from './StayForm'
+import { Turnstile } from './Turnstile'
 import styles from './StayForm.module.css'
 
 type Option = { label: string; value: string }
@@ -85,6 +86,8 @@ export function LoungeRatingForm({ lounge, programName, tiers }: { lounge: { id:
             <a href={`/login?next=${encodeURIComponent(typeof window !== 'undefined' ? window.location.pathname : '/')}`}>Sign in</a> to add a line under your name. Scores count either way.
           </p>
         ))}
+
+      <Turnstile resetKey={state} />
 
       {state && !state.ok && (
         <p className={styles.error} role="alert">

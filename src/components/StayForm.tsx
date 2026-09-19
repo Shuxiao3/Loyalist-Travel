@@ -5,6 +5,7 @@ import { useActionState, useState } from 'react'
 import { submitStay, type SubmitStayState } from '@/app/actions/submitStay'
 import { ALA_CARTE_CAP, BREAKFAST_OUTCOMES, LATE_CHECKOUT_OUTCOMES, SUITE_TYPES, UPGRADE_HOW, UPGRADE_OUTCOMES, UPGRADE_TYPES } from '@/lib/stayOptions'
 
+import { Turnstile } from './Turnstile'
 import styles from './StayForm.module.css'
 
 export type StayFormTier = { id: number; name: string; shortName?: string | null }
@@ -98,6 +99,8 @@ export function StayForm({ hotel, programName, tiers, compact }: { hotel: { id: 
       )}
 
       <Select name="lateCheckout" label="Late checkout" placeholder="What happened" options={LATE_CHECKOUT_OUTCOMES} />
+
+      <Turnstile resetKey={state} />
 
       {state && !state.ok && (
         <p className={styles.error} role="alert">

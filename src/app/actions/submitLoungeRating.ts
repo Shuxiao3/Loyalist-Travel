@@ -6,6 +6,7 @@ import { headers } from 'next/headers'
 import { getPayloadClient } from '@/lib/payload'
 import { currentReader } from '@/lib/reader'
 import { LOUNGE_ACCESS, LOUNGE_COMMENT_MAX, LOUNGE_FACTORS, LOUNGE_WORTH_IT } from '@/lib/stayOptions'
+import { TURNSTILE_FIELD, verifyTurnstile } from '@/lib/turnstile'
 
 export type LoungeRatingState = { ok: boolean; error?: string } | null
 
@@ -16,6 +17,10 @@ const inList = (v: unknown, list: { value: string }[]) => typeof v === 'string' 
 // the signed-in reader if any, and files it as pending.
 export async function submitLoungeRating(prev: LoungeRatingState, form: FormData): Promise<LoungeRatingState> {
   if (form.get('website')) return { ok: true } // honeypot
+
+  const h = await headers()
+  const ip = (h.get('x-forwarded-for') ?? '').split(',')[0].trim() || h.get('x-real-ip') || 'unknown'
+  if (!(await verifyTurnstile(form.get(TURNSTILE_FIELD), ip))) return { ok: false, error: 'The check did not pass. Try once more.' }
 
   const loungeId = Number(form.get('lounge'))
   const tierId = Number(form.get('statusHeld'))
@@ -49,8 +54,6 @@ export async function submitLoungeRating(prev: LoungeRatingState, form: FormData
   if (!tier || tierProgram !== programId) return { ok: false, error: "That status does not belong to this hotel's program." }
 
   const reader = await currentReader().catch(() => null)
-  const h = await headers()
-  const ip = (h.get('x-forwarded-for') ?? '').split(',')[0].trim() || h.get('x-real-ip') || 'unknown'
   const submitterHash = createHash('sha256').update(`${ip}|${process.env.PAYLOAD_SECRET ?? ''}`).digest('hex').slice(0, 32)
   const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
   const recent = await payload.count({ collection: 'lounge-ratings', where: { and: [{ submitterHash: { equals: submitterHash } }, { createdAt: { greater_than: since } }] }, overrideAccess: true })

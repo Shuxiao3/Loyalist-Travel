@@ -120,3 +120,14 @@ Actions secrets; sign-in stays hidden until all three exist.
 
 The Google client needs the site's address as an authorised origin and
 `<site>/api/auth/callback/google` as an authorised redirect URI.
+
+## Captcha
+
+Submit a stay and Rate this lounge carry a Cloudflare Turnstile check. It
+is off until both keys exist in Vercel (create a widget at
+dash.cloudflare.com, Turnstile, with the site's hostname).
+
+| Variable | What |
+| --- | --- |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | The widget's site key. Public. |
+| `TURNSTILE_SECRET_KEY` | Its secret key. Server only. |
