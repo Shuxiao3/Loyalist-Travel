@@ -17,10 +17,11 @@ function withTimeout<T>(ms: number, run: (signal: AbortSignal) => Promise<T>): P
   return run(ac.signal).finally(() => clearTimeout(t))
 }
 
-export async function get(url: string): Promise<Got> {
-  for (let attempt = 0; attempt < 3; attempt++) {
+// `attempts` and `timeoutMs` bound how long one address can hold a worker.
+export async function get(url: string, attempts = 3, timeoutMs = 75000): Promise<Got> {
+  for (let attempt = 0; attempt < attempts; attempt++) {
     try {
-      const { status, buf } = await withTimeout(75000, async (signal) => {
+      const { status, buf } = await withTimeout(timeoutMs, async (signal) => {
         const res = await fetch(url, { headers: { 'user-agent': UA, accept: 'text/html,application/xml,text/xml,*/*', 'accept-language': 'en-US,en;q=0.9' }, redirect: 'follow', signal })
         return { status: res.status, buf: Buffer.from(await res.arrayBuffer()) }
       })
@@ -31,7 +32,7 @@ export async function get(url: string): Promise<Got> {
       }
       return { status, body }
     } catch (e) {
-      if (attempt === 2) return { status: 0, body: String(e).slice(0, 200) }
+      if (attempt === attempts - 1) return { status: 0, body: String(e).slice(0, 200) }
       await new Promise((r) => setTimeout(r, 2000 * (attempt + 1)))
     }
   }
@@ -47,19 +48,19 @@ export async function getArchived(url: string, looksRight: (body: string) => boo
   for (const pattern of [url, ...alternates]) {
     const prefix = pattern.endsWith('*')
     const q = `https://web.archive.org/cdx/search/cdx?url=${encodeURIComponent(prefix ? pattern.slice(0, -1) : pattern)}${prefix ? '&matchType=prefix' : ''}&filter=statuscode:200&filter=mimetype:text/html&fl=timestamp,original&limit=-6&output=json`
-    const cdx = await get(q)
+    const cdx = await get(q, 2, 45000)
     try {
       for (const r of (JSON.parse(cdx.body) as string[][]).slice(1).reverse()) captures.push({ ts: r[0], original: r[1] })
     } catch {
       /* no captures under this pattern */
     }
-    if (captures.length >= 3) break
+    if (captures.length >= 1) break
   }
   if (captures.length === 0) captures.push({ ts: '2026', original: url })
   let tried = 0
-  for (const c of captures.slice(0, 6)) {
+  for (const c of captures.slice(0, 3)) {
     tried++
-    const res = await get(`https://web.archive.org/web/${c.ts}id_/${c.original}`)
+    const res = await get(`https://web.archive.org/web/${c.ts}id_/${c.original}`, 2, 60000)
     if (res.status === 200 && looksRight(res.body) && !/Access Denied|Reference #\d/.test(res.body.slice(0, 3000))) return res
   }
   return { status: 404, body: `no usable capture (${tried} tried)` }
