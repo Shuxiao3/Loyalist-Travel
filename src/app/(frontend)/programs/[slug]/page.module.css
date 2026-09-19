@@ -3,17 +3,131 @@
   margin-bottom: var(--s5);
 }
 
+/* one column per tier, as many as the program has */
+.tierGrid {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.tier {
+  gap: var(--s3);
+}
+
 .tierName {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
   font-family: var(--serif);
   font-size: var(--t-lg);
   font-weight: var(--w-heading);
   color: var(--heading);
-  margin-bottom: var(--s1);
 }
 
-.perks {
-  font-size: var(--t-xs);
+/* the credit card mark */
+.card {
+  display: inline-flex;
   color: var(--gold-dark);
+}
+
+.benefits :global(li),
+.benefits :global(p) {
+  font-size: var(--t-sm);
+  line-height: 1.5;
+}
+
+.benefits :global(ul) {
+  gap: var(--s2);
+}
+
+.none {
+  font-size: var(--t-sm);
+  color: var(--muted);
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  margin-top: var(--s4);
+  font-size: var(--t-xs);
+  color: var(--muted);
   letter-spacing: var(--track-fine);
+}
+
+.legend svg {
+  color: var(--gold-dark);
+}
+
+/* the hotel list's own filter bar */
+.form {
+  display: grid;
+  grid-template-columns: 1.4fr repeat(3, minmax(0, 1fr)) auto;
+  gap: var(--s4);
+  align-items: end;
+  padding: var(--s5);
+  margin-bottom: var(--s5);
+  background: var(--cream);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+}
+
+.form label {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+  min-width: 0;
+}
+
+.form select,
+.form input {
+  min-width: 0;
+  width: 100%;
+  background: var(--card);
+  border: 1px solid var(--line-strong);
+  color: var(--text);
+  padding: 11px 12px;
+  font-size: var(--t-sm);
+  border-radius: var(--r-btn);
+}
+
+.form select:focus-visible,
+.form input:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--s4);
+}
+
+.actions :global(.btn) {
+  padding: 12px 22px;
+}
+
+.hotels {
+  padding-bottom: var(--section);
+}
+
+.empty {
+  font-size: var(--t-md);
+  color: var(--text-2);
+}
+
+@media (max-width: 1100px) {
+  .form {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .q,
+  .actions {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 640px) {
+  .form {
+    grid-template-columns: 1fr 1fr;
+    padding: var(--s4);
+  }
 }

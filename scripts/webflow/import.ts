@@ -132,8 +132,11 @@ const importPrograms = (payload: Payload) =>
     }, false)
   })
 
+// Tiers readers never pick from stay out (Lifetime Globalist carries Globalist benefits).
+const RETIRED_TIERS = new Set(['hyatt-lifetime-globalist'])
+
 const importStatusLevels = (payload: Payload) =>
-  run(payload, 'status-levels', read('status-levels'), (item) => {
+  run(payload, 'status-levels', read('status-levels').filter((item) => !RETIRED_TIERS.has(String(item.fieldData.slug))), (item) => {
     const f = item.fieldData
     return upsert(payload, 'status-levels', item, {
       name: f.name,
@@ -629,6 +632,37 @@ async function unseedArticles(payload: Payload) {
   console.log(`unseed-articles: removed ${res.docs.length} mock articles`)
 }
 
+// ---- Retire a tier ------------------------------------------------------------
+// Lifetime Globalist is not a tier readers pick from: it carries Globalist
+// benefits. Anything filed under it moves to Globalist, then it goes.
+async function retireTiers(payload: Payload) {
+  const find = async (slug: string) => (await payload.find({ collection: 'status-levels', where: { slug: { equals: slug } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
+  const gone = await find('hyatt-lifetime-globalist')
+  const keep = await find('hyatt-globalist')
+  if (!gone) {
+    console.log('retire-tiers: nothing to do')
+    return
+  }
+  if (!keep) throw new Error('retire-tiers: Globalist tier missing')
+  let moved = 0
+  for (const collection of ['reviews', 'reader-stays', 'lounge-ratings'] as const) {
+    const res = await payload.find({ collection, where: { statusHeld: { equals: gone.id } }, limit: 5000, depth: 0, overrideAccess: true })
+    for (const doc of res.docs) {
+      await payload.update({ collection, id: doc.id, data: { statusHeld: keep.id } as never, depth: 0, overrideAccess: true })
+      moved++
+    }
+  }
+  const lounges = await payload.find({ collection: 'lounges', where: { 'access.tiers': { equals: gone.id } }, limit: 1000, depth: 0, overrideAccess: true })
+  for (const l of lounges.docs) {
+    const tiers = (l.access?.tiers ?? []).map((t) => (typeof t === 'object' ? t.id : t)).filter((id) => id !== gone.id)
+    if (!tiers.includes(keep.id)) tiers.push(keep.id)
+    await payload.update({ collection: 'lounges', id: l.id, data: { access: { ...l.access, tiers } } as never, depth: 0, overrideAccess: true })
+    moved++
+  }
+  await payload.delete({ collection: 'status-levels', id: gone.id, overrideAccess: true })
+  console.log(`retire-tiers: moved ${moved} references to Globalist and removed Lifetime Globalist`)
+}
+
 // ---- Hilton -----------------------------------------------------------------
 // data/hilton/hotels.json comes from scripts/hilton/fetch.ts. Hilton brand
 // codes (the last two letters of each hotel code) map to our brand slugs;
@@ -829,6 +863,7 @@ const STEPS: Record<string, (p: Payload) => Promise<void>> = {
   hilton: importHilton,
   'seed-articles': seedArticles,
   'unseed-articles': unseedArticles,
+  'retire-tiers': retireTiers,
 }
 
 async function main() {

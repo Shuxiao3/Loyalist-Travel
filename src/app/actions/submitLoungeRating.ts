@@ -5,7 +5,7 @@ import { headers } from 'next/headers'
 
 import { getPayloadClient } from '@/lib/payload'
 import { currentReader } from '@/lib/reader'
-import { LOUNGE_ACCESS, LOUNGE_COMMENT_MAX, LOUNGE_FACTORS, LOUNGE_WORTH_IT } from '@/lib/stayOptions'
+import { EARLIEST_STAY_YEAR, LOUNGE_COMMENT_MAX, LOUNGE_FACTORS, LOUNGE_WORTH_IT } from '@/lib/stayOptions'
 import { TURNSTILE_FIELD, verifyTurnstile } from '@/lib/turnstile'
 
 export type LoungeRatingState = { ok: boolean; error?: string } | null
@@ -25,7 +25,6 @@ export async function submitLoungeRating(prev: LoungeRatingState, form: FormData
   const loungeId = Number(form.get('lounge'))
   const tierId = Number(form.get('statusHeld'))
   const stayYear = Number(form.get('stayYear'))
-  const access = form.get('access')
   const worthIt = form.get('worthIt')
   const scores = Object.fromEntries(LOUNGE_FACTORS.map((f) => [f.name, form.get(f.name) ? Number(form.get(f.name)) : null]))
   const comment = String(form.get('comment') ?? '')
@@ -35,14 +34,12 @@ export async function submitLoungeRating(prev: LoungeRatingState, form: FormData
 
   const now = new Date()
   if (!Number.isInteger(loungeId) || !Number.isInteger(tierId)) return { ok: false, error: 'Choose the status you held.' }
-  if (!Number.isInteger(stayYear) || stayYear < now.getFullYear() - 6 || stayYear > now.getFullYear()) return { ok: false, error: 'Choose the year of the stay.' }
-  if (!inList(access, LOUNGE_ACCESS)) return { ok: false, error: 'Say whether you got into the lounge.' }
-  const used = access === 'given'
+  if (!Number.isInteger(stayYear) || stayYear < EARLIEST_STAY_YEAR || stayYear > now.getFullYear()) return { ok: false, error: 'Choose the year of the stay.' }
   for (const f of LOUNGE_FACTORS) {
     const n = scores[f.name]
-    if (used && (n == null || !Number.isInteger(n) || n < 1 || n > 5)) return { ok: false, error: `Score ${f.label.toLowerCase()}, 1 to 5.` }
+    if (n == null || !Number.isInteger(n) || n < 1 || n > 5) return { ok: false, error: `Score ${f.label.toLowerCase()}, 1 to 5.` }
   }
-  if (used && !inList(worthIt, LOUNGE_WORTH_IT)) return { ok: false, error: 'Say whether it was worth a club room.' }
+  if (!inList(worthIt, LOUNGE_WORTH_IT)) return { ok: false, error: 'Say whether it was worth a club room.' }
 
   const payload = await getPayloadClient()
   const lounge = await payload.findByID({ collection: 'lounges', id: loungeId, depth: 1, overrideAccess: true }).catch(() => null)
@@ -69,9 +66,9 @@ export async function submitLoungeRating(prev: LoungeRatingState, form: FormData
       lounge: loungeId,
       statusHeld: tierId,
       stayYear,
-      access: access as string,
-      ...Object.fromEntries(LOUNGE_FACTORS.map((f) => [f.name, used ? scores[f.name] : null])),
-      worthIt: used ? (worthIt as string) : null,
+      access: 'given', // every rating is from someone who sat in the lounge
+      ...Object.fromEntries(LOUNGE_FACTORS.map((f) => [f.name, scores[f.name]])),
+      worthIt: worthIt as string,
       comment: reader && !reader.blocked && comment ? comment : null,
       reader: reader?.id ?? null,
       submitterHash,

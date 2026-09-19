@@ -79,11 +79,31 @@ a.scorePanel:hover {
   margin-top: var(--s7);
 }
 
-.readerGrid {
+/* reader data and aggregated data across the top, the form beneath */
+.dataGrid {
   display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: var(--card-gap);
   align-items: start;
+}
+
+/* the form panel runs the full width beneath the two data panels */
+.dataGrid .stayPanel {
+  grid-column: 1 / -1;
+}
+
+.sourcedP {
+  font-size: var(--t-md);
+  line-height: 1.6;
+  color: var(--light);
+  max-width: 52ch;
+  margin-bottom: var(--s4);
+}
+
+.sourcedNone {
+  font-size: var(--t-sm);
+  color: var(--on-navy-muted);
+  letter-spacing: var(--track-fine);
 }
 
 .stayPanel :global(.eyebrow) {
@@ -130,7 +150,7 @@ a.scorePanel:hover {
     gap: var(--s7);
   }
 
-  .readerGrid {
+  .dataGrid {
     grid-template-columns: 1fr;
   }
 

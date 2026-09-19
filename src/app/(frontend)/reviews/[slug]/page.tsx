@@ -252,6 +252,15 @@ export default async function ReviewPage({ params }: Props) {
       </section>
 
       <main className={styles.body}>
+        <nav className={`wrap ${styles.tocMobile}`} aria-label="On this page">
+          {sections.map((s) => (
+            <a key={s.id} href={`#s-${s.id}`}>
+              {s.title}
+            </a>
+          ))}
+          {elite.length > 0 && <a href="#elite-h">Elite recognition</a>}
+          <a href="#s-verdict">The verdict</a>
+        </nav>
         <div className={`wrap ${styles.bodyWrap}`}>
           <article className={styles.main}>
             {review.openingThoughts && <RichText data={review.openingThoughts} />}
@@ -414,7 +423,7 @@ export default async function ReviewPage({ params }: Props) {
 
       <Comments kind="reviews" id={review.id} />
 
-      <Band eyebrow="Not a review" title="The hotel index" text="Every property across four programs, with brand and place. Filter by program, brand, country, or scored stays only." cta="Browse hotels" href="/hotels" />
+      <Band eyebrow="Every hotel, one place" title="The hotel index" text="Every property across four programs, with brand and place. Filter by program, brand, country, or scored stays only." cta="Browse hotels" href="/hotels" />
     </>
   )
 }

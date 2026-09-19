@@ -43,7 +43,7 @@ export const LoungeRatings: CollectionConfig = {
     {
       type: 'row',
       fields: [
-        { name: 'access', type: 'select', required: true, options: LOUNGE_ACCESS },
+        { name: 'access', type: 'select', options: LOUNGE_ACCESS, admin: { description: 'No longer asked; older ratings may say declined or not used.' } },
         { name: 'worthIt', type: 'select', options: LOUNGE_WORTH_IT, label: 'Worth a club room?' },
       ],
     },

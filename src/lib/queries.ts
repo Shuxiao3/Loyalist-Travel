@@ -77,7 +77,7 @@ export type HotelFilters = {
   page?: number
 }
 
-export const HOTELS_PER_PAGE = 48
+export const HOTELS_PER_PAGE = 24
 
 export async function findHotels(f: HotelFilters) {
   const payload = await getPayloadClient()

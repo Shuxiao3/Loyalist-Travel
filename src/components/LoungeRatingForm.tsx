@@ -3,7 +3,7 @@
 import { useActionState, useState } from 'react'
 
 import { type LoungeRatingState, submitLoungeRating } from '@/app/actions/submitLoungeRating'
-import { LOUNGE_ACCESS, LOUNGE_COMMENT_MAX, LOUNGE_FACTORS, type LoungeFactor, LOUNGE_WORTH_IT } from '@/lib/stayOptions'
+import { LOUNGE_COMMENT_MAX, LOUNGE_FACTORS, type LoungeFactor, LOUNGE_WORTH_IT, stayYearOptions } from '@/lib/stayOptions'
 import { useReader } from '@/lib/useReader'
 
 import { SegmentBar } from './SegmentBar'
@@ -31,15 +31,13 @@ function Select({ name, label, options, placeholder, value, onChange }: { name: 
   )
 }
 
-// The lounge page's own form: status, year, whether access was given, the
-// five bars, worth a club room, and a comment for signed-in readers.
+// The lounge page's own form: status, year, the five bars, worth a club
+// room, and a comment for signed-in readers.
 export function LoungeRatingForm({ lounge, programName, tiers }: { lounge: { id: number; name: string }; programName: string; tiers: StayFormTier[] }) {
   const [state, action, pending] = useActionState<LoungeRatingState, FormData>(submitLoungeRating, null)
-  const [access, setAccess] = useState('')
   const [scores, setScores] = useState<Record<LoungeFactor, number>>({ food: 0, drink: 0, space: 0, service: 0, overall: 0 })
   const reader = useReader()
-  const now = new Date()
-  const years = Array.from({ length: 6 }, (_, i) => now.getFullYear() - i)
+  const years = stayYearOptions()
 
   if (state?.ok) {
     return (
@@ -61,21 +59,15 @@ export function LoungeRatingForm({ lounge, programName, tiers }: { lounge: { id:
       </div>
 
       <Select name="statusHeld" label={`Status held · ${programName}`} placeholder="Choose a tier" options={tiers.map((t) => ({ value: String(t.id), label: t.shortName ?? t.name }))} />
-      <Select name="stayYear" label="Year of the stay" placeholder="Year" options={years.map((y) => ({ value: String(y), label: String(y) }))} />
-      <Select name="access" label="Lounge access" placeholder="What happened" options={LOUNGE_ACCESS} value={access} onChange={setAccess} />
+      <Select name="stayYear" label="Year of the stay" placeholder="Year" options={years} />
 
-      {access === 'given' && (
-        <div className={styles.follow}>
-          <p className={styles.hint}>Tap the bar to score each one, 1 to 5.</p>
-          {LOUNGE_FACTORS.map((f) => (
-            <SegmentBar key={f.name} name={f.name} label={f.label} value={scores[f.name]} onChange={(v) => setScores((s) => ({ ...s, [f.name]: v }))} />
-          ))}
-          <Select name="worthIt" label="Worth booking a club room for it?" placeholder="Yes or no" options={LOUNGE_WORTH_IT} />
-        </div>
-      )}
+      <p className={styles.hint}>Tap the bar to score each one, 1 to 5.</p>
+      {LOUNGE_FACTORS.map((f) => (
+        <SegmentBar key={f.name} name={f.name} label={f.label} value={scores[f.name]} onChange={(v) => setScores((s) => ({ ...s, [f.name]: v }))} />
+      ))}
+      <Select name="worthIt" label="Worth booking a club room for it?" placeholder="Yes or no" options={LOUNGE_WORTH_IT} />
 
-      {access &&
-        reader.loaded &&
+      {reader.loaded &&
         (reader.signedIn && !reader.blocked ? (
           <label className={styles.field}>
             <span className="label">A line about the lounge · optional{reader.name ? ` · as ${reader.name}` : ''}</span>

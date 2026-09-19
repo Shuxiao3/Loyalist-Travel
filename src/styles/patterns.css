@@ -128,6 +128,13 @@
   padding-top: var(--section);
 }
 
+/* the last section on a page needs room below it as well as above */
+.section:has(+ .band),
+.section:has(+ footer),
+main > .section:last-child {
+  padding-bottom: var(--section);
+}
+
 .section-head {
   display: flex;
   align-items: flex-end;
@@ -453,6 +460,38 @@ a.card-link:hover .score {
 /* ---- phone ------------------------------------------------------------ */
 
 @media (max-width: 640px) {
+  /* a row of cards becomes a swipeable rail instead of a tall stack */
+  .rail-m {
+    display: flex;
+    gap: var(--s4);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    margin-left: calc(-1 * var(--gutter));
+    margin-right: calc(-1 * var(--gutter));
+    padding: 0 var(--gutter) var(--s2);
+    -webkit-overflow-scrolling: touch;
+    border: 0;
+    border-radius: 0;
+    background: none;
+  }
+
+  .rail-m::-webkit-scrollbar {
+    display: none;
+  }
+
+  .rail-m > * {
+    flex: 0 0 84%;
+    scroll-snap-align: start;
+    min-width: 0;
+  }
+
+  .grid-cells.rail-m > .cell {
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    outline: 0;
+  }
+
   .hero .sub {
     font-size: calc(var(--t-base) - 1px);
   }

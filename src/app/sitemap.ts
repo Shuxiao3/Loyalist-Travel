@@ -33,7 +33,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     entry('/reviews', undefined, 0.9, 'daily'),
     entry('/hotels', undefined, 0.8, 'daily'),
     entry('/lounges', undefined, 0.8, 'weekly'),
-    entry('/programs', undefined, 0.7, 'monthly'),
     entry('/articles', undefined, 0.8, 'daily'),
     entry('/submit-a-stay', undefined, 0.5, 'monthly'),
     ...reviews.map((r) => entry(`/reviews/${r.slug}`, r.updatedAt, 0.9, 'monthly')),

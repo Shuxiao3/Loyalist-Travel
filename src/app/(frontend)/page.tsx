@@ -159,7 +159,7 @@ export default async function HomePage() {
                 All reviews
               </Link>
             </div>
-            <div className="cards">
+            <div className="cards rail-m">
               {cards.map((r, i) => (
                 <ReviewCard key={r.id} review={r} tone={(['a', 'b', 'c'] as const)[i % 3]} />
               ))}
@@ -198,9 +198,6 @@ export default async function HomePage() {
               <span className="eyebrow on-light">Browse by program</span>
               <h2 id="prog-h">Where your points work</h2>
             </div>
-            <Link className="more" href="/programs">
-              All programs
-            </Link>
           </div>
           <div className="grid-cells">
             {programs.map(({ program, hotels, scored }) => (
@@ -254,7 +251,7 @@ export default async function HomePage() {
                 All articles
               </Link>
             </div>
-            <div className="cards">
+            <div className="cards rail-m">
               {articles.docs.map((a, i) => (
                 <ArticleCard key={a.id} article={a} tone={(['b', 'c', 'a'] as const)[i % 3]} />
               ))}
@@ -304,7 +301,7 @@ export default async function HomePage() {
 
       <div className={styles.last} />
 
-      <Band eyebrow="Not a review" title="The hotel index" text="Every property across four programs, with brand and place. Filter by program, brand, country, or scored stays only." cta="Browse hotels" href="/hotels" />
+      <Band eyebrow="Every hotel, one place" title="The hotel index" text="Every property across four programs, with brand and place. Filter by program, brand, country, or scored stays only." cta="Browse hotels" href="/hotels" />
     </main>
   )
 }

@@ -1135,7 +1135,10 @@ export interface LoungeRating {
   lounge: number | Lounge;
   statusHeld: number | StatusLevel;
   stayYear: number;
-  access: 'given' | 'declined' | 'not-used';
+  /**
+   * No longer asked; older ratings may say declined or not used.
+   */
+  access?: ('given' | 'declined' | 'not-used') | null;
   worthIt?: ('yes' | 'no') | null;
   /**
    * 1 to 5.

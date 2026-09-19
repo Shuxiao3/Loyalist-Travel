@@ -4,13 +4,11 @@ import { pageMeta } from '@/lib/seo'
 import Link from 'next/link'
 
 import { HotelList } from '@/components/HotelCard'
-import { LandingHero } from '@/components/LandingHero'
+import { HERO_FALLBACK_PHOTO, LandingHero } from '@/components/LandingHero'
 import { Pager } from '@/components/Pager'
 import { SortMenu } from '@/components/SortMenu'
-import { count, rel } from '@/lib/format'
+import { count } from '@/lib/format'
 import { findHotels, getFeaturedHotel, getHotelFilterOptions, HOTELS_PER_PAGE, type HotelFilters } from '@/lib/queries'
-import type { Brand, Destination, Program } from '@/payload-types'
-
 import styles from './page.module.css'
 
 export const revalidate = 300
@@ -36,10 +34,6 @@ export default async function HotelsIndex({ searchParams }: Props) {
   const [result, options, featured] = await Promise.all([findHotels(filters), getHotelFilterOptions(), getFeaturedHotel()])
   const active = Object.entries(filters).filter(([k, v]) => k !== 'page' && k !== 'sort' && v).length
   const fHotel = featured?.hotel
-  const fBrand = fHotel ? rel<Brand>(fHotel.brand) : null
-  const fProgram = fHotel ? rel<Program>(fHotel.program) : null
-  const fDest = fHotel ? rel<Destination>(fHotel.destination) : null
-  const fData = featured?.data.all
 
   const href = (page: number) => {
     const q = new URLSearchParams()
@@ -62,20 +56,7 @@ export default async function HotelsIndex({ searchParams }: Props) {
         eyebrow="Hotel"
         title="Find the hotel. See the odds."
         text="Search by name, or filter by program, brand and country. Each hotel page carries the upgrade odds readers have reported there, its lounge if it has one, and the review when there is one."
-        photo={fHotel?.externalImageUrl}
-        card={
-          fHotel
-            ? {
-                eyebrow: 'Readers report',
-                image: fHotel.externalImageUrl,
-                meta: [fBrand?.name ?? fProgram?.name, fDest?.name].filter((m): m is string => Boolean(m)),
-                title: fHotel.name,
-                figure: fData?.upgradeRate != null ? { value: `${fData.upgradeRate}%`, label: 'upgrade rate' } : null,
-                cta: 'See the hotel',
-                href: `/hotels/${fHotel.slug}`,
-              }
-            : null
-        }
+        photo={fHotel?.externalImageUrl ?? HERO_FALLBACK_PHOTO}
       />
 
       <section className={`section ${styles.filters}`}>
@@ -167,7 +148,7 @@ export default async function HotelsIndex({ searchParams }: Props) {
             </div>
           </div>
           {result.docs.length > 0 ? (
-            <HotelList hotels={result.docs} />
+            <HotelList hotels={result.docs} grid />
           ) : (
             <p className={styles.empty}>No hotels match those filters.</p>
           )}

@@ -40,6 +40,15 @@ export const ALA_CARTE_CAP = [
   { label: 'Capped', value: 'capped' },
 ]
 
+// The year a stay is reported for: each year back to 2020, then one option
+// for anything earlier (stored as 2019).
+export const EARLIEST_STAY_YEAR = 2019
+export function stayYearOptions(now = new Date()): { label: string; value: string }[] {
+  const y = now.getFullYear()
+  const years = Array.from({ length: y - 2020 + 1 }, (_, i) => y - i)
+  return [...years.map((n) => ({ label: String(n), value: String(n) })), { label: `${EARLIEST_STAY_YEAR} or before`, value: String(EARLIEST_STAY_YEAR) }]
+}
+
 export const LOUNGE_ACCESS = [
   { label: 'Given', value: 'given' },
   { label: 'Declined', value: 'declined' },

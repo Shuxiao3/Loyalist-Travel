@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation'
 import { Arrow, Band } from '@/components/Band'
 import { HotelList } from '@/components/HotelCard'
 import { LatestStays } from '@/components/LatestStays'
+import { MobileTabs } from '@/components/MobileTabs'
 import { ReaderPanel } from '@/components/ReaderPanel'
 import { ReviewCard } from '@/components/ReviewCard'
 import { StayForm } from '@/components/StayForm'
@@ -175,7 +176,7 @@ export default async function HotelPage({ params }: Props) {
                 All reviews
               </Link>
             </div>
-            <div className="cards">
+            <div className="cards rail-m">
               {reviews.map((r, i) => (
                 <ReviewCard key={r.id} review={r} tone={(['a', 'b', 'c'] as const)[i % 3]} />
               ))}
@@ -184,20 +185,48 @@ export default async function HotelPage({ params }: Props) {
         </section>
       )}
 
-      <section className={`section ${styles.reader}`} aria-labelledby="reader-h">
+      <section className={`section ${styles.reader}`} aria-labelledby="data-h">
         <div className="wrap">
-          <div className={styles.readerGrid}>
-            <ReaderPanel data={readerData} hotelName={hotel.name} />
-            <div className={`panel ${styles.stayPanel}`}>
-              <span className="eyebrow">Stayed here on status?</span>
-              <h3 className={styles.stayTitle}>Add your stay. Two minutes.</h3>
-              {program && tiers.length > 0 ? (
-                <StayForm hotel={{ id: hotel.id, name: hotel.name }} programName={program.name} tiers={tiers} compact />
-              ) : (
-                <p className={styles.empty}>This program's tiers are not set up yet.</p>
-              )}
+          <div className="section-head">
+            <div>
+              <span className="eyebrow on-light">Stay data</span>
+              <h2 id="data-h">What status got people at {hotel.name}</h2>
             </div>
           </div>
+          <MobileTabs
+            className={styles.dataGrid}
+            panels={[
+              { id: 'readers', label: 'Readers', content: <ReaderPanel data={readerData} hotelName={hotel.name} /> },
+              {
+                id: 'sourced',
+                label: 'Elsewhere',
+                content: (
+                  <section className={`panel ${styles.sourced}`} aria-labelledby="sourced-h">
+                    <span className="eyebrow" id="sourced-h">
+                      Aggregated data
+                    </span>
+                    <p className={styles.sourcedP}>Stays reported on FlyerTalk, Reddit and travel blogs, tallied here with a link to each source. Kept apart from reader submissions so the two never mix.</p>
+                    <p className={styles.sourcedNone}>None gathered yet for {hotel.name}.</p>
+                  </section>
+                ),
+              },
+              {
+                id: 'add',
+                label: 'Add yours',
+                content: (
+                  <div className={`panel ${styles.stayPanel}`}>
+                    <span className="eyebrow">Stayed here on status?</span>
+                    <h3 className={styles.stayTitle}>Add your stay. Two minutes.</h3>
+                    {program && tiers.length > 0 ? (
+                      <StayForm hotel={{ id: hotel.id, name: hotel.name }} programName={program.name} tiers={tiers} compact />
+                    ) : (
+                      <p className={styles.empty}>This program's tiers are not set up yet.</p>
+                    )}
+                  </div>
+                ),
+              },
+            ]}
+          />
           {recentStays.length > 0 && (
             <div className={styles.latest}>
               <LatestStays stays={recentStays} />
@@ -249,7 +278,7 @@ export default async function HotelPage({ params }: Props) {
         </section>
       )}
 
-      <Band eyebrow="Not a review" title="The hotel index" text="Every property across four programs, with brand and place. Filter by program, brand, country, or scored stays only." cta="Browse hotels" href="/hotels" />
+      <Band eyebrow="Every hotel, one place" title="The hotel index" text="Every property across four programs, with brand and place. Filter by program, brand, country, or scored stays only." cta="Browse hotels" href="/hotels" />
     </>
   )
 }

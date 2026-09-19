@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-import { NAV_LINKS } from '@/lib/site'
+import { NAV_LINKS, PROGRAM_LINKS } from '@/lib/site'
 
 import styles from './SiteFooter.module.css'
 
@@ -10,13 +10,14 @@ export function SiteFooter() {
       <div className={`wrap ${styles.inner}`}>
         <div>
           <span className={styles.brand}>Loyalist Travel</span>
-          <p className={styles.tag}>
-            Luxury hotel reviews scored on a 100-point rubric, written for people who care what
-            their status actually gets them.
-          </p>
         </div>
         <ul className={styles.links}>
-          {NAV_LINKS.map((link) => (
+          {NAV_LINKS.filter((l) => l.href !== '/programs').map((link) => (
+            <li key={link.href}>
+              <Link href={link.href}>{link.label}</Link>
+            </li>
+          ))}
+          {PROGRAM_LINKS.map((link) => (
             <li key={link.href}>
               <Link href={link.href}>{link.label}</Link>
             </li>

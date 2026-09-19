@@ -147,10 +147,6 @@ export default async function LoungePage({ params }: Props) {
               <>
                 <div className={styles.figures}>
                   <div>
-                    <div className={styles.n}>{reader.data.accessRate != null ? `${reader.data.accessRate}%` : '–'}</div>
-                    <div className={styles.l}>Access honoured</div>
-                  </div>
-                  <div>
                     <div className={styles.n}>{reader.data.score?.toFixed(1) ?? '–'}</div>
                     <div className={styles.l}>Overall, out of 5</div>
                   </div>
@@ -194,7 +190,7 @@ export default async function LoungePage({ params }: Props) {
             <h2 id="rate-h" className={styles.rateH2}>
               Sat in {lounge.name}?
             </h2>
-            <p className={styles.rateP}>Whether you got in, then food, drink, space and service out of five, and whether it was worth a club room. Two minutes. Read before it counts.</p>
+            <p className={styles.rateP}>Food, drink, space and service out of five, an overall mark, and whether it was worth a club room. Two minutes. Read before it counts.</p>
           </div>
           <div className={`panel ${styles.ratePanel}`}>
             {program && programTiers.length > 0 ? <LoungeRatingForm lounge={{ id: lounge.id, name: lounge.name }} programName={program.name} tiers={programTiers} /> : <p className={styles.waiting}>This program's tiers are not set up yet.</p>}
@@ -230,8 +226,7 @@ export default async function LoungePage({ params }: Props) {
                       </span>
                     </div>
                     <div className={styles.stayWhat}>
-                      <span>{ACCESS[a.access ?? ''] ?? 'Access not answered'}</span>
-                      {a.worthIt && <span>{WORTH[a.worthIt]}</span>}
+                      {a.worthIt ? <span>{WORTH[a.worthIt]}</span> : <span>{ACCESS[a.access ?? ''] ?? 'No score given'}</span>}
                     </div>
                     <div className={styles.stayScore}>
                       {typeof a.overall === 'number' ? (

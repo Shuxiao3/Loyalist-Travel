@@ -4,15 +4,9 @@ import { publishedOrLoggedIn } from '../access/publishedOrLoggedIn'
 import { slugField } from './fields/slug'
 
 // Editorial articles, one flat hub at /articles with a category filter.
-export const ARTICLE_CATEGORIES = [
-  { label: 'Elite benefits', value: 'elite-benefits' },
-  { label: 'Programs', value: 'programs' },
-  { label: 'Points & awards', value: 'points-awards' },
-  { label: 'Credit cards', value: 'credit-cards' },
-  { label: 'Hotels & lounges', value: 'hotels-lounges' },
-]
-export type ArticleCategory = (typeof ARTICLE_CATEGORIES)[number]['value']
-export const ARTICLE_CATEGORY_LABEL: Record<string, string> = Object.fromEntries(ARTICLE_CATEGORIES.map((c) => [c.value, c.label]))
+import { ARTICLE_CATEGORIES } from '../lib/articleOptions'
+
+export { ARTICLE_CATEGORIES, ARTICLE_CATEGORY_LABEL, type ArticleCategory } from '../lib/articleOptions'
 
 export const Articles: CollectionConfig = {
   slug: 'articles',
