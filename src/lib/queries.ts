@@ -73,6 +73,7 @@ export type HotelFilters = {
   country?: string
   sort?: string
   scored?: string
+  lounge?: string
   page?: number
 }
 
@@ -86,6 +87,7 @@ export async function findHotels(f: HotelFilters) {
   if (f.brand) and.push({ 'brand.slug': { equals: f.brand } })
   if (f.country) and.push({ 'destination.country': { equals: f.country } })
   if (f.scored === 'yes') and.push({ reviewStatus: { equals: 'reviewed' } })
+  if (f.lounge === 'yes') and.push({ clubLounge: { equals: 'yes' } })
   const sort = f.sort === 'za' ? '-name' : f.sort === 'popular' ? ['-views', 'name'] : f.sort === 'stays' ? ['-stayCount', 'name'] : 'name'
   return payload.find({
     collection: 'hotels',

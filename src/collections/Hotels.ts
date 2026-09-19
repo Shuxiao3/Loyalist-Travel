@@ -135,6 +135,16 @@ export const Hotels: CollectionConfig = {
       admin: { position: 'sidebar', readOnly: true, description: 'Approved reader stays. Kept in step automatically.' },
     },
     {
+      name: 'clubLounge',
+      type: 'select',
+      index: true,
+      admin: { position: 'sidebar', description: 'Whether the hotel has an executive or club lounge, as its own page states. Blank means not checked yet.' },
+      options: [
+        { label: 'Yes', value: 'yes' },
+        { label: 'No', value: 'no' },
+      ],
+    },
+    {
       name: 'featured',
       type: 'checkbox',
       defaultValue: false,

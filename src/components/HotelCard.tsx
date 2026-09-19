@@ -17,7 +17,7 @@ export function HotelCard({ hotel }: { hotel: Hotel }) {
         <span className={styles.title}>{hotel.name}</span>
         {destination && <span className={styles.place}>{destination.locationLabel ?? destination.name}</span>}
       </span>
-      <span className={styles.right}>{hotel.reviewStatus === 'reviewed' ? 'Scored' : hotel.reviewStatus === 'coming-soon' ? 'Coming soon' : ''}</span>
+      <span className={styles.right}>{[hotel.clubLounge === 'yes' ? 'Lounge' : null, hotel.reviewStatus === 'reviewed' ? 'Scored' : hotel.reviewStatus === 'coming-soon' ? 'Coming soon' : null].filter(Boolean).join(' · ')}</span>
     </Link>
   )
 }

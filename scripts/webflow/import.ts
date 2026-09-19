@@ -683,7 +683,7 @@ function countryName(raw: string | null): string | null {
   return t
 }
 
-type HiltonRecord = { ctyhocn: string; brandCode: string | null; url: string; name: string | null; streetAddress: string | null; city: string | null; region: string | null; postalCode: string | null; country: string | null; phone: string | null; rooms: number | null; source?: 'page' | 'slug' }
+type HiltonRecord = { ctyhocn: string; brandCode: string | null; url: string; name: string | null; streetAddress: string | null; city: string | null; region: string | null; postalCode: string | null; country: string | null; phone: string | null; rooms: number | null; lounge?: boolean; source?: 'page' | 'slug' }
 
 async function importHilton(payload: Payload) {
   const file = path.resolve(process.cwd(), 'data/hilton/hotels.json')
@@ -769,6 +769,7 @@ async function importHilton(payload: Payload) {
       phone: r.phone,
       bookingLink: r.url,
       numberOfRooms: r.rooms,
+      clubLounge: r.lounge === undefined ? null : r.lounge ? 'yes' : 'no',
     }
     const found = byCode.get(r.ctyhocn) ?? byName.get(r.name.toLowerCase())
     if (found) {

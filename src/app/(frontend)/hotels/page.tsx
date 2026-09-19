@@ -29,6 +29,7 @@ export default async function HotelsIndex({ searchParams }: Props) {
     brand: first(sp.brand),
     country: first(sp.country),
     scored: first(sp.scored),
+    lounge: first(sp.lounge),
     sort: first(sp.sort),
     page: Math.max(1, Number(first(sp.page)) || 1),
   }
@@ -122,6 +123,13 @@ export default async function HotelsIndex({ searchParams }: Props) {
               <select name="scored" defaultValue={filters.scored ?? ''}>
                 <option value="">All hotels</option>
                 <option value="yes">Scored stays only</option>
+              </select>
+            </label>
+            <label>
+              <span className="label">Club lounge</span>
+              <select name="lounge" defaultValue={filters.lounge ?? ''}>
+                <option value="">All hotels</option>
+                <option value="yes">With a club lounge</option>
               </select>
             </label>
             <div className={styles.actions}>

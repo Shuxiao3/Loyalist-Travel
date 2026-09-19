@@ -68,6 +68,7 @@ export default async function HotelPage({ params }: Props) {
     { label: 'Check-in', value: hotel.checkInTime },
     { label: 'Checkout', value: hotel.checkOutTime },
     { label: 'Rooms', value: hotel.numberOfRooms ? `${hotel.numberOfRooms} keys` : null },
+    { label: 'Club lounge', value: hotel.clubLounge === 'yes' ? 'Yes' : hotel.clubLounge === 'no' ? 'No' : null },
     { label: 'Opened', value: [hotel.openingYear, hotel.renovationYear ? `renovated ${hotel.renovationYear}` : null].filter(Boolean).join(', ') },
     { label: 'Resort fee', value: hotel.resortFee },
     { label: 'Pet fee', value: hotel.petFee },

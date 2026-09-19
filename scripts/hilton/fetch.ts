@@ -27,6 +27,7 @@ export type HiltonHotel = {
   country: string | null
   phone: string | null
   rooms: number | null
+  lounge?: boolean // the page lists an executive lounge; absent until the page has been read for it
   source: 'page' | 'slug' // page: read from the hotel's own page; slug: derived from the address and city code
 }
 
@@ -216,6 +217,8 @@ function parse(url: string, html: string): HiltonHotel {
   const address = (hotel.address && typeof hotel.address === 'object' ? hotel.address : {}) as Record<string, unknown>
   const first = (re: RegExp) => html.match(re)?.[1] ?? null
   const rooms = first(/"(?:totalRooms|numberOfRooms|roomCount|totalNumberOfRooms)"\s*:\s*"?(\d{1,4})/)
+  // the lounge shows up as an amenity id, an amenity name, or a heading
+  const lounge = /"executiveLounge"|"(?:Executive|Club) Lounge"|>\s*(?:Executive|Club) Lounge\s*</i.test(html)
   return {
     ctyhocn: ctyhocn.toUpperCase(),
     brandCode: first(/"brandCode"\s*:\s*"([A-Z0-9]{2})"/) ?? ctyhocn.slice(-2).toUpperCase(),
@@ -229,6 +232,7 @@ function parse(url: string, html: string): HiltonHotel {
     country: decode(str(typeof address.addressCountry === 'object' && address.addressCountry ? (address.addressCountry as Record<string, unknown>).name : address.addressCountry)),
     phone: decode(str(hotel.telephone)),
     rooms: rooms ? Number(rooms) : null,
+    lounge,
     source: 'page',
   }
 }
@@ -262,9 +266,12 @@ async function main() {
     process.exit(1)
   }
   const existing: Record<string, HiltonHotel> = fs.existsSync(OUT) ? Object.fromEntries((JSON.parse(fs.readFileSync(OUT, 'utf8')) as HiltonHotel[]).map((h) => [h.url, h])) : {}
-  const pending = urls.filter((u) => existing[u]?.source !== 'page')
+  // a page is due when it has never been read, or was read before the
+  // lounge question existed; readable pages go first, they pay off fastest
+  const due = (u: string) => existing[u]?.source !== 'page' || existing[u].lounge === undefined
+  const pending = [...urls.filter((u) => due(u) && existing[u]?.source === 'page'), ...urls.filter((u) => due(u) && existing[u]?.source !== 'page')]
   const todo = pending.slice(0, LIMIT)
-  console.log(`${Object.values(existing).filter((h) => h.source === 'page').length} already read from their pages; ${pending.length} to do; ${todo.length} this run`)
+  console.log(`${Object.values(existing).filter((h) => h.source === 'page').length} already read from their pages; ${pending.length} to do (${pending.filter((u) => existing[u]?.source === 'page').length} re-reads for the lounge); ${todo.length} this run`)
 
   // a direct request first; if Hilton refuses it, read the archive copies
   let useArchive = false
@@ -296,7 +303,7 @@ async function main() {
       if (!rec.name || !rec.city || !rec.country) {
         // a page without the facts we need: keep the slug record instead
         const fb = fromSlug(url)
-        results.push({ ...fb, name: rec.name ?? fb.name, city: rec.city ?? fb.city, country: rec.country ?? fb.country, region: rec.region ?? fb.region, streetAddress: rec.streetAddress, phone: rec.phone, rooms: rec.rooms, brandName: rec.brandName })
+        results.push({ ...fb, name: rec.name ?? fb.name, city: rec.city ?? fb.city, country: rec.country ?? fb.country, region: rec.region ?? fb.region, streetAddress: rec.streetAddress, phone: rec.phone, rooms: rec.rooms, lounge: rec.lounge, brandName: rec.brandName })
       } else {
         results.push(rec)
         fromPage++
@@ -328,6 +335,7 @@ async function main() {
   const byBrand: Record<string, number> = {}
   for (const r of all) byBrand[r.brandCode ?? '??'] = (byBrand[r.brandCode ?? '??'] ?? 0) + 1
   console.log(`\nthis run: ${fromPage} read from pages, ${failures} not readable; file now holds ${all.length} hotels, ${all.filter((r) => r.source === 'page').length} from pages, ${all.filter((r) => r.source === 'slug').length} from slugs`)
+  console.log(`lounges: ${all.filter((r) => r.lounge === true).length} with, ${all.filter((r) => r.lounge === false).length} without, ${all.filter((r) => r.lounge === undefined).length} not checked`)
   console.log('by brand code:', Object.entries(byBrand).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${k} ${v}`).join(', '))
   console.log(`missing city ${all.filter((r) => !r.city).length}, missing country ${all.filter((r) => !r.country).length}, with rooms ${all.filter((r) => r.rooms).length}`)
   process.exit(0)

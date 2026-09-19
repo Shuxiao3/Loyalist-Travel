@@ -203,6 +203,10 @@ export interface Hotel {
    */
   stayCount?: number | null;
   /**
+   * Whether the hotel has an executive or club lounge, as its own page states. Blank means not checked yet.
+   */
+  clubLounge?: ('yes' | 'no') | null;
+  /**
    * Shown as the featured hotel in the homepage carousel.
    */
   featured?: boolean | null;
@@ -1361,6 +1365,7 @@ export interface HotelsSelect<T extends boolean = true> {
   externalImageUrl?: T;
   views?: T;
   stayCount?: T;
+  clubLounge?: T;
   featured?: T;
   enrichmentStatus?: T;
   webflowId?: T;
