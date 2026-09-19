@@ -63,7 +63,8 @@ jobs:
           git config user.email 'github-actions[bot]@users.noreply.github.com'
           git add public/images/hotels data/images.json
           git commit -m "Photo: ${{ github.event.inputs.slug }}" || echo "nothing to commit"
-          git push
+          # main may have moved while this ran: bring it in, then push, a few tries
+          for i in 1 2 3 4; do git pull --rebase origin main && git push && break; sleep 10; done
       - run: npm ci
       - name: Point the hotel at it
         run: npm run import:webflow -- images
