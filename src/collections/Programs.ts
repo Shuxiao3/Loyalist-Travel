@@ -18,6 +18,8 @@ export const Programs: CollectionConfig = {
     { name: 'shortDescription', type: 'textarea' },
     { name: 'overview', type: 'richText' },
     { name: 'eliteTiersDescription', type: 'textarea' },
+    { name: 'milestones', type: 'richText', admin: { description: 'Milestone rewards along the way to status, as bullet points.' } },
+    { name: 'milestonesArticle', type: 'relationship', relationTo: 'articles', admin: { description: 'The full breakdown of the milestone rewards, linked from the program page.' } },
     {
       type: 'row',
       fields: [

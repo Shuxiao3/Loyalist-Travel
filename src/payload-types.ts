@@ -275,6 +275,28 @@ export interface Program {
     [k: string]: unknown;
   } | null;
   eliteTiersDescription?: string | null;
+  /**
+   * Milestone rewards along the way to status, as bullet points.
+   */
+  milestones?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * The full breakdown of the milestone rewards, linked from the program page.
+   */
+  milestonesArticle?: (number | null) | Article;
   topTierName?: string | null;
   secondTierName?: string | null;
   tiers?: {
@@ -300,6 +322,126 @@ export interface Program {
   webflowId?: string | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "articles".
+ */
+export interface Article {
+  id: number;
+  title: string;
+  slug: string;
+  category: 'elite-benefits' | 'programs' | 'points-awards' | 'credit-cards' | 'hotels-lounges';
+  publishedDate: string;
+  /**
+   * One or two sentences under the title and on cards.
+   */
+  dek?: string | null;
+  body: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * Shown in the sidebar.
+   */
+  related?: {
+    hotels?: (number | Hotel)[] | null;
+    programs?: (number | Program)[] | null;
+    lounges?: (number | Lounge)[] | null;
+    articles?: (number | Article)[] | null;
+  };
+  heroImage?: (number | null) | Media;
+  /**
+   * Hosted image URL until owned media is uploaded.
+   */
+  externalImageUrl?: string | null;
+  /**
+   * Pin to the top of the hub and the homepage.
+   */
+  featured?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "lounges".
+ */
+export interface Lounge {
+  id: number;
+  /**
+   * As the hotel calls it, e.g. "Grand Club".
+   */
+  name: string;
+  slug: string;
+  hotel: number | Hotel;
+  /**
+   * e.g. "32nd floor".
+   */
+  location?: string | null;
+  /**
+   * Who gets in, as printed.
+   */
+  access?: {
+    /**
+     * Tiers of the hotel's program with lounge access.
+     */
+    tiers?: (number | StatusLevel)[] | null;
+    clubRooms?: boolean | null;
+    /**
+     * Leave blank if none, else the price, e.g. "$120 per person per day".
+     */
+    paid?: string | null;
+  };
+  /**
+   * What is served and when.
+   */
+  services?:
+    | {
+        service: 'breakfast' | 'afternoon-tea' | 'evening' | 'all-day';
+        from?: string | null;
+        to?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  dressCode?: string | null;
+  /**
+   * The editorial take: does it beat the restaurant?
+   */
+  note?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  image?: (number | null) | Media;
+  /**
+   * Hosted image URL until owned media is uploaded.
+   */
+  externalImageUrl?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -339,6 +481,18 @@ export interface StatusLevel {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * The full breakdown of this tier, linked from its card on the program page.
+   */
+  article?: (number | null) | Article;
+  /**
+   * Rough share of members at this tier, e.g. "about 3%". Shown on the card when set.
+   */
+  memberShare?: string | null;
+  /**
+   * Where the estimate comes from.
+   */
+  memberShareNote?: string | null;
   /**
    * Which printed benefits this tier is entitled to.
    */
@@ -911,126 +1065,6 @@ export interface Amenity {
   webflowId?: string | null;
   updatedAt: string;
   createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "articles".
- */
-export interface Article {
-  id: number;
-  title: string;
-  slug: string;
-  category: 'elite-benefits' | 'programs' | 'points-awards' | 'credit-cards' | 'hotels-lounges';
-  publishedDate: string;
-  /**
-   * One or two sentences under the title and on cards.
-   */
-  dek?: string | null;
-  body: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  /**
-   * Shown in the sidebar.
-   */
-  related?: {
-    hotels?: (number | Hotel)[] | null;
-    programs?: (number | Program)[] | null;
-    lounges?: (number | Lounge)[] | null;
-    articles?: (number | Article)[] | null;
-  };
-  heroImage?: (number | null) | Media;
-  /**
-   * Hosted image URL until owned media is uploaded.
-   */
-  externalImageUrl?: string | null;
-  /**
-   * Pin to the top of the hub and the homepage.
-   */
-  featured?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "lounges".
- */
-export interface Lounge {
-  id: number;
-  /**
-   * As the hotel calls it, e.g. "Grand Club".
-   */
-  name: string;
-  slug: string;
-  hotel: number | Hotel;
-  /**
-   * e.g. "32nd floor".
-   */
-  location?: string | null;
-  /**
-   * Who gets in, as printed.
-   */
-  access?: {
-    /**
-     * Tiers of the hotel's program with lounge access.
-     */
-    tiers?: (number | StatusLevel)[] | null;
-    clubRooms?: boolean | null;
-    /**
-     * Leave blank if none, else the price, e.g. "$120 per person per day".
-     */
-    paid?: string | null;
-  };
-  /**
-   * What is served and when.
-   */
-  services?:
-    | {
-        service: 'breakfast' | 'afternoon-tea' | 'evening' | 'all-day';
-        from?: string | null;
-        to?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  dressCode?: string | null;
-  /**
-   * The editorial take: does it beat the restaurant?
-   */
-  note?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  image?: (number | null) | Media;
-  /**
-   * Hosted image URL until owned media is uploaded.
-   */
-  externalImageUrl?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
 }
 /**
  * Approve or reject submissions here. Only approved stays count.
@@ -1674,6 +1708,8 @@ export interface ProgramsSelect<T extends boolean = true> {
   shortDescription?: T;
   overview?: T;
   eliteTiersDescription?: T;
+  milestones?: T;
+  milestonesArticle?: T;
   topTierName?: T;
   secondTierName?: T;
   tiers?: T;
@@ -1724,6 +1760,9 @@ export interface StatusLevelsSelect<T extends boolean = true> {
   nights?: T;
   shortDescription?: T;
   benefits?: T;
+  article?: T;
+  memberShare?: T;
+  memberShareNote?: T;
   eligibility?:
     | T
     | {

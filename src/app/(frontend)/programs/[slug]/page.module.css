@@ -43,6 +43,56 @@
   color: var(--muted);
 }
 
+/* the card's foot: share of members, and the link to the full breakdown */
+.tierFoot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s2) var(--s4);
+  margin-top: auto;
+  padding-top: var(--s4);
+  border-top: 1px solid var(--line);
+  font-size: var(--t-xs);
+  color: var(--muted);
+  letter-spacing: var(--track-fine);
+}
+
+.share b {
+  font-family: var(--serif);
+  font-size: var(--t-md);
+  font-weight: var(--w-heading);
+  color: var(--gold-dark);
+  letter-spacing: 0;
+  margin-right: 3px;
+}
+
+.breakdown {
+  font-size: var(--t-xs);
+  letter-spacing: var(--track-cta);
+  text-transform: uppercase;
+  color: var(--gold-dark);
+  border-bottom: 1px solid var(--gold-dark);
+  padding-bottom: 3px;
+  white-space: nowrap;
+}
+
+/* milestone rewards */
+.msCard {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: var(--s6);
+}
+
+.msProse {
+  max-width: 68ch;
+}
+
+.msProse :global(li) {
+  font-size: var(--t-md);
+}
+
 .legend {
   display: flex;
   align-items: center;

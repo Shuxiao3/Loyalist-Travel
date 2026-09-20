@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 
 import { Band } from '@/components/Band'
 import { Comments } from '@/components/Comments'
+import { MobileToc } from '@/components/MobileToc'
 import { RichText } from '@/components/RichText'
 import { monthYear, rel, score, shortDate } from '@/lib/format'
 import { getReview, getReviews } from '@/lib/queries'
@@ -252,17 +253,9 @@ export default async function ReviewPage({ params }: Props) {
       </section>
 
       <main className={styles.body}>
-        <nav className={`wrap ${styles.tocMobile}`} aria-label="On this page">
-          {sections.map((s) => (
-            <a key={s.id} href={`#s-${s.id}`}>
-              {s.title}
-            </a>
-          ))}
-          {elite.length > 0 && <a href="#elite-h">Elite recognition</a>}
-          <a href="#s-verdict">The verdict</a>
-        </nav>
         <div className={`wrap ${styles.bodyWrap}`}>
           <article className={styles.main}>
+            <MobileToc items={[...sections.map((s) => ({ href: `#s-${s.id}`, label: s.title })), ...(elite.length > 0 ? [{ href: '#elite-h', label: 'Elite recognition' }] : []), { href: '#s-verdict', label: 'The verdict' }]} />
             {review.openingThoughts && <RichText data={review.openingThoughts} />}
 
             {sections.map((s) => (

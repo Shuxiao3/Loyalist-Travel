@@ -381,10 +381,7 @@
   scroll-margin-top: calc(76px + var(--s5));
 }
 
-/* phone and tablet: a scrolling row of section links above the body */
-.tocMobile {
-  display: none;
-}
+
 
 .sideCard {
   background: var(--card);
@@ -508,40 +505,9 @@
     display: none;
   }
 
-  .tocMobile {
-    display: flex;
-    gap: var(--s3);
-    overflow-x: auto;
-    scrollbar-width: none;
-    position: sticky;
-    top: 64px;
-    z-index: 5;
-    background: var(--page);
-    border-bottom: 1px solid var(--line);
-    padding-top: var(--s4);
-    padding-bottom: var(--s4);
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .tocMobile::-webkit-scrollbar {
-    display: none;
-  }
-
-  .tocMobile a {
-    flex: 0 0 auto;
-    padding: 8px 14px;
-    border: 1px solid var(--line-strong);
-    border-radius: var(--r-btn);
-    background: var(--card);
-    color: var(--text);
-    font-size: var(--t-xs);
-    letter-spacing: 0.02em;
-    white-space: nowrap;
-  }
-
   .section h2,
   .main :global(#elite-h) {
-    scroll-margin-top: calc(64px + 60px);
+    scroll-margin-top: calc(64px + var(--s5));
   }
 }
 

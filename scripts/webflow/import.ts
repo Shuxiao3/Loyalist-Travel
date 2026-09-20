@@ -632,6 +632,27 @@ async function unseedArticles(payload: Payload) {
   console.log(`unseed-articles: removed ${res.docs.length} mock articles`)
 }
 
+// ---- Milestone rewards -----------------------------------------------------------
+// Fills each program's milestone rewards when the field is empty. Written
+// from the programs' published terms; the admin field is the place to keep
+// them current.
+const MILESTONES: Record<string, string> = {
+  'world-of-hyatt': '<ul><li>20 nights: choice of 2,000 bonus points or a Club lounge access award</li><li>30 nights: choice of 2 Club lounge access awards, 5,000 points, a $100 Hyatt gift card or a FIND experience credit</li><li>40 nights: the same choices, plus a 15% points bonus option</li><li>50 nights: a free night certificate (category 1-4) among the choices</li><li>60 nights: a suite upgrade award (up to 7 nights) or a category 1-7 free night, on reaching Globalist</li><li>70, 80, 90 and 100 nights: further suite upgrade awards, points and a category 1-8 free night at 100</li><li>150 nights: a category 1-8 free night; 5,000 points every 10 nights beyond</li></ul>',
+  'marriott-bonvoy': '<ul><li>50 nights: an Annual Choice Benefit, typically five Nightly Upgrade Awards, a free night award (up to 40,000 points), a $250 charity gift or Gold status for a friend</li><li>75 nights: a second Annual Choice Benefit, with a free night (up to 40,000 points) or five more Nightly Upgrade Awards among the choices</li><li>100 nights plus $23,000 spend: Ambassador Elite, with a personal ambassador and Your24 check-in</li></ul>',
+  'hilton-honors': '<ul><li>40 nights: 10,000 bonus points, then 10,000 more for every 10 nights</li><li>60 nights: choice of a free night reward or 30,000 bonus points</li><li>100 nights or $30,000 spend: Diamond status to gift to a friend</li><li>Rolling elite nights above the tier threshold carry into the next year</li></ul>',
+  'ihg-one-rewards': '<ul><li>20 nights: choice of 5,000 bonus points, a lounge membership or a free-night discount</li><li>30, 40, 50 and 60 nights: further choices at each ten nights, including suite upgrades, points and food-and-beverage rewards</li><li>70 nights: Diamond Elite; choices continue every ten nights to 100</li><li>Choices are made in the account within 30 days of each milestone</li></ul>',
+}
+async function seedMilestones(payload: Payload) {
+  let set = 0
+  for (const [slug, html] of Object.entries(MILESTONES)) {
+    const p = (await payload.find({ collection: 'programs', where: { slug: { equals: slug } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
+    if (!p || p.milestones) continue
+    await payload.update({ collection: 'programs', id: p.id, data: { milestones: htmlToLexical(html).value } as never, depth: 0, overrideAccess: true })
+    set++
+  }
+  console.log(`seed-milestones: filled ${set} programs`)
+}
+
 // ---- Retire a tier ------------------------------------------------------------
 // Lifetime Globalist is not a tier readers pick from: it carries Globalist
 // benefits. Anything filed under it moves to Globalist, then it goes.
@@ -895,6 +916,7 @@ const STEPS: Record<string, (p: Payload) => Promise<void>> = {
   'seed-articles': seedArticles,
   'unseed-articles': unseedArticles,
   'retire-tiers': retireTiers,
+  'seed-milestones': seedMilestones,
   'lounge-flags': loungeFlags,
 }
 

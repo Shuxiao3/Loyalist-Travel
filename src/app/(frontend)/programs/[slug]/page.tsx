@@ -11,7 +11,8 @@ import { SortMenu } from '@/components/SortMenu'
 import { count } from '@/lib/format'
 import { findHotels, getHotelFilterOptions, getPayloadClient, getProgram, HOTELS_PER_PAGE, type HotelFilters } from '@/lib/queries'
 import { pageMeta } from '@/lib/seo'
-import type { StatusLevel } from '@/payload-types'
+import { rel } from '@/lib/format'
+import type { Article, StatusLevel } from '@/payload-types'
 
 import styles from './page.module.css'
 
@@ -59,7 +60,7 @@ export default async function ProgramPage({ params, searchParams }: Props) {
     payload.count({ collection: 'hotels', where: { and: [{ _status: { equals: 'published' } }, { program: { equals: program.id } }] } }),
     getHotelFilterOptions(),
     payload.find({ collection: 'reviews', where: { and: [{ _status: { equals: 'published' } }, { 'hotel.program': { equals: program.id } }] }, sort: '-publishedDate', depth: 1, limit: 6 }),
-    payload.find({ collection: 'status-levels', where: { program: { equals: program.id } }, sort: 'rank', limit: 10, depth: 0 }),
+    payload.find({ collection: 'status-levels', where: { program: { equals: program.id } }, sort: 'rank', limit: 10, depth: 1 }),
   ])
   const levels: StatusLevel[] = tiers.docs
   const brands = options.brands.filter((b) => (typeof b.program === 'object' ? b.program?.id : b.program) === program.id)
@@ -97,6 +98,7 @@ export default async function ProgramPage({ params, searchParams }: Props) {
             <div className={`grid-cells ${styles.tierGrid} rail-m`}>
               {levels.map((t) => {
                 const lines = benefitLines(t)
+                const article = rel<Article>(t.article)
                 return (
                   <div className={`cell ${styles.tier}`} key={t.id}>
                     <span className="label">{t.nights ?? `Tier ${t.rank ?? ''}`}</span>
@@ -120,6 +122,20 @@ export default async function ProgramPage({ params, searchParams }: Props) {
                     ) : (
                       <span className={styles.none}>No printed elite benefits</span>
                     )}
+                    {(t.memberShare || article) && (
+                      <span className={styles.tierFoot}>
+                        {t.memberShare && (
+                          <span className={styles.share} title={t.memberShareNote ?? undefined}>
+                            <b>{t.memberShare}</b> of members
+                          </span>
+                        )}
+                        {article && (
+                          <Link className={styles.breakdown} href={`/articles/${article.slug}`}>
+                            Full breakdown
+                          </Link>
+                        )}
+                      </span>
+                    )}
                   </div>
                 )
               })}
@@ -129,6 +145,27 @@ export default async function ProgramPage({ params, searchParams }: Props) {
                 <CardIcon /> Comes with a credit card, no minimum spend.
               </p>
             )}
+          </div>
+        </section>
+      )}
+
+      {program.milestones && (
+        <section className={`section ${styles.milestones}`} aria-labelledby="ms-h">
+          <div className="wrap">
+            <div className="section-head">
+              <div>
+                <span className="eyebrow on-light">Along the way</span>
+                <h2 id="ms-h">Milestone rewards</h2>
+              </div>
+              {rel<Article>(program.milestonesArticle) && (
+                <Link className="more" href={`/articles/${rel<Article>(program.milestonesArticle)!.slug}`}>
+                  Full breakdown
+                </Link>
+              )}
+            </div>
+            <div className={styles.msCard}>
+              <RichText data={program.milestones} className={styles.msProse} />
+            </div>
           </div>
         </section>
       )}
