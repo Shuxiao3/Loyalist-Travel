@@ -19,6 +19,8 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false)
   const [hidden, setHidden] = useState(false)
   const [menu, setMenu] = useState<string | null>(null)
+  // which drawer group is unfolded; all start folded
+  const [group, setGroup] = useState<string | null>(null)
 
   // Slide away on scroll down, return on scroll up. Always shown near the
   // top and while the drawer is open.
@@ -44,6 +46,7 @@ export function SiteHeader() {
   useEffect(() => {
     setOpen(false)
     setMenu(null)
+    setGroup(null)
   }, [pathname])
 
   const current = (href: string) => (pathname === href || pathname.startsWith(href.split('?')[0] + '/') ? 'page' : undefined)
@@ -134,9 +137,17 @@ export function SiteHeader() {
           <ul>
             {NAV_LINKS.map((item) =>
               item.children ? (
-                <li key={item.href} className={styles.drawerGroup}>
-                  {item.href === '/programs' ? <span className={styles.drawerHead}>{item.label}</span> : <Link href={item.href} className={styles.drawerHead} aria-current={current(item.href)}>{item.label}</Link>}
+                <li key={item.href} className={`${styles.drawerGroup} ${group === item.href ? styles.drawerOpen : ''}`}>
+                  <button type="button" className={styles.drawerHead} aria-expanded={group === item.href} aria-current={parentCurrent(item)} onClick={() => setGroup((g) => (g === item.href ? null : item.href))}>
+                    {item.label}
+                    <Caret />
+                  </button>
                   <ul>
+                    {item.href !== '/programs' && (
+                      <li>
+                        <Link href={item.href}>All {item.label.toLowerCase()}</Link>
+                      </li>
+                    )}
                     {item.children.map((c) => (
                       <li key={c.href}>
                         <Link href={c.href}>{c.label}</Link>

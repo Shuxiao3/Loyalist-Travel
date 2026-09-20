@@ -239,24 +239,45 @@
     color: var(--gold);
   }
 
-  /* a group: heading, then its children indented */
-  .drawerGroup {
-    border-top: 1px solid var(--line-dark);
-    border-bottom: 1px solid var(--line-dark);
-    margin: 4px 0;
-  }
-
+  /* a group: a heading that unfolds its children on tap; folded to start */
   .drawerHead {
-    display: block;
-    padding: 14px var(--gutter) 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    background: none;
+    border: 0;
+    padding: 14px var(--gutter);
+    font: inherit;
     font-size: var(--t-xs);
     letter-spacing: var(--track-cta);
     text-transform: uppercase;
+    color: var(--light);
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .drawerHead[aria-current] {
+    color: var(--gold);
+  }
+
+  .drawerHead svg {
     color: var(--on-navy-muted);
+    transition: transform 0.2s ease;
+  }
+
+  .drawerOpen .drawerHead svg {
+    transform: rotate(180deg);
   }
 
   .drawerGroup ul {
+    display: none;
     padding: 0 0 8px;
+    background: rgba(0, 0, 0, 0.18);
+  }
+
+  .drawerOpen ul {
+    display: block;
   }
 
   .drawerGroup ul a {
