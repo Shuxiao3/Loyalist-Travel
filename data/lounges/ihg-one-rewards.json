@@ -238,5 +238,3469 @@
   "lounge": false,
   "hits": [],
   "at": "2026-09-19"
+ },
+ "voco-laguna-hills": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/laguna-hills/snalh/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-james-newbury-hudson-valley": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/coxsackie/albco/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-saranac-lake-ny-waterfront": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/saranac-lake/slkvo/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-fiorello-laguardia-east": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/flushing/nyclf/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-astoria": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/astoria/nycas/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-royalty-puebla-downtown": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/puebla/pbcpl/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-college-station-aggieland": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/college-station/cllcs/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-flagstaff": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/flagstaff/flgwv/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-saltillo-suites": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/saltillo/slwvc/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-hermosillo": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/hermosillo/hermx/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-jim-corbett": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/ramnagar/pghjc/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-gosford": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/gosford/gosgf/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-zhoushan-putuo": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/zhoushan/hsnpt/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-xishuangbanna-gaozhuang": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/xishuangbanna/jhggz/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-kirkton-park-hunter-valley": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/pokolbin/ceshv/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-lianyungang-star-of-haizhoubay": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/lianyungang/lygsh/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-xitang": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/jiaxing/jxsxt/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-jincheng-danhe": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/jincheng/cgojd/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "pillarless grand banquet hall that can easily accommodate 600 people, Executive Lounge and Gym. At voco Jincheng Danhe, our brand’s thoughtful, unstuffy and"
+  ],
+  "at": "2026-09-19"
+ },
+ "voco-zeal-exeter-science-park": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/exeter/extes/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-guilin-yangshuo": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/yangshuo/kwlyn/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-chiayi": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/chiayi/cyiyi/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-the-clifton-folkestone": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/folkestone/lyxcf/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-st-john-s-solihull": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/solihull/bhxss/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-winchester-hotel-spa": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/winchester/soawc/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-reading": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/reading/xrerd/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-southampton": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/southampton/soahp/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-telford-ironbridge": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/telford/teluk/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-letchworth-hall": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/letchworth-garden-city/ltnlh/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-katowice": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/katowice/ktwkp/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-the-hague": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/den-haag/hagdh/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-podgorica": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/podgorica/tgdpa/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-le-touquet": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/le-touquet/ltqfr/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-leicester": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/leicester/qewlc/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "dinso-resort-villas-ko-chang": {
+  "url": "https://www.ihg.com/vignettecollection/hotels/us/en/koh-chang/bkkdr/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-beaune": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/beaune/xbvbf/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "resea-hotel-beidaihe": {
+  "url": "https://www.ihg.com/vignettecollection/hotels/us/en/qinhuangdao/bpebr/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "casa-del-compositor-jerez": {
+  "url": "https://www.ihg.com/vignettecollection/hotels/us/en/jerez-de-la-frontera/xryca/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "the-windsor-hotel-toya": {
+  "url": "https://www.ihg.com/vignettecollection/hotels/us/en/toyako/spkto/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "kimpton-vero-beach-hotel-spa": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/vero-beach-hotel-and-spa-vero-beach-fl/miavb/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "kimpton-the-forum-hotel": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/forum-hotel-charlottesville-va/chodd/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "kimpton-hotel-arras": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/hotel-arras-asheville-nc/avlpa/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "kimpton-george-hotel": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/hotel-george-capitol-hill/wdchg/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "kimpton-taconic-hotel": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/taconic-hotel-manchester-vt/rutth/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "kimpton-cardinal-hotel": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/cardinal-hotel-winston-salem-nc/intch/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "kimpton-armory-hotel-bozeman": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/armory-hotel-bozeman-mt/bznms/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "kimpton-grand-roatan-resort-spa": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/grand-roatan-resort-spa-roatan-honduras/rtbgr/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "kimpton-mas-olas-resort-and-spa": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/mas-olas-resort-spa-todos-santos/sjdtd/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "kimpton-aqeos-hainan": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/hainan-clear-water-bay-lingshui-china/lqscl/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-villach": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/villach/kluat/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-taif": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/taif/tifha/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-al-jubail": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/al-jubail/dhahc/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-managua-at-metrocentro-mall": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/managua/mgahb/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-presidente-puebla": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/puebla/puegh/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-mzaar-mountain-resort-spa": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/mzaar/mzrha/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-tegucigalpa-at-multiplaza-mall": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/tegucigalpa/tguha/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "pay $80 and obtain $100\\u003c/li\\u003e\\u003c/ul\\u003e\"},{\"boardType\":\"Club InterContinental Access\",\"boardPreTitle\":\"Club Intercontinental Experience\",\"descripti",
+   "\\u003e\"},{\"boardType\":\"Club InterContinental Access\",\"boardPreTitle\":\"Club Intercontinental Experience\",\"description\":\"\\u003cul\\u003e\\u003cli\\u003eClub Intercont"
+  ],
+  "at": "2026-09-19"
+ },
+ "intercontinental-real-san-pedro-sula": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/san-pedro-sula/sapha/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-dominica-cabrits-resort-spa": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/portsmouth/dompr/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-presidente-cozumel-resort-spa": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/cozumel/czmha/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-chantilly-chateau-mont-royal": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/chantilly/parcl/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-sanctuary-cove-resort": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/sanctuary-cove/bneql/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "ion\":\"\"},{\"boardType\":\"Club InterContinental Access\",\"boardPreTitle\":\"Club InterContinental Access\",\"description\":\"\\u003cul\\u003e\\u003cli\\u003eExperience exclusi",
+   "003e\\u003cli\\u003eExperience exclusive luxury in the sanctuary of our Club InterContinental during your stay. Includes breakfast, afternoon tea and evening canap"
+  ],
+  "at": "2026-09-19"
+ },
+ "intercontinental-hayman-island-resort": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/hayman-island/hisha/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-halong-bay-resort": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/ha-long-bay/hphhl/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "ong Mansion – Fine Chinese Dining Daypass: A Day of Luxury by the Bay Club InterContinental Lounge Etiquette & Privilege A Home For Your Grandest Memories Halong",
+   "rn more Club InterContinental Lounge Etiquette & Privilege Welcome to Club InterContinental Lounge, an affluent haven open daily 7:00–23:00. Enjoy afternoon tea"
+  ],
+  "at": "2026-09-19"
+ },
+ "intercontinental-khao-yai-resort": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/khao-yai/bkksw/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-alpensia-pyeongchang-resort": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/gangwon-do/kagha/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-pokhara-resort": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/pokhara/pkrbl/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "ised way to experience intercontinental pokhara resort with exclusive club intercontinental privileges. from bespoke service and refined culinary moments to a de"
+  ],
+  "at": "2026-09-19"
+ },
+ "intercontinental-sorrento-mornington-peninsula": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/sorrento/melst/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-lusaka": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/lusaka/lunha/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-kyiv": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/kiev/kbpha/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-winston-salem-downtown": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/winston-salem/intdt/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-ana-beppu-resort-spa": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/beppu/oitky/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-waco-baylor": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/waco/actin/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-west-chester-downtown": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/west-chester/phlwe/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-galapagos": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/puerto-baquerizo-moreno/gpspb/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-ana-appi-kogen-resort": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/hachimantai/axtap/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-tuscaloosa-downtown": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/tuscaloosa/tclin/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-tulsa-dwtn-entertainment-area": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/tulsa/tulid/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-spring-woodlands-area": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/spring/hougo/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-silverthorne": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/silverthorne/densv/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-spokane-downtown": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/spokane/gegdg/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-traverse-city": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/traverse-city/tvcin/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-north-conway": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/north-conway/pwmnc/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-tallahassee-collegetown": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/tallahassee/tlhct/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-orange-beach-gulf-shores": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/orange-beach/orbit/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-madison-downtown": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/madison/msnms/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-long-island-east-end": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/riverhead/rihid/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-hattiesburg": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/hattiesburg/hbgsh/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-harrisburg-hershey": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/harrisburg/mdteb/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-mount-pleasant": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/mount-pleasant/chsmp/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-huntsville-midcity": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/huntsville/hsvhv/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-panama-city-marina": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/panama-city/ecpha/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-gainesville-celebration-pointe": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/gainesville/gnvgi/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-el-paso-downtown": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/el-paso/elpin/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-chattanooga-downtown": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/chattanooga/chago/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-baton-rouge-downtown": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/baton-rouge/btrin/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-birmingham-five-points-s-uab": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/birmingham/bhmid/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-flushing": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/flushing/nycfq/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-athens-downtown-univ-area": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/athens/ahnin/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-gatlinburg-downtown": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/gatlinburg/gktln/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-jabal-akhdar": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/nizwa/mctja/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-la-paz-puerta-cortes": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/la-paz/lapgo/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-tijuana-downtown": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/tijuana/tijgc/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-asheville-downtown": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/asheville/avlin/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-stratford-upon-avon": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/stratford-upon-avon/cvtsa/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-york": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/york/yoryk/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-guanajuato": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/guanajuato/bjxgd/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-gloucester-the-forum": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/gloucester/glosr/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-durham": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/durham/mmedh/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-dundee": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/dundee/dndid/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-newcastle": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/newcastle-upon-tyne/nclin/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-chester": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/chester/cegct/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-exeter": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/exeter/extgo/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-gandia-beach": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/gandia/vlcgb/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-the-hague-palace-noordeinde": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/the-hague/hagrp/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-verona-grand-hotel-des-arts": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/verona/vrndi/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-torquay": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/torbay/extto/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-cadiz": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/cadiz/cdzga/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-dresden-wettiner-platz": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/dresden/drswp/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-cagnes-sur-mer": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/cagnes-sur-mer/xcgcm/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-batumi-old-town": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/batumi/busot/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-palau": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/republic-of-palau/rorrp/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-yantai-golden-coast": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/yantai/yntgc/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-nalati": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/kazak-autonomous-prefectu/yinnl/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-alishan": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/chiayi-county/cyigo/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-quanzhou-ancient-town": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/quanzhou/jjnqa/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-jiuzhaigou": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/jiuzhaigou/lnljh/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-jingdezhen-taoxichuan": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/jingdezhen/jdzjt/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-diqing-moonlight-city": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/diqing/digdq/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-heilong-lake": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/meishan/ctuhl/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-anji": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/anji/hghaj/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-inuyama-urakuen-garden": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/inuyama/iunkj/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "even-hotel-waco-university-area": {
+  "url": "https://www.ihg.com/evenhotels/hotels/us/en/waco/actev/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-bintan-lagoi": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/bintan/bnibb/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "even-hotel-ann-arbor": {
+  "url": "https://www.ihg.com/evenhotels/hotels/us/en/ann-arbor/arbmi/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "even-hotel-chongli": {
+  "url": "https://www.ihg.com/evenhotels/hotels/us/en/zhangjiakou/zqzst/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "even-hotel-bozeman-yellowstone-intl-arpt": {
+  "url": "https://www.ihg.com/evenhotels/hotels/us/en/belgrade/bznbd/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-darwin-suites": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/darwin/drwds/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-belfast": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/belfast/bfsvc/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-melbourne": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/melbourne/melha/hoteldetail",
+  "lounge": true,
+  "hits": [
+   ":00 AM Minimum check-in age : 18 The highlights Dining at Every Level Club InterContinental Local Attractions & Experiences Signature Suites Heated Indoor Pool &",
+   "sine at Ronnie’s or indulge in the cherished ritual of Afternoon Tea. Club InterContinental Designed for guests seeking elevated comfort and personalised attenti"
+  ],
+  "at": "2026-09-19"
+ },
+ "kimpton-los-monteros-marbella": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/los-monteros-marbella-spain/qrlkm/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-wellington": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/wellington/wlggs/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "at GPO or an elevated coffee at Two Grey, escape to our award-winning Club InterContinental lounge, and unwind in our serene contemporary guest rooms and suites.",
+   "e to a World of Luxury\",\"category\":\"Amenities\",\"highlightsParagraph\":\"club intercontinental takes advantage of the hotel\\u0027s position, spanning the total widt"
+  ],
+  "at": "2026-09-19"
+ },
+ "intercontinental-jerusalem": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/jerusalem/jrsha/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-strasbourg-centre-the-garden": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/strasbourg/sxbtg/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-sapporo": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/sapporo/spkha/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "in age : 18 The highlights Summer Terrace Dining AuBlanc SAWAKA Norva Club InterContinental Summer Terrace Dining Norva Terrace is an open-air space overlooking",
+   "for an elevated hotel stay in Sapporo. Located on the 14th floor, the Club InterContinental Lounge features a refined setting with sweeping views of Sapporo and"
+  ],
+  "at": "2026-09-19"
+ },
+ "voco-hefei-binhu": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/hefei/hfebh/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-dusseldorf-seestern": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/dusseldorf/dusds/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-oxford-spires": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/oxford/oxfar/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-antalya-konyaalti": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/antalya/aytak/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-ljubljana": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/ljubljana/ljuha/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-nagasaki-glover-street": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/nagasaki-city/ngsgo/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-leeds": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/leeds/lbalb/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-helsinki-boulevard": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/helsinki/helin/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-turks-caicos-grace-bay": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/grace-bay/plsgc/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-tashkent": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/tashkent/tasat/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "ppointed, large guestrooms include 40 elegant suites and an exclusive executive lounge. Dining options consist of a top-floor specialty restaurant and outdo"
+  ],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-belgrade": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/belgrade/begkm/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-oxford-thames": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/oxford/oxfdt/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-taichung": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/taichung/rmqtt/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-san-salvador-metrocentro-mall": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/san-salvador/sslhb/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-phoenicia-beirut": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/beirut/beyha/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "ngRoomDescription\":\"Astarte is located on the 06th floor, next to the Club Lounge, perfect for small meetings\",\"location\":\"5th thru 9th\",\"maxCapacity\":"
+  ],
+  "at": "2026-09-19"
+ },
+ "intercontinental-marseille-hotel-dieu": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/marseille/mrsha/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-perth-city-centre": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/perth/perha/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "bathtub. These suites feature an additional living area and access to Club InterContinental on Level 16. View rooms Penthouse This spacious retreat will offer yo",
+   "in shower, and a bathtub. The penthouse features additional access to Club InterContinental on Level 16. View rooms &lt;div class=&#34;pricing-label&#34;> From &"
+  ],
+  "at": "2026-09-19"
+ },
+ "voco-beirut-central-district": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/beirut/beydt/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-the-club-dublin-gateway": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/kill-co-kildare/dubdg/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-gold-coast": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/surfers-paradise/sfppb/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-bilbao-city": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/bilbao/biokk/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-st-david-s-cardiff": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/cardiff/cwlcd/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-nola-naples-vulcano-buono": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/nola/napvb/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-harbin-central-avenue": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/harbin/hrbca/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-cardiff": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/cardiff/cdfin/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-liverpool": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/liverpool/lplil/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-adelaide-markets": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/adelaide/adlmk/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "the-halyard-liverpool": {
+  "url": "https://www.ihg.com/vignettecollection/hotels/us/en/liverpool/lpldu/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-antwerp-city-centre": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/antwerp/anraw/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-the-red-sea-resort": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/saudi-arabia/ruhsi/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "l-hanak-10423874974-original\"},{\"highlightsName\":\"Exclusive Luxury at Club InterContinental\",\"category\":\"Amenities\",\"highlightsParagraph\":\"step into a world of e",
+   "s\",\"highlightsParagraph\":\"step into a world of elevated indulgence at club intercontinental. enjoy exclusive lounge access, gourmet breakfasts, evening cocktails"
+  ],
+  "at": "2026-09-19"
+ },
+ "intercontinental-resort-mauritius": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/balaclava/mruma/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-bordeaux-centre-chartrons": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/bordeaux/bodcc/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-ras-al-khaimah-resort-and-spa": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/ras-al-khaimah/rktha/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "daily breakfast, lunch, and dinner, selected beverages, and access to club intercontinental.\",\"highlightsLearnMoreUrl\":\"https://icrasalkhaimah.com/en/offers/roma",
+   "tal-ras-al-khaimah-7885053530-original\"},{\"highlightsName\":\"Exclusive Club InterContinental \",\"category\":\"Amenities\",\"highlightsParagraph\":\"an elevated stay awai"
+  ],
+  "at": "2026-09-19"
+ },
+ "intercontinental-johannesburg-o-r-tambo-airport": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/johannesburg/jnbhc/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-pattaya-resort": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/pattaya/pyxha/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-table-bay-cape-town": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/cape-town/cpttb/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "el Where Ocean Meets Mountain Ocean-View Rooms with Private Balconies Club InterContinental Indulgence Gateway to the Cape Winelands From Stellenbosch to Fransch",
+   "ur, taking in Cape Town’s ever-changing light from sunrise to sunset. Club InterContinental Indulgence Step into a refined retreat reserved for guests seeking pr"
+  ],
+  "at": "2026-09-19"
+ },
+ "intercontinental-costa-rica-at-multiplaza-mall": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/san-jose/sjoha/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-chiang-mai-the-mae-ping": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/chiang-mai/cnxwc/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "Minimum check-in age : 18 The highlights Curated Offers & Experiences Club InterContinental® The ii Spa Above us only sky Chinese Culinary Heritage Curated Offer",
+   "intercontinental-chiang-mai-10530526762-original\"},{\"highlightsName\":\"Club InterContinental®\",\"category\":\"Amenities\",\"highlightsParagraph\":\"club intercontinental"
+  ],
+  "at": "2026-09-19"
+ },
+ "intercontinental-adelaide": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/adelaide/adlha/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "3:00 PM Check-out : 11:00 AM Minimum check-in age : 18 The highlights Club InterContinental Lounge Pool Shiki Japanese Restaurant Riverside Restaurant & High Tea",
+   "aurant Riverside Restaurant & High Tea The Atrium Lounge & Live Music Club InterContinental Lounge An exclusive lounge experience available to guests staying in"
+  ],
+  "at": "2026-09-19"
+ },
+ "intercontinental-bordeaux-le-grand-hotel": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/bordeaux/bodha/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-the-tuxon": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/tucson/tusvo/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-hotel-napoleon-memphis": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/memphis/memhn/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-al-khobar": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/al-khobar/dhako/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-wuxi-taihu-new-city": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/wuxi/wuxgo/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-grand-central-glasgow": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/glasgow/glags/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-wuxi-qingming-bridge": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/wuxi/wuxqb/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-lijiang-ancient-town": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/lijiang/ljgin/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-larnaca": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/larnaca/lcaas/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-krakow-old-town": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/krakow/krkfg/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-lugu-lake": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/lijiang/ljgll/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-hakone-gora": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/hakone/hkhhg/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-glasgow": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/glasgow/glwin/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-kaohsiung-central-park": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/kaohsiung/khhin/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-auckland": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/auckland/aklal/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "kimpton-sawyer-hotel": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/sawyer-hotel-sacramento-ca/smfkg/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-bath": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/bath/qqxuk/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-krakow-wawel-castle": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/krakow/krkwr/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "kimpton-canary-hotel": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/canary-hotel-santa-barbara-ca/sabcn/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-yokohama-grand": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/yokohama/yokha/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "-in age : 18 The highlights A Time of Luxury to Support Each Wellness Club InterContinental Breakfast delights Afternoon tea Luxury weddings A Time of Luxury to",
+   "e Club InterContinental For the ultimate luxury experience, stay in a Club InterContinental room. These rooms give you access to a private lounge and a menu of e"
+  ],
+  "at": "2026-09-19"
+ },
+ "intercontinental-the-clement-monterey": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/monterey/mryha/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-sofia": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/sofia/sofco/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "ihg.com/is/image/ihg/intercontinental-sofia-6767734348-2x1\"},{\"name\":\"Club Intercontinental Lounge\",\"description\":\"Enjoy the exceptional comfort and exclusivity",
+   "\",\"description\":\"Enjoy the exceptional comfort and exclusivity of our Club InterContinental Lounge.\\nComplimentary when you book a Club room or upon request and"
+  ],
+  "at": "2026-09-19"
+ },
+ "intercontinental-resort-tahiti": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/faa-a/pptpf/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-yokohama-pier-8": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/yokohama/tyoyh/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "The highlights Autumn Afternoon Coffee Wine Dinner Event Rooftop 1859 Club InterContinental Autumn Afternoon Coffee Yokohama is where Japan&#39;s coffee culture",
+   "g/intercontinental-yokohama-11086619196-original\"},{\"highlightsName\":\"Club InterContinental\",\"category\":\"Amenities\",\"highlightsParagraph\":\"club intercontinental"
+  ],
+  "at": "2026-09-19"
+ },
+ "intercontinental-presidente-monterrey": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/monterrey/mtymt/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-muscat": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/muscat/mscha/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "-muscat-7171671709-original\"},{\"highlightsName\":\"Pioneering Luxury at Club InterContinental\",\"category\":\"Amenities\",\"highlightsParagraph\":\"step into club interco",
+   "rContinental\",\"category\":\"Amenities\",\"highlightsParagraph\":\"step into club intercontinental lounge, a refined retreat in the heart of muscat for both business an"
+  ],
+  "at": "2026-09-19"
+ },
+ "intercontinental-medellin": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/medellin/mdeha/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-madinah-dar-al-iman": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/madinah/medha/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-kaohsiung": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/kaohsiung-city/khhkt/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "eoConferenceEquipment\":false}]; let boardTypesDetail = [{\"boardType\":\"Club InterContinental Access\",\"boardPreTitle\":\"Club InterContinental Lounge Access for 1 pe",
+   "etail = [{\"boardType\":\"Club InterContinental Access\",\"boardPreTitle\":\"Club InterContinental Lounge Access for 1 person\",\"description\":\"\\u003cul\\u003e\\u003cli\\u00"
+  ],
+  "at": "2026-09-19"
+ },
+ "kimpton-blythswood-square-hotel-spa": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/blythswood-square-hotel-glasgow-uk/glapg/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-geneve": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/geneva/gvaha/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-dhaka": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/dhaka/dachb/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-grand-ankara": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/ankara/ankct/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-dar-al-hijra-madinah": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/madinah/medhb/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-bora-bora-le-moana-resort": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/bora-bora/bobpf/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-bora-bora-resort-thalasso-spa": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/bora-bora/bobhb/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-auckland": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/auckland/aklha/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "rant and Bar, rejuvenate with in-room spa services, and unwind in the Club InterContinental. With elegant accommodations and impeccable hospitality, experience t",
+   "AM Minimum check-in age : 18 The highlights Advieh Restaurant and Bar Club InterContinental Elevate Your Style at Commercial Bay Destination Auckland Step into S"
+  ],
+  "at": "2026-09-19"
+ },
+ "intercontinental-al-khobar": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/al-khobar/dhaha/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "\"MeetingRoom\", \"name\": \"Board\" }, { \"@type\": \"MeetingRoom\", \"name\": \"Club Lounge Meeting Room\" }, { \"@type\": \"MeetingRoom\", \"name\": \"Arome\" }, { \"@typ",
+   "quipment\":false,\"videoConferenceEquipment\":false},{\"meetingRoomName\":\"Club Lounge Meeting Room\",\"meetingRoomDescription\":\"\",\"location\":\"5th thru 9th\",\""
+  ],
+  "at": "2026-09-19"
+ },
+ "fairview-hotel-nairobi": {
+  "url": "https://www.ihg.com/vignettecollection/hotels/us/en/nairobi/nbofn/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-surfside-aruba": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/aruba/aualb/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-real-guatemala": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/guatemala-city/guaha/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "r-floor rooms, private-area breakfast, access to the InterContinental Club Lounge, an open bar with drinks and soft beverages, and a curated coffee tab",
+   "r-floor rooms, private-area breakfast, access to the intercontinental club lounge, an open bar with drinks and soft beverages, and a curated coffee tab"
+  ],
+  "at": "2026-09-19"
+ },
+ "voco-malta": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/malta/mlamt/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-tel-aviv-diamond-district": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/tel-aviv/tlvin/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-bandung-setiabudi": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/bandung/bdobs/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-napa-valley": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/napa-california/sfonv/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-grand-cayman": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/grand-cayman/gcmsm/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-omaha-downtown": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/omaha/omasd/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "kimpton-seafire-resort-spa": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/seafire-resort-and-spa-grand-cayman/gcmse/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "kimpton-cottonwood": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/cottonwood-hotel-omaha-ne/omabs/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-presidente-cancun-resort": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/cancun/cunhc/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "quipment\":false,\"videoConferenceEquipment\":false},{\"meetingRoomName\":\"Club Lounge\",\"meetingRoomDescription\":\"Discover our Club Lounge\\u0027s exclusive",
+   "meetingRoomName\":\"Club Lounge\",\"meetingRoomDescription\":\"Discover our Club Lounge\\u0027s exclusive VIP meeting room space, ideal for corporate events."
+  ],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-bandung-dago-pakar": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/bandung/bdodp/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-porto-palacio-das-cardosas": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/porto/prtha/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-hanoi-westlake": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/hanoi/hanhb/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "district, offering travellers luxurious guest rooms and personalised Club InterContinental service. Experience celebrated award-winning dining at Saigon Restaur",
+   "e/ihg/intercontinental-hanoi-8384217812-original\"},{\"highlightsName\":\"Club InterContinental Lounge\",\"category\":\"Amenities\",\"highlightsParagraph\":\"club interconti"
+  ],
+  "at": "2026-09-19"
+ },
+ "intercontinental-hanoi-landmark72": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/hanoi/hanha/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "ues in Hanoi with 3,000 square meters of event space, and the largest Club InterContinental Lounge in South East Asia. Single-use plastic free hotel Limited hous",
+   "3:00 PM Check-out : 12:00 PM Minimum check-in age : 18 The highlights Club InterContinental Sunday Familicious Lunch Outdoor Swimming Pool Meeting for Good Plan"
+  ],
+  "at": "2026-09-19"
+ },
+ "intercontinental-david-tel-aviv": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/tel-aviv/tlvha/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "ewly Renovated Rooms The Art of Pastry by Alon Shabo InterContinental Club Lounge Poolside Paradise Family Focused Time Newly Renovated Rooms Step into",
+   "floor of the hotel with breathtaking views of the Mediterranean Sea, Club InterContinental is the ultimate private urban haven. Available exclusively to guests"
+  ],
+  "at": "2026-09-19"
+ },
+ "intercontinental-bandung-dago-pakar": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/bandung/bdoic/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-baku": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/baku/bakha/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-almaty": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/almaty/alaha/hoteldetail",
+  "lounge": true,
+  "hits": [
+   ": 18 The highlights Atrium Lounge & Bar Bosphorus Restaurant Wedding Club InterContinental Atrium Lounge & Bar The Lobby Lounge & Bar offers its own à la carte",
+   "service. Learn more Club InterContinental Discover opulent luxury at Club InterContinental, nestled in the heart of Almaty. An exquisite hideaway, it crafts bes"
+  ],
+  "at": "2026-09-19"
+ },
+ "even-hotel-omaha-downtown-old-market": {
+  "url": "https://www.ihg.com/evenhotels/hotels/us/en/omaha/omadt/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-venice-mestre-the-quid": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/venice/vcevm/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-jaipur-tonk-road": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/jaipur/jaitr/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "eck-out : 12:00 PM Minimum check-in age : 18 The highlights Exclusive Club InterContinental Lounge Incredible Occasions at InterContinental Jaipur Rejuvenate at",
+   "va Spa Award Winning Restaurants Expansive Banqueting Space Exclusive Club InterContinental Lounge Make time for the Club InterContinental Lounge, where exclusiv"
+  ],
+  "at": "2026-09-19"
+ },
+ "voco-sarasota": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/sarasota/srqfl/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-makkah": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/makkah/qcaks/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-scenia-bay-nha-trang": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/nha-trang/nhasb/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-venice-sant-elena": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/venice/vcevs/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "casa-da-companhia-porto": {
+  "url": "https://www.ihg.com/vignettecollection/hotels/us/en/porto/opocc/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-brisbane-city-centre": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/brisbane/bnecr/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-brisbane-city-centre": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/brisbane/bnecc/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-lima-miraflores": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/lima/limmd/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "even-hotel-sarasota-lakewood-ranch": {
+  "url": "https://www.ihg.com/evenhotels/hotels/us/en/sarasota/srqlo/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "souma-hotel": {
+  "url": "https://www.ihg.com/vignettecollection/hotels/us/en/lima/limmp/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "kimpton-las-mercedes": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/las-mercedes-santo-domingo/sdqlm/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-ana-manza-beach-resort": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/okinawa/okaha/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "ights Sunset Cruise on a Catamaran Yacht Indulge in Ultimate Bliss at Club InterContinental Manza Ocean Park Submarine Jr.Ⅱ Boat Snorkeling Sunset Cruise on a Ca",
+   "Manzamo and sunset views from one of Okinawa’s most expansive luxury club lounges. With a refined environment and finely tuned service that responds t"
+  ],
+  "at": "2026-09-19"
+ },
+ "intercontinental-sao-paulo": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/sao-paulo/saoha/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "inental-sao-paulo-10327875894-original\"},{\"highlightsName\":\"Exclusive Club Lounge Access\",\"category\":\"Amenities\",\"highlightsParagraph\":\"our exclusive c",
+   "e Access\",\"category\":\"Amenities\",\"highlightsParagraph\":\"our exclusive club lounge offers a sophisticated retreat with personalized services, compliment"
+  ],
+  "at": "2026-09-19"
+ },
+ "intercontinental-real-santo-domingo": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/santo-domingo/sdqic/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "unwind in the infinity pool, or restore at Spa InterContinental. With Club Lounge access, valet parking and in-room connectivity, your time here is tho",
+   "ing and in-room connectivity, your time here is thoughtfully curated. Executive Club Lounge Situated high above the city skyline, our Executive Club Loung"
+  ],
+  "at": "2026-09-19"
+ },
+ "intercontinental-nha-trang": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/nha-trang/nhach/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-ana-ishigaki-resort": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/okinawa/okahb/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "3:00 PM Check-out : 11:00 AM Minimum check-in age : 18 The highlights Club InterContinental Serene Luxury with Panoramic Ocean Views​ Poolside Elegance, Bathed i",
+   "leasures of Ishigaki Perfect for Groups | Japanese-Style Modern Rooms Club InterContinental The beauty and traditions of Ishigaki Island are showcased in our Clu"
+  ],
+  "at": "2026-09-19"
+ },
+ "intercontinental-malta": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/malta/malha/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "vated in every detail \",\"category\":\"Dining\",\"highlightsParagraph\":\"at club intercontinental lounge, every moment is designed with care and distinction. enjoy pri"
+  ],
+  "at": "2026-09-19"
+ },
+ "intercontinental-brisbane": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/brisbane/bnehb/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "ng city panoramas and refined Brisbane accommodation, complemented by Club InterContinental access to an exclusive Level 25 retreat with daily breakfast, twiligh",
+   "spacious bathroom with a deep-soak bath and walk-in shower, plus full Club InterContinental access. BOOK NOW View all Reservations: Front desk: + 61-7-32342000 E"
+  ],
+  "at": "2026-09-19"
+ },
+ "intercontinental-dar-al-tawhid-makkah": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/makkah/qcahd/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-fiji-golf-resort-spa": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/natadola/nanha/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-jeddah-gate": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/jeddah/jedvc/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "haikou-yatter-hotel": {
+  "url": "https://www.ihg.com/vignettecollection/hotels/us/en/haikou/hakhy/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-jacksonville-deerwood-park": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/jacksonville/jaxin/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-guadalajara": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/guadalajara/gdlal/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-baltimore-downtown": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/baltimore/balhn/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-real-lima-miraflores": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/lima/limha/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "ed décor, and sweeping ocean vistas. Includes exclusive access to the Club InterContinental lounge. Distinguished, spacious, and designed for discerning guests.",
+   "five gourmet venues, explore the vibrant Miraflores, or unwind in the Club Lounge—every moment elevated. Rooftop Pool Set atop Costa Verde cliffs, Lima"
+  ],
+  "at": "2026-09-19"
+ },
+ "kimpton-journeyman": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/journeyman-hotel-milwaukee-wi/mketj/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-santiago": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/santiago/sclha/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "3:00 PM Check-out : 12:00 PM Minimum check-in age : 18 The highlights Club InterContinental Events Weddings Club InterContinental Located on the 3rd floor of our",
+   "heck-in age : 18 The highlights Club InterContinental Events Weddings Club InterContinental Located on the 3rd floor of our Club Tower, the Lounge offers exclusi"
+  ],
+  "at": "2026-09-19"
+ },
+ "kimpton-hotel-monaco-baltimore": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/hotel-monaco-baltimore-md/balmn/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-jeddah": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/jeddah/jedha/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-buenos-aires": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/buenos-aires/bueha/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-koh-samui-resort": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/koh-samui/usmks/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "g Baan Thai Spa by HARNN Two Bedroom Family Villas with Kids Benefits Club InterContinental® Benefits Air Bar Experience this incredible sunset location featured",
+   "more. Learn more Club InterContinental® Benefits Treat yourself to a Club InterContinental® luxury experience with attractive benefits , A celebration of exclus"
+  ],
+  "at": "2026-09-19"
+ },
+ "intercontinental-presidente-guadalajara": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/guadalajara/gdlha/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "ut (subject to availability) | 10% discount on Laundry | Breakfast at Club InterContinental. Take advantage of this exclusive offer on Club Floors and Suites. Bo",
+   "t at Club InterContinental. Take advantage of this exclusive offer on Club Floors and Suites. Book now! Call +52-55-94356141 Call +52-55-94356141 Stay"
+  ],
+  "at": "2026-09-19"
+ },
+ "voco-manchester-city-centre": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/manchester/manmc/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-ma-belle-danang-by-ihg": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/da-nang-city/dadmb/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-brussels-city-north": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/vilvoorde/bruvc/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "kimpton-kitalay-samui": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/koh-samui/usmkm/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-chongqing-chaotianmen": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/chongqing/ckgct/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-stockholm-kista": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/kista/stokt/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-zhuhai-hengqin": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/zhuhai/zuhhq/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-savannah-historic-district": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/savannah/savid/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-ningbo-riverside": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/ningbo/ngbrv/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-saigon-the-city": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/ho-chi-minh-city/sgnsc/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-manchester-victoria-station": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/manchester/manvn/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-ningbo": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/ningbo/ngbgo/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-chongqing-chaotianmen": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/chongqing/ckggq/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-brussels-city": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/brussels/brupr/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "verno-house": {
+  "url": "https://www.ihg.com/vignettecollection/hotels/us/en/budapest/budvh/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-warsaw-nowy-swiat": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/warsaw/wawid/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "the-chania-hotel-crete": {
+  "url": "https://www.ihg.com/vignettecollection/hotels/us/en/chania/chqsq/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-zhuhai-xiangzhou": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/zhuhai/zuhnz/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "tft-chongqing": {
+  "url": "https://www.ihg.com/vignettecollection/hotels/us/en/chongqing/ckgjh/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-florence": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/florence/flrvj/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "reve-ho-chi-minh-city": {
+  "url": "https://www.ihg.com/vignettecollection/hotels/us/en/ho-chi-minh/sgnet/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "kimpton-hotel-monaco-salt-lake-city": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/hotel-monaco-salt-lake-city/slcsl/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "moire-hoi-an": {
+  "url": "https://www.ihg.com/vignettecollection/hotels/us/en/hoi-an/dadho/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "kimpton-brice-hotel": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/brice-savannah-ga/savkb/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "kimpton-aysla-mallorca": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/aysla-mallorca-spain/pmims/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "kimpton-clocktower-hotel": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/clocktower-hotel-manchester-uk/manos/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "kimpton-bem-budapest-hotel": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/bem-budapest-hungary/budkm/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-marine-drive-mumbai": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/mumbai/bomhb/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-danang-sun-peninsula-resort": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/danang-city/dadha/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-budapest": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/budapest/budhb/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-crete": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/crete/herct/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "finca-banyols-mallorca": {
+  "url": "https://www.ihg.com/vignettecollection/hotels/us/en/mallorca/pmimb/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-warsaw": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/warsaw/wrsha/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "PM Minimum check-in age : 18 The highlights Riverview Wellness Centre Club InterContinental Plan the perfect wedding Anawa Restaurant Riverview Wellness Centre Y",
+   "op two floors of the hotel. Call +48-22-32886-40 Call +48-22-32886-40 Club InterContinental Located on the 41st floor, the Club InterContinental offers breakfast"
+  ],
+  "at": "2026-09-19"
+ },
+ "voco-wuhan-xinhua": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/wuhan/wuhvc/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-athenaeum-athens": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/athens/athha/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-the-clair-cincinnati-downtown": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/cincinnati/cvghs/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-vienna-prater": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/vienna/viept/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-sydney-potts-point": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/sydney/sydpo/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-changsha-airport": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/changsha/csxca/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-vienna-naschmarkt": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/vienna/vienr/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-albufeira": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/albufeira/faoaf/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "onyria-quinta-da-marinha-hotel": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/cascais/catoq/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-changsha-meixi-lake": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/changsha/csxhr/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "kimpton-rowan-palm-springs": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/rowan-palm-springs-hotel-ca/pspnp/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "kimpton-margot-sydney": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/kimpton-hotel-sydney-australia/sydkm/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "even-hotel-austin-uptown-near-the-domain": {
+  "url": "https://www.ihg.com/evenhotels/hotels/us/en/austin/ausev/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "the-azure-ningbo": {
+  "url": "https://www.ihg.com/vignettecollection/hotels/us/en/ningbo/ngbha/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "kimpton-atlantico-algarve": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/albufeira/faokm/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-vienna": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/vienna/vieha/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "Learn more Best View Over Vienna One of the best views over the city. Club InterContinental guests enjoy a 180-degree panoramic view over downtown Vienna from th",
+   "uests enjoy a 180-degree panoramic view over downtown Vienna from the Club Lounge on the 12th floor of the hotel, in addition to many other Club Lounge"
+  ],
+  "at": "2026-09-19"
+ },
+ "intercontinental-sydney-coogee-beach": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/sydney/sydcb/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "ion\":\"\"},{\"boardType\":\"Club InterContinental Access\",\"boardPreTitle\":\"Club InterContinental Access\",\"description\":\"\\u003cul\\u003e\\u003cli\\u003eExperience a world",
+   "ription\":\"\\u003cul\\u003e\\u003cli\\u003eExperience a world of luxury at Club InterContinental for 2 guests —where bespoke breakfast and evening cocktails elevate e"
+  ],
+  "at": "2026-09-19"
+ },
+ "intercontinental-sydney-double-bay": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/sydney/sydic/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "ion\":\"\"},{\"boardType\":\"Club InterContinental Access\",\"boardPreTitle\":\"Club InterContinental Access\",\"description\":\"\\u003cul\\u003e\\u003cli\\u003eEnjoy exclusive an",
+   "003cli\\u003eEnjoy exclusive and unrivalled luxury in the sanctuary of Club InterContinental during your stay. Includes breakfast, afternoon tea and evening canap"
+  ],
+  "at": "2026-09-19"
+ },
+ "intercontinental-citystars-cairo": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/cairo/crohc/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "echnology in our Signature rooms and suites. Located on the exclusive Club InterContinental floors, these lavishly appointed spaces offer ultimate comfort and co"
+  ],
+  "at": "2026-09-19"
+ },
+ "onyria-marinha-cascais": {
+  "url": "https://www.ihg.com/vignettecollection/hotels/us/en/cascais/catbm/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-sydney": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/sydney/sydha/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "Charging Station The Treasury Building history In the heart of Sydney Club InterContinental IHG Partners with OnUs Business Coalition IHG Hotels and Resorts is a",
+   "l Experience a world of exclusive privileges at the newly refurbished Club InterContinental. Enjoy an aperitif or appetizer in your own private oasis within the"
+  ],
+  "at": "2026-09-19"
+ },
+ "convent-square-hotel-lisbon": {
+  "url": "https://www.ihg.com/vignettecollection/hotels/us/en/lisbon/liscs/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-lisbon": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/lisbon/lisha/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-ardez-hotel-sunnyvale": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/san-jose/sjcsy/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-xiamen-harbour": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/xiamen/xmnin/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-osaka-central": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/osaka/osakn/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "voco-melbourne-central": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/melbourne/melct/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-melbourne-on-flinders": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/melbourne/melsf/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-melbourne-little-collins": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/melbourne/melgo/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-xiamen-haicang": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/xiamen/xmnhc/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-berlin-ku-damm": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/berlin/beriw/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "hotel-indigo-berlin-east-side-gallery": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/berlin/beres/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "noku-maldives": {
+  "url": "https://www.ihg.com/vignettecollection/hotels/us/en/noonu-atoll/mlevi/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-osaka": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/osaka/osaha/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "3:00 PM Check-out : 11:00 AM Minimum check-in age : 18 The highlights Club InterContinental Pierre Restaurant NOKA Roast and Grill Residences Pool Club InterCont",
+   "terContinental Pierre Restaurant NOKA Roast and Grill Residences Pool Club InterContinental The exclusive Club InterContinental provides personalised hospitality"
+  ],
+  "at": "2026-09-19"
+ },
+ "intercontinental-maldives-maamunagau-resort": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/maamunagau-island/mlemm/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "island retreat for honeymooners, families, and friends, complete with Club InterContinental benefits. Our island sanctuary, located at the southern tip of Raa At",
+   "Residence Book Now Exclusive Club Benefits As the first and only all-Club InterContinental® resort, you can indulge in a range of complimentary benefits, includ"
+  ],
+  "at": "2026-09-19"
+ },
+ "intercontinental-cascais-estoril": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/cascais-estoril/liset/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-berlin": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/berlin/berha/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "r the experience today!\\u003c/li\\u003e\\u003c/ul\\u003e\"},{\"boardType\":\"Club InterContinental Access\",\"boardPreTitle\":\"Club InterContinental Access\",\"description\":",
+   "\\u003e\"},{\"boardType\":\"Club InterContinental Access\",\"boardPreTitle\":\"Club InterContinental Access\",\"description\":\"\\u003cul\\u003e\\u003cli\\u003eIndulge in the Clu"
+  ],
+  "at": "2026-09-19"
+ },
+ "kimpton-main-frankfurt": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/frankfurt/frajg/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-19"
+ },
+ "intercontinental-amman": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/amman/ammha/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "e/ihg/intercontinental-amman-9862822683-original\"},{\"highlightsName\":\"Club InterContinental Lounge\",\"category\":\"Dining\",\"highlightsParagraph\":\"experience another",
+   "ience another level of world class service that truly delights in our club intercontinental lounge where unforgettable culinary delights await. special highlight"
+  ],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-pittsburgh-east-liberty": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/pittsburgh/pithb/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-pittsburgh-university-oakland": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/pittsburgh/pitgh/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "voco-edinburgh-royal-terrace": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/edinburgh/edite/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-phuket-patong": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/phuket/phupp/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-cleveland-beachwood": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/beachwood/clebd/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-cleveland-downtown": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/cleveland/clehr/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-edinburgh": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/edinburgh/edini/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "even-hotel-pittsburgh-downtown": {
+  "url": "https://www.ihg.com/evenhotels/hotels/us/en/pittsburgh/pitev/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "kimpton-hotel-monaco-pittsburgh": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/hotel-monaco-pittsburgh-pa/pithm/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "intercontinental-phuket-resort": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/phuket/phukb/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "ihg/intercontinental-phuket-10214005924-original\"},{\"highlightsName\":\"Club InterContinental®\",\"category\":\"Rooms\",\"highlightsParagraph\":\"whether you\\u0027re trave",
+   "27re traveling for business or pleasure, elevate your experience with club intercontinental® and enjoy a range of exclusive benefits, including personalized butl"
+  ],
+  "at": "2026-09-20"
+ },
+ "intercontinental-edinburgh-the-george": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/edinburgh/edigs/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "nior Suite Book Now One Bedroom Suite Book Now Premium Rooms Book Now Club InterContinental For Making The Most Of Your Stay Club InterContinental combines perso",
+   "Rooms Book Now Club InterContinental For Making The Most Of Your Stay Club InterContinental combines personal service and exclusive privileges to make your stay"
+  ],
+  "at": "2026-09-20"
+ },
+ "intercontinental-cleveland": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/cleveland/cleha/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "ought-after destinations with upgrades to match. View Program Details Club InterContinental For Making The Most Of Your Stay Club InterContinental combines perso",
+   "rogram Details Club InterContinental For Making The Most Of Your Stay Club InterContinental combines personal service and exclusive privileges to make your stay"
+  ],
+  "at": "2026-09-20"
+ },
+ "voco-riyadh": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/riyadh/ruhsd/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "voco-nanjing-oriental-pearl": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/nanjing/nkgop/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "voco-madrid-retiro": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/madrid/madvo/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "voco-madrid-las-tablas": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/madrid/madhi/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "voco-milan-fiere": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/milan/milfe/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-nanjing-garden-expo": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/nanjing/nkggo/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "voco-guangzhou-shifu": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/guangzhou/canvc/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-kansas-city-downtown": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/kansas-city/mkcsw/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-kansas-city-the-crossroads": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/kansas-city/mkcdg/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-madrid-princesa": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/madrid/madpc/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-barcelona-plaza-espana": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/barcelona/bcndg/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-guangzhou-haixinsha": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/guangzhou/caneh/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "even-hotel-nanjing-yangtze-river": {
+  "url": "https://www.ihg.com/evenhotels/hotels/us/en/nanjing/nkgyt/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "the-xanadu-guangzhou": {
+  "url": "https://www.ihg.com/vignettecollection/hotels/us/en/guangzhou/canxh/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "kimpton-vividora-hotel": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/vividora-hotel-barcelona-spain/bcnki/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "kimpton-hotel-enso": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/enso-hotel-san-francisco-ca/sfobc/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "kimpton-alton-fisherman-s-wharf": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/alton-hotel-san-francisco-ca/sfofw/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "kimpton-kafd-riyadh-hotel": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/riyadh/ruhka/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "intercontinental-madrid": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/madrid/mddha/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "highlights Terrace Summer offer for Members. Stay 3, pay 2 in Suites. Club InterContinental Together is Better Unforgettable Experiences Terrace Our outdoor rest",
+   "ihg/intercontinental-madrid-10643110442-original\"},{\"highlightsName\":\"Club InterContinental\",\"category\":\"Amenities\",\"highlightsParagraph\":\"the intercontinental c"
+  ],
+  "at": "2026-09-20"
+ },
+ "intercontinental-indianapolis": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/indianapolis/indmk/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "intercontinental-durrat-al-riyadh-resort-spa": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/riyadh/ruhrr/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "The highlights Franco&#39;s Cucina Now Open Elevated privileges with Club InterContinental A summer of fun in Riyadh Poolside Rejuvenation and Relaxation Seclud",
+   "od Call +966-55-5142485 Call +966-55-5142485 Elevated privileges with Club InterContinental Enjoy elevated privileges with Club InterContinental. From private ch"
+  ],
+  "at": "2026-09-20"
+ },
+ "intercontinental-barcelona": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/barcelona/bcncp/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "g/intercontinental-barcelona-7538076700-original\"},{\"highlightsName\":\"Club InterContinental Barcelona\",\"category\":\"Amenities\",\"highlightsParagraph\":\"experience e",
+   "ory\":\"Amenities\",\"highlightsParagraph\":\"experience exclusivity at our club intercontinental, designed for the most discerning travelers. with limited access, a s"
+  ],
+  "at": "2026-09-20"
+ },
+ "intercontinental-riyadh": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/riyadh/ruhha/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "/ihg/intercontinental-riyadh-8183735682-original\"},{\"highlightsName\":\"Club InterContinental\",\"category\":\"Meetings and Events\",\"highlightsParagraph\":\"from the mom",
+   "s and Events\",\"highlightsParagraph\":\"from the moment you reserve your club intercontinental room or suite, your stay is crafted to your personal preferences. enj"
+  ],
+  "at": "2026-09-20"
+ },
+ "voco-sanya-dadonghai": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/sanya/syxda/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-spero": {
+  "url": "https://www.ihg.com/vignettecollection/hotels/us/en/san-francisco/sfosh/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "intercontinental-kansas-city-at-the-plaza": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/kansas-city/mkcha/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "voco-sanya-bay": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/sanya/syxvo/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "voco-chengdu-chunxi-road": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/chengdu/ctucu/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "voco-chengdu-jiuyanqiao": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/chengdu/ctujq/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-vancouver-dwtn-portland-area": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/vancouver/pdxvc/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-chengdu-financial-city": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/chengdu/ctufc/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "even-hotel-qingdao-laoshan": {
+  "url": "https://www.ihg.com/evenhotels/hotels/us/en/qingdao/taoqi/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-nashville-the-countrypolitan": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/nashville/bnaus/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "even-hotel-portland-beaverton": {
+  "url": "https://www.ihg.com/evenhotels/hotels/us/en/beaverton/pdxrs/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "even-hotel-chengdu-jinniu": {
+  "url": "https://www.ihg.com/evenhotels/hotels/us/en/chengdu/ctuen/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "palm-springs-hotel-chengdu": {
+  "url": "https://www.ihg.com/vignettecollection/hotels/us/en/chengdu/ctups/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "kimpton-hotel-vintage-portland": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/hotel-vintage-portland-or/pdxvp/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "kimpton-de-witt-hotel": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/amsterdam/amsnl/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "intercontinental-jakarta-pondok-indah": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/jakarta/jktpi/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "m check-in age : 18 The highlights Shopping Just Steps Away Exclusive Club InterContinental A Wellness Oasis in Jakarta Elegant Dining Experiences Memorable Meet",
+   "Exclusive Club InterContinental Experience the epitome of luxury with Club InterContinental services. Enjoy exclusive access to our lounge, personalized service,"
+  ],
+  "at": "2026-09-20"
+ },
+ "kimpton-aertson-hotel": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/aertson-hotel-nashville-tn/bnaae/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "aldhafra-resort": {
+  "url": "https://www.ihg.com/vignettecollection/hotels/us/en/abu-dhabi/auhtl/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "intercontinental-abu-dhabi": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/abu-dhabi/auhha/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "and a slide. Indulge in six signature dining venues or retreat to the Club InterContinental with Abu Dhabi skyline views, reserved for IHG One Rewards members. S",
+   "/intercontinental-abu-dhabi-10837626837-original\"},{\"highlightsName\":\"Club InterContinental\",\"category\":\"Amenities\",\"highlightsParagraph\":\"on the 18th floor, clu"
+  ],
+  "at": "2026-09-20"
+ },
+ "voco-seoul-myeongdong": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/seoul/selvo/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "kimpton-tryon-park-hotel": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/tryon-park-hotel-charlotte-nc/cltkm/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-rome-st-george": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/rome/romsg/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "intercontinental-grand-seoul-parnas": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/seoul/seoha/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "ion\":\"\"},{\"boardType\":\"Club InterContinental Access\",\"boardPreTitle\":\"Club InterContinental Access\",\"description\":\"\\u003cul\\u003e\\u003cli\\u003eClub Lounge access",
+   "b InterContinental Access\",\"description\":\"\\u003cul\\u003e\\u003cli\\u003eClub Lounge access for up to 2 guests includes breakfast, afternoon tea, and cock"
+  ],
+  "at": "2026-09-20"
+ },
+ "intercontinental-rome-ambasciatori-palace": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/rome/romra/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-suzhou-grand-canal": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/suzhou/szvgc/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "kimpton-hotel-palomar-phoenix": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/hotel-palomar-phoenix-az/phxpx/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-suzhou-yangcheng-lake": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/suzhou/szvyl/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-suzhou-jinji-lake": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/suzhou/szvjl/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "even-hotel-suzhou-grand-canal": {
+  "url": "https://www.ihg.com/evenhotels/hotels/us/en/suzhou/szvgd/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "kimpton-bamboo-grove-suzhou": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/bamboo-grove-suzhou-china/szvbg/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "intercontinental-san-antonio-riverwalk": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/san-antonio/satpn/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "check-in age : 18 The highlights Year Round Heated Rooftop Pool + Bar Club InterContinental Meetings & Events Weddings & Social Events​ Cavalier Year Round Heate",
+   "ng with playful tiki libations and hand-held snacks from High Praise. Club InterContinental Welcome to the Club InterContinental Lounge in San Antonio, a private"
+  ],
+  "at": "2026-09-20"
+ },
+ "voco-st-james-hotel": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/new-orleans/msysj/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "kimpton-santo-san-antonio-riverwalk": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/santo-hotel-san-antonio-tx/satas/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-tokyo-shibuya": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/shibuyaku/hndsh/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-san-antonio-riverwalk": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/san-antonio/satsm/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-new-orleans-french-quarter": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/new-orleans/msyrl/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "kimpton-shorebreak-fort-lauderdale": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/shorebreak-fort-lauderdale-beach-fl/fllrs/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "even-hotel-seattle-downtown-lake-union": {
+  "url": "https://www.ihg.com/evenhotels/hotels/us/en/seattle/seasw/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-boston-garden": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/boston/bosfs/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "intercontinental-doha-the-city": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/doha/dohwb/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "ividuals. Rate per way.\\u003c/li\\u003e\\u003c/ul\\u003e\"},{\"boardType\":\"Club InterContinental Access\",\"boardPreTitle\":\"Club InterContinental Access\",\"description\":",
+   "\\u003e\"},{\"boardType\":\"Club InterContinental Access\",\"boardPreTitle\":\"Club InterContinental Access\",\"description\":\"\\u003cul\\u003e\\u003cli\\u003eEnjoy an array of"
+  ],
+  "at": "2026-09-20"
+ },
+ "voco-xi-an-etdz": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/xian/siavc/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-xi-an-high-tech-zone": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/xian/siaxr/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-hong-kong-island": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/hong-kong/hkgin/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "voco-bali-seminyak": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/bali/dpssy/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "even-hotels-xi-an-high-tech-zone": {
+  "url": "https://www.ihg.com/evenhotels/hotels/us/en/xian/siahh/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "intercontinental-bali-sanur-resort": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/bali/dpsps/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "intercontinental-bali-resort": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/bali/dpsha/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-bali-seminyak-beach": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/bali/dpsin/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-bangkok-wireless-road": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/bangkok/bkkin/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "even-hotel-atlanta-ballpark-area": {
+  "url": "https://www.ihg.com/evenhotels/hotels/us/en/atlanta/atlop/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "sindhorn-midtown-hotel-bangkok": {
+  "url": "https://www.ihg.com/vignettecollection/hotels/us/en/bangkok/bkksn/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "kimpton-maa-lai-bangkok": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/maa-lai-bangkok-thailand/bkkls/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "kimpton-overland-hotel-atlanta-airport": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/overland-hotel-atlanta-ga/atlsl/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "kimpton-shinjuku-tokyo": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/shinjuku-hotel-tokyo-japan/tyosj/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "kimpton-hotel-vintage-seattle": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/hotel-vintage-seattle-wa/seavp/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "voco-london-marylebone": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/london/lonvc/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "kimpton-hotel-monaco-seattle": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/hotel-monaco-seattle-wa/seasm/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "intercontinental-ana-tokyo": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/tokyo/tyohc/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "xperiences for which Tokyo is famous. Step into sophistication in our Club InterContinental for a reprieve from the hustle and bustle outside, and enjoy a calmin",
+   "00 AM Minimum check-in age : 18 The highlights Open-air swimming pool Club InterContinental Peach Afternoon Tea Le Petit Chef - The World&#39;s Smallest Chef Bes"
+  ],
+  "at": "2026-09-20"
+ },
+ "intercontinental-the-strings-tokyo": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/tokyo/tyose/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "r-component.js\"> Accommodations Classic Rooms Book Now The Peak Suite Club Lounge Access Book Now One Bedroom Suite Book Now Premium Rooms Book Now Cla",
+   "Book Now Premium Rooms Book Now Classic Rooms Book Now The Peak Suite Club Lounge Access Book Now One Bedroom Suite Book Now Premium Rooms Book Now Vie"
+  ],
+  "at": "2026-09-20"
+ },
+ "voco-thousand-island-lake": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/hangzhou/hghth/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-taipei-north": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/taipei/tpent/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "kimpton-hotel-monaco-philadelphia": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/hotel-monaco-philadelphia-pa/phlpm/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "voco-doha-west-bay-suites": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/doha/dohvo/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-miami-brickell": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/miami/miani/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-hangzhou-uptown": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/hangzhou/hghne/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "even-hotels-sweetwater-doral": {
+  "url": "https://www.ihg.com/evenhotels/hotels/us/en/sweetwater/miasw/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "kimpton-surfcomber-hotel": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/surfcomber-south-beach-miami-fl/miass/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "kimpton-hotel-palomar-south-beach": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/hotel-palomar-south-beach-fl/miapa/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "kimpton-da-an-hotel": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/da-an-hotel-taipei/tpekm/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "kimpton-la-peer-hotel": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/la-peer-hotel-los-angeles-ca/laxwe/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "intercontinental-taipei": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/taipei/tpepi/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "voco-shanghai-zhangjiang": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/shanghai/shazj/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "voco-suites-shanghai-hongqiao-cbd": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/shanghai/shavo/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "even-hotel-denver-tech-center-englewood": {
+  "url": "https://www.ihg.com/evenhotels/hotels/us/en/englewood/denew/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "kimpton-tsim-sha-tsui": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/hong-kong/hkgkh/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "kimpton-claret-hotel": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/claret-hotel-denver-co/denim/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "intercontinental-presidente-mexico-city": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/mexico/mexha/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "intercontinental-grand-stanford-hong-kong": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/hong-kong/hkghb/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "dé Nast Traveller》Top 10 Best Hotel in HK Victoria Harbour Waterfront Club InterContinental 24-Hour Fitness Centre Sun Court Pool 《Condé Nast Traveller》Top 10 Be",
+   "y from the East Tsim Sha Tsui Station (P1 exit) and Hung Hom Station. Club InterContinental At Club InterContinental, we understand that true luxury means qualit"
+  ],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-anaheim": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/anaheim/laxex/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "kimpton-naluria-kuala-lumpur": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/kuala-lumpur/kulte/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "kimpton-saint-george": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/saint-george-hotel-toronto-on/yyzbs/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "voco-paris-porte-de-clichy": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/clichy/parpc/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "kimpton-st-honore-paris": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/st-honore-hotel-paris-france/parbc/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "intercontinental-paris-le-grand": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/paris/parhb/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "Café de la Paix Discover Our Signature Suites Exclusive luxury at the Club Lounge Algotherm Dermo Ocean Spa The Spa offers a refined wellness experienc",
+   "the City of Light. Learn more Exclusive luxury at the Club Lounge The Club Lounge embodies calm and comfort at the heart of the hotel. This refined spa"
+  ],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-shenzhen-overseas-chinese-town": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/shenzhen/szxsv/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-san-diego-del-mar": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/del-mar/sandm/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "intercontinental-istanbul": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/istanbul/istha/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-london-k-west-shepherd-s-bush": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/london/lonpr/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "even-hotel-shenzhen-guangming-cloud-park": {
+  "url": "https://www.ihg.com/evenhotels/hotels/us/en/shenzhen/szxcy/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "intercontinental-singapore-robertson-quay": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/singapore/sinic/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "delights and a bottle of champagne to toast the occasion, along with club lounge access for two.\\n\\nbe it an intimate proposal or a birthday celebrati",
+   "tinental-singapore-9584842457-original\"},{\"highlightsName\":\"Stay with Club Lounge Access\",\"category\":\"Amenities\",\"highlightsParagraph\":\"recharge in pri"
+  ],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-minneapolis-downtown": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/minneapolis/mspdg/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "even-hotel-shenzhen-nanshan": {
+  "url": "https://www.ihg.com/evenhotels/hotels/us/en/shenzhen/szxev/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-london-paddington": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/london/lonin/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-london-tower-hill": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/london/lonlt/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-london-1-leicester-square": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/london/lonls/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-kuala-lumpur-on-the-park": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/kuala-lumpur/kulpk/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-london-clerkenwell": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/london/lonrc/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-london-kensington": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/london/lonlk/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-dallas-downtown": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/dallas/dalar/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "kimpton-pittman-hotel": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/pittman-hotel-dallas-tx/daltp/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "kimpton-harper-hotel": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/harper-hotel-fort-worth-tx/ftwms/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-frisco": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/frisco/dfwfr/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-irving-las-colinas": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/irving/dfwej/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-old-town-alexandria": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/alexandria/axein/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "voco-shanghai-hongqiao-hub": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/shanghai/shajj/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-shanghai-on-the-bund": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/shanghai/shgnb/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-williamsburg-brooklyn": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/brooklyn/nycmp/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-shanghai-jing-an": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/shanghai/shgjn/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-shanghai-harbour-city": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/shanghai/shahc/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "even-hotel-shanghai-hongqiao-cbd": {
+  "url": "https://www.ihg.com/evenhotels/hotels/us/en/shanghai/shaev/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-lower-east-side-new-york": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/new-york/nycos/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-nyc-financial-district": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/new-york/nycwl/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-chicago-vernon-hills": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/vernon-hills/vhlil/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-naperville-riverwalk": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/naperville/chins/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-atlanta-midtown": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/atlanta/atlfx/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "even-hotel-chicago-tinley-park-conv-ctr": {
+  "url": "https://www.ihg.com/evenhotels/hotels/us/en/tinley-park/chitn/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "even-hotel-new-york-midtown-east": {
+  "url": "https://www.ihg.com/evenhotels/hotels/us/en/new-york/nycev/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "even-hotel-rockville-washington-dc-area": {
+  "url": "https://www.ihg.com/evenhotels/hotels/us/en/rockville/wasrk/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "hotel-indigo-dubai-downtown": {
+  "url": "https://www.ihg.com/hotelindigo/hotels/us/en/dubai/dxbbp/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "yours-truly-dc": {
+  "url": "https://www.ihg.com/vignettecollection/hotels/us/en/washington/wasvc/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "kimpton-hotel-eventi": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/hotel-eventi-chelsea-nyc/nycaa/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "kimpton-era-midtown-new-york": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/new-york/nycdd/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "voco-dubai-the-palm": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/dubai/dxbpj/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "voco-dubai": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/dubai/dxbsz/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "of options to suit every taste and preference. Pamper yourself at our club lounge with gourmet treats and spectacular views through floor-to-ceiling wi",
+   "c/ul\\u003e\"},{\"boardType\":\"Lounge Access\",\"boardPreTitle\":\"Experience Club Lounge with Breathtaking Views\",\"description\":\"\\u003cul\\u003e\\u003cli\\u003eE"
+  ],
+  "at": "2026-09-20"
+ },
+ "voco-times-square-south-new-york": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/new-york/nycvm/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "voco-the-darwin-atlanta-midtown": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/atlanta/atldw/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "voco-bonnington-dubai": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/dubai/dxbjl/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "the-one-shanghai-downtown": {
+  "url": "https://www.ihg.com/vignettecollection/hotels/us/en/shanghai/shaos/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "voco-times-square-broadway": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/new-york/nycxv/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "voco-chicago-downtown": {
+  "url": "https://www.ihg.com/voco/hotels/us/en/chicago/chiwp/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "intercontinental-london-park-lane": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/london/lonhb/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "in Mayfair The vibrant charm of Theo&#39;s on the Terrace Experience Club InterContinental&#39;s Excellence Taste the Flavours of Italy With Theo Randall Elevat",
+   "ental&#39;s Excellence Discover a new level of world-class service at Club InterContinental, where the exclusive lounge awaits you with unforgettable culinary de"
+  ],
+  "at": "2026-09-20"
+ },
+ "kimpton-fitzroy-london": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/fitzroy-london-hotel-uk/lonlp/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "th8-palm-beach-resort": {
+  "url": "https://www.ihg.com/vignettecollection/hotels/us/en/dubai/dxbpm/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "ere relaxation is Guest Bedroom with seamless amenities and services. Club Floor Room ENVY, having the world's biggest discoball oven! Local View from"
+  ],
+  "at": "2026-09-20"
+ },
+ "intercontinental-the-willard-washington-d-c": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/washington/washa/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "shanghai-snow-world": {
+  "url": "https://www.ihg.com/vignettecollection/hotels/us/en/shanghai/shagn/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "kimpton-banneker-hotel": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/banneker-hotel-washington-dc/wdcrg/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "intercontinental-residence-suites-dubai-f-c": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/dubai/dxbrs/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "regent-shanghai-pudong": {
+  "url": "https://www.ihg.com/regent/hotels/us/en/shanghai/shasd/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "intercontinental-dubai-marina": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/dubai/dxbpl/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "Discover luxury at InterContinental Dubai Marina, with stylish rooms, Club InterContinental and newly renovated residences from studios to three-bedroom spacious",
+   "\"Discover luxury at InterContinental Dubai Marina with stylish rooms Club InterContinental and newly renovated residences from studios to three bedroom spacious"
+  ],
+  "at": "2026-09-20"
+ },
+ "intercontinental-seattle-bellevue": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/bellevue/seaha/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "intercontinental-dubai-festival-city": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/dubai/dxbhb/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "eoConferenceEquipment\":false}]; let boardTypesDetail = [{\"boardType\":\"Club InterContinental Access\",\"boardPreTitle\":\"Club InterContinental Access\",\"description\":",
+   "etail = [{\"boardType\":\"Club InterContinental Access\",\"boardPreTitle\":\"Club InterContinental Access\",\"description\":\"\\u003cul\\u003e\\u003cli\\u003eIndulge in luxury"
+  ],
+  "at": "2026-09-20"
+ },
+ "kimpton-qiantan-shanghai": {
+  "url": "https://www.ihg.com/kimptonhotels/hotels/us/en/shanghai/shanb/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "intercontinental-new-orleans": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/new-orleans/msyha/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "intercontinental-miami": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/miami/miaha/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "sts can dine at Bluewater, Ole, or Toro Toro, and enjoy access to the Club InterContinental Lounge. Single-use plastic free hotel Daily housekeeping Ev chargers",
+   "in us—your Miami experience starts here. VIEW CALENDAR The highlights Club InterContinental Lounge Perfect Waterfront Location on Biscayne Bay Nonstop Daily Expe"
+  ],
+  "at": "2026-09-20"
+ },
+ "intercontinental-san-francisco": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/san-francisco/sfohb/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "e highlights Summer in San Francisco Family Friendly in San Francisco Club InterContinental Mahjong Society A Perfect Stay in San Francisco Summer in San Francis",
+   "morable stay. Learn more Club InterContinental Enhance your stay with Club InterContinental. Our dedicated team is here to assist with whatever you need. You&#39"
+  ],
+  "at": "2026-09-20"
+ },
+ "intercontinental-mark-hopkins-san-francisco": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/san-francisco/sfoha/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "des tips and cover chg.\\u003c/li\\u003e\\u003c/ul\\u003e\"},{\"boardType\":\"Club InterContinental Access\",\"boardPreTitle\":\"Club InterContinental Access\",\"description\":",
+   "\\u003e\"},{\"boardType\":\"Club InterContinental Access\",\"boardPreTitle\":\"Club InterContinental Access\",\"description\":\"\\u003cul\\u003e\\u003cli\\u003eEnjoy daily breakf"
+  ],
+  "at": "2026-09-20"
+ },
+ "intercontinental-chicago-magnificent-mile": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/chicago/ordha/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "intercontinental-boston": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/boston/bosha/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "rsized marble bathrooms, premium bedding, and complimentary access to Club InterContinental, creating an urban resort experience in the heart of the city. Explor",
+   "Only Boston Could Tell Autumn by the Harbor Kid’s Club Luxury Suites Club InterContinental A Story Only Boston Could Tell Inspired by the legendary clipper ship"
+  ],
+  "at": "2026-09-20"
+ },
+ "intercontinental-at-doral-miami": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/doral/miahc/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "s to one car per night.\\u003c/li\\u003e\\u003c/ul\\u003e\"},{\"boardType\":\"Club InterContinental Access\",\"boardPreTitle\":\"Club InterContinental Access\",\"description\":",
+   "\\u003e\"},{\"boardType\":\"Club InterContinental Access\",\"boardPreTitle\":\"Club InterContinental Access\",\"description\":\"\\u003cul\\u003e\\u003cli\\u003eEnjoy an array of"
+  ],
+  "at": "2026-09-20"
+ },
+ "intercontinental-los-angeles-downtown": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/los-angeles/laxhc/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "eles hotel. LEARN MORE The highlights Experience Los Angeles in Style Club InterContinental Outdoor Pool With Luxurious Cabanas Meetings Above the Competition In",
+   "preferences. Enjoy elevated benefits including access to the private Club InterContinental Lounge with complimentary breakfast, evening drinks and canapes, and"
+  ],
+  "at": "2026-09-20"
+ },
+ "intercontinental-cairo-semiramis": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/cairo/croha/hoteldetail",
+  "lounge": true,
+  "hits": [
+   "Occasions - Per Couple\\u003c/li\\u003e\\u003c/ul\\u003e\"},{\"boardType\":\"Club InterContinental Access\",\"boardPreTitle\":\"Club Intercontinental Access\",\"description\":",
+   "\\u003e\"},{\"boardType\":\"Club InterContinental Access\",\"boardPreTitle\":\"Club Intercontinental Access\",\"description\":\"\\u003cul\\u003e\\u003cli\\u003eClub Intercontinen"
+  ],
+  "at": "2026-09-20"
+ },
+ "intercontinental-new-york-times-square": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/new-york/nychc/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "regent-beijing": {
+  "url": "https://www.ihg.com/regent/hotels/us/en/beijing/pekjb/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "regent-chongqing": {
+  "url": "https://www.ihg.com/regent/hotels/us/en/chongqing/ckgrh/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "regent-phu-quoc": {
+  "url": "https://www.ihg.com/regent/hotels/us/en/phu-quoc/pqcrr/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
+ },
+ "intercontinental-luanda-miramar": {
+  "url": "https://www.ihg.com/intercontinental/hotels/us/en/luanda/ladha/hoteldetail",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-20"
  }
 }
