@@ -16,6 +16,7 @@ import { getPayload } from 'payload'
 
 import config from '../../src/payload.config'
 import { RUBRIC_PRE_V15, RUBRIC_V15 } from '../../src/rubric/v15'
+import { convertV15ToV16, RUBRIC_V16, V15_NARRATIVE_TO_V16 } from '../../src/rubric/v16'
 import { htmlToLexical, lexicalWordCount } from './html-to-lexical'
 
 type WebflowItem = {
@@ -207,7 +208,7 @@ async function importRubricVersions(payload: Payload) {
       slug,
       locked: true,
       notes,
-      categories: categories.map((c) => ({ key: c.key, label: c.label, group: c.group, maxCity: c.maxCity, maxResort: c.maxResort })),
+      categories: categories.map((c) => ({ key: c.key, label: c.label, maxCity: c.maxCity, maxResort: c.maxResort })),
     }
     if (existing.docs[0]) {
       await payload.update({ collection: 'rubric-versions', id: existing.docs[0].id, data, overrideAccess: true })
@@ -217,7 +218,19 @@ async function importRubricVersions(payload: Payload) {
     console.log(`rubric-versions: ${slug}`)
   }
   await seed('v15', 'Rubric v15', 'Locked Sep 16 2026. Maxima from the scoring workbook, Luxury Criteria sheet.', RUBRIC_V15)
-  await seed('pre-v15', 'Pre-v15 (Webflow)', 'The version the eight Webflow reviews were scored on: v15 with Bed and sleep out of 5 and Tech out of 3. To be re-scored to v15 after launch.', RUBRIC_PRE_V15)
+  await seed('pre-v15', 'Pre-v15 (Webflow)', 'The version the eight Webflow reviews were scored on: v15 with Bed and sleep out of 5 and Tech out of 3.', RUBRIC_PRE_V15)
+  // v16: six categories, nineteen sub-scores out of 5, no weights
+  const v16 = await payload.find({ collection: 'rubric-versions', where: { slug: { equals: 'v16' } }, limit: 1, overrideAccess: true })
+  const v16data = {
+    name: 'Rubric v16',
+    slug: 'v16',
+    locked: false,
+    notes: 'Six categories (Room, Property, Service, Operations, Breakfast, Atmosphere), nineteen sub-scores out of 5, 100 points. Same maxima for city hotels and resorts. Value and elite recognition are reported, not scored.',
+    categories: RUBRIC_V16.map((c) => ({ key: c.key, label: c.label, section: c.section, maxCity: c.max, maxResort: c.max })),
+  }
+  if (v16.docs[0]) await payload.update({ collection: 'rubric-versions', id: v16.docs[0].id, data: v16data, overrideAccess: true })
+  else await payload.create({ collection: 'rubric-versions', data: v16data, overrideAccess: true })
+  console.log('rubric-versions: v16')
 }
 
 const rubricVersionId = async (payload: Payload, slug: string) => {
@@ -290,28 +303,37 @@ const RATE_BASIS: Record<string, string> = {
 }
 
 async function importReviews(payload: Payload) {
-  const preV15 = await rubricVersionId(payload, 'pre-v15')
+  const v16 = await rubricVersionId(payload, 'v16')
   await run(payload, 'reviews', read('reviews'), async (item) => {
     const f = item.fieldData
-    const scores: Record<string, number | null> = {}
-    const narrative: Record<string, unknown> = {}
+    // the Webflow sheet is scored on the pre-v15 rubric; read it across to v16
+    const old: Record<string, number | null> = {}
+    const oldNarrative: Record<string, unknown> = {}
     for (const [wf, key] of Object.entries(SCORE_MAP)) {
-      scores[key] = num(f[`${wf}-score`])
-      narrative[key] = rich(f[`${wf}-review`])
+      old[key] = num(f[`${wf}-score`])
+      oldNarrative[key] = rich(f[`${wf}-review`])
+    }
+    const propertyType = optionLabel('reviews', 'property-type', f['property-type']) === 'Resort' ? 'resort' : 'city'
+    const scores = convertV15ToV16(old, propertyType)
+    const narrative: Record<string, unknown> = {}
+    for (const [oldKey, newKey] of Object.entries(V15_NARRATIVE_TO_V16)) {
+      const doc = oldNarrative[oldKey] as { root?: { children?: unknown[] } } | null
+      if (!doc) continue
+      const have = narrative[newKey] as { root?: { children?: unknown[] } } | undefined
+      narrative[newKey] = have?.root?.children ? { ...have, root: { ...have.root, children: [...have.root.children, ...(doc.root?.children ?? [])] } } : doc
     }
     const opening = rich(f['opening-thoughts'])
     const verdict = rich(f['final-verdict'])
     const bookItIf = rich(f['recommended-for'])
     const skipItIf = rich(f['not-recommended-for'])
     const words = [opening, verdict, bookItIf, skipItIf, ...Object.values(narrative)].reduce<number>((n, d) => n + lexicalWordCount(d as never), 0)
-    const totals = { hard: num(f['hard-product-score']), soft: num(f['soft-product-score']), overall: num(f['total-review-score']) }
 
     const doc = await upsert(payload, 'reviews', item, {
       title: f.name,
       slug: f.slug,
       hotel: ref('hotels', f.hotel),
-      rubricVersion: preV15,
-      propertyType: optionLabel('reviews', 'property-type', f['property-type']) === 'Resort' ? 'resort' : 'city',
+      rubricVersion: v16,
+      propertyType,
       shortVerdict: text(f['short-verdict']),
       stayDate: text(f['stay-date']),
       statusHeld: ref('status-levels', f['elite-status-during-stay']),
@@ -336,12 +358,6 @@ async function importReviews(payload: Payload) {
       seo: { title: text(f['meta-title']), description: text(f['meta-description']) },
     }, true)
 
-    // The hook recomputes totals from the category scores; flag any drift
-    // from what Webflow stored so it can be checked by hand.
-    const computed = (doc as { totals?: { hard?: number; soft?: number; overall?: number } }).totals
-    if (computed && (computed.hard !== totals.hard || computed.soft !== totals.soft || computed.overall !== totals.overall)) {
-      console.warn(`\n  ${f.slug}: Webflow totals ${totals.hard}/${totals.soft}/${totals.overall} vs computed ${computed.hard}/${computed.soft}/${computed.overall}`)
-    }
   })
 }
 

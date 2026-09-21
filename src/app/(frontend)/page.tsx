@@ -111,7 +111,7 @@ export default async function HomePage() {
 
   const stats = [
     { n: count(counts.hotels), l: `Hotels indexed across ${['', 'one', 'two', 'three', 'four'][counts.programs] ?? counts.programs} programs` },
-    { n: '16', l: 'Categories behind every score' },
+    { n: '19', l: 'Sub-scores in six categories behind every score' },
     { n: count(counts.reviews), l: 'Scored stays' },
     { n: count(readerCount), l: 'Reader-submitted stays' },
   ]

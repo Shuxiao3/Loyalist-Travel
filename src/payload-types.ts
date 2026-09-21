@@ -614,8 +614,12 @@ export interface Review {
    * Computed on save.
    */
   totals?: {
-    hard?: number | null;
-    soft?: number | null;
+    room?: number | null;
+    property?: number | null;
+    service?: number | null;
+    operations?: number | null;
+    breakfast?: number | null;
+    atmosphere?: number | null;
     overall?: number | null;
   };
   stayDate?: string | null;
@@ -639,23 +643,30 @@ export interface Review {
    * Points price, category, whether it repriced.
    */
   awardNote?: string | null;
+  /**
+   * Every sub-score is out of 5. Category totals and the 100-point score are computed on save.
+   */
   scores?: {
-    roomLayout?: number | null;
+    layout?: number | null;
     bathroom?: number | null;
-    bedAndSleep?: number | null;
+    sleep?: number | null;
     tech?: number | null;
+    publicSpace?: number | null;
     amenities?: number | null;
-    atmosphere?: number | null;
-    maintenance?: number | null;
     location?: number | null;
-    checkIn?: number | null;
-    serviceBaseline?: number | null;
-    servicePeak?: number | null;
-    operations?: number | null;
+    maintenance?: number | null;
+    warmth?: number | null;
+    efficiency?: number | null;
+    anticipation?: number | null;
+    arrival?: number | null;
+    mistakes?: number | null;
     housekeeping?: number | null;
-    breakfastAndDining?: number | null;
-    density?: number | null;
-    departure?: number | null;
+    breakfastQuality?: number | null;
+    breakfastSpread?: number | null;
+    design?: number | null;
+    finish?: number | null;
+    senseOfPlace?: number | null;
+    crowding?: number | null;
   };
   openingThoughts?: {
     root: {
@@ -673,7 +684,7 @@ export interface Review {
     [k: string]: unknown;
   } | null;
   narrative?: {
-    roomLayout?: {
+    layout?: {
       root: {
         type: string;
         children: {
@@ -703,7 +714,7 @@ export interface Review {
       };
       [k: string]: unknown;
     } | null;
-    bedAndSleep?: {
+    sleep?: {
       root: {
         type: string;
         children: {
@@ -733,37 +744,22 @@ export interface Review {
       };
       [k: string]: unknown;
     } | null;
+    publicSpace?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
     amenities?: {
-      root: {
-        type: string;
-        children: {
-          type: any;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    } | null;
-    atmosphere?: {
-      root: {
-        type: string;
-        children: {
-          type: any;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    } | null;
-    maintenance?: {
       root: {
         type: string;
         children: {
@@ -793,7 +789,7 @@ export interface Review {
       };
       [k: string]: unknown;
     } | null;
-    checkIn?: {
+    maintenance?: {
       root: {
         type: string;
         children: {
@@ -808,7 +804,7 @@ export interface Review {
       };
       [k: string]: unknown;
     } | null;
-    serviceBaseline?: {
+    warmth?: {
       root: {
         type: string;
         children: {
@@ -823,7 +819,7 @@ export interface Review {
       };
       [k: string]: unknown;
     } | null;
-    servicePeak?: {
+    efficiency?: {
       root: {
         type: string;
         children: {
@@ -838,7 +834,37 @@ export interface Review {
       };
       [k: string]: unknown;
     } | null;
-    operations?: {
+    anticipation?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    arrival?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    mistakes?: {
       root: {
         type: string;
         children: {
@@ -868,7 +894,7 @@ export interface Review {
       };
       [k: string]: unknown;
     } | null;
-    breakfastAndDining?: {
+    breakfastQuality?: {
       root: {
         type: string;
         children: {
@@ -883,7 +909,7 @@ export interface Review {
       };
       [k: string]: unknown;
     } | null;
-    density?: {
+    breakfastSpread?: {
       root: {
         type: string;
         children: {
@@ -898,7 +924,52 @@ export interface Review {
       };
       [k: string]: unknown;
     } | null;
-    departure?: {
+    design?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    finish?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    senseOfPlace?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    crowding?: {
       root: {
         type: string;
         children: {
@@ -1042,7 +1113,10 @@ export interface RubricVersion {
      */
     key: string;
     label: string;
-    group: 'hard' | 'soft';
+    /**
+     * Which category the sub-score sits in. Blank on versions before v16.
+     */
+    section?: ('room' | 'property' | 'service' | 'operations' | 'breakfast' | 'atmosphere') | null;
     maxCity?: number | null;
     maxResort?: number | null;
     id?: string | null;
@@ -1424,8 +1498,12 @@ export interface ReviewsSelect<T extends boolean = true> {
   totals?:
     | T
     | {
-        hard?: T;
-        soft?: T;
+        room?: T;
+        property?: T;
+        service?: T;
+        operations?: T;
+        breakfast?: T;
+        atmosphere?: T;
         overall?: T;
       };
   stayDate?: T;
@@ -1438,43 +1516,51 @@ export interface ReviewsSelect<T extends boolean = true> {
   scores?:
     | T
     | {
-        roomLayout?: T;
+        layout?: T;
         bathroom?: T;
-        bedAndSleep?: T;
+        sleep?: T;
         tech?: T;
+        publicSpace?: T;
         amenities?: T;
-        atmosphere?: T;
-        maintenance?: T;
         location?: T;
-        checkIn?: T;
-        serviceBaseline?: T;
-        servicePeak?: T;
-        operations?: T;
+        maintenance?: T;
+        warmth?: T;
+        efficiency?: T;
+        anticipation?: T;
+        arrival?: T;
+        mistakes?: T;
         housekeeping?: T;
-        breakfastAndDining?: T;
-        density?: T;
-        departure?: T;
+        breakfastQuality?: T;
+        breakfastSpread?: T;
+        design?: T;
+        finish?: T;
+        senseOfPlace?: T;
+        crowding?: T;
       };
   openingThoughts?: T;
   narrative?:
     | T
     | {
-        roomLayout?: T;
+        layout?: T;
         bathroom?: T;
-        bedAndSleep?: T;
+        sleep?: T;
         tech?: T;
+        publicSpace?: T;
         amenities?: T;
-        atmosphere?: T;
-        maintenance?: T;
         location?: T;
-        checkIn?: T;
-        serviceBaseline?: T;
-        servicePeak?: T;
-        operations?: T;
+        maintenance?: T;
+        warmth?: T;
+        efficiency?: T;
+        anticipation?: T;
+        arrival?: T;
+        mistakes?: T;
         housekeeping?: T;
-        breakfastAndDining?: T;
-        density?: T;
-        departure?: T;
+        breakfastQuality?: T;
+        breakfastSpread?: T;
+        design?: T;
+        finish?: T;
+        senseOfPlace?: T;
+        crowding?: T;
       };
   finalVerdict?: T;
   upgrade?:
@@ -1690,7 +1776,7 @@ export interface RubricVersionsSelect<T extends boolean = true> {
     | {
         key?: T;
         label?: T;
-        group?: T;
+        section?: T;
         maxCity?: T;
         maxResort?: T;
         id?: T;

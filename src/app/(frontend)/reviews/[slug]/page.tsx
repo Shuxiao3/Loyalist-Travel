@@ -8,7 +8,7 @@ import { MobileToc } from '@/components/MobileToc'
 import { RichText } from '@/components/RichText'
 import { monthYear, rel, score, shortDate } from '@/lib/format'
 import { getReview, getReviews } from '@/lib/queries'
-import { bandFor, categoriesFor, groupMax, labelFor, REVIEW_SECTIONS } from '@/lib/rubric'
+import { bandFor, categoriesFor, labelFor, REVIEW_SECTIONS, sectionTotal } from '@/lib/rubric'
 import { PROPERTY_TYPE_LABEL, RATE_BASIS_LABEL, SITE } from '@/lib/site'
 import type { Brand, Destination, Hotel, Program, Review, RubricVersion, StatusLevel } from '@/payload-types'
 
@@ -55,10 +55,8 @@ export default async function ReviewPage({ params }: Props) {
   const statusHeld = rel<StatusLevel>(review.statusHeld)
   const version = rel<RubricVersion>(review.rubricVersion)
   const categories = categoriesFor(review)
-  const hardMax = groupMax(categories, 'hard')
-  const softMax = groupMax(categories, 'soft')
   const typeLabel = PROPERTY_TYPE_LABEL[review.propertyType]
-  const band = bandFor(review.totals?.overall, hardMax + softMax)
+  const band = bandFor(review.totals?.overall, 100)
   const image = review.externalImageUrl ?? hotel?.externalImageUrl
   const related = (await getReviews({ limit: 3, excludeId: review.id })).docs
 
@@ -140,25 +138,21 @@ export default async function ReviewPage({ params }: Props) {
                   {band && <div className={styles.band}>{band}</div>}
                 </div>
                 <div className={styles.scoreSplit}>
-                  <div>
-                    <span className={`label ${styles.scoreLabel}`}>Hard</span>
-                    <div className={styles.scoreMid}>
-                      {score(review.totals?.hard)}
-                      <small>/{hardMax}</small>
-                    </div>
-                  </div>
-                  <div>
-                    <span className={`label ${styles.scoreLabel}`}>Soft</span>
-                    <div className={styles.scoreMid}>
-                      {score(review.totals?.soft)}
-                      <small>/{softMax}</small>
-                    </div>
-                  </div>
+                  {REVIEW_SECTIONS.map((s) => {
+                    const t = sectionTotal(review, categories, s.keys)
+                    return (
+                      <a href={`#s-${s.id}`} key={s.id}>
+                        <span className={`label ${styles.scoreLabel}`}>{s.title}</span>
+                        <div className={styles.scoreMid}>
+                          {score(t.got)}
+                          <small>/{t.max}</small>
+                        </div>
+                      </a>
+                    )
+                  })}
                 </div>
               </div>
-              <div className={styles.scoreNote}>
-                Out of 100. {version?.name ?? 'Rubric v15'}, {review.propertyType === 'resort' ? 'resort' : 'city hotel'} maxima.
-              </div>
+              <div className={styles.scoreNote}>Out of 100. Six categories, every sub-score out of 5. {version?.name ?? 'Rubric v16'}.</div>
             </div>
           </div>
 
@@ -217,38 +211,42 @@ export default async function ReviewPage({ params }: Props) {
             Scorecard
           </span>
           <div className={styles.scCard}>
-            {(['hard', 'soft'] as const).map((group) => (
-              <div className={styles.scCol} key={group}>
-                <div className={styles.scHead}>
-                  <h2>{group === 'hard' ? 'Hard product' : 'Soft product'}</h2>
-                  <span className={styles.scSum}>
-                    {score(review.totals?.[group])}
-                    <small>of {group === 'hard' ? hardMax : softMax}</small>
-                  </span>
-                </div>
-                <ul className={styles.scRows}>
-                  {categories
-                    .filter((c) => c.group === group)
-                    .map((c) => {
-                      const value = review.scores?.[c.key]
+            {REVIEW_SECTIONS.map((s) => {
+              const t = sectionTotal(review, categories, s.keys)
+              return (
+                <div className={styles.scCol} key={s.id}>
+                  <div className={styles.scHead}>
+                    <h2>
+                      <a href={`#s-${s.id}`}>{s.title}</a>
+                    </h2>
+                    <span className={styles.scSum}>
+                      {score(t.got)}
+                      <small>/{t.max}</small>
+                    </span>
+                  </div>
+                  <ul className={styles.scRows}>
+                    {s.keys.map((k) => {
+                      const c = categories.find((x) => x.key === k)!
+                      const value = review.scores?.[k]
                       return (
-                        <li key={c.key} style={{ '--max': c.max ?? 10, '--val': value ?? 0 } as React.CSSProperties}>
+                        <li key={k} style={{ '--max': c.max, '--val': value ?? 0 } as React.CSSProperties}>
                           <span>{c.label}</span>
                           <span className={styles.bar}>
                             <i />
                           </span>
                           <span className={styles.scPts}>
                             {score(value)}
-                            <small>/{c.max ?? '–'}</small>
+                            <small>/{c.max}</small>
                           </span>
                         </li>
                       )
                     })}
-                </ul>
-              </div>
-            ))}
+                  </ul>
+                </div>
+              )
+            })}
           </div>
-          <p className={styles.scLegend}>Each bar fills to the score out of that category's maximum. Elite recognition is reported below and not scored.</p>
+          <p className={styles.scLegend}>Six categories, every sub-score out of 5, 100 points in all. Value and elite recognition are reported below and never scored.</p>
         </div>
       </section>
 
@@ -260,7 +258,13 @@ export default async function ReviewPage({ params }: Props) {
 
             {sections.map((s) => (
               <section key={s.id} className={styles.section}>
-                <h2 id={`s-${s.id}`}>{s.title}</h2>
+                <h2 id={`s-${s.id}`}>
+                  {s.title}
+                  <span className={styles.h2Score}>
+                    {score(sectionTotal(review, categories, s.keys).got)}
+                    <small>/{s.max}</small>
+                  </span>
+                </h2>
                 {s.keys.map((k) => (
                   <div className={styles.cat} key={k}>
                     <span className="label">
@@ -268,7 +272,7 @@ export default async function ReviewPage({ params }: Props) {
                       {review.scores?.[k] != null && (
                         <b>
                           {' '}
-                          {score(review.scores[k])}/{categories.find((c) => c.key === k)?.max ?? '–'}
+                          {score(review.scores[k])}/{categories.find((c) => c.key === k)?.max ?? 5}
                         </b>
                       )}
                     </span>

@@ -36,6 +36,7 @@
 
 .scoreTop {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-end;
   justify-content: space-between;
   gap: var(--s5);
@@ -65,18 +66,26 @@
   line-height: 1.1;
 }
 
+/* the six category totals beside the big number */
 .scoreSplit {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: var(--s4);
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: var(--s3) var(--s5);
   text-align: right;
   padding-bottom: 4px;
 }
 
+.scoreSplit a {
+  color: inherit;
+}
+
+.scoreSplit a:hover .scoreMid {
+  color: var(--gold);
+}
+
 .scoreMid {
   font-family: var(--serif);
-  font-size: var(--t-xl);
+  font-size: var(--t-lg);
   color: var(--ivory);
   line-height: 1;
 }
@@ -102,10 +111,12 @@
   margin-bottom: var(--s5);
 }
 
+/* six category cards on hairlines, three across */
 .scCard {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  background: var(--card);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line);
   border: 1px solid var(--line);
   border-radius: var(--r);
   overflow: hidden;
@@ -113,10 +124,31 @@
 
 .scCol {
   padding: var(--s5) var(--s6) var(--s4);
+  background: var(--card);
 }
 
-.scCol + .scCol {
-  border-left: 1px solid var(--line);
+.scHead h2 a {
+  color: inherit;
+}
+
+.scHead h2 a:hover {
+  color: var(--gold-dark);
+}
+
+/* the category total beside the article heading */
+.h2Score {
+  font-family: var(--serif);
+  font-size: var(--t-lg);
+  color: var(--gold-dark);
+  margin-left: var(--s4);
+  white-space: nowrap;
+}
+
+.h2Score small {
+  font-family: var(--sans);
+  font-size: var(--t-xs);
+  color: var(--muted);
+  margin-left: 3px;
 }
 
 .scHead {
@@ -488,6 +520,10 @@
     gap: var(--s7);
   }
 
+  .scCard {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .scorePanel {
     max-width: 560px;
   }
@@ -551,9 +587,8 @@
     padding: var(--s5) var(--s5) var(--s4);
   }
 
-  .scCol + .scCol {
-    border-left: 0;
-    border-top: 1px solid var(--line);
+  .scoreSplit {
+    grid-template-columns: repeat(2, auto);
   }
 
   .scRows li {
