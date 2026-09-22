@@ -3059,5 +3059,235 @@
   "lounge": false,
   "hits": [],
   "at": "2026-09-19"
+ },
+ "park-hyatt-busan": {
+  "url": "https://www.hyatt.com/park-hyatt/en-US/busph-park-hyatt-busan",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-22"
+ },
+ "park-hyatt-saigon": {
+  "url": "https://www.hyatt.com/park-hyatt/en-US/saiph-park-hyatt-saigon",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-22"
+ },
+ "hyatt-regency-ludhiana": {
+  "url": "https://www.hyatt.com/hyatt-regency/en-US/luhrl-hyatt-regency-ludhiana",
+  "lounge": true,
+  "hits": [
+   "y\":{\"key\":\"ROOMS\",\"value\":\"Rooms\"},\"rooms\":[{\"name\":\"2 Twin Beds with Club Access\",\"mediaCollection\":[{\"altText\":\"Hyatt Regency Ludhiana Twin Room\",\"id",
+   ":null,\"render\":\"Image\",\"type\":\"/v1/Image\"}]},{\"name\":\"1 King Bed with Club Access\",\"mediaCollection\":[{\"altText\":\"Hyatt Regency Ludhiana Standard Room\""
+  ],
+  "at": "2026-09-22"
+ },
+ "hyatt-regency-dehradun-resort-and-spa": {
+  "url": "https://www.hyatt.com/hyatt-regency/en-US/delrh-hyatt-regency-dehradun",
+  "lounge": true,
+  "hits": [
+   "Balcony Hyatt King Room Hyatt Twin Room Hyatt Twin Room with Balcony Regency Club King Room Deluxe 1 of 5 Presidential Suite Regency Suite Regency Exec",
+   "\":\"Image\",\"type\":\"/v1/Image\"}],\"reservationRoomCode\":\"BALT\"},{\"name\":\"Regency Club King Room Deluxe\",\"mediaCollection\":[{\"altText\":\"Hyatt Regency Dehrad"
+  ],
+  "at": "2026-09-22"
+ },
+ "park-hyatt-jeddah-marina-club-and-spa": {
+  "url": "https://www.hyatt.com/park-hyatt/en-US/jedph-park-hyatt-jeddah-marina-club-and-spa",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-22"
+ },
+ "park-hyatt-niseko-hanazono": {
+  "url": "https://www.hyatt.com/park-hyatt/en-US/ctsph-park-hyatt-niseko-hanazono",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-22"
+ },
+ "hyatt-regency-san-francisco-airport": {
+  "url": "https://www.hyatt.com/hyatt-regency/en-US/sfobu-hyatt-regency-san-francisco-airport",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-22"
+ },
+ "lindner-hotel-dusseldorf-seestern": {
+  "url": "https://www.hyatt.com/jdv-by-hyatt/en-US/dusjd-lindner-hotel-dusseldorf-seestern",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-22"
+ },
+ "hyatt-regency-clearwater-beach-resort-and-spa": {
+  "url": "https://www.hyatt.com/hyatt-regency/en-US/pierc-hyatt-regency-clearwater-beach-resort-and-spa",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-22"
+ },
+ "hyatt-regency-shenzhen-airport": {
+  "url": "https://www.hyatt.com/hyatt-regency/en-US/szxra-hyatt-regency-shenzhen-airport",
+  "lounge": true,
+  "hits": [
+   "name\":null,\"render\":\"Image\",\"type\":\"/v1/Image\"}]},{\"name\":\"1 King Bed Club Access\",\"mediaCollection\":[{\"altText\":\"Hyatt Regency Shenzhen Airport Standa",
+   "ame\":null,\"render\":\"Image\",\"type\":\"/v1/Image\"}]},{\"name\":\"2 Twin Beds Club Access\",\"mediaCollection\":[{\"altText\":\"Hyatt Regency Shenzhen Airport Two Be"
+  ],
+  "at": "2026-09-22"
+ },
+ "hyatt-regency-wuxi": {
+  "url": "https://www.hyatt.com/hyatt-regency/en-US/wuxhr-hyatt-regency-wuxi",
+  "lounge": true,
+  "hits": [
+   "hich Southeast China is renowned. Rooms Suites 1 King Bed Deluxe With Club Access 1 of 7 Rooms & Suites The rooms and suites are on the 45th to 63rd fl",
+   "ey\":\"ROOMS\",\"value\":\"Rooms\"},\"rooms\":[{\"name\":\"1 King Bed Deluxe With Club Access\",\"mediaCollection\":[{\"altText\":\"Hyatt Regency Wuxi Deluxe King Room\","
+  ],
+  "at": "2026-09-22"
+ },
+ "hyatt-regency-guangzhou-zengcheng": {
+  "url": "https://www.hyatt.com/hyatt-regency/en-US/canhr-hyatt-regency-guangzhou-zengcheng",
+  "lounge": true,
+  "hits": [
+   "&nbsp;amenities&nbsp;and Lingnan-inspired art. Upgrade to a room with Regency Club access and enjoy added&nbsp;perks. Rooms Suites 2 Twin Beds City View",
+   "&nbsp;amenities&nbsp;and Lingnan-inspired art. Upgrade to a room with Regency Club access and enjoy added&nbsp;perks. Look Around Heated Indoor Pool 1 o"
+  ],
+  "at": "2026-09-22"
+ },
+ "hyatt-centric-atlhm-midtown-atlanta": {
+  "url": "https://www.hyatt.com/hyatt-centric/en-US/atlhm-hyatt-centric-midtown-atlanta",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-22"
+ },
+ "hyatt-centric-stnct-cambridge": {
+  "url": "https://www.hyatt.com/hyatt-centric/en-US/stnct-hyatt-centric-cambridge",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-22"
+ },
+ "hyatt-regency-aruba-resort-spa-and-casino": {
+  "url": "https://www.hyatt.com/hyatt-regency/en-US/aruba-hyatt-regency-aruba-resort-spa-and-casino",
+  "lounge": true,
+  "hits": [
+   "diaCollection\":[{\"altText\":\"Hyatt Regency Aruba Resort Spa and Casino Regency Club Couple Toast Detail\",\"id\":\"image-526530114\",\"img16x9\":\"https://assets"
+  ],
+  "at": "2026-09-22"
+ },
+ "the-digby": {
+  "url": "https://www.hyatt.com/unbound-collection/en-US/savub-the-digby",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-22"
+ },
+ "the-bellevue-hotel": {
+  "url": "https://www.hyatt.com/unbound-collection/en-US/phlph-the-bellevue-hotel",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-22"
+ },
+ "fordson-hotel": {
+  "url": "https://www.hyatt.com/unbound-collection/en-US/okcub-fordson-hotel",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-22"
+ },
+ "hotel-du-louvre": {
+  "url": "https://www.hyatt.com/unbound-collection/en-US/paraz-hotel-du-louvre",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-22"
+ },
+ "parisi-udvar-hotel": {
+  "url": "https://www.hyatt.com/unbound-collection/en-US/budub-parisi-udvar-hotel",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-22"
+ },
+ "park-hyatt-zanzibar": {
+  "url": "https://www.hyatt.com/park-hyatt/en-US/znzph-park-hyatt-zanzibar",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-22"
+ },
+ "the-livingston": {
+  "url": "https://www.hyatt.com/jdv-by-hyatt/en-US/lgajl-the-livingston",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-22"
+ },
+ "hotel-genevieve": {
+  "url": "https://www.hyatt.com/jdv-by-hyatt/en-US/sdfkk-hotel-genevieve",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-22"
+ },
+ "hyatt-regency-al-kout-mall": {
+  "url": "https://www.hyatt.com/en-US/hotel/kuwait/hyatt-regency-al-kout-mall/kwirk",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-22"
+ },
+ "jdv-wild-palms-hotel": {
+  "url": "https://www.hyatt.com/jdv-by-hyatt/en-US/sjcjw-jdv-wild-palms-hotel",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-22"
+ },
+ "hyatt-regency-changchun": {
+  "url": "https://www.hyatt.com/hyatt-regency/en-US/cgqhr-hyatt-regency-changchun",
+  "lounge": true,
+  "hits": [
+   ":null,\"render\":\"Image\",\"type\":\"/v1/Image\"}]},{\"name\":\"1 King Bed With Club Access\",\"mediaCollection\":[{\"altText\":\"Hyatt Regency Changchun Club King Gue",
+   ":null,\"render\":\"Image\",\"type\":\"/v1/Image\"}]},{\"name\":\"1 King Bed With Club Access Deluxe\",\"mediaCollection\":[{\"altText\":\"Hyatt Regency Changchun Deluxe"
+  ],
+  "at": "2026-09-22"
+ },
+ "hyatt-regency-kinabalu": {
+  "url": "https://www.hyatt.com/hyatt-regency/en-US/bkiki-hyatt-regency-kinabalu",
+  "lounge": true,
+  "hits": [
+   "OOMS\",\"value\":\"Rooms\"},\"rooms\":[{\"name\":\"1 King Bed with Sea View and Club Access\",\"mediaCollection\":[{\"altText\":\"Hyatt Regency Kinabalu Club Sea View",
+   ",\"reservationRoomCode\":\"CLVK\"},{\"name\":\"2 Twin Beds with Sea View and Club Access\",\"mediaCollection\":[{\"altText\":\"Hyatt Regency Kinabalu Club Sea View"
+  ],
+  "at": "2026-09-22"
+ },
+ "hyatt-centric-old-town-alexandria": {
+  "url": "https://www.hyatt.com/hyatt-centric/en-US/iadct-hyatt-centric-old-town-alexandria",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-22"
+ },
+ "alila-manggis": {
+  "url": "https://www.hyatt.com/alila-hotels-and-resorts/en-US/dpsak-alila-manggis",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-22"
+ },
+ "thompson-savannah": {
+  "url": "https://www.hyatt.com/thompson-hotels/en-US/savth-thompson-savannah",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-22"
+ },
+ "park-hyatt-istanbul-macka-palas": {
+  "url": "https://www.hyatt.com/park-hyatt/en-US/istph-park-hyatt-istanbul-macka-palas",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-22"
+ },
+ "park-hyatt-phu-quoc": {
+  "url": "https://www.hyatt.com/park-hyatt/en-US/pqcph-park-hyatt-phu-quoc",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-22"
+ },
+ "hyatt-regency-miami": {
+  "url": "https://www.hyatt.com/hyatt-regency/en-US/miarm-hyatt-regency-miami",
+  "lounge": false,
+  "hits": [],
+  "at": "2026-09-22"
+ },
+ "grand-hyatt-istanbul": {
+  "url": "https://www.hyatt.com/grand-hyatt/en-US/istan-grand-hyatt-istanbul",
+  "lounge": true,
+  "hits": [
+   "rtation Hotel Policies Gallery Reviews Gaia Spa & Fitness Centre FAQs Grand Club Experience About Grand Hyatt Grand Hyatt Istanbul Harbiye Mah. Taskis",
+   "King Bed on a High Floor 2 Twin Beds on a High Floor 1 King Bed with Club Access 2 Twin Beds with Club Access 1 King Bed, Bosphorus View with Club Acc"
+  ],
+  "at": "2026-09-22"
  }
 }
