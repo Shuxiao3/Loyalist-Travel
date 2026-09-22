@@ -731,6 +731,56 @@ async function loungeFlags(payload: Payload) {
   console.log(`lounge-flags: ${set} set, ${kept} already answered, ${missing} hotels not found`)
 }
 
+// ---- Club lounge by brand rule (Marriott) ----------------------------------------
+// Marriott's site refuses automated reading, so the flag is set by brand and
+// region where the answer is nearly always the same. Only blank hotels are
+// touched; an editor's answer, or one read from a page, is kept. Brands and
+// regions not listed stay blank until a page or a report answers them.
+const LOUNGE_RULES: Record<string, { yes?: string[]; no?: true }> = {
+  'jw-marriott': { yes: ['asia', 'europe', 'middle-east', 'africa', 'oceania', 'latin-america-caribbean', 'north-america'] },
+  'ritz-carlton': { yes: ['asia', 'europe', 'middle-east', 'africa'] },
+  'marriott-hotels': { yes: ['asia', 'europe', 'middle-east', 'africa', 'oceania', 'latin-america-caribbean'] },
+  sheraton: { yes: ['asia', 'middle-east', 'africa', 'oceania', 'latin-america-caribbean'] },
+  westin: { yes: ['asia', 'middle-east', 'africa'] },
+  renaissance: { yes: ['asia', 'middle-east', 'africa'] },
+  'le-meridien': { yes: ['asia', 'middle-east', 'africa'] },
+  'st-regis': { no: true },
+  'w-hotels': { no: true },
+  edition: { no: true },
+  'delta-hotels': { no: true },
+  'gaylord-hotels': { no: true },
+  'ritz-carlton-reserve': { no: true },
+}
+async function loungeBrandRules(payload: Payload) {
+  const program = (await payload.find({ collection: 'programs', where: { slug: { equals: 'marriott-bonvoy' } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
+  if (!program) throw new Error('marriott-bonvoy program not found')
+  const regionSlug = new Map<number, string>()
+  for (const r of (await payload.find({ collection: 'regions', limit: 100, depth: 0, overrideAccess: true })).docs) regionSlug.set(r.id, r.slug)
+  const destRegion = new Map<number, string | undefined>()
+  for (const d of (await payload.find({ collection: 'destinations', limit: 10000, depth: 0, overrideAccess: true, select: { region: true } })).docs) {
+    destRegion.set(d.id, typeof d.region === 'number' ? regionSlug.get(d.region) : undefined)
+  }
+  const hotels = (await payload.find({ collection: 'hotels', where: { and: [{ program: { equals: program.id } }, { clubLounge: { exists: false } }] }, limit: 10000, depth: 1, overrideAccess: true, select: { brand: true, destination: true, slug: true } })).docs
+  const counts: Record<string, number> = {}
+  let yes = 0
+  let no = 0
+  for (const h of hotels) {
+    const brand = typeof h.brand === 'object' && h.brand ? h.brand.slug : undefined
+    const rule = brand ? LOUNGE_RULES[brand] : undefined
+    if (!rule) continue
+    const destId = typeof h.destination === 'object' && h.destination ? h.destination.id : typeof h.destination === 'number' ? h.destination : undefined
+    const region = destId ? destRegion.get(destId) : undefined
+    const answer = rule.no ? 'no' : region && rule.yes?.includes(region) ? 'yes' : undefined
+    if (!answer) continue
+    await payload.update({ collection: 'hotels', id: h.id, data: { clubLounge: answer }, depth: 0, overrideAccess: true })
+    counts[`${brand} ${region ?? '-'} ${answer}`] = (counts[`${brand} ${region ?? '-'} ${answer}`] ?? 0) + 1
+    if (answer === 'yes') yes++
+    else no++
+  }
+  for (const [k, v] of Object.entries(counts).sort()) console.log(`  ${k}: ${v}`)
+  console.log(`lounge-brand-rules: ${yes} yes, ${no} no, ${hotels.length - yes - no} of ${hotels.length} blank Marriott hotels left blank`)
+}
+
 // ---- Hilton -----------------------------------------------------------------
 // data/hilton/hotels.json comes from scripts/hilton/fetch.ts. Hilton brand
 // codes (the last two letters of each hotel code) map to our brand slugs;
@@ -934,6 +984,7 @@ const STEPS: Record<string, (p: Payload) => Promise<void>> = {
   'retire-tiers': retireTiers,
   'seed-milestones': seedMilestones,
   'lounge-flags': loungeFlags,
+  'lounge-brand-rules': loungeBrandRules,
 }
 
 async function main() {
