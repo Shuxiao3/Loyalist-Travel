@@ -87,6 +87,49 @@
   white-space: nowrap;
 }
 
+/* every brand under the program */
+.brandGrid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--s3);
+}
+
+.brand {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s3);
+  padding: var(--s4) var(--s5);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s ease;
+}
+
+.brand:hover,
+.brand:focus-visible {
+  border-color: var(--gold-dark);
+}
+
+.brandName {
+  font-size: var(--t-md);
+  font-weight: var(--w-heading);
+  color: var(--heading);
+}
+
+.brandCount {
+  flex: none;
+  font-size: var(--t-xs);
+  color: var(--muted);
+  letter-spacing: var(--track-fine);
+  white-space: nowrap;
+}
+
 /* milestone rewards */
 .msCard {
   background: var(--card);

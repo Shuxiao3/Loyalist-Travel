@@ -9,7 +9,7 @@ import { ReviewCard } from '@/components/ReviewCard'
 import { RichText } from '@/components/RichText'
 import { SortMenu } from '@/components/SortMenu'
 import { count } from '@/lib/format'
-import { findHotels, getHotelFilterOptions, getPayloadClient, getProgram, HOTELS_PER_PAGE, type HotelFilters } from '@/lib/queries'
+import { brandsOf, findHotels, getHotelFilterOptions, getPayloadClient, getProgram, HOTELS_PER_PAGE, type HotelFilters } from '@/lib/queries'
 import { pageMeta } from '@/lib/seo'
 import { rel } from '@/lib/format'
 import type { Article, StatusLevel } from '@/payload-types'
@@ -55,12 +55,13 @@ export default async function ProgramPage({ params, searchParams }: Props) {
     page: Math.max(1, Number(first(sp.page)) || 1),
   }
   const payload = await getPayloadClient()
-  const [hotels, all, options, reviews, tiers] = await Promise.all([
+  const [hotels, all, options, reviews, tiers, brandList] = await Promise.all([
     findHotels(filters),
     payload.count({ collection: 'hotels', where: { and: [{ _status: { equals: 'published' } }, { program: { equals: program.id } }] } }),
     getHotelFilterOptions(),
     payload.find({ collection: 'reviews', where: { and: [{ _status: { equals: 'published' } }, { 'hotel.program': { equals: program.id } }] }, sort: '-publishedDate', depth: 1, limit: 6 }),
     payload.find({ collection: 'status-levels', where: { program: { equals: program.id } }, sort: 'rank', limit: 10, depth: 1 }),
+    brandsOf(program.id),
   ])
   const levels: StatusLevel[] = tiers.docs
   const brands = options.brands.filter((b) => (typeof b.program === 'object' ? b.program?.id : b.program) === program.id)
@@ -143,6 +144,31 @@ export default async function ProgramPage({ params, searchParams }: Props) {
                 <CardIcon /> Card tiers come with the card itself, no stays or minimum spend.
               </p>
             )}
+          </div>
+        </section>
+      )}
+
+      {brandList.length > 0 && (
+        <section className={`section ${styles.brandsSection}`} aria-labelledby="brands-h">
+          <div className="wrap">
+            <div className="section-head">
+              <div>
+                <span className="eyebrow on-light">Brands</span>
+                <h2 id="brands-h">
+                  {brandList.length} {brandList.length === 1 ? 'brand' : 'brands'} under {program.name}
+                </h2>
+              </div>
+            </div>
+            <ul className={styles.brandGrid}>
+              {brandList.map((b) => (
+                <li key={b.id}>
+                  <Link className={styles.brand} href={`/brands/${b.slug}`}>
+                    <span className={styles.brandName}>{b.name}</span>
+                    <span className={styles.brandCount}>{b.n === 0 ? 'No hotels indexed yet' : `${count(b.n)} ${b.n === 1 ? 'hotel' : 'hotels'}`}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
         </section>
       )}

@@ -192,3 +192,15 @@ export async function getSiteCounts() {
   ])
   return { hotels: hotels.totalDocs, reviews: reviews.totalDocs, programs: programs.totalDocs }
 }
+
+// Every brand under a program with its count of published hotels, busiest
+// first. Brands with nothing indexed yet still list, so the page is complete.
+export async function brandsOf(programId: number): Promise<{ id: number; name: string; slug: string; n: number }[]> {
+  const payload = await getPayloadClient()
+  const db = payload.db as unknown as { drizzle: { execute: (q: unknown) => Promise<{ rows: { id: number; name: string; slug: string; n: number }[] }> } }
+  const { sql } = await import('@payloadcms/db-postgres')
+  const res = await db.drizzle.execute(
+    sql`select b.id, b.name, b.slug, count(h.id)::int as n from brands b left join hotels h on h.brand_id = b.id and h._status = 'published' where b.program_id = ${programId} group by b.id, b.name, b.slug order by n desc, b.name`,
+  )
+  return (res.rows ?? []).map((r) => ({ ...r, n: Number(r.n) }))
+}
