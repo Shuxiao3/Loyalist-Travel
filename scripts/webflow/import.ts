@@ -649,24 +649,71 @@ async function unseedArticles(payload: Payload) {
 }
 
 // ---- Milestone rewards -----------------------------------------------------------
-// Fills each program's milestone rewards when the field is empty. Written
-// from the programs' published terms; the admin field is the place to keep
-// them current.
-const MILESTONES: Record<string, string> = {
-  'world-of-hyatt': '<ul><li>20 nights: choice of 2,000 bonus points or a Club lounge access award</li><li>30 nights: choice of 2 Club lounge access awards, 5,000 points, a $100 Hyatt gift card or a FIND experience credit</li><li>40 nights: the same choices, plus a 15% points bonus option</li><li>50 nights: a free night certificate (category 1-4) among the choices</li><li>60 nights: a suite upgrade award (up to 7 nights) or a category 1-7 free night, on reaching Globalist</li><li>70, 80, 90 and 100 nights: further suite upgrade awards, points and a category 1-8 free night at 100</li><li>150 nights: a category 1-8 free night; 5,000 points every 10 nights beyond</li></ul>',
-  'marriott-bonvoy': '<ul><li>50 nights: an Annual Choice Benefit, typically five Nightly Upgrade Awards, a free night award (up to 40,000 points), a $250 charity gift or Gold status for a friend</li><li>75 nights: a second Annual Choice Benefit, with a free night (up to 40,000 points) or five more Nightly Upgrade Awards among the choices</li><li>100 nights plus $23,000 spend: Ambassador Elite, with a personal ambassador and Your24 check-in</li></ul>',
-  'hilton-honors': '<ul><li>40 nights: 10,000 bonus points, then 10,000 more for every 10 nights</li><li>60 nights: choice of a free night reward or 30,000 bonus points</li><li>100 nights or $30,000 spend: Diamond status to gift to a friend</li><li>Rolling elite nights above the tier threshold carry into the next year</li></ul>',
-  'ihg-one-rewards': '<ul><li>20 nights: choice of 5,000 bonus points, a lounge membership or a free-night discount</li><li>30, 40, 50 and 60 nights: further choices at each ten nights, including suite upgrades, points and food-and-beverage rewards</li><li>70 nights: Diamond Elite; choices continue every ten nights to 100</li><li>Choices are made in the account within 30 days of each milestone</li></ul>',
+// The same terms as a list: one entry per milestone, choices one per line.
+const MILESTONE_LIST: Record<string, { at: string; rewards: string }[]> = {
+  'world-of-hyatt': [
+    { at: '20 nights', rewards: '2,000 bonus points\nA Club lounge access award' },
+    { at: '30 nights', rewards: 'Two Club lounge access awards\n5,000 bonus points\nA $100 Hyatt gift card\nA FIND experience credit' },
+    { at: '40 nights', rewards: 'The same choices as 30 nights\nA 15% points bonus for the rest of the year' },
+    { at: '50 nights', rewards: 'A free night at a category 1 to 4 hotel\nThe same choices as 30 nights' },
+    { at: '60 nights (Globalist)', rewards: 'A suite upgrade award, up to 7 nights\nA free night at a category 1 to 7 hotel' },
+    { at: '70, 80 and 90 nights', rewards: 'A further suite upgrade award at each\nBonus points' },
+    { at: '100 nights', rewards: 'A free night at a category 1 to 8 hotel' },
+    { at: '150 nights', rewards: 'A free night at a category 1 to 8 hotel\n5,000 bonus points for every 10 nights beyond' },
+  ],
+  'marriott-bonvoy': [
+    { at: '50 nights', rewards: 'An Annual Choice Benefit: five Nightly Upgrade Awards\nOr a free night award worth up to 40,000 points\nOr a $250 charity gift\nOr Gold status for a friend' },
+    { at: '75 nights', rewards: 'A second Annual Choice Benefit: a free night worth up to 40,000 points\nOr five more Nightly Upgrade Awards' },
+    { at: '100 nights and $23,000 spend', rewards: 'Ambassador Elite\nA personal ambassador\nYour24 check-in at any hour' },
+  ],
+  'hilton-honors': [
+    { at: '40 nights', rewards: '10,000 bonus points, then 10,000 more for every 10 nights' },
+    { at: '60 nights', rewards: 'A free night reward\nOr 30,000 bonus points' },
+    { at: '100 nights or $30,000 spend', rewards: 'Diamond status to gift to a friend' },
+    { at: 'Into next year', rewards: 'Elite nights above the tier threshold roll over' },
+  ],
+  'ihg-one-rewards': [
+    { at: '20 nights', rewards: '5,000 bonus points\nOr a lounge membership\nOr a free-night discount' },
+    { at: '30, 40, 50 and 60 nights', rewards: 'A further choice at each: suite upgrades, points or food-and-beverage rewards' },
+    { at: '70 nights', rewards: 'Diamond Elite\nChoices continue every ten nights to 100' },
+    { at: 'Claiming', rewards: 'Pick each choice in your account within 30 days of the milestone' },
+  ],
 }
 async function seedMilestones(payload: Payload) {
   let set = 0
-  for (const [slug, html] of Object.entries(MILESTONES)) {
+  for (const [slug, list] of Object.entries(MILESTONE_LIST)) {
     const p = (await payload.find({ collection: 'programs', where: { slug: { equals: slug } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
-    if (!p || p.milestones) continue
-    await payload.update({ collection: 'programs', id: p.id, data: { milestones: htmlToLexical(html).value } as never, depth: 0, overrideAccess: true })
+    if (!p || (p.milestoneList?.length ?? 0) > 0) continue
+    await payload.update({ collection: 'programs', id: p.id, data: { milestoneList: list }, depth: 0, overrideAccess: true })
     set++
   }
   console.log(`seed-milestones: filled ${set} programs`)
+}
+
+// ---- Credit cards that grant a tier --------------------------------------------
+// Which card gives each tier outright. Fills the source where blank and
+// marks the tier as card-granted; an editor's text is kept.
+const CARD_TIERS: Record<string, string> = {
+  'hilton-silver': 'Hilton Honors American Express card',
+  'hilton-gold': 'Hilton Honors Surpass or Business card, or the Amex Platinum',
+  'hilton-diamond': 'Hilton Honors Aspire card',
+  'ihg-silver': 'IHG One Rewards Traveler card',
+  'ihg-platinum': 'IHG One Rewards Premier or Premier Business card',
+  'bonvoy-silver': 'Marriott Bonvoy Bold or Boundless card',
+  'bonvoy-gold': 'Marriott Bonvoy Bevy or Bountiful card, or the Amex Platinum',
+  'bonvoy-platinum': 'Marriott Bonvoy Brilliant card',
+  'hyatt-discoverist': 'World of Hyatt Credit Card or Business card',
+}
+async function seedCards(payload: Payload) {
+  let set = 0
+  for (const [slug, source] of Object.entries(CARD_TIERS)) {
+    const t = (await payload.find({ collection: 'status-levels', where: { slug: { equals: slug } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
+    if (!t) continue
+    if (t.creditCard?.grantsStatus && t.creditCard.source) continue
+    await payload.update({ collection: 'status-levels', id: t.id, data: { creditCard: { grantsStatus: true, source: t.creditCard?.source || source } }, depth: 0, overrideAccess: true })
+    set++
+  }
+  console.log(`seed-cards: filled ${set} tiers`)
 }
 
 // ---- Retire a tier ------------------------------------------------------------
@@ -983,6 +1030,7 @@ const STEPS: Record<string, (p: Payload) => Promise<void>> = {
   'unseed-articles': unseedArticles,
   'retire-tiers': retireTiers,
   'seed-milestones': seedMilestones,
+  'seed-cards': seedCards,
   'lounge-flags': loungeFlags,
   'lounge-brand-rules': loungeBrandRules,
 }

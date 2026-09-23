@@ -18,7 +18,17 @@ export const Programs: CollectionConfig = {
     { name: 'shortDescription', type: 'textarea' },
     { name: 'overview', type: 'richText' },
     { name: 'eliteTiersDescription', type: 'textarea' },
-    { name: 'milestones', type: 'richText', admin: { description: 'Milestone rewards along the way to status, as bullet points.' } },
+    {
+      name: 'milestoneList',
+      type: 'array',
+      labels: { singular: 'Milestone', plural: 'Milestones' },
+      admin: { description: 'Milestone rewards along the way to status. One entry per milestone; the choices one per line.' },
+      fields: [
+        { name: 'at', type: 'text', required: true, admin: { description: 'When it is reached, e.g. "20 nights" or "100 nights or $30,000 spend".' } },
+        { name: 'rewards', type: 'textarea', admin: { description: 'The reward, or the choices, one per line.' } },
+      ],
+    },
+    { name: 'milestones', type: 'richText', admin: { description: 'Older free-text version of the milestones. Shown only while the list above is empty.' } },
     { name: 'milestonesArticle', type: 'relationship', relationTo: 'articles', admin: { description: 'The full breakdown of the milestone rewards, linked from the program page.' } },
     {
       type: 'row',

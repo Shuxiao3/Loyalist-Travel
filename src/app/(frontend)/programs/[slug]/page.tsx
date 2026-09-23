@@ -102,15 +102,13 @@ export default async function ProgramPage({ params, searchParams }: Props) {
                 return (
                   <div className={`cell ${styles.tier}`} key={t.id}>
                     <span className="label">{t.nights ?? `Tier ${t.rank ?? ''}`}</span>
-                    <span className={styles.tierName}>
-                      {t.shortName ?? t.name}
-                      {t.creditCard?.grantsStatus && (
-                        <span className={styles.card} title={t.creditCard.source ? `Granted by ${t.creditCard.source}` : 'Granted by a credit card, no spend required'}>
-                          <CardIcon />
-                          <span className="sr-only">Granted by a credit card</span>
-                        </span>
-                      )}
-                    </span>
+                    <span className={styles.tierName}>{t.shortName ?? t.name}</span>
+                    {t.creditCard?.grantsStatus && (
+                      <span className={styles.cardLine}>
+                        <CardIcon />
+                        <span>{t.creditCard.source ? `With the ${t.creditCard.source}` : 'Comes with a credit card'}</span>
+                      </span>
+                    )}
                     {t.benefits ? (
                       <RichText data={t.benefits} className={styles.benefits} />
                     ) : lines.length > 0 ? (
@@ -142,14 +140,14 @@ export default async function ProgramPage({ params, searchParams }: Props) {
             </div>
             {levels.some((t) => t.creditCard?.grantsStatus) && (
               <p className={styles.legend}>
-                <CardIcon /> Comes with a credit card, no minimum spend.
+                <CardIcon /> Card tiers come with the card itself, no stays or minimum spend.
               </p>
             )}
           </div>
         </section>
       )}
 
-      {program.milestones && (
+      {((program.milestoneList?.length ?? 0) > 0 || program.milestones) && (
         <section className={`section ${styles.milestones}`} aria-labelledby="ms-h">
           <div className="wrap">
             <div className="section-head">
@@ -164,7 +162,27 @@ export default async function ProgramPage({ params, searchParams }: Props) {
               )}
             </div>
             <div className={styles.msCard}>
-              <RichText data={program.milestones} className={styles.msProse} />
+              {(program.milestoneList?.length ?? 0) > 0 ? (
+                <ol className={styles.msList}>
+                  {program.milestoneList!.map((m) => {
+                    const lines = (m.rewards ?? '').split(/\r?\n/).map((l) => l.trim()).filter(Boolean)
+                    return (
+                      <li className={styles.msItem} key={m.id ?? m.at}>
+                        <h3 className={styles.msAt}>{m.at}</h3>
+                        {lines.length > 0 && (
+                          <ul className={`prose ${styles.msRewards}`}>
+                            {lines.map((l) => (
+                              <li key={l}>{l}</li>
+                            ))}
+                          </ul>
+                        )}
+                      </li>
+                    )
+                  })}
+                </ol>
+              ) : (
+                <RichText data={program.milestones!} className={styles.msProse} />
+              )}
             </div>
           </div>
         </section>

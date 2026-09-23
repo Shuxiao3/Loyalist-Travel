@@ -169,6 +169,7 @@ a.scorePanel:hover {
   }
 
   .h1 {
+    font-size: calc(var(--t-h1) * 0.85);
     margin-bottom: var(--s4);
   }
 

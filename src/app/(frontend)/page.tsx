@@ -132,7 +132,7 @@ export default async function HomePage() {
         }
       >
         <span className="eyebrow">Loyalty travel, reported</span>
-        <h1 className={styles.h1}>Find what elite status gets you at hotels and lounges.</h1>
+        <h1 className={styles.h1}>Elite status upgrade rates, hotel reviews, lounge ratings and more.</h1>
         <p className={`sub ${styles.sub}`}>
           Readers report what their status actually got them, so every hotel shows its real upgrade odds. Club lounges are rated by the people who sat in them. And every review is scored on the same 100-point rubric.
         </p>

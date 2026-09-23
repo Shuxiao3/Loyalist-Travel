@@ -203,7 +203,7 @@ export interface Hotel {
    */
   stayCount?: number | null;
   /**
-   * Whether the hotel has an executive or club lounge, as its own page states. Blank means not checked yet.
+   * Whether the hotel has an executive or club lounge, as its own page states (Marriott: by brand and region until a page or report answers). Blank means not checked yet.
    */
   clubLounge?: ('yes' | 'no') | null;
   /**
@@ -276,7 +276,23 @@ export interface Program {
   } | null;
   eliteTiersDescription?: string | null;
   /**
-   * Milestone rewards along the way to status, as bullet points.
+   * Milestone rewards along the way to status. One entry per milestone; the choices one per line.
+   */
+  milestoneList?:
+    | {
+        /**
+         * When it is reached, e.g. "20 nights" or "100 nights or $30,000 spend".
+         */
+        at: string;
+        /**
+         * The reward, or the choices, one per line.
+         */
+        rewards?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Older free-text version of the milestones. Shown only while the list above is empty.
    */
   milestones?: {
     root: {
@@ -1794,6 +1810,13 @@ export interface ProgramsSelect<T extends boolean = true> {
   shortDescription?: T;
   overview?: T;
   eliteTiersDescription?: T;
+  milestoneList?:
+    | T
+    | {
+        at?: T;
+        rewards?: T;
+        id?: T;
+      };
   milestones?: T;
   milestonesArticle?: T;
   topTierName?: T;
