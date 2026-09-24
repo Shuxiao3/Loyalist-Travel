@@ -95,7 +95,7 @@ const MUST: Record<string, string> = {
   'marriott-hotels': 'marriott',
 }
 
-const norm = (s: string) => s.toLowerCase().replace(/[_\s]+/g, ' ')
+const norm = (s: string) => s.replace(/([a-z])([A-Z])/g, '$1 $2').toLowerCase().replace(/\.(svg|png|jpe?g)$/,'').replace(/[_\-\s]+/g, ' ').trim()
 
 async function api(params: Record<string, string>): Promise<{ query?: { pages?: Record<string, { title: string; imageinfo?: Info[] }> } }> {
   const u = new URL('https://commons.wikimedia.org/w/api.php')
@@ -124,13 +124,20 @@ async function fileInfo(title: string): Promise<Info | undefined> {
 
 // Higher is better. Nothing is disqualified outright except files that do not
 // name the brand; the ranking does the rest.
-function score(i: Info, must: string): number {
+const FILLER = new Set(['logo', 'logos', 'hotel', 'hotels', 'resort', 'resorts', 'and', 'the', 'by', 'of', 'a', 'an', 'new', 'svg', 'png', 'collection', 'spa', 'spas', 'restaurants', 'group', 'brand', 'wordmark', 'vector', 'official', 'colour', 'color', 'rgb', 'en', 'tm', 'endorsed'])
+function score(i: Info, must: string, brand: string): number {
   const t = norm(i.title.replace(/^File:/, ''))
   if (!t.includes(must)) return -1
   let s = 0
   if (i.mime === 'image/svg+xml') s += 40
   else if (i.mime === 'image/png') s += 20
+  else if (i.mime === 'image/jpeg') s += 5
   else return -1
+  // words in the title that are neither the brand's own nor filler are
+  // usually a city or a property: "Conrad Manila logo", "Park Hyatt Buenos Aires"
+  const own = new Set(norm(brand).split(' '))
+  const extra = t.split(' ').filter((w) => w && !own.has(w) && !FILLER.has(w) && !/^\d+$/.test(w))
+  s -= 14 * extra.length
   if (/\blogo\b/.test(t)) s += 20
   if (/wordmark|icon|symbol|monogram/.test(t)) s -= 5
   if (/\b(19\d\d|200\d|201[0-5])\b|old|former|previous|legacy/.test(t)) s -= 25
@@ -170,15 +177,18 @@ async function main() {
         if (!choice?.url) throw new Error(`pinned file not found: ${pinned}`)
       } else {
         const must = MUST[b.slug] ?? norm(b.name).split(' ').find((w) => w.length > 2) ?? norm(b.name)
-        const q = QUERY[b.slug] ?? `${b.name} logo`
-        let found = await search(q)
-        let ranked = found.map((i) => ({ i, s: score(i, must) })).filter((x) => x.s >= 0).sort((a, c) => c.s - a.s)
-        if (!ranked.length) {
-          found = await search(`${b.name} hotel logo svg`)
-          ranked = found.map((i) => ({ i, s: score(i, must) })).filter((x) => x.s >= 0).sort((a, c) => c.s - a.s)
+        const short = b.name.replace(/\s+(by|of)\s+(hyatt|hilton|marriott|the world)$/i, '').replace(/\s+hotels?( & resorts)?$/i, '')
+        const queries = [QUERY[b.slug] ?? `${b.name} logo`, `${short} logo`, `${short} hotel logo`, `intitle:${short.split(' ')[0]} logo`, short]
+        const seen = new Map<string, Info>()
+        let ranked: { i: Info; s: number }[] = []
+        for (const q of queries) {
+          for (const i of await search(q)) if (!seen.has(i.title)) seen.set(i.title, i)
+          ranked = [...seen.values()].map((i) => ({ i, s: score(i, must, b.name) })).filter((x) => x.s >= 0).sort((a, c) => c.s - a.s)
+          if (ranked.length && ranked[0].s >= 40) break
         }
         choice = ranked[0]?.i
-        if (choice) console.log(`  ${b.slug}: ${ranked.slice(0, 3).map((x) => `${x.i.title.replace(/^File:/, '')} (${x.s.toFixed(0)})`).join(' | ')}`)
+        if (choice) console.log(`  ${b.slug}: ${ranked.slice(0, 4).map((x) => `${x.i.title.replace(/^File:/, '')} (${x.s.toFixed(0)})`).join(' | ')}`)
+        else console.log(`  ${b.slug}: saw ${[...seen.keys()].slice(0, 8).map((t) => t.replace(/^File:/, '')).join(' | ') || 'nothing'}`)
       }
       if (!choice?.url) {
         missed++
