@@ -1,23 +1,74 @@
 # Reported stays pipeline
 
-FlyerTalk threads → structured stay data points → Webflow CSVs.
+Forum posts → structured stay data points → Webflow CSVs.
 
 Reported stays are what members say happened to them. They are not the site's
 own scored reviews and they are not reader submissions; they are a third,
 weaker source, and they stay labelled as one. Every row carries a link to the
-post it came from and a confidence the extraction assigned itself.
+post it came from, the site it came from, and a confidence the extraction
+assigned itself.
 
 ```
 loyalist-pipeline/
+  reddit_hotel_searches.csv          hotels to search for, and where (input)
+  1_fetch_reddit.py                  Reddit collector — start here
   park_hyatt_flyertalk_threads.csv   thread ids and the hotel each belongs to (input)
-  1_grab_flyertalk.js                browser console grabber
+  1_grab_flyertalk.js                FlyerTalk collector, browser console
+  probe_markup.js                    reports a page's markup, when selectors stop matching
   2_extract.py                       Claude API extraction
   3_build_webflow.py                 Webflow import files
-  raw/                               put ft_<id>.txt files here
+  raw/                               collected posts land here
   data/                              outputs land here
 ```
 
-## 1. Grab pages (browser)
+Collection is the only part that knows where the posts came from. Both
+collectors write the same plain format into `raw/`, so steps 2 and 3 do not
+care which site produced a file, and a new source only needs a new step 1.
+
+## 1a. Reddit (terminal)
+
+Reddit has a documented JSON API, so this is an ordinary script: no browser, no
+console, and no markup to reverse-engineer.
+
+```bash
+python 1_fetch_reddit.py --only park-hyatt-kyoto     # one hotel
+python 1_fetch_reddit.py                             # every hotel with a search term
+```
+
+Credentials are optional but better. A Reddit app gets you the official API at
+100 requests a minute; without one it falls back to the public `.json`
+endpoints, which Reddit throttles hard and may refuse:
+
+```bash
+export REDDIT_CLIENT_ID=...       # reddit.com/prefs/apps, "script" type
+export REDDIT_CLIENT_SECRET=...
+```
+
+It is search-driven, which is the important difference from FlyerTalk. There, a
+thread was about one hotel, so the hotel was a known input. On Reddit a post in
+r/hyatt could be about anything, so instead each hotel's name is searched for
+in the subreddits named in `reddit_hotel_searches.csv`, and the hotel travels
+in the file's header. Posts and comments are both collected — the comments under
+a trip report are usually where the elite-benefit detail is. Deleted bodies,
+AutoModerator and anything under 40 characters are dropped before they cost
+tokens.
+
+| Column | What |
+| --- | --- |
+| `hotel`, `hotel_slug` | Exactly as in `data/webflow/hotels.json` |
+| `city`, `country`, `program`, `brand` | Carried through to the row |
+| `subreddits` | Comma-separated, no `r/`. Default is the programme's subreddit plus `awardtravel` |
+| `search_terms` | The phrase to search, quoted as a phrase. Blank means skip this hotel |
+
+Reddit's Data API Terms restrict commercial use above modest volumes. This
+stays well inside the free tier, but read them before reported stays become a
+significant part of a commercial site.
+
+## 1b. FlyerTalk (browser)
+
+**The selectors in this one are stale.** It finds the thread and its title but
+parses no posts, because FlyerTalk has changed its markup since it was written.
+Use the Reddit collector, or fix this one with `probe_markup.js` as below.
 
 1. Open any flyertalk.com page in Chrome.
 2. Edit `CONFIG` at the top of `1_grab_flyertalk.js` (`THREAD_IDS`, `LAST_N_PAGES`).
@@ -70,11 +121,12 @@ thread id are ignored by every step.
 pip install anthropic
 export ANTHROPIC_API_KEY=sk-...
 
-python 2_extract.py --only 1801359      # pilot thread
-python 2_extract.py                     # everything in raw/
+python 2_extract.py --only park-hyatt-kyoto   # one file's worth
+python 2_extract.py                           # everything in raw/
 ```
 
-* Output: `data/data_points.csv`, one row per reported stay.
+* Output: `data/data_points.csv`, one row per reported stay, with a `source`
+  column saying which site it came from.
 * Results are cached per page in `data/cache/`, so reruns only process new pages.
 * The CSV is rebuilt from the whole cache every run, so `--only` never drops
   the rows another thread already produced.
@@ -86,7 +138,7 @@ python 2_extract.py                     # everything in raw/
 
 | Flag | What |
 | --- | --- |
-| `--only <thread_id>` | Extract one thread instead of all of them |
+| `--only <id>` | Extract one file: a FlyerTalk thread id, or a Reddit hotel slug |
 | `--model <id>` | Default `claude-sonnet-5` |
 | `--dry-run` | Parse `raw/` and report what would be sent. No API calls |
 | `--force` | Re-extract pages that are already cached |
@@ -194,7 +246,27 @@ ignored, so an import you actually used can be committed as a record of it.
 
 ## Adding brands later
 
-Make a new threads CSV with the same columns for Marriott, Hilton or IHG and
-point `--threads-csv` at it, or merge it into one file. `status_held` already
-covers all four programmes' tiers, and `--tier` picks which one the per-tier
-columns report: `bonvoy-titanium`, `hilton-diamond`, `ihg-diamond`.
+Add rows to `reddit_hotel_searches.csv` with the hotel, its slug, the programme
+and the subreddits to search — `marriott`, `hilton`, `ihg` — or keep a separate
+file per brand and point `--searches-csv` at it. `status_held` already covers
+all four programmes' tiers, and `--tier` picks which one the per-tier columns
+report: `bonvoy-titanium`, `hilton-diamond`, `ihg-diamond`.
+
+## Adding a source later
+
+Steps 2 and 3 read `raw/*.txt` and `data_points.csv`; neither knows where a
+post came from. A new collector needs only to write that format:
+
+```
+### THREAD <id>            an id for the file; a slug is fine
+### SOURCE <site>          ends up in the row's source column
+### HOTEL <name>           with HOTEL_SLUG, CITY, COUNTRY, PROGRAM, BRAND —
+### GRABBED_AT <iso>       omit these and the threads CSV is used instead
+### PAGE <n>               the unit that gets cached and sent as one request
+--- POST <id>
+DATE: 2026-01-03           an ISO date, or FlyerTalk's prose form
+URL: https://...           the link stored with the row
+BODY:
+the post's own words, quotes and signatures already removed
+--- END POST
+```

@@ -68,7 +68,7 @@ STATUS_LEVELS = {
 ALL_STATUS = sorted({s for v in STATUS_LEVELS.values() for s in v}) + ["unknown"]
 
 FIELDS = [
-    "thread_id", "page", "hotel", "hotel_slug", "city", "country", "program", "brand",
+    "thread_id", "page", "source", "hotel", "hotel_slug", "city", "country", "program", "brand",
     "post_id", "post_url", "post_date", "stay_month", "status_held",
     "room_booked", "room_received", "upgrade", "upgrade_type", "suite_type", "upgrade_how",
     "breakfast", "lounge_access", "late_checkout", "welcome_amenity",
@@ -149,6 +149,14 @@ def parse_post_date(raw, grabbed_at):
     text = (raw or "").strip()
     if not text:
         return ""
+    # Reddit writes an ISO date straight from created_utc; FlyerTalk writes prose.
+    iso = re.match(r"(\d{4})-(\d{2})-(\d{2})", text)
+    if iso:
+        try:
+            return date(int(iso.group(1)), int(iso.group(2)), int(iso.group(3))).isoformat()
+        except ValueError:
+            return ""
+
     base = grabbed_at.date() if grabbed_at else date.today()
     low = text.lower()
     if low.startswith("today"):
@@ -179,12 +187,13 @@ def parse_raw(path):
     """One ft_<id>.txt into {thread_id, title, grabbed_at, pages: [...]}."""
     text = path.read_text(encoding="utf-8", errors="replace")
     head = {}
-    for key in ("THREAD", "THREAD_TITLE", "THREAD_URL", "GRABBED_AT"):
+    for key in ("THREAD", "THREAD_TITLE", "THREAD_URL", "GRABBED_AT", "SOURCE",
+                "HOTEL", "HOTEL_SLUG", "CITY", "COUNTRY", "PROGRAM", "BRAND"):
         m = re.search(rf"^### {key} (.*)$", text, re.M)
         if m:
             head[key] = m.group(1).strip()
 
-    thread_id = head.get("THREAD") or path.stem.replace("ft_", "")
+    thread_id = head.get("THREAD") or re.sub(r"^(ft|reddit)_", "", path.stem)
     grabbed_at = None
     if head.get("GRABBED_AT"):
         try:
@@ -222,7 +231,24 @@ def parse_raw(path):
         "url": head.get("THREAD_URL", ""),
         "grabbed_at": grabbed_at,
         "pages": pages,
+        # What the file itself says about the hotel. A Reddit file carries it;
+        # a FlyerTalk file does not, and is looked up in the threads CSV.
+        "meta": {k.lower(): head[k] for k in ("HOTEL", "HOTEL_SLUG", "CITY", "COUNTRY", "PROGRAM", "BRAND")
+                 if head.get(k)},
+        "source": head.get("SOURCE", "FlyerTalk"),
     }
+
+
+def meta_for(thread_id, threads_meta, thread):
+    """The hotel a thread is about.
+
+    A curated row in the threads CSV wins; otherwise whatever the raw file said
+    about itself. Reddit files carry their own hotel, because on Reddit no
+    thread id means one hotel.
+    """
+    meta = dict(thread.get("meta") or {})
+    meta.update({k: v for k, v in (threads_meta.get(thread_id) or {}).items() if (v or "").strip()})
+    return meta
 
 
 def load_threads_csv(path):
@@ -327,15 +353,16 @@ def parse_stays(text):
 # --- rows and output ------------------------------------------------------
 
 def cache_path(thread_id, page):
-    return CACHE_DIR / f"ft_{thread_id}_p{page}.json"
+    return CACHE_DIR / f"{re.sub(r'[^A-Za-z0-9_-]', '-', thread_id)}_p{page}.json"
 
 
 def rows_from_cache(threads_meta, raw_threads):
     """Every cached page belonging to a thread still present in raw/."""
     rows, stale = [], 0
     for thread_id, thread in sorted(raw_threads.items()):
-        meta = threads_meta.get(thread_id, {})
-        for page in sorted(int(p.stem.split("_p")[-1]) for p in CACHE_DIR.glob(f"ft_{thread_id}_p*.json")):
+        meta = meta_for(thread_id, threads_meta, thread)
+        safe = re.sub(r"[^A-Za-z0-9_-]", "-", thread_id)
+        for page in sorted(int(p.stem.rsplit("_p", 1)[-1]) for p in CACHE_DIR.glob(f"{safe}_p*.json")):
             cached = json.loads(cache_path(thread_id, page).read_text(encoding="utf-8"))
             if cached.get("prompt_fingerprint") != PROMPT_FINGERPRINT:
                 stale += 1
@@ -345,6 +372,7 @@ def rows_from_cache(threads_meta, raw_threads):
                 rows.append({
                     "thread_id": thread_id,
                     "page": page,
+                    "source": thread.get("source", ""),
                     "hotel": meta.get("hotel") or thread["title"],
                     "hotel_slug": meta.get("hotel_slug", ""),
                     "city": meta.get("city", ""),
@@ -397,9 +425,10 @@ def main():
     ap.add_argument("--dry-run", action="store_true", help="parse raw/ and report what would be sent; no API calls")
     args = ap.parse_args()
 
-    raw_files = sorted(args.raw_dir.glob("ft_*.txt"))
+    raw_files = sorted(args.raw_dir.glob("*.txt"))
     if not raw_files:
-        sys.exit(f"No ft_*.txt in {args.raw_dir}. Run 1_grab_flyertalk.js and move the downloads there.")
+        sys.exit(f"No .txt files in {args.raw_dir}. Run 1_fetch_reddit.py, or "
+                 f"1_grab_flyertalk.js and move the downloads there.")
 
     threads_meta = load_threads_csv(args.threads_csv)
     raw_threads = {}
@@ -413,10 +442,11 @@ def main():
     if not raw_threads:
         sys.exit("Nothing to do: no posts parsed from any file in raw/.")
 
-    for thread_id in raw_threads:
-        if thread_id not in threads_meta:
-            print(f"thread {thread_id} is not in {args.threads_csv.name}; "
-                  f"falling back to its thread title for the hotel name", file=sys.stderr)
+    for thread_id, thread in raw_threads.items():
+        if not meta_for(thread_id, threads_meta, thread).get("hotel"):
+            print(f"nothing names the hotel for {thread_id}: no row in "
+                  f"{args.threads_csv.name} and no HOTEL header in the raw file; "
+                  f"falling back to its title", file=sys.stderr)
 
     todo = raw_threads if not args.only else {k: v for k, v in raw_threads.items() if k == args.only}
     if args.only and not todo:
@@ -448,7 +478,7 @@ def main():
         structured, failures, found = True, [], 0
 
         for index, (thread_id, page) in enumerate(pending, 1):
-            meta = threads_meta.get(thread_id, {})
+            meta = meta_for(thread_id, threads_meta, raw_threads[thread_id])
             label = f"[{index}/{len(pending)}] {thread_id} page {page['page']}"
             user_text = build_user_message(meta, page, raw_threads[thread_id])
             try:

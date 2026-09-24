@@ -78,8 +78,8 @@ POINT_FIELDS = [
     "Name", "Slug", "Hotel", "Program", "Status Level", "Stay Month", "Stay Year",
     "Room Booked", "Room Received", "Upgrade", "Upgrade Type", "Suite Type", "Upgrade How",
     "Breakfast", "Lounge Access", "Late Checkout", "Welcome Amenity",
-    "Sentiment", "Confidence", "Summary", "Source", "Source URL", "Reported On",
-    "Thread ID", "Post ID",
+    "Sentiment", "Confidence", "Summary", "Source", "Source Site", "Source URL",
+    "Reported On", "Thread ID", "Post ID",
 ]
 
 
@@ -146,6 +146,7 @@ def build_points(rows):
             "Confidence": label("confidence", row.get("confidence")),
             "Summary": row.get("summary", ""),
             "Source": "Reported",
+            "Source Site": row.get("source", ""),
             "Source URL": row.get("post_url", ""),
             "Reported On": row.get("post_date", ""),
             "Thread ID": row.get("thread_id", ""),
@@ -239,6 +240,7 @@ def build_summary(rows, tier_slug):
             "Earliest Stay": str(years[0]) if years else "",
             "Latest Stay": str(years[-1]) if years else "",
             "Source": "Reported",
+            "Source Sites": ", ".join(sorted({r.get("source", "") for r in group if r.get("source")})),
             "Updated": date.today().isoformat(),
         })
     return out
