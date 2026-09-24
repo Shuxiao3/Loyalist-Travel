@@ -28,7 +28,7 @@
     "hilton-hotels-resorts": "/images/brands/hilton-hotels-resorts.svg",
     "hotel-indigo": "/images/brands/hotel-indigo.svg",
     "hyatt-brand": "/images/brands/hyatt-brand.svg",
-    "iberostar": "/images/brands/iberostar.png",
+    "iberostar": "/images/brands/iberostar.svg",
     "kimpton": "/images/brands/kimpton.svg",
     "le-meridien": "/images/brands/le-meridien.svg",
     "marriott-hotels": "/images/brands/marriott-hotels.svg",
@@ -43,6 +43,6 @@
     "westin": "/images/brands/westin.svg",
     "voco": "/images/brands/voco.svg",
     "bulgari": "/images/brands/bulgari.svg",
-    "lxr": "/images/brands/lxr.png"
+    "even-hotels": "/images/brands/even-hotels.svg"
   }
 }

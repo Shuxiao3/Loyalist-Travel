@@ -128,15 +128,16 @@
     "at": "2026-09-24"
   },
   "iberostar": {
-    "file": "File:IBEROSTAR New Logo.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:IBEROSTAR_New_Logo.jpg",
-    "url": "https://upload.wikimedia.org/wikipedia/commons/4/49/IBEROSTAR_New_Logo.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-    "license": "CC BY-SA 4.0",
-    "at": "2026-09-24",
+    "file": "File:Iberostar Hotels & Resorts logo.svg",
+    "page": "https://en.wikipedia.org/wiki/File:Iberostar_Hotels_%26_Resorts_logo.svg",
+    "url": "https://upload.wikimedia.org/wikipedia/en/1/1a/Iberostar_Hotels_%26_Resorts_logo.svg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=original",
+    "license": "PD",
     "pin": [
       "File:Iberostar logo.svg",
       "File:Iberostar Hotels & Resorts logo.svg"
-    ]
+    ],
+    "note": "from English Wikipedia (fair use)",
+    "at": "2026-09-24"
   },
   "kimpton": {
     "file": "File:Kimpton Hotels & Restaurants logo.svg",
@@ -246,11 +247,6 @@
     "at": "2026-09-24"
   },
   "lxr": {
-    "file": "File:LXR logo.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:LXR_logo.jpg",
-    "url": "https://upload.wikimedia.org/wikipedia/commons/8/82/LXR_logo.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-    "license": "CC BY-SA 4.0",
-    "at": "2026-09-24",
     "pin": [
       "File:LXR Hotels & Resorts logo.svg",
       "File:LXR logo.svg"
@@ -438,9 +434,15 @@
     ]
   },
   "even-hotels": {
+    "file": "File:Even Hotels logo.svg",
+    "page": "https://en.wikipedia.org/wiki/File:Even_Hotels_logo.svg",
+    "url": "https://upload.wikimedia.org/wikipedia/en/2/29/Even_Hotels_logo.svg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=original",
+    "license": "PD",
     "pin": [
       "File:EVEN Hotels logo.svg",
       "File:Even Hotels logo.svg"
-    ]
+    ],
+    "note": "from English Wikipedia (fair use)",
+    "at": "2026-09-24"
   }
 }
