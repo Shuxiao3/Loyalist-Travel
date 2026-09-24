@@ -241,5 +241,43 @@
     "license": "PD",
     "note": "from English Wikipedia (fair use)",
     "at": "2026-09-24"
+  },
+  "intercontinental": {
+    "file": "File:InterContinentalLogo.svg",
+    "page": "https://en.wikipedia.org/wiki/File:InterContinentalLogo.svg",
+    "url": "https://upload.wikimedia.org/wikipedia/en/5/51/InterContinentalLogo.svg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=original",
+    "license": "Fair use",
+    "note": "from English Wikipedia (fair use)",
+    "at": "2026-09-24"
+  },
+  "jw-marriott": {
+    "file": "File:JW Marriott Hotels Logo.svg",
+    "page": "https://en.wikipedia.org/wiki/File:JW_Marriott_Hotels_Logo.svg",
+    "url": "https://upload.wikimedia.org/wikipedia/en/0/0b/JW_Marriott_Hotels_Logo.svg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=original",
+    "license": "Fair use",
+    "note": "from English Wikipedia (fair use)",
+    "at": "2026-09-24"
+  },
+  "jdv-by-hyatt": {
+    "file": "File:Jdv.png",
+    "page": "https://commons.wikimedia.org/wiki/File:Jdv.png",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/0/05/Jdv.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "license": "CC BY-SA 3.0",
+    "at": "2026-09-24"
+  },
+  "lxr": {
+    "file": "File:LXR logo.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:LXR_logo.jpg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/8/82/LXR_logo.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "license": "CC BY-SA 4.0",
+    "at": "2026-09-24"
+  },
+  "ritz-carlton": {
+    "file": "File:RitzCarlton.svg",
+    "page": "https://en.wikipedia.org/wiki/File:RitzCarlton.svg",
+    "url": "https://upload.wikimedia.org/wikipedia/en/a/a0/RitzCarlton.svg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=original",
+    "license": "Fair use",
+    "note": "from English Wikipedia (fair use)",
+    "at": "2026-09-24"
   }
 }
