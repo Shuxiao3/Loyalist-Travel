@@ -595,6 +595,12 @@ async function applyImages(payload: Payload) {
     await payload.update({ collection: 'brands', id: brand.id, data: { logoUrl: url }, overrideAccess: true })
     n++
   }
+  // a brand whose fetched logo was since dropped goes back to no logo
+  const stale = (await payload.find({ collection: 'brands', where: { logoUrl: { like: '/images/brands/' } }, limit: 200, depth: 0, overrideAccess: true })).docs.filter((b) => !file.brands?.[b.slug])
+  for (const b of stale) {
+    await payload.update({ collection: 'brands', id: b.id, data: { logoUrl: null }, overrideAccess: true })
+    n++
+  }
   for (const [slug, url] of Object.entries(file.programs ?? {})) {
     const program = (await payload.find({ collection: 'programs', where: { slug: { equals: slug } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
     if (!program) {

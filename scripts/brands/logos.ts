@@ -126,7 +126,7 @@ const OWN: Record<string, string[]> = {
   'small-luxury-hotels': ['small', 'luxury'],
   'luxury-collection': ['luxury', 'collection'],
   'unbound-collection': ['unbound'],
-  'jdv-by-hyatt': ['jdv'],
+  'jdv-by-hyatt': ['jdv', 'hyatt'],
   'ritz-carlton-reserve': ['ritz', 'carlton', 'reserve'],
 }
 // Brands named after an everyday word: the title must also say hotel, resort
