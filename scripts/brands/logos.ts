@@ -106,7 +106,7 @@ async function fileInfo(title: string): Promise<Info | undefined> {
 
 // Higher is better. Nothing is disqualified outright except files that do not
 // name the brand; the ranking does the rest.
-const FILLER = new Set(['logo', 'logos', 'hotel', 'hotels', 'resort', 'resorts', 'and', 'the', 'by', 'of', 'a', 'an', 'new', 'svg', 'png', 'collection', 'spa', 'spas', 'restaurants', 'group', 'brand', 'wordmark', 'vector', 'official', 'colour', 'color', 'rgb', 'en', 'tm', 'endorsed', 'international', 'worldwide', 'inc'])
+const FILLER = new Set(['logo', 'logos', 'hotel', 'hotels', 'resort', 'resorts', 'and', 'the', 'by', 'of', 'a', 'an', 'new', 'svg', 'png', 'collection', 'spa', 'spas', 'restaurants', 'brand', 'wordmark', 'vector', 'official', 'colour', 'color', 'rgb', 'en', 'tm', 'endorsed', 'international', 'worldwide', 'inc'])
 const FAMILY = /\b(hilton|hyatt|marriott|ihg|intercontinental|hotel|hotels|resort|resorts|collection)\b/
 
 // The words of the brand's own name that a file title has to carry. "Hotels",
@@ -140,7 +140,7 @@ function score(i: Info, slug: string, brand: string): number {
   const words = t.split(' ').filter(Boolean)
   const own = ownWords(slug, brand)
   for (const w of own) if (!words.includes(w)) return -1
-  const extra = words.filter((w) => !own.includes(w) && !FILLER.has(w) && !/^\d+$/.test(w))
+  const extra = words.filter((w) => !own.includes(w) && !FILLER.has(w) && !/^(hilton|hyatt|marriott|ihg)$/.test(w) && !/^\d+$/.test(w))
   if (extra.length) return -1
   // a brand that is a common word ("Tempo", "Motto", "Edition", "Secrets") has
   // to say it is a hotel somewhere in the title
