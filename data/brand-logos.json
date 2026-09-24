@@ -84,18 +84,11 @@
     "license": "Public domain",
     "at": "2026-09-24"
   },
-  "even-hotels": {
-    "file": "File:Logo Even.png",
-    "page": "https://commons.wikimedia.org/wiki/File:Logo_Even.png",
-    "url": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Logo_Even.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-    "license": "CC BY-SA 4.0",
-    "at": "2026-09-24"
-  },
   "embassy-suites": {
-    "file": "File:Embassy Logo.svg",
-    "page": "https://commons.wikimedia.org/wiki/File:Embassy_Logo.svg",
-    "url": "https://upload.wikimedia.org/wikipedia/commons/0/07/Embassy_Logo.svg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-    "license": "Public domain",
+    "file": "File:Embassy Suites Hotels.png",
+    "page": "https://commons.wikimedia.org/wiki/File:Embassy_Suites_Hotels.png",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/c/c6/Embassy_Suites_Hotels.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "license": "CC BY-SA 4.0",
     "at": "2026-09-24"
   },
   "graduate-by-hilton": {
@@ -134,25 +127,11 @@
     "license": "Public domain",
     "at": "2026-09-24"
   },
-  "hyatt-regency": {
-    "file": "File:Hyatt Logo.svg",
-    "page": "https://commons.wikimedia.org/wiki/File:Hyatt_Logo.svg",
-    "url": "https://upload.wikimedia.org/wikipedia/commons/9/91/Hyatt_Logo.svg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-    "license": "Public domain",
-    "at": "2026-09-24"
-  },
   "iberostar": {
     "file": "File:IBEROSTAR New Logo.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:IBEROSTAR_New_Logo.jpg",
     "url": "https://upload.wikimedia.org/wikipedia/commons/4/49/IBEROSTAR_New_Logo.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "license": "CC BY-SA 4.0",
-    "at": "2026-09-24"
-  },
-  "intercontinental": {
-    "file": "File:InterContinental Hotels Group logo 2017.svg",
-    "page": "https://commons.wikimedia.org/wiki/File:InterContinental_Hotels_Group_logo_2017.svg",
-    "url": "https://upload.wikimedia.org/wikipedia/commons/7/74/InterContinental_Hotels_Group_logo_2017.svg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-    "license": "Public domain",
     "at": "2026-09-24"
   },
   "kimpton": {
@@ -183,13 +162,6 @@
     "license": "Public domain",
     "at": "2026-09-24"
   },
-  "park-hyatt": {
-    "file": "File:Logo MediaPark.svg",
-    "page": "https://commons.wikimedia.org/wiki/File:Logo_MediaPark.svg",
-    "url": "https://upload.wikimedia.org/wikipedia/commons/a/a9/Logo_MediaPark.svg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-    "license": "Public domain",
-    "at": "2026-09-24"
-  },
   "regent": {
     "file": "File:Regent Hotels & Resorts logo.svg",
     "page": "https://commons.wikimedia.org/wiki/File:Regent_Hotels_%26_Resorts_logo.svg",
@@ -205,10 +177,10 @@
     "at": "2026-09-24"
   },
   "ritz-carlton": {
-    "file": "File:The-Ritz-Carlton-Berlin-Logo.svg",
-    "page": "https://commons.wikimedia.org/wiki/File:The-Ritz-Carlton-Berlin-Logo.svg",
-    "url": "https://upload.wikimedia.org/wikipedia/commons/1/18/The-Ritz-Carlton-Berlin-Logo.svg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-    "license": "Public domain",
+    "file": "File:Hotel The Ritz-Carlton.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Hotel_The_Ritz-Carlton.jpg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/f/f8/Hotel_The_Ritz-Carlton.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "license": "CC BY-SA 4.0",
     "at": "2026-09-24"
   },
   "sheraton": {
@@ -226,17 +198,10 @@
     "at": "2026-09-24"
   },
   "tapestry-collection": {
-    "file": "File:Tapestry logo.svg",
-    "page": "https://commons.wikimedia.org/wiki/File:Tapestry_logo.svg",
-    "url": "https://upload.wikimedia.org/wikipedia/commons/2/21/Tapestry_logo.svg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-    "license": "Public domain",
-    "at": "2026-09-24"
-  },
-  "thompson-hotels": {
-    "file": "File:Weber Thompson logo.svg",
-    "page": "https://commons.wikimedia.org/wiki/File:Weber_Thompson_logo.svg",
-    "url": "https://upload.wikimedia.org/wikipedia/commons/8/86/Weber_Thompson_logo.svg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-    "license": "Public domain",
+    "file": "File:Tapestry-Collection-By-Hilton-Logo.png",
+    "page": "https://commons.wikimedia.org/wiki/File:Tapestry-Collection-By-Hilton-Logo.png",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/2/2c/Tapestry-Collection-By-Hilton-Logo.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "license": "CC0",
     "at": "2026-09-24"
   },
   "w-hotels": {
@@ -275,115 +240,10 @@
     "license": "Public domain",
     "at": "2026-09-24"
   },
-  "caption-by-hyatt": {
-    "file": "File:CFIB Logo with caption.svg",
-    "page": "https://commons.wikimedia.org/wiki/File:CFIB_Logo_with_caption.svg",
-    "url": "https://upload.wikimedia.org/wikipedia/commons/4/40/CFIB_Logo_with_caption.svg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-    "license": "Public domain",
-    "at": "2026-09-24"
-  },
-  "doubletree": {
-    "file": "File:TFT logo double colour png.png",
-    "page": "https://commons.wikimedia.org/wiki/File:TFT_logo_double_colour_png.png",
-    "url": "https://upload.wikimedia.org/wikipedia/commons/0/0e/TFT_logo_double_colour_png.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-    "license": "CC0",
-    "at": "2026-09-24"
-  },
-  "edition": {
-    "file": "File:Edition-logo.svg",
-    "page": "https://commons.wikimedia.org/wiki/File:Edition-logo.svg",
-    "url": "https://upload.wikimedia.org/wikipedia/commons/1/1c/Edition-logo.svg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-    "license": "Public domain",
-    "at": "2026-09-24"
-  },
-  "hyatt-centric": {
-    "file": "File:Hyatt Logo.svg",
-    "page": "https://commons.wikimedia.org/wiki/File:Hyatt_Logo.svg",
-    "url": "https://upload.wikimedia.org/wikipedia/commons/9/91/Hyatt_Logo.svg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-    "license": "Public domain",
-    "at": "2026-09-24"
-  },
-  "hyatt-zilara": {
-    "file": "File:Hyatt Logo.svg",
-    "page": "https://commons.wikimedia.org/wiki/File:Hyatt_Logo.svg",
-    "url": "https://upload.wikimedia.org/wikipedia/commons/9/91/Hyatt_Logo.svg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-    "license": "Public domain",
-    "at": "2026-09-24"
-  },
-  "hyatt-ziva": {
-    "file": "File:Hyatt Logo.svg",
-    "page": "https://commons.wikimedia.org/wiki/File:Hyatt_Logo.svg",
-    "url": "https://upload.wikimedia.org/wikipedia/commons/9/91/Hyatt_Logo.svg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-    "license": "Public domain",
-    "at": "2026-09-24"
-  },
   "lxr": {
     "file": "File:LXR logo.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:LXR_logo.jpg",
     "url": "https://upload.wikimedia.org/wikipedia/commons/8/82/LXR_logo.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-    "license": "CC BY-SA 4.0",
-    "at": "2026-09-24"
-  },
-  "motto": {
-    "file": "File:Motto Logo.svg",
-    "page": "https://commons.wikimedia.org/wiki/File:Motto_Logo.svg",
-    "url": "https://upload.wikimedia.org/wikipedia/commons/6/6c/Motto_Logo.svg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-    "license": "CC BY-SA 3.0",
-    "at": "2026-09-24"
-  },
-  "nomad": {
-    "file": "File:Mad Decent Logo 2018.svg",
-    "page": "https://commons.wikimedia.org/wiki/File:Mad_Decent_Logo_2018.svg",
-    "url": "https://upload.wikimedia.org/wikipedia/commons/4/4b/Mad_Decent_Logo_2018.svg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-    "license": "Public domain",
-    "at": "2026-09-24"
-  },
-  "ritz-carlton-reserve": {
-    "file": "File:The-Ritz-Carlton-Berlin-Logo.svg",
-    "page": "https://commons.wikimedia.org/wiki/File:The-Ritz-Carlton-Berlin-Logo.svg",
-    "url": "https://upload.wikimedia.org/wikipedia/commons/1/18/The-Ritz-Carlton-Berlin-Logo.svg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-    "license": "Public domain",
-    "at": "2026-09-24"
-  },
-  "secrets-resorts": {
-    "file": "File:OpenSecrets logo.svg",
-    "page": "https://commons.wikimedia.org/wiki/File:OpenSecrets_logo.svg",
-    "url": "https://upload.wikimedia.org/wikipedia/commons/6/6a/OpenSecrets_logo.svg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-    "license": "Public domain",
-    "at": "2026-09-24"
-  },
-  "signia": {
-    "file": "File:Signia 2 2023-12-29.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Signia_2_2023-12-29.jpg",
-    "url": "https://upload.wikimedia.org/wikipedia/commons/b/bb/Signia_2_2023-12-29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-    "license": "CC BY-SA 4.0",
-    "at": "2026-09-24"
-  },
-  "six-senses": {
-    "file": "File:SIX Group logo.svg",
-    "page": "https://commons.wikimedia.org/wiki/File:SIX_Group_logo.svg",
-    "url": "https://upload.wikimedia.org/wikipedia/commons/9/9e/SIX_Group_logo.svg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-    "license": "Public domain",
-    "at": "2026-09-24"
-  },
-  "tempo": {
-    "file": "File:Tempo-Logo.svg",
-    "page": "https://commons.wikimedia.org/wiki/File:Tempo-Logo.svg",
-    "url": "https://upload.wikimedia.org/wikipedia/commons/2/2b/Tempo-Logo.svg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-    "license": "Public domain",
-    "at": "2026-09-24"
-  },
-  "tribute-portfolio": {
-    "file": "File:NTG Logo tribute.svg",
-    "page": "https://commons.wikimedia.org/wiki/File:NTG_Logo_tribute.svg",
-    "url": "https://upload.wikimedia.org/wikipedia/commons/0/0f/NTG_Logo_tribute.svg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-    "license": "Public domain",
-    "at": "2026-09-24"
-  },
-  "vignette-collection": {
-    "file": "File:Logo vignette.png",
-    "page": "https://commons.wikimedia.org/wiki/File:Logo_vignette.png",
-    "url": "https://upload.wikimedia.org/wikipedia/commons/5/54/Logo_vignette.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "license": "CC BY-SA 4.0",
     "at": "2026-09-24"
   }
