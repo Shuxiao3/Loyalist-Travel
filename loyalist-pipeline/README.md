@@ -38,8 +38,12 @@ post: the post id, its date, a link to it, and the post's own words. Quoted
 text and signatures are stripped — a quote would otherwise make one member's
 stay look like the poster's.
 
-If the console reports `no posts parsed`, FlyerTalk's markup has moved and the
-selectors in `parsePosts` need a look. Nothing is downloaded in that case.
+If the console reports `no posts parsed`, or a page count of 1 for a thread you
+know is longer, FlyerTalk's markup has moved from under the selectors. Nothing
+is downloaded in that case. Paste `probe_markup.js` into the console on the
+same page: it reports how the page is actually built — which containers hold
+posts, and how the page states its page count — which is what `parsePosts` and
+`totalPages` need to be pointed at.
 
 ### The threads CSV
 
@@ -162,6 +166,19 @@ answered, the rate is `N/A`, which is how the Webflow export writes it too.
 
 A refused upgrade counts as `none`, not as silence. `not-eligible` breakfast
 and `not-used` lounges are silence: they say nothing about what the hotel does.
+
+## What gets stored, and what doesn't
+
+The design is deliberate. A post's own words are copyrightable expression
+belonging to whoever wrote it; the facts inside it are not. So the raw pages
+stay local and uncommitted, and what survives into the CSVs is the extracted
+fields, a fresh summary written rather than copied, and a link back to the
+post. No post text, no member names.
+
+That is also why `1_grab_flyertalk.js` pulls recent pages only, waits between
+requests, and runs in a browser rather than on a server. None of this is legal
+advice, and if reported stays become a significant part of the site it is
+worth having someone look at it properly.
 
 ## Keeping it separate
 
