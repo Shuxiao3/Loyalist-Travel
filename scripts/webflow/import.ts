@@ -583,8 +583,18 @@ async function fetchLogos(payload: Payload) {
 // Photographs from data/images.json onto hotels (externalImageUrl) and
 // program logos (images.logoUrl), by slug.
 async function applyImages(payload: Payload) {
-  const file = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'data/images.json'), 'utf8')) as { hotels?: Record<string, string>; programs?: Record<string, string> }
+  const file = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'data/images.json'), 'utf8')) as { hotels?: Record<string, string>; programs?: Record<string, string>; brands?: Record<string, string> }
   let n = 0
+  for (const [slug, url] of Object.entries(file.brands ?? {})) {
+    const brand = (await payload.find({ collection: 'brands', where: { slug: { equals: slug } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
+    if (!brand) {
+      console.log(`images: no brand with slug ${slug}`)
+      continue
+    }
+    if (brand.logoUrl === url) continue
+    await payload.update({ collection: 'brands', id: brand.id, data: { logoUrl: url }, overrideAccess: true })
+    n++
+  }
   for (const [slug, url] of Object.entries(file.programs ?? {})) {
     const program = (await payload.find({ collection: 'programs', where: { slug: { equals: slug } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
     if (!program) {

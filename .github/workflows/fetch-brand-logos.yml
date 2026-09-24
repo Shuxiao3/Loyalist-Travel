@@ -1,0 +1,46 @@
+# Fetches each brand's logo from Wikimedia Commons into public/images/brands,
+# commits them, then points the brands at their copies.
+#
+# Manual: Actions tab → "Fetch brand logos" → Run workflow. To correct a pick,
+# set "pin" on that brand in data/brand-logos.json to the Commons file title
+# and run again.
+name: Fetch brand logos
+
+on:
+  workflow_dispatch:
+    inputs:
+      all:
+        description: 'Re-fetch every brand, not just the ones without a logo (yes/no)'
+        required: false
+        default: 'no'
+
+permissions:
+  contents: write
+
+jobs:
+  logos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Fetch
+        run: npm run fetch:brand-logos -- ${{ github.event.inputs.all == 'yes' && '--all' || '' }}
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add public/images/brands data/brand-logos.json data/images.json
+          git commit -m "Brand logos" || echo "nothing to commit"
+          for i in 1 2 3 4; do git pull --rebase origin main && git push && break; sleep 10; done
+      - name: Apply
+        run: |
+          npm run migrate
+          npm run import:webflow -- images
