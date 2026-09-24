@@ -16,7 +16,7 @@ import { getPayload } from 'payload'
 
 import config from '../../src/payload.config'
 
-type Pick = { file: string; page: string; url: string; license?: string; pin?: string; note?: string; at: string }
+type Pick = { file: string; page: string; url: string; license?: string; pin?: string | string[]; note?: string; at: string }
 type Info = { title: string; mime?: string; url?: string; descriptionurl?: string; width?: number; height?: number; license?: string }
 
 const ALL = process.argv.includes('--all')
@@ -148,7 +148,7 @@ function score(i: Info, slug: string, brand: string): number {
   let s = 0
   if (i.mime === 'image/svg+xml') s += 40
   else if (i.mime === 'image/png') s += 20
-  else if (i.mime === 'image/jpeg') s += 5
+  else if (i.mime === 'image/jpeg' && /\blogo\b/.test(t)) s += 5
   else return -1
   if (/\blogo\b/.test(t)) s += 20
   if (FAMILY.test(t)) s += 8
@@ -192,11 +192,15 @@ async function main() {
     try {
       let choice: Info | undefined
       if (pinned) {
-        choice = await fileInfo(pinned)
-        if (!choice?.url) throw new Error(`pinned file not found: ${pinned}`)
+        for (const t of Array.isArray(pinned) ? pinned : [pinned]) {
+          choice = await fileInfo(t)
+          if (choice?.url) break
+        }
+        if (!choice?.url) throw new Error(`pinned file not found: ${[pinned].flat().join(', ')}`)
       } else {
         const short = b.name.replace(/\s+(by|of)\s+(hyatt|hilton|marriott|the world)$/i, '').replace(/\s+hotels?( & resorts)?$/i, '')
-        const queries = [QUERY[b.slug] ?? `${b.name} logo`, `${short} logo`, `${short} hotel logo`, `intitle:${short.split(' ')[0]} logo`, short]
+        const base = QUERY[b.slug] ?? `${b.name} logo`
+        const queries = [`${base} filetype:drawing`, `${short} logo filetype:drawing`, `${base} filetype:bitmap`, `${short} logo filetype:bitmap`, `intitle:"${short}" filetype:drawing`, `intitle:"${short}" filetype:bitmap`, `${short} hotel logo`]
         const seen = new Map<string, Info>()
         let ranked: { i: Info; s: number }[] = []
         for (const q of queries) {
