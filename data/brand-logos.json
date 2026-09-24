@@ -132,10 +132,6 @@
     "page": "https://en.wikipedia.org/wiki/File:Iberostar_Hotels_%26_Resorts_logo.svg",
     "url": "https://upload.wikimedia.org/wikipedia/en/1/1a/Iberostar_Hotels_%26_Resorts_logo.svg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=original",
     "license": "PD",
-    "pin": [
-      "File:Iberostar logo.svg",
-      "File:Iberostar Hotels & Resorts logo.svg"
-    ],
     "note": "from English Wikipedia (fair use)",
     "at": "2026-09-24"
   },
@@ -180,14 +176,6 @@
     "url": "https://upload.wikimedia.org/wikipedia/commons/4/4e/RenaissanceHotelsNew.svg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "license": "Public domain",
     "at": "2026-09-24"
-  },
-  "ritz-carlton": {
-    "pin": [
-      "File:The Ritz-Carlton logo.svg",
-      "File:Ritz-Carlton logo.svg",
-      "File:The Ritz-Carlton Logo.svg",
-      "File:Ritz-Carlton Logo.svg"
-    ]
   },
   "sheraton": {
     "file": "File:Sheraton Hotels and Resorts.svg",
@@ -246,202 +234,11 @@
     "license": "Public domain",
     "at": "2026-09-24"
   },
-  "lxr": {
-    "pin": [
-      "File:LXR Hotels & Resorts logo.svg",
-      "File:LXR logo.svg"
-    ]
-  },
-  "jw-marriott": {
-    "pin": [
-      "File:JW Marriott Logo.svg",
-      "File:JW Marriott logo.svg",
-      "File:JW Marriott Hotels logo.svg",
-      "File:JW Marriott.svg"
-    ]
-  },
-  "park-hyatt": {
-    "pin": [
-      "File:Park Hyatt logo.svg",
-      "File:Park Hyatt Logo.svg",
-      "File:Park Hyatt.svg"
-    ]
-  },
-  "hyatt-regency": {
-    "pin": [
-      "File:Hyatt Regency logo.svg",
-      "File:Hyatt Regency Logo.svg",
-      "File:Hyatt Regency.svg"
-    ]
-  },
-  "hyatt-centric": {
-    "pin": [
-      "File:Hyatt Centric logo.svg",
-      "File:Hyatt Centric Logo.svg"
-    ]
-  },
-  "andaz": {
-    "pin": [
-      "File:Andaz logo.svg",
-      "File:Andaz Logo.svg",
-      "File:Andaz Hotels logo.svg"
-    ]
-  },
-  "intercontinental": {
-    "pin": [
-      "File:InterContinental Hotels & Resorts logo.svg",
-      "File:InterContinental logo.svg",
-      "File:InterContinental Hotels logo.svg",
-      "File:Intercontinental Hotels & Resorts.svg"
-    ]
-  },
-  "six-senses": {
-    "pin": [
-      "File:Six Senses logo.svg",
-      "File:Six Senses Logo.svg",
-      "File:Six Senses Hotels Resorts Spas logo.svg"
-    ]
-  },
-  "doubletree": {
-    "pin": [
-      "File:DoubleTree by Hilton logo.svg",
-      "File:DoubleTree logo.svg",
-      "File:Doubletree by Hilton logo.svg",
-      "File:DoubleTree by Hilton Logo.svg"
-    ]
-  },
-  "edition": {
-    "pin": [
-      "File:EDITION Hotels logo.svg",
-      "File:Edition Hotels logo.svg",
-      "File:EDITION logo.svg"
-    ]
-  },
-  "luxury-collection": {
-    "pin": [
-      "File:The Luxury Collection logo.svg",
-      "File:Luxury Collection logo.svg",
-      "File:The Luxury Collection Logo.svg"
-    ]
-  },
-  "tribute-portfolio": {
-    "pin": [
-      "File:Tribute Portfolio logo.svg",
-      "File:Tribute Portfolio Logo.svg"
-    ]
-  },
-  "thompson-hotels": {
-    "pin": [
-      "File:Thompson Hotels logo.svg",
-      "File:Thompson Hotels Logo.svg"
-    ]
-  },
-  "gaylord-hotels": {
-    "pin": [
-      "File:Gaylord Hotels logo.svg",
-      "File:Gaylord Hotels Logo.svg"
-    ]
-  },
-  "ritz-carlton-reserve": {
-    "pin": [
-      "File:Ritz-Carlton Reserve logo.svg",
-      "File:The Ritz-Carlton Reserve logo.svg"
-    ]
-  },
-  "miraval": {
-    "pin": [
-      "File:Miraval Resorts logo.svg",
-      "File:Miraval logo.svg"
-    ]
-  },
-  "signia": {
-    "pin": [
-      "File:Signia by Hilton logo.svg",
-      "File:Signia Hilton logo.svg"
-    ]
-  },
-  "tempo": {
-    "pin": [
-      "File:Tempo by Hilton logo.svg"
-    ]
-  },
-  "motto": {
-    "pin": [
-      "File:Motto by Hilton logo.svg"
-    ]
-  },
-  "nomad": {
-    "pin": [
-      "File:NoMad Hotels logo.svg",
-      "File:NoMad Hotel logo.svg",
-      "File:The NoMad Hotel logo.svg"
-    ]
-  },
-  "secrets-resorts": {
-    "pin": [
-      "File:Secrets Resorts & Spas logo.svg",
-      "File:Secrets Resorts logo.svg"
-    ]
-  },
-  "dreams-resorts": {
-    "pin": [
-      "File:Dreams Resorts & Spas logo.svg",
-      "File:Dreams Resorts logo.svg"
-    ]
-  },
-  "hyatt-ziva": {
-    "pin": [
-      "File:Hyatt Ziva logo.svg"
-    ]
-  },
-  "hyatt-zilara": {
-    "pin": [
-      "File:Hyatt Zilara logo.svg"
-    ]
-  },
-  "jdv-by-hyatt": {
-    "pin": [
-      "File:JdV by Hyatt logo.svg",
-      "File:Joie de Vivre Hotels logo.svg"
-    ]
-  },
-  "unbound-collection": {
-    "pin": [
-      "File:The Unbound Collection by Hyatt logo.svg",
-      "File:Unbound Collection by Hyatt logo.svg"
-    ]
-  },
-  "caption-by-hyatt": {
-    "pin": [
-      "File:Caption by Hyatt logo.svg"
-    ]
-  },
-  "small-luxury-hotels": {
-    "pin": [
-      "File:Small Luxury Hotels of the World logo.svg",
-      "File:SLH logo.svg"
-    ]
-  },
-  "vignette-collection": {
-    "pin": [
-      "File:Vignette Collection logo.svg"
-    ]
-  },
-  "hualuxe": {
-    "pin": [
-      "File:HUALUXE logo.svg",
-      "File:Hualuxe Hotels and Resorts logo.svg"
-    ]
-  },
   "even-hotels": {
     "file": "File:Even Hotels logo.svg",
     "page": "https://en.wikipedia.org/wiki/File:Even_Hotels_logo.svg",
     "url": "https://upload.wikimedia.org/wikipedia/en/2/29/Even_Hotels_logo.svg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=original",
     "license": "PD",
-    "pin": [
-      "File:EVEN Hotels logo.svg",
-      "File:Even Hotels logo.svg"
-    ],
     "note": "from English Wikipedia (fair use)",
     "at": "2026-09-24"
   }

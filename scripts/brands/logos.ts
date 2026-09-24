@@ -204,11 +204,9 @@ async function main() {
           choice = await fileInfo(t)
           if (choice?.url) break
         }
-        if (!choice?.url) {
-          forget(b.slug, images.brands, record)
-          throw new Error(`pinned file not found: ${[pinned].flat().join(', ')}`)
-        }
-      } else {
+        if (!choice?.url) console.log(`  ${b.slug}: pinned file not found (${[pinned].flat().join(', ')}); searching instead`)
+      }
+      if (!choice?.url) {
         const short = b.name.replace(/\s+(by|of)\s+(hyatt|hilton|marriott|the world)$/i, '').replace(/\s+hotels?( & resorts)?$/i, '')
         const base = QUERY[b.slug] ?? `${b.name} logo`
         const queries = [`${base} filetype:drawing`, `${short} logo filetype:drawing`, `${base} filetype:bitmap`, `${short} logo filetype:bitmap`, `intitle:"${short}" filetype:drawing`, `intitle:"${short}" filetype:bitmap`, `${short} hotel logo`]
