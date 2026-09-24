@@ -17,7 +17,7 @@ import { getPayload } from 'payload'
 import config from '../../src/payload.config'
 
 type Pick = { file: string; page: string; url: string; license?: string; pin?: string | string[]; note?: string; at: string }
-type Info = { title: string; mime?: string; url?: string; descriptionurl?: string; width?: number; height?: number; license?: string }
+type Info = { title: string; mime?: string; url?: string; descriptionurl?: string; width?: number; height?: number; license?: string; source?: string }
 
 const ALL = process.argv.includes('--all')
 const OUT_DIR = path.resolve(process.cwd(), 'public/images/brands')
@@ -79,8 +79,12 @@ const norm = (s: string) =>
     .replace(/[^a-z0-9]+/g, ' ')
     .trim()
 
-async function api(params: Record<string, string>): Promise<{ query?: { pages?: Record<string, { title: string; imageinfo?: Info[] }> } }> {
-  const u = new URL('https://commons.wikimedia.org/w/api.php')
+// Commons first, then English Wikipedia, which holds the marks Commons will
+// not: those too original for the text-logo rule, kept there under fair use.
+const SOURCES = ['https://commons.wikimedia.org/w/api.php', 'https://en.wikipedia.org/w/api.php']
+
+async function api(source: string, params: Record<string, string>): Promise<{ query?: { pages?: Record<string, { title: string; imageinfo?: Info[] }> } }> {
+  const u = new URL(source)
   for (const [k, v] of Object.entries({ format: 'json', ...params })) u.searchParams.set(k, v)
   const res = await fetch(u, { headers: { 'user-agent': UA }, signal: AbortSignal.timeout(30000) })
   if (!res.ok) throw new Error(`Commons ${res.status} for ${u.searchParams.get('gsrsearch') ?? u.searchParams.get('titles')}`)
@@ -94,14 +98,17 @@ function infoOf(pages: Record<string, { title: string; imageinfo?: Info[] }> | u
   })
 }
 
-async function search(q: string): Promise<Info[]> {
-  const r = await api({ action: 'query', generator: 'search', gsrsearch: q, gsrnamespace: '6', gsrlimit: '20', prop: 'imageinfo', iiprop: 'url|mime|size|extmetadata' })
-  return infoOf(r.query?.pages)
+async function search(source: string, q: string): Promise<Info[]> {
+  const r = await api(source, { action: 'query', generator: 'search', gsrsearch: q, gsrnamespace: '6', gsrlimit: '20', prop: 'imageinfo', iiprop: 'url|mime|size|extmetadata' })
+  return infoOf(r.query?.pages).map((i) => ({ ...i, source }))
 }
 
 async function fileInfo(title: string): Promise<Info | undefined> {
-  const r = await api({ action: 'query', titles: title.startsWith('File:') ? title : `File:${title}`, prop: 'imageinfo', iiprop: 'url|mime|size|extmetadata' })
-  return infoOf(r.query?.pages)[0]
+  for (const source of SOURCES) {
+    const i = infoOf((await api(source, { action: 'query', titles: title.startsWith('File:') ? title : `File:${title}`, prop: 'imageinfo', iiprop: 'url|mime|size|extmetadata' })).query?.pages)[0]
+    if (i?.url) return { ...i, source }
+  }
+  return undefined
 }
 
 // Higher is better. Nothing is disqualified outright except files that do not
@@ -174,7 +181,8 @@ function forget(slug: string, images: Record<string, string>, record: Record<str
   const local = images[slug]
   if (local && fs.existsSync(path.join(process.cwd(), 'public', local))) fs.unlinkSync(path.join(process.cwd(), 'public', local))
   delete images[slug]
-  if (record[slug] && !record[slug].pin) delete record[slug]
+  if (record[slug]) record[slug] = record[slug].pin ? ({ pin: record[slug].pin, note: record[slug].note } as Pick) : (undefined as unknown as Pick)
+  if (record[slug] === undefined) delete record[slug]
 }
 
 async function main() {
@@ -196,16 +204,22 @@ async function main() {
           choice = await fileInfo(t)
           if (choice?.url) break
         }
-        if (!choice?.url) throw new Error(`pinned file not found: ${[pinned].flat().join(', ')}`)
+        if (!choice?.url) {
+          forget(b.slug, images.brands, record)
+          throw new Error(`pinned file not found: ${[pinned].flat().join(', ')}`)
+        }
       } else {
         const short = b.name.replace(/\s+(by|of)\s+(hyatt|hilton|marriott|the world)$/i, '').replace(/\s+hotels?( & resorts)?$/i, '')
         const base = QUERY[b.slug] ?? `${b.name} logo`
         const queries = [`${base} filetype:drawing`, `${short} logo filetype:drawing`, `${base} filetype:bitmap`, `${short} logo filetype:bitmap`, `intitle:"${short}" filetype:drawing`, `intitle:"${short}" filetype:bitmap`, `${short} hotel logo`]
         const seen = new Map<string, Info>()
         let ranked: { i: Info; s: number }[] = []
-        for (const q of queries) {
-          for (const i of await search(q)) if (!seen.has(i.title)) seen.set(i.title, i)
-          ranked = [...seen.values()].map((i) => ({ i, s: score(i, b.slug, b.name) })).filter((x) => x.s >= 0).sort((a, c) => c.s - a.s)
+        for (const source of SOURCES) {
+          for (const q of queries) {
+            for (const i of await search(source, q)) if (!seen.has(i.title)) seen.set(i.title, i)
+            ranked = [...seen.values()].map((i) => ({ i, s: score(i, b.slug, b.name) })).filter((x) => x.s >= 0).sort((a, c) => c.s - a.s)
+            if (ranked.length && ranked[0].s >= 40) break
+          }
           if (ranked.length && ranked[0].s >= 40) break
         }
         choice = ranked[0]?.i
@@ -220,13 +234,13 @@ async function main() {
       }
       const local = await download(choice, b.slug)
       images.brands[b.slug] = local
-      record[b.slug] = { file: choice.title, page: choice.descriptionurl ?? '', url: choice.url, license: choice.license, pin: prev?.pin, note: prev?.note, at: new Date().toISOString().slice(0, 10) }
+      record[b.slug] = { file: choice.title, page: choice.descriptionurl ?? '', url: choice.url, license: choice.license, pin: prev?.pin, note: prev?.note ?? (choice.source?.includes('wikipedia') ? 'from English Wikipedia (fair use)' : undefined), at: new Date().toISOString().slice(0, 10) }
       got++
       console.log(`${b.slug}: ${choice.title.replace(/^File:/, '')} -> ${local}`)
     } catch (e) {
       missed++
       console.log(`${b.slug}: ${(e as Error).message}`)
-      if (!pinned) forget(b.slug, images.brands, record)
+      if (!pinned && !(e as Error).message.startsWith('pinned')) forget(b.slug, images.brands, record)
     }
     // save as it goes, so a run cut short keeps what it found
     fs.writeFileSync(RECORD, JSON.stringify(record, null, 2) + '\n')
