@@ -40,8 +40,9 @@ stay look like the poster's.
 
 If the console reports `no posts parsed`, or a page count of 1 for a thread you
 know is longer, FlyerTalk's markup has moved from under the selectors. Nothing
-is downloaded in that case. Paste `probe_markup.js` into the console on the
-same page: it reports how the page is actually built — which containers hold
+is downloaded in that case. Open `probe_markup.js`, copy its contents and paste
+them into the console on the same page (the console runs code you paste, it
+cannot open files by name): it reports how the page is actually built — which containers hold
 posts, and how the page states its page count — which is what `parsePosts` and
 `totalPages` need to be pointed at.
 
