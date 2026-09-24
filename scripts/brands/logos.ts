@@ -69,33 +69,15 @@ const QUERY: Record<string, string> = {
   iberostar: 'Iberostar logo',
 }
 
-// A word the file title must contain, where the first word of the name is
-// too generic on its own.
-const MUST: Record<string, string> = {
-  'w-hotels': 'w hotels',
-  'hyatt-brand': 'hyatt',
-  'luxury-collection': 'luxury collection',
-  'unbound-collection': 'unbound',
-  'jdv-by-hyatt': 'jdv',
-  'small-luxury-hotels': 'small luxury',
-  'ac-hotels': 'ac hotel',
-  'st-regis': 'regis',
-  'le-meridien': 'ridien',
-  'design-hotels': 'design hotels',
-  'hotel-indigo': 'indigo',
-  'even-hotels': 'even',
-  'hilton-hotels-resorts': 'hilton',
-  'graduate-by-hilton': 'graduate',
-  'destination-by-hyatt': 'destination',
-  'caption-by-hyatt': 'caption',
-  'dreams-resorts': 'dreams',
-  'secrets-resorts': 'secrets',
-  'gaylord-hotels': 'gaylord',
-  'delta-hotels': 'delta',
-  'marriott-hotels': 'marriott',
-}
-
-const norm = (s: string) => s.replace(/([a-z])([A-Z])/g, '$1 $2').toLowerCase().replace(/\.(svg|png|jpe?g)$/,'').replace(/[_\-\s]+/g, ' ').trim()
+const norm = (s: string) =>
+  s
+    .replace(/([a-z])([A-Z])/g, '$1 $2')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/\.(svg|png|jpe?g)$/, '')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim()
 
 async function api(params: Record<string, string>): Promise<{ query?: { pages?: Record<string, { title: string; imageinfo?: Info[] }> } }> {
   const u = new URL('https://commons.wikimedia.org/w/api.php')
@@ -124,24 +106,54 @@ async function fileInfo(title: string): Promise<Info | undefined> {
 
 // Higher is better. Nothing is disqualified outright except files that do not
 // name the brand; the ranking does the rest.
-const FILLER = new Set(['logo', 'logos', 'hotel', 'hotels', 'resort', 'resorts', 'and', 'the', 'by', 'of', 'a', 'an', 'new', 'svg', 'png', 'collection', 'spa', 'spas', 'restaurants', 'group', 'brand', 'wordmark', 'vector', 'official', 'colour', 'color', 'rgb', 'en', 'tm', 'endorsed'])
-function score(i: Info, must: string, brand: string): number {
+const FILLER = new Set(['logo', 'logos', 'hotel', 'hotels', 'resort', 'resorts', 'and', 'the', 'by', 'of', 'a', 'an', 'new', 'svg', 'png', 'collection', 'spa', 'spas', 'restaurants', 'group', 'brand', 'wordmark', 'vector', 'official', 'colour', 'color', 'rgb', 'en', 'tm', 'endorsed', 'international', 'worldwide', 'inc'])
+const FAMILY = /\b(hilton|hyatt|marriott|ihg|intercontinental|hotel|hotels|resort|resorts|collection)\b/
+
+// The words of the brand's own name that a file title has to carry. "Hotels",
+// "by Hilton" and the like are not required, so "Canopy Hotels Logo" passes
+// for Canopy by Hilton; "Hyatt Logo" fails for Hyatt Centric.
+const OWN: Record<string, string[]> = {
+  'hilton-hotels-resorts': ['hilton'],
+  'hyatt-brand': ['hyatt'],
+  iberostar: ['iberostar'],
+  'small-luxury-hotels': ['small', 'luxury'],
+  'luxury-collection': ['luxury', 'collection'],
+  'unbound-collection': ['unbound'],
+  'jdv-by-hyatt': ['jdv'],
+  'ritz-carlton-reserve': ['ritz', 'carlton', 'reserve'],
+}
+// Brands named after an everyday word: the title must also say hotel, resort
+// or the parent, or "Tempo-Logo.svg" is some other Tempo.
+const GENERIC = new Set(['tempo', 'motto', 'edition', 'vignette', 'secrets', 'dreams', 'caption', 'signia', 'tribute', 'nomad', 'even', 'graduate', 'canopy', 'destination', 'autograph', 'curio', 'tapestry', 'delta', 'design', 'regent', 'moxy', 'aloft', 'thompson', 'alila', 'miraval'])
+function ownWords(slug: string, brand: string): string[] {
+  if (OWN[slug]) return OWN[slug]
+  const bare = norm(brand).replace(/\b(by|of) (hilton|hyatt|marriott|the world)\b/, '')
+  const words = bare.split(' ').filter((w) => w && !FILLER.has(w))
+  return words.length ? words : norm(brand).split(' ')
+}
+
+// Higher is better; below zero is out. A title must name every word of the
+// brand and no other real word: "Conrad Manila logo" and "Park Hyatt Buenos
+// Aires" are a property's mark, not the brand's.
+function score(i: Info, slug: string, brand: string): number {
   const t = norm(i.title.replace(/^File:/, ''))
-  if (!t.includes(must)) return -1
+  const words = t.split(' ').filter(Boolean)
+  const own = ownWords(slug, brand)
+  for (const w of own) if (!words.includes(w)) return -1
+  const extra = words.filter((w) => !own.includes(w) && !FILLER.has(w) && !/^\d+$/.test(w))
+  if (extra.length) return -1
+  // a brand that is a common word ("Tempo", "Motto", "Edition", "Secrets") has
+  // to say it is a hotel somewhere in the title
+  if (own.length === 1 && GENERIC.has(own[0]) && !FAMILY.test(t)) return -1
   let s = 0
   if (i.mime === 'image/svg+xml') s += 40
   else if (i.mime === 'image/png') s += 20
   else if (i.mime === 'image/jpeg') s += 5
   else return -1
-  // words in the title that are neither the brand's own nor filler are
-  // usually a city or a property: "Conrad Manila logo", "Park Hyatt Buenos Aires"
-  const own = new Set(norm(brand).split(' '))
-  const extra = t.split(' ').filter((w) => w && !own.has(w) && !FILLER.has(w) && !/^\d+$/.test(w))
-  s -= 14 * extra.length
   if (/\blogo\b/.test(t)) s += 20
+  if (FAMILY.test(t)) s += 8
   if (/wordmark|icon|symbol|monogram/.test(t)) s -= 5
-  if (/\b(19\d\d|200\d|201[0-5])\b|old|former|previous|legacy/.test(t)) s -= 25
-  if (/\bnew\b|\b20(1[6-9]|2\d)\b/.test(t)) s += 5
+  if (/\b(19\d\d|200\d|201[0-5])\b|\bold\b|former|previous|legacy/.test(t)) s -= 25
   if (i.width && i.height && i.width / i.height < 1.2) s -= 5 // squat marks sit badly in a landscape tile
   s -= Math.min(10, t.length / 8) // shorter titles are usually the canonical file
   return s
@@ -156,6 +168,13 @@ async function download(i: Info, slug: string): Promise<string> {
   for (const old of fs.readdirSync(OUT_DIR).filter((f) => f.startsWith(`${slug}.`))) fs.unlinkSync(path.join(OUT_DIR, old))
   fs.writeFileSync(path.join(OUT_DIR, `${slug}.${ext}`), data)
   return `/images/brands/${slug}.${ext}`
+}
+
+function forget(slug: string, images: Record<string, string>, record: Record<string, Pick>) {
+  const local = images[slug]
+  if (local && fs.existsSync(path.join(process.cwd(), 'public', local))) fs.unlinkSync(path.join(process.cwd(), 'public', local))
+  delete images[slug]
+  if (record[slug] && !record[slug].pin) delete record[slug]
 }
 
 async function main() {
@@ -176,14 +195,13 @@ async function main() {
         choice = await fileInfo(pinned)
         if (!choice?.url) throw new Error(`pinned file not found: ${pinned}`)
       } else {
-        const must = MUST[b.slug] ?? norm(b.name).split(' ').find((w) => w.length > 2) ?? norm(b.name)
         const short = b.name.replace(/\s+(by|of)\s+(hyatt|hilton|marriott|the world)$/i, '').replace(/\s+hotels?( & resorts)?$/i, '')
         const queries = [QUERY[b.slug] ?? `${b.name} logo`, `${short} logo`, `${short} hotel logo`, `intitle:${short.split(' ')[0]} logo`, short]
         const seen = new Map<string, Info>()
         let ranked: { i: Info; s: number }[] = []
         for (const q of queries) {
           for (const i of await search(q)) if (!seen.has(i.title)) seen.set(i.title, i)
-          ranked = [...seen.values()].map((i) => ({ i, s: score(i, must, b.name) })).filter((x) => x.s >= 0).sort((a, c) => c.s - a.s)
+          ranked = [...seen.values()].map((i) => ({ i, s: score(i, b.slug, b.name) })).filter((x) => x.s >= 0).sort((a, c) => c.s - a.s)
           if (ranked.length && ranked[0].s >= 40) break
         }
         choice = ranked[0]?.i
@@ -193,6 +211,7 @@ async function main() {
       if (!choice?.url) {
         missed++
         console.log(`${b.slug}: no logo found for "${b.name}"`)
+        forget(b.slug, images.brands, record)
         continue
       }
       const local = await download(choice, b.slug)
@@ -203,6 +222,7 @@ async function main() {
     } catch (e) {
       missed++
       console.log(`${b.slug}: ${(e as Error).message}`)
+      if (!pinned) forget(b.slug, images.brands, record)
     }
     // save as it goes, so a run cut short keeps what it found
     fs.writeFileSync(RECORD, JSON.stringify(record, null, 2) + '\n')
