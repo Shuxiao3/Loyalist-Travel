@@ -40,7 +40,7 @@
     "url": "https://upload.wikimedia.org/wikipedia/commons/1/12/ConradHotelsLogo.svg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "license": "Public domain",
     "pin": "File:ConradHotelsLogo.svg",
-    "at": "2026-09-24"
+    "at": "2026-09-25"
   },
   "courtyard-by-marriott": {
     "file": "File:Courtyard by Marriott logo.svg",
@@ -111,7 +111,7 @@
     "url": "https://upload.wikimedia.org/wikipedia/commons/3/39/HiltonHotelsLogo.svg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "license": "Public domain",
     "pin": "File:HiltonHotelsLogo.svg",
-    "at": "2026-09-24"
+    "at": "2026-09-25"
   },
   "hotel-indigo": {
     "file": "File:HotelIndigoLogo.svg",
@@ -211,7 +211,7 @@
     "url": "https://upload.wikimedia.org/wikipedia/commons/9/92/Waldorf-Astoria-Logo.svg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "license": "Public domain",
     "pin": "File:Waldorf-Astoria-Logo.svg",
-    "at": "2026-09-24"
+    "at": "2026-09-25"
   },
   "westin": {
     "file": "File:Westin Hotels Logo.svg",
@@ -259,13 +259,13 @@
     "at": "2026-09-24"
   },
   "lxr": {
-    "file": "File:LXR logo.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:LXR_logo.jpg",
-    "url": "https://upload.wikimedia.org/wikipedia/commons/8/82/LXR_logo.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-    "license": "CC BY-SA 4.0",
-    "at": "2026-09-24",
+    "file": "https://stories-editor.hilton.com/wp-content/uploads/2024/01/BrandBarLogo-02-2.png",
+    "page": "https://stories-editor.hilton.com/wp-content/uploads/2024/01/BrandBarLogo-02-2.png",
+    "url": "https://stories-editor.hilton.com/wp-content/uploads/2024/01/BrandBarLogo-02-2.png",
+    "license": "brand press kit",
     "pin": "https://stories-editor.hilton.com/wp-content/uploads/2024/01/BrandBarLogo-02-2.png",
-    "note": "Hilton newsroom brand bar, stories.hilton.com/brands"
+    "note": "Hilton newsroom brand bar, stories.hilton.com/brands",
+    "at": "2026-09-25"
   },
   "ritz-carlton": {
     "file": "File:RitzCarlton.svg",
@@ -276,81 +276,171 @@
     "at": "2026-09-24"
   },
   "park-hyatt": {
+    "file": "https://newsroom.hyatt.com/download/PH-L004b-TM-color-CMYK+600pix.jpg",
+    "page": "https://newsroom.hyatt.com/download/PH-L004b-TM-color-CMYK+600pix.jpg",
+    "url": "https://newsroom.hyatt.com/download/PH-L004b-TM-color-CMYK+600pix.jpg",
+    "license": "brand press kit",
     "pin": "https://newsroom.hyatt.com/download/PH-L004b-TM-color-CMYK+600pix.jpg",
-    "note": "Hyatt press kit, newsroom.hyatt.com/Press-Kit"
+    "note": "Hyatt press kit, newsroom.hyatt.com/Press-Kit",
+    "at": "2026-09-25"
   },
   "andaz": {
+    "file": "https://newsroom.hyatt.com/download/ANDZ-L002b-R-black-CMYK+600pix.jpg",
+    "page": "https://newsroom.hyatt.com/download/ANDZ-L002b-R-black-CMYK+600pix.jpg",
+    "url": "https://newsroom.hyatt.com/download/ANDZ-L002b-R-black-CMYK+600pix.jpg",
+    "license": "brand press kit",
     "pin": "https://newsroom.hyatt.com/download/ANDZ-L002b-R-black-CMYK+600pix.jpg",
-    "note": "Hyatt press kit, newsroom.hyatt.com/Press-Kit"
+    "note": "Hyatt press kit, newsroom.hyatt.com/Press-Kit",
+    "at": "2026-09-25"
   },
   "hyatt-regency": {
+    "file": "https://newsroom.hyatt.com/download/HR-L004b-ctr-TM-color-CMYK+600pix.jpg",
+    "page": "https://newsroom.hyatt.com/download/HR-L004b-ctr-TM-color-CMYK+600pix.jpg",
+    "url": "https://newsroom.hyatt.com/download/HR-L004b-ctr-TM-color-CMYK+600pix.jpg",
+    "license": "brand press kit",
     "pin": "https://newsroom.hyatt.com/download/HR-L004b-ctr-TM-color-CMYK+600pix.jpg",
-    "note": "Hyatt press kit, newsroom.hyatt.com/Press-Kit"
+    "note": "Hyatt press kit, newsroom.hyatt.com/Press-Kit",
+    "at": "2026-09-25"
   },
   "hyatt-centric": {
+    "file": "https://newsroom.hyatt.com/download/Hyatt-Centric-L013b-stk-TM-color-CMYK+600pix.jpg",
+    "page": "https://newsroom.hyatt.com/download/Hyatt-Centric-L013b-stk-TM-color-CMYK+600pix.jpg",
+    "url": "https://newsroom.hyatt.com/download/Hyatt-Centric-L013b-stk-TM-color-CMYK+600pix.jpg",
+    "license": "brand press kit",
     "pin": "https://newsroom.hyatt.com/download/Hyatt-Centric-L013b-stk-TM-color-CMYK+600pix.jpg",
-    "note": "Hyatt press kit, newsroom.hyatt.com/Press-Kit"
+    "note": "Hyatt press kit, newsroom.hyatt.com/Press-Kit",
+    "at": "2026-09-25"
   },
   "hyatt-ziva": {
+    "file": "https://newsroom.hyatt.com/download/ZIVA-L004b-ctr-R-withtag-color-CMYK+600pix.jpg",
+    "page": "https://newsroom.hyatt.com/download/ZIVA-L004b-ctr-R-withtag-color-CMYK+600pix.jpg",
+    "url": "https://newsroom.hyatt.com/download/ZIVA-L004b-ctr-R-withtag-color-CMYK+600pix.jpg",
+    "license": "brand press kit",
     "pin": "https://newsroom.hyatt.com/download/ZIVA-L004b-ctr-R-withtag-color-CMYK+600pix.jpg",
-    "note": "Hyatt press kit, newsroom.hyatt.com/Press-Kit"
+    "note": "Hyatt press kit, newsroom.hyatt.com/Press-Kit",
+    "at": "2026-09-25"
   },
   "hyatt-zilara": {
+    "file": "https://newsroom.hyatt.com/download/ZILR-L004b-ctr-R-withtag-color-CMYK+600pix.jpg",
+    "page": "https://newsroom.hyatt.com/download/ZILR-L004b-ctr-R-withtag-color-CMYK+600pix.jpg",
+    "url": "https://newsroom.hyatt.com/download/ZILR-L004b-ctr-R-withtag-color-CMYK+600pix.jpg",
+    "license": "brand press kit",
     "pin": "https://newsroom.hyatt.com/download/ZILR-L004b-ctr-R-withtag-color-CMYK+600pix.jpg",
-    "note": "Hyatt press kit, newsroom.hyatt.com/Press-Kit"
+    "note": "Hyatt press kit, newsroom.hyatt.com/Press-Kit",
+    "at": "2026-09-25"
   },
   "caption-by-hyatt": {
+    "file": "https://newsroom.hyatt.com/download/CAP-L001b-hrz-R-gray-CMYK+600pix.jpg",
+    "page": "https://newsroom.hyatt.com/download/CAP-L001b-hrz-R-gray-CMYK+600pix.jpg",
+    "url": "https://newsroom.hyatt.com/download/CAP-L001b-hrz-R-gray-CMYK+600pix.jpg",
+    "license": "brand press kit",
     "pin": "https://newsroom.hyatt.com/download/CAP-L001b-hrz-R-gray-CMYK+600pix.jpg",
-    "note": "Hyatt press kit, newsroom.hyatt.com/Press-Kit"
+    "note": "Hyatt press kit, newsroom.hyatt.com/Press-Kit",
+    "at": "2026-09-25"
   },
   "jdv-by-hyatt": {
+    "file": "https://newsroom.hyatt.com/image/JDV-L001c-ctr-R-color-RGB.png",
+    "page": "https://newsroom.hyatt.com/image/JDV-L001c-ctr-R-color-RGB.png",
+    "url": "https://newsroom.hyatt.com/image/JDV-L001c-ctr-R-color-RGB.png",
+    "license": "brand press kit",
     "pin": [
       "https://newsroom.hyatt.com/image/JDV-L001c-ctr-R-color-RGB.png",
       "https://newsroom.hyatt.com/download/JDV-L006b-ctr-TM-color-CMYK+600pix.jpg"
     ],
-    "note": "Hyatt press kit, newsroom.hyatt.com/Press-Kit"
+    "note": "Hyatt press kit, newsroom.hyatt.com/Press-Kit",
+    "at": "2026-09-25"
   },
   "unbound-collection": {
+    "file": "https://newsroom.hyatt.com/download/UB-L004b-stmp-TM-color-CMYK+600pix.jpg",
+    "page": "https://newsroom.hyatt.com/download/UB-L004b-stmp-TM-color-CMYK+600pix.jpg",
+    "url": "https://newsroom.hyatt.com/download/UB-L004b-stmp-TM-color-CMYK+600pix.jpg",
+    "license": "brand press kit",
     "pin": "https://newsroom.hyatt.com/download/UB-L004b-stmp-TM-color-CMYK+600pix.jpg",
-    "note": "Hyatt press kit, newsroom.hyatt.com/Press-Kit"
+    "note": "Hyatt press kit, newsroom.hyatt.com/Press-Kit",
+    "at": "2026-09-25"
   },
   "thompson-hotels": {
+    "file": "https://newsroom.hyatt.com/download/TPS-L005b-ctr-TM-black-CMYK+600pix.jpg",
+    "page": "https://newsroom.hyatt.com/download/TPS-L005b-ctr-TM-black-CMYK+600pix.jpg",
+    "url": "https://newsroom.hyatt.com/download/TPS-L005b-ctr-TM-black-CMYK+600pix.jpg",
+    "license": "brand press kit",
     "pin": "https://newsroom.hyatt.com/download/TPS-L005b-ctr-TM-black-CMYK+600pix.jpg",
-    "note": "Hyatt press kit, newsroom.hyatt.com/Press-Kit"
+    "note": "Hyatt press kit, newsroom.hyatt.com/Press-Kit",
+    "at": "2026-09-25"
   },
   "miraval": {
+    "file": "https://newsroom.hyatt.com/download/MVL-L004b-TM-color-CMYK+600pix.jpg",
+    "page": "https://newsroom.hyatt.com/download/MVL-L004b-TM-color-CMYK+600pix.jpg",
+    "url": "https://newsroom.hyatt.com/download/MVL-L004b-TM-color-CMYK+600pix.jpg",
+    "license": "brand press kit",
     "pin": "https://newsroom.hyatt.com/download/MVL-L004b-TM-color-CMYK+600pix.jpg",
-    "note": "Hyatt press kit, newsroom.hyatt.com/Press-Kit"
+    "note": "Hyatt press kit, newsroom.hyatt.com/Press-Kit",
+    "at": "2026-09-25"
   },
   "dreams-resorts": {
+    "file": "https://newsroom.hyatt.com/image/Dreams+Logo+resized.png",
+    "page": "https://newsroom.hyatt.com/image/Dreams+Logo+resized.png",
+    "url": "https://newsroom.hyatt.com/image/Dreams+Logo+resized.png",
+    "license": "brand press kit",
     "pin": [
       "https://newsroom.hyatt.com/image/Dreams+Logo+resized.png",
       "https://newsroom.hyatt.com/download/DREAMS-logo-color-CMYK.jpg"
     ],
-    "note": "Hyatt press kit, newsroom.hyatt.com/Press-Kit"
+    "note": "Hyatt press kit, newsroom.hyatt.com/Press-Kit",
+    "at": "2026-09-25"
   },
   "secrets-resorts": {
+    "file": "https://newsroom.hyatt.com/download/Secrets+Resized.png",
+    "page": "https://newsroom.hyatt.com/download/Secrets+Resized.png",
+    "url": "https://newsroom.hyatt.com/download/Secrets+Resized.png",
+    "license": "brand press kit",
     "pin": "https://newsroom.hyatt.com/download/Secrets+Resized.png",
-    "note": "Hyatt press kit, newsroom.hyatt.com/Press-Kit"
+    "note": "Hyatt press kit, newsroom.hyatt.com/Press-Kit",
+    "at": "2026-09-25"
   },
   "doubletree": {
+    "file": "https://stories-editor.hilton.com/wp-content/uploads/2024/01/BrandBarLogo-08-2.png",
+    "page": "https://stories-editor.hilton.com/wp-content/uploads/2024/01/BrandBarLogo-08-2.png",
+    "url": "https://stories-editor.hilton.com/wp-content/uploads/2024/01/BrandBarLogo-08-2.png",
+    "license": "brand press kit",
     "pin": "https://stories-editor.hilton.com/wp-content/uploads/2024/01/BrandBarLogo-08-2.png",
-    "note": "Hilton newsroom brand bar, stories.hilton.com/brands"
+    "note": "Hilton newsroom brand bar, stories.hilton.com/brands",
+    "at": "2026-09-25"
   },
   "signia": {
+    "file": "https://stories-editor.hilton.com/wp-content/uploads/2026/07/Signia-Hilton_Brand-Logo.png",
+    "page": "https://stories-editor.hilton.com/wp-content/uploads/2026/07/Signia-Hilton_Brand-Logo.png",
+    "url": "https://stories-editor.hilton.com/wp-content/uploads/2026/07/Signia-Hilton_Brand-Logo.png",
+    "license": "brand press kit",
     "pin": "https://stories-editor.hilton.com/wp-content/uploads/2026/07/Signia-Hilton_Brand-Logo.png",
-    "note": "Hilton newsroom brand bar, stories.hilton.com/brands"
+    "note": "Hilton newsroom brand bar, stories.hilton.com/brands",
+    "at": "2026-09-25"
   },
   "tempo": {
+    "file": "https://stories-editor.hilton.com/wp-content/uploads/2024/01/BrandBarLogo-12-2.png",
+    "page": "https://stories-editor.hilton.com/wp-content/uploads/2024/01/BrandBarLogo-12-2.png",
+    "url": "https://stories-editor.hilton.com/wp-content/uploads/2024/01/BrandBarLogo-12-2.png",
+    "license": "brand press kit",
     "pin": "https://stories-editor.hilton.com/wp-content/uploads/2024/01/BrandBarLogo-12-2.png",
-    "note": "Hilton newsroom brand bar, stories.hilton.com/brands"
+    "note": "Hilton newsroom brand bar, stories.hilton.com/brands",
+    "at": "2026-09-25"
   },
   "motto": {
+    "file": "https://stories-editor.hilton.com/wp-content/uploads/2024/01/BrandBarLogo-13-2.png",
+    "page": "https://stories-editor.hilton.com/wp-content/uploads/2024/01/BrandBarLogo-13-2.png",
+    "url": "https://stories-editor.hilton.com/wp-content/uploads/2024/01/BrandBarLogo-13-2.png",
+    "license": "brand press kit",
     "pin": "https://stories-editor.hilton.com/wp-content/uploads/2024/01/BrandBarLogo-13-2.png",
-    "note": "Hilton newsroom brand bar, stories.hilton.com/brands"
+    "note": "Hilton newsroom brand bar, stories.hilton.com/brands",
+    "at": "2026-09-25"
   },
   "nomad": {
+    "file": "https://stories-editor.hilton.com/wp-content/uploads/2024/06/2024HiltonLogos-01-2.png",
+    "page": "https://stories-editor.hilton.com/wp-content/uploads/2024/06/2024HiltonLogos-01-2.png",
+    "url": "https://stories-editor.hilton.com/wp-content/uploads/2024/06/2024HiltonLogos-01-2.png",
+    "license": "brand press kit",
     "pin": "https://stories-editor.hilton.com/wp-content/uploads/2024/06/2024HiltonLogos-01-2.png",
-    "note": "Hilton newsroom brand bar, stories.hilton.com/brands"
+    "note": "Hilton newsroom brand bar, stories.hilton.com/brands",
+    "at": "2026-09-25"
   }
 }
