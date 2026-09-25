@@ -15,11 +15,14 @@ import path from 'path'
 import { getPayload } from 'payload'
 
 import config from '../../src/payload.config'
+import { explore } from './explore'
 
 type Pick = { file: string; page: string; url: string; license?: string; pin?: string | string[]; note?: string; at: string }
 type Info = { title: string; mime?: string; url?: string; descriptionurl?: string; width?: number; height?: number; license?: string; source?: string }
 
 const ALL = process.argv.includes('--all')
+const EXPLORE = process.argv[process.argv.indexOf('--explore') + 1]
+if (process.argv.includes('--explore') && !EXPLORE) throw new Error('--explore needs a url')
 const OUT_DIR = path.resolve(process.cwd(), 'public/images/brands')
 const RECORD = path.resolve(process.cwd(), 'data/brand-logos.json')
 const IMAGES = path.resolve(process.cwd(), 'data/images.json')
@@ -104,6 +107,12 @@ async function search(source: string, q: string): Promise<Info[]> {
 }
 
 async function fileInfo(title: string): Promise<Info | undefined> {
+  if (/^https?:/.test(title)) {
+    const head = await fetch(title, { method: 'HEAD', headers: { 'user-agent': UA }, redirect: 'follow', signal: AbortSignal.timeout(30000) }).catch(() => undefined)
+    const type = head?.headers.get('content-type')?.split(';')[0] ?? ''
+    const mime = type.startsWith('image/') ? type : /\.svg(\?|$)/i.test(title) ? 'image/svg+xml' : /\.png(\?|$)/i.test(title) ? 'image/png' : /\.jpe?g(\?|$)/i.test(title) ? 'image/jpeg' : ''
+    return head?.ok && mime ? { title, mime, url: title, descriptionurl: title, license: 'brand press kit', source: new URL(title).host } : undefined
+  }
   for (const source of SOURCES) {
     const i = infoOf((await api(source, { action: 'query', titles: title.startsWith('File:') ? title : `File:${title}`, prop: 'imageinfo', iiprop: 'url|mime|size|extmetadata' })).query?.pages)[0]
     if (i?.url) return { ...i, source }
@@ -170,7 +179,7 @@ async function download(i: Info, slug: string): Promise<string> {
   const res = await fetch(i.url!, { headers: { 'user-agent': UA }, signal: AbortSignal.timeout(60000) })
   if (!res.ok) throw new Error(`download ${res.status} for ${i.title}`)
   const data = Buffer.from(await res.arrayBuffer())
-  const ext = i.mime === 'image/svg+xml' ? 'svg' : 'png'
+  const ext = i.mime === 'image/svg+xml' ? 'svg' : i.mime === 'image/jpeg' ? 'jpg' : 'png'
   fs.mkdirSync(OUT_DIR, { recursive: true })
   for (const old of fs.readdirSync(OUT_DIR).filter((f) => f.startsWith(`${slug}.`))) fs.unlinkSync(path.join(OUT_DIR, old))
   fs.writeFileSync(path.join(OUT_DIR, `${slug}.${ext}`), data)
@@ -186,6 +195,10 @@ function forget(slug: string, images: Record<string, string>, record: Record<str
 }
 
 async function main() {
+  if (EXPLORE) {
+    await explore(EXPLORE)
+    process.exit(0)
+  }
   const payload = await getPayload({ config })
   const brands = (await payload.find({ collection: 'brands', limit: 200, depth: 0, sort: 'name', select: { name: true, slug: true } })).docs
   const record: Record<string, Pick> = fs.existsSync(RECORD) ? JSON.parse(fs.readFileSync(RECORD, 'utf8')) : {}

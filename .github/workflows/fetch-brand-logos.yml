@@ -13,6 +13,10 @@ on:
         description: 'Re-fetch every brand, not just the ones without a logo (yes/no)'
         required: false
         default: 'no'
+      explore:
+        description: 'Instead of fetching, print the asset links on this page (a press kit URL)'
+        required: false
+        default: ''
 
 permissions:
   contents: write
@@ -32,7 +36,12 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Fetch
-        run: npm run fetch:brand-logos -- ${{ github.event.inputs.all == 'yes' && '--all' || '' }}
+        run: |
+          if [ -n "${{ github.event.inputs.explore }}" ]; then
+            npm run fetch:brand-logos -- --explore "${{ github.event.inputs.explore }}"
+          else
+            npm run fetch:brand-logos -- ${{ github.event.inputs.all == 'yes' && '--all' || '' }}
+          fi
       - name: Commit
         run: |
           git config user.name 'github-actions[bot]'
