@@ -21,7 +21,7 @@ type Pick = { file: string; page: string; url: string; license?: string; pin?: s
 type Info = { title: string; mime?: string; url?: string; descriptionurl?: string; width?: number; height?: number; license?: string; source?: string }
 
 const ALL = process.argv.includes('--all')
-const EXPLORE = process.argv[process.argv.indexOf('--explore') + 1]
+const EXPLORE = process.argv.includes('--explore') ? process.argv[process.argv.indexOf('--explore') + 1] : undefined
 if (process.argv.includes('--explore') && !EXPLORE) throw new Error('--explore needs a url')
 const OUT_DIR = path.resolve(process.cwd(), 'public/images/brands')
 const RECORD = path.resolve(process.cwd(), 'data/brand-logos.json')
