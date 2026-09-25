@@ -147,8 +147,8 @@
     "page": "https://cache.marriott.com/is/image/marriotts7prod/md-mi-brand-page-md-log63336-31059",
     "url": "https://cache.marriott.com/is/image/marriotts7prod/md-mi-brand-page-md-log63336-31059",
     "license": "brand press kit",
-    "pin": "https://cache.marriott.com/is/image/marriotts7prod/md-mi-brand-page-md-log63336-31059",
-    "note": "Marriott brands page, marriott.com/marriott-brands/explore-our-brands.mi",
+    "pin": "File:LeMeridien.svg",
+    "note": null,
     "at": "2026-09-25"
   },
   "marriott-hotels": {
@@ -156,8 +156,8 @@
     "page": "https://cache.marriott.com/is/image/marriotts7prod/mc-mi-brand-page-mc-log17979-46832-9",
     "url": "https://cache.marriott.com/is/image/marriotts7prod/mc-mi-brand-page-mc-log17979-46832-9",
     "license": "brand press kit",
-    "pin": "https://cache.marriott.com/is/image/marriotts7prod/mc-mi-brand-page-mc-log17979-46832-9",
-    "note": "Marriott brands page, marriott.com/marriott-brands/explore-our-brands.mi",
+    "pin": "File:Marriott Logo.svg",
+    "note": null,
     "at": "2026-09-25"
   },
   "moxy": {
@@ -186,8 +186,8 @@
     "page": "https://cache.marriott.com/is/image/marriotts7prod/si-mi-brand-page-si-log44352-13910",
     "url": "https://cache.marriott.com/is/image/marriotts7prod/si-mi-brand-page-si-log44352-13910",
     "license": "brand press kit",
-    "pin": "https://cache.marriott.com/is/image/marriotts7prod/si-mi-brand-page-si-log44352-13910",
-    "note": "Marriott brands page, marriott.com/marriott-brands/explore-our-brands.mi",
+    "pin": "File:Sheraton Hotels and Resorts.svg",
+    "note": null,
     "at": "2026-09-25"
   },
   "st-regis": {
@@ -278,8 +278,8 @@
     "page": "https://cache.marriott.com/content/dam/marriott-digital/rz/global-brand-exclusive/en_us/logo/assets/rz-mi-brand-page-rz-log54882-28599.jpg",
     "url": "https://cache.marriott.com/content/dam/marriott-digital/rz/global-brand-exclusive/en_us/logo/assets/rz-mi-brand-page-rz-log54882-28599.jpg",
     "license": "brand press kit",
-    "pin": "https://cache.marriott.com/content/dam/marriott-digital/rz/global-brand-exclusive/en_us/logo/assets/rz-mi-brand-page-rz-log54882-28599.jpg",
-    "note": "Marriott brands page, marriott.com/marriott-brands/explore-our-brands.mi",
+    "pin": "File:RitzCarlton.svg",
+    "note": null,
     "at": "2026-09-25"
   },
   "park-hyatt": {
@@ -456,7 +456,7 @@
     "url": "https://cache.marriott.com/is/image/marriotts7prod/eb-mi-brand-page-eb-log90400-43574",
     "license": "brand press kit",
     "pin": [
-      "https://cache.marriott.com/is/image/marriotts7prod/eb-mi-brand-page-eb-log90400-43574",
+      "https://cache.marriott.com/is/image/marriotts7prod/eb-mi-brand-page-eb-log90400-43574?wid=900&fit=constrain",
       "https://www.editionhotels.com/wp-content/uploads/2016/09/edition-text-logo-black.png"
     ],
     "note": "Marriott brands page, marriott.com/marriott-brands/explore-our-brands.mi",
@@ -467,7 +467,7 @@
     "page": "https://cache.marriott.com/is/image/marriotts7prod/ge-mi-brand-page-ge-log28177-32918",
     "url": "https://cache.marriott.com/is/image/marriotts7prod/ge-mi-brand-page-ge-log28177-32918",
     "license": "brand press kit",
-    "pin": "https://cache.marriott.com/is/image/marriotts7prod/ge-mi-brand-page-ge-log28177-32918",
+    "pin": "https://cache.marriott.com/is/image/marriotts7prod/ge-mi-brand-page-ge-log28177-32918?wid=900&fit=constrain",
     "note": "Marriott brands page, marriott.com/marriott-brands/explore-our-brands.mi",
     "at": "2026-09-25"
   },
@@ -476,7 +476,7 @@
     "page": "https://cache.marriott.com/is/image/marriotts7prod/rz-mi-brand-page-rzr-log3893-14607",
     "url": "https://cache.marriott.com/is/image/marriotts7prod/rz-mi-brand-page-rzr-log3893-14607",
     "license": "brand press kit",
-    "pin": "https://cache.marriott.com/is/image/marriotts7prod/rz-mi-brand-page-rzr-log3893-14607",
+    "pin": "https://cache.marriott.com/is/image/marriotts7prod/rz-mi-brand-page-rzr-log3893-14607?wid=900&fit=constrain",
     "note": "Marriott brands page, marriott.com/marriott-brands/explore-our-brands.mi",
     "at": "2026-09-25"
   },
@@ -485,7 +485,7 @@
     "page": "https://cache.marriott.com/is/image/marriotts7prod/tx-mi-brand-page-tx-log50513-58455",
     "url": "https://cache.marriott.com/is/image/marriotts7prod/tx-mi-brand-page-tx-log50513-58455",
     "license": "brand press kit",
-    "pin": "https://cache.marriott.com/is/image/marriotts7prod/tx-mi-brand-page-tx-log50513-58455",
+    "pin": "https://cache.marriott.com/is/image/marriotts7prod/tx-mi-brand-page-tx-log50513-58455?wid=900&fit=constrain",
     "note": "Marriott brands page, marriott.com/marriott-brands/explore-our-brands.mi",
     "at": "2026-09-25"
   }
