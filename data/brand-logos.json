@@ -147,14 +147,18 @@
     "page": "https://commons.wikimedia.org/wiki/File:LeMeridien.svg",
     "url": "https://upload.wikimedia.org/wikipedia/commons/6/6a/LeMeridien.svg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "license": "Public domain",
-    "at": "2026-09-24"
+    "at": "2026-09-24",
+    "pin": "https://cache.marriott.com/is/image/marriotts7prod/md-mi-brand-page-md-log63336-31059",
+    "note": "Marriott brands page, marriott.com/marriott-brands/explore-our-brands.mi"
   },
   "marriott-hotels": {
     "file": "File:Marriott Logo.svg",
     "page": "https://commons.wikimedia.org/wiki/File:Marriott_Logo.svg",
     "url": "https://upload.wikimedia.org/wikipedia/commons/4/44/Marriott_Logo.svg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "license": "Public domain",
-    "at": "2026-09-24"
+    "at": "2026-09-24",
+    "pin": "https://cache.marriott.com/is/image/marriotts7prod/mc-mi-brand-page-mc-log17979-46832-9",
+    "note": "Marriott brands page, marriott.com/marriott-brands/explore-our-brands.mi"
   },
   "moxy": {
     "file": "File:Moxy Hotels logo.svg",
@@ -182,7 +186,9 @@
     "page": "https://commons.wikimedia.org/wiki/File:Sheraton_Hotels_and_Resorts.svg",
     "url": "https://upload.wikimedia.org/wikipedia/commons/5/51/Sheraton_Hotels_and_Resorts.svg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "license": "Public domain",
-    "at": "2026-09-24"
+    "at": "2026-09-24",
+    "pin": "https://cache.marriott.com/is/image/marriotts7prod/si-mi-brand-page-si-log44352-13910",
+    "note": "Marriott brands page, marriott.com/marriott-brands/explore-our-brands.mi"
   },
   "st-regis": {
     "file": "File:St. Regis Hotels & Resorts logo.svg",
@@ -272,8 +278,9 @@
     "page": "https://en.wikipedia.org/wiki/File:RitzCarlton.svg",
     "url": "https://upload.wikimedia.org/wikipedia/en/a/a0/RitzCarlton.svg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=original",
     "license": "Fair use",
-    "note": "from English Wikipedia (fair use)",
-    "at": "2026-09-24"
+    "note": "Marriott brands page, marriott.com/marriott-brands/explore-our-brands.mi",
+    "at": "2026-09-24",
+    "pin": "https://cache.marriott.com/content/dam/marriott-digital/rz/global-brand-exclusive/en_us/logo/assets/rz-mi-brand-page-rz-log54882-28599.jpg"
   },
   "park-hyatt": {
     "file": "https://newsroom.hyatt.com/download/PH-L004b-TM-color-CMYK+600pix.jpg",
@@ -442,5 +449,24 @@
     "pin": "https://stories-editor.hilton.com/wp-content/uploads/2024/06/2024HiltonLogos-01-2.png",
     "note": "Hilton newsroom brand bar, stories.hilton.com/brands",
     "at": "2026-09-25"
+  },
+  "edition": {
+    "pin": [
+      "https://cache.marriott.com/is/image/marriotts7prod/eb-mi-brand-page-eb-log90400-43574",
+      "https://www.editionhotels.com/wp-content/uploads/2016/09/edition-text-logo-black.png"
+    ],
+    "note": "Marriott brands page, marriott.com/marriott-brands/explore-our-brands.mi"
+  },
+  "gaylord-hotels": {
+    "pin": "https://cache.marriott.com/is/image/marriotts7prod/ge-mi-brand-page-ge-log28177-32918",
+    "note": "Marriott brands page, marriott.com/marriott-brands/explore-our-brands.mi"
+  },
+  "ritz-carlton-reserve": {
+    "pin": "https://cache.marriott.com/is/image/marriotts7prod/rz-mi-brand-page-rzr-log3893-14607",
+    "note": "Marriott brands page, marriott.com/marriott-brands/explore-our-brands.mi"
+  },
+  "tribute-portfolio": {
+    "pin": "https://cache.marriott.com/is/image/marriotts7prod/tx-mi-brand-page-tx-log50513-58455",
+    "note": "Marriott brands page, marriott.com/marriott-brands/explore-our-brands.mi"
   }
 }
