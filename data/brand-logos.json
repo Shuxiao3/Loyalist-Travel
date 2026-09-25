@@ -272,5 +272,63 @@
     "license": "Fair use",
     "note": "from English Wikipedia (fair use)",
     "at": "2026-09-24"
+  },
+  "park-hyatt": {
+    "pin": "https://newsroom.hyatt.com/download/PH-L004b-TM-color-CMYK+600pix.jpg",
+    "note": "Hyatt press kit, newsroom.hyatt.com/Press-Kit"
+  },
+  "andaz": {
+    "pin": "https://newsroom.hyatt.com/download/ANDZ-L002b-R-black-CMYK+600pix.jpg",
+    "note": "Hyatt press kit, newsroom.hyatt.com/Press-Kit"
+  },
+  "hyatt-regency": {
+    "pin": "https://newsroom.hyatt.com/download/HR-L004b-ctr-TM-color-CMYK+600pix.jpg",
+    "note": "Hyatt press kit, newsroom.hyatt.com/Press-Kit"
+  },
+  "hyatt-centric": {
+    "pin": "https://newsroom.hyatt.com/download/Hyatt-Centric-L013b-stk-TM-color-CMYK+600pix.jpg",
+    "note": "Hyatt press kit, newsroom.hyatt.com/Press-Kit"
+  },
+  "hyatt-ziva": {
+    "pin": "https://newsroom.hyatt.com/download/ZIVA-L004b-ctr-R-withtag-color-CMYK+600pix.jpg",
+    "note": "Hyatt press kit, newsroom.hyatt.com/Press-Kit"
+  },
+  "hyatt-zilara": {
+    "pin": "https://newsroom.hyatt.com/download/ZILR-L004b-ctr-R-withtag-color-CMYK+600pix.jpg",
+    "note": "Hyatt press kit, newsroom.hyatt.com/Press-Kit"
+  },
+  "caption-by-hyatt": {
+    "pin": "https://newsroom.hyatt.com/download/CAP-L001b-hrz-R-gray-CMYK+600pix.jpg",
+    "note": "Hyatt press kit, newsroom.hyatt.com/Press-Kit"
+  },
+  "jdv-by-hyatt": {
+    "pin": [
+      "https://newsroom.hyatt.com/image/JDV-L001c-ctr-R-color-RGB.png",
+      "https://newsroom.hyatt.com/download/JDV-L006b-ctr-TM-color-CMYK+600pix.jpg"
+    ],
+    "note": "Hyatt press kit, newsroom.hyatt.com/Press-Kit"
+  },
+  "unbound-collection": {
+    "pin": "https://newsroom.hyatt.com/download/UB-L004b-stmp-TM-color-CMYK+600pix.jpg",
+    "note": "Hyatt press kit, newsroom.hyatt.com/Press-Kit"
+  },
+  "thompson-hotels": {
+    "pin": "https://newsroom.hyatt.com/download/TPS-L005b-ctr-TM-black-CMYK+600pix.jpg",
+    "note": "Hyatt press kit, newsroom.hyatt.com/Press-Kit"
+  },
+  "miraval": {
+    "pin": "https://newsroom.hyatt.com/download/MVL-L004b-TM-color-CMYK+600pix.jpg",
+    "note": "Hyatt press kit, newsroom.hyatt.com/Press-Kit"
+  },
+  "dreams-resorts": {
+    "pin": [
+      "https://newsroom.hyatt.com/image/Dreams+Logo+resized.png",
+      "https://newsroom.hyatt.com/download/DREAMS-logo-color-CMYK.jpg"
+    ],
+    "note": "Hyatt press kit, newsroom.hyatt.com/Press-Kit"
+  },
+  "secrets-resorts": {
+    "pin": "https://newsroom.hyatt.com/download/Secrets+Resized.png",
+    "note": "Hyatt press kit, newsroom.hyatt.com/Press-Kit"
   }
 }
