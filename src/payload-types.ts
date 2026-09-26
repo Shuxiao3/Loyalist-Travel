@@ -226,6 +226,10 @@ export interface Brand {
   slug: string;
   program?: (number | null) | Program;
   segment?: ('ultra-luxury' | 'luxury' | 'upscale' | 'midscale' | 'budget' | 'extended-stay') | null;
+  /**
+   * Perceived hierarchy within the program: 1 sits at the top of the brand list, higher numbers further down. Blank sorts last.
+   */
+  rank?: number | null;
   shortDescription?: string | null;
   overview?: {
     root: {
@@ -1848,6 +1852,7 @@ export interface BrandsSelect<T extends boolean = true> {
   slug?: T;
   program?: T;
   segment?: T;
+  rank?: T;
   shortDescription?: T;
   overview?: T;
   logoUrl?: T;

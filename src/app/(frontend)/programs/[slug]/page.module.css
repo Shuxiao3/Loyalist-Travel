@@ -161,41 +161,6 @@
   font-size: var(--t-md);
 }
 
-/* one section per milestone inside the card */
-.msList {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: var(--s6) var(--s7);
-}
-
-.msItem {
-  display: grid;
-  align-content: start;
-  gap: var(--s3);
-  padding-top: var(--s4);
-  border-top: 1px solid var(--line);
-}
-
-.msAt {
-  margin: 0;
-  font-size: var(--t-lg);
-  font-weight: var(--w-heading);
-  color: var(--heading);
-}
-
-.msRewards {
-  margin: 0;
-  gap: var(--s2);
-}
-
-.msRewards li {
-  font-size: var(--t-md);
-  line-height: 1.5;
-}
-
 .legend {
   display: flex;
   align-items: center;

@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 import { HotelList } from '@/components/HotelCard'
+import { MilestoneCarousel } from '@/components/MilestoneCarousel'
 import { Pager } from '@/components/Pager'
 import { ReferenceHero } from '@/components/ReferenceHero'
 import { ReviewCard } from '@/components/ReviewCard'
@@ -154,9 +155,7 @@ export default async function ProgramPage({ params, searchParams }: Props) {
             <div className="section-head">
               <div>
                 <span className="eyebrow on-light">Brands</span>
-                <h2 id="brands-h">
-                  {brandList.length} {brandList.length === 1 ? 'brand' : 'brands'} under {program.name}
-                </h2>
+                <h2 id="brands-h">{program.name} indexed brands</h2>
               </div>
             </div>
             <ul className={styles.brandGrid}>
@@ -192,29 +191,13 @@ export default async function ProgramPage({ params, searchParams }: Props) {
                 </Link>
               )}
             </div>
-            <div className={styles.msCard}>
-              {(program.milestoneList?.length ?? 0) > 0 ? (
-                <ol className={styles.msList}>
-                  {program.milestoneList!.map((m) => {
-                    const lines = (m.rewards ?? '').split(/\r?\n/).map((l) => l.trim()).filter(Boolean)
-                    return (
-                      <li className={styles.msItem} key={m.id ?? m.at}>
-                        <h3 className={styles.msAt}>{m.at}</h3>
-                        {lines.length > 0 && (
-                          <ul className={`prose ${styles.msRewards}`}>
-                            {lines.map((l) => (
-                              <li key={l}>{l}</li>
-                            ))}
-                          </ul>
-                        )}
-                      </li>
-                    )
-                  })}
-                </ol>
-              ) : (
+            {(program.milestoneList?.length ?? 0) > 0 ? (
+              <MilestoneCarousel items={program.milestoneList!.map((m) => ({ id: m.id ?? m.at, at: m.at, rewards: (m.rewards ?? '').split(/\r?\n/).map((l) => l.trim()).filter(Boolean) }))} />
+            ) : (
+              <div className={styles.msCard}>
                 <RichText data={program.milestones!} className={styles.msProse} />
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </section>
       )}

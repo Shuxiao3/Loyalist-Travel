@@ -794,6 +794,30 @@ async function loungeFlags(payload: Payload) {
   console.log(`lounge-flags: ${set} set, ${kept} already answered, ${missing} hotels not found`)
 }
 
+// ---- Brand hierarchy ------------------------------------------------------------
+// Where each brand sits in its program, top first. Fills blank ranks only;
+// an editor's number is kept.
+const BRAND_RANK: Record<string, number> = {
+  // World of Hyatt
+  'park-hyatt': 1, alila: 2, miraval: 3, 'unbound-collection': 4, andaz: 5, 'thompson-hotels': 6, 'grand-hyatt': 7, 'hyatt-zilara': 8, 'hyatt-ziva': 9, 'secrets-resorts': 10, 'dreams-resorts': 11, 'hyatt-regency': 12, 'destination-by-hyatt': 13, 'jdv-by-hyatt': 14, 'hyatt-centric': 15, 'caption-by-hyatt': 16, 'hyatt-brand': 17,
+  // Marriott Bonvoy
+  'ritz-carlton-reserve': 1, 'ritz-carlton': 2, 'st-regis': 3, bulgari: 4, edition: 5, 'luxury-collection': 6, 'jw-marriott': 7, 'w-hotels': 8, 'design-hotels': 9, 'autograph-collection': 10, 'tribute-portfolio': 11, 'marriott-hotels': 12, westin: 13, sheraton: 14, 'le-meridien': 15, renaissance: 16, 'gaylord-hotels': 17, 'delta-hotels': 18, 'ac-hotels': 19, 'courtyard-by-marriott': 20, aloft: 21, moxy: 22,
+  // Hilton Honors
+  'waldorf-astoria': 1, lxr: 2, conrad: 3, nomad: 4, 'small-luxury-hotels': 5, signia: 6, canopy: 7, 'curio-collection': 8, 'hilton-hotels-resorts': 9, 'graduate-by-hilton': 10, 'tapestry-collection': 11, doubletree: 12, 'embassy-suites': 13, tempo: 14, motto: 15,
+  // IHG One Rewards
+  'six-senses': 1, regent: 2, intercontinental: 3, 'vignette-collection': 4, kimpton: 5, hualuxe: 6, 'hotel-indigo': 7, iberostar: 8, 'crowne-plaza': 9, voco: 10, 'even-hotels': 11,
+}
+async function seedBrandRanks(payload: Payload) {
+  let set = 0
+  for (const [slug, rank] of Object.entries(BRAND_RANK)) {
+    const b = (await payload.find({ collection: 'brands', where: { slug: { equals: slug } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
+    if (!b || b.rank != null) continue
+    await payload.update({ collection: 'brands', id: b.id, data: { rank }, depth: 0, overrideAccess: true })
+    set++
+  }
+  console.log(`seed-brand-ranks: filled ${set} brands`)
+}
+
 // ---- Club lounge by brand rule (Marriott) ----------------------------------------
 // Marriott's site refuses automated reading, so the flag is set by brand and
 // region where the answer is nearly always the same. Only blank hotels are
@@ -1047,6 +1071,7 @@ const STEPS: Record<string, (p: Payload) => Promise<void>> = {
   'retire-tiers': retireTiers,
   'seed-milestones': seedMilestones,
   'seed-cards': seedCards,
+  'seed-brand-ranks': seedBrandRanks,
   'lounge-flags': loungeFlags,
   'lounge-brand-rules': loungeBrandRules,
 }

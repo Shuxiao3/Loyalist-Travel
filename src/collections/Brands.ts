@@ -25,6 +25,7 @@ export const Brands: CollectionConfig = {
     slugField,
     { name: 'program', type: 'relationship', relationTo: 'programs', index: true },
     { name: 'segment', type: 'select', options: SEGMENT_OPTIONS, admin: { hidden: true } },
+    { name: 'rank', type: 'number', min: 1, admin: { description: 'Perceived hierarchy within the program: 1 sits at the top of the brand list, higher numbers further down. Blank sorts last.' } },
     { name: 'shortDescription', type: 'textarea' },
     { name: 'overview', type: 'richText' },
     { name: 'logoUrl', type: 'text', admin: { description: 'Webflow-hosted URL until owned media is uploaded.' } },
