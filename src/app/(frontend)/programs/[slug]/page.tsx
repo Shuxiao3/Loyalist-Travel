@@ -162,9 +162,14 @@ export default async function ProgramPage({ params, searchParams }: Props) {
             <ul className={styles.brandGrid}>
               {brandList.map((b) => (
                 <li key={b.id}>
-                  <Link className={styles.brand} href={`/brands/${b.slug}`}>
-                    <span className={styles.brandName}>{b.name}</span>
-                    <span className={styles.brandCount}>{b.n === 0 ? 'No hotels indexed yet' : `${count(b.n)} ${b.n === 1 ? 'hotel' : 'hotels'}`}</span>
+                  <Link className={styles.brand} href={`/brands/${b.slug}`} title={`${b.name}: ${b.n === 0 ? 'no hotels indexed yet' : `${count(b.n)} ${b.n === 1 ? 'hotel' : 'hotels'}`}`}>
+                    {b.logo ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img className={styles.brandLogo} src={b.logo} alt={b.name} loading="lazy" />
+                    ) : (
+                      <span className={styles.brandMark}>{b.name}</span>
+                    )}
+                    <span className="sr-only">{b.name}</span>
                   </Link>
                 </li>
               ))}

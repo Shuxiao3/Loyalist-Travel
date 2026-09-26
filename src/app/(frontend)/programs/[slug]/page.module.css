@@ -87,22 +87,21 @@
   white-space: nowrap;
 }
 
-/* every brand under the program */
+/* every brand under the program: logo tiles */
 .brandGrid {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: var(--s3);
+  grid-template-columns: repeat(auto-fill, minmax(124px, 1fr));
+  gap: var(--s2);
 }
 
 .brand {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--s3);
-  padding: var(--s4) var(--s5);
+  display: grid;
+  place-items: center;
+  aspect-ratio: 3 / 2;
+  padding: var(--s3) var(--s4);
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: var(--r);
@@ -116,18 +115,34 @@
   border-color: var(--gold-dark);
 }
 
-.brandName {
-  font-size: var(--t-md);
-  font-weight: var(--w-heading);
+.brandLogo {
+  max-width: 100%;
+  max-height: 44px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+/* a brand with no logo yet: its name set as a small wordmark */
+.brandMark {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.15;
   color: var(--heading);
 }
 
-.brandCount {
-  flex: none;
-  font-size: var(--t-xs);
-  color: var(--muted);
-  letter-spacing: var(--track-fine);
-  white-space: nowrap;
+@media (max-width: 640px) {
+  .brandGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .brandLogo {
+    max-height: 40px;
+  }
 }
 
 /* milestone rewards */
