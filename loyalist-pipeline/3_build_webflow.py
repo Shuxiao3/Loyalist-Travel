@@ -273,6 +273,12 @@ def main():
         sys.exit(f"{args.in_csv} has no rows.")
     print(f"{len(rows)} extracted stays")
 
+    from collections import Counter as _Counter
+    repeats = _Counter((r.get("source"), r.get("post_id"), r.get("hotel_slug"), r.get("stay_month")) for r in rows)
+    doubled = sum(n - 1 for n in repeats.values() if n > 1)
+    if doubled:
+        print(f"  {doubled} row(s) repeat a post for the same hotel and month — kept, but worth a look")
+
     if not args.keep_low_confidence:
         kept = [r for r in rows if r.get("confidence") != "low"]
         if len(kept) != len(rows):

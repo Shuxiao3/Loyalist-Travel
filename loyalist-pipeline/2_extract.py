@@ -79,6 +79,8 @@ SYSTEM = """You read posts from a FlyerTalk hotel thread and record the stays me
 
 Return one record per reported stay. A post earns a record when the member is describing a stay of their own at this hotel: they were there, and they say something about how it went. Omit everything else, and omit is the default — questions about future stays, rate and award availability chatter, news, photographs without a stay, replies that only agree or argue, trip plans, and posts about a different hotel all get no record. One post occasionally reports two separate stays; that is two records. A post that reports the same stay a previous post already described is still that member's own stay: record it.
 
+You are given one hotel, and only stays at that hotel count. This matters more on Reddit than it did on a forum thread about a single property: a trip report often names four or five hotels across a country, and comments wander to whatever hotel the commenter would rather talk about. Read every field against the stay at the hotel you were given. A post describing a suite upgrade at a different property and nothing about this one gets no record at all; a post covering both gets a record for this one only, and none of the other hotel's details belong in it.
+
 Fill each field only from what the post says. "unknown" and "" are correct answers and are always better than an inference. In particular:
 
 - status_held: the tier the member held on that stay, as a slug from the list you are given. Only what they state or plainly imply about themselves ("as a Globalist", "my Explorist stay"). A member complaining that Globalists get suites is not saying they are one.
@@ -352,21 +354,43 @@ def parse_stays(text):
 
 # --- rows and output ------------------------------------------------------
 
+def page_fingerprint(page):
+    """What this page holds, not where it sits."""
+    return fingerprint(*[f"{p['post_id']}:{p['text']}" for p in page["posts"]])
+
+
 def cache_path(thread_id, page):
-    return CACHE_DIR / f"{re.sub(r'[^A-Za-z0-9_-]', '-', thread_id)}_p{page}.json"
+    """Cache files are named after a page's contents, not its number.
+
+    A FlyerTalk page 43 always holds the same posts, so a number was enough.
+    A Reddit "page" is the nth search result, and the ranking shifts as posts
+    are added — so keying on the number would hand a cached extraction to a
+    different submission on the next fetch, and quietly attribute one stay's
+    fields to another post. Naming the file after the content it was extracted
+    from cannot do that: changed content is simply a page not yet extracted.
+    """
+    safe = re.sub(r"[^A-Za-z0-9_-]", "-", thread_id)[:60]
+    return CACHE_DIR / f"{safe}_{page_fingerprint(page)}.json"
 
 
 def rows_from_cache(threads_meta, raw_threads):
-    """Every cached page belonging to a thread still present in raw/."""
+    """Every page of every raw file that has already been extracted.
+
+    Walks what is in raw/ now and looks each page up by its contents, so a
+    cache entry can only ever be joined back to the posts it came from.
+    """
     rows, stale = [], 0
     for thread_id, thread in sorted(raw_threads.items()):
         meta = meta_for(thread_id, threads_meta, thread)
-        safe = re.sub(r"[^A-Za-z0-9_-]", "-", thread_id)
-        for page in sorted(int(p.stem.rsplit("_p", 1)[-1]) for p in CACHE_DIR.glob(f"{safe}_p*.json")):
-            cached = json.loads(cache_path(thread_id, page).read_text(encoding="utf-8"))
+        for page_data in thread["pages"]:
+            path = cache_path(thread_id, page_data)
+            if not path.exists():
+                continue
+            page = page_data["page"]
+            cached = json.loads(path.read_text(encoding="utf-8"))
             if cached.get("prompt_fingerprint") != PROMPT_FINGERPRINT:
                 stale += 1
-            posts = {p["post_id"]: p for pg in thread["pages"] if pg["page"] == page for p in pg["posts"]}
+            posts = {p["post_id"]: p for p in page_data["posts"]}
             for stay in cached.get("stays", []):
                 post = posts.get(str(stay.get("post_id", "")), {})
                 rows.append({
@@ -456,7 +480,7 @@ def main():
         (thread_id, page)
         for thread_id, thread in sorted(todo.items())
         for page in thread["pages"]
-        if args.force or not cache_path(thread_id, page["page"]).exists()
+        if args.force or not cache_path(thread_id, page).exists()
     ]
     posts = sum(len(p["posts"]) for _, p in pending)
     print(f"{len(raw_threads)} thread(s) in raw/, {len(pending)} page(s) to extract, {posts} posts")
@@ -489,9 +513,10 @@ def main():
                 time.sleep(2)
                 continue
 
-            cache_path(thread_id, page["page"]).write_text(json.dumps({
+            cache_path(thread_id, page).write_text(json.dumps({
                 "thread_id": thread_id,
                 "page": page["page"],
+                "page_fingerprint": page_fingerprint(page),
                 "model": args.model,
                 "prompt_fingerprint": PROMPT_FINGERPRINT,
                 "extracted_at": datetime.now().astimezone().isoformat(timespec="seconds"),

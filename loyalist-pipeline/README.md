@@ -127,7 +127,11 @@ python 2_extract.py                           # everything in raw/
 
 * Output: `data/data_points.csv`, one row per reported stay, with a `source`
   column saying which site it came from.
-* Results are cached per page in `data/cache/`, so reruns only process new pages.
+* Results are cached in `data/cache/`, keyed on what a page holds rather than
+  where it sits, so reruns only pay for pages whose posts have changed. This
+  matters for Reddit, where a "page" is the nth search result and the ranking
+  moves; keying on the number would hand a cached extraction to a different
+  submission and quietly attach one stay's fields to another post.
 * The CSV is rebuilt from the whole cache every run, so `--only` never drops
   the rows another thread already produced.
 * Default model is `claude-sonnet-5`. `--model claude-haiku-4-5-20251001` is
@@ -243,6 +247,11 @@ what the `Sample` columns and `--min-stays` are for.
 
 `raw/*.txt` and `data/cache/` are not committed. The built CSVs are not
 ignored, so an import you actually used can be committed as a record of it.
+
+One thing the rates cannot see: a member who posts the same trip report to both
+FlyerTalk and Reddit is counted twice. Catching that would mean matching
+identities across sites, which this deliberately does not store. It is another
+reason the `Sample` columns sit next to every rate.
 
 ## Adding brands later
 
