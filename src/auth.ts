@@ -30,26 +30,32 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       return true
     },
     async jwt({ token, user, trigger }) {
-      // on sign-in, and whenever the site asks for a refresh, copy the reader's record into the token
+      // The id is the only thing worth carrying in the token: it is fixed for
+      // an email, so it can be cached for the life of the cookie. The name and
+      // the block flag are not — they are read fresh in the session callback.
       if ((user || trigger === 'update' || !token.readerId) && token.email) {
         const payload = await getPayloadClient()
         const found = await payload.find({ collection: 'readers', where: { email: { equals: String(token.email).toLowerCase() } }, limit: 1, depth: 0, overrideAccess: true })
-        const r = found.docs[0]
-        if (r) {
-          token.readerId = r.id
-          token.displayName = r.displayName ?? null
-          token.blocked = r.status === 'blocked'
-        }
+        if (found.docs[0]) token.readerId = found.docs[0].id
       }
       return token
     },
     async session({ session, token }) {
-      // Only when a reader was actually resolved. Setting this unconditionally
-      // made session.reader truthy with an undefined id, which sent /login to
-      // /account and /account straight back: a redirect loop with no way out,
-      // because signing out lives on the page you could never reach.
-      if (token.readerId) {
-        session.reader = { id: token.readerId as number, displayName: (token.displayName as string | null) ?? null, blocked: Boolean(token.blocked) }
+      // Read the reader's row rather than trusting a copy in the token. Both
+      // fields below change while a cookie lives: a reader picking a display
+      // name saw nothing happen, because the page read the name the token was
+      // minted with, and a reader blocked in the admin kept posting until their
+      // token expired, up to ninety days later.
+      //
+      // Only set session.reader when a reader was actually resolved. Setting it
+      // unconditionally made it truthy with an undefined id, which sent /login
+      // to /account and /account straight back: a redirect loop with no way
+      // out, because signing out lives on the page you could never reach.
+      if (!token.readerId) return session
+      const payload = await getPayloadClient()
+      const reader = await payload.findByID({ collection: 'readers', id: token.readerId as number, depth: 0, overrideAccess: true }).catch(() => null)
+      if (reader) {
+        session.reader = { id: reader.id, displayName: reader.displayName ?? null, blocked: reader.status === 'blocked' }
       }
       return session
     },
