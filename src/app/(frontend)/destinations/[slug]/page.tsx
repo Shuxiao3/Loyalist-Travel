@@ -5,7 +5,7 @@ import { ReferenceBody } from '@/components/ReferenceBody'
 import { ReferenceHero } from '@/components/ReferenceHero'
 import { count, rel } from '@/lib/format'
 import { getDestination, getHotelsIn, getPayloadClient } from '@/lib/queries'
-import { pageMeta } from '@/lib/seo'
+import { getSeo, metaText, pageMeta } from '@/lib/seo'
 import type { Region } from '@/payload-types'
 
 export const revalidate = 300
@@ -14,7 +14,9 @@ type Props = { params: Promise<{ slug: string }> }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const d = await getDestination((await params).slug)
-  return d ? pageMeta({ title: d.seo?.title ?? `Hotels in ${d.name}`, description: d.seo?.description ?? d.shortDescription, path: `/destinations/${d.slug}`, image: d.imageUrl }) : {}
+  if (!d) return {}
+  const text = metaText((await getSeo())?.destination, { Destination: d.name, Country: d.country, Description: d.shortDescription }, { title: `Hotels in ${d.name}`, description: d.shortDescription })
+  return pageMeta({ title: d.seo?.title ?? text.title, description: d.seo?.description ?? text.description, path: `/destinations/${d.slug}`, image: d.imageUrl })
 }
 
 export default async function DestinationPage({ params }: Props) {

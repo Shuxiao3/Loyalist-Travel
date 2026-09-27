@@ -4,15 +4,9 @@ import { publishedOrLoggedIn } from '../access/publishedOrLoggedIn'
 import { slugField } from './fields/slug'
 
 // Editorial articles, one flat hub at /articles with a category filter.
-export const ARTICLE_CATEGORIES = [
-  { label: 'Elite benefits', value: 'elite-benefits' },
-  { label: 'Programs', value: 'programs' },
-  { label: 'Points & awards', value: 'points-awards' },
-  { label: 'Credit cards', value: 'credit-cards' },
-  { label: 'Hotels & lounges', value: 'hotels-lounges' },
-]
-export type ArticleCategory = (typeof ARTICLE_CATEGORIES)[number]['value']
-export const ARTICLE_CATEGORY_LABEL: Record<string, string> = Object.fromEntries(ARTICLE_CATEGORIES.map((c) => [c.value, c.label]))
+import { ARTICLE_CATEGORIES } from '../lib/articleOptions'
+
+export { ARTICLE_CATEGORIES, ARTICLE_CATEGORY_LABEL, type ArticleCategory } from '../lib/articleOptions'
 
 export const Articles: CollectionConfig = {
   slug: 'articles',
@@ -44,6 +38,21 @@ export const Articles: CollectionConfig = {
         { name: 'programs', type: 'relationship', relationTo: 'programs', hasMany: true },
         { name: 'lounges', type: 'relationship', relationTo: 'lounges', hasMany: true },
         { name: 'articles', type: 'relationship', relationTo: 'articles', hasMany: true },
+      ],
+    },
+    {
+      name: 'seo',
+      type: 'group',
+      label: 'Search title & description',
+      admin: { description: 'Overrides the article template on the Search titles & descriptions page.' },
+      fields: [
+        { name: 'title', type: 'text' },
+        { name: 'description', type: 'textarea' },
+        {
+          name: 'preview',
+          type: 'ui',
+          admin: { components: { Field: { path: '@/components/admin/SeoPreview#SeoPreview', clientProps: { from: { title: 'title', description: 'dek' }, url: 'loyalisttravel.com › articles' } } } },
+        },
       ],
     },
     { name: 'heroImage', type: 'upload', relationTo: 'media', admin: { position: 'sidebar' } },

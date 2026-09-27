@@ -4,13 +4,14 @@ import { notFound } from 'next/navigation'
 
 import { ARTICLE_CATEGORY_LABEL } from '@/collections/Articles'
 import { Comments } from '@/components/Comments'
+import { ReadingProgress } from '@/components/ReadingProgress'
 import { RichText } from '@/components/RichText'
 import { articleImage, getArticle, getArticles } from '@/lib/articles'
 import { rel, shortDate } from '@/lib/format'
 import { SITE } from '@/lib/site'
 import type { Article, Destination, Hotel, Lounge, Program } from '@/payload-types'
 
-import { pageMeta } from '@/lib/seo'
+import { getSeo, metaText, pageMeta } from '@/lib/seo'
 
 import styles from './page.module.css'
 
@@ -21,7 +22,10 @@ type Props = { params: Promise<{ slug: string }> }
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const article = await getArticle((await params).slug)
   if (!article) return {}
-  return pageMeta({ title: article.title, description: article.dek, path: `/articles/${article.slug}`, image: articleImage(article), type: 'article' })
+  const text = metaText((await getSeo())?.article, { Title: article.title, Dek: article.dek, Category: ARTICLE_CATEGORY_LABEL[article.category] }, { title: article.title, description: article.dek })
+  if (article.seo?.title?.trim()) text.title = article.seo.title.trim()
+  if (article.seo?.description?.trim()) text.description = article.seo.description.trim()
+  return pageMeta({ ...text, path: `/articles/${article.slug}`, image: articleImage(article), type: 'article' })
 }
 
 export default async function ArticlePage({ params }: Props) {
@@ -69,6 +73,7 @@ export default async function ArticlePage({ params }: Props) {
 
       {image && <div className="hero-img" role="img" aria-label={article.title} style={{ backgroundImage: `url(${image}), var(--img-a)` }} />}
 
+      <ReadingProgress />
       <main className={styles.body}>
         <div className={`wrap ${styles.bodyWrap}`}>
           <article className={styles.main}>

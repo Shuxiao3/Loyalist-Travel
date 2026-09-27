@@ -3,7 +3,7 @@
 import { useActionState, useState } from 'react'
 
 import { submitStay, type SubmitStayState } from '@/app/actions/submitStay'
-import { ALA_CARTE_CAP, BREAKFAST_OUTCOMES, LATE_CHECKOUT_OUTCOMES, SUITE_TYPES, UPGRADE_HOW, UPGRADE_OUTCOMES, UPGRADE_TYPES } from '@/lib/stayOptions'
+import { ALA_CARTE_CAP, BREAKFAST_OUTCOMES, LATE_CHECKOUT_OUTCOMES, stayYearOptions, SUITE_TYPES, UPGRADE_HOW, UPGRADE_OUTCOMES, UPGRADE_TYPES } from '@/lib/stayOptions'
 
 import { Turnstile } from './Turnstile'
 import styles from './StayForm.module.css'
@@ -39,8 +39,7 @@ export function StayForm({ hotel, programName, tiers, compact }: { hotel: { id: 
   const [upgrade, setUpgrade] = useState('')
   const [upgradeType, setUpgradeType] = useState('')
   const [breakfast, setBreakfast] = useState('')
-  const now = new Date()
-  const years = Array.from({ length: 6 }, (_, i) => now.getFullYear() - i)
+  const years = stayYearOptions()
 
   if (state?.ok) {
     return (
@@ -65,7 +64,7 @@ export function StayForm({ hotel, programName, tiers, compact }: { hotel: { id: 
       </div>
 
       <Select name="statusHeld" label={`Status held · ${programName}`} placeholder="Choose a tier" options={tiers.map((t) => ({ value: String(t.id), label: t.shortName ?? t.name }))} />
-      <Select name="stayYear" label="Year of the stay" placeholder="Year" options={years.map((y) => ({ value: String(y), label: String(y) }))} />
+      <Select name="stayYear" label="Year of the stay" placeholder="Year" options={years} />
 
       <Select
         name="upgrade"

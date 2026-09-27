@@ -6,14 +6,15 @@ import { Arrow, Band } from '@/components/Band'
 import { HotelList } from '@/components/HotelCard'
 import { LatestStays } from '@/components/LatestStays'
 import { ReaderPanel } from '@/components/ReaderPanel'
-import { ReviewCard } from '@/components/ReviewCard'
+import { StickyReview } from '@/components/StickyReview'
 import { StayForm } from '@/components/StayForm'
 import { ViewBeacon } from '@/components/ViewBeacon'
 import { rel, score } from '@/lib/format'
-import { getHotel, getHotelsIn, getPayloadClient, getReviewsForHotel } from '@/lib/queries'
+import { bandFor } from '@/lib/rubric'
+import { getHotel, getHotelsIn, getPayloadClient, getReviewsForHotel, topTierOf } from '@/lib/queries'
 import { accessLine, getLoungesForHotel, loungeReaderData, servicesLine } from '@/lib/lounges'
 import { hotelReaderData, latestStays } from '@/lib/readerData'
-import { pageMeta } from '@/lib/seo'
+import { getSeo, metaText, pageMeta } from '@/lib/seo'
 import { PROPERTY_TYPE_LABEL } from '@/lib/site'
 import type { Amenity, Brand, Destination, Program } from '@/payload-types'
 
@@ -35,7 +36,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const description = hotel.reviewStatus === 'reviewed'
     ? `${hotel.name}${where}: our scored review, plus reader-reported upgrade odds, breakfast and late checkout outcomes for ${elites}.`
     : `${hotel.name}${where}${brand ? `, ${brand.name}` : ''}: reader-reported upgrade odds, breakfast and late checkout outcomes for ${elites}. Add your stay in two minutes.`
-  return pageMeta({ title: `${hotel.name}${destination ? `, ${destination.name}` : ''}`, description, path: `/hotels/${hotel.slug}`, image: hotel.externalImageUrl })
+  const seo = await getSeo()
+  const vars = { Hotel: hotel.name, Destination: destination?.name, Location: destination?.locationLabel ?? destination?.name, Brand: brand?.name, Program: program?.name, Elite: await topTierOf(program), Elites: elites }
+  const text = metaText(hotel.reviewStatus === 'reviewed' ? seo?.hotel : seo?.hotelUnreviewed, vars, { title: `${hotel.name}${destination ? `, ${destination.name}` : ''}`, description })
+  return pageMeta({ ...text, path: `/hotels/${hotel.slug}`, image: hotel.externalImageUrl })
 }
 
 export default async function HotelPage({ params }: Props) {
@@ -80,7 +84,7 @@ export default async function HotelPage({ params }: Props) {
   return (
     <>
       <ViewBeacon hotel={hotel.id} />
-      <header className={`hero ${styles.hero}`}>
+      <header className={`hero ${styles.hero}`} id="hotel-hero">
         <div className="wrap">
           <ol className="crumbs" aria-label="Breadcrumb">
             <li>
@@ -131,6 +135,7 @@ export default async function HotelPage({ params }: Props) {
               </Link>
             )}
           </div>
+          {latest && <StickyReview heroId="hotel-hero" href={`/reviews/${latest.slug}`} score={score(latest.totals?.overall)} band={bandFor(latest.totals?.overall, 100)} title={hotel.name} />}
 
           <div className={`byline ${styles.byline}`}>
             {hotel.bookingLink && (
@@ -144,6 +149,41 @@ export default async function HotelPage({ params }: Props) {
       </header>
 
       <div className="hero-img" role="img" aria-label={hotel.name} style={hotel.externalImageUrl ? { backgroundImage: `url(${hotel.externalImageUrl}), var(--img-a)` } : undefined} />
+
+      <section className={`section ${styles.reader}`} aria-labelledby="data-h">
+        <div className="wrap">
+          <div className="section-head">
+            <div>
+              <span className="eyebrow on-light">Stay data</span>
+              <h2 id="data-h">What status got people at {hotel.name}</h2>
+            </div>
+          </div>
+          <div className={styles.dataGrid}>
+            <ReaderPanel data={readerData} hotelName={hotel.name} />
+            <section className={`panel ${styles.sourced}`} aria-labelledby="sourced-h">
+              <span className="eyebrow" id="sourced-h">
+                Aggregated data
+              </span>
+              <p className={styles.sourcedP}>Stays reported on FlyerTalk, Reddit and travel blogs, tallied here with a link to each source. Kept apart from reader submissions so the two never mix.</p>
+              <p className={styles.sourcedNone}>None gathered yet for {hotel.name}.</p>
+            </section>
+            <div className={`panel ${styles.stayPanel}`}>
+              <span className="eyebrow">Stayed here on status?</span>
+              <h3 className={styles.stayTitle}>Add your stay. Two minutes.</h3>
+              {program && tiers.length > 0 ? (
+                <StayForm hotel={{ id: hotel.id, name: hotel.name }} programName={program.name} tiers={tiers} compact />
+              ) : (
+                <p className={styles.empty}>This program's tiers are not set up yet.</p>
+              )}
+            </div>
+          </div>
+          {recentStays.length > 0 && (
+            <div className={styles.latest}>
+              <LatestStays stays={recentStays} />
+            </div>
+          )}
+        </div>
+      </section>
 
       {facts.length > 0 && (
         <section className={`section ${styles.facts}`} aria-labelledby="facts-h">
@@ -162,49 +202,6 @@ export default async function HotelPage({ params }: Props) {
           </div>
         </section>
       )}
-
-      {reviews.length > 0 && (
-        <section className="section" aria-labelledby="rev-h">
-          <div className="wrap">
-            <div className="section-head">
-              <div>
-                <span className="eyebrow on-light">Scored stays</span>
-                <h2 id="rev-h">Reviews of {hotel.name}</h2>
-              </div>
-              <Link className="more" href="/reviews">
-                All reviews
-              </Link>
-            </div>
-            <div className="cards">
-              {reviews.map((r, i) => (
-                <ReviewCard key={r.id} review={r} tone={(['a', 'b', 'c'] as const)[i % 3]} />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      <section className={`section ${styles.reader}`} aria-labelledby="reader-h">
-        <div className="wrap">
-          <div className={styles.readerGrid}>
-            <ReaderPanel data={readerData} hotelName={hotel.name} />
-            <div className={`panel ${styles.stayPanel}`}>
-              <span className="eyebrow">Stayed here on status?</span>
-              <h3 className={styles.stayTitle}>Add your stay. Two minutes.</h3>
-              {program && tiers.length > 0 ? (
-                <StayForm hotel={{ id: hotel.id, name: hotel.name }} programName={program.name} tiers={tiers} compact />
-              ) : (
-                <p className={styles.empty}>This program's tiers are not set up yet.</p>
-              )}
-            </div>
-          </div>
-          {recentStays.length > 0 && (
-            <div className={styles.latest}>
-              <LatestStays stays={recentStays} />
-            </div>
-          )}
-        </div>
-      </section>
 
       {loungeRows.length > 0 && (
         <section className={`section ${styles.loungeSection}`} aria-labelledby="lounge-h">
@@ -249,7 +246,7 @@ export default async function HotelPage({ params }: Props) {
         </section>
       )}
 
-      <Band eyebrow="Not a review" title="The hotel index" text="Every property across four programs, with brand and place. Filter by program, brand, country, or scored stays only." cta="Browse hotels" href="/hotels" />
+      <Band eyebrow="Every hotel, one place" title="The hotel index" text="Every property across four programs, with brand and place. Filter by program, brand, country, or scored stays only." cta="Browse hotels" href="/hotels" />
     </>
   )
 }

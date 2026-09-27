@@ -111,7 +111,7 @@ export default async function HomePage() {
 
   const stats = [
     { n: count(counts.hotels), l: `Hotels indexed across ${['', 'one', 'two', 'three', 'four'][counts.programs] ?? counts.programs} programs` },
-    { n: '16', l: 'Categories behind every score' },
+    { n: '19', l: 'Sub-scores in six categories behind every score' },
     { n: count(counts.reviews), l: 'Scored stays' },
     { n: count(readerCount), l: 'Reader-submitted stays' },
   ]
@@ -132,7 +132,7 @@ export default async function HomePage() {
         }
       >
         <span className="eyebrow">Loyalty travel, reported</span>
-        <h1 className={styles.h1}>Find what elite status gets you at hotels and lounges.</h1>
+        <h1 className={styles.h1}>Elite status upgrade rates, hotel reviews, lounge ratings and more.</h1>
         <p className={`sub ${styles.sub}`}>
           Readers report what their status actually got them, so every hotel shows its real upgrade odds. Club lounges are rated by the people who sat in them. And every review is scored on the same 100-point rubric.
         </p>
@@ -159,7 +159,7 @@ export default async function HomePage() {
                 All reviews
               </Link>
             </div>
-            <div className="cards">
+            <div className="cards rail-m">
               {cards.map((r, i) => (
                 <ReviewCard key={r.id} review={r} tone={(['a', 'b', 'c'] as const)[i % 3]} />
               ))}
@@ -198,9 +198,6 @@ export default async function HomePage() {
               <span className="eyebrow on-light">Browse by program</span>
               <h2 id="prog-h">Where your points work</h2>
             </div>
-            <Link className="more" href="/programs">
-              All programs
-            </Link>
           </div>
           <div className="grid-cells">
             {programs.map(({ program, hotels, scored }) => (
@@ -254,7 +251,7 @@ export default async function HomePage() {
                 All articles
               </Link>
             </div>
-            <div className="cards">
+            <div className="cards rail-m">
               {articles.docs.map((a, i) => (
                 <ArticleCard key={a.id} article={a} tone={(['b', 'c', 'a'] as const)[i % 3]} />
               ))}
@@ -304,7 +301,7 @@ export default async function HomePage() {
 
       <div className={styles.last} />
 
-      <Band eyebrow="Not a review" title="The hotel index" text="Every property across four programs, with brand and place. Filter by program, brand, country, or scored stays only." cta="Browse hotels" href="/hotels" />
+      <Band eyebrow="Every hotel, one place" title="The hotel index" text="Every property across four programs, with brand and place. Filter by program, brand, country, or scored stays only." cta="Browse hotels" href="/hotels" />
     </main>
   )
 }

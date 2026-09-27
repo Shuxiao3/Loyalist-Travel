@@ -10,6 +10,17 @@ import { hotelReaderData, MIN_STAYS, type HotelReaderData } from './readerData'
 
 export { getPayloadClient }
 
+// The top status tier of a program, as its short name ("Globalist"). The
+// tier flagged top wins; otherwise the highest rank.
+export async function topTierOf(program: Program | number | null | undefined): Promise<string | undefined> {
+  const id = typeof program === 'object' && program ? program.id : program
+  if (!id) return undefined
+  const payload = await getPayloadClient()
+  const res = await payload.find({ collection: 'status-levels', where: { program: { equals: id } }, sort: '-rank', limit: 20, depth: 0 })
+  const top = res.docs.find((d) => d.isTopTier) ?? res.docs[0]
+  return top?.shortName ?? top?.name ?? undefined
+}
+
 const published: Where = { _status: { equals: 'published' } }
 
 export async function getReview(slug: string): Promise<Review | null> {
@@ -77,7 +88,7 @@ export type HotelFilters = {
   page?: number
 }
 
-export const HOTELS_PER_PAGE = 48
+export const HOTELS_PER_PAGE = 24
 
 export async function findHotels(f: HotelFilters) {
   const payload = await getPayloadClient()
@@ -191,4 +202,16 @@ export async function getSiteCounts() {
     payload.count({ collection: 'programs' }),
   ])
   return { hotels: hotels.totalDocs, reviews: reviews.totalDocs, programs: programs.totalDocs }
+}
+
+// Every brand under a program with its count of published hotels, in the
+// program's hierarchy (rank), busiest first among equals. Brands with nothing indexed yet still list, so the page is complete.
+export async function brandsOf(programId: number): Promise<{ id: number; name: string; slug: string; logo: string | null; n: number }[]> {
+  const payload = await getPayloadClient()
+  const db = payload.db as unknown as { drizzle: { execute: (q: unknown) => Promise<{ rows: { id: number; name: string; slug: string; logo: string | null; n: number }[] }> } }
+  const { sql } = await import('@payloadcms/db-postgres')
+  const res = await db.drizzle.execute(
+    sql`select b.id, b.name, b.slug, b.logo_url as logo, count(h.id)::int as n from brands b left join hotels h on h.brand_id = b.id and h._status = 'published' where b.program_id = ${programId} group by b.id, b.name, b.slug, b.logo_url, b.rank order by b.rank asc nulls last, n desc, b.name`,
+  )
+  return (res.rows ?? []).map((r) => ({ ...r, n: Number(r.n) }))
 }

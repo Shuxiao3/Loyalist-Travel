@@ -29,6 +29,14 @@ export const StatusLevels: CollectionConfig = {
     { name: 'nights', type: 'text', admin: { description: 'Qualification, e.g. "60 nights".' } },
     { name: 'shortDescription', type: 'textarea' },
     { name: 'benefits', type: 'richText' },
+    { name: 'article', type: 'relationship', relationTo: 'articles', admin: { description: 'The full breakdown of this tier, linked from its card on the program page.' } },
+    {
+      type: 'row',
+      fields: [
+        { name: 'memberShare', type: 'text', admin: { description: 'Rough share of members at this tier, e.g. "about 3%". Shown on the card when set.' } },
+        { name: 'memberShareNote', type: 'text', admin: { description: 'Where the estimate comes from.' } },
+      ],
+    },
     {
       name: 'eligibility',
       type: 'group',

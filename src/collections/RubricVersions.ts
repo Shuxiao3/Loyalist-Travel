@@ -1,8 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
-// One record per rubric version: the category list with maxima for City and
-// Resort. v15 is locked; changes become v16 and coexist with v15 reviews
-// without a re-score (decision log, content model 1 and 8).
+// One record per rubric version: the sub-score list, each in its category,
+// with maxima for City and Resort. v16 uses the same maximum for both.
 export const RubricVersions: CollectionConfig = {
   slug: 'rubric-versions',
   admin: {
@@ -33,13 +32,17 @@ export const RubricVersions: CollectionConfig = {
             { name: 'key', type: 'text', required: true, admin: { description: 'Matches a score field on Reviews.' } },
             { name: 'label', type: 'text', required: true },
             {
-              name: 'group',
+              name: 'section',
               type: 'select',
-              required: true,
               options: [
-                { label: 'Hard product', value: 'hard' },
-                { label: 'Soft product', value: 'soft' },
+                { label: 'Room', value: 'room' },
+                { label: 'Property', value: 'property' },
+                { label: 'Service', value: 'service' },
+                { label: 'Operations', value: 'operations' },
+                { label: 'Breakfast', value: 'breakfast' },
+                { label: 'Atmosphere', value: 'atmosphere' },
               ],
+              admin: { description: 'Which category the sub-score sits in. Blank on versions before v16.' },
             },
           ],
         },

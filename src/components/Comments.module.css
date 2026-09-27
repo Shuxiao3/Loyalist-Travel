@@ -2,6 +2,7 @@
 
 .section {
   border-top: 1px solid var(--line);
+  padding-bottom: var(--section);
 }
 
 .grid {

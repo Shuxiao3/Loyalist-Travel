@@ -16,6 +16,7 @@ import { getPayload } from 'payload'
 
 import config from '../../src/payload.config'
 import { RUBRIC_PRE_V15, RUBRIC_V15 } from '../../src/rubric/v15'
+import { convertV15ToV16, RUBRIC_V16, V15_NARRATIVE_TO_V16 } from '../../src/rubric/v16'
 import { htmlToLexical, lexicalWordCount } from './html-to-lexical'
 
 type WebflowItem = {
@@ -132,8 +133,11 @@ const importPrograms = (payload: Payload) =>
     }, false)
   })
 
+// Tiers readers never pick from stay out (Lifetime Globalist carries Globalist benefits).
+const RETIRED_TIERS = new Set(['hyatt-lifetime-globalist'])
+
 const importStatusLevels = (payload: Payload) =>
-  run(payload, 'status-levels', read('status-levels'), (item) => {
+  run(payload, 'status-levels', read('status-levels').filter((item) => !RETIRED_TIERS.has(String(item.fieldData.slug))), (item) => {
     const f = item.fieldData
     return upsert(payload, 'status-levels', item, {
       name: f.name,
@@ -204,7 +208,7 @@ async function importRubricVersions(payload: Payload) {
       slug,
       locked: true,
       notes,
-      categories: categories.map((c) => ({ key: c.key, label: c.label, group: c.group, maxCity: c.maxCity, maxResort: c.maxResort })),
+      categories: categories.map((c) => ({ key: c.key, label: c.label, maxCity: c.maxCity, maxResort: c.maxResort })),
     }
     if (existing.docs[0]) {
       await payload.update({ collection: 'rubric-versions', id: existing.docs[0].id, data, overrideAccess: true })
@@ -214,7 +218,19 @@ async function importRubricVersions(payload: Payload) {
     console.log(`rubric-versions: ${slug}`)
   }
   await seed('v15', 'Rubric v15', 'Locked Sep 16 2026. Maxima from the scoring workbook, Luxury Criteria sheet.', RUBRIC_V15)
-  await seed('pre-v15', 'Pre-v15 (Webflow)', 'The version the eight Webflow reviews were scored on: v15 with Bed and sleep out of 5 and Tech out of 3. To be re-scored to v15 after launch.', RUBRIC_PRE_V15)
+  await seed('pre-v15', 'Pre-v15 (Webflow)', 'The version the eight Webflow reviews were scored on: v15 with Bed and sleep out of 5 and Tech out of 3.', RUBRIC_PRE_V15)
+  // v16: six categories, nineteen sub-scores out of 5, no weights
+  const v16 = await payload.find({ collection: 'rubric-versions', where: { slug: { equals: 'v16' } }, limit: 1, overrideAccess: true })
+  const v16data = {
+    name: 'Rubric v16',
+    slug: 'v16',
+    locked: false,
+    notes: 'Six categories (Room, Property, Service, Operations, Breakfast, Atmosphere), nineteen sub-scores out of 5, 100 points. Same maxima for city hotels and resorts. Value and elite recognition are reported, not scored.',
+    categories: RUBRIC_V16.map((c) => ({ key: c.key, label: c.label, section: c.section, maxCity: c.max, maxResort: c.max })),
+  }
+  if (v16.docs[0]) await payload.update({ collection: 'rubric-versions', id: v16.docs[0].id, data: v16data, overrideAccess: true })
+  else await payload.create({ collection: 'rubric-versions', data: v16data, overrideAccess: true })
+  console.log('rubric-versions: v16')
 }
 
 const rubricVersionId = async (payload: Payload, slug: string) => {
@@ -287,28 +303,37 @@ const RATE_BASIS: Record<string, string> = {
 }
 
 async function importReviews(payload: Payload) {
-  const preV15 = await rubricVersionId(payload, 'pre-v15')
+  const v16 = await rubricVersionId(payload, 'v16')
   await run(payload, 'reviews', read('reviews'), async (item) => {
     const f = item.fieldData
-    const scores: Record<string, number | null> = {}
-    const narrative: Record<string, unknown> = {}
+    // the Webflow sheet is scored on the pre-v15 rubric; read it across to v16
+    const old: Record<string, number | null> = {}
+    const oldNarrative: Record<string, unknown> = {}
     for (const [wf, key] of Object.entries(SCORE_MAP)) {
-      scores[key] = num(f[`${wf}-score`])
-      narrative[key] = rich(f[`${wf}-review`])
+      old[key] = num(f[`${wf}-score`])
+      oldNarrative[key] = rich(f[`${wf}-review`])
+    }
+    const propertyType = optionLabel('reviews', 'property-type', f['property-type']) === 'Resort' ? 'resort' : 'city'
+    const scores = convertV15ToV16(old, propertyType)
+    const narrative: Record<string, unknown> = {}
+    for (const [oldKey, newKey] of Object.entries(V15_NARRATIVE_TO_V16)) {
+      const doc = oldNarrative[oldKey] as { root?: { children?: unknown[] } } | null
+      if (!doc) continue
+      const have = narrative[newKey] as { root?: { children?: unknown[] } } | undefined
+      narrative[newKey] = have?.root?.children ? { ...have, root: { ...have.root, children: [...have.root.children, ...(doc.root?.children ?? [])] } } : doc
     }
     const opening = rich(f['opening-thoughts'])
     const verdict = rich(f['final-verdict'])
     const bookItIf = rich(f['recommended-for'])
     const skipItIf = rich(f['not-recommended-for'])
     const words = [opening, verdict, bookItIf, skipItIf, ...Object.values(narrative)].reduce<number>((n, d) => n + lexicalWordCount(d as never), 0)
-    const totals = { hard: num(f['hard-product-score']), soft: num(f['soft-product-score']), overall: num(f['total-review-score']) }
 
     const doc = await upsert(payload, 'reviews', item, {
       title: f.name,
       slug: f.slug,
       hotel: ref('hotels', f.hotel),
-      rubricVersion: preV15,
-      propertyType: optionLabel('reviews', 'property-type', f['property-type']) === 'Resort' ? 'resort' : 'city',
+      rubricVersion: v16,
+      propertyType,
       shortVerdict: text(f['short-verdict']),
       stayDate: text(f['stay-date']),
       statusHeld: ref('status-levels', f['elite-status-during-stay']),
@@ -333,12 +358,6 @@ async function importReviews(payload: Payload) {
       seo: { title: text(f['meta-title']), description: text(f['meta-description']) },
     }, true)
 
-    // The hook recomputes totals from the category scores; flag any drift
-    // from what Webflow stored so it can be checked by hand.
-    const computed = (doc as { totals?: { hard?: number; soft?: number; overall?: number } }).totals
-    if (computed && (computed.hard !== totals.hard || computed.soft !== totals.soft || computed.overall !== totals.overall)) {
-      console.warn(`\n  ${f.slug}: Webflow totals ${totals.hard}/${totals.soft}/${totals.overall} vs computed ${computed.hard}/${computed.soft}/${computed.overall}`)
-    }
   })
 }
 
@@ -564,8 +583,24 @@ async function fetchLogos(payload: Payload) {
 // Photographs from data/images.json onto hotels (externalImageUrl) and
 // program logos (images.logoUrl), by slug.
 async function applyImages(payload: Payload) {
-  const file = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'data/images.json'), 'utf8')) as { hotels?: Record<string, string>; programs?: Record<string, string> }
+  const file = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'data/images.json'), 'utf8')) as { hotels?: Record<string, string>; programs?: Record<string, string>; brands?: Record<string, string> }
   let n = 0
+  for (const [slug, url] of Object.entries(file.brands ?? {})) {
+    const brand = (await payload.find({ collection: 'brands', where: { slug: { equals: slug } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
+    if (!brand) {
+      console.log(`images: no brand with slug ${slug}`)
+      continue
+    }
+    if (brand.logoUrl === url) continue
+    await payload.update({ collection: 'brands', id: brand.id, data: { logoUrl: url }, overrideAccess: true })
+    n++
+  }
+  // a brand whose fetched logo was since dropped goes back to no logo
+  const stale = (await payload.find({ collection: 'brands', where: { logoUrl: { like: '/images/brands/' } }, limit: 200, depth: 0, overrideAccess: true })).docs.filter((b) => !file.brands?.[b.slug])
+  for (const b of stale) {
+    await payload.update({ collection: 'brands', id: b.id, data: { logoUrl: null }, overrideAccess: true })
+    n++
+  }
   for (const [slug, url] of Object.entries(file.programs ?? {})) {
     const program = (await payload.find({ collection: 'programs', where: { slug: { equals: slug } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
     if (!program) {
@@ -627,6 +662,281 @@ async function seedArticles(payload: Payload) {
 async function unseedArticles(payload: Payload) {
   const res = await payload.delete({ collection: 'articles', where: { slug: { like: 'mock-' } }, overrideAccess: true })
   console.log(`unseed-articles: removed ${res.docs.length} mock articles`)
+}
+
+// ---- Real articles -----------------------------------------------------------------
+// Each file in data/articles is one article: YAML-ish front matter, then a
+// small markdown subset (##/### headings, paragraphs, - bullets, **bold**,
+// *italic*, [text](url)). Upserted by slug and published.
+function markdownToHtml(md: string): string {
+  const inline = (t: string) =>
+    t
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/(^|[^*])\*([^*\n]+?)\*/g, '$1<em>$2</em>')
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
+  const out: string[] = []
+  for (const chunk of md.split(/\n\s*\n/)) {
+    const block = chunk.trim()
+    if (!block) continue
+    const h = /^(#{2,3})\s+(.+)$/.exec(block)
+    if (h) {
+      out.push(`<h${h[1].length}>${inline(h[2])}</h${h[1].length}>`)
+      continue
+    }
+    if (block.split('\n').every((l) => /^[-*]\s+/.test(l))) {
+      out.push(`<ul>${block.split('\n').map((l) => `<li>${inline(l.replace(/^[-*]\s+/, ''))}</li>`).join('')}</ul>`)
+      continue
+    }
+    out.push(`<p>${inline(block.replace(/\n/g, ' '))}</p>`)
+  }
+  return out.join('\n')
+}
+
+async function importArticles(payload: Payload) {
+  const dir = path.join(process.cwd(), 'data', 'articles')
+  if (!fs.existsSync(dir)) return
+  let n = 0
+  for (const file of fs.readdirSync(dir).filter((f) => f.endsWith('.md')).sort()) {
+    const raw = fs.readFileSync(path.join(dir, file), 'utf8')
+    const m = /^---\n([\s\S]*?)\n---\n([\s\S]*)$/.exec(raw)
+    if (!m) throw new Error(`articles: ${file} has no front matter`)
+    const meta: Record<string, string> = {}
+    for (const line of m[1].split('\n')) {
+      const kv = /^(\w+):\s*(.*)$/.exec(line)
+      if (kv) meta[kv[1]] = kv[2].trim()
+    }
+    for (const k of ['title', 'slug', 'category', 'date']) if (!meta[k]) throw new Error(`articles: ${file} is missing ${k}`)
+    const body = htmlToLexical(markdownToHtml(m[2])).value
+    if (!body) throw new Error(`articles: ${file} has an empty body`)
+    const programs: number[] = []
+    for (const slug of (meta.programs ?? '').split(',').map((s) => s.trim()).filter(Boolean)) {
+      const p = (await payload.find({ collection: 'programs', where: { slug: { equals: slug } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
+      if (p) programs.push(p.id)
+      else console.log(`articles: ${file} names unknown program ${slug}`)
+    }
+    const data = {
+      title: meta.title,
+      slug: meta.slug,
+      category: meta.category,
+      publishedDate: meta.date,
+      dek: meta.dek || null,
+      body,
+      featured: meta.featured === 'true',
+      related: { programs },
+      seo: { title: meta.metaTitle || null, description: meta.metaDescription || null },
+      _status: 'published',
+    }
+    const existing = (await payload.find({ collection: 'articles', where: { slug: { equals: meta.slug } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
+    if (existing) await payload.update({ collection: 'articles', id: existing.id, data: data as never, overrideAccess: true })
+    else await payload.create({ collection: 'articles', data: data as never, overrideAccess: true })
+    n++
+  }
+  console.log(`articles: upserted ${n} article(s)`)
+}
+
+// ---- Milestone rewards -----------------------------------------------------------
+// The same terms as a list: one entry per milestone, choices one per line.
+const MILESTONE_LIST: Record<string, { at: string; rewards: string }[]> = {
+  'world-of-hyatt': [
+    { at: '20 nights', rewards: '2,000 bonus points\nA Club lounge access award' },
+    { at: '30 nights', rewards: 'Two Club lounge access awards\n5,000 bonus points\nA $100 Hyatt gift card\nA FIND experience credit' },
+    { at: '40 nights', rewards: 'The same choices as 30 nights\nA 15% points bonus for the rest of the year' },
+    { at: '50 nights', rewards: 'A free night at a category 1 to 4 hotel\nThe same choices as 30 nights' },
+    { at: '60 nights (Globalist)', rewards: 'A suite upgrade award, up to 7 nights\nA free night at a category 1 to 7 hotel' },
+    { at: '70, 80 and 90 nights', rewards: 'A further suite upgrade award at each\nBonus points' },
+    { at: '100 nights', rewards: 'A free night at a category 1 to 8 hotel' },
+    { at: '150 nights', rewards: 'A free night at a category 1 to 8 hotel\n5,000 bonus points for every 10 nights beyond' },
+  ],
+  'marriott-bonvoy': [
+    { at: '50 nights', rewards: 'An Annual Choice Benefit: five Nightly Upgrade Awards\nOr a free night award worth up to 40,000 points\nOr a $250 charity gift\nOr Gold status for a friend' },
+    { at: '75 nights', rewards: 'A second Annual Choice Benefit: a free night worth up to 40,000 points\nOr five more Nightly Upgrade Awards' },
+    { at: '100 nights and $23,000 spend', rewards: 'Ambassador Elite\nA personal ambassador\nYour24 check-in at any hour' },
+  ],
+  'hilton-honors': [
+    { at: '40 nights', rewards: '10,000 bonus points, then 10,000 more for every 10 nights' },
+    { at: '60 nights', rewards: 'A free night reward\nOr 30,000 bonus points' },
+    { at: '100 nights or $30,000 spend', rewards: 'Diamond status to gift to a friend' },
+    { at: 'Into next year', rewards: 'Elite nights above the tier threshold roll over' },
+  ],
+  'ihg-one-rewards': [
+    { at: '20 nights', rewards: '5,000 bonus points\nOr a lounge membership\nOr a free-night discount' },
+    { at: '30, 40, 50 and 60 nights', rewards: 'A further choice at each: suite upgrades, points or food-and-beverage rewards' },
+    { at: '70 nights', rewards: 'Diamond Elite\nChoices continue every ten nights to 100' },
+    { at: 'Claiming', rewards: 'Pick each choice in your account within 30 days of the milestone' },
+  ],
+}
+async function seedMilestones(payload: Payload) {
+  let set = 0
+  for (const [slug, list] of Object.entries(MILESTONE_LIST)) {
+    const p = (await payload.find({ collection: 'programs', where: { slug: { equals: slug } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
+    if (!p || (p.milestoneList?.length ?? 0) > 0) continue
+    await payload.update({ collection: 'programs', id: p.id, data: { milestoneList: list }, depth: 0, overrideAccess: true })
+    set++
+  }
+  console.log(`seed-milestones: filled ${set} programs`)
+}
+
+// ---- Credit cards that grant a tier --------------------------------------------
+// Which card gives each tier outright. Fills the source where blank and
+// marks the tier as card-granted; an editor's text is kept.
+const CARD_TIERS: Record<string, string> = {
+  'hilton-silver': 'Hilton Honors American Express card',
+  'hilton-gold': 'Hilton Honors Surpass or Business card, or the Amex Platinum',
+  'hilton-diamond': 'Hilton Honors Aspire card',
+  'ihg-silver': 'IHG One Rewards Traveler card',
+  'ihg-platinum': 'IHG One Rewards Premier or Premier Business card',
+  'bonvoy-silver': 'Marriott Bonvoy Bold or Boundless card',
+  'bonvoy-gold': 'Marriott Bonvoy Bevy or Bountiful card, or the Amex Platinum',
+  'bonvoy-platinum': 'Marriott Bonvoy Brilliant card',
+  'hyatt-discoverist': 'World of Hyatt Credit Card or Business card',
+}
+async function seedCards(payload: Payload) {
+  let set = 0
+  for (const [slug, source] of Object.entries(CARD_TIERS)) {
+    const t = (await payload.find({ collection: 'status-levels', where: { slug: { equals: slug } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
+    if (!t) continue
+    if (t.creditCard?.grantsStatus && t.creditCard.source) continue
+    await payload.update({ collection: 'status-levels', id: t.id, data: { creditCard: { grantsStatus: true, source: t.creditCard?.source || source } }, depth: 0, overrideAccess: true })
+    set++
+  }
+  console.log(`seed-cards: filled ${set} tiers`)
+}
+
+// ---- Retire a tier ------------------------------------------------------------
+// Lifetime Globalist is not a tier readers pick from: it carries Globalist
+// benefits. Anything filed under it moves to Globalist, then it goes.
+async function retireTiers(payload: Payload) {
+  const find = async (slug: string) => (await payload.find({ collection: 'status-levels', where: { slug: { equals: slug } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
+  const gone = await find('hyatt-lifetime-globalist')
+  const keep = await find('hyatt-globalist')
+  if (!gone) {
+    console.log('retire-tiers: nothing to do')
+    return
+  }
+  if (!keep) throw new Error('retire-tiers: Globalist tier missing')
+  let moved = 0
+  for (const collection of ['reviews', 'reader-stays', 'lounge-ratings'] as const) {
+    const res = await payload.find({ collection, where: { statusHeld: { equals: gone.id } }, limit: 5000, depth: 0, overrideAccess: true })
+    for (const doc of res.docs) {
+      await payload.update({ collection, id: doc.id, data: { statusHeld: keep.id } as never, depth: 0, overrideAccess: true })
+      moved++
+    }
+  }
+  const lounges = await payload.find({ collection: 'lounges', where: { 'access.tiers': { equals: gone.id } }, limit: 1000, depth: 0, overrideAccess: true })
+  for (const l of lounges.docs) {
+    const tiers = (l.access?.tiers ?? []).map((t) => (typeof t === 'object' ? t.id : t)).filter((id) => id !== gone.id)
+    if (!tiers.includes(keep.id)) tiers.push(keep.id)
+    await payload.update({ collection: 'lounges', id: l.id, data: { access: { ...l.access, tiers } } as never, depth: 0, overrideAccess: true })
+    moved++
+  }
+  await payload.delete({ collection: 'status-levels', id: gone.id, overrideAccess: true })
+  console.log(`retire-tiers: moved ${moved} references to Globalist and removed Lifetime Globalist`)
+}
+
+// ---- Club lounge flags ---------------------------------------------------------
+// data/lounges/<program>.json comes from scripts/lounges/fetch.ts. Applies the
+// yes/no to hotels that have no answer yet; an editor's answer is kept.
+async function loungeFlags(payload: Payload) {
+  const dir = path.resolve(process.cwd(), 'data/lounges')
+  if (!fs.existsSync(dir)) {
+    console.log('lounge-flags: no data')
+    return
+  }
+  let set = 0
+  let kept = 0
+  let missing = 0
+  for (const file of fs.readdirSync(dir).filter((f) => f.endsWith('.json'))) {
+    const rows = JSON.parse(fs.readFileSync(path.join(dir, file), 'utf8')) as Record<string, { lounge: boolean }>
+    for (const [slug, r] of Object.entries(rows)) {
+      const hotel = (await payload.find({ collection: 'hotels', where: { slug: { equals: slug } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
+      if (!hotel) {
+        missing++
+        continue
+      }
+      if (hotel.clubLounge) {
+        kept++
+        continue
+      }
+      await payload.update({ collection: 'hotels', id: hotel.id, data: { clubLounge: r.lounge ? 'yes' : 'no' }, depth: 0, overrideAccess: true })
+      set++
+    }
+  }
+  console.log(`lounge-flags: ${set} set, ${kept} already answered, ${missing} hotels not found`)
+}
+
+// ---- Brand hierarchy ------------------------------------------------------------
+// Where each brand sits in its program, top first. Fills blank ranks only;
+// an editor's number is kept.
+const BRAND_RANK: Record<string, number> = {
+  // World of Hyatt
+  'park-hyatt': 1, alila: 2, miraval: 3, 'unbound-collection': 4, andaz: 5, 'thompson-hotels': 6, 'grand-hyatt': 7, 'hyatt-zilara': 8, 'hyatt-ziva': 9, 'secrets-resorts': 10, 'dreams-resorts': 11, 'hyatt-regency': 12, 'destination-by-hyatt': 13, 'jdv-by-hyatt': 14, 'hyatt-centric': 15, 'caption-by-hyatt': 16, 'hyatt-brand': 17,
+  // Marriott Bonvoy
+  'ritz-carlton-reserve': 1, 'ritz-carlton': 2, 'st-regis': 3, bulgari: 4, edition: 5, 'luxury-collection': 6, 'jw-marriott': 7, 'w-hotels': 8, 'design-hotels': 9, 'autograph-collection': 10, 'tribute-portfolio': 11, 'marriott-hotels': 12, westin: 13, sheraton: 14, 'le-meridien': 15, renaissance: 16, 'gaylord-hotels': 17, 'delta-hotels': 18, 'ac-hotels': 19, 'courtyard-by-marriott': 20, aloft: 21, moxy: 22,
+  // Hilton Honors
+  'waldorf-astoria': 1, lxr: 2, conrad: 3, nomad: 4, 'small-luxury-hotels': 5, signia: 6, canopy: 7, 'curio-collection': 8, 'hilton-hotels-resorts': 9, 'graduate-by-hilton': 10, 'tapestry-collection': 11, doubletree: 12, 'embassy-suites': 13, tempo: 14, motto: 15,
+  // IHG One Rewards
+  'six-senses': 1, regent: 2, intercontinental: 3, 'vignette-collection': 4, kimpton: 5, hualuxe: 6, 'hotel-indigo': 7, iberostar: 8, 'crowne-plaza': 9, voco: 10, 'even-hotels': 11,
+}
+async function seedBrandRanks(payload: Payload) {
+  let set = 0
+  for (const [slug, rank] of Object.entries(BRAND_RANK)) {
+    const b = (await payload.find({ collection: 'brands', where: { slug: { equals: slug } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
+    if (!b || b.rank != null) continue
+    await payload.update({ collection: 'brands', id: b.id, data: { rank }, depth: 0, overrideAccess: true })
+    set++
+  }
+  console.log(`seed-brand-ranks: filled ${set} brands`)
+}
+
+// ---- Club lounge by brand rule (Marriott) ----------------------------------------
+// Marriott's site refuses automated reading, so the flag is set by brand and
+// region where the answer is nearly always the same. Only blank hotels are
+// touched; an editor's answer, or one read from a page, is kept. Brands and
+// regions not listed stay blank until a page or a report answers them.
+const LOUNGE_RULES: Record<string, { yes?: string[]; no?: true }> = {
+  'jw-marriott': { yes: ['asia', 'europe', 'middle-east', 'africa', 'oceania', 'latin-america-caribbean', 'north-america'] },
+  'ritz-carlton': { yes: ['asia', 'europe', 'middle-east', 'africa'] },
+  'marriott-hotels': { yes: ['asia', 'europe', 'middle-east', 'africa', 'oceania', 'latin-america-caribbean'] },
+  sheraton: { yes: ['asia', 'middle-east', 'africa', 'oceania', 'latin-america-caribbean'] },
+  westin: { yes: ['asia', 'middle-east', 'africa'] },
+  renaissance: { yes: ['asia', 'middle-east', 'africa'] },
+  'le-meridien': { yes: ['asia', 'middle-east', 'africa'] },
+  'st-regis': { no: true },
+  'w-hotels': { no: true },
+  edition: { no: true },
+  'delta-hotels': { no: true },
+  'gaylord-hotels': { no: true },
+  'ritz-carlton-reserve': { no: true },
+}
+async function loungeBrandRules(payload: Payload) {
+  const program = (await payload.find({ collection: 'programs', where: { slug: { equals: 'marriott-bonvoy' } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
+  if (!program) throw new Error('marriott-bonvoy program not found')
+  const regionSlug = new Map<number, string>()
+  for (const r of (await payload.find({ collection: 'regions', limit: 100, depth: 0, overrideAccess: true })).docs) regionSlug.set(r.id, r.slug)
+  const destRegion = new Map<number, string | undefined>()
+  for (const d of (await payload.find({ collection: 'destinations', limit: 10000, depth: 0, overrideAccess: true, select: { region: true } })).docs) {
+    destRegion.set(d.id, typeof d.region === 'number' ? regionSlug.get(d.region) : undefined)
+  }
+  const hotels = (await payload.find({ collection: 'hotels', where: { and: [{ program: { equals: program.id } }, { clubLounge: { exists: false } }] }, limit: 10000, depth: 1, overrideAccess: true, select: { brand: true, destination: true, slug: true } })).docs
+  const counts: Record<string, number> = {}
+  let yes = 0
+  let no = 0
+  for (const h of hotels) {
+    const brand = typeof h.brand === 'object' && h.brand ? h.brand.slug : undefined
+    const rule = brand ? LOUNGE_RULES[brand] : undefined
+    if (!rule) continue
+    const destId = typeof h.destination === 'object' && h.destination ? h.destination.id : typeof h.destination === 'number' ? h.destination : undefined
+    const region = destId ? destRegion.get(destId) : undefined
+    const answer = rule.no ? 'no' : region && rule.yes?.includes(region) ? 'yes' : undefined
+    if (!answer) continue
+    await payload.update({ collection: 'hotels', id: h.id, data: { clubLounge: answer }, depth: 0, overrideAccess: true })
+    counts[`${brand} ${region ?? '-'} ${answer}`] = (counts[`${brand} ${region ?? '-'} ${answer}`] ?? 0) + 1
+    if (answer === 'yes') yes++
+    else no++
+  }
+  for (const [k, v] of Object.entries(counts).sort()) console.log(`  ${k}: ${v}`)
+  console.log(`lounge-brand-rules: ${yes} yes, ${no} no, ${hotels.length - yes - no} of ${hotels.length} blank Marriott hotels left blank`)
 }
 
 // ---- Hilton -----------------------------------------------------------------
@@ -829,6 +1139,13 @@ const STEPS: Record<string, (p: Payload) => Promise<void>> = {
   hilton: importHilton,
   'seed-articles': seedArticles,
   'unseed-articles': unseedArticles,
+  articles: importArticles,
+  'retire-tiers': retireTiers,
+  'seed-milestones': seedMilestones,
+  'seed-cards': seedCards,
+  'seed-brand-ranks': seedBrandRanks,
+  'lounge-flags': loungeFlags,
+  'lounge-brand-rules': loungeBrandRules,
 }
 
 async function main() {

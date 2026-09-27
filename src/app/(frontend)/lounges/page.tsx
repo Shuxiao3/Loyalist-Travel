@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 
-import { pageMeta } from '@/lib/seo'
+import { getSeo, metaText, pageMeta } from '@/lib/seo'
 import Link from 'next/link'
 
-import { LandingHero } from '@/components/LandingHero'
+import { HERO_FALLBACK_PHOTO, LandingHero } from '@/components/LandingHero'
 import { LoungeRows } from '@/components/LoungeRows'
 import { count } from '@/lib/format'
 import { getLoungeDirectory } from '@/lib/lounges'
@@ -13,7 +13,10 @@ import styles from './page.module.css'
 
 export const revalidate = 300
 
-export const metadata: Metadata = pageMeta({ title: 'Lounges', description: 'Club and executive lounges: who gets in, hours, what is served, and whether it beats the restaurant, scored by readers who sat in them.', path: '/lounges' })
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getSeo()
+  return pageMeta({ ...metaText(seo?.lounges, {}, { title: 'Lounges', description: 'Club and executive lounges: who gets in, hours, what is served, and whether it beats the restaurant, scored by readers who sat in them.' }), path: '/lounges' })
+}
 
 type Props = { searchParams: Promise<Record<string, string | string[] | undefined>> }
 const first = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v) || undefined
@@ -31,20 +34,7 @@ export default async function LoungesIndex({ searchParams }: Props) {
         eyebrow="Lounges"
         title="Hotel lounges rated"
         text="Readers score every club lounge on food, drink, space and ambiance, and service, give it an overall mark out of five, and say whether it was worth booking a club room. Access rules and hours sit alongside, as printed."
-        photo={top?.lounge.externalImageUrl ?? top?.hotel?.externalImageUrl}
-        card={
-          top
-            ? {
-                eyebrow: 'Top rated lounge',
-                image: top.lounge.externalImageUrl ?? top.hotel?.externalImageUrl,
-                meta: [top.hotel?.name, `${top.data?.stays ?? 0} rated ${top.data?.stays === 1 ? 'stay' : 'stays'}`].filter((m): m is string => Boolean(m)),
-                title: top.lounge.name,
-                figure: top.data?.score != null ? { value: top.data.score.toFixed(1), label: 'of 5' } : null,
-                cta: 'See the lounge',
-                href: `/lounges/${top.lounge.slug}`,
-              }
-            : null
-        }
+        photo={top?.lounge.externalImageUrl ?? top?.hotel?.externalImageUrl ?? HERO_FALLBACK_PHOTO}
       />
 
       <section className={`section ${styles.filters}`}>

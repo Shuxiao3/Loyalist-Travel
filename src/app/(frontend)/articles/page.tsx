@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 
-import { pageMeta } from '@/lib/seo'
+import { getSeo, metaText, pageMeta } from '@/lib/seo'
 import Link from 'next/link'
 
 import { ARTICLE_CATEGORIES, ARTICLE_CATEGORY_LABEL } from '@/collections/Articles'
@@ -14,7 +14,10 @@ import styles from './page.module.css'
 
 export const revalidate = 300
 
-export const metadata: Metadata = pageMeta({ title: 'Articles', description: 'Elite benefits, loyalty programs, points and awards, credit cards, lounges and hotels, written from stays we paid for.', path: '/articles' })
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getSeo()
+  return pageMeta({ ...metaText(seo?.articles, {}, { title: 'Articles', description: 'Elite benefits, loyalty programs, points and awards, credit cards, lounges and hotels, written from stays we paid for.' }), path: '/articles' })
+}
 
 type Props = { searchParams: Promise<Record<string, string | string[] | undefined>> }
 const first = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v) || undefined

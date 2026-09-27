@@ -124,8 +124,12 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    seo: Seo;
+  };
+  globalsSelect: {
+    seo: SeoSelect<false> | SeoSelect<true>;
+  };
   locale: null;
   widgets: {
     collections: CollectionsWidget;
@@ -203,7 +207,7 @@ export interface Hotel {
    */
   stayCount?: number | null;
   /**
-   * Whether the hotel has an executive or club lounge, as its own page states. Blank means not checked yet.
+   * Whether the hotel has an executive or club lounge, as its own page states (Marriott: by brand and region until a page or report answers). Blank means not checked yet.
    */
   clubLounge?: ('yes' | 'no') | null;
   /**
@@ -226,6 +230,10 @@ export interface Brand {
   slug: string;
   program?: (number | null) | Program;
   segment?: ('ultra-luxury' | 'luxury' | 'upscale' | 'midscale' | 'budget' | 'extended-stay') | null;
+  /**
+   * Perceived hierarchy within the program: 1 sits at the top of the brand list, higher numbers further down. Blank sorts last.
+   */
+  rank?: number | null;
   shortDescription?: string | null;
   overview?: {
     root: {
@@ -275,6 +283,44 @@ export interface Program {
     [k: string]: unknown;
   } | null;
   eliteTiersDescription?: string | null;
+  /**
+   * Milestone rewards along the way to status. One entry per milestone; the choices one per line.
+   */
+  milestoneList?:
+    | {
+        /**
+         * When it is reached, e.g. "20 nights" or "100 nights or $30,000 spend".
+         */
+        at: string;
+        /**
+         * The reward, or the choices, one per line.
+         */
+        rewards?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Older free-text version of the milestones. Shown only while the list above is empty.
+   */
+  milestones?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * The full breakdown of the milestone rewards, linked from the program page.
+   */
+  milestonesArticle?: (number | null) | Article;
   topTierName?: string | null;
   secondTierName?: string | null;
   tiers?: {
@@ -300,6 +346,133 @@ export interface Program {
   webflowId?: string | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "articles".
+ */
+export interface Article {
+  id: number;
+  title: string;
+  slug: string;
+  category: 'elite-benefits' | 'programs' | 'points-awards' | 'credit-cards' | 'hotels-lounges';
+  publishedDate: string;
+  /**
+   * One or two sentences under the title and on cards.
+   */
+  dek?: string | null;
+  body: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * Shown in the sidebar.
+   */
+  related?: {
+    hotels?: (number | Hotel)[] | null;
+    programs?: (number | Program)[] | null;
+    lounges?: (number | Lounge)[] | null;
+    articles?: (number | Article)[] | null;
+  };
+  /**
+   * Overrides the article template on the Search titles & descriptions page.
+   */
+  seo?: {
+    title?: string | null;
+    description?: string | null;
+  };
+  heroImage?: (number | null) | Media;
+  /**
+   * Hosted image URL until owned media is uploaded.
+   */
+  externalImageUrl?: string | null;
+  /**
+   * Pin to the top of the hub and the homepage.
+   */
+  featured?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "lounges".
+ */
+export interface Lounge {
+  id: number;
+  /**
+   * As the hotel calls it, e.g. "Grand Club".
+   */
+  name: string;
+  slug: string;
+  hotel: number | Hotel;
+  /**
+   * e.g. "32nd floor".
+   */
+  location?: string | null;
+  /**
+   * Who gets in, as printed.
+   */
+  access?: {
+    /**
+     * Tiers of the hotel's program with lounge access.
+     */
+    tiers?: (number | StatusLevel)[] | null;
+    clubRooms?: boolean | null;
+    /**
+     * Leave blank if none, else the price, e.g. "$120 per person per day".
+     */
+    paid?: string | null;
+  };
+  /**
+   * What is served and when.
+   */
+  services?:
+    | {
+        service: 'breakfast' | 'afternoon-tea' | 'evening' | 'all-day';
+        from?: string | null;
+        to?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  dressCode?: string | null;
+  /**
+   * The editorial take: does it beat the restaurant?
+   */
+  note?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  image?: (number | null) | Media;
+  /**
+   * Hosted image URL until owned media is uploaded.
+   */
+  externalImageUrl?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -339,6 +512,18 @@ export interface StatusLevel {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * The full breakdown of this tier, linked from its card on the program page.
+   */
+  article?: (number | null) | Article;
+  /**
+   * Rough share of members at this tier, e.g. "about 3%". Shown on the card when set.
+   */
+  memberShare?: string | null;
+  /**
+   * Where the estimate comes from.
+   */
+  memberShareNote?: string | null;
   /**
    * Which printed benefits this tier is entitled to.
    */
@@ -460,8 +645,12 @@ export interface Review {
    * Computed on save.
    */
   totals?: {
-    hard?: number | null;
-    soft?: number | null;
+    room?: number | null;
+    property?: number | null;
+    atmosphere?: number | null;
+    service?: number | null;
+    operations?: number | null;
+    breakfast?: number | null;
     overall?: number | null;
   };
   stayDate?: string | null;
@@ -485,23 +674,30 @@ export interface Review {
    * Points price, category, whether it repriced.
    */
   awardNote?: string | null;
+  /**
+   * Every sub-score is out of 5. Category totals and the 100-point score are computed on save.
+   */
   scores?: {
-    roomLayout?: number | null;
+    layout?: number | null;
     bathroom?: number | null;
-    bedAndSleep?: number | null;
+    sleep?: number | null;
     tech?: number | null;
+    publicSpace?: number | null;
     amenities?: number | null;
-    atmosphere?: number | null;
-    maintenance?: number | null;
     location?: number | null;
-    checkIn?: number | null;
-    serviceBaseline?: number | null;
-    servicePeak?: number | null;
-    operations?: number | null;
+    maintenance?: number | null;
+    design?: number | null;
+    finish?: number | null;
+    senseOfPlace?: number | null;
+    crowding?: number | null;
+    warmth?: number | null;
+    efficiency?: number | null;
+    anticipation?: number | null;
+    arrival?: number | null;
+    mistakes?: number | null;
     housekeeping?: number | null;
-    breakfastAndDining?: number | null;
-    density?: number | null;
-    departure?: number | null;
+    breakfastQuality?: number | null;
+    breakfastSpread?: number | null;
   };
   openingThoughts?: {
     root: {
@@ -519,7 +715,7 @@ export interface Review {
     [k: string]: unknown;
   } | null;
   narrative?: {
-    roomLayout?: {
+    layout?: {
       root: {
         type: string;
         children: {
@@ -549,7 +745,7 @@ export interface Review {
       };
       [k: string]: unknown;
     } | null;
-    bedAndSleep?: {
+    sleep?: {
       root: {
         type: string;
         children: {
@@ -579,37 +775,22 @@ export interface Review {
       };
       [k: string]: unknown;
     } | null;
+    publicSpace?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
     amenities?: {
-      root: {
-        type: string;
-        children: {
-          type: any;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    } | null;
-    atmosphere?: {
-      root: {
-        type: string;
-        children: {
-          type: any;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    } | null;
-    maintenance?: {
       root: {
         type: string;
         children: {
@@ -639,7 +820,7 @@ export interface Review {
       };
       [k: string]: unknown;
     } | null;
-    checkIn?: {
+    maintenance?: {
       root: {
         type: string;
         children: {
@@ -654,7 +835,7 @@ export interface Review {
       };
       [k: string]: unknown;
     } | null;
-    serviceBaseline?: {
+    design?: {
       root: {
         type: string;
         children: {
@@ -669,7 +850,7 @@ export interface Review {
       };
       [k: string]: unknown;
     } | null;
-    servicePeak?: {
+    finish?: {
       root: {
         type: string;
         children: {
@@ -684,7 +865,97 @@ export interface Review {
       };
       [k: string]: unknown;
     } | null;
-    operations?: {
+    senseOfPlace?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    crowding?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    warmth?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    efficiency?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    anticipation?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    arrival?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    mistakes?: {
       root: {
         type: string;
         children: {
@@ -714,7 +985,7 @@ export interface Review {
       };
       [k: string]: unknown;
     } | null;
-    breakfastAndDining?: {
+    breakfastQuality?: {
       root: {
         type: string;
         children: {
@@ -729,22 +1000,7 @@ export interface Review {
       };
       [k: string]: unknown;
     } | null;
-    density?: {
-      root: {
-        type: string;
-        children: {
-          type: any;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    } | null;
-    departure?: {
+    breakfastSpread?: {
       root: {
         type: string;
         children: {
@@ -888,7 +1144,10 @@ export interface RubricVersion {
      */
     key: string;
     label: string;
-    group: 'hard' | 'soft';
+    /**
+     * Which category the sub-score sits in. Blank on versions before v16.
+     */
+    section?: ('room' | 'property' | 'service' | 'operations' | 'breakfast' | 'atmosphere') | null;
     maxCity?: number | null;
     maxResort?: number | null;
     id?: string | null;
@@ -911,126 +1170,6 @@ export interface Amenity {
   webflowId?: string | null;
   updatedAt: string;
   createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "articles".
- */
-export interface Article {
-  id: number;
-  title: string;
-  slug: string;
-  category: 'elite-benefits' | 'programs' | 'points-awards' | 'credit-cards' | 'hotels-lounges';
-  publishedDate: string;
-  /**
-   * One or two sentences under the title and on cards.
-   */
-  dek?: string | null;
-  body: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  /**
-   * Shown in the sidebar.
-   */
-  related?: {
-    hotels?: (number | Hotel)[] | null;
-    programs?: (number | Program)[] | null;
-    lounges?: (number | Lounge)[] | null;
-    articles?: (number | Article)[] | null;
-  };
-  heroImage?: (number | null) | Media;
-  /**
-   * Hosted image URL until owned media is uploaded.
-   */
-  externalImageUrl?: string | null;
-  /**
-   * Pin to the top of the hub and the homepage.
-   */
-  featured?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "lounges".
- */
-export interface Lounge {
-  id: number;
-  /**
-   * As the hotel calls it, e.g. "Grand Club".
-   */
-  name: string;
-  slug: string;
-  hotel: number | Hotel;
-  /**
-   * e.g. "32nd floor".
-   */
-  location?: string | null;
-  /**
-   * Who gets in, as printed.
-   */
-  access?: {
-    /**
-     * Tiers of the hotel's program with lounge access.
-     */
-    tiers?: (number | StatusLevel)[] | null;
-    clubRooms?: boolean | null;
-    /**
-     * Leave blank if none, else the price, e.g. "$120 per person per day".
-     */
-    paid?: string | null;
-  };
-  /**
-   * What is served and when.
-   */
-  services?:
-    | {
-        service: 'breakfast' | 'afternoon-tea' | 'evening' | 'all-day';
-        from?: string | null;
-        to?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  dressCode?: string | null;
-  /**
-   * The editorial take: does it beat the restaurant?
-   */
-  note?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  image?: (number | null) | Media;
-  /**
-   * Hosted image URL until owned media is uploaded.
-   */
-  externalImageUrl?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
 }
 /**
  * Approve or reject submissions here. Only approved stays count.
@@ -1135,7 +1274,10 @@ export interface LoungeRating {
   lounge: number | Lounge;
   statusHeld: number | StatusLevel;
   stayYear: number;
-  access: 'given' | 'declined' | 'not-used';
+  /**
+   * No longer asked; older ratings may say declined or not used.
+   */
+  access?: ('given' | 'declined' | 'not-used') | null;
   worthIt?: ('yes' | 'no') | null;
   /**
    * 1 to 5.
@@ -1387,8 +1529,12 @@ export interface ReviewsSelect<T extends boolean = true> {
   totals?:
     | T
     | {
-        hard?: T;
-        soft?: T;
+        room?: T;
+        property?: T;
+        atmosphere?: T;
+        service?: T;
+        operations?: T;
+        breakfast?: T;
         overall?: T;
       };
   stayDate?: T;
@@ -1401,43 +1547,51 @@ export interface ReviewsSelect<T extends boolean = true> {
   scores?:
     | T
     | {
-        roomLayout?: T;
+        layout?: T;
         bathroom?: T;
-        bedAndSleep?: T;
+        sleep?: T;
         tech?: T;
+        publicSpace?: T;
         amenities?: T;
-        atmosphere?: T;
-        maintenance?: T;
         location?: T;
-        checkIn?: T;
-        serviceBaseline?: T;
-        servicePeak?: T;
-        operations?: T;
+        maintenance?: T;
+        design?: T;
+        finish?: T;
+        senseOfPlace?: T;
+        crowding?: T;
+        warmth?: T;
+        efficiency?: T;
+        anticipation?: T;
+        arrival?: T;
+        mistakes?: T;
         housekeeping?: T;
-        breakfastAndDining?: T;
-        density?: T;
-        departure?: T;
+        breakfastQuality?: T;
+        breakfastSpread?: T;
       };
   openingThoughts?: T;
   narrative?:
     | T
     | {
-        roomLayout?: T;
+        layout?: T;
         bathroom?: T;
-        bedAndSleep?: T;
+        sleep?: T;
         tech?: T;
+        publicSpace?: T;
         amenities?: T;
-        atmosphere?: T;
-        maintenance?: T;
         location?: T;
-        checkIn?: T;
-        serviceBaseline?: T;
-        servicePeak?: T;
-        operations?: T;
+        maintenance?: T;
+        design?: T;
+        finish?: T;
+        senseOfPlace?: T;
+        crowding?: T;
+        warmth?: T;
+        efficiency?: T;
+        anticipation?: T;
+        arrival?: T;
+        mistakes?: T;
         housekeeping?: T;
-        breakfastAndDining?: T;
-        density?: T;
-        departure?: T;
+        breakfastQuality?: T;
+        breakfastSpread?: T;
       };
   finalVerdict?: T;
   upgrade?:
@@ -1529,6 +1683,12 @@ export interface ArticlesSelect<T extends boolean = true> {
         programs?: T;
         lounges?: T;
         articles?: T;
+      };
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
       };
   heroImage?: T;
   externalImageUrl?: T;
@@ -1653,7 +1813,7 @@ export interface RubricVersionsSelect<T extends boolean = true> {
     | {
         key?: T;
         label?: T;
-        group?: T;
+        section?: T;
         maxCity?: T;
         maxResort?: T;
         id?: T;
@@ -1671,6 +1831,15 @@ export interface ProgramsSelect<T extends boolean = true> {
   shortDescription?: T;
   overview?: T;
   eliteTiersDescription?: T;
+  milestoneList?:
+    | T
+    | {
+        at?: T;
+        rewards?: T;
+        id?: T;
+      };
+  milestones?: T;
+  milestonesArticle?: T;
   topTierName?: T;
   secondTierName?: T;
   tiers?: T;
@@ -1700,6 +1869,7 @@ export interface BrandsSelect<T extends boolean = true> {
   slug?: T;
   program?: T;
   segment?: T;
+  rank?: T;
   shortDescription?: T;
   overview?: T;
   logoUrl?: T;
@@ -1721,6 +1891,9 @@ export interface StatusLevelsSelect<T extends boolean = true> {
   nights?: T;
   shortDescription?: T;
   benefits?: T;
+  article?: T;
+  memberShare?: T;
+  memberShareNote?: T;
   eligibility?:
     | T
     | {
@@ -1870,6 +2043,269 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "seo".
+ */
+export interface Seo {
+  id: number;
+  /**
+   * The homepage, and any page that has nothing of its own. The homepage title is used whole, with nothing added.
+   */
+  site?: {
+    title?: string | null;
+    description?: string | null;
+  };
+  reviews?: {
+    /**
+     * "| Loyalist Travel" is added after it automatically. Aim for under 60 characters.
+     */
+    title?: string | null;
+    /**
+     * Aim for 120 to 160 characters.
+     */
+    description?: string | null;
+  };
+  hotels?: {
+    /**
+     * "| Loyalist Travel" is added after it automatically. Aim for under 60 characters.
+     */
+    title?: string | null;
+    /**
+     * Aim for 120 to 160 characters.
+     */
+    description?: string | null;
+  };
+  lounges?: {
+    /**
+     * "| Loyalist Travel" is added after it automatically. Aim for under 60 characters.
+     */
+    title?: string | null;
+    /**
+     * Aim for 120 to 160 characters.
+     */
+    description?: string | null;
+  };
+  articles?: {
+    /**
+     * "| Loyalist Travel" is added after it automatically. Aim for under 60 characters.
+     */
+    title?: string | null;
+    /**
+     * Aim for 120 to 160 characters.
+     */
+    description?: string | null;
+  };
+  submitAStay?: {
+    /**
+     * "| Loyalist Travel" is added after it automatically. Aim for under 60 characters.
+     */
+    title?: string | null;
+    /**
+     * Aim for 120 to 160 characters.
+     */
+    description?: string | null;
+  };
+  /**
+   * Placeholders: {Title} {Hotel} {Score} {Verdict} {Destination} {Program} {Elite} {Brand}. {Elite} is the program's top tier, e.g. Globalist. The preview below fills them with a sample page.
+   */
+  review?: {
+    /**
+     * "| Loyalist Travel" is added after it automatically. Aim for under 60 characters.
+     */
+    title?: string | null;
+    /**
+     * Aim for 120 to 160 characters.
+     */
+    description?: string | null;
+  };
+  /**
+   * Placeholders: {Hotel} {Destination} {Location} {Brand} {Program} {Elite} {Elites}. {Elite} is the program's top tier, e.g. Globalist. The preview below fills them with a sample page.
+   */
+  hotel?: {
+    /**
+     * "| Loyalist Travel" is added after it automatically. Aim for under 60 characters.
+     */
+    title?: string | null;
+    /**
+     * Aim for 120 to 160 characters.
+     */
+    description?: string | null;
+  };
+  /**
+   * Placeholders: {Hotel} {Destination} {Location} {Brand} {Program} {Elite} {Elites}. {Elite} is the program's top tier, e.g. Globalist. The preview below fills them with a sample page.
+   */
+  hotelUnreviewed?: {
+    /**
+     * "| Loyalist Travel" is added after it automatically. Aim for under 60 characters.
+     */
+    title?: string | null;
+    /**
+     * Aim for 120 to 160 characters.
+     */
+    description?: string | null;
+  };
+  /**
+   * Placeholders: {Lounge} {Hotel} {Access} {Program} {Elite}. {Elite} is the program's top tier, e.g. Globalist. The preview below fills them with a sample page.
+   */
+  lounge?: {
+    /**
+     * "| Loyalist Travel" is added after it automatically. Aim for under 60 characters.
+     */
+    title?: string | null;
+    /**
+     * Aim for 120 to 160 characters.
+     */
+    description?: string | null;
+  };
+  /**
+   * Placeholders: {Program} {Elite} {Description}. {Elite} is the program's top tier, e.g. Globalist. The preview below fills them with a sample page.
+   */
+  program?: {
+    /**
+     * "| Loyalist Travel" is added after it automatically. Aim for under 60 characters.
+     */
+    title?: string | null;
+    /**
+     * Aim for 120 to 160 characters.
+     */
+    description?: string | null;
+  };
+  /**
+   * Placeholders: {Brand} {Program} {Elite} {Description}. {Elite} is the program's top tier, e.g. Globalist. The preview below fills them with a sample page.
+   */
+  brand?: {
+    /**
+     * "| Loyalist Travel" is added after it automatically. Aim for under 60 characters.
+     */
+    title?: string | null;
+    /**
+     * Aim for 120 to 160 characters.
+     */
+    description?: string | null;
+  };
+  /**
+   * Placeholders: {Destination} {Country} {Description}. {Elite} is the program's top tier, e.g. Globalist. The preview below fills them with a sample page.
+   */
+  destination?: {
+    /**
+     * "| Loyalist Travel" is added after it automatically. Aim for under 60 characters.
+     */
+    title?: string | null;
+    /**
+     * Aim for 120 to 160 characters.
+     */
+    description?: string | null;
+  };
+  /**
+   * Placeholders: {Title} {Dek} {Category}. {Elite} is the program's top tier, e.g. Globalist. The preview below fills them with a sample page.
+   */
+  article?: {
+    /**
+     * "| Loyalist Travel" is added after it automatically. Aim for under 60 characters.
+     */
+    title?: string | null;
+    /**
+     * Aim for 120 to 160 characters.
+     */
+    description?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "seo_select".
+ */
+export interface SeoSelect<T extends boolean = true> {
+  site?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  reviews?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  hotels?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  lounges?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  articles?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  submitAStay?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  review?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  hotel?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  hotelUnreviewed?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  lounge?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  program?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  brand?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  destination?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  article?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

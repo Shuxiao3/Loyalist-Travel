@@ -4,8 +4,8 @@ import { notFound } from 'next/navigation'
 import { ReferenceBody } from '@/components/ReferenceBody'
 import { ReferenceHero } from '@/components/ReferenceHero'
 import { count, rel } from '@/lib/format'
-import { getBrand, getHotelsIn, getPayloadClient } from '@/lib/queries'
-import { pageMeta } from '@/lib/seo'
+import { getBrand, getHotelsIn, getPayloadClient, topTierOf } from '@/lib/queries'
+import { getSeo, metaText, pageMeta } from '@/lib/seo'
 import type { Program } from '@/payload-types'
 
 export const revalidate = 300
@@ -14,7 +14,9 @@ type Props = { params: Promise<{ slug: string }> }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const brand = await getBrand((await params).slug)
-  return brand ? pageMeta({ title: brand.name, description: brand.shortDescription, path: `/brands/${brand.slug}` }) : {}
+  if (!brand) return {}
+  const text = metaText((await getSeo())?.brand, { Brand: brand.name, Program: rel<Program>(brand.program)?.name, Elite: await topTierOf(rel<Program>(brand.program)), Description: brand.shortDescription }, { title: brand.name, description: brand.shortDescription })
+  return pageMeta({ ...text, path: `/brands/${brand.slug}` })
 }
 
 export default async function BrandPage({ params }: Props) {

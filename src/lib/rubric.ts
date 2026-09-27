@@ -1,41 +1,49 @@
 import type { Review, RubricVersion } from '@/payload-types'
-import { RUBRIC_V15 } from '@/rubric/v15'
+import { RUBRIC_SECTIONS, RUBRIC_V16, type SectionId } from '@/rubric/v16'
 
 import { rel } from './format'
 
 export type ScoreKey = keyof NonNullable<Review['scores']>
 
-// How the sixteen categories group into the narrative sections of a review.
-export const REVIEW_SECTIONS: { id: string; title: string; keys: ScoreKey[] }[] = [
-  { id: 'room', title: 'The room', keys: ['roomLayout', 'bathroom', 'bedAndSleep', 'tech'] },
-  { id: 'public', title: 'Public space and amenities', keys: ['amenities', 'atmosphere', 'maintenance', 'location'] },
-  { id: 'service', title: 'Service', keys: ['checkIn', 'serviceBaseline', 'servicePeak', 'operations', 'housekeeping'] },
-  { id: 'dining', title: 'Breakfast, dining and departure', keys: ['breakfastAndDining', 'density', 'departure'] },
-]
-
 export type Category = {
   key: ScoreKey
   label: string
-  group: 'hard' | 'soft'
-  max: number | null
+  section: SectionId
+  max: number
 }
 
-// The category list for a review: labels and grouping from its rubric
-// version, maxima for its property type. Falls back to v15 when the version
-// is not populated.
+// The six categories, each with the sub-scores that make it up. These are
+// also the narrative sections of a review.
+export const REVIEW_SECTIONS: { id: SectionId; title: string; max: number; keys: ScoreKey[] }[] = RUBRIC_SECTIONS.map((s) => ({
+  id: s.id,
+  title: s.label,
+  max: s.max,
+  keys: RUBRIC_V16.filter((c) => c.section === s.id).map((c) => c.key as ScoreKey),
+}))
+
+// The sub-score list for a review: v16, with labels and maxima overridden by
+// the review's rubric version where it names them.
 export function categoriesFor(review: Review): Category[] {
   const version = rel<RubricVersion>(review.rubricVersion)
-  const source = version?.categories?.length ? version.categories : RUBRIC_V15
-  return source.map((c) => ({
-    key: c.key as ScoreKey,
-    label: c.label,
-    group: c.group,
-    max: (review.propertyType === 'resort' ? c.maxResort : c.maxCity) ?? null,
-  }))
+  const own = new Map((version?.categories ?? []).map((c) => [c.key, c]))
+  return RUBRIC_V16.map((c) => {
+    const v = own.get(c.key)
+    const max = v ? ((review.propertyType === 'resort' ? v.maxResort : v.maxCity) ?? c.max) : c.max
+    return { key: c.key as ScoreKey, label: v?.label ?? c.label, section: c.section, max }
+  })
 }
 
-export function groupMax(categories: Category[], group: 'hard' | 'soft'): number {
-  return categories.filter((c) => c.group === group).reduce((n, c) => n + (c.max ?? 0), 0)
+// A category's points so far and its maximum, from the sub-scores present.
+export function sectionTotal(review: Review, categories: Category[], keys: ScoreKey[]): { got: number; max: number } {
+  let got = 0
+  let max = 0
+  for (const k of keys) {
+    const c = categories.find((x) => x.key === k)
+    if (!c) continue
+    max += c.max
+    got += review.scores?.[k] ?? 0
+  }
+  return { got, max }
 }
 
 // Score bands from the scoring workbook, on the percentage of the maximum.

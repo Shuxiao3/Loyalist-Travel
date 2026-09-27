@@ -138,7 +138,7 @@ export const Hotels: CollectionConfig = {
       name: 'clubLounge',
       type: 'select',
       index: true,
-      admin: { position: 'sidebar', description: 'Whether the hotel has an executive or club lounge, as its own page states. Blank means not checked yet.' },
+      admin: { position: 'sidebar', description: 'Whether the hotel has an executive or club lounge, as its own page states (Marriott: by brand and region until a page or report answers). Blank means not checked yet.' },
       options: [
         { label: 'Yes', value: 'yes' },
         { label: 'No', value: 'no' },

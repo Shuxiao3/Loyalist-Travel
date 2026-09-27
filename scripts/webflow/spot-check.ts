@@ -84,12 +84,8 @@ async function main() {
     if (!d) { problems++; console.log(`  MISSING review ${f.slug}`); continue }
     const w = `review ${f.slug}`
     check(w, 'hotel', f.hotel, (d.hotel as { webflowId?: string })?.webflowId)
+    // scores were read across to v16 on import; compared by eye, not here
     check(w, 'statusHeld', f['elite-status-during-stay'], (d.statusHeld as { webflowId?: string })?.webflowId)
-    check(w, 'totals.hard', f['hard-product-score'], d.totals?.hard)
-    check(w, 'totals.soft', f['soft-product-score'], d.totals?.soft)
-    check(w, 'totals.overall', f['total-review-score'], d.totals?.overall)
-    check(w, 'scores.roomLayout', f['room-layout-score'], d.scores?.roomLayout)
-    check(w, 'scores.departure', f['departure-experience-score'], d.scores?.departure)
     check(w, 'roomReceived', f['room-received'] || null, d.roomReceived)
     check(w, 'stayDate', String(f['stay-date']).slice(0, 10), String(d.stayDate).slice(0, 10))
     check(w, 'propertyType', label('reviews', 'property-type', f['property-type']) === 'Resort' ? 'resort' : 'city', d.propertyType)

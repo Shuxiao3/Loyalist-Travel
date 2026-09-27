@@ -72,7 +72,7 @@ export function ReferenceBody({
               </Link>
             )}
           </div>
-          {hotels.length > 0 ? <HotelList hotels={hotels} /> : <p className={styles.empty}>No published hotels yet.</p>}
+          {hotels.length > 0 ? <HotelList hotels={hotels} grid /> : <p className={styles.empty}>No published hotels yet.</p>}
         </div>
       </section>
     </>

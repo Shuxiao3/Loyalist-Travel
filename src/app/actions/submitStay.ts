@@ -3,7 +3,7 @@
 import { createHash } from 'crypto'
 import { headers } from 'next/headers'
 
-import { ALA_CARTE_CAP, BREAKFAST_OUTCOMES, LATE_CHECKOUT_OUTCOMES, SUITE_TYPES, UPGRADE_HOW, UPGRADE_OUTCOMES, UPGRADE_TYPES } from '@/lib/stayOptions'
+import { ALA_CARTE_CAP, BREAKFAST_OUTCOMES, EARLIEST_STAY_YEAR, LATE_CHECKOUT_OUTCOMES, SUITE_TYPES, UPGRADE_HOW, UPGRADE_OUTCOMES, UPGRADE_TYPES } from '@/lib/stayOptions'
 import { getPayloadClient } from '@/lib/payload'
 import { currentReader } from '@/lib/reader'
 import { TURNSTILE_FIELD, verifyTurnstile } from '@/lib/turnstile'
@@ -36,7 +36,7 @@ export async function submitStay(_prev: SubmitStayState, form: FormData): Promis
   const lateCheckout = form.get('lateCheckout')
   const now = new Date()
   if (!Number.isInteger(hotelId) || !Number.isInteger(tierId)) return { ok: false, error: 'Choose a hotel and the status you held.' }
-  if (!Number.isInteger(stayYear) || stayYear < now.getFullYear() - 6 || stayYear > now.getFullYear()) return { ok: false, error: 'Choose the year of the stay.' }
+  if (!Number.isInteger(stayYear) || stayYear < EARLIEST_STAY_YEAR || stayYear > now.getFullYear()) return { ok: false, error: 'Choose the year of the stay.' }
   if (!inList(upgrade, UPGRADE_OUTCOMES) || !inList(breakfast, BREAKFAST_OUTCOMES) || !inList(lateCheckout, LATE_CHECKOUT_OUTCOMES)) {
     return { ok: false, error: 'Pick an answer for each of the three questions.' }
   }

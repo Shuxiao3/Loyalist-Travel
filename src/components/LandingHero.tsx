@@ -14,10 +14,14 @@ export type HeroCard = {
 
 // The hero on a category landing page: eyebrow, headline and a sentence on
 // the left, one compact landscape card on the right. `photo`, when given,
-// sits behind the navy on the card side.
+// sits behind the navy on the card side; with no card it fades across the
+// whole hero instead.
+
+// A hotel photograph for landing heroes that have nothing of their own.
+export const HERO_FALLBACK_PHOTO = '/images/hotels/hyatt-centric-downtown-denver.jpg'
 export function LandingHero({ eyebrow, title, text, card, aside, photo, children }: { eyebrow: string; title: React.ReactNode; text: string; card?: HeroCard | null; aside?: React.ReactNode; photo?: string | null; children?: React.ReactNode }) {
   return (
-    <header className={`hero ${styles.hero}`} style={photo ? ({ '--hero-photo': `url(${photo})` } as React.CSSProperties) : undefined}>
+    <header className={`hero ${styles.hero} ${!card && !aside && photo ? styles.photoWide : ''}`} style={photo ? ({ '--hero-photo': `url(${photo})` } as React.CSSProperties) : undefined}>
       <div className={`wrap ${styles.wrap}`}>
         <div className={`${styles.grid} ${card || aside ? '' : styles.noCard}`}>
           <div>

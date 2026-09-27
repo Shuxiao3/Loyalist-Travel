@@ -6,6 +6,11 @@
   background-position: center;
 }
 
+/* no card: the photograph runs under the whole hero, faded to keep the text legible */
+.photoWide {
+  background-image: linear-gradient(100deg, var(--navy) 0%, var(--veil-navy) 38%, var(--veil-navy-soft) 100%), var(--hero-photo, none);
+}
+
 .wrap {
   padding-top: var(--s8);
   padding-bottom: var(--s8);

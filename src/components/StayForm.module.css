@@ -5,6 +5,23 @@
   gap: var(--s4);
 }
 
+/* the compact form on the hotel page runs two fields to a row when wide */
+.compact {
+  grid-template-columns: 1fr 1fr;
+}
+
+.compact > :global(.follow),
+.compact > p,
+.compact > div:last-child {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 640px) {
+  .compact {
+    grid-template-columns: 1fr;
+  }
+}
+
 .row {
   display: grid;
   grid-template-columns: 1fr 1fr;

@@ -2,7 +2,7 @@ import type { CollectionConfig, Field } from 'payload'
 
 import { publishedOrLoggedIn } from '../access/publishedOrLoggedIn'
 import { computeReviewScores } from '../hooks/reviewScores'
-import { RUBRIC_V15 } from '../rubric/v15'
+import { RUBRIC_SECTIONS, RUBRIC_V16 } from '../rubric/v16'
 import { PROPERTY_TYPE_OPTIONS } from './Hotels'
 import { slugField } from './fields/slug'
 import { webflowIdField } from './fields/webflowId'
@@ -21,8 +21,6 @@ const narrativeField = (key: string, label: string): Field => ({
   label,
 })
 
-const hardCategories = RUBRIC_V15.filter((c) => c.group === 'hard')
-const softCategories = RUBRIC_V15.filter((c) => c.group === 'soft')
 
 const outcome = (name: string, label: string, options: { label: string; value: string }[]): Field => ({
   name,
@@ -71,8 +69,7 @@ export const Reviews: CollectionConfig = {
         {
           type: 'row',
           fields: [
-            { name: 'hard', type: 'number' },
-            { name: 'soft', type: 'number' },
+            ...RUBRIC_SECTIONS.map((s): Field => ({ name: s.id, type: 'number', label: `${s.label} / ${s.max}` })),
             { name: 'overall', type: 'number', index: true },
           ],
         },
@@ -122,10 +119,8 @@ export const Reviews: CollectionConfig = {
             {
               name: 'scores',
               type: 'group',
-              fields: [
-                { type: 'row', fields: hardCategories.map((c) => scoreField(c.key, c.label)) },
-                { type: 'row', fields: softCategories.map((c) => scoreField(c.key, c.label)) },
-              ],
+              admin: { description: 'Every sub-score is out of 5. Category totals and the 100-point score are computed on save.' },
+              fields: RUBRIC_SECTIONS.map((s): Field => ({ type: 'row', fields: RUBRIC_V16.filter((c) => c.section === s.id).map((c) => scoreField(c.key, `${s.label}: ${c.label}`)) })),
             },
           ],
         },
@@ -133,7 +128,7 @@ export const Reviews: CollectionConfig = {
           label: 'Narrative',
           fields: [
             { name: 'openingThoughts', type: 'richText' },
-            { name: 'narrative', type: 'group', fields: RUBRIC_V15.map((c) => narrativeField(c.key, c.label)) },
+            { name: 'narrative', type: 'group', fields: RUBRIC_V16.map((c) => narrativeField(c.key, `${RUBRIC_SECTIONS.find((s) => s.id === c.section)!.label}: ${c.label}`)) },
             { name: 'finalVerdict', type: 'richText' },
           ],
         },
