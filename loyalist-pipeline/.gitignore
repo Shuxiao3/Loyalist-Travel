@@ -1,0 +1,7 @@
+# Forum pages as grabbed. Other people's posts: kept locally while the
+# extraction runs, never committed.
+raw/*.txt
+!raw/.gitkeep
+
+# Per-page extraction results. Rebuildable, and one file per page.
+data/cache/

@@ -109,17 +109,48 @@ src/
 
 ## Reader sign-in
 
-Readers sign in with Google (Auth.js). Set these in Vercel and in GitHub
-Actions secrets; sign-in stays hidden until all three exist.
+Readers sign in with Google, or with a single-use link sent to their email
+(Auth.js). Set these in Vercel and in GitHub Actions secrets. Each method
+appears only once its own variables exist, and the sign-in page hides itself
+entirely when neither does, so either can ship first.
 
-| Variable | What |
-| --- | --- |
-| `AUTH_SECRET` | Long random string that signs session cookies. |
-| `AUTH_GOOGLE_ID` | OAuth client ID from Google Cloud, APIs & Services, Credentials. |
-| `AUTH_GOOGLE_SECRET` | Its client secret. |
+| Variable | For | What |
+| --- | --- | --- |
+| `AUTH_SECRET` | Both | Long random string that signs session cookies. `openssl rand -hex 32`. |
+| `AUTH_GOOGLE_ID` | Google | OAuth client ID from Google Cloud, APIs & Services, Credentials. |
+| `AUTH_GOOGLE_SECRET` | Google | Its client secret. |
+| `RESEND_API_KEY` | Email link | Resend API key. To send through another provider, replace the body of `sendEmail` in `src/lib/email.ts`. |
+| `EMAIL_FROM` | Email link | The from address, on a domain verified with the sender. |
 
-The Google client needs the site's address as an authorised origin and
-`<site>/api/auth/callback/google` as an authorised redirect URI.
+The Google client needs the site's address as an authorised JavaScript origin
+and `<site>/api/auth/callback/google` as an authorised **redirect URI** — a
+different box on the same page, and the usual cause of
+`redirect_uri_mismatch`. Auth.js builds that URL from the host the browser
+used, so if the site answers on both `example.com` and `www.example.com`,
+register both or redirect one to the other.
+
+### How the email link works
+
+A reader enters their address and gets a link that works once, for fifteen
+minutes. Asking for another kills the previous one. The form says the same
+thing whichever address is typed, so it cannot be used to ask whether someone
+has an account here.
+
+Tokens live in `auth_sign_in_tokens`, which is a plain table rather than a
+Payload collection: the rows last minutes, hold a hash and nothing an editor
+would read, and auth plumbing does not belong in the admin beside the content.
+Only the hash is stored, so a leaked row cannot be turned back into a link.
+Expired rows are swept whenever a new token is issued.
+
+The link lands on `/login/link`, which asks for one click rather than signing
+the reader straight in. A page cannot set a session cookie, only an action can
+— and mail scanners and corporate antivirus follow links in email, which would
+otherwise spend a single-use token before the reader ever saw it.
+
+This is deliberately not Auth.js's own email provider, which requires a
+database adapter. An adapter would also take over the Google path, resolving
+accounts through its own methods; a credentials provider over a token table
+leaves that working flow untouched.
 
 ## Captcha
 
