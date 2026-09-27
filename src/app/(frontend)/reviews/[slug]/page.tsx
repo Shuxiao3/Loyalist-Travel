@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation'
 import { Band } from '@/components/Band'
 import { Comments } from '@/components/Comments'
 import { MobileToc } from '@/components/MobileToc'
+import { ReadingProgress } from '@/components/ReadingProgress'
 import { RichText } from '@/components/RichText'
 import { monthYear, rel, score, shortDate } from '@/lib/format'
 import { getReview, getReviews } from '@/lib/queries'
@@ -250,6 +251,7 @@ export default async function ReviewPage({ params }: Props) {
         </div>
       </section>
 
+      <ReadingProgress />
       <main className={styles.body}>
         <div className={`wrap ${styles.bodyWrap}`}>
           <article className={styles.main}>

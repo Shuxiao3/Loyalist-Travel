@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 
 import { ARTICLE_CATEGORY_LABEL } from '@/collections/Articles'
 import { Comments } from '@/components/Comments'
+import { ReadingProgress } from '@/components/ReadingProgress'
 import { RichText } from '@/components/RichText'
 import { articleImage, getArticle, getArticles } from '@/lib/articles'
 import { rel, shortDate } from '@/lib/format'
@@ -69,6 +70,7 @@ export default async function ArticlePage({ params }: Props) {
 
       {image && <div className="hero-img" role="img" aria-label={article.title} style={{ backgroundImage: `url(${image}), var(--img-a)` }} />}
 
+      <ReadingProgress />
       <main className={styles.body}>
         <div className={`wrap ${styles.bodyWrap}`}>
           <article className={styles.main}>
