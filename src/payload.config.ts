@@ -8,6 +8,7 @@ import { buildConfig } from 'payload'
 import sharp from 'sharp'
 
 import { Amenities } from './collections/Amenities'
+import { Seo } from './globals/Seo'
 import { Articles } from './collections/Articles'
 import { Brands } from './collections/Brands'
 import { Comments } from './collections/Comments'
@@ -61,6 +62,7 @@ export default buildConfig({
     Media,
     Users,
   ],
+  globals: [Seo],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

@@ -124,8 +124,12 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    seo: Seo;
+  };
+  globalsSelect: {
+    seo: SeoSelect<false> | SeoSelect<true>;
+  };
   locale: null;
   widgets: {
     collections: CollectionsWidget;
@@ -636,10 +640,10 @@ export interface Review {
   totals?: {
     room?: number | null;
     property?: number | null;
+    atmosphere?: number | null;
     service?: number | null;
     operations?: number | null;
     breakfast?: number | null;
-    atmosphere?: number | null;
     overall?: number | null;
   };
   stayDate?: string | null;
@@ -675,6 +679,10 @@ export interface Review {
     amenities?: number | null;
     location?: number | null;
     maintenance?: number | null;
+    design?: number | null;
+    finish?: number | null;
+    senseOfPlace?: number | null;
+    crowding?: number | null;
     warmth?: number | null;
     efficiency?: number | null;
     anticipation?: number | null;
@@ -683,10 +691,6 @@ export interface Review {
     housekeeping?: number | null;
     breakfastQuality?: number | null;
     breakfastSpread?: number | null;
-    design?: number | null;
-    finish?: number | null;
-    senseOfPlace?: number | null;
-    crowding?: number | null;
   };
   openingThoughts?: {
     root: {
@@ -824,6 +828,66 @@ export interface Review {
       };
       [k: string]: unknown;
     } | null;
+    design?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    finish?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    senseOfPlace?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    crowding?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
     warmth?: {
       root: {
         type: string;
@@ -930,66 +994,6 @@ export interface Review {
       [k: string]: unknown;
     } | null;
     breakfastSpread?: {
-      root: {
-        type: string;
-        children: {
-          type: any;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    } | null;
-    design?: {
-      root: {
-        type: string;
-        children: {
-          type: any;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    } | null;
-    finish?: {
-      root: {
-        type: string;
-        children: {
-          type: any;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    } | null;
-    senseOfPlace?: {
-      root: {
-        type: string;
-        children: {
-          type: any;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    } | null;
-    crowding?: {
       root: {
         type: string;
         children: {
@@ -1520,10 +1524,10 @@ export interface ReviewsSelect<T extends boolean = true> {
     | {
         room?: T;
         property?: T;
+        atmosphere?: T;
         service?: T;
         operations?: T;
         breakfast?: T;
-        atmosphere?: T;
         overall?: T;
       };
   stayDate?: T;
@@ -1544,6 +1548,10 @@ export interface ReviewsSelect<T extends boolean = true> {
         amenities?: T;
         location?: T;
         maintenance?: T;
+        design?: T;
+        finish?: T;
+        senseOfPlace?: T;
+        crowding?: T;
         warmth?: T;
         efficiency?: T;
         anticipation?: T;
@@ -1552,10 +1560,6 @@ export interface ReviewsSelect<T extends boolean = true> {
         housekeeping?: T;
         breakfastQuality?: T;
         breakfastSpread?: T;
-        design?: T;
-        finish?: T;
-        senseOfPlace?: T;
-        crowding?: T;
       };
   openingThoughts?: T;
   narrative?:
@@ -1569,6 +1573,10 @@ export interface ReviewsSelect<T extends boolean = true> {
         amenities?: T;
         location?: T;
         maintenance?: T;
+        design?: T;
+        finish?: T;
+        senseOfPlace?: T;
+        crowding?: T;
         warmth?: T;
         efficiency?: T;
         anticipation?: T;
@@ -1577,10 +1585,6 @@ export interface ReviewsSelect<T extends boolean = true> {
         housekeeping?: T;
         breakfastQuality?: T;
         breakfastSpread?: T;
-        design?: T;
-        finish?: T;
-        senseOfPlace?: T;
-        crowding?: T;
       };
   finalVerdict?: T;
   upgrade?:
@@ -2026,6 +2030,269 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "seo".
+ */
+export interface Seo {
+  id: number;
+  /**
+   * The homepage, and any page that has nothing of its own. The homepage title is used whole, with nothing added.
+   */
+  site?: {
+    title?: string | null;
+    description?: string | null;
+  };
+  reviews?: {
+    /**
+     * "| Loyalist Travel" is added after it automatically. Aim for under 60 characters.
+     */
+    title?: string | null;
+    /**
+     * Aim for 120 to 160 characters.
+     */
+    description?: string | null;
+  };
+  hotels?: {
+    /**
+     * "| Loyalist Travel" is added after it automatically. Aim for under 60 characters.
+     */
+    title?: string | null;
+    /**
+     * Aim for 120 to 160 characters.
+     */
+    description?: string | null;
+  };
+  lounges?: {
+    /**
+     * "| Loyalist Travel" is added after it automatically. Aim for under 60 characters.
+     */
+    title?: string | null;
+    /**
+     * Aim for 120 to 160 characters.
+     */
+    description?: string | null;
+  };
+  articles?: {
+    /**
+     * "| Loyalist Travel" is added after it automatically. Aim for under 60 characters.
+     */
+    title?: string | null;
+    /**
+     * Aim for 120 to 160 characters.
+     */
+    description?: string | null;
+  };
+  submitAStay?: {
+    /**
+     * "| Loyalist Travel" is added after it automatically. Aim for under 60 characters.
+     */
+    title?: string | null;
+    /**
+     * Aim for 120 to 160 characters.
+     */
+    description?: string | null;
+  };
+  /**
+   * Placeholders: {Title} {Hotel} {Score} {Verdict} {Destination} {Program} {Brand}
+   */
+  review?: {
+    /**
+     * "| Loyalist Travel" is added after it automatically. Aim for under 60 characters.
+     */
+    title?: string | null;
+    /**
+     * Aim for 120 to 160 characters.
+     */
+    description?: string | null;
+  };
+  /**
+   * Placeholders: {Hotel} {Destination} {Location} {Brand} {Program} {Elites}
+   */
+  hotel?: {
+    /**
+     * "| Loyalist Travel" is added after it automatically. Aim for under 60 characters.
+     */
+    title?: string | null;
+    /**
+     * Aim for 120 to 160 characters.
+     */
+    description?: string | null;
+  };
+  /**
+   * Placeholders: {Hotel} {Destination} {Location} {Brand} {Program} {Elites}
+   */
+  hotelUnreviewed?: {
+    /**
+     * "| Loyalist Travel" is added after it automatically. Aim for under 60 characters.
+     */
+    title?: string | null;
+    /**
+     * Aim for 120 to 160 characters.
+     */
+    description?: string | null;
+  };
+  /**
+   * Placeholders: {Lounge} {Hotel} {Access} {Program}
+   */
+  lounge?: {
+    /**
+     * "| Loyalist Travel" is added after it automatically. Aim for under 60 characters.
+     */
+    title?: string | null;
+    /**
+     * Aim for 120 to 160 characters.
+     */
+    description?: string | null;
+  };
+  /**
+   * Placeholders: {Program} {Description}
+   */
+  program?: {
+    /**
+     * "| Loyalist Travel" is added after it automatically. Aim for under 60 characters.
+     */
+    title?: string | null;
+    /**
+     * Aim for 120 to 160 characters.
+     */
+    description?: string | null;
+  };
+  /**
+   * Placeholders: {Brand} {Program} {Description}
+   */
+  brand?: {
+    /**
+     * "| Loyalist Travel" is added after it automatically. Aim for under 60 characters.
+     */
+    title?: string | null;
+    /**
+     * Aim for 120 to 160 characters.
+     */
+    description?: string | null;
+  };
+  /**
+   * Placeholders: {Destination} {Country} {Description}
+   */
+  destination?: {
+    /**
+     * "| Loyalist Travel" is added after it automatically. Aim for under 60 characters.
+     */
+    title?: string | null;
+    /**
+     * Aim for 120 to 160 characters.
+     */
+    description?: string | null;
+  };
+  /**
+   * Placeholders: {Title} {Dek} {Category}
+   */
+  article?: {
+    /**
+     * "| Loyalist Travel" is added after it automatically. Aim for under 60 characters.
+     */
+    title?: string | null;
+    /**
+     * Aim for 120 to 160 characters.
+     */
+    description?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "seo_select".
+ */
+export interface SeoSelect<T extends boolean = true> {
+  site?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  reviews?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  hotels?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  lounges?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  articles?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  submitAStay?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  review?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  hotel?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  hotelUnreviewed?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  lounge?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  program?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  brand?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  destination?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  article?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

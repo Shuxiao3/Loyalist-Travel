@@ -1,4 +1,8 @@
 import type { Metadata } from 'next'
+import { cache } from 'react'
+
+import { getPayloadClient } from './payload'
+import type { Seo } from '@/payload-types'
 
 // The site's public address. Vercel sets VERCEL_PROJECT_PRODUCTION_URL to the
 // project's primary domain, so this follows loyalisttravel.com automatically
@@ -37,4 +41,37 @@ export function pageMeta({ title, description, path, image, type = 'website' }: 
       images: [image || DEFAULT_IMAGE],
     },
   }
+}
+
+// ---- Editable titles and descriptions --------------------------------------
+// The SEO global in the admin. Read once per request.
+export const getSeo = cache(async (): Promise<Seo | null> => {
+  try {
+    const payload = await getPayloadClient()
+    return (await payload.findGlobal({ slug: 'seo', depth: 0 })) as Seo
+  } catch {
+    return null
+  }
+})
+
+type Pair = { title?: string | null; description?: string | null } | null | undefined
+
+// A template with its {Placeholders} filled. An unknown or empty placeholder
+// disappears, along with any punctuation left hanging beside it.
+export function fill(template: string, vars: Record<string, string | null | undefined>): string {
+  return template
+    .replace(/\{(\w+)\}/g, (_, k: string) => vars[k] ?? '')
+    .replace(/\s*,\s*(?=,|:|\.|$)/g, '')
+    .replace(/\(\s*\)/g, '')
+    .replace(/\s{2,}/g, ' ')
+    .replace(/\s+([,.:;])/g, '$1')
+    .trim()
+}
+
+// The edited title and description for a page, or the built-in wording where
+// a field is blank.
+export function metaText(edited: Pair, vars: Record<string, string | null | undefined>, fallback: { title: string; description?: string | null }): { title: string; description: string | null | undefined } {
+  const t = edited?.title?.trim()
+  const d = edited?.description?.trim()
+  return { title: t ? fill(t, vars) : fallback.title, description: d ? fill(d, vars) : fallback.description }
 }

@@ -11,7 +11,7 @@ import { RichText } from '@/components/RichText'
 import { SortMenu } from '@/components/SortMenu'
 import { count } from '@/lib/format'
 import { brandsOf, findHotels, getHotelFilterOptions, getPayloadClient, getProgram, HOTELS_PER_PAGE, type HotelFilters } from '@/lib/queries'
-import { pageMeta } from '@/lib/seo'
+import { getSeo, metaText, pageMeta } from '@/lib/seo'
 import { rel } from '@/lib/format'
 import type { Article, StatusLevel } from '@/payload-types'
 
@@ -25,7 +25,9 @@ const first = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const p = await getProgram((await params).slug)
-  return p ? pageMeta({ title: p.seo?.title ?? p.name, description: p.seo?.description ?? p.shortDescription, path: `/programs/${p.slug}`, image: p.images?.heroImageUrl }) : {}
+  if (!p) return {}
+  const text = metaText((await getSeo())?.program, { Program: p.name, Description: p.shortDescription }, { title: p.name, description: p.shortDescription })
+  return pageMeta({ title: p.seo?.title ?? text.title, description: p.seo?.description ?? text.description, path: `/programs/${p.slug}`, image: p.images?.heroImageUrl })
 }
 
 // The tier's benefits as bullet points. The rich text field when it is

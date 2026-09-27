@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 
-import { pageMeta } from '@/lib/seo'
+import { getSeo, metaText, pageMeta } from '@/lib/seo'
 import Link from 'next/link'
 
 import { HotelList } from '@/components/HotelCard'
@@ -13,7 +13,10 @@ import styles from './page.module.css'
 
 export const revalidate = 300
 
-export const metadata: Metadata = pageMeta({ title: 'Hotels', description: 'Every hotel indexed across World of Hyatt, Marriott Bonvoy, IHG One Rewards and Hilton Honors, filterable by program, brand and country.', path: '/hotels' })
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getSeo()
+  return pageMeta({ ...metaText(seo?.hotels, {}, { title: 'Hotels', description: 'Every hotel indexed across World of Hyatt, Marriott Bonvoy, IHG One Rewards and Hilton Honors, filterable by program, brand and country.' }), path: '/hotels' })
+}
 
 type Props = { searchParams: Promise<Record<string, string | string[] | undefined>> }
 

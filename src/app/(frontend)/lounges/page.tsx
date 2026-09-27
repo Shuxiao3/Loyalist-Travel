@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 
-import { pageMeta } from '@/lib/seo'
+import { getSeo, metaText, pageMeta } from '@/lib/seo'
 import Link from 'next/link'
 
 import { HERO_FALLBACK_PHOTO, LandingHero } from '@/components/LandingHero'
@@ -13,7 +13,10 @@ import styles from './page.module.css'
 
 export const revalidate = 300
 
-export const metadata: Metadata = pageMeta({ title: 'Lounges', description: 'Club and executive lounges: who gets in, hours, what is served, and whether it beats the restaurant, scored by readers who sat in them.', path: '/lounges' })
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getSeo()
+  return pageMeta({ ...metaText(seo?.lounges, {}, { title: 'Lounges', description: 'Club and executive lounges: who gets in, hours, what is served, and whether it beats the restaurant, scored by readers who sat in them.' }), path: '/lounges' })
+}
 
 type Props = { searchParams: Promise<Record<string, string | string[] | undefined>> }
 const first = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v) || undefined

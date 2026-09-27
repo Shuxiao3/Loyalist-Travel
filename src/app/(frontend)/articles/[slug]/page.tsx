@@ -11,7 +11,7 @@ import { rel, shortDate } from '@/lib/format'
 import { SITE } from '@/lib/site'
 import type { Article, Destination, Hotel, Lounge, Program } from '@/payload-types'
 
-import { pageMeta } from '@/lib/seo'
+import { getSeo, metaText, pageMeta } from '@/lib/seo'
 
 import styles from './page.module.css'
 
@@ -22,7 +22,8 @@ type Props = { params: Promise<{ slug: string }> }
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const article = await getArticle((await params).slug)
   if (!article) return {}
-  return pageMeta({ title: article.title, description: article.dek, path: `/articles/${article.slug}`, image: articleImage(article), type: 'article' })
+  const text = metaText((await getSeo())?.article, { Title: article.title, Dek: article.dek, Category: ARTICLE_CATEGORY_LABEL[article.category] }, { title: article.title, description: article.dek })
+  return pageMeta({ ...text, path: `/articles/${article.slug}`, image: articleImage(article), type: 'article' })
 }
 
 export default async function ArticlePage({ params }: Props) {

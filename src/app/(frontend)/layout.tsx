@@ -7,7 +7,7 @@ import '@/styles/globals.css'
 import '@/styles/patterns.css'
 
 import { SiteFooter } from '@/components/SiteFooter'
-import { DEFAULT_DESCRIPTION, DEFAULT_TITLE, SITE_URL } from '@/lib/seo'
+import { DEFAULT_DESCRIPTION, DEFAULT_TITLE, getSeo, SITE_URL } from '@/lib/seo'
 import { SiteHeader } from '@/components/SiteHeader'
 
 // Google Fonts, self-hosted via next/font. The variables feed --serif and
@@ -26,24 +26,29 @@ const lato = Lato({
   display: 'swap',
 })
 
-export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
-  title: {
-    default: DEFAULT_TITLE,
-    template: '%s | Loyalist Travel',
-  },
-  description: DEFAULT_DESCRIPTION,
-  alternates: { canonical: '/' },
-  openGraph: {
-    type: 'website',
-    siteName: 'Loyalist Travel',
-    locale: 'en_US',
-    url: '/',
-    title: DEFAULT_TITLE,
-    description: DEFAULT_DESCRIPTION,
-  },
-  twitter: { card: 'summary_large_image' },
-  robots: { index: true, follow: true },
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getSeo()
+  const title = seo?.site?.title?.trim() || DEFAULT_TITLE
+  const description = seo?.site?.description?.trim() || DEFAULT_DESCRIPTION
+  return {
+    metadataBase: new URL(SITE_URL),
+    title: {
+      default: title,
+      template: '%s | Loyalist Travel',
+    },
+    description,
+    alternates: { canonical: '/' },
+    openGraph: {
+      type: 'website',
+      siteName: 'Loyalist Travel',
+      locale: 'en_US',
+      url: '/',
+      title,
+      description,
+    },
+    twitter: { card: 'summary_large_image' },
+    robots: { index: true, follow: true },
+  }
 }
 
 // The palette is fixed in both colour schemes; never invert for dark mode.

@@ -14,7 +14,7 @@ import { bandFor } from '@/lib/rubric'
 import { getHotel, getHotelsIn, getPayloadClient, getReviewsForHotel } from '@/lib/queries'
 import { accessLine, getLoungesForHotel, loungeReaderData, servicesLine } from '@/lib/lounges'
 import { hotelReaderData, latestStays } from '@/lib/readerData'
-import { pageMeta } from '@/lib/seo'
+import { getSeo, metaText, pageMeta } from '@/lib/seo'
 import { PROPERTY_TYPE_LABEL } from '@/lib/site'
 import type { Amenity, Brand, Destination, Program } from '@/payload-types'
 
@@ -36,7 +36,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const description = hotel.reviewStatus === 'reviewed'
     ? `${hotel.name}${where}: our scored review, plus reader-reported upgrade odds, breakfast and late checkout outcomes for ${elites}.`
     : `${hotel.name}${where}${brand ? `, ${brand.name}` : ''}: reader-reported upgrade odds, breakfast and late checkout outcomes for ${elites}. Add your stay in two minutes.`
-  return pageMeta({ title: `${hotel.name}${destination ? `, ${destination.name}` : ''}`, description, path: `/hotels/${hotel.slug}`, image: hotel.externalImageUrl })
+  const seo = await getSeo()
+  const vars = { Hotel: hotel.name, Destination: destination?.name, Location: destination?.locationLabel ?? destination?.name, Brand: brand?.name, Program: program?.name, Elites: elites }
+  const text = metaText(hotel.reviewStatus === 'reviewed' ? seo?.hotel : seo?.hotelUnreviewed, vars, { title: `${hotel.name}${destination ? `, ${destination.name}` : ''}`, description })
+  return pageMeta({ ...text, path: `/hotels/${hotel.slug}`, image: hotel.externalImageUrl })
 }
 
 export default async function HotelPage({ params }: Props) {

@@ -13,7 +13,7 @@ import { bandFor, categoriesFor, labelFor, REVIEW_SECTIONS, sectionTotal } from 
 import { PROPERTY_TYPE_LABEL, RATE_BASIS_LABEL, SITE } from '@/lib/site'
 import type { Brand, Destination, Hotel, Program, Review, RubricVersion, StatusLevel } from '@/payload-types'
 
-import { pageMeta } from '@/lib/seo'
+import { getSeo, metaText, pageMeta } from '@/lib/seo'
 
 import styles from './page.module.css'
 
@@ -26,9 +26,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const review = await getReview(slug)
   if (!review) return {}
   const hotel = rel<Hotel>(review.hotel)
+  const seo = await getSeo()
+  const vars = { Title: review.title, Hotel: hotel?.name, Score: score(review.totals?.overall), Verdict: review.shortVerdict, Destination: rel<Destination>(hotel?.destination)?.name, Program: rel<Program>(hotel?.program)?.name, Brand: rel<Brand>(hotel?.brand)?.name }
+  const text = metaText(seo?.review, vars, { title: `${review.title} review, scored ${score(review.totals?.overall)} of 100`, description: review.shortVerdict })
   return pageMeta({
-    title: review.seo?.title ?? `${review.title} review, scored ${score(review.totals?.overall)} of 100`,
-    description: review.seo?.description ?? review.shortVerdict,
+    title: review.seo?.title ?? text.title,
+    description: review.seo?.description ?? text.description,
     path: `/reviews/${review.slug}`,
     image: review.externalImageUrl ?? hotel?.externalImageUrl,
     type: 'article',
