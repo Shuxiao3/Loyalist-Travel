@@ -89,7 +89,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       const payload = await getPayloadClient()
       const reader = await payload.findByID({ collection: 'readers', id: token.readerId as number, depth: 0, overrideAccess: true }).catch(() => null)
       if (reader) {
-        session.reader = { id: reader.id, displayName: reader.displayName ?? null, blocked: reader.status === 'blocked' }
+        session.reader = {
+          id: reader.id,
+          displayName: reader.displayName ?? null,
+          displayNameChangedAt: reader.displayNameChangedAt ?? null,
+          blocked: reader.status === 'blocked',
+        }
       }
       return session
     },
@@ -98,6 +103,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
 declare module 'next-auth' {
   interface Session {
-    reader?: { id: number; displayName: string | null; blocked: boolean }
+    reader?: { id: number; displayName: string | null; displayNameChangedAt: string | null; blocked: boolean }
   }
 }

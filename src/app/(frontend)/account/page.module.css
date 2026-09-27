@@ -33,7 +33,7 @@
   color: var(--gold-pale);
 }
 
-.side :global(.eyebrow) {
+.signed :global(.eyebrow) {
   display: block;
   margin-bottom: var(--s3);
 }
@@ -52,7 +52,7 @@
   margin: 0 0 var(--s5);
 }
 
-.side :global(.ghost) {
+.signed :global(.ghost) {
   color: var(--gold-dark);
   border-color: var(--gold-dark);
 }
@@ -61,4 +61,130 @@
   .grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* --- activity list --- */
+
+.main :global(.eyebrow) {
+  display: block;
+  margin-bottom: var(--s5);
+}
+
+.empty {
+  font-size: var(--t-sm);
+  line-height: 1.7;
+  color: var(--muted);
+  margin: 0;
+  max-width: 46ch;
+}
+
+.empty a {
+  color: var(--gold-dark);
+}
+
+.items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+
+.item {
+  padding: var(--s5) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.itemHead {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--s3);
+  margin-bottom: var(--s2);
+}
+
+.kind,
+.status,
+.date {
+  font-size: var(--t-eyebrow);
+  letter-spacing: var(--track-eyebrow);
+  text-transform: uppercase;
+}
+
+.kind {
+  color: var(--navy);
+}
+
+.date {
+  margin-left: auto;
+  color: var(--muted);
+}
+
+/* No traffic lights: the palette is navy, gold and cream, so the states are
+   told apart by weight and a rule rather than by colour alone. */
+.status {
+  padding-bottom: 1px;
+}
+
+.approved {
+  color: var(--gold-deeper);
+  border-bottom: 1px solid var(--gold-dark);
+}
+
+.pending {
+  color: var(--muted);
+  border-bottom: 1px dashed var(--line-strong);
+}
+
+.rejected {
+  color: var(--muted);
+}
+
+.title {
+  font-family: var(--serif);
+  font-size: var(--t-md);
+  line-height: 1.4;
+  color: var(--text);
+  margin: 0;
+}
+
+.title a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.title a:hover {
+  border-bottom-color: var(--gold-dark);
+}
+
+.detail {
+  font-size: var(--t-sm);
+  line-height: 1.6;
+  color: var(--text-2);
+  margin: var(--s2) 0 0;
+}
+
+/* --- settings column --- */
+
+.side {
+  display: grid;
+  gap: var(--card-gap);
+}
+
+.name {
+  font-size: var(--t-md);
+  color: var(--ivory);
+  margin: 0 0 var(--s3);
+}
+
+.panelFine {
+  font-size: var(--t-xs);
+  line-height: 1.6;
+  color: var(--on-navy-dim);
+  letter-spacing: var(--track-fine);
+  margin: var(--s4) 0 0;
+}
+
+.signed {
+  padding-top: var(--s2);
 }

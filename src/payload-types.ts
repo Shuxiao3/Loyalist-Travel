@@ -1221,6 +1221,10 @@ export interface Reader {
    */
   status?: ('active' | 'blocked') | null;
   /**
+   * When the reader last changed an existing name. Set on a change, not on the first pick, so a typo in the name they chose is not locked in for six months. Clear it to let them rename again.
+   */
+  displayNameChangedAt?: string | null;
+  /**
    * Google's stable id for the account.
    */
   googleSub?: string | null;
@@ -1727,6 +1731,7 @@ export interface ReadersSelect<T extends boolean = true> {
   email?: T;
   displayName?: T;
   status?: T;
+  displayNameChangedAt?: T;
   googleSub?: T;
   lastSeenAt?: T;
   updatedAt?: T;

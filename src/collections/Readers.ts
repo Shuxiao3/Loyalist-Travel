@@ -29,6 +29,15 @@ export const Readers: CollectionConfig = {
       ],
       admin: { description: 'Blocked readers can still sign in but cannot post.' },
     },
+    {
+      name: 'displayNameChangedAt',
+      type: 'date',
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+        description: 'When the reader last changed an existing name. Set on a change, not on the first pick, so a typo in the name they chose is not locked in for six months. Clear it to let them rename again.',
+      },
+    },
     { name: 'googleSub', type: 'text', index: true, admin: { position: 'sidebar', readOnly: true, description: "Google's stable id for the account." } },
     { name: 'lastSeenAt', type: 'date', admin: { position: 'sidebar', readOnly: true } },
   ],
