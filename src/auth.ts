@@ -44,7 +44,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       return token
     },
     async session({ session, token }) {
-      session.reader = { id: token.readerId as number, displayName: (token.displayName as string | null) ?? null, blocked: Boolean(token.blocked) }
+      // Only when a reader was actually resolved. Setting this unconditionally
+      // made session.reader truthy with an undefined id, which sent /login to
+      // /account and /account straight back: a redirect loop with no way out,
+      // because signing out lives on the page you could never reach.
+      if (token.readerId) {
+        session.reader = { id: token.readerId as number, displayName: (token.displayName as string | null) ?? null, blocked: Boolean(token.blocked) }
+      }
       return session
     },
   },

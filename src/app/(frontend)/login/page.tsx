@@ -15,7 +15,7 @@ export default async function LoginPage({ searchParams }: Props) {
   const { next, error } = await searchParams
   const session = await auth()
   const target = next && next.startsWith('/') && !next.startsWith('//') ? next : '/account'
-  if (session?.reader) redirect(target)
+  if (session?.reader?.id) redirect(target)
 
   return (
     <>
