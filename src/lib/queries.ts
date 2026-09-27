@@ -99,7 +99,8 @@ export async function findHotels(f: HotelFilters) {
   if (f.country) and.push({ 'destination.country': { equals: f.country } })
   if (f.scored === 'yes') and.push({ reviewStatus: { equals: 'reviewed' } })
   if (f.lounge === 'yes') and.push({ clubLounge: { equals: 'yes' } })
-  const sort = f.sort === 'za' ? '-name' : f.sort === 'popular' ? ['-views', 'name'] : f.sort === 'stays' ? ['-stayCount', 'name'] : 'name'
+  // Most popular by default on the hotels index; the program pages pass 'az'.
+  const sort = f.sort === 'za' ? '-name' : f.sort === 'az' ? 'name' : f.sort === 'stays' ? ['-stayCount', 'name'] : f.sort === 'popular' || !f.sort ? ['-views', '-stayCount', 'name'] : 'name'
   return payload.find({
     collection: 'hotels',
     where: { and },

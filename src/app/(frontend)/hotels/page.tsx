@@ -123,10 +123,10 @@ export default async function HotelsIndex({ searchParams }: Props) {
               <SortMenu
                 value={filters.sort}
                 options={[
-                  { value: '', label: 'Name, A to Z' },
-                  { value: 'za', label: 'Name, Z to A' },
-                  { value: 'popular', label: 'Most popular' },
+                  { value: '', label: 'Most popular' },
                   { value: 'stays', label: 'Most submissions' },
+                  { value: 'az', label: 'Name, A to Z' },
+                  { value: 'za', label: 'Name, Z to A' },
                 ]}
               />
               {(active > 0 || filters.sort) && (

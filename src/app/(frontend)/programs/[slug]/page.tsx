@@ -54,7 +54,7 @@ export default async function ProgramPage({ params, searchParams }: Props) {
     brand: first(sp.brand),
     country: first(sp.country),
     lounge: first(sp.lounge),
-    sort: first(sp.sort),
+    sort: first(sp.sort) || 'az',
     page: Math.max(1, Number(first(sp.page)) || 1),
   }
   const payload = await getPayloadClient()
@@ -72,7 +72,7 @@ export default async function ProgramPage({ params, searchParams }: Props) {
   const base = `/programs/${program.slug}`
   const href = (page: number) => {
     const q = new URLSearchParams()
-    for (const [k, v] of Object.entries(filters)) if (k !== 'page' && k !== 'program' && v) q.set(k, String(v))
+    for (const [k, v] of Object.entries(filters)) if (k !== 'page' && k !== 'program' && v && !(k === 'sort' && v === 'az')) q.set(k, String(v))
     if (page > 1) q.set('page', String(page))
     const s = q.toString()
     return s ? `${base}?${s}#hotels-h` : base
@@ -277,13 +277,13 @@ export default async function ProgramPage({ params, searchParams }: Props) {
               <SortMenu
                 value={filters.sort}
                 options={[
-                  { value: '', label: 'Name, A to Z' },
+                  { value: 'az', label: 'Name, A to Z' },
                   { value: 'za', label: 'Name, Z to A' },
                   { value: 'popular', label: 'Most popular' },
                   { value: 'stays', label: 'Most submissions' },
                 ]}
               />
-              {(active > 0 || filters.sort) && (
+              {(active > 0 || filters.sort !== 'az') && (
                 <Link className="more" href={base}>
                   Clear
                 </Link>
