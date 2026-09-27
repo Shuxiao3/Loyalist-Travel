@@ -48,6 +48,11 @@ export const Articles: CollectionConfig = {
       fields: [
         { name: 'title', type: 'text' },
         { name: 'description', type: 'textarea' },
+        {
+          name: 'preview',
+          type: 'ui',
+          admin: { components: { Field: { path: '@/components/admin/SeoPreview#SeoPreview', clientProps: { from: { title: 'title', description: 'dek' }, url: 'loyalisttravel.com › articles' } } } },
+        },
       ],
     },
     { name: 'heroImage', type: 'upload', relationTo: 'media', admin: { position: 'sidebar' } },

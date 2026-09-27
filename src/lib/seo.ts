@@ -2,6 +2,9 @@ import type { Metadata } from 'next'
 import { cache } from 'react'
 
 import { getPayloadClient } from './payload'
+import { fill } from './seoFill'
+
+export { fill }
 import type { Seo } from '@/payload-types'
 
 // The site's public address. Vercel sets VERCEL_PROJECT_PRODUCTION_URL to the
@@ -58,15 +61,6 @@ type Pair = { title?: string | null; description?: string | null } | null | unde
 
 // A template with its {Placeholders} filled. An unknown or empty placeholder
 // disappears, along with any punctuation left hanging beside it.
-export function fill(template: string, vars: Record<string, string | null | undefined>): string {
-  return template
-    .replace(/\{(\w+)\}/g, (_, k: string) => vars[k] ?? '')
-    .replace(/\s*,\s*(?=,|:|\.|$)/g, '')
-    .replace(/\(\s*\)/g, '')
-    .replace(/\s{2,}/g, ' ')
-    .replace(/\s+([,.:;])/g, '$1')
-    .trim()
-}
 
 // The edited title and description for a page, or the built-in wording where
 // a field is blank.
