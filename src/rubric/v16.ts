@@ -10,10 +10,10 @@ export type RubricSection = { id: SectionId; label: string; max: number }
 export const RUBRIC_SECTIONS: RubricSection[] = [
   { id: 'room', label: 'Room', max: 20 },
   { id: 'property', label: 'Property', max: 20 },
+  { id: 'atmosphere', label: 'Atmosphere', max: 20 },
   { id: 'service', label: 'Service', max: 20 },
   { id: 'operations', label: 'Operations', max: 10 },
   { id: 'breakfast', label: 'Breakfast', max: 10 },
-  { id: 'atmosphere', label: 'Atmosphere', max: 20 },
 ]
 
 export type RubricCategoryV16 = { key: string; label: string; section: SectionId; max: number; hint: string }
@@ -27,6 +27,10 @@ export const RUBRIC_V16: RubricCategoryV16[] = [
   { key: 'amenities', label: 'Amenities', section: 'property', max: 5, hint: 'Spa, programming, kids club, what the hotel offers beyond the room.' },
   { key: 'location', label: 'Location', section: 'property', max: 5, hint: 'Where it sits for what a guest is there to do.' },
   { key: 'maintenance', label: 'Maintenance', section: 'property', max: 5, hint: 'Wear, chips, stains, things that should have been fixed.' },
+  { key: 'design', label: 'Design', section: 'atmosphere', max: 5, hint: 'The idea. A point of view that hangs together.' },
+  { key: 'finish', label: 'Finish', section: 'atmosphere', max: 5, hint: 'Materials and execution. Stone, wood, fabric, hardware, to the touch.' },
+  { key: 'senseOfPlace', label: 'Sense of place', section: 'atmosphere', max: 5, hint: 'Does it belong to its city or country, or could it be anywhere.' },
+  { key: 'crowding', label: 'Crowds and exclusivity', section: 'atmosphere', max: 5, hint: 'Who else is there, and how many.' },
   { key: 'warmth', label: 'Warmth', section: 'service', max: 5, hint: 'Attitude. Friendly, present, the same at the bar as at the desk.' },
   { key: 'efficiency', label: 'Efficiency', section: 'service', max: 5, hint: 'Requests done right the first time, quickly, without chasing.' },
   { key: 'anticipation', label: 'Anticipation', section: 'service', max: 5, hint: 'Done before you asked. Preferences remembered.' },
@@ -35,10 +39,6 @@ export const RUBRIC_V16: RubricCategoryV16[] = [
   { key: 'housekeeping', label: 'Housekeeping', section: 'operations', max: 5, hint: 'Cleanliness on arrival, daily service, turndown if offered.' },
   { key: 'breakfastQuality', label: 'Quality', section: 'breakfast', max: 5, hint: 'Cooking, ingredients, coffee, the à la carte.' },
   { key: 'breakfastSpread', label: 'Spread', section: 'breakfast', max: 5, hint: 'Range of the buffet, local dishes, dietary options, the room and the service.' },
-  { key: 'design', label: 'Design', section: 'atmosphere', max: 5, hint: 'The idea. A point of view that hangs together.' },
-  { key: 'finish', label: 'Finish', section: 'atmosphere', max: 5, hint: 'Materials and execution. Stone, wood, fabric, hardware, to the touch.' },
-  { key: 'senseOfPlace', label: 'Sense of place', section: 'atmosphere', max: 5, hint: 'Does it belong to its city or country, or could it be anywhere.' },
-  { key: 'crowding', label: 'Crowds and exclusivity', section: 'atmosphere', max: 5, hint: 'Who else is there, and how many.' },
 ]
 
 export const RUBRIC_V16_KEYS = RUBRIC_V16.map((c) => c.key)
