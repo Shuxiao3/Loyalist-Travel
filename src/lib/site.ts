@@ -3,7 +3,7 @@ import { ARTICLE_CATEGORIES } from './articleOptions'
 // Site-wide constants. Editorial facts that are not (yet) content.
 export const SITE = {
   name: 'Loyalist Travel',
-  author: 'Anonymous Loyalist', // pen name; the site never carries a real name
+  author: 'The Loyalist Traveler', // pen name; the site never carries a real name
   rubricNote: 'Scores follow the Loyalist Travel rubric, v15. No paid placements, no sponsored stays.',
 }
 

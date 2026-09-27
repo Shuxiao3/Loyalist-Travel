@@ -35,8 +35,28 @@ const serverURL =
     ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
     : 'http://localhost:3000')
 
+// Every address the admin can be opened at. Payload only honours the login
+// cookie on a save when the browser's origin is in this list, so the custom
+// domain, the www variant and Vercel's own URLs all need to be here.
+const origins = Array.from(
+  new Set(
+    [
+      serverURL,
+      'https://loyalisttravel.com',
+      'https://www.loyalisttravel.com',
+      process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : '',
+      process.env.VERCEL_BRANCH_URL ? `https://${process.env.VERCEL_BRANCH_URL}` : '',
+      process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : '',
+      'http://localhost:3000',
+      'http://127.0.0.1:3000',
+    ].filter(Boolean),
+  ),
+)
+
 export default buildConfig({
   serverURL,
+  csrf: origins,
+  cors: origins,
   admin: {
     user: Users.slug,
     importMap: {
