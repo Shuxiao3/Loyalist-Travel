@@ -13,6 +13,7 @@ import { getPayloadClient } from '@/lib/payload'
 import { MIN_STAYS } from '@/lib/readerData'
 import type { Destination, Hotel, Program, Reader, StatusLevel } from '@/payload-types'
 
+import { topTierOf } from '@/lib/queries'
 import { getSeo, metaText, pageMeta } from '@/lib/seo'
 
 import styles from './page.module.css'
@@ -31,7 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!lounge) return {}
   const hotel = rel<Hotel>(lounge.hotel)
   const seo = await getSeo()
-  const text = metaText(seo?.lounge, { Lounge: lounge.name, Hotel: hotel?.name, Access: accessLine(lounge), Program: rel<Program>(hotel?.program)?.name }, { title: `${lounge.name}${hotel ? `, ${hotel.name}` : ''}`, description: `Who gets in, hours, what is served, and whether it is worth a club room. ${accessLine(lounge)}.` })
+  const text = metaText(seo?.lounge, { Lounge: lounge.name, Hotel: hotel?.name, Access: accessLine(lounge), Program: rel<Program>(hotel?.program)?.name, Elite: await topTierOf(rel<Program>(hotel?.program)) }, { title: `${lounge.name}${hotel ? `, ${hotel.name}` : ''}`, description: `Who gets in, hours, what is served, and whether it is worth a club room. ${accessLine(lounge)}.` })
   return pageMeta({ ...text, path: `/lounges/${lounge.slug}`, image: lounge.externalImageUrl ?? hotel?.externalImageUrl })
 }
 

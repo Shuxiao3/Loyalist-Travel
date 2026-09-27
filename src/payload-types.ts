@@ -2108,7 +2108,7 @@ export interface Seo {
     description?: string | null;
   };
   /**
-   * Placeholders: {Title} {Hotel} {Score} {Verdict} {Destination} {Program} {Brand}. The preview below fills them with a sample page.
+   * Placeholders: {Title} {Hotel} {Score} {Verdict} {Destination} {Program} {Elite} {Brand}. {Elite} is the program's top tier, e.g. Globalist. The preview below fills them with a sample page.
    */
   review?: {
     /**
@@ -2121,7 +2121,7 @@ export interface Seo {
     description?: string | null;
   };
   /**
-   * Placeholders: {Hotel} {Destination} {Location} {Brand} {Program} {Elites}. The preview below fills them with a sample page.
+   * Placeholders: {Hotel} {Destination} {Location} {Brand} {Program} {Elite} {Elites}. {Elite} is the program's top tier, e.g. Globalist. The preview below fills them with a sample page.
    */
   hotel?: {
     /**
@@ -2134,7 +2134,7 @@ export interface Seo {
     description?: string | null;
   };
   /**
-   * Placeholders: {Hotel} {Destination} {Location} {Brand} {Program} {Elites}. The preview below fills them with a sample page.
+   * Placeholders: {Hotel} {Destination} {Location} {Brand} {Program} {Elite} {Elites}. {Elite} is the program's top tier, e.g. Globalist. The preview below fills them with a sample page.
    */
   hotelUnreviewed?: {
     /**
@@ -2147,7 +2147,7 @@ export interface Seo {
     description?: string | null;
   };
   /**
-   * Placeholders: {Lounge} {Hotel} {Access} {Program}. The preview below fills them with a sample page.
+   * Placeholders: {Lounge} {Hotel} {Access} {Program} {Elite}. {Elite} is the program's top tier, e.g. Globalist. The preview below fills them with a sample page.
    */
   lounge?: {
     /**
@@ -2160,7 +2160,7 @@ export interface Seo {
     description?: string | null;
   };
   /**
-   * Placeholders: {Program} {Description}. The preview below fills them with a sample page.
+   * Placeholders: {Program} {Elite} {Description}. {Elite} is the program's top tier, e.g. Globalist. The preview below fills them with a sample page.
    */
   program?: {
     /**
@@ -2173,7 +2173,7 @@ export interface Seo {
     description?: string | null;
   };
   /**
-   * Placeholders: {Brand} {Program} {Description}. The preview below fills them with a sample page.
+   * Placeholders: {Brand} {Program} {Elite} {Description}. {Elite} is the program's top tier, e.g. Globalist. The preview below fills them with a sample page.
    */
   brand?: {
     /**
@@ -2186,7 +2186,7 @@ export interface Seo {
     description?: string | null;
   };
   /**
-   * Placeholders: {Destination} {Country} {Description}. The preview below fills them with a sample page.
+   * Placeholders: {Destination} {Country} {Description}. {Elite} is the program's top tier, e.g. Globalist. The preview below fills them with a sample page.
    */
   destination?: {
     /**
@@ -2199,7 +2199,7 @@ export interface Seo {
     description?: string | null;
   };
   /**
-   * Placeholders: {Title} {Dek} {Category}. The preview below fills them with a sample page.
+   * Placeholders: {Title} {Dek} {Category}. {Elite} is the program's top tier, e.g. Globalist. The preview below fills them with a sample page.
    */
   article?: {
     /**

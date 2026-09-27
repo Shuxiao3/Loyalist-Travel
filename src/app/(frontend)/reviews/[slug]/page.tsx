@@ -8,7 +8,7 @@ import { MobileToc } from '@/components/MobileToc'
 import { ReadingProgress } from '@/components/ReadingProgress'
 import { RichText } from '@/components/RichText'
 import { monthYear, rel, score, shortDate } from '@/lib/format'
-import { getReview, getReviews } from '@/lib/queries'
+import { getReview, getReviews, topTierOf } from '@/lib/queries'
 import { bandFor, categoriesFor, labelFor, REVIEW_SECTIONS, sectionTotal } from '@/lib/rubric'
 import { PROPERTY_TYPE_LABEL, RATE_BASIS_LABEL, SITE } from '@/lib/site'
 import type { Brand, Destination, Hotel, Program, Review, RubricVersion, StatusLevel } from '@/payload-types'
@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!review) return {}
   const hotel = rel<Hotel>(review.hotel)
   const seo = await getSeo()
-  const vars = { Title: review.title, Hotel: hotel?.name, Score: score(review.totals?.overall), Verdict: review.shortVerdict, Destination: rel<Destination>(hotel?.destination)?.name, Program: rel<Program>(hotel?.program)?.name, Brand: rel<Brand>(hotel?.brand)?.name }
+  const vars = { Title: review.title, Hotel: hotel?.name, Score: score(review.totals?.overall), Verdict: review.shortVerdict, Destination: rel<Destination>(hotel?.destination)?.name, Program: rel<Program>(hotel?.program)?.name, Elite: await topTierOf(rel<Program>(hotel?.program)), Brand: rel<Brand>(hotel?.brand)?.name }
   const text = metaText(seo?.review, vars, { title: `${review.title} review, scored ${score(review.totals?.overall)} of 100`, description: review.shortVerdict })
   return pageMeta({
     title: review.seo?.title ?? text.title,

@@ -11,7 +11,7 @@ import { StayForm } from '@/components/StayForm'
 import { ViewBeacon } from '@/components/ViewBeacon'
 import { rel, score } from '@/lib/format'
 import { bandFor } from '@/lib/rubric'
-import { getHotel, getHotelsIn, getPayloadClient, getReviewsForHotel } from '@/lib/queries'
+import { getHotel, getHotelsIn, getPayloadClient, getReviewsForHotel, topTierOf } from '@/lib/queries'
 import { accessLine, getLoungesForHotel, loungeReaderData, servicesLine } from '@/lib/lounges'
 import { hotelReaderData, latestStays } from '@/lib/readerData'
 import { getSeo, metaText, pageMeta } from '@/lib/seo'
@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     ? `${hotel.name}${where}: our scored review, plus reader-reported upgrade odds, breakfast and late checkout outcomes for ${elites}.`
     : `${hotel.name}${where}${brand ? `, ${brand.name}` : ''}: reader-reported upgrade odds, breakfast and late checkout outcomes for ${elites}. Add your stay in two minutes.`
   const seo = await getSeo()
-  const vars = { Hotel: hotel.name, Destination: destination?.name, Location: destination?.locationLabel ?? destination?.name, Brand: brand?.name, Program: program?.name, Elites: elites }
+  const vars = { Hotel: hotel.name, Destination: destination?.name, Location: destination?.locationLabel ?? destination?.name, Brand: brand?.name, Program: program?.name, Elite: await topTierOf(program), Elites: elites }
   const text = metaText(hotel.reviewStatus === 'reviewed' ? seo?.hotel : seo?.hotelUnreviewed, vars, { title: `${hotel.name}${destination ? `, ${destination.name}` : ''}`, description })
   return pageMeta({ ...text, path: `/hotels/${hotel.slug}`, image: hotel.externalImageUrl })
 }

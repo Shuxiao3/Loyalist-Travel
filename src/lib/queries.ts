@@ -10,6 +10,17 @@ import { hotelReaderData, MIN_STAYS, type HotelReaderData } from './readerData'
 
 export { getPayloadClient }
 
+// The top status tier of a program, as its short name ("Globalist"). The
+// tier flagged top wins; otherwise the highest rank.
+export async function topTierOf(program: Program | number | null | undefined): Promise<string | undefined> {
+  const id = typeof program === 'object' && program ? program.id : program
+  if (!id) return undefined
+  const payload = await getPayloadClient()
+  const res = await payload.find({ collection: 'status-levels', where: { program: { equals: id } }, sort: '-rank', limit: 20, depth: 0 })
+  const top = res.docs.find((d) => d.isTopTier) ?? res.docs[0]
+  return top?.shortName ?? top?.name ?? undefined
+}
+
 const published: Where = { _status: { equals: 'published' } }
 
 export async function getReview(slug: string): Promise<Review | null> {

@@ -15,7 +15,7 @@ const pair = (name: string, label: string, p: Preview, placeholders?: string): F
   name,
   type: 'group',
   label,
-  admin: { description: placeholders ? `Placeholders: ${placeholders}. The preview below fills them with a sample page.` : undefined },
+  admin: { description: placeholders ? `Placeholders: ${placeholders}. {Elite} is the program's top tier, e.g. Globalist. The preview below fills them with a sample page.` : undefined },
   fields: [
     { name: 'title', type: 'text', admin: { description: '"| Loyalist Travel" is added after it automatically. Aim for under 60 characters.' } },
     { name: 'description', type: 'textarea', admin: { description: 'Aim for 120 to 160 characters.' } },
@@ -24,11 +24,11 @@ const pair = (name: string, label: string, p: Preview, placeholders?: string): F
 })
 
 // Sample pages for the template previews.
-const HOTEL = { Hotel: 'Park Hyatt Tokyo', Destination: 'Tokyo', Location: 'Tokyo, Japan', Brand: 'Park Hyatt', Program: 'World of Hyatt', Elites: 'World of Hyatt elites' }
-const REVIEW = { Title: 'Park Hyatt Tokyo', Hotel: 'Park Hyatt Tokyo', Score: '87', Verdict: 'Book it for the rooms and the view; the club is not the point here.', Destination: 'Tokyo', Program: 'World of Hyatt', Brand: 'Park Hyatt' }
-const LOUNGE = { Lounge: 'Grand Club', Hotel: 'Grand Hyatt Tokyo', Access: 'Globalists and club rooms', Program: 'World of Hyatt' }
-const PROGRAM = { Program: 'World of Hyatt', Description: "Hyatt's loyalty program: four tiers, milestone rewards from 20 nights, and the most consistently honoured top-tier benefits in hotel loyalty." }
-const BRAND = { Brand: 'Park Hyatt', Program: 'World of Hyatt', Description: "Hyatt's flagship luxury brand: quiet, residential hotels with the best rooms in the portfolio." }
+const HOTEL = { Hotel: 'Park Hyatt Tokyo', Destination: 'Tokyo', Location: 'Tokyo, Japan', Brand: 'Park Hyatt', Program: 'World of Hyatt', Elite: 'Globalist', Elites: 'World of Hyatt elites' }
+const REVIEW = { Title: 'Park Hyatt Tokyo', Hotel: 'Park Hyatt Tokyo', Score: '87', Verdict: 'Book it for the rooms and the view; the club is not the point here.', Destination: 'Tokyo', Program: 'World of Hyatt', Elite: 'Globalist', Brand: 'Park Hyatt' }
+const LOUNGE = { Lounge: 'Grand Club', Hotel: 'Grand Hyatt Tokyo', Access: 'Globalists and club rooms', Program: 'World of Hyatt', Elite: 'Globalist' }
+const PROGRAM = { Program: 'World of Hyatt', Elite: 'Globalist', Description: "Hyatt's loyalty program: four tiers, milestone rewards from 20 nights, and the most consistently honoured top-tier benefits in hotel loyalty." }
+const BRAND = { Brand: 'Park Hyatt', Program: 'World of Hyatt', Elite: 'Globalist', Description: "Hyatt's flagship luxury brand: quiet, residential hotels with the best rooms in the portfolio." }
 const DESTINATION = { Destination: 'Tokyo', Country: 'Japan', Description: 'Every indexed hotel in Tokyo across the four programs, with reader-reported upgrade odds where enough stays are in.' }
 const ARTICLE = { Title: 'What Hyatt Globalist status gets you', Dek: 'Sixty nights a year buys the most consistently honoured top-tier status in hotel loyalty. Here is what it gets you, and where it falls short.', Category: 'Elite benefits' }
 
@@ -65,12 +65,12 @@ export const Seo: GlobalConfig = {
         {
           label: 'Templates',
           fields: [
-            pair('review', 'Review page', { sample: REVIEW, fallback: { title: 'Park Hyatt Tokyo review, scored 87 of 100', description: REVIEW.Verdict }, url: 'loyalisttravel.com › reviews › park-hyatt-tokyo' }, '{Title} {Hotel} {Score} {Verdict} {Destination} {Program} {Brand}'),
-            pair('hotel', 'Hotel page, reviewed', { sample: HOTEL, fallback: { title: 'Park Hyatt Tokyo, Tokyo', description: 'Park Hyatt Tokyo in Tokyo, Japan: our scored review, plus reader-reported upgrade odds, breakfast and late checkout outcomes for World of Hyatt elites.' }, url: 'loyalisttravel.com › hotels › park-hyatt-tokyo' }, '{Hotel} {Destination} {Location} {Brand} {Program} {Elites}'),
-            pair('hotelUnreviewed', 'Hotel page, not yet reviewed', { sample: HOTEL, fallback: { title: 'Park Hyatt Tokyo, Tokyo', description: 'Park Hyatt Tokyo in Tokyo, Japan, Park Hyatt: reader-reported upgrade odds, breakfast and late checkout outcomes for World of Hyatt elites. Add your stay in two minutes.' }, url: 'loyalisttravel.com › hotels › park-hyatt-tokyo' }, '{Hotel} {Destination} {Location} {Brand} {Program} {Elites}'),
-            pair('lounge', 'Lounge page', { sample: LOUNGE, fallback: { title: 'Grand Club, Grand Hyatt Tokyo', description: 'Who gets in, hours, what is served, and whether it is worth a club room. Globalists and club rooms.' }, url: 'loyalisttravel.com › lounges › grand-hyatt-tokyo-grand-club' }, '{Lounge} {Hotel} {Access} {Program}'),
-            pair('program', 'Program page', { sample: PROGRAM, fallback: { title: 'World of Hyatt', description: PROGRAM.Description }, url: 'loyalisttravel.com › programs › world-of-hyatt' }, '{Program} {Description}'),
-            pair('brand', 'Brand page', { sample: BRAND, fallback: { title: 'Park Hyatt', description: BRAND.Description }, url: 'loyalisttravel.com › brands › park-hyatt' }, '{Brand} {Program} {Description}'),
+            pair('review', 'Review page', { sample: REVIEW, fallback: { title: 'Park Hyatt Tokyo review, scored 87 of 100', description: REVIEW.Verdict }, url: 'loyalisttravel.com › reviews › park-hyatt-tokyo' }, '{Title} {Hotel} {Score} {Verdict} {Destination} {Program} {Elite} {Brand}'),
+            pair('hotel', 'Hotel page, reviewed', { sample: HOTEL, fallback: { title: 'Park Hyatt Tokyo, Tokyo', description: 'Park Hyatt Tokyo in Tokyo, Japan: our scored review, plus reader-reported upgrade odds, breakfast and late checkout outcomes for World of Hyatt elites.' }, url: 'loyalisttravel.com › hotels › park-hyatt-tokyo' }, '{Hotel} {Destination} {Location} {Brand} {Program} {Elite} {Elites}'),
+            pair('hotelUnreviewed', 'Hotel page, not yet reviewed', { sample: HOTEL, fallback: { title: 'Park Hyatt Tokyo, Tokyo', description: 'Park Hyatt Tokyo in Tokyo, Japan, Park Hyatt: reader-reported upgrade odds, breakfast and late checkout outcomes for World of Hyatt elites. Add your stay in two minutes.' }, url: 'loyalisttravel.com › hotels › park-hyatt-tokyo' }, '{Hotel} {Destination} {Location} {Brand} {Program} {Elite} {Elites}'),
+            pair('lounge', 'Lounge page', { sample: LOUNGE, fallback: { title: 'Grand Club, Grand Hyatt Tokyo', description: 'Who gets in, hours, what is served, and whether it is worth a club room. Globalists and club rooms.' }, url: 'loyalisttravel.com › lounges › grand-hyatt-tokyo-grand-club' }, '{Lounge} {Hotel} {Access} {Program} {Elite}'),
+            pair('program', 'Program page', { sample: PROGRAM, fallback: { title: 'World of Hyatt', description: PROGRAM.Description }, url: 'loyalisttravel.com › programs › world-of-hyatt' }, '{Program} {Elite} {Description}'),
+            pair('brand', 'Brand page', { sample: BRAND, fallback: { title: 'Park Hyatt', description: BRAND.Description }, url: 'loyalisttravel.com › brands › park-hyatt' }, '{Brand} {Program} {Elite} {Description}'),
             pair('destination', 'Destination page', { sample: DESTINATION, fallback: { title: 'Hotels in Tokyo', description: DESTINATION.Description }, url: 'loyalisttravel.com › destinations › tokyo' }, '{Destination} {Country} {Description}'),
             pair('article', 'Article page', { sample: ARTICLE, fallback: { title: ARTICLE.Title, description: ARTICLE.Dek }, url: 'loyalisttravel.com › articles › what-hyatt-globalist-status-gets-you' }, '{Title} {Dek} {Category}'),
           ],

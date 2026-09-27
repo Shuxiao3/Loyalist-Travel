@@ -10,7 +10,7 @@ import { ReviewCard } from '@/components/ReviewCard'
 import { RichText } from '@/components/RichText'
 import { SortMenu } from '@/components/SortMenu'
 import { count } from '@/lib/format'
-import { brandsOf, findHotels, getHotelFilterOptions, getPayloadClient, getProgram, HOTELS_PER_PAGE, type HotelFilters } from '@/lib/queries'
+import { brandsOf, findHotels, getHotelFilterOptions, getPayloadClient, getProgram, HOTELS_PER_PAGE, type HotelFilters, topTierOf } from '@/lib/queries'
 import { getSeo, metaText, pageMeta } from '@/lib/seo'
 import { rel } from '@/lib/format'
 import type { Article, StatusLevel } from '@/payload-types'
@@ -26,7 +26,7 @@ const first = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const p = await getProgram((await params).slug)
   if (!p) return {}
-  const text = metaText((await getSeo())?.program, { Program: p.name, Description: p.shortDescription }, { title: p.name, description: p.shortDescription })
+  const text = metaText((await getSeo())?.program, { Program: p.name, Elite: await topTierOf(p), Description: p.shortDescription }, { title: p.name, description: p.shortDescription })
   return pageMeta({ title: p.seo?.title ?? text.title, description: p.seo?.description ?? text.description, path: `/programs/${p.slug}`, image: p.images?.heroImageUrl })
 }
 
