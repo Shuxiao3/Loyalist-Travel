@@ -30,6 +30,13 @@ export const Readers: CollectionConfig = {
       admin: { description: 'Blocked readers can still sign in but cannot post.' },
     },
     {
+      name: 'tiers',
+      type: 'relationship',
+      relationTo: 'status-levels',
+      hasMany: true,
+      admin: { description: 'The elite tiers this reader holds, at most one per programme. Prefills the status question on the stay form; nothing more.' },
+    },
+    {
       name: 'displayNameChangedAt',
       type: 'date',
       admin: {

@@ -93,6 +93,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           id: reader.id,
           displayName: reader.displayName ?? null,
           displayNameChangedAt: reader.displayNameChangedAt ?? null,
+          // Ids only, and only so a stay form can preselect the tier this reader
+          // says they hold. The row is already loaded, so they are free to carry.
+          tiers: ((reader.tiers ?? []) as (number | { id: number })[]).map((x) => (typeof x === 'object' ? x.id : x)),
           blocked: reader.status === 'blocked',
         }
       }
@@ -103,6 +106,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
 declare module 'next-auth' {
   interface Session {
-    reader?: { id: number; displayName: string | null; displayNameChangedAt: string | null; blocked: boolean }
+    reader?: { id: number; displayName: string | null; displayNameChangedAt: string | null; tiers: number[]; blocked: boolean }
   }
 }

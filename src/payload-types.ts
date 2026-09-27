@@ -1221,6 +1221,10 @@ export interface Reader {
    */
   status?: ('active' | 'blocked') | null;
   /**
+   * The elite tiers this reader holds, at most one per programme. Prefills the status question on the stay form; nothing more.
+   */
+  tiers?: (number | StatusLevel)[] | null;
+  /**
    * When the reader last changed an existing name. Set on a change, not on the first pick, so a typo in the name they chose is not locked in for six months. Clear it to let them rename again.
    */
   displayNameChangedAt?: string | null;
@@ -1241,7 +1245,10 @@ export interface Reader {
 export interface Comment {
   id: number;
   status: 'pending' | 'approved' | 'rejected';
-  reader: number | Reader;
+  /**
+   * Always set when a comment is posted. Cleared, not deleted, when a reader closes their account: the comment stays and shows as "Reader".
+   */
+  reader?: (number | null) | Reader;
   /**
    * The page the comment sits under.
    */
@@ -1731,6 +1738,7 @@ export interface ReadersSelect<T extends boolean = true> {
   email?: T;
   displayName?: T;
   status?: T;
+  tiers?: T;
   displayNameChangedAt?: T;
   googleSub?: T;
   lastSeenAt?: T;

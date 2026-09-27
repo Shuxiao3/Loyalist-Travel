@@ -3,9 +3,13 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 
 import { signOut } from '@/auth'
+import { DeleteAccountForm } from '@/components/DeleteAccountForm'
 import { DisplayNameForm } from '@/components/DisplayNameForm'
-import { activityTotals, kindLabel, readerActivity } from '@/lib/activity'
+import { TiersForm, type ProgramTiers } from '@/components/TiersForm'
+import { WithdrawButton } from '@/components/WithdrawButton'
+import { activityTotals, kindLabel, readerActivity, readerStats } from '@/lib/activity'
 import { formatRenameDate, renameAvailableAt } from '@/lib/displayName'
+import { getPayloadClient } from '@/lib/payload'
 import { currentReader } from '@/lib/reader'
 
 import styles from './page.module.css'
@@ -13,18 +17,35 @@ import styles from './page.module.css'
 export const metadata: Metadata = { title: 'Your account', robots: { index: false, follow: false } }
 export const dynamic = 'force-dynamic'
 
-const DAY = 'numeric' as const
-
 function when(iso: string) {
   const d = new Date(iso)
-  return Number.isNaN(d.getTime()) ? '' : d.toLocaleDateString('en-GB', { day: DAY, month: 'short', year: 'numeric' })
+  return Number.isNaN(d.getTime()) ? '' : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
+}
+
+/** Every programme with its tiers, and which one this reader says they hold. */
+async function programTiers(held: number[]): Promise<ProgramTiers[]> {
+  const payload = await getPayloadClient()
+  const [programs, levels] = await Promise.all([
+    payload.find({ collection: 'programs', limit: 50, depth: 0, overrideAccess: true, sort: 'name' }),
+    payload.find({ collection: 'status-levels', limit: 200, depth: 0, overrideAccess: true, sort: 'rank' }),
+  ])
+  const heldSet = new Set(held)
+  return programs.docs.map((program) => {
+    const tiers = levels.docs.filter((l) => (typeof l.program === 'object' && l.program ? l.program.id : l.program) === program.id)
+    return {
+      id: program.id,
+      name: program.name,
+      tiers: tiers.map((t) => ({ id: t.id, label: t.shortName ?? t.name })),
+      current: tiers.find((t) => heldSet.has(t.id))?.id ?? null,
+    }
+  })
 }
 
 export default async function AccountPage() {
   const reader = await currentReader()
   if (!reader) redirect('/login?next=/account')
 
-  const items = await readerActivity(reader.id)
+  const [items, stats, programs] = await Promise.all([readerActivity(reader.id), readerStats(reader.id), programTiers(reader.tiers)])
   const totals = activityTotals(items)
   const renameAt = renameAvailableAt(reader.displayNameChangedAt)
 
@@ -45,6 +66,47 @@ export default async function AccountPage() {
       <section className={`section ${styles.body}`}>
         <div className={`wrap ${styles.grid}`}>
           <div className={styles.main}>
+            {stats && (
+              <div className={styles.stats}>
+                <span className="eyebrow">Your record</span>
+                <p className={styles.statLine}>
+                  <strong>{stats.stays}</strong> {stats.stays === 1 ? 'stay' : 'stays'} across <strong>{stats.hotels}</strong>{' '}
+                  {stats.hotels === 1 ? 'hotel' : 'hotels'}
+                  {stats.latest ? `, most recently in ${stats.latest}` : ''}.
+                </p>
+                <dl className={styles.figures}>
+                  {stats.upgradeRate !== null && (
+                    <div>
+                      <dt>Upgraded</dt>
+                      <dd>{stats.upgradeRate}%</dd>
+                    </div>
+                  )}
+                  {stats.suiteRate !== null && (
+                    <div>
+                      <dt>To a suite</dt>
+                      <dd>{stats.suiteRate}%</dd>
+                    </div>
+                  )}
+                  {stats.breakfastRate !== null && (
+                    <div>
+                      <dt>Breakfast honoured</dt>
+                      <dd>{stats.breakfastRate}%</dd>
+                    </div>
+                  )}
+                  {stats.lateCheckoutRate !== null && (
+                    <div>
+                      <dt>Late checkout</dt>
+                      <dd>{stats.lateCheckoutRate}%</dd>
+                    </div>
+                  )}
+                </dl>
+                <p className={styles.statFine}>
+                  Your published stays only, counted the way every hotel page counts them
+                  {stats.awardStays > 0 ? `. ${stats.awardStays} suite ${stats.awardStays === 1 ? 'award is' : 'awards are'} left out of the upgrade rates` : ''}.
+                </p>
+              </div>
+            )}
+
             <span className="eyebrow">Your activity</span>
             {items.length === 0 ? (
               <p className={styles.empty}>
@@ -64,6 +126,7 @@ export default async function AccountPage() {
                     </div>
                     <p className={styles.title}>{item.href ? <Link href={item.href}>{item.title}</Link> : item.title}</p>
                     {item.detail && <p className={styles.detail}>{item.detail}</p>}
+                    {item.status === 'pending' && <WithdrawButton kind={item.kind} id={item.id} />}
                   </li>
                 ))}
               </ul>
@@ -94,7 +157,13 @@ export default async function AccountPage() {
               {reader.blocked && <p className={styles.blocked}>Posting from this account is paused. Ratings and comments you submit will not be published.</p>}
             </div>
 
-            <div className={styles.signed}>
+            <div className={styles.block}>
+              <span className="eyebrow on-light">Status you hold</span>
+              <p className={styles.fine}>Fills in the status question when you report a stay. Each stay still records the tier you held on that stay.</p>
+              <TiersForm programs={programs} />
+            </div>
+
+            <div className={styles.block}>
               <span className="eyebrow on-light">Signed in</span>
               <p className={styles.email}>{reader.email}</p>
               <p className={styles.fine}>Your email is used to recognise you and is never shown.</p>
@@ -108,6 +177,9 @@ export default async function AccountPage() {
                   Sign out
                 </button>
               </form>
+              <div className={styles.danger}>
+                <DeleteAccountForm />
+              </div>
             </div>
           </div>
         </div>

@@ -33,7 +33,7 @@
   color: var(--gold-pale);
 }
 
-.signed :global(.eyebrow) {
+.block :global(.eyebrow) {
   display: block;
   margin-bottom: var(--s3);
 }
@@ -52,7 +52,7 @@
   margin: 0 0 var(--s5);
 }
 
-.signed :global(.ghost) {
+.block :global(.ghost) {
   color: var(--gold-dark);
   border-color: var(--gold-dark);
 }
@@ -185,6 +185,66 @@
   margin: var(--s4) 0 0;
 }
 
-.signed {
+.block {
   padding-top: var(--s2);
+}
+
+.danger {
+  margin-top: var(--s5);
+  padding-top: var(--s5);
+  border-top: 1px solid var(--line);
+}
+
+/* --- your record --- */
+
+.stats {
+  padding-bottom: var(--s6);
+  margin-bottom: var(--s6);
+  border-bottom: 1px solid var(--line);
+}
+
+.statLine {
+  font-family: var(--serif);
+  font-size: var(--t-lg);
+  line-height: 1.4;
+  color: var(--text);
+  margin: 0 0 var(--s5);
+  max-width: 34ch;
+}
+
+.statLine strong {
+  font-weight: inherit;
+  color: var(--gold-deeper);
+}
+
+.figures {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--s5);
+  margin: 0;
+}
+
+.figures dt {
+  font-size: var(--t-eyebrow);
+  letter-spacing: var(--track-eyebrow);
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: var(--s2);
+}
+
+.figures dd {
+  font-family: var(--serif);
+  font-size: var(--t-stat);
+  line-height: 1;
+  color: var(--text);
+  margin: 0;
+}
+
+.statFine {
+  font-size: var(--t-xs);
+  line-height: 1.6;
+  color: var(--muted);
+  letter-spacing: var(--track-fine);
+  margin: var(--s5) 0 0;
+  max-width: 52ch;
 }

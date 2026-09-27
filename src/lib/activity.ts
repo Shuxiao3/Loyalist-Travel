@@ -1,3 +1,4 @@
+import { aggregate } from '@/lib/readerData'
 import { BREAKFAST_OUTCOMES, LATE_CHECKOUT_OUTCOMES, UPGRADE_OUTCOMES } from '@/lib/stayOptions'
 import { getPayloadClient } from '@/lib/payload'
 
@@ -109,4 +110,25 @@ export function activityTotals(items: ActivityItem[]) {
     rejected: items.filter((i) => i.status === 'rejected').length,
     stays: items.filter((i) => i.kind === 'stay').length,
   }
+}
+
+/**
+ * The reader's own record, using the same arithmetic the hotel pages use.
+ *
+ * Approved stays only, so it matches what the site actually shows: a stay
+ * waiting to be read has not earned a place in anyone's figures, including its
+ * author's. Null when they have none.
+ */
+export async function readerStats(readerId: number) {
+  const payload = await getPayloadClient()
+  const res = await payload.find({
+    collection: 'reader-stays',
+    where: { and: [{ reader: { equals: readerId } }, { status: { equals: 'approved' } }] },
+    limit: 500,
+    depth: 1,
+    overrideAccess: true,
+  })
+  if (res.docs.length === 0) return null
+  const hotels = new Set(res.docs.map((s) => (typeof s.hotel === 'object' && s.hotel ? s.hotel.id : s.hotel)).filter(Boolean))
+  return { ...aggregate(res.docs), hotels: hotels.size }
 }
