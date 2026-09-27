@@ -1,6 +1,6 @@
 'use client'
 
-import { useActionState, useState } from 'react'
+import { useActionState, useEffect, useState } from 'react'
 
 import { submitStay, type SubmitStayState } from '@/app/actions/submitStay'
 import { ALA_CARTE_CAP, BREAKFAST_OUTCOMES, LATE_CHECKOUT_OUTCOMES, stayYearOptions, SUITE_TYPES, UPGRADE_HOW, UPGRADE_OUTCOMES, UPGRADE_TYPES } from '@/lib/stayOptions'
@@ -36,10 +36,32 @@ function Select({ name, label, options, placeholder, value, onChange }: { name: 
 // upgrade and breakfast questions unfold only as far as the answer needs.
 export function StayForm({ hotel, programName, tiers, compact }: { hotel: { id: number; name: string }; programName: string; tiers: StayFormTier[]; compact?: boolean }) {
   const [state, action, pending] = useActionState<SubmitStayState, FormData>(submitStay, null)
+  const [statusHeld, setStatusHeld] = useState('')
   const [upgrade, setUpgrade] = useState('')
   const [upgradeType, setUpgradeType] = useState('')
   const [breakfast, setBreakfast] = useState('')
   const years = stayYearOptions()
+
+  // Preselect the tier the reader saved on their account. Asked for here rather
+  // than passed in, because the hotel pages this form sits on are cached and
+  // shared between visitors — one reader's status must not be baked into HTML
+  // everyone else is served. Signed out, nothing happens.
+  useEffect(() => {
+    let alive = true
+    fetch('/api/auth/session', { credentials: 'same-origin', cache: 'no-store' })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => {
+        const held: number[] = Array.isArray(s?.reader?.tiers) ? s.reader.tiers : []
+        const match = tiers.find((t) => held.includes(t.id))
+        if (alive && match) setStatusHeld(String(match.id))
+      })
+      .catch(() => {
+        /* the reader fills it in, as before */
+      })
+    return () => {
+      alive = false
+    }
+  }, [tiers])
 
   if (state?.ok) {
     return (
@@ -63,7 +85,14 @@ export function StayForm({ hotel, programName, tiers, compact }: { hotel: { id: 
         </label>
       </div>
 
-      <Select name="statusHeld" label={`Status held · ${programName}`} placeholder="Choose a tier" options={tiers.map((t) => ({ value: String(t.id), label: t.shortName ?? t.name }))} />
+      <Select
+        name="statusHeld"
+        label={`Status held · ${programName}`}
+        placeholder="Choose a tier"
+        value={statusHeld}
+        onChange={setStatusHeld}
+        options={tiers.map((t) => ({ value: String(t.id), label: t.shortName ?? t.name }))}
+      />
       <Select name="stayYear" label="Year of the stay" placeholder="Year" options={years} />
 
       <Select

@@ -1,0 +1,48 @@
+.form {
+  display: grid;
+  gap: var(--s4);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+}
+
+.field :global(.label) {
+  color: var(--muted);
+}
+
+.field select {
+  width: 100%;
+  background: var(--page);
+  border: 1px solid var(--line-strong);
+  color: var(--text);
+  padding: 11px 14px;
+  font: inherit;
+  font-size: var(--t-sm);
+  border-radius: var(--r-btn);
+}
+
+.field select:focus-visible {
+  outline: 2px solid var(--gold-dark);
+  outline-offset: 2px;
+}
+
+.error {
+  margin: 0;
+  font-size: var(--t-sm);
+  color: var(--gold-deeper);
+}
+
+.saved {
+  margin: 0;
+  font-size: var(--t-sm);
+  color: var(--muted);
+}
+
+.form :global(.ghost) {
+  justify-self: start;
+  color: var(--gold-dark);
+  border-color: var(--gold-dark);
+}

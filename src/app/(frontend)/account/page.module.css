@@ -33,7 +33,7 @@
   color: var(--gold-pale);
 }
 
-.side :global(.eyebrow) {
+.block :global(.eyebrow) {
   display: block;
   margin-bottom: var(--s3);
 }
@@ -52,7 +52,7 @@
   margin: 0 0 var(--s5);
 }
 
-.side :global(.ghost) {
+.block :global(.ghost) {
   color: var(--gold-dark);
   border-color: var(--gold-dark);
 }
@@ -61,4 +61,190 @@
   .grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* --- activity list --- */
+
+.main :global(.eyebrow) {
+  display: block;
+  margin-bottom: var(--s5);
+}
+
+.empty {
+  font-size: var(--t-sm);
+  line-height: 1.7;
+  color: var(--muted);
+  margin: 0;
+  max-width: 46ch;
+}
+
+.empty a {
+  color: var(--gold-dark);
+}
+
+.items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+
+.item {
+  padding: var(--s5) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.itemHead {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--s3);
+  margin-bottom: var(--s2);
+}
+
+.kind,
+.status,
+.date {
+  font-size: var(--t-eyebrow);
+  letter-spacing: var(--track-eyebrow);
+  text-transform: uppercase;
+}
+
+.kind {
+  color: var(--navy);
+}
+
+.date {
+  margin-left: auto;
+  color: var(--muted);
+}
+
+/* No traffic lights: the palette is navy, gold and cream, so the states are
+   told apart by weight and a rule rather than by colour alone. */
+.status {
+  padding-bottom: 1px;
+}
+
+.approved {
+  color: var(--gold-deeper);
+  border-bottom: 1px solid var(--gold-dark);
+}
+
+.pending {
+  color: var(--muted);
+  border-bottom: 1px dashed var(--line-strong);
+}
+
+.rejected {
+  color: var(--muted);
+}
+
+.title {
+  font-family: var(--serif);
+  font-size: var(--t-md);
+  line-height: 1.4;
+  color: var(--text);
+  margin: 0;
+}
+
+.title a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.title a:hover {
+  border-bottom-color: var(--gold-dark);
+}
+
+.detail {
+  font-size: var(--t-sm);
+  line-height: 1.6;
+  color: var(--text-2);
+  margin: var(--s2) 0 0;
+}
+
+/* --- settings column --- */
+
+.side {
+  display: grid;
+  gap: var(--card-gap);
+}
+
+.name {
+  font-size: var(--t-md);
+  color: var(--ivory);
+  margin: 0 0 var(--s3);
+}
+
+.panelFine {
+  font-size: var(--t-xs);
+  line-height: 1.6;
+  color: var(--on-navy-dim);
+  letter-spacing: var(--track-fine);
+  margin: var(--s4) 0 0;
+}
+
+.block {
+  padding-top: var(--s2);
+}
+
+.danger {
+  margin-top: var(--s5);
+  padding-top: var(--s5);
+  border-top: 1px solid var(--line);
+}
+
+/* --- your record --- */
+
+.stats {
+  padding-bottom: var(--s6);
+  margin-bottom: var(--s6);
+  border-bottom: 1px solid var(--line);
+}
+
+.statLine {
+  font-family: var(--serif);
+  font-size: var(--t-lg);
+  line-height: 1.4;
+  color: var(--text);
+  margin: 0 0 var(--s5);
+  max-width: 34ch;
+}
+
+.statLine strong {
+  font-weight: inherit;
+  color: var(--gold-deeper);
+}
+
+.figures {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--s5);
+  margin: 0;
+}
+
+.figures dt {
+  font-size: var(--t-eyebrow);
+  letter-spacing: var(--track-eyebrow);
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: var(--s2);
+}
+
+.figures dd {
+  font-family: var(--serif);
+  font-size: var(--t-stat);
+  line-height: 1;
+  color: var(--text);
+  margin: 0;
+}
+
+.statFine {
+  font-size: var(--t-xs);
+  line-height: 1.6;
+  color: var(--muted);
+  letter-spacing: var(--track-fine);
+  margin: var(--s5) 0 0;
+  max-width: 52ch;
 }
