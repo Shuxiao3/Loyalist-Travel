@@ -55,3 +55,23 @@
 .back a {
   color: var(--gold-dark);
 }
+
+/* A rule with "or" sitting in the gap, between the two ways in. */
+.or {
+  display: flex;
+  align-items: center;
+  gap: var(--s4);
+  margin: var(--s5) 0;
+  font-size: var(--t-xs);
+  letter-spacing: var(--track-fine);
+  color: var(--on-navy-dim);
+  text-transform: uppercase;
+}
+
+.or::before,
+.or::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--gold-border);
+}
