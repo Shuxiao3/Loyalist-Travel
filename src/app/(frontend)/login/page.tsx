@@ -2,7 +2,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 
-import { auth, authEnabled, signIn } from '@/auth'
+import { auth, authEnabled, googleEnabled, magicLinkEnabled, signIn } from '@/auth'
+import { SignInLinkForm } from '@/components/SignInLinkForm'
 
 import styles from './page.module.css'
 
@@ -31,18 +32,26 @@ export default async function LoginPage({ searchParams }: Props) {
           <div className={`panel ${styles.panel}`}>
             {authEnabled ? (
               <>
-                <form
-                  action={async () => {
-                    'use server'
-                    await signIn('google', { redirectTo: target })
-                  }}
-                >
-                  <button className={`btn ${styles.google}`} type="submit">
-                    <GoogleMark />
-                    Continue with Google
-                  </button>
-                </form>
-                {error && <p className={styles.error}>Sign-in did not complete. Try again.</p>}
+                {googleEnabled && (
+                  <form
+                    action={async () => {
+                      'use server'
+                      await signIn('google', { redirectTo: target })
+                    }}
+                  >
+                    <button className={`btn ${styles.google}`} type="submit">
+                      <GoogleMark />
+                      Continue with Google
+                    </button>
+                  </form>
+                )}
+                {googleEnabled && magicLinkEnabled && (
+                  <p className={styles.or}>
+                    <span>or</span>
+                  </p>
+                )}
+                {magicLinkEnabled && <SignInLinkForm next={target} />}
+                {error && <p className={styles.error}>Sign-in did not complete. The link may have been used already, or expired. Ask for another.</p>}
                 <p className={styles.fine}>We keep your email to recognise you and never show it. You pick a display name next.</p>
               </>
             ) : (
