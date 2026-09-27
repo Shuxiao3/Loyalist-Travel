@@ -664,6 +664,77 @@ async function unseedArticles(payload: Payload) {
   console.log(`unseed-articles: removed ${res.docs.length} mock articles`)
 }
 
+// ---- Real articles -----------------------------------------------------------------
+// Each file in data/articles is one article: YAML-ish front matter, then a
+// small markdown subset (##/### headings, paragraphs, - bullets, **bold**,
+// *italic*, [text](url)). Upserted by slug and published.
+function markdownToHtml(md: string): string {
+  const inline = (t: string) =>
+    t
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/(^|[^*])\*([^*\n]+?)\*/g, '$1<em>$2</em>')
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
+  const out: string[] = []
+  for (const chunk of md.split(/\n\s*\n/)) {
+    const block = chunk.trim()
+    if (!block) continue
+    const h = /^(#{2,3})\s+(.+)$/.exec(block)
+    if (h) {
+      out.push(`<h${h[1].length}>${inline(h[2])}</h${h[1].length}>`)
+      continue
+    }
+    if (block.split('\n').every((l) => /^[-*]\s+/.test(l))) {
+      out.push(`<ul>${block.split('\n').map((l) => `<li>${inline(l.replace(/^[-*]\s+/, ''))}</li>`).join('')}</ul>`)
+      continue
+    }
+    out.push(`<p>${inline(block.replace(/\n/g, ' '))}</p>`)
+  }
+  return out.join('\n')
+}
+
+async function importArticles(payload: Payload) {
+  const dir = path.join(process.cwd(), 'data', 'articles')
+  if (!fs.existsSync(dir)) return
+  let n = 0
+  for (const file of fs.readdirSync(dir).filter((f) => f.endsWith('.md')).sort()) {
+    const raw = fs.readFileSync(path.join(dir, file), 'utf8')
+    const m = /^---\n([\s\S]*?)\n---\n([\s\S]*)$/.exec(raw)
+    if (!m) throw new Error(`articles: ${file} has no front matter`)
+    const meta: Record<string, string> = {}
+    for (const line of m[1].split('\n')) {
+      const kv = /^(\w+):\s*(.*)$/.exec(line)
+      if (kv) meta[kv[1]] = kv[2].trim()
+    }
+    for (const k of ['title', 'slug', 'category', 'date']) if (!meta[k]) throw new Error(`articles: ${file} is missing ${k}`)
+    const body = htmlToLexical(markdownToHtml(m[2])).value
+    if (!body) throw new Error(`articles: ${file} has an empty body`)
+    const programs: number[] = []
+    for (const slug of (meta.programs ?? '').split(',').map((s) => s.trim()).filter(Boolean)) {
+      const p = (await payload.find({ collection: 'programs', where: { slug: { equals: slug } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
+      if (p) programs.push(p.id)
+      else console.log(`articles: ${file} names unknown program ${slug}`)
+    }
+    const data = {
+      title: meta.title,
+      slug: meta.slug,
+      category: meta.category,
+      publishedDate: meta.date,
+      dek: meta.dek || null,
+      body,
+      featured: meta.featured === 'true',
+      related: { programs },
+      seo: { title: meta.metaTitle || null, description: meta.metaDescription || null },
+      _status: 'published',
+    }
+    const existing = (await payload.find({ collection: 'articles', where: { slug: { equals: meta.slug } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
+    if (existing) await payload.update({ collection: 'articles', id: existing.id, data: data as never, overrideAccess: true })
+    else await payload.create({ collection: 'articles', data: data as never, overrideAccess: true })
+    n++
+  }
+  console.log(`articles: upserted ${n} article(s)`)
+}
+
 // ---- Milestone rewards -----------------------------------------------------------
 // The same terms as a list: one entry per milestone, choices one per line.
 const MILESTONE_LIST: Record<string, { at: string; rewards: string }[]> = {
@@ -1068,6 +1139,7 @@ const STEPS: Record<string, (p: Payload) => Promise<void>> = {
   hilton: importHilton,
   'seed-articles': seedArticles,
   'unseed-articles': unseedArticles,
+  articles: importArticles,
   'retire-tiers': retireTiers,
   'seed-milestones': seedMilestones,
   'seed-cards': seedCards,

@@ -24,7 +24,8 @@ type Inline = TextNode | LineBreak | LinkNode
 type Paragraph = { type: 'paragraph'; children: Inline[]; direction: 'ltr'; format: ''; indent: 0; version: 1; textFormat: 0; textStyle: '' }
 type ListItem = { type: 'listitem'; children: Inline[]; value: number; direction: 'ltr'; format: ''; indent: 0; version: 1 }
 type List = { type: 'list'; listType: 'bullet' | 'number'; tag: 'ul' | 'ol'; start: 1; children: ListItem[]; direction: 'ltr'; format: ''; indent: 0; version: 1 }
-type Block = Paragraph | List
+type Heading = { type: 'heading'; tag: 'h2' | 'h3'; children: Inline[]; direction: 'ltr'; format: ''; indent: 0; version: 1 }
+type Block = Paragraph | Heading | List
 
 export type LexicalRoot = {
   root: { type: 'root'; children: Block[]; direction: 'ltr'; format: ''; indent: 0; version: 1 }
@@ -41,7 +42,7 @@ export function htmlToLexical(html: string | null | undefined): ConvertResult {
   if (!html || !html.trim()) return { value: null, droppedImages }
 
   const blocks: Block[] = []
-  let current: Paragraph | ListItem | null = null
+  let current: Paragraph | Heading | ListItem | null = null
   let currentList: List | null = null
   let format = 0
   let link: LinkNode | null = null
@@ -56,7 +57,7 @@ export function htmlToLexical(html: string | null | undefined): ConvertResult {
   }
 
   const closeBlock = () => {
-    if (current && current.type === 'paragraph' && current.children.length === 0) {
+    if (current && (current.type === 'paragraph' || current.type === 'heading') && current.children.length === 0) {
       blocks.splice(blocks.indexOf(current), 1)
     }
     current = null
@@ -66,10 +67,14 @@ export function htmlToLexical(html: string | null | undefined): ConvertResult {
     {
       onopentag(name, attrs) {
         switch (name) {
-          case 'p':
-          case 'h1':
           case 'h2':
           case 'h3':
+            closeBlock()
+            current = { type: 'heading', tag: name, children: [], direction: 'ltr', format: '', indent: 0, version: 1 }
+            blocks.push(current)
+            break
+          case 'p':
+          case 'h1':
           case 'h4':
           case 'h5':
           case 'h6':

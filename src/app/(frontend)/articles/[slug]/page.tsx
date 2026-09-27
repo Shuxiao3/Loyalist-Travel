@@ -23,6 +23,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const article = await getArticle((await params).slug)
   if (!article) return {}
   const text = metaText((await getSeo())?.article, { Title: article.title, Dek: article.dek, Category: ARTICLE_CATEGORY_LABEL[article.category] }, { title: article.title, description: article.dek })
+  if (article.seo?.title?.trim()) text.title = article.seo.title.trim()
+  if (article.seo?.description?.trim()) text.description = article.seo.description.trim()
   return pageMeta({ ...text, path: `/articles/${article.slug}`, image: articleImage(article), type: 'article' })
 }
 

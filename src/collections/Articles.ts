@@ -40,6 +40,16 @@ export const Articles: CollectionConfig = {
         { name: 'articles', type: 'relationship', relationTo: 'articles', hasMany: true },
       ],
     },
+    {
+      name: 'seo',
+      type: 'group',
+      label: 'Search title & description',
+      admin: { description: 'Overrides the article template on the Search titles & descriptions page.' },
+      fields: [
+        { name: 'title', type: 'text' },
+        { name: 'description', type: 'textarea' },
+      ],
+    },
     { name: 'heroImage', type: 'upload', relationTo: 'media', admin: { position: 'sidebar' } },
     { name: 'externalImageUrl', type: 'text', admin: { position: 'sidebar', description: 'Hosted image URL until owned media is uploaded.' } },
     { name: 'featured', type: 'checkbox', defaultValue: false, admin: { position: 'sidebar', description: 'Pin to the top of the hub and the homepage.' } },

@@ -385,6 +385,13 @@ export interface Article {
     lounges?: (number | Lounge)[] | null;
     articles?: (number | Article)[] | null;
   };
+  /**
+   * Overrides the article template on the Search titles & descriptions page.
+   */
+  seo?: {
+    title?: string | null;
+    description?: string | null;
+  };
   heroImage?: (number | null) | Media;
   /**
    * Hosted image URL until owned media is uploaded.
@@ -1676,6 +1683,12 @@ export interface ArticlesSelect<T extends boolean = true> {
         programs?: T;
         lounges?: T;
         articles?: T;
+      };
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
       };
   heroImage?: T;
   externalImageUrl?: T;
