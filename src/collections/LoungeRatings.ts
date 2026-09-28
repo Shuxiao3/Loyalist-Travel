@@ -1,5 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
+import { notifyOnCreate } from '@/lib/notify'
+
 import { LOUNGE_ACCESS, LOUNGE_COMMENT_MAX, LOUNGE_FACTORS, LOUNGE_WORTH_IT } from '../lib/stayOptions'
 
 // A reader's rating of one lounge, submitted from the lounge page. Separate
@@ -7,6 +9,7 @@ import { LOUNGE_ACCESS, LOUNGE_COMMENT_MAX, LOUNGE_FACTORS, LOUNGE_WORTH_IT } fr
 // Pending until approved; aggregated in src/lib/lounges.ts.
 export const LoungeRatings: CollectionConfig = {
   slug: 'lounge-ratings',
+  hooks: { afterChange: [notifyOnCreate('lounge-ratings')] },
   admin: {
     useAsTitle: 'id',
     defaultColumns: ['lounge', 'reader', 'statusHeld', 'overall', 'status', 'createdAt'],
