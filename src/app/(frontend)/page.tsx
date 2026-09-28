@@ -29,9 +29,9 @@ function suiteWords(rate: number): string {
 }
 
 export default async function HomePage() {
-  const [reviews, programs, counts, featured, reader, readerCount, lounges, articles] = await Promise.all([getReviews({ limit: 4 }), getPrograms(), getSiteCounts(), getFeaturedHotel(), sitewideReaderData(), readerStayCount(), getLoungeDirectory(), getArticles({ limit: 3, featuredFirst: true })])
+  const [reviews, programs, counts, featured, reader, readerCount, lounges, articles] = await Promise.all([getReviews({ limit: 4 }), getPrograms(), getSiteCounts(), getFeaturedHotel(), sitewideReaderData(), readerStayCount(), getLoungeDirectory({ rated: 'yes' }), getArticles({ limit: 3, featuredFirst: true })])
   const latestArticle = articles.docs[0]
-  const ratedLounges = lounges.filter((l) => l.data?.score != null).slice(0, 4)
+  const ratedLounges = lounges.rows.slice(0, 4)
   const latest = reviews.docs[0]
   const cards = reviews.docs.slice(latest ? 1 : 0, 4)
 

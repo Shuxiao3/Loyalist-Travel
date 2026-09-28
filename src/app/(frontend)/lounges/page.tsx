@@ -5,8 +5,9 @@ import Link from 'next/link'
 
 import { HERO_FALLBACK_PHOTO, LandingHero } from '@/components/LandingHero'
 import { LoungeRows } from '@/components/LoungeRows'
+import { Pager } from '@/components/Pager'
 import { count } from '@/lib/format'
-import { getLoungeDirectory } from '@/lib/lounges'
+import { getLoungeDirectory, getTopLounge, type LoungeFilters, LOUNGES_PER_PAGE } from '@/lib/lounges'
 import { getHotelFilterOptions } from '@/lib/queries'
 
 import styles from './page.module.css'
@@ -23,11 +24,16 @@ const first = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v
 
 export default async function LoungesIndex({ searchParams }: Props) {
   const sp = await searchParams
-  const filters = { program: first(sp.program), country: first(sp.country) }
-  const [rows, all, options] = await Promise.all([getLoungeDirectory(filters), getLoungeDirectory(), getHotelFilterOptions()])
-  const active = Boolean(filters.program || filters.country)
-  const rated = all.filter((r) => r.data?.score != null)
-  const top = rated[0]
+  const filters: LoungeFilters = { q: first(sp.q)?.trim() || undefined, program: first(sp.program), country: first(sp.country), rated: first(sp.rated), page: Math.max(1, Number(first(sp.page)) || 1) }
+  const [result, top, options] = await Promise.all([getLoungeDirectory(filters), getTopLounge(), getHotelFilterOptions()])
+  const active = Boolean(filters.q || filters.program || filters.country || filters.rated)
+  const href = (page: number) => {
+    const q = new URLSearchParams()
+    for (const [k, v] of Object.entries(filters)) if (k !== 'page' && v) q.set(k, String(v))
+    if (page > 1) q.set('page', String(page))
+    const s = q.toString()
+    return s ? `/lounges?${s}` : '/lounges'
+  }
   return (
     <>
       <LandingHero
@@ -40,6 +46,10 @@ export default async function LoungesIndex({ searchParams }: Props) {
       <section className={`section ${styles.filters}`}>
         <div className="wrap">
           <form className={styles.form} method="get" action="/lounges">
+            <label className={styles.q}>
+              <span className="label">Search</span>
+              <input type="search" name="q" defaultValue={filters.q ?? ''} placeholder="Lounge, hotel or city" />
+            </label>
             <label>
               <span className="label">Program</span>
               <select name="program" defaultValue={filters.program ?? ''}>
@@ -62,6 +72,13 @@ export default async function LoungesIndex({ searchParams }: Props) {
                 ))}
               </select>
             </label>
+            <label>
+              <span className="label">Reader scores</span>
+              <select name="rated" defaultValue={filters.rated ?? ''}>
+                <option value="">All lounges</option>
+                <option value="yes">Rated by readers</option>
+              </select>
+            </label>
             <div className={styles.actions}>
               <button className="btn" type="submit">
                 Filter
@@ -82,13 +99,14 @@ export default async function LoungesIndex({ searchParams }: Props) {
             <div>
               <span className="eyebrow on-light">The directory</span>
               <h2>
-                {count(rows.length)} {rows.length === 1 ? 'lounge' : 'lounges'}
+                {count(result.totalDocs)} {result.totalDocs === 1 ? 'lounge' : 'lounges'}
                 {active ? ' match' : ''}
               </h2>
             </div>
             <span className={styles.fineHead}>Open a lounge to rate it</span>
           </div>
-          {rows.length > 0 ? <LoungeRows rows={rows} /> : <p className={styles.empty}>No lounges on record yet{active ? ' for those filters' : ''}.</p>}
+          {result.rows.length > 0 ? <LoungeRows rows={result.rows} /> : <p className={styles.empty}>No lounges on record yet{active ? ' for those filters' : ''}.</p>}
+          <Pager page={result.page} totalPages={result.totalPages} totalDocs={result.totalDocs} perPage={LOUNGES_PER_PAGE} href={href} />
           <p className={styles.fine}>Reader scores appear once a lounge has five rated stays. Access and hours are as printed; whether access was honoured is reported by readers.</p>
         </div>
       </section>

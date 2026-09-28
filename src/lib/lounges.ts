@@ -84,20 +84,55 @@ export async function getLoungesForHotel(hotelId: number): Promise<Lounge[]> {
 
 export type LoungeRow = { lounge: Lounge; hotel: Hotel | null; data: LoungeAggregate | null }
 
-// Every published lounge with its numbers, rated first, best first.
-export async function getLoungeDirectory(filters: { program?: string; country?: string } = {}): Promise<LoungeRow[]> {
+export const LOUNGES_PER_PAGE = 24
+export type LoungeFilters = { q?: string; program?: string; country?: string; rated?: string; page?: number }
+export type LoungeDirectory = { rows: LoungeRow[]; totalDocs: number; totalPages: number; page: number; rated: number }
+
+// A page of the lounge directory: rated lounges first, best first, then the
+// rest by name. Ordering and paging happen in SQL over all lounges, and
+// only the page's lounges are hydrated.
+export async function getLoungeDirectory(f: LoungeFilters = {}): Promise<LoungeDirectory> {
   const payload = await getPayloadClient()
-  const and: Where[] = [published]
-  if (filters.program) and.push({ 'hotel.program.slug': { equals: filters.program } })
-  if (filters.country) and.push({ 'hotel.destination.country': { equals: filters.country } })
-  const lounges = await payload.find({ collection: 'lounges', where: { and }, depth: 2, limit: 500, sort: 'name' })
+  const db = payload.db as unknown as { drizzle: { execute: (q: unknown) => Promise<{ rows: Record<string, unknown>[] }> } }
+  const { sql } = await import('@payloadcms/db-postgres')
+  const page = Math.max(1, f.page ?? 1)
+  const conds = [sql`l._status = 'published'`, sql`h._status = 'published'`]
+  if (f.program) conds.push(sql`p.slug = ${f.program}`)
+  if (f.country) conds.push(sql`d.country = ${f.country}`)
+  if (f.q) conds.push(sql`(l.name ilike ${'%' + f.q + '%'} or h.name ilike ${'%' + f.q + '%'} or d.name ilike ${'%' + f.q + '%'})`)
+  if (f.rated === 'yes') conds.push(sql`r.n >= ${MIN_STAYS}`)
+  const where = sql.join(conds, sql` and `)
+  const from = sql`from lounges l
+    join hotels h on h.id = l.hotel_id
+    left join programs p on p.id = h.program_id
+    left join destinations d on d.id = h.destination_id
+    left join (select lounge_id, count(*)::int as n, avg(overall) as score from lounge_ratings where status = 'approved' and overall is not null group by lounge_id) r on r.lounge_id = l.id
+    where ${where}`
+  const counts = await db.drizzle.execute(sql`select count(*)::int as total, count(*) filter (where r.n >= ${MIN_STAYS})::int as rated ${from}`)
+  const totalDocs = Number(counts.rows[0]?.total ?? 0)
+  const rated = Number(counts.rows[0]?.rated ?? 0)
+  const ids = await db.drizzle.execute(
+    sql`select l.id ${from} order by (case when r.n >= ${MIN_STAYS} then 0 else 1 end), r.score desc nulls last, l.name, h.name limit ${LOUNGES_PER_PAGE} offset ${(page - 1) * LOUNGES_PER_PAGE}`,
+  )
+  const order = ids.rows.map((r) => Number(r.id))
+  if (order.length === 0) return { rows: [], totalDocs, totalPages: Math.max(1, Math.ceil(totalDocs / LOUNGES_PER_PAGE)), page, rated }
+  const lounges = await payload.find({ collection: 'lounges', where: { id: { in: order } }, depth: 2, limit: LOUNGES_PER_PAGE })
+  const byId = new Map(lounges.docs.map((l) => [l.id, l]))
   const rows = await Promise.all(
-    lounges.docs.map(async (lounge) => {
+    order.map(async (id) => {
+      const lounge = byId.get(id)
+      if (!lounge) return null
       const d = await loungeReaderData(lounge.id)
       return { lounge, hotel: typeof lounge.hotel === 'object' ? lounge.hotel : null, data: d.data ?? null }
     }),
   )
-  return rows.sort((a, b) => (b.data?.score ?? -1) - (a.data?.score ?? -1) || a.lounge.name.localeCompare(b.lounge.name))
+  return { rows: rows.filter((r): r is LoungeRow => r !== null), totalDocs, totalPages: Math.max(1, Math.ceil(totalDocs / LOUNGES_PER_PAGE)), page, rated }
+}
+
+// The best-rated lounge on record, for the directory's hero photo.
+export async function getTopLounge(): Promise<LoungeRow | null> {
+  const res = await getLoungeDirectory({ rated: 'yes' })
+  return res.rows[0] ?? null
 }
 
 // The access line for a directory row: tier short names, then club rooms and paid access.

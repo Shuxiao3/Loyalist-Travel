@@ -865,6 +865,117 @@ async function loungeFlags(payload: Payload) {
   console.log(`lounge-flags: ${set} set, ${kept} already answered, ${missing} hotels not found`)
 }
 
+// ---- Lounge records ------------------------------------------------------------------
+// One lounge per hotel flagged as having one, so every lounge has a page to
+// rate. The name comes from the chain's own page where the fetch saw it,
+// else the brand's usual name. Access is the program's lounge-eligible
+// tiers plus club rooms. Hours and services are left for an editor.
+const LOUNGE_NAME_WORDS = /Club InterContinental|Regency Club|Grand Club|Sheraton Club|Westin Club|Ritz-Carlton Club|St\. Regis Club|Regent Club|Concierge Lounge|Executive Lounge|Executive Club|Club Lounge|M Club|Club Level|Club Floor/gi
+const LOUNGE_NAME_CANON: Record<string, string> = {
+  'club intercontinental': 'Club InterContinental',
+  'regency club': 'Regency Club',
+  'grand club': 'Grand Club',
+  'sheraton club': 'Sheraton Club',
+  'westin club': 'Westin Club',
+  'ritz-carlton club': 'The Ritz-Carlton Club',
+  'st. regis club': 'St. Regis Club',
+  'regent club': 'Regent Club',
+  'concierge lounge': 'Concierge Lounge',
+  'executive lounge': 'Executive Lounge',
+  'executive club': 'Executive Club',
+  'club lounge': 'Club Lounge',
+  'm club': 'M Club',
+  'club level': 'Club Lounge',
+  'club floor': 'Club Lounge',
+}
+const LOUNGE_BRAND_DEFAULT: Record<string, string> = {
+  'grand-hyatt': 'Grand Club',
+  'hyatt-regency': 'Regency Club',
+  'marriott-hotels': 'M Club',
+  sheraton: 'Sheraton Club',
+  westin: 'Westin Club',
+  'jw-marriott': 'Executive Lounge',
+  renaissance: 'Club Lounge',
+  'le-meridien': 'Club Lounge',
+  'ritz-carlton': 'The Ritz-Carlton Club',
+  'st-regis': 'St. Regis Club',
+  'delta-hotels': 'Delta Club',
+  intercontinental: 'Club InterContinental',
+  'crowne-plaza': 'Club Lounge',
+  regent: 'Regent Club',
+}
+const LOUNGE_PROGRAM_DEFAULT: Record<string, string> = {
+  'hilton-honors': 'Executive Lounge',
+  'marriott-bonvoy': 'Executive Lounge',
+  'ihg-one-rewards': 'Club Lounge',
+  'world-of-hyatt': 'Club Lounge',
+}
+
+async function seedLounges(payload: Payload) {
+  // lounge names seen on the chains' pages, by hotel slug
+  const seen: Record<string, string> = {}
+  const dir = path.resolve(process.cwd(), 'data/lounges')
+  if (fs.existsSync(dir)) {
+    for (const file of fs.readdirSync(dir).filter((f) => f.endsWith('.json'))) {
+      const rows = JSON.parse(fs.readFileSync(path.join(dir, file), 'utf8')) as Record<string, { lounge: boolean; hits?: string[] }>
+      for (const [slug, r] of Object.entries(rows)) {
+        if (!r.lounge) continue
+        const counts = new Map<string, number>()
+        for (const h of r.hits ?? []) for (const m of h.matchAll(LOUNGE_NAME_WORDS)) {
+          const k = LOUNGE_NAME_CANON[m[0].toLowerCase()] ?? m[0]
+          counts.set(k, (counts.get(k) ?? 0) + 1)
+        }
+        const best = [...counts.entries()].sort((a, b) => b[1] - a[1])[0]
+        if (best) seen[slug] = best[0]
+      }
+    }
+  }
+  const programs = await payload.find({ collection: 'programs', limit: 20, depth: 0, overrideAccess: true })
+  const brands = await payload.find({ collection: 'brands', limit: 500, depth: 0, overrideAccess: true })
+  const brandSlug = new Map(brands.docs.map((b) => [b.id, b.slug]))
+  const programSlug = new Map(programs.docs.map((p) => [p.id, p.slug]))
+  const tiers = await payload.find({ collection: 'status-levels', limit: 100, depth: 0, overrideAccess: true })
+  const loungeTiers = new Map<number, number[]>()
+  for (const t of tiers.docs) {
+    if (!t.eligibility?.lounge) continue
+    const pid = typeof t.program === 'object' ? t.program.id : t.program
+    loungeTiers.set(pid, [...(loungeTiers.get(pid) ?? []), t.id])
+  }
+  const existing = await payload.find({ collection: 'lounges', limit: 10000, depth: 0, overrideAccess: true, select: { hotel: true, slug: true } })
+  const hasLounge = new Set(existing.docs.map((l) => (typeof l.hotel === 'object' ? l.hotel?.id : l.hotel)))
+  const slugs = new Set(existing.docs.map((l) => l.slug))
+
+  const hotels = await payload.find({ collection: 'hotels', where: { clubLounge: { equals: 'yes' } }, limit: 10000, depth: 0, overrideAccess: true })
+  let made = 0
+  let kept = 0
+  for (const h of hotels.docs) {
+    if (hasLounge.has(h.id)) {
+      kept++
+      continue
+    }
+    const pid = typeof h.program === 'object' ? h.program?.id : h.program
+    const bid = typeof h.brand === 'object' ? h.brand?.id : h.brand
+    const name = seen[h.slug ?? ''] ?? LOUNGE_BRAND_DEFAULT[brandSlug.get(bid ?? -1) ?? ''] ?? LOUNGE_PROGRAM_DEFAULT[programSlug.get(pid ?? -1) ?? ''] ?? 'Club Lounge'
+    let slug = `${h.slug}-${slugify(name)}`
+    for (let i = 2; slugs.has(slug); i++) slug = `${h.slug}-${slugify(name)}-${i}`
+    slugs.add(slug)
+    await payload.create({
+      collection: 'lounges',
+      overrideAccess: true,
+      data: {
+        name,
+        slug,
+        hotel: h.id,
+        access: { tiers: pid ? (loungeTiers.get(pid) ?? []) : [], clubRooms: true },
+        externalImageUrl: h.externalImageUrl ?? null,
+        _status: 'published',
+      } as never,
+    })
+    made++
+  }
+  console.log(`seed-lounges: created ${made} lounge(s), ${kept} hotel(s) already had one`)
+}
+
 // ---- Brand hierarchy ------------------------------------------------------------
 // Where each brand sits in its program, top first. Fills blank ranks only;
 // an editor's number is kept.
@@ -1145,6 +1256,7 @@ const STEPS: Record<string, (p: Payload) => Promise<void>> = {
   'seed-cards': seedCards,
   'seed-brand-ranks': seedBrandRanks,
   'lounge-flags': loungeFlags,
+  'seed-lounges': seedLounges,
   'lounge-brand-rules': loungeBrandRules,
 }
 
