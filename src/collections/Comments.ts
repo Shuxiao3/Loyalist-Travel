@@ -1,11 +1,15 @@
 import type { CollectionConfig } from 'payload'
 
+import { notifyOnCreate } from '@/lib/notify'
+
 // Reader comments on reviews, articles and lounges. Written only by the
 // site's server action from a signed-in reader; shown only once approved.
-export const COMMENT_MAX = 1000
+export * from '../lib/commentOptions'
+import { COMMENT_MAX } from '../lib/commentOptions'
 
 export const Comments: CollectionConfig = {
   slug: 'comments',
+  hooks: { afterChange: [notifyOnCreate('comments')] },
   admin: {
     useAsTitle: 'body',
     defaultColumns: ['body', 'reader', 'on', 'status', 'createdAt'],
