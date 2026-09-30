@@ -982,6 +982,122 @@ async function seedLounges(payload: Payload) {
   console.log(`seed-lounges: created ${made} lounge(s), ${kept} hotel(s) already had one`)
 }
 
+// ---- Reported stays from the forum pipeline -------------------------------------------
+// Reads loyalist-pipeline/data/data_points.csv (one row per stay the
+// extraction found) and upserts each as a sourced report, keyed on source
+// and post id so reruns update in place. Low-confidence rows are skipped;
+// high-confidence ones arrive approved, medium ones pending. An editor's
+// later status change is kept on rerun.
+function parseCsv(text: string): Record<string, string>[] {
+  const rows: string[][] = []
+  let row: string[] = []
+  let cell = ''
+  let quoted = false
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i]
+    if (quoted) {
+      if (c === '"' && text[i + 1] === '"') {
+        cell += '"'
+        i++
+      } else if (c === '"') quoted = false
+      else cell += c
+    } else if (c === '"') quoted = true
+    else if (c === ',') {
+      row.push(cell)
+      cell = ''
+    } else if (c === '\n' || c === '\r') {
+      if (c === '\r' && text[i + 1] === '\n') i++
+      row.push(cell)
+      rows.push(row)
+      row = []
+      cell = ''
+    } else cell += c
+  }
+  if (cell.length || row.length) {
+    row.push(cell)
+    rows.push(row)
+  }
+  const [head, ...body] = rows.filter((r) => r.length > 1 || (r.length === 1 && r[0] !== ''))
+  return body.map((r) => Object.fromEntries(head.map((h, i) => [h, r[i] ?? ''])))
+}
+
+// The pipeline's status slugs, where they differ from the site's.
+const STATUS_ALIAS: Record<string, string> = { 'hyatt-lifetime-globalist': 'hyatt-globalist' }
+
+async function importSourcedReports(payload: Payload) {
+  const file = path.resolve(process.cwd(), 'loyalist-pipeline/data/data_points.csv')
+  if (!fs.existsSync(file)) {
+    console.log('sourced-reports: no data_points.csv yet')
+    return
+  }
+  const rows = parseCsv(fs.readFileSync(file, 'utf8'))
+  const tiers = await payload.find({ collection: 'status-levels', limit: 100, depth: 0, overrideAccess: true })
+  const tierBySlug = new Map(tiers.docs.map((t) => [t.slug, t]))
+  const hotelCache = new Map<string, { id: number; program: number | null } | null>()
+  const hotelFor = async (slug: string) => {
+    if (hotelCache.has(slug)) return hotelCache.get(slug) ?? null
+    const h = (await payload.find({ collection: 'hotels', where: { slug: { equals: slug } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
+    const v = h ? { id: h.id, program: typeof h.program === 'object' ? (h.program?.id ?? null) : (h.program ?? null) } : null
+    hotelCache.set(slug, v)
+    return v
+  }
+  let created = 0
+  let updated = 0
+  let skipped = 0
+  let unmatched = 0
+  const or = (v: string, allowed: string[], fallback: string | null) => (allowed.includes(v) ? v : fallback)
+  for (const r of rows) {
+    if (r.confidence === 'low' || !r.post_id || !r.post_url) {
+      skipped++
+      continue
+    }
+    const hotel = await hotelFor(r.hotel_slug)
+    if (!hotel) {
+      unmatched++
+      console.log(`sourced-reports: no hotel with slug ${r.hotel_slug}`)
+      continue
+    }
+    const source = (r.source ?? '').toLowerCase().includes('flyertalk') ? 'flyertalk' : (r.source ?? '').toLowerCase().includes('reddit') ? 'reddit' : 'blog'
+    const sourceKey = `${source}:${r.post_id}:${r.hotel_slug}`
+    const tierSlug = STATUS_ALIAS[r.status_held] ?? r.status_held
+    const tier = tierBySlug.get(tierSlug)
+    const data = {
+      confidence: r.confidence,
+      hotel: hotel.id,
+      program: hotel.program,
+      statusHeld: tier?.id ?? null,
+      source,
+      postUrl: r.post_url,
+      postDate: /^\d{4}-\d{2}-\d{2}/.test(r.post_date) ? r.post_date.slice(0, 10) : null,
+      stayMonth: /^\d{4}-\d{2}$/.test(r.stay_month) ? r.stay_month : null,
+      summary: r.summary,
+      upgrade: or(r.upgrade, ['none', 'yes', 'award', 'unknown'], 'unknown'),
+      upgradeType: or(r.upgrade_type, ['floor', 'view', 'category', 'suite'], null),
+      suiteType: or(r.suite_type, ['junior', 'one-bedroom', 'two-bedroom', 'specialty'], null),
+      upgradeHow: or(r.upgrade_how, ['proactive', 'asked'], null),
+      breakfast: or(r.breakfast, ['full', 'buffet', 'a-la-carte', 'credit', 'not-honoured', 'not-eligible', 'unknown'], 'unknown'),
+      loungeAccess: or(r.lounge_access, ['given', 'declined', 'not-used', 'unknown'], 'unknown'),
+      lateCheckout: or(r.late_checkout, ['honoured', 'declined', 'not-requested', 'unknown'], 'unknown'),
+      welcomeAmenity: or(r.welcome_amenity, ['given', 'not-given', 'unknown'], 'unknown'),
+      roomBooked: r.room_booked || null,
+      roomReceived: r.room_received || null,
+      sentiment: or(r.sentiment, ['positive', 'mixed', 'negative'], 'mixed'),
+      sourceKey,
+      model: r.model || null,
+      extractedAt: r.extracted_at || null,
+    }
+    const existing = (await payload.find({ collection: 'sourced-reports', where: { sourceKey: { equals: sourceKey } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
+    if (existing) {
+      await payload.update({ collection: 'sourced-reports', id: existing.id, data: data as never, overrideAccess: true })
+      updated++
+    } else {
+      await payload.create({ collection: 'sourced-reports', data: { ...data, status: r.confidence === 'high' ? 'approved' : 'pending' } as never, overrideAccess: true })
+      created++
+    }
+  }
+  console.log(`sourced-reports: ${created} created, ${updated} updated, ${skipped} skipped (low confidence or incomplete), ${unmatched} with no matching hotel`)
+}
+
 // ---- Brand hierarchy ------------------------------------------------------------
 // Where each brand sits in its program, top first. Fills blank ranks only;
 // an editor's number is kept.
@@ -1263,6 +1379,7 @@ const STEPS: Record<string, (p: Payload) => Promise<void>> = {
   'seed-brand-ranks': seedBrandRanks,
   'lounge-flags': loungeFlags,
   'seed-lounges': seedLounges,
+  'sourced-reports': importSourcedReports,
   'lounge-brand-rules': loungeBrandRules,
 }
 

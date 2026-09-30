@@ -1,6 +1,12 @@
 # Reported stays pipeline
 
-Forum posts → structured stay data points → Webflow CSVs.
+Forum posts → structured stay data points → the site's Reported stays.
+
+The whole run is a GitHub workflow, "Sourced reports": it fetches Reddit,
+extracts with Claude, commits `data/data_points.csv` and `data/cache/`, then
+imports the rows into the site's `sourced-reports` collection, where
+high-confidence stays arrive approved and medium ones pending. Step 3 below
+still builds the old Webflow files and is no longer needed for the site.
 
 Reported stays are what members say happened to them. They are not the site's
 own scored reviews and they are not reader submissions; they are a third,

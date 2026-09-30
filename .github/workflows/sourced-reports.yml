@@ -1,0 +1,85 @@
+# Collects forum posts about hotels, extracts the stays they report with
+# Claude, and imports them as reported stays. Runs here because the sandbox
+# that writes the site cannot reach Reddit.
+#
+# Manual: Actions tab → "Sourced reports" → Run workflow. Give one hotel slug
+# to pilot, or leave blank for every hotel in
+# loyalist-pipeline/reddit_hotel_searches.csv.
+#
+# Secrets: ANTHROPIC_API_KEY (required). REDDIT_CLIENT_ID and
+# REDDIT_CLIENT_SECRET (optional, a "script" app at reddit.com/prefs/apps)
+# lift Reddit's throttling of the public endpoints.
+name: Sourced reports
+
+on:
+  workflow_dispatch:
+    inputs:
+      only:
+        description: 'One hotel slug (blank runs every hotel with a search term)'
+        required: false
+        default: ''
+      model:
+        description: 'Extraction model'
+        required: false
+        default: 'claude-sonnet-5'
+
+permissions:
+  contents: write
+
+jobs:
+  reports:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+      REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check secrets
+        run: |
+          if [ -z "$ANTHROPIC_API_KEY" ]; then
+            echo "::error::ANTHROPIC_API_KEY is not set. Add it under Settings → Secrets and variables → Actions."
+            exit 1
+          fi
+          if [ -z "$REDDIT_CLIENT_ID" ]; then echo "No Reddit app credentials; using the public endpoints, which Reddit throttles."; fi
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install anthropic
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Fetch Reddit
+        working-directory: loyalist-pipeline
+        run: |
+          if [ -n "${{ github.event.inputs.only }}" ]; then
+            python 1_fetch_reddit.py --only "${{ github.event.inputs.only }}"
+          else
+            python 1_fetch_reddit.py
+          fi
+          ls -la raw | head -50
+      - name: Extract stays
+        working-directory: loyalist-pipeline
+        run: |
+          if [ -n "${{ github.event.inputs.only }}" ]; then
+            python 2_extract.py --only "${{ github.event.inputs.only }}" --model "${{ github.event.inputs.model }}"
+          else
+            python 2_extract.py --model "${{ github.event.inputs.model }}"
+          fi
+          echo "rows: $(($(wc -l < data/data_points.csv) - 1))"
+      - name: Commit extraction results
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add loyalist-pipeline/data/data_points.csv loyalist-pipeline/data/cache
+          git commit -m "Sourced reports: extraction results" || echo "nothing to commit"
+          for i in 1 2 3 4; do git pull --rebase origin main && git push && break; sleep 10; done
+      - name: Import into the site
+        run: |
+          npm run migrate
+          npm run import:webflow -- sourced-reports

@@ -20,6 +20,7 @@ import { Media } from './collections/Media'
 import { Programs } from './collections/Programs'
 import { Readers } from './collections/Readers'
 import { ReaderStays } from './collections/ReaderStays'
+import { SourcedReports } from './collections/SourcedReports'
 import { Regions } from './collections/Regions'
 import { Reviews } from './collections/Reviews'
 import { RubricVersions } from './collections/RubricVersions'
@@ -68,6 +69,7 @@ export default buildConfig({
     Reviews,
     Articles,
     ReaderStays,
+    SourcedReports,
     Readers,
     Comments,
     Lounges,

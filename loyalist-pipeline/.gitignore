@@ -3,5 +3,6 @@
 raw/*.txt
 !raw/.gitkeep
 
-# Per-page extraction results. Rebuildable, and one file per page.
-data/cache/
+# Per-page extraction results are committed: they hold extracted fields and
+# fingerprints only, never post text, and committing them means a rerun on
+# a fresh runner does not pay to extract the same pages again.

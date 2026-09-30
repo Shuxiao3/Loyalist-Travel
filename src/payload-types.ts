@@ -71,6 +71,7 @@ export interface Config {
     reviews: Review;
     articles: Article;
     'reader-stays': ReaderStay;
+    'sourced-reports': SourcedReport;
     readers: Reader;
     comments: Comment;
     lounges: Lounge;
@@ -102,6 +103,7 @@ export interface Config {
     reviews: ReviewsSelect<false> | ReviewsSelect<true>;
     articles: ArticlesSelect<false> | ArticlesSelect<true>;
     'reader-stays': ReaderStaysSelect<false> | ReaderStaysSelect<true>;
+    'sourced-reports': SourcedReportsSelect<false> | SourcedReportsSelect<true>;
     readers: ReadersSelect<false> | ReadersSelect<true>;
     comments: CommentsSelect<false> | CommentsSelect<true>;
     lounges: LoungesSelect<false> | LoungesSelect<true>;
@@ -1237,6 +1239,59 @@ export interface Reader {
   createdAt: string;
 }
 /**
+ * Stays members described on Reddit and FlyerTalk. Approved ones count in the Aggregated data block on the hotel page.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sourced-reports".
+ */
+export interface SourcedReport {
+  id: number;
+  status: 'pending' | 'approved' | 'rejected';
+  /**
+   * How sure the extraction was that this is a first-hand stay with the fields stated outright.
+   */
+  confidence: 'high' | 'medium' | 'low';
+  hotel: number | Hotel;
+  program?: (number | null) | Program;
+  /**
+   * Blank when the post did not say.
+   */
+  statusHeld?: (number | null) | StatusLevel;
+  source: 'reddit' | 'flyertalk' | 'blog';
+  /**
+   * The post the stay was read from.
+   */
+  postUrl: string;
+  postDate?: string | null;
+  /**
+   * YYYY-MM when the post pins the stay down.
+   */
+  stayMonth?: string | null;
+  /**
+   * Written by the extraction in its own words, never quoted from the post.
+   */
+  summary: string;
+  upgrade: 'none' | 'yes' | 'award' | 'unknown';
+  upgradeType?: ('floor' | 'view' | 'category' | 'suite') | null;
+  suiteType?: ('junior' | 'one-bedroom' | 'two-bedroom' | 'specialty') | null;
+  upgradeHow?: ('proactive' | 'asked') | null;
+  breakfast: 'full' | 'buffet' | 'a-la-carte' | 'credit' | 'not-honoured' | 'not-eligible' | 'unknown';
+  loungeAccess: 'given' | 'declined' | 'not-used' | 'unknown';
+  lateCheckout: 'honoured' | 'declined' | 'not-requested' | 'unknown';
+  welcomeAmenity: 'given' | 'not-given' | 'unknown';
+  roomBooked?: string | null;
+  roomReceived?: string | null;
+  sentiment: 'positive' | 'mixed' | 'negative';
+  /**
+   * Source and post id, so a rerun updates rather than duplicates.
+   */
+  sourceKey: string;
+  model?: string | null;
+  extractedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * Approve or reject here. Only approved comments show on the site.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1389,6 +1444,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'reader-stays';
         value: number | ReaderStay;
+      } | null)
+    | ({
+        relationTo: 'sourced-reports';
+        value: number | SourcedReport;
       } | null)
     | ({
         relationTo: 'readers';
@@ -1727,6 +1786,38 @@ export interface ReaderStaysSelect<T extends boolean = true> {
   lateCheckout?: T;
   reader?: T;
   submitterHash?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sourced-reports_select".
+ */
+export interface SourcedReportsSelect<T extends boolean = true> {
+  status?: T;
+  confidence?: T;
+  hotel?: T;
+  program?: T;
+  statusHeld?: T;
+  source?: T;
+  postUrl?: T;
+  postDate?: T;
+  stayMonth?: T;
+  summary?: T;
+  upgrade?: T;
+  upgradeType?: T;
+  suiteType?: T;
+  upgradeHow?: T;
+  breakfast?: T;
+  loungeAccess?: T;
+  lateCheckout?: T;
+  welcomeAmenity?: T;
+  roomBooked?: T;
+  roomReceived?: T;
+  sentiment?: T;
+  sourceKey?: T;
+  model?: T;
+  extractedAt?: T;
   updatedAt?: T;
   createdAt?: T;
 }

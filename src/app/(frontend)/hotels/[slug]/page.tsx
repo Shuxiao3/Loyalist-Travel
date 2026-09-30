@@ -6,6 +6,7 @@ import { Arrow, Band } from '@/components/Band'
 import { HotelList } from '@/components/HotelCard'
 import { LatestStays } from '@/components/LatestStays'
 import { ReaderPanel } from '@/components/ReaderPanel'
+import { SourcedPanel } from '@/components/SourcedPanel'
 import { StickyReview } from '@/components/StickyReview'
 import { StayForm } from '@/components/StayForm'
 import { ViewBeacon } from '@/components/ViewBeacon'
@@ -13,6 +14,7 @@ import { rel, score } from '@/lib/format'
 import { bandFor } from '@/lib/rubric'
 import { getHotel, getHotelsIn, getPayloadClient, getReviewsForHotel, topTierOf } from '@/lib/queries'
 import { accessLine, getLoungesForHotel, loungeReaderData, servicesLine } from '@/lib/lounges'
+import { hotelSourcedData } from '@/lib/sourcedData'
 import { hotelReaderData, latestStays } from '@/lib/readerData'
 import { getSeo, metaText, pageMeta } from '@/lib/seo'
 import { PROPERTY_TYPE_LABEL } from '@/lib/site'
@@ -52,12 +54,13 @@ export default async function HotelPage({ params }: Props) {
   const destination = rel<Destination>(hotel.destination)
   const amenities = (hotel.amenities ?? []).map((a) => rel<Amenity>(a)).filter((a): a is Amenity => Boolean(a))
   const payload = await getPayloadClient()
-  const [reviewsRes, readerData, tiersRes, lounges, recentStays] = await Promise.all([
+  const [reviewsRes, readerData, tiersRes, lounges, recentStays, sourced] = await Promise.all([
     getReviewsForHotel(hotel.id),
     hotelReaderData(hotel.id),
     program ? payload.find({ collection: 'status-levels', where: { program: { equals: program.id } }, sort: 'rank', limit: 20, depth: 0 }) : Promise.resolve(null),
     getLoungesForHotel(hotel.id),
     latestStays(hotel.id),
+    hotelSourcedData(hotel.id),
   ])
   const reviews = reviewsRes.docs
   const tiers = (tiersRes?.docs ?? []).map((t) => ({ id: t.id, name: t.name, shortName: t.shortName }))
@@ -160,13 +163,7 @@ export default async function HotelPage({ params }: Props) {
           </div>
           <div className={styles.dataGrid}>
             <ReaderPanel data={readerData} hotelName={hotel.name} />
-            <section className={`panel ${styles.sourced}`} aria-labelledby="sourced-h">
-              <span className="eyebrow" id="sourced-h">
-                Aggregated data
-              </span>
-              <p className={styles.sourcedP}>Stays reported on FlyerTalk, Reddit and travel blogs, tallied here with a link to each source. Kept apart from reader submissions so the two never mix.</p>
-              <p className={styles.sourcedNone}>None gathered yet for {hotel.name}.</p>
-            </section>
+            <SourcedPanel data={sourced} hotelName={hotel.name} />
             <div className={`panel ${styles.stayPanel}`}>
               <span className="eyebrow">Stayed here on status?</span>
               <h3 className={styles.stayTitle}>Add your stay. Two minutes.</h3>
