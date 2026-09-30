@@ -114,8 +114,9 @@ export function htmlToLexical(html: string | null | undefined): ConvertResult {
             break
           case 'a':
             if (attrs.href) {
+              const parent = target()
               link = { type: 'link', fields: { linkType: 'custom', url: attrs.href, newTab: attrs.target === '_blank' }, children: [], direction: 'ltr', format: '', indent: 0, version: 3 }
-              target().push(link)
+              parent.push(link)
             }
             break
           case 'img':

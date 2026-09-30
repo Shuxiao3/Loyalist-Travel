@@ -715,6 +715,12 @@ async function importArticles(payload: Payload) {
       if (p) programs.push(p.id)
       else console.log(`articles: ${file} names unknown program ${slug}`)
     }
+    const related: number[] = []
+    for (const slug of (meta.articles ?? '').split(',').map((s) => s.trim()).filter(Boolean)) {
+      const a = (await payload.find({ collection: 'articles', where: { slug: { equals: slug } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
+      if (a) related.push(a.id)
+      else console.log(`articles: ${file} names unknown article ${slug}`)
+    }
     const data = {
       title: meta.title,
       slug: meta.slug,
@@ -723,7 +729,7 @@ async function importArticles(payload: Payload) {
       dek: meta.dek || null,
       body,
       featured: meta.featured === 'true',
-      related: { programs },
+      related: { programs, articles: related },
       seo: { title: meta.metaTitle || null, description: meta.metaDescription || null },
       _status: 'published',
     }
