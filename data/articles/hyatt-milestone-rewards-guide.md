@@ -1,5 +1,5 @@
 ---
-title: A guide to Hyatt milestones. What you should pick at every tier.
+title: A Guide to Hyatt Milestones. What You Should Pick at Every Tier.
 slug: hyatt-milestone-rewards-guide
 category: programs
 date: 2026-09-30
@@ -7,7 +7,7 @@ featured: false
 programs: world-of-hyatt
 articles: what-hyatt-globalist-status-gets-you
 dek: Every World of Hyatt milestone from 20 nights to 150, what is on offer at each, and which choice I make.
-metaTitle: A guide to Hyatt milestones. What you should pick at every tier.
+metaTitle: A Guide to Hyatt Milestones. What You Should Pick at Every Tier.
 metaDescription: A step by step guide to every Hyatt milestone. What is recommended and which are sleeper options.
 ---
 
@@ -17,13 +17,13 @@ World of Hyatt milestone rewards start at 20 nights and are offered every 10 nig
 
 Before we move on, let's explain two things.
 
-### Suite upgrade award
+### Suite Upgrade Award
 
 Hyatt's definition: treat yourself or gift an upgrade to a standard suite, confirmed at the time of booking, for a stay of up to 7 nights.
 
 This is the best suite upgrade ticket across all loyalty programs. It can be confirmed at the time of booking AND be used for up to 7 nights. You can even use it on reservations for other people. No other loyalty program has a perk like that. Use it and enjoy it now, this might not stay this good.
 
-### Guest of Honor award
+### Guest of Honor Award
 
 Hyatt's definition: gift someone a Globalist experience for up to 7 nights. Use it on award or eligible paid stays.
 
@@ -31,7 +31,7 @@ This is an overpowered award, just under the suite upgrade award. You gift someo
 
 Of note, the space-available upgrade is typically just under what a true Globalist would get and may not always be honored the same way a Globalist would.
 
-## 20 nights
+## 20 Nights
 
 **Choice:** 2 club access awards, 2,000-point next stay award, $25 FIND experience credit, or 2 preferred seat coupons on American Airlines.
 
@@ -47,7 +47,7 @@ I don't know how many people use FIND experiences, but if you do then maybe that
 
 I would pick the award that you will use for sure.
 
-## 30 nights
+## 30 Nights
 
 **Everyone receives:** a category 1 to 4 free night award.
 
@@ -59,7 +59,7 @@ That free night award is incredible. So much value at such a low nights requirem
 
 Otherwise, the same logic applies as at the 20 night milestone, so see above.
 
-## 40 nights
+## 40 Nights
 
 **Everyone receives:** a Guest of Honor award.
 
@@ -73,7 +73,7 @@ This is your first important choice. On the milestone rewards, a suite upgrade a
 
 Compared to the American Airlines coupons, I think I would pick the SUA even if I was flying American.
 
-## 50 nights
+## 50 Nights
 
 **Choice:** 2 suite upgrade awards, 5,000 bonus points, $150 FIND experience credit, or 2 Main Cabin Extra seat coupons on American Airlines.
 
@@ -81,7 +81,7 @@ Compared to the American Airlines coupons, I think I would pick the SUA even if 
 
 This is like the 40 night pick but even easier. Pick the 2 suite upgrade awards and don't look back. Compared to the other choices this is a joke. This might be the easiest choice in the whole list.
 
-## 60 nights
+## 60 Nights
 
 **You receive:** 2 Guest of Honor awards, a category 1 to 7 free night award, 2 suite upgrade awards, My Hyatt Concierge, and Globalist status.
 
@@ -91,7 +91,7 @@ The awards are also incredible. Not much to say about them and no real choice, b
 
 A word on My Hyatt Concierge though: I think it's worthless. My Hyatt Concierge regularly ghosts me, and I find most of my questions answered much quicker and more efficiently through the regular Globalist support line (who are excellent, by the way).
 
-## 70, 80 and 90 nights
+## 70, 80 and 90 Nights
 
 **Everyone receives:** a Guest of Honor award.
 
@@ -103,7 +103,7 @@ Honestly, if you live near an American Airlines hub airport (and you know for su
 
 Otherwise, I default to the 10,000 points simply because at this point you probably have 5 suite upgrade awards, which for most people is too many to use. If you do have a specific use in mind for the suite upgrade award before it expires, then I still think that is higher value. There is just the risk of losing the suite upgrade award without using it.
 
-## 100 nights
+## 100 Nights
 
 **Everyone receives:** a category 1 to 7 free night award.
 
@@ -115,7 +115,7 @@ The AAdvantage Platinum status is very high value if you live near an American h
 
 Otherwise, same logic as before: 10,000 is the default unless you know for sure you are using the SUA.
 
-## 110 to 140 nights
+## 110 to 140 Nights
 
 **Everyone receives:** a Guest of Honor award.
 
@@ -135,7 +135,7 @@ The Miraval extra night award requires you to stay at a Miraval property, for at
 
 As stated before, if used correctly the suite upgrade award can be worth well over 100,000 points, but usually ends up being worth around 30,000 to 70,000.
 
-## 150 nights
+## 150 Nights
 
 **Everyone receives:** an Ultimate Free Night award.
 
@@ -145,6 +145,6 @@ As stated before, if used correctly the suite upgrade award can be worth well ov
 
 Same choices, but it has that juicy Ultimate Free Night award. Obviously it's incredible. It's the best free night certificate among all loyalty programs, rivalled only by the Hilton free night certificate that seems to be given out like candy.
 
-## Final thoughts
+## Final Thoughts
 
 So these are my choices and a guide to which ones to choose. The most important thing in the end, though: if a lesser-value choice makes you happier or suits your situation better, always pick it. These loyalty programs are just about fun in the end, and if you are picking just to min-max without joy, what's the point?

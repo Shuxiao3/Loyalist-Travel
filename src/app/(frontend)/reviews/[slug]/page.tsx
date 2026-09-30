@@ -258,7 +258,7 @@ export default async function ReviewPage({ params }: Props) {
       <main className={styles.body}>
         <div className={`wrap ${styles.bodyWrap}`}>
           <article className={styles.main}>
-            <MobileToc items={[...sections.map((s) => ({ href: `#s-${s.id}`, label: s.title })), ...(elite.length > 0 ? [{ href: '#elite-h', label: 'Elite recognition' }] : []), { href: '#s-verdict', label: 'The verdict' }]} />
+            <MobileToc items={[...sections.map((s) => ({ href: `#s-${s.id}`, label: s.title })), ...(elite.length > 0 ? [{ href: '#elite-h', label: 'Elite recognition' }] : []), { href: '#s-verdict', label: 'The Verdict' }]} />
             {review.openingThoughts && <RichText data={review.openingThoughts} />}
 
             {sections.map((s) => (
@@ -311,7 +311,7 @@ export default async function ReviewPage({ params }: Props) {
               <div className={styles.pc}>
                 {pros.length > 0 && (
                   <div>
-                    <h3>What worked</h3>
+                    <h3>What Worked</h3>
                     <ul>
                       {pros.map((p) => (
                         <li key={p.id ?? p.text}>{p.text}</li>
@@ -321,7 +321,7 @@ export default async function ReviewPage({ params }: Props) {
                 )}
                 {cons.length > 0 && (
                   <div>
-                    <h3>What fell short</h3>
+                    <h3>What Fell Short</h3>
                     <ul>
                       {cons.map((c) => (
                         <li key={c.id ?? c.text}>{c.text}</li>
@@ -333,7 +333,7 @@ export default async function ReviewPage({ params }: Props) {
             )}
 
             <section className={styles.section}>
-              <h2 id="s-verdict">The verdict</h2>
+              <h2 id="s-verdict">The Verdict</h2>
               {review.finalVerdict && <RichText data={review.finalVerdict} />}
               <div className={styles.verdictBand}>
                 <div className={styles.bigWrap}>
@@ -385,7 +385,7 @@ export default async function ReviewPage({ params }: Props) {
                   </li>
                 )}
                 <li>
-                  <a href="#s-verdict">The verdict</a>
+                  <a href="#s-verdict">The Verdict</a>
                 </li>
               </ul>
             </div>
