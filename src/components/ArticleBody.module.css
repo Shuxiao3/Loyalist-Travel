@@ -1,0 +1,31 @@
+/* the "Pro tip" callout inside an article */
+.tip {
+  margin: var(--s6) 0;
+  padding: var(--s5) var(--s5) var(--s5) var(--s6);
+  background: var(--cream);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--gold);
+  border-radius: var(--r);
+}
+
+.tipLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: var(--s3);
+  font-size: var(--t-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--gold-dark);
+}
+
+.tip p {
+  margin: 0;
+  font-size: var(--t-md);
+  line-height: 1.65;
+  color: var(--text);
+}
+
+.tip p + p {
+  margin-top: var(--s3);
+}

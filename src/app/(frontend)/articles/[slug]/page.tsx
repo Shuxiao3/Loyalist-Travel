@@ -5,9 +5,11 @@ import { notFound } from 'next/navigation'
 import { ARTICLE_CATEGORY_LABEL } from '@/collections/Articles'
 import { Comments } from '@/components/Comments'
 import { ReadingProgress } from '@/components/ReadingProgress'
-import { RichText } from '@/components/RichText'
+import { ArticleBody } from '@/components/ArticleBody'
+import { MobileToc } from '@/components/MobileToc'
 import { articleImage, getArticle, getArticles } from '@/lib/articles'
 import { rel, shortDate } from '@/lib/format'
+import { outlineOf } from '@/lib/outline'
 import { SITE } from '@/lib/site'
 import type { Article, Destination, Hotel, Lounge, Program } from '@/payload-types'
 
@@ -39,6 +41,8 @@ export default async function ArticlePage({ params }: Props) {
   const picked = (article.related?.articles ?? []).map((a) => rel<Article>(a)).filter((a): a is Article => Boolean(a))
   const more = picked.length > 0 ? picked : (await getArticles({ limit: 3, category: article.category, excludeId: article.id })).docs
   const fallback = more.length > 0 ? more : (await getArticles({ limit: 3, excludeId: article.id })).docs
+  const outline = outlineOf(article.body)
+  const toc = outline.length >= 2 ? outline.map((h) => ({ href: `#${h.id}`, label: h.text })) : []
 
   return (
     <>
@@ -77,10 +81,23 @@ export default async function ArticlePage({ params }: Props) {
       <main className={styles.body}>
         <div className={`wrap ${styles.bodyWrap}`}>
           <article className={styles.main}>
-            <RichText data={article.body} />
+            {toc.length > 0 && <MobileToc items={toc} />}
+            <ArticleBody data={article.body} />
           </article>
 
           <aside className={styles.side}>
+            {toc.length > 0 && (
+              <div className={`${styles.sideCard} ${styles.tocCard}`}>
+                <span className="eyebrow on-light">On this page</span>
+                <ul className={styles.toc}>
+                  {toc.map((i) => (
+                    <li key={i.href}>
+                      <a href={i.href}>{i.label}</a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
             {(hotels.length > 0 || programs.length > 0 || lounges.length > 0) && (
               <div className={styles.related}>
                 <span className="eyebrow on-light">Mentioned here</span>

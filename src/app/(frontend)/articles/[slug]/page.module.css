@@ -60,6 +60,48 @@
   display: flex;
   flex-direction: column;
   gap: var(--s6);
+  position: sticky;
+  top: calc(76px + var(--s5));
+}
+
+/* headings land below the sticky nav when jumped to */
+.main :global(.prose h2),
+.main :global(.prose h3) {
+  scroll-margin-top: calc(76px + var(--s5));
+}
+
+.sideCard {
+  background: var(--card);
+  border: 1px solid var(--line);
+  padding: var(--s5);
+  border-radius: var(--r);
+}
+
+.sideCard :global(.eyebrow) {
+  display: block;
+  margin-bottom: var(--s4);
+}
+
+.toc {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.toc a {
+  display: block;
+  font-size: var(--t-sm);
+  color: var(--text-2);
+  border-left: 2px solid var(--line-strong);
+  padding-left: 12px;
+}
+
+.toc a:hover {
+  color: var(--heading);
+  border-left-color: var(--gold);
 }
 
 .sideCta {
@@ -129,6 +171,19 @@
 @media (max-width: 1100px) {
   .bodyWrap {
     grid-template-columns: 1fr;
+  }
+
+  .side {
+    position: static;
+  }
+
+  .tocCard {
+    display: none;
+  }
+
+  .main :global(.prose h2),
+  .main :global(.prose h3) {
+    scroll-margin-top: calc(64px + var(--s5));
   }
 }
 
