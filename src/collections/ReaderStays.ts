@@ -1,5 +1,7 @@
 import type { CollectionConfig, PayloadRequest } from 'payload'
 
+import { notifyOnCreate } from '@/lib/notify'
+
 // Reader submissions: dropdown-only, no typing (decision log, content model
 // 4). Hotel and program are prefilled from a hotel page. Aggregates from
 // approved stays are computed in src/lib/readerData.ts and shown publicly
@@ -30,6 +32,7 @@ export const ReaderStays: CollectionConfig = {
         await recount(req, hotelIdOf(doc))
         if (previousDoc && hotelIdOf(previousDoc) !== hotelIdOf(doc)) await recount(req, hotelIdOf(previousDoc))
       },
+      notifyOnCreate('reader-stays'),
     ],
     afterDelete: [async ({ doc, req }) => recount(req, hotelIdOf(doc))],
   },

@@ -3,7 +3,7 @@
 import { useActionState } from 'react'
 
 import { type CommentState, submitComment } from '@/app/actions/submitComment'
-import { COMMENT_MAX } from '@/collections/Comments'
+import { COMMENT_MAX } from '@/lib/commentOptions'
 import type { CommentTarget } from '@/lib/comments'
 import { useReader } from '@/lib/useReader'
 
