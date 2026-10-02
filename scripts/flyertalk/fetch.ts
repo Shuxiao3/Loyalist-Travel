@@ -25,16 +25,20 @@ const arg = (n: string) => {
   const i = args.indexOf(n)
   return i >= 0 ? args[i + 1] : undefined
 }
-const DELAY = Number(arg('--delay') ?? 3000)
+const DELAY = Number(arg('--delay') ?? 8000)
 const BASE = 'https://www.flyertalk.com/forum'
 const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Safari/537.36'
 const RAW = path.resolve(process.cwd(), 'loyalist-pipeline/raw')
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
-async function get(url: string): Promise<{ status: number; body: string; headers: Headers }> {
-  const res = await fetch(url, { headers: { 'user-agent': UA, accept: 'text/html,application/xhtml+xml', 'accept-language': 'en-US,en;q=0.9' }, redirect: 'follow' })
-  return { status: res.status, body: await res.text(), headers: res.headers }
+async function get(url: string, timeoutMs = 90000): Promise<{ status: number; body: string; headers: Headers }> {
+  try {
+    const res = await fetch(url, { headers: { 'user-agent': UA, accept: 'text/html,application/xhtml+xml,application/json', 'accept-language': 'en-US,en;q=0.9' }, redirect: 'follow', signal: AbortSignal.timeout(timeoutMs) })
+    return { status: res.status, body: await res.text(), headers: res.headers }
+  } catch (e) {
+    return { status: 0, body: String((e as Error).message ?? e), headers: new Headers() }
+  }
 }
 
 // ---- tiny DOM helpers over htmlparser2 ----------------------------------------
@@ -133,7 +137,9 @@ type Snap = { ts: string; original: string; page: number; older?: Snap[] }
 // The CDX index is slow and sometimes answers 200 with nothing; ask again.
 async function cdx(pattern: string, extra = ''): Promise<{ ts: string; original: string }[]> {
   const url = `https://web.archive.org/cdx/search/cdx?url=${encodeURIComponent(pattern)}${extra}&filter=statuscode:200&fl=timestamp,original&output=json&limit=5000`
-  for (let attempt = 1; attempt <= 4; attempt++) {
+  const cached = indexCache[url]
+  if (cached) return cached
+  for (let attempt = 1; attempt <= 5; attempt++) {
     const r = await get(url)
     let rows: string[][] = []
     try {
@@ -142,11 +148,28 @@ async function cdx(pattern: string, extra = ''): Promise<{ ts: string; original:
       rows = []
     }
     console.log(`  cdx ${r.status} ${r.body.length}b ${Math.max(0, rows.length - 1)} rows (try ${attempt}) for ${pattern}${extra}${rows.length > 1 ? ` e.g. ${rows[1][0]} ${rows[1][1]}` : ''}`)
-    if (r.status === 200 && rows.length > 1) return rows.slice(1).map(([ts, original]) => ({ ts, original }))
-    if (r.status === 200 && r.body.trim() === '[]') return []
-    await sleep(4000 * attempt)
+    if (r.status === 200 && rows.length > 1) {
+      indexCache[url] = rows.slice(1).map(([ts, original]) => ({ ts, original }))
+      saveIndex()
+      return indexCache[url]
+    }
+    if (r.status === 200 && r.body.trim() === '[]') {
+      indexCache[url] = []
+      saveIndex()
+      return []
+    }
+    // the archive answers an overloaded or throttled client with nothing; wait longer each time
+    await sleep([20, 45, 90, 150, 240][attempt - 1] * 1000)
   }
   return []
+}
+
+// CDX answers, kept in the repo so a rerun never asks the archive twice.
+const INDEX_FILE = path.resolve(process.cwd(), 'loyalist-pipeline/data/flyertalk_archive_index.json')
+const indexCache: Record<string, { ts: string; original: string }[]> = fs.existsSync(INDEX_FILE) ? (JSON.parse(fs.readFileSync(INDEX_FILE, 'utf8')) as Record<string, { ts: string; original: string }[]>) : {}
+function saveIndex() {
+  fs.mkdirSync(path.dirname(INDEX_FILE), { recursive: true })
+  fs.writeFileSync(INDEX_FILE, JSON.stringify(indexCache, null, 1))
 }
 
 function pageOf(original: string): number {
@@ -172,7 +195,7 @@ async function archivedPages(threadId: string): Promise<Snap[]> {
   for (const forum of FORUM_SLUGS) {
     add(await cdx(`flyertalk.com/forum/${forum}/${threadId}-`, '&matchType=prefix'))
     if (found.size) break
-    await sleep(700)
+    await sleep(10000)
   }
   return [...found.values()].sort((a, b) => a.page - b.page)
 }
@@ -184,7 +207,7 @@ async function getArchived(snap: Snap): Promise<string> {
     const ok = r.status === 200 && r.body.length > 2000 && !/Just a moment|challenge-platform/.test(r.body.slice(0, 5000))
     if (ok) return r.body
     console.log(`    archive ${r.status} (${r.body.length} bytes) attempt ${attempt} for page ${snap.page} ${snap.ts}${r.status !== 200 ? ` :: ${r.body.slice(0, 160).replace(/\s+/g, ' ')}` : ''}`)
-    await sleep(2500 * attempt)
+    await sleep([15, 45, 120][attempt - 1] * 1000)
   }
   return ''
 }

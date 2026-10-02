@@ -42,7 +42,7 @@ permissions:
 jobs:
   flyertalk:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 300
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
       PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
@@ -60,6 +60,14 @@ jobs:
       - name: Probe the archive
         if: ${{ github.event.inputs.archive_probe != '' }}
         run: npm run fetch:flyertalk -- --archive-probe "${{ github.event.inputs.archive_probe }}"
+      - name: Keep the archive index
+        if: ${{ github.event.inputs.archive_probe != '' || github.event.inputs.threads != '' }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add loyalist-pipeline/data/flyertalk_archive_index.json || true
+          git commit -m "FlyerTalk archive index" || echo "nothing to commit"
+          for i in 1 2 3 4; do git pull --rebase origin main && git push && break; sleep 10; done
       - name: List a forum
         if: ${{ github.event.inputs.forum != '' }}
         run: |
