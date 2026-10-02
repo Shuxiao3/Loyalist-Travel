@@ -1,0 +1,29 @@
+{
+ "thread_id": "blog-park-hyatt-kyoto",
+ "page": 4,
+ "page_fingerprint": "560856dd4d6b",
+ "model": "muse-browser",
+ "prompt_fingerprint": "0c1044f07558",
+ "extracted_at": "2026-10-02T16:15:00+00:00",
+ "posts": 1,
+ "stays": [
+  {
+   "post_id": "blog-awardtravel-explorist",
+   "stay_month": "",
+   "status_held": "hyatt-explorist",
+   "room_booked": "Standard two twin bed room",
+   "room_received": "One king bed garden terrace room (corner)",
+   "upgrade": "yes",
+   "upgrade_type": "category",
+   "suite_type": "",
+   "upgrade_how": "proactive",
+   "breakfast": "full",
+   "lounge_access": "unknown",
+   "late_checkout": "unknown",
+   "welcome_amenity": "given",
+   "sentiment": "positive",
+   "confidence": "medium",
+   "summary": "An Explorist traveling with a companion booked a standard twin room on points and was proactively offered one of the two corner garden-terrace rooms at check-in. The single king bed was a wrinkle for two travelers sharing, solved with a rollaway. Service was described as extraordinary, with seated check-in, champagne, and a personal property tour from the manager."
+  }
+ ]
+}

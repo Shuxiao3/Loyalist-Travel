@@ -1,0 +1,29 @@
+{
+ "thread_id": "1801359",
+ "page": 1,
+ "page_fingerprint": "f3e851fd6ce3",
+ "model": "muse-browser",
+ "prompt_fingerprint": "0c1044f07558",
+ "extracted_at": "2026-10-02T16:15:00+00:00",
+ "posts": 1,
+ "stays": [
+  {
+   "post_id": "ft1801359-p41-a",
+   "stay_month": "2020-01",
+   "status_held": "hyatt-globalist",
+   "room_booked": "Base room (points)",
+   "room_received": "Garden room",
+   "upgrade": "yes",
+   "upgrade_type": "category",
+   "suite_type": "",
+   "upgrade_how": "proactive",
+   "breakfast": "unknown",
+   "lounge_access": "unknown",
+   "late_checkout": "unknown",
+   "welcome_amenity": "unknown",
+   "sentiment": "mixed",
+   "confidence": "high",
+   "summary": "A Globalist's partner stayed one award night during the New Year hatsumode peak and received a one-category complimentary bump from the base room to a garden-facing room. Arrival service was described as underwhelming, with little information offered about breakfast options."
+  }
+ ]
+}

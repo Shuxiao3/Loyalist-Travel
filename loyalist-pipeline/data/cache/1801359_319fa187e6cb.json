@@ -1,0 +1,29 @@
+{
+ "thread_id": "1801359",
+ "page": 5,
+ "page_fingerprint": "319fa187e6cb",
+ "model": "muse-browser",
+ "prompt_fingerprint": "0c1044f07558",
+ "extracted_at": "2026-10-02T16:15:00+00:00",
+ "posts": 1,
+ "stays": [
+  {
+   "post_id": "ft1801359-p80-a",
+   "stay_month": "2024-07",
+   "status_held": "unknown",
+   "room_booked": "",
+   "room_received": "Park Suite",
+   "upgrade": "award",
+   "upgrade_type": "suite",
+   "suite_type": "one-bedroom",
+   "upgrade_how": "",
+   "breakfast": "unknown",
+   "lounge_access": "unknown",
+   "late_checkout": "unknown",
+   "welcome_amenity": "unknown",
+   "sentiment": "positive",
+   "confidence": "medium",
+   "summary": "A guest on a five-night stay used a suite upgrade award to secure a Park Suite with a large private garden during the Gion Matsuri festival period. Service was rated excellent, though the paid Japanese breakfast surcharge was seen as poor value."
+  }
+ ]
+}

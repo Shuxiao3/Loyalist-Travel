@@ -1,0 +1,51 @@
+### THREAD blog-park-hyatt-kyoto
+### THREAD_TITLE Park Hyatt Kyoto blog reviews (browser collection)
+### THREAD_URL https://www.loyalisttravel.com/hotels/park-hyatt-kyoto
+### GRABBED_AT 2026-10-02T16:15:00+00:00
+### SOURCE Blog
+### HOTEL Park Hyatt Kyoto
+### HOTEL_SLUG park-hyatt-kyoto
+### CITY Kyoto
+### COUNTRY Japan
+### PROGRAM World of Hyatt
+### BRAND Park Hyatt
+
+### PAGE 1
+--- POST blog-shutterwhale-202311
+DATE: 2023-11-19
+URL: https://theshutterwhale.com/blog/2023/11/19/hotel-review-park-hyatt-kyoto-king-bed-garden-terrace-luxury-property-in-the-higashiyama-ward
+BODY:
+[Browser-extracted paraphrase; not verbatim post text] A Globalist celebrating a birthday received a two-category complimentary upgrade from a base King room to a corner King Bed Garden Terrace room with a private Japanese garden. The hotel also left a birthday cake and tote bag as a welcome amenity. The reviewer noted suite upgrades are rare at this property.
+--- END POST
+
+### PAGE 2
+--- POST blog-hyattenthusiast-202407
+DATE: 2024-07-08
+URL: https://thehyattenthusiast.com/2024/07/08/a-timeless-journey-through-japans-cultural-heart-a-review-of-the-park-hyatt-kyoto/
+BODY:
+[Browser-extracted paraphrase; not verbatim post text] A Globalist couple booked on points at the last minute and were upgraded to a King Bed Garden Terrace room with a private zen garden. Complimentary Globalist breakfast was provided, and a welcome fruit basket was waiting in the room.
+--- END POST
+
+### PAGE 3
+--- POST blog-onpointswithkids-202410
+DATE: 2024-10-01
+URL: https://onpointswithkids.com/2024/10/park-hyatt-kyoto-review/
+BODY:
+[Browser-extracted paraphrase; not verbatim post text] A Globalist family on a five-night points stay was offered two complimentary upgrade choices at check-in and selected the King Bed Garden Terrace, two categories above the booked standard room. Suite upgrade awards could not be used as no standard suites were available. Complimentary breakfast for the whole family was provided.
+--- END POST
+
+### PAGE 4
+--- POST blog-awardtravel-explorist
+DATE: 
+URL: https://www.awardtravel.co/blog/park-hyatt-kyoto
+BODY:
+[Browser-extracted paraphrase; not verbatim post text] An Explorist traveling with a companion booked a standard twin room on points and was proactively offered one of the two corner garden-terrace rooms at check-in. The single king bed was a wrinkle for two travelers sharing, solved with a rollaway. Service was described as extraordinary, with seated check-in, champagne, and a personal property tour from the manager.
+--- END POST
+
+### PAGE 5
+--- POST blog-thriftytraveler-202310
+DATE: 
+URL: https://thriftytraveler.com/reviews/hotels/park-hyatt-kyoto/
+BODY:
+[Browser-extracted paraphrase; not verbatim post text] An Explorist and a Globalist companion each booked standard rooms on points for a two-night October stay and neither received any upgrade. The reviewer explicitly warned not to count on upgrades at any Hyatt tier at this 70-room property. Check-in itself was rated excellent with welcome drinks, and the 45 sqm standard room was praised as spacious and tranquil.
+--- END POST

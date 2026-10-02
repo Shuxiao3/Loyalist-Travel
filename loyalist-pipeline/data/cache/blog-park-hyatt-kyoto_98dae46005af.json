@@ -1,0 +1,29 @@
+{
+ "thread_id": "blog-park-hyatt-kyoto",
+ "page": 5,
+ "page_fingerprint": "98dae46005af",
+ "model": "muse-browser",
+ "prompt_fingerprint": "0c1044f07558",
+ "extracted_at": "2026-10-02T16:15:00+00:00",
+ "posts": 1,
+ "stays": [
+  {
+   "post_id": "blog-thriftytraveler-202310",
+   "stay_month": "2023-10",
+   "status_held": "hyatt-explorist",
+   "room_booked": "Standard double queen room",
+   "room_received": "Standard double queen room (6th floor)",
+   "upgrade": "none",
+   "upgrade_type": "",
+   "suite_type": "",
+   "upgrade_how": "",
+   "breakfast": "unknown",
+   "lounge_access": "unknown",
+   "late_checkout": "unknown",
+   "welcome_amenity": "unknown",
+   "sentiment": "mixed",
+   "confidence": "high",
+   "summary": "An Explorist and a Globalist companion each booked standard rooms on points for a two-night October stay and neither received any upgrade. The reviewer explicitly warned not to count on upgrades at any Hyatt tier at this 70-room property. Check-in itself was rated excellent with welcome drinks, and the 45 sqm standard room was praised as spacious and tranquil."
+  }
+ ]
+}

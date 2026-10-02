@@ -1,0 +1,29 @@
+{
+ "thread_id": "1801359",
+ "page": 2,
+ "page_fingerprint": "1fd2ab7d38f5",
+ "model": "muse-browser",
+ "prompt_fingerprint": "0c1044f07558",
+ "extracted_at": "2026-10-02T16:15:00+00:00",
+ "posts": 1,
+ "stays": [
+  {
+   "post_id": "ft1801359-p41-b",
+   "stay_month": "2020-01",
+   "status_held": "hyatt-globalist",
+   "room_booked": "Base King (points)",
+   "room_received": "Park Suite",
+   "upgrade": "yes",
+   "upgrade_type": "suite",
+   "suite_type": "one-bedroom",
+   "upgrade_how": "proactive",
+   "breakfast": "unknown",
+   "lounge_access": "unknown",
+   "late_checkout": "honoured",
+   "welcome_amenity": "unknown",
+   "sentiment": "mixed",
+   "confidence": "high",
+   "summary": "A Globalist on a two-night points stay arrived around midnight and was moved the next morning into the last available Park Suite as a complimentary upgrade, after staff initially offered a smaller view room. The original room was also granted a 2pm late checkout."
+  }
+ ]
+}
