@@ -130,17 +130,23 @@ const FORUM_SLUGS = ['hyatt-world-hyatt', 'marriott-marriott-bonvoy', 'hilton-hi
 
 type Snap = { ts: string; original: string; page: number; older?: Snap[] }
 
+// The CDX index is slow and sometimes answers 200 with nothing; ask again.
 async function cdx(pattern: string, extra = ''): Promise<{ ts: string; original: string }[]> {
   const url = `https://web.archive.org/cdx/search/cdx?url=${encodeURIComponent(pattern)}${extra}&filter=statuscode:200&fl=timestamp,original&output=json&limit=5000`
-  const r = await get(url)
-  let rows: string[][] = []
-  try {
-    rows = r.body.trim() ? (JSON.parse(r.body) as string[][]) : []
-  } catch {
-    rows = []
+  for (let attempt = 1; attempt <= 4; attempt++) {
+    const r = await get(url)
+    let rows: string[][] = []
+    try {
+      rows = r.body.trim() ? (JSON.parse(r.body) as string[][]) : []
+    } catch {
+      rows = []
+    }
+    console.log(`  cdx ${r.status} ${r.body.length}b ${Math.max(0, rows.length - 1)} rows (try ${attempt}) for ${pattern}${extra}${rows.length > 1 ? ` e.g. ${rows[1][0]} ${rows[1][1]}` : ''}`)
+    if (r.status === 200 && rows.length > 1) return rows.slice(1).map(([ts, original]) => ({ ts, original }))
+    if (r.status === 200 && r.body.trim() === '[]') return []
+    await sleep(4000 * attempt)
   }
-  console.log(`  cdx ${r.status} ${Math.max(0, rows.length - 1)} rows for ${pattern}${extra}${rows.length > 1 ? ` e.g. ${rows[1][0]} ${rows[1][1]}` : r.status !== 200 ? ` :: ${r.body.slice(0, 200).replace(/\s+/g, ' ')}` : ''}`)
-  return r.status === 200 ? rows.slice(1).map(([ts, original]) => ({ ts, original })) : []
+  return []
 }
 
 function pageOf(original: string): number {
