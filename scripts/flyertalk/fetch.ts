@@ -128,18 +128,16 @@ function render(thread: { id: string; title: string; total: number }, pages: { p
 type Snap = { ts: string; original: string; page: number }
 
 async function cdx(pattern: string, extra = ''): Promise<{ ts: string; original: string }[]> {
-  const url = `https://web.archive.org/cdx/search/cdx?url=${encodeURIComponent(pattern)}${extra}&filter=statuscode:200&filter=mimetype:text/html&fl=timestamp,original&output=json&limit=5000`
+  const url = `https://web.archive.org/cdx/search/cdx?url=${encodeURIComponent(pattern)}${extra}&filter=statuscode:200&fl=timestamp,original&output=json&limit=5000`
   const r = await get(url)
-  if (r.status !== 200) {
-    console.log(`cdx ${r.status} for ${pattern}`)
-    return []
-  }
+  let rows: string[][] = []
   try {
-    const rows = JSON.parse(r.body) as string[][]
-    return rows.slice(1).map(([ts, original]) => ({ ts, original }))
+    rows = r.body.trim() ? (JSON.parse(r.body) as string[][]) : []
   } catch {
-    return []
+    rows = []
   }
+  console.log(`  cdx ${r.status} ${Math.max(0, rows.length - 1)} rows for ${pattern}${extra}${rows.length > 1 ? ` e.g. ${rows[1][0]} ${rows[1][1]}` : r.status !== 200 ? ` :: ${r.body.slice(0, 200).replace(/\s+/g, ' ')}` : ''}`)
+  return r.status === 200 ? rows.slice(1).map(([ts, original]) => ({ ts, original })) : []
 }
 
 function pageOf(original: string): number {
@@ -160,7 +158,14 @@ async function archivedPages(threadId: string): Promise<Snap[]> {
   }
   add(await cdx(`flyertalk.com/forum/showthread.php?t=${threadId}`, '&matchType=prefix'))
   await sleep(1000)
-  add(await cdx(`flyertalk.com/forum/*/${threadId}-*`, ''))
+  add(await cdx(`www.flyertalk.com/forum/showthread.php?t=${threadId}`, '&matchType=prefix'))
+  await sleep(1000)
+  for (const forum of ['hyatt-world-hyatt', 'hyatt-gold-passport', 'marriott-marriott-bonvoy', 'hilton-hilton-honors', 'intercontinental-hotels-ihg-one-rewards']) {
+    add(await cdx(`flyertalk.com/forum/${forum}/${threadId}-`, '&matchType=prefix'))
+    await sleep(700)
+  }
+  // last resort: everything the archive holds under the forum that names this thread
+  add(await cdx(`flyertalk.com/forum/`, `&matchType=prefix&filter=original:.*${threadId}.*&from=2012`))
   return [...found.values()].sort((a, b) => a.page - b.page)
 }
 
@@ -170,6 +175,9 @@ async function getArchived(snap: Snap): Promise<string> {
 }
 
 async function archiveProbe(threadId: string) {
+  console.log('is flyertalk archived at all?')
+  await cdx('flyertalk.com/forum/', '&from=2024&limit=3')
+  await cdx('flyertalk.com/forum/showthread.php', '&matchType=prefix&from=2024&limit=3')
   const snaps = await archivedPages(threadId)
   console.log(`${snaps.length} archived page(s) for thread ${threadId}`)
   for (const s of snaps.slice(0, 60)) console.log(`  page ${String(s.page).padStart(3)}  ${s.ts}  ${s.original}`)
