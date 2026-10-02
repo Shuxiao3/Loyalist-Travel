@@ -1,0 +1,29 @@
+{
+ "thread_id": "blog-park-hyatt-kyoto",
+ "page": 1,
+ "page_fingerprint": "cc6d954270b0",
+ "model": "muse-browser",
+ "prompt_fingerprint": "0c1044f07558",
+ "extracted_at": "2026-10-02T16:15:00+00:00",
+ "posts": 1,
+ "stays": [
+  {
+   "post_id": "blog-shutterwhale-202311",
+   "stay_month": "2023-11",
+   "status_held": "hyatt-globalist",
+   "room_booked": "King Bed",
+   "room_received": "King Bed Garden Terrace (corner)",
+   "upgrade": "yes",
+   "upgrade_type": "category",
+   "suite_type": "",
+   "upgrade_how": "proactive",
+   "breakfast": "unknown",
+   "lounge_access": "unknown",
+   "late_checkout": "unknown",
+   "welcome_amenity": "given",
+   "sentiment": "positive",
+   "confidence": "high",
+   "summary": "A Globalist celebrating a birthday received a two-category complimentary upgrade from a base King room to a corner King Bed Garden Terrace room with a private Japanese garden. The hotel also left a birthday cake and tote bag as a welcome amenity. The reviewer noted suite upgrades are rare at this property."
+  }
+ ]
+}

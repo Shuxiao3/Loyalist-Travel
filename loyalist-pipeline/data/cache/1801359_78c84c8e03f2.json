@@ -1,0 +1,29 @@
+{
+ "thread_id": "1801359",
+ "page": 3,
+ "page_fingerprint": "78c84c8e03f2",
+ "model": "muse-browser",
+ "prompt_fingerprint": "0c1044f07558",
+ "extracted_at": "2026-10-02T16:15:00+00:00",
+ "posts": 1,
+ "stays": [
+  {
+   "post_id": "ft1801359-p44-a",
+   "stay_month": "2020-08",
+   "status_held": "unknown",
+   "room_booked": "",
+   "room_received": "Ninenzaka House (corner suite)",
+   "upgrade": "unknown",
+   "upgrade_type": "",
+   "suite_type": "",
+   "upgrade_how": "",
+   "breakfast": "unknown",
+   "lounge_access": "unknown",
+   "late_checkout": "unknown",
+   "welcome_amenity": "unknown",
+   "sentiment": "positive",
+   "confidence": "medium",
+   "summary": "A guest stayed in the Ninenzaka House corner premium suite and was thoroughly impressed by the property's service and design. The corner suite's street-facing exposure drew some criticism, with passersby able to see in. Elite status and booking details were not stated."
+  }
+ ]
+}

@@ -1,0 +1,29 @@
+{
+ "thread_id": "1801359",
+ "page": 6,
+ "page_fingerprint": "1e2fa3ebade9",
+ "model": "muse-browser",
+ "prompt_fingerprint": "0c1044f07558",
+ "extracted_at": "2026-10-02T16:15:00+00:00",
+ "posts": 1,
+ "stays": [
+  {
+   "post_id": "ft1801359-p94-a",
+   "stay_month": "2024-11",
+   "status_held": "hyatt-globalist",
+   "room_booked": "",
+   "room_received": "Yasaka view room",
+   "upgrade": "yes",
+   "upgrade_type": "view",
+   "suite_type": "",
+   "upgrade_how": "proactive",
+   "breakfast": "unknown",
+   "lounge_access": "unknown",
+   "late_checkout": "unknown",
+   "welcome_amenity": "unknown",
+   "sentiment": "positive",
+   "confidence": "medium",
+   "summary": "A Globalist guest reported being treated well, receiving a complimentary upgrade to a room with a Yasaka pagoda view along with the property's champagne happy hour. Early-morning temple visits were called out as a highlight."
+  }
+ ]
+}

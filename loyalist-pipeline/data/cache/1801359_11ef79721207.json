@@ -1,0 +1,29 @@
+{
+ "thread_id": "1801359",
+ "page": 4,
+ "page_fingerprint": "11ef79721207",
+ "model": "muse-browser",
+ "prompt_fingerprint": "0c1044f07558",
+ "extracted_at": "2026-10-02T16:15:00+00:00",
+ "posts": 1,
+ "stays": [
+  {
+   "post_id": "ft1801359-p66-a",
+   "stay_month": "2023-11",
+   "status_held": "unknown",
+   "room_booked": "Park Suite",
+   "room_received": "Park Suite (room 209)",
+   "upgrade": "none",
+   "upgrade_type": "",
+   "suite_type": "",
+   "upgrade_how": "",
+   "breakfast": "unknown",
+   "lounge_access": "unknown",
+   "late_checkout": "unknown",
+   "welcome_amenity": "unknown",
+   "sentiment": "positive",
+   "confidence": "medium",
+   "summary": "A guest on a three-night stay during peak autumn foliage season had booked a Park Suite outright and received room 209, one of the hotel's two Park Suites. No further upgrade was offered given near-full occupancy."
+  }
+ ]
+}

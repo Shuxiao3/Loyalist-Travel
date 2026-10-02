@@ -1,0 +1,29 @@
+{
+ "thread_id": "blog-park-hyatt-kyoto",
+ "page": 3,
+ "page_fingerprint": "b1156e0427fb",
+ "model": "muse-browser",
+ "prompt_fingerprint": "0c1044f07558",
+ "extracted_at": "2026-10-02T16:15:00+00:00",
+ "posts": 1,
+ "stays": [
+  {
+   "post_id": "blog-onpointswithkids-202410",
+   "stay_month": "2024-09",
+   "status_held": "hyatt-globalist",
+   "room_booked": "Standard 1 King Bed (points)",
+   "room_received": "1 King Bed Garden Terrace",
+   "upgrade": "yes",
+   "upgrade_type": "category",
+   "suite_type": "",
+   "upgrade_how": "proactive",
+   "breakfast": "full",
+   "lounge_access": "unknown",
+   "late_checkout": "unknown",
+   "welcome_amenity": "given",
+   "sentiment": "positive",
+   "confidence": "high",
+   "summary": "A Globalist family on a five-night points stay was offered two complimentary upgrade choices at check-in and selected the King Bed Garden Terrace, two categories above the booked standard room. Suite upgrade awards could not be used as no standard suites were available. Complimentary breakfast for the whole family was provided."
+  }
+ ]
+}

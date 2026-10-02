@@ -1,0 +1,29 @@
+{
+ "thread_id": "blog-park-hyatt-kyoto",
+ "page": 2,
+ "page_fingerprint": "3effd5a56292",
+ "model": "muse-browser",
+ "prompt_fingerprint": "0c1044f07558",
+ "extracted_at": "2026-10-02T16:15:00+00:00",
+ "posts": 1,
+ "stays": [
+  {
+   "post_id": "blog-hyattenthusiast-202407",
+   "stay_month": "",
+   "status_held": "hyatt-globalist",
+   "room_booked": "Base room (points)",
+   "room_received": "King Bed Garden Terrace",
+   "upgrade": "yes",
+   "upgrade_type": "category",
+   "suite_type": "",
+   "upgrade_how": "proactive",
+   "breakfast": "full",
+   "lounge_access": "unknown",
+   "late_checkout": "unknown",
+   "welcome_amenity": "given",
+   "sentiment": "positive",
+   "confidence": "high",
+   "summary": "A Globalist couple booked on points at the last minute and were upgraded to a King Bed Garden Terrace room with a private zen garden. Complimentary Globalist breakfast was provided, and a welcome fruit basket was waiting in the room."
+  }
+ ]
+}
