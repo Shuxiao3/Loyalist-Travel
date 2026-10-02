@@ -1,0 +1,80 @@
+# Reads FlyerTalk from the GitHub runner (the sandbox cannot reach it).
+#
+# Manual: Actions tab → "Fetch FlyerTalk" → Run workflow.
+#   probe:   a thread id. Prints how the page is built; writes nothing.
+#   forum:   a forum id. Lists its thread titles and ids into
+#            loyalist-pipeline/data/flyertalk_forum_<id>.csv and commits it.
+#   threads: comma-separated thread ids to grab into raw/ (not committed),
+#            then extract and import, like the Sourced reports workflow.
+name: Fetch FlyerTalk
+
+on:
+  workflow_dispatch:
+    inputs:
+      probe:
+        description: 'Thread id to probe (prints the markup report)'
+        required: false
+        default: ''
+      forum:
+        description: 'Forum id to list threads from'
+        required: false
+        default: ''
+      pages:
+        description: 'Listing pages to read for forum mode'
+        required: false
+        default: '3'
+      threads:
+        description: 'Thread ids to grab, comma-separated'
+        required: false
+        default: ''
+      last_pages:
+        description: 'Pages per thread, counting back from the newest'
+        required: false
+        default: '5'
+
+permissions:
+  contents: write
+
+jobs:
+  flyertalk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Probe
+        if: ${{ github.event.inputs.probe != '' }}
+        run: npm run fetch:flyertalk -- --probe "${{ github.event.inputs.probe }}"
+      - name: List a forum
+        if: ${{ github.event.inputs.forum != '' }}
+        run: |
+          npm run fetch:flyertalk -- --forum "${{ github.event.inputs.forum }}" --pages "${{ github.event.inputs.pages }}"
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add loyalist-pipeline/data/flyertalk_forum_*.csv
+          git commit -m "FlyerTalk thread list" || echo "nothing to commit"
+          for i in 1 2 3 4; do git pull --rebase origin main && git push && break; sleep 10; done
+      - name: Grab threads
+        if: ${{ github.event.inputs.threads != '' }}
+        run: npm run fetch:flyertalk -- --threads "${{ github.event.inputs.threads }}" --last-pages "${{ github.event.inputs.last_pages }}"
+      - name: Extract and import
+        if: ${{ github.event.inputs.threads != '' }}
+        run: |
+          if [ -z "$ANTHROPIC_API_KEY" ]; then echo "::error::ANTHROPIC_API_KEY is not set"; exit 1; fi
+          pip install anthropic
+          cd loyalist-pipeline && python 2_extract.py --model claude-sonnet-5 && cd ..
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add loyalist-pipeline/data/data_points.csv loyalist-pipeline/data/cache
+          git commit -m "Sourced reports: FlyerTalk extraction results" || echo "nothing to commit"
+          for i in 1 2 3 4; do git pull --rebase origin main && git push && break; sleep 10; done
+          npm run migrate
+          npm run import:webflow -- sourced-reports
