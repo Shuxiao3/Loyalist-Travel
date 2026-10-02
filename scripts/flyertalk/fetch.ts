@@ -125,7 +125,10 @@ function render(thread: { id: string; title: string; total: number }, pages: { p
 // flyertalk.com sits behind a Cloudflare challenge, so the runner reads the
 // Wayback Machine's copies instead. A thread lives at two kinds of address:
 // showthread.php?t=<id>[&page=N] and the pretty /forum/<forum>/<id>-<slug>[-N].html.
-type Snap = { ts: string; original: string; page: number }
+// FlyerTalk's hotel-programme forums, as their address slugs. Tried in order until one has the thread.
+const FORUM_SLUGS = ['hyatt-world-hyatt', 'marriott-marriott-bonvoy', 'hilton-hilton-honors', 'intercontinental-hotels-ihg-one-rewards', 'hotel-deals', 'luxury-hotels-travel']
+
+type Snap = { ts: string; original: string; page: number; older?: Snap[] }
 
 async function cdx(pattern: string, extra = ''): Promise<{ ts: string; original: string }[]> {
   const url = `https://web.archive.org/cdx/search/cdx?url=${encodeURIComponent(pattern)}${extra}&filter=statuscode:200&fl=timestamp,original&output=json&limit=5000`
@@ -153,31 +156,34 @@ async function archivedPages(threadId: string): Promise<Snap[]> {
       const page = pageOf(r.original)
       const key = String(page)
       const prev = found.get(key)
-      if (!prev || r.ts > prev.ts) found.set(key, { ts: r.ts, original: r.original, page })
+      if (!prev || r.ts > prev.ts) found.set(key, { ts: r.ts, original: r.original, page, older: [...(prev ? [prev, ...(prev.older ?? [])] : [])] })
+      else prev.older = [...(prev.older ?? []), { ts: r.ts, original: r.original, page }]
     }
   }
-  add(await cdx(`flyertalk.com/forum/showthread.php?t=${threadId}`, '&matchType=prefix'))
-  await sleep(1000)
-  add(await cdx(`www.flyertalk.com/forum/showthread.php?t=${threadId}`, '&matchType=prefix'))
-  await sleep(1000)
-  for (const forum of ['hyatt-world-hyatt', 'hyatt-gold-passport', 'marriott-marriott-bonvoy', 'hilton-hilton-honors', 'intercontinental-hotels-ihg-one-rewards']) {
+  // The archive holds threads under their pretty address,
+  // /forum/<forum-slug>/<id>-<title>[-N].html. The showthread.php form is
+  // never captured, and a regex over the whole forum times out.
+  for (const forum of FORUM_SLUGS) {
     add(await cdx(`flyertalk.com/forum/${forum}/${threadId}-`, '&matchType=prefix'))
+    if (found.size) break
     await sleep(700)
   }
-  // last resort: everything the archive holds under the forum that names this thread
-  add(await cdx(`flyertalk.com/forum/`, `&matchType=prefix&filter=original:.*${threadId}.*&from=2012`))
   return [...found.values()].sort((a, b) => a.page - b.page)
 }
 
 async function getArchived(snap: Snap): Promise<string> {
-  const r = await get(`https://web.archive.org/web/${snap.ts}id_/${snap.original}`)
-  return r.status === 200 ? r.body : ''
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    const url = `https://web.archive.org/web/${snap.ts}id_/${snap.original}`
+    const r = await get(url)
+    const ok = r.status === 200 && r.body.length > 2000 && !/Just a moment|challenge-platform/.test(r.body.slice(0, 5000))
+    if (ok) return r.body
+    console.log(`    archive ${r.status} (${r.body.length} bytes) attempt ${attempt} for page ${snap.page} ${snap.ts}${r.status !== 200 ? ` :: ${r.body.slice(0, 160).replace(/\s+/g, ' ')}` : ''}`)
+    await sleep(2500 * attempt)
+  }
+  return ''
 }
 
 async function archiveProbe(threadId: string) {
-  console.log('is flyertalk archived at all?')
-  await cdx('flyertalk.com/forum/', '&from=2024&limit=3')
-  await cdx('flyertalk.com/forum/showthread.php', '&matchType=prefix&from=2024&limit=3')
   const snaps = await archivedPages(threadId)
   console.log(`${snaps.length} archived page(s) for thread ${threadId}`)
   for (const s of snaps.slice(0, 60)) console.log(`  page ${String(s.page).padStart(3)}  ${s.ts}  ${s.original}`)
@@ -211,7 +217,11 @@ async function grabArchived(ids: string[], lastPages: number) {
     let title = ''
     for (const s of wanted) {
       await sleep(DELAY)
-      const body = await getArchived(s)
+      let body = await getArchived(s)
+      for (const o of (s.older ?? []).sort((x, y) => (y.ts > x.ts ? 1 : -1)).slice(0, 2)) {
+        if (body) break
+        body = await getArchived(o)
+      }
       if (!body) {
         console.log(`  page ${s.page}: archive fetch failed`)
         continue
