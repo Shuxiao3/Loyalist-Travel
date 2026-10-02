@@ -12,7 +12,11 @@ on:
   workflow_dispatch:
     inputs:
       probe:
-        description: 'Thread id to probe (prints the markup report)'
+        description: 'Thread id to probe directly (prints the markup report)'
+        required: false
+        default: ''
+      archive_probe:
+        description: 'Thread id to probe through the Internet Archive'
         required: false
         default: ''
       forum:
@@ -53,6 +57,9 @@ jobs:
       - name: Probe
         if: ${{ github.event.inputs.probe != '' }}
         run: npm run fetch:flyertalk -- --probe "${{ github.event.inputs.probe }}"
+      - name: Probe the archive
+        if: ${{ github.event.inputs.archive_probe != '' }}
+        run: npm run fetch:flyertalk -- --archive-probe "${{ github.event.inputs.archive_probe }}"
       - name: List a forum
         if: ${{ github.event.inputs.forum != '' }}
         run: |
@@ -64,7 +71,7 @@ jobs:
           for i in 1 2 3 4; do git pull --rebase origin main && git push && break; sleep 10; done
       - name: Grab threads
         if: ${{ github.event.inputs.threads != '' }}
-        run: npm run fetch:flyertalk -- --threads "${{ github.event.inputs.threads }}" --last-pages "${{ github.event.inputs.last_pages }}"
+        run: npm run fetch:flyertalk -- --threads "${{ github.event.inputs.threads }}" --last-pages "${{ github.event.inputs.last_pages }}" --archive
       - name: Extract and import
         if: ${{ github.event.inputs.threads != '' }}
         run: |

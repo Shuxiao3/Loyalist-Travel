@@ -120,6 +120,110 @@ function render(thread: { id: string; title: string; total: number }, pages: { p
   return lines.join('\n')
 }
 
+
+// ---- Internet Archive ------------------------------------------------------------
+// flyertalk.com sits behind a Cloudflare challenge, so the runner reads the
+// Wayback Machine's copies instead. A thread lives at two kinds of address:
+// showthread.php?t=<id>[&page=N] and the pretty /forum/<forum>/<id>-<slug>[-N].html.
+type Snap = { ts: string; original: string; page: number }
+
+async function cdx(pattern: string, extra = ''): Promise<{ ts: string; original: string }[]> {
+  const url = `https://web.archive.org/cdx/search/cdx?url=${encodeURIComponent(pattern)}${extra}&filter=statuscode:200&filter=mimetype:text/html&fl=timestamp,original&output=json&limit=5000`
+  const r = await get(url)
+  if (r.status !== 200) {
+    console.log(`cdx ${r.status} for ${pattern}`)
+    return []
+  }
+  try {
+    const rows = JSON.parse(r.body) as string[][]
+    return rows.slice(1).map(([ts, original]) => ({ ts, original }))
+  } catch {
+    return []
+  }
+}
+
+function pageOf(original: string): number {
+  const m = original.match(/[?&]page=(\d+)/) ?? original.match(/-(\d+)\.html/)
+  return m ? Number(m[1]) : 1
+}
+
+async function archivedPages(threadId: string): Promise<Snap[]> {
+  const found = new Map<string, Snap>()
+  const add = (rows: { ts: string; original: string }[]) => {
+    for (const r of rows) {
+      if (!r.original.includes(threadId)) continue
+      const page = pageOf(r.original)
+      const key = String(page)
+      const prev = found.get(key)
+      if (!prev || r.ts > prev.ts) found.set(key, { ts: r.ts, original: r.original, page })
+    }
+  }
+  add(await cdx(`flyertalk.com/forum/showthread.php?t=${threadId}`, '&matchType=prefix'))
+  await sleep(1000)
+  add(await cdx(`flyertalk.com/forum/*/${threadId}-*`, ''))
+  return [...found.values()].sort((a, b) => a.page - b.page)
+}
+
+async function getArchived(snap: Snap): Promise<string> {
+  const r = await get(`https://web.archive.org/web/${snap.ts}id_/${snap.original}`)
+  return r.status === 200 ? r.body : ''
+}
+
+async function archiveProbe(threadId: string) {
+  const snaps = await archivedPages(threadId)
+  console.log(`${snaps.length} archived page(s) for thread ${threadId}`)
+  for (const s of snaps.slice(0, 60)) console.log(`  page ${String(s.page).padStart(3)}  ${s.ts}  ${s.original}`)
+  const pick = snaps[snaps.length - 1]
+  if (!pick) return
+  console.log(`\nfetching the newest, page ${pick.page} as of ${pick.ts}`)
+  const body = await getArchived(pick)
+  const doc = parseDocument(body).children
+  console.log(`title: ${threadTitle(doc)}; ${body.length} bytes; page count text: ${(body.match(/Page\s+\d+\s+of\s+[\d,]+/i) ?? ['not found'])[0]}; totalPages() => ${totalPages(doc)}`)
+  const posts = parsePosts(doc, threadId)
+  console.log(`parsePosts => ${posts.length} posts`)
+  for (const p of posts.slice(0, 3)) console.log(`  #${p.number} ${p.postId} ${p.date} | ${p.text.slice(0, 160).replace(/\n/g, ' ')}`)
+  if (!posts.length) {
+    const j = body.search(/post_message_|postbit|<article|js-post/)
+    console.log('\n--- sample ---')
+    console.log(j >= 0 ? body.slice(Math.max(0, j - 1500), j + 1500) : body.slice(0, 3000))
+  }
+}
+
+async function grabArchived(ids: string[], lastPages: number) {
+  fs.mkdirSync(RAW, { recursive: true })
+  for (const id of ids) {
+    const snaps = await archivedPages(id)
+    if (!snaps.length) {
+      console.log(`${id}: nothing archived`)
+      continue
+    }
+    const total = Math.max(...snaps.map((s) => s.page))
+    const wanted = snaps.filter((s) => s.page > total - lastPages)
+    const pages: { page: number; posts: Post[] }[] = []
+    let title = ''
+    for (const s of wanted) {
+      await sleep(DELAY)
+      const body = await getArchived(s)
+      if (!body) {
+        console.log(`  page ${s.page}: archive fetch failed`)
+        continue
+      }
+      const doc = parseDocument(body).children
+      title = title || threadTitle(doc)
+      const posts = parsePosts(doc, id)
+      console.log(`  page ${s.page} (${s.ts.slice(0, 8)}): ${posts.length} posts`)
+      pages.push({ page: s.page, posts })
+    }
+    const n = pages.reduce((a, p) => a + p.posts.length, 0)
+    if (!n) {
+      console.log(`${id}: nothing parsed, no file written`)
+      continue
+    }
+    fs.writeFileSync(path.join(RAW, `ft_${id}.txt`), render({ id, title, total }, pages))
+    console.log(`${id}: "${title}" wrote ft_${id}.txt (${n} posts from ${pages.length} archived pages of ${total})`)
+  }
+}
+
 // ---- modes ---------------------------------------------------------------------
 async function probe(threadId: string) {
   const url = `${BASE}/showthread.php?t=${threadId}`
@@ -211,9 +315,11 @@ async function forum(forumId: string, pages: number) {
 
 async function main() {
   if (arg('--probe')) return probe(arg('--probe')!)
+  if (arg('--archive-probe')) return archiveProbe(arg('--archive-probe')!)
+  if (arg('--threads') && args.includes('--archive')) return grabArchived(arg('--threads')!.split(',').map((s) => s.trim()).filter(Boolean), Number(arg('--last-pages') ?? 5))
   if (arg('--forum')) return forum(arg('--forum')!, Number(arg('--pages') ?? 3))
   if (arg('--threads')) return grab(arg('--threads')!.split(',').map((s) => s.trim()).filter(Boolean), Number(arg('--last-pages') ?? 5))
-  console.log('Give --probe <threadId>, --forum <forumId> [--pages N], or --threads a,b [--last-pages N]')
+  console.log('Give --probe <threadId>, --archive-probe <threadId>, --forum <forumId> [--pages N], or --threads a,b [--last-pages N] [--archive]')
 }
 main().catch((e) => {
   console.error(e)
