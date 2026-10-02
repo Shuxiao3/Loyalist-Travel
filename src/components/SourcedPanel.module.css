@@ -3,6 +3,25 @@
   margin-bottom: var(--s3);
 }
 
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--s3);
+}
+
+.badge {
+  font-size: var(--t-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+}
+
+.meta > span:first-child {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .intro {
   font-size: var(--t-md);
   line-height: 1.6;

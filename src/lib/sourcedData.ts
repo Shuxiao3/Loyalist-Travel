@@ -6,10 +6,13 @@
 import type { SourcedReport, StatusLevel } from '@/payload-types'
 
 import { getPayloadClient } from './payload'
+import { blockConfidence, type Recency, recencyOfMonth, weightedRate } from './recency'
 
 export type Rate = { value: number | null; n: number }
 export type SourcedAggregate = {
   stays: number
+  confidence: Recency // for the block as a whole: count and freshness together
+  recent: number // stays with high recency
   upgrade: Rate // yes or award, over stays that said whether they were upgraded
   suite: Rate // award, or yes with a suite, over the same
   breakfast: Rate // anything but not-honoured, over eligible stays that said
@@ -26,29 +29,31 @@ export type SourcedRow = {
   tier: string | null
   summary: string
   upgrade: SourcedReport['upgrade']
+  recency: Recency
 }
 export type HotelSourcedData = { count: number; data: SourcedAggregate | null; rows: SourcedRow[] }
 
-const rate = (num: number, den: number): Rate => ({ value: den > 0 ? Math.round((num / den) * 100) : null, n: den })
+const stayMonth = (r: Pick<SourcedReport, 'stayMonth' | 'postDate'>) => r.stayMonth || (r.postDate ? r.postDate.slice(0, 7) : null)
 
-export function aggregateSourced(reports: Pick<SourcedReport, 'upgrade' | 'upgradeType' | 'breakfast' | 'loungeAccess' | 'lateCheckout' | 'sentiment' | 'stayMonth' | 'postDate'>[]): SourcedAggregate {
-  const said = reports.filter((r) => r.upgrade !== 'unknown')
-  const up = said.filter((r) => r.upgrade === 'yes' || r.upgrade === 'award')
-  const suite = said.filter((r) => r.upgrade === 'award' || (r.upgrade === 'yes' && r.upgradeType === 'suite'))
-  const bEligible = reports.filter((r) => r.breakfast !== 'unknown' && r.breakfast !== 'not-eligible')
-  const bHonoured = bEligible.filter((r) => r.breakfast !== 'not-honoured')
-  const lAsked = reports.filter((r) => r.loungeAccess === 'given' || r.loungeAccess === 'declined')
-  const lGiven = lAsked.filter((r) => r.loungeAccess === 'given')
-  const cAsked = reports.filter((r) => r.lateCheckout === 'honoured' || r.lateCheckout === 'declined')
-  const cGiven = cAsked.filter((r) => r.lateCheckout === 'honoured')
-  const months = reports.map((r) => r.stayMonth || (r.postDate ? r.postDate.slice(0, 7) : null)).filter((m): m is string => Boolean(m)).sort()
+// Rates count only the stays that answered the question, each weighted by
+// how recent it is, so a run of old refusals does not bury a fresh upgrade.
+export function aggregateSourced(reports: Pick<SourcedReport, 'upgrade' | 'upgradeType' | 'breakfast' | 'loungeAccess' | 'lateCheckout' | 'sentiment' | 'stayMonth' | 'postDate'>[], now = new Date()): SourcedAggregate {
+  const rs = reports.map((r) => ({ r, recency: recencyOfMonth(stayMonth(r), now) }))
+  const said = rs.filter(({ r }) => r.upgrade !== 'unknown')
+  const bEligible = rs.filter(({ r }) => r.breakfast !== 'unknown' && r.breakfast !== 'not-eligible')
+  const lAsked = rs.filter(({ r }) => r.loungeAccess === 'given' || r.loungeAccess === 'declined')
+  const cAsked = rs.filter(({ r }) => r.lateCheckout === 'honoured' || r.lateCheckout === 'declined')
+  const months = reports.map(stayMonth).filter((m): m is string => Boolean(m)).sort()
+  const recencies = rs.map((x) => x.recency)
   return {
     stays: reports.length,
-    upgrade: rate(up.length, said.length),
-    suite: rate(suite.length, said.length),
-    breakfast: rate(bHonoured.length, bEligible.length),
-    lounge: rate(lGiven.length, lAsked.length),
-    lateCheckout: rate(cGiven.length, cAsked.length),
+    confidence: blockConfidence(recencies),
+    recent: recencies.filter((x) => x === 'high').length,
+    upgrade: weightedRate(said.map(({ r, recency }) => ({ recency, yes: r.upgrade === 'yes' || r.upgrade === 'award' }))),
+    suite: weightedRate(said.map(({ r, recency }) => ({ recency, yes: r.upgrade === 'award' || (r.upgrade === 'yes' && r.upgradeType === 'suite') }))),
+    breakfast: weightedRate(bEligible.map(({ r, recency }) => ({ recency, yes: r.breakfast !== 'not-honoured' }))),
+    lounge: weightedRate(lAsked.map(({ r, recency }) => ({ recency, yes: r.loungeAccess === 'given' }))),
+    lateCheckout: weightedRate(cAsked.map(({ r, recency }) => ({ recency, yes: r.lateCheckout === 'honoured' }))),
     sentiment: {
       positive: reports.filter((r) => r.sentiment === 'positive').length,
       mixed: reports.filter((r) => r.sentiment === 'mixed').length,
@@ -79,6 +84,7 @@ export async function hotelSourcedData(hotelId: number): Promise<HotelSourcedDat
       tier: tier ? (tier.shortName ?? tier.name) : null,
       summary: r.summary,
       upgrade: r.upgrade,
+      recency: recencyOfMonth(stayMonth(r)),
     }
   })
   return { count: res.docs.length, data: aggregateSourced(res.docs), rows }

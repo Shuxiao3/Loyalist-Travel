@@ -1,6 +1,8 @@
 import type { HotelSourcedData } from '@/lib/sourcedData'
 import { monthLabel, SOURCE_LABEL } from '@/lib/sourcedData'
 
+import { ConfidenceDot } from './ConfidenceDot'
+
 import styles from './SourcedPanel.module.css'
 
 const pct = (r: { value: number | null; n: number }) => (r.value == null ? '–' : `${r.value}%`)
@@ -24,10 +26,13 @@ export function SourcedPanel({ data, hotelName }: { data: HotelSourcedData; hote
   const s = a.sentiment
   return (
     <section className={`panel ${styles.panel}`} aria-labelledby="sourced-h">
-      <span className="eyebrow" id="sourced-h">
-        Aggregated data
-      </span>
-      <p className={styles.intro}>Stays members described on FlyerTalk and Reddit, read and tallied. Each rate counts only the posts that said. Kept apart from reader submissions.</p>
+      <div className={styles.head}>
+        <span className="eyebrow" id="sourced-h">
+          Aggregated data
+        </span>
+        <ConfidenceDot level={a.confidence} label={`Confidence: ${a.confidence}`} className={styles.badge} />
+      </div>
+      <p className={styles.intro}>Stays members described on FlyerTalk and Reddit, read and tallied. Each rate counts only the posts that said, recent ones counting for more. Kept apart from reader submissions.</p>
       <div className={styles.figures}>
         <div>
           <div className={styles.n}>{pct(a.upgrade)}</div>
@@ -59,7 +64,10 @@ export function SourcedPanel({ data, hotelName }: { data: HotelSourcedData; hote
         {data.rows.map((r) => (
           <li key={r.id}>
             <div className={styles.meta}>
-              <span>{[r.tier, monthLabel(r.when)].filter(Boolean).join(' · ')}</span>
+              <span>
+                <ConfidenceDot level={r.recency} label="" note={`${r.recency === 'high' ? 'Within the last year' : r.recency === 'medium' ? 'One to two and a half years ago' : 'Over two and a half years ago, or undated'}`} />
+                {[r.tier, monthLabel(r.when)].filter(Boolean).join(' · ')}
+              </span>
               <a href={r.postUrl} target="_blank" rel="noopener noreferrer nofollow">
                 {SOURCE_LABEL[r.source] ?? r.source} ↗
               </a>
@@ -69,8 +77,8 @@ export function SourcedPanel({ data, hotelName }: { data: HotelSourcedData; hote
         ))}
       </ul>
       <div className="panel-foot">
-        From {a.stays} reported {a.stays === 1 ? 'stay' : 'stays'}
-        {a.latest ? `, most recent ${monthLabel(a.latest)}` : ''}; {s.positive} positive, {s.mixed} mixed, {s.negative} negative. Read from public posts, summarised in our words, never scored.
+        From {a.stays} reported {a.stays === 1 ? 'stay' : 'stays'}, {a.recent} within the last year
+        {a.latest ? `, most recent ${monthLabel(a.latest)}` : ''}; {s.positive} positive, {s.mixed} mixed, {s.negative} negative. Green is under a year old, yellow up to two and a half, red older. Read from public posts, summarised in our words, never scored.
       </div>
     </section>
   )

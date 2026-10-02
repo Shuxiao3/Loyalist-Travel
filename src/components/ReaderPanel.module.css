@@ -3,6 +3,19 @@
   margin-bottom: var(--s5);
 }
 
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--s3);
+}
+
+.badge {
+  font-size: var(--t-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+}
+
 .waiting {
   font-size: var(--t-md);
   line-height: 1.6;
@@ -12,13 +25,13 @@
 
 .figures {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: var(--s5);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--s3);
 }
 
 .n {
   font-family: var(--serif);
-  font-size: var(--t-stat);
+  font-size: calc(var(--t-stat) * 0.78);
   line-height: 1;
   color: var(--gold);
   margin-bottom: var(--s2);
@@ -47,13 +60,18 @@
   letter-spacing: var(--track-label);
   text-transform: uppercase;
   color: var(--on-navy-muted);
-  padding: 0 0 var(--s3);
+  padding: 0 var(--s3) var(--s3) 0;
   border-bottom: 1px solid var(--line-dark);
 }
 
 .tiers td {
-  padding: var(--s3) 0;
+  padding: var(--s3) var(--s3) var(--s3) 0;
   border-bottom: 1px solid var(--line-dark);
+}
+
+.tiers th:last-child,
+.tiers td:last-child {
+  padding-right: 0;
 }
 
 .tiers td:first-child {

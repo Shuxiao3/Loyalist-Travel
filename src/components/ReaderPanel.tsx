@@ -1,6 +1,7 @@
 import type { HotelReaderData } from '@/lib/readerData'
 import { MIN_STAYS } from '@/lib/readerData'
 
+import { ConfidenceDot } from './ConfidenceDot'
 import styles from './ReaderPanel.module.css'
 
 const pct = (v: number | null) => (v == null ? '–' : `${v}%`)
@@ -23,9 +24,12 @@ export function ReaderPanel({ data, hotelName }: { data: HotelReaderData; hotelN
   const a = data.all
   return (
     <section className={`panel ${styles.panel}`} aria-labelledby="reader-h">
-      <span className="eyebrow" id="reader-h">
-        Reader data
-      </span>
+      <div className={styles.head}>
+        <span className="eyebrow" id="reader-h">
+          Reader data
+        </span>
+        <ConfidenceDot level={a.confidence} label={`Confidence: ${a.confidence}`} className={styles.badge} />
+      </div>
       <div className={styles.figures}>
         <div>
           <div className={styles.n}>{pct(a.upgradeRate)}</div>
@@ -75,9 +79,9 @@ export function ReaderPanel({ data, hotelName }: { data: HotelReaderData; hotelN
         </table>
       )}
       <div className="panel-foot">
-        From {a.stays} reader {a.stays === 1 ? 'stay' : 'stays'}
+        From {a.stays} reader {a.stays === 1 ? 'stay' : 'stays'}, {a.recent} from this year or last
         {a.latest ? `, most recent ${a.latest}` : ''}
-        {a.awardStays > 0 ? `; ${a.awardStays} on suite ${a.awardStays === 1 ? 'award' : 'awards'}, left out of the upgrade rates` : ''}. Reported by readers, checked before counting, never scored.
+        {a.awardStays > 0 ? `; ${a.awardStays} on suite ${a.awardStays === 1 ? 'award' : 'awards'}, left out of the upgrade rates` : ''}. Recent stays count for more in the rates. Reported by readers, checked before counting, never scored.
       </div>
     </section>
   )

@@ -1,0 +1,27 @@
+.dot {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.dot i {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.08);
+}
+
+.high {
+  color: #5fbf7a;
+}
+
+.medium {
+  color: #e2b64c;
+}
+
+.low {
+  color: #e06a5c;
+}

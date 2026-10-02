@@ -2,6 +2,9 @@ import { BREAKFAST_OUTCOMES, LATE_CHECKOUT_OUTCOMES, SUITE_TYPES, UPGRADE_TYPES 
 import { rel } from '@/lib/format'
 import type { Reader, ReaderStay, StatusLevel } from '@/payload-types'
 
+import { recencyOfYear } from '@/lib/recency'
+
+import { ConfidenceDot } from './ConfidenceDot'
 import styles from './LatestStays.module.css'
 
 const label = (list: { label: string; value: string }[], v: string | null | undefined) => list.find((o) => o.value === v)?.label ?? null
@@ -28,7 +31,7 @@ export function LatestStays({ stays }: { stays: ReaderStay[] }) {
               <div className={styles.who}>
                 <span className={styles.name}>{who?.displayName ?? 'Anonymous reader'}</span>
                 <span className={styles.sub}>
-                  {tier?.shortName ?? tier?.name ?? 'Member'} · {s.stayYear}
+                  <ConfidenceDot level={recencyOfYear(s.stayYear)} label="" /> {tier?.shortName ?? tier?.name ?? 'Member'} · {s.stayYear}
                 </span>
               </div>
               <div className={styles.facts}>
