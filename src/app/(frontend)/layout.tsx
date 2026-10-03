@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { Lato, Playfair_Display } from 'next/font/google'
+import { Analytics } from '@vercel/analytics/next'
 import React from 'react'
 
 import '@/styles/tokens.css'
@@ -64,6 +65,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SiteHeader />
         {children}
         <SiteFooter />
+        <Analytics />
       </body>
     </html>
   )
