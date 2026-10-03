@@ -1,0 +1,47 @@
+# Imports the FlyerTalk-sourced stays into the site's sourced-reports
+# collection.
+#
+# The data file (loyalist-pipeline/data/flyertalk-stays.csv.gz.b64) is a
+# base64-encoded gzip of the CSV, generated from the master stays
+# spreadsheet by workspace tooling (generate_import_csv.py) and pushed here.
+# It is encoded only to keep the file small; the workflow decodes it back
+# to data_points.csv, the exact input scripts/webflow/import.ts →
+# importSourcedReports expects.
+#
+# The import upserts by sourceKey, so re-running the same file is safe and
+# new/changed rows are picked up automatically.
+#
+# Triggers: push to the data file, or manual dispatch from the Actions tab.
+
+name: Import FlyerTalk stays
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'loyalist-pipeline/data/flyertalk-stays.csv.gz.b64'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Import FlyerTalk stays into the site
+        run: |
+          base64 -d loyalist-pipeline/data/flyertalk-stays.csv.gz.b64 | gunzip > loyalist-pipeline/data/data_points.csv
+          echo "rows: $(($(wc -l < loyalist-pipeline/data/data_points.csv) - 1))"
+          npm run migrate
+          npm run import:webflow -- sourced-reports
