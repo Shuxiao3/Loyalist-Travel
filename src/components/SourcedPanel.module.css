@@ -23,11 +23,75 @@
 }
 
 .intro {
-  font-size: var(--t-md);
+  font-size: var(--t-sm);
   line-height: 1.6;
   color: var(--light);
   max-width: 52ch;
   margin-bottom: var(--s5);
+}
+
+.tiers {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: var(--s5);
+  font-size: var(--t-sm);
+  color: var(--light);
+}
+
+.tiers th {
+  text-align: left;
+  font-weight: 400;
+  font-size: var(--t-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--on-navy-muted);
+  padding: 0 var(--s3) var(--s3) 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.tiers td {
+  padding: var(--s3) var(--s3) var(--s3) 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  white-space: nowrap;
+}
+
+.tiers th:last-child,
+.tiers td:last-child {
+  padding-right: 0;
+}
+
+.tiers td:first-child {
+  color: var(--ivory);
+  white-space: normal;
+}
+
+/* the stays themselves, behind a fold */
+.fold {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.fold summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--s3);
+  padding: var(--s4) 0;
+  cursor: pointer;
+  list-style: none;
+  font-size: var(--t-sm);
+  color: var(--gold);
+}
+
+.fold summary::-webkit-details-marker {
+  display: none;
+}
+
+.fold summary svg {
+  transition: transform 0.2s ease;
+}
+
+.fold[open] summary svg {
+  transform: rotate(180deg);
 }
 
 .none {
@@ -38,10 +102,9 @@
 
 .figures {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--s3);
   padding-bottom: var(--s5);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .n {
@@ -79,6 +142,10 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
+.rows li:first-child {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
 .rows li:last-child {
   border-bottom: 0;
 }
@@ -112,6 +179,13 @@
 
 @media (max-width: 640px) {
   .figures {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .tiers th:nth-child(5),
+  .tiers td:nth-child(5),
+  .tiers th:nth-child(6),
+  .tiers td:nth-child(6) {
+    display: none;
   }
 }

@@ -25,3 +25,41 @@
 .low {
   color: #e06a5c;
 }
+
+.hasTip {
+  position: relative;
+  cursor: help;
+  outline: none;
+}
+
+.tip {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 5;
+  width: 260px;
+  padding: 10px 12px;
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+  font-size: var(--t-sm);
+  line-height: 1.5;
+  letter-spacing: 0;
+  text-transform: none;
+  white-space: normal;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0s linear 0.15s;
+}
+
+.hasTip:hover .tip,
+.hasTip:focus .tip,
+.hasTip:focus-within .tip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}

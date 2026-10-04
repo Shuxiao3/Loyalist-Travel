@@ -1,3 +1,4 @@
+import { CONFIDENCE_TIP } from '@/lib/recency'
 import type { HotelSourcedData } from '@/lib/sourcedData'
 import { monthLabel, SOURCE_LABEL } from '@/lib/sourcedData'
 
@@ -9,7 +10,8 @@ const pct = (r: { value: number | null; n: number }) => (r.value == null ? '–'
 const of = (r: { value: number | null; n: number }) => (r.n > 0 ? `of ${r.n}` : 'none said')
 
 // The aggregated-data panel on a hotel page: stays members reported on
-// forums, tallied, then each one in a line with a link to its post.
+// forums and blogs, tallied overall and by status band, then each stay
+// behind a fold with a link to its post.
 export function SourcedPanel({ data, hotelName }: { data: HotelSourcedData; hotelName: string }) {
   if (!data.data) {
     return (
@@ -17,22 +19,22 @@ export function SourcedPanel({ data, hotelName }: { data: HotelSourcedData; hote
         <span className="eyebrow" id="sourced-h">
           Aggregated data
         </span>
-        <p className={styles.intro}>Stays reported on FlyerTalk and Reddit, tallied here with a link to each source. Kept apart from reader submissions so the two never mix.</p>
+        <p className={styles.intro}>Data aggregated from FlyerTalk and various blogs, tallied to give a rough idea of your chances at an upgrade.</p>
         <p className={styles.none}>None gathered yet for {hotelName}.</p>
       </section>
     )
   }
   const a = data.data
   const s = a.sentiment
+  const n = data.rows.length
   return (
     <section className={`panel ${styles.panel}`} aria-labelledby="sourced-h">
       <div className={styles.head}>
         <span className="eyebrow" id="sourced-h">
           Aggregated data
         </span>
-        <ConfidenceDot level={a.confidence} label={`Confidence: ${a.confidence}`} className={styles.badge} />
+        <ConfidenceDot level={a.confidence} label={`Confidence: ${a.confidence}`} tip={CONFIDENCE_TIP} className={styles.badge} />
       </div>
-      <p className={styles.intro}>Stays members described on FlyerTalk and Reddit, read and tallied. Each rate counts only the posts that said, recent ones counting for more. Kept apart from reader submissions.</p>
       <div className={styles.figures}>
         <div>
           <div className={styles.n}>{pct(a.upgrade)}</div>
@@ -50,32 +52,66 @@ export function SourcedPanel({ data, hotelName }: { data: HotelSourcedData; hote
           <div className={styles.of}>{of(a.breakfast)}</div>
         </div>
         <div>
-          <div className={styles.n}>{pct(a.lounge)}</div>
-          <div className={styles.l}>Lounge access</div>
-          <div className={styles.of}>{of(a.lounge)}</div>
-        </div>
-        <div>
           <div className={styles.n}>{pct(a.lateCheckout)}</div>
           <div className={styles.l}>Late checkout</div>
           <div className={styles.of}>{of(a.lateCheckout)}</div>
         </div>
       </div>
-      <ul className={styles.rows}>
-        {data.rows.map((r) => (
-          <li key={r.id}>
-            <div className={styles.meta}>
-              <span>
-                <ConfidenceDot level={r.recency} label="" note={`${r.recency === 'high' ? 'Within the last year' : r.recency === 'medium' ? 'One to two and a half years ago' : 'Over two and a half years ago, or undated'}`} />
-                {[r.tier, monthLabel(r.when)].filter(Boolean).join(' · ')}
-              </span>
-              <a href={r.postUrl} target="_blank" rel="noopener noreferrer nofollow">
-                {SOURCE_LABEL[r.source] ?? r.source} ↗
-              </a>
-            </div>
-            <p>{r.summary}</p>
-          </li>
-        ))}
-      </ul>
+      <p className={styles.intro}>Data aggregated from FlyerTalk and various blogs, tallied to give a rough idea of your chances at an upgrade.</p>
+      {data.bands.length > 0 && (
+        <table className={styles.tiers}>
+          <thead>
+            <tr>
+              <th>Status held</th>
+              <th>Stays</th>
+              <th>Upgrade</th>
+              <th>Suite</th>
+              <th>Breakfast</th>
+              <th>Late out</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.bands.map((b) => (
+              <tr key={b.label}>
+                <td>
+                  <ConfidenceDot level={b.data.confidence} label="" note={`Confidence ${b.data.confidence} for this band`} /> {b.label}
+                </td>
+                <td>{b.data.stays}</td>
+                <td>{pct(b.data.upgrade)}</td>
+                <td>{pct(b.data.suite)}</td>
+                <td>{pct(b.data.breakfast)}</td>
+                <td>{pct(b.data.lateCheckout)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+      <details className={styles.fold}>
+        <summary>
+          <span>
+            {n} reported {n === 1 ? 'stay' : 'stays'}, with a link to each
+          </span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </summary>
+        <ul className={styles.rows}>
+          {data.rows.map((r) => (
+            <li key={r.id}>
+              <div className={styles.meta}>
+                <span>
+                  <ConfidenceDot level={r.recency} label="" note={r.recency === 'high' ? 'Within the last year' : r.recency === 'medium' ? 'One to two and a half years ago' : 'Over two and a half years ago, or undated'} />
+                  {[r.tier, monthLabel(r.when)].filter(Boolean).join(' · ')}
+                </span>
+                <a href={r.postUrl} target="_blank" rel="noopener noreferrer nofollow">
+                  {SOURCE_LABEL[r.source] ?? r.source} ↗
+                </a>
+              </div>
+              <p>{r.summary}</p>
+            </li>
+          ))}
+        </ul>
+      </details>
       <div className="panel-foot">
         From {a.stays} reported {a.stays === 1 ? 'stay' : 'stays'}, {a.recent} within the last year
         {a.latest ? `, most recent ${monthLabel(a.latest)}` : ''}; {s.positive} positive, {s.mixed} mixed, {s.negative} negative. Green is under a year old, yellow up to two and a half, red older. Read from public posts, summarised in our words, never scored.
