@@ -26,7 +26,6 @@ export function SourcedPanel({ data, hotelName }: { data: HotelSourcedData; hote
   }
   const a = data.data
   const s = a.sentiment
-  const n = data.rows.length
   return (
     <section className={`panel ${styles.panel}`} aria-labelledby="sourced-h">
       <div className={styles.head}>
@@ -86,32 +85,28 @@ export function SourcedPanel({ data, hotelName }: { data: HotelSourcedData; hote
           </tbody>
         </table>
       )}
-      <details className={styles.fold}>
-        <summary>
-          <span>
-            {n} reported {n === 1 ? 'stay' : 'stays'}, with a link to each
-          </span>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <polyline points="6 9 12 15 18 9" />
-          </svg>
-        </summary>
-        <ul className={styles.rows}>
-          {data.rows.map((r) => (
-            <li key={r.id}>
-              <div className={styles.meta}>
-                <span>
+      <ul className={styles.rows}>
+        {data.rows.map((r) => (
+          <li key={r.id}>
+            <details className={styles.stay}>
+              <summary>
+                <span className={styles.meta}>
                   <ConfidenceDot level={r.recency} label="" note={r.recency === 'high' ? 'Within the last year' : r.recency === 'medium' ? 'One to two and a half years ago' : 'Over two and a half years ago, or undated'} />
                   {[r.tier, monthLabel(r.when)].filter(Boolean).join(' · ')}
+                  <em>{SOURCE_LABEL[r.source] ?? r.source}</em>
                 </span>
-                <a href={r.postUrl} target="_blank" rel="noopener noreferrer nofollow">
-                  {SOURCE_LABEL[r.source] ?? r.source} ↗
-                </a>
-              </div>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </summary>
               <p>{r.summary}</p>
-            </li>
-          ))}
-        </ul>
-      </details>
+              <a href={r.postUrl} target="_blank" rel="noopener noreferrer nofollow">
+                Read the post on {SOURCE_LABEL[r.source] ?? r.source} ↗
+              </a>
+            </details>
+          </li>
+        ))}
+      </ul>
       <div className="panel-foot">
         From {a.stays} reported {a.stays === 1 ? 'stay' : 'stays'}, {a.recent} within the last year
         {a.latest ? `, most recent ${monthLabel(a.latest)}` : ''}; {s.positive} positive, {s.mixed} mixed, {s.negative} negative. Green is under a year old, yellow up to two and a half, red older. Read from public posts, summarised in our words, never scored.
