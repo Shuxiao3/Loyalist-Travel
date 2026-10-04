@@ -15,37 +15,33 @@ export type ReaderAggregate = {
   stays: number
   confidence: Recency // count and freshness together
   recent: number // stays from this year or last
-  awardStays: number // stays on a suite award, reported separately and left out of the upgrade rates
-  upgradeRate: number | null // any upgrade, over stays not on an award
-  suiteRate: number | null // upgraded to a suite, over stays not on an award
-  proactiveRate: number | null // offered without asking, over upgrades
-  breakfastRate: number | null // full, buffet, or uncapped a la carte, over stays where eligible
-  lateCheckoutRate: number | null // honoured, over stays where it was requested
+  certStays: number // stays where a suite upgrade certificate was applied
+  upgradeRate: number | null // any upgrade, over all stays
+  suiteRate: number | null // ended up in a suite, certificate or not, over all stays
+  suiteNoCertRate: number | null // a suite without a certificate, over stays without one
+  proactiveRate: number | null // offered without asking, over upgrades without a certificate
   latest: number | null // most recent stay year
 }
 
-// Rates count only the stays that answered, each weighted by how recent it
-// is (this year and last count in full, older ones less).
-export function aggregate(stays: Pick<ReaderStay, 'upgrade' | 'upgradeType' | 'upgradeHow' | 'breakfast' | 'alaCarteCap' | 'lateCheckout' | 'stayYear'>[], now = new Date()): ReaderAggregate {
+// Rates count every stay, each weighted by how recent it is (this year and
+// last count in full, older ones less).
+export function aggregate(stays: Pick<ReaderStay, 'upgrade' | 'upgradeType' | 'upgradeHow' | 'suiteAward' | 'stayYear'>[], now = new Date()): ReaderAggregate {
   const rs = stays.map((s) => ({ s, recency: recencyOfYear(s.stayYear, now) }))
   const n = stays.length
-  const organic = rs.filter(({ s }) => s.upgrade !== 'award')
-  const awardStays = n - organic.length
-  const upgrades = organic.filter(({ s }) => s.upgrade === 'yes')
-  const breakfastEligible = rs.filter(({ s }) => s.breakfast !== 'not-eligible')
-  const lateWanted = rs.filter(({ s }) => s.lateCheckout !== 'not-requested')
+  const suite = ({ s }: { s: (typeof stays)[number] }) => s.upgrade === 'yes' && s.upgradeType === 'suite'
+  const noCert = rs.filter(({ s }) => s.suiteAward !== 'yes')
+  const upgrades = noCert.filter(({ s }) => s.upgrade === 'yes')
   const latest = stays.reduce<number | null>((acc, s) => (acc == null || s.stayYear > acc ? s.stayYear : acc), null)
   const recencies = rs.map((x) => x.recency)
   return {
     stays: n,
     confidence: blockConfidence(recencies),
     recent: recencies.filter((r) => r === 'high').length,
-    awardStays,
-    upgradeRate: weightedRate(organic.map(({ s, recency }) => ({ recency, yes: s.upgrade === 'yes' }))).value,
-    suiteRate: weightedRate(organic.map(({ s, recency }) => ({ recency, yes: s.upgrade === 'yes' && s.upgradeType === 'suite' }))).value,
-    proactiveRate: weightedRate(upgrades.map(({ s, recency }) => ({ recency, yes: s.upgradeHow === 'proactive' }))).value,
-    breakfastRate: weightedRate(breakfastEligible.map(({ s, recency }) => ({ recency, yes: (s.breakfast === 'full' || s.breakfast === 'buffet' || s.breakfast === 'a-la-carte') && s.alaCarteCap !== 'capped' }))).value,
-    lateCheckoutRate: weightedRate(lateWanted.map(({ s, recency }) => ({ recency, yes: s.lateCheckout === 'honoured' }))).value,
+    certStays: n - noCert.length,
+    upgradeRate: weightedRate(rs.map((x) => ({ recency: x.recency, yes: x.s.upgrade === 'yes' }))).value,
+    suiteRate: weightedRate(rs.map((x) => ({ recency: x.recency, yes: suite(x) }))).value,
+    suiteNoCertRate: weightedRate(noCert.map((x) => ({ recency: x.recency, yes: suite(x) }))).value,
+    proactiveRate: weightedRate(upgrades.map((x) => ({ recency: x.recency, yes: x.s.upgradeHow === 'proactive' }))).value,
     latest,
   }
 }

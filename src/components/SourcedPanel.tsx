@@ -25,7 +25,6 @@ export function SourcedPanel({ data, hotelName }: { data: HotelSourcedData; hote
     )
   }
   const a = data.data
-  const s = a.sentiment
   return (
     <section className={`panel ${styles.panel}`} aria-labelledby="sourced-h">
       <div className={styles.head}>
@@ -46,14 +45,9 @@ export function SourcedPanel({ data, hotelName }: { data: HotelSourcedData; hote
           <div className={styles.of}>{of(a.suite)}</div>
         </div>
         <div>
-          <div className={styles.n}>{pct(a.breakfast)}</div>
-          <div className={styles.l}>Breakfast honoured</div>
-          <div className={styles.of}>{of(a.breakfast)}</div>
-        </div>
-        <div>
-          <div className={styles.n}>{pct(a.lateCheckout)}</div>
-          <div className={styles.l}>Late checkout</div>
-          <div className={styles.of}>{of(a.lateCheckout)}</div>
+          <div className={styles.n}>{pct(a.suiteNoCert)}</div>
+          <div className={styles.l}>Suite without a certificate</div>
+          <div className={styles.of}>{of(a.suiteNoCert)}</div>
         </div>
       </div>
       <p className={styles.intro}>Data aggregated from FlyerTalk and various blogs, tallied to give a rough idea of your chances at an upgrade.</p>
@@ -65,8 +59,7 @@ export function SourcedPanel({ data, hotelName }: { data: HotelSourcedData; hote
               <th>Stays</th>
               <th>Upgrade</th>
               <th>Suite</th>
-              <th>Breakfast</th>
-              <th>Late out</th>
+              <th>Suite w/o certificate</th>
             </tr>
           </thead>
           <tbody>
@@ -78,8 +71,7 @@ export function SourcedPanel({ data, hotelName }: { data: HotelSourcedData; hote
                 <td>{b.data.stays}</td>
                 <td>{pct(b.data.upgrade)}</td>
                 <td>{pct(b.data.suite)}</td>
-                <td>{pct(b.data.breakfast)}</td>
-                <td>{pct(b.data.lateCheckout)}</td>
+                <td>{pct(b.data.suiteNoCert)}</td>
               </tr>
             ))}
           </tbody>
@@ -107,10 +99,6 @@ export function SourcedPanel({ data, hotelName }: { data: HotelSourcedData; hote
           </li>
         ))}
       </ul>
-      <div className="panel-foot">
-        From {a.stays} reported {a.stays === 1 ? 'stay' : 'stays'}, {a.recent} within the last year
-        {a.latest ? `, most recent ${monthLabel(a.latest)}` : ''}; {s.positive} positive, {s.mixed} mixed, {s.negative} negative. Green is under a year old, yellow up to two and a half, red older. Read from public posts, summarised in our words, never scored.
-      </div>
     </section>
   )
 }

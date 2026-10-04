@@ -40,16 +40,8 @@ export function ReaderPanel({ data, hotelName }: { data: HotelReaderData; hotelN
           <div className={styles.l}>Got a suite</div>
         </div>
         <div>
-          <div className={styles.n}>{pct(a.proactiveRate)}</div>
-          <div className={styles.l}>Upgrades offered unasked</div>
-        </div>
-        <div>
-          <div className={styles.n}>{pct(a.breakfastRate)}</div>
-          <div className={styles.l}>Breakfast as printed</div>
-        </div>
-        <div>
-          <div className={styles.n}>{pct(a.lateCheckoutRate)}</div>
-          <div className={styles.l}>Late checkout honoured</div>
+          <div className={styles.n}>{pct(a.suiteNoCertRate)}</div>
+          <div className={styles.l}>Suite without a certificate</div>
         </div>
       </div>
       {data.byTier && data.byTier.length > 0 && (
@@ -60,8 +52,7 @@ export function ReaderPanel({ data, hotelName }: { data: HotelReaderData; hotelN
               <th>Stays</th>
               <th>Upgrade</th>
               <th>Suite</th>
-              <th>Unasked</th>
-              <th>Awards</th>
+              <th>Suite w/o certificate</th>
             </tr>
           </thead>
           <tbody>
@@ -71,8 +62,7 @@ export function ReaderPanel({ data, hotelName }: { data: HotelReaderData; hotelN
                 <td>{d.stays}</td>
                 <td>{pct(d.upgradeRate)}</td>
                 <td>{pct(d.suiteRate)}</td>
-                <td>{pct(d.proactiveRate)}</td>
-                <td>{d.awardStays}</td>
+                <td>{pct(d.suiteNoCertRate)}</td>
               </tr>
             ))}
           </tbody>
@@ -81,7 +71,7 @@ export function ReaderPanel({ data, hotelName }: { data: HotelReaderData; hotelN
       <div className="panel-foot">
         From {a.stays} reader {a.stays === 1 ? 'stay' : 'stays'}, {a.recent} from this year or last
         {a.latest ? `, most recent ${a.latest}` : ''}
-        {a.awardStays > 0 ? `; ${a.awardStays} on suite ${a.awardStays === 1 ? 'award' : 'awards'}, left out of the upgrade rates` : ''}. Recent stays count for more in the rates. Reported by readers, checked before counting, never scored.
+        {a.certStays > 0 ? `; ${a.certStays} with a suite certificate` : ''}. Recent stays count for more in the rates. Reported by readers, checked before counting, never scored.
       </div>
     </section>
   )

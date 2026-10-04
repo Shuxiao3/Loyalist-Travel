@@ -82,7 +82,7 @@ export const SourcedReports: CollectionConfig = {
     {
       type: 'row',
       fields: [
-        { name: 'upgrade', type: 'select', required: true, options: [...UPGRADE_OUTCOMES, unknown] },
+        { name: 'upgrade', type: 'select', required: true, options: [...UPGRADE_OUTCOMES, { label: 'Used a suite upgrade award', value: 'award' }, unknown] },
         { name: 'upgradeType', type: 'select', options: UPGRADE_TYPES },
         { name: 'suiteType', type: 'select', options: SUITE_TYPES },
         { name: 'upgradeHow', type: 'select', options: UPGRADE_HOW },

@@ -15,8 +15,7 @@ export type SourcedAggregate = {
   recent: number // stays with high recency
   upgrade: Rate // yes or award, over stays that said whether they were upgraded
   suite: Rate // award, or yes with a suite, over the same
-  breakfast: Rate // anything but not-honoured, over eligible stays that said
-  lateCheckout: Rate // honoured, over honoured plus declined
+  suiteNoCert: Rate // yes with a suite, over stays that said and used no certificate
   sentiment: { positive: number; mixed: number; negative: number }
   latest: string | null // most recent stay month or post date, YYYY-MM
 }
@@ -39,11 +38,10 @@ const stayMonth = (r: Pick<SourcedReport, 'stayMonth' | 'postDate'>) => r.stayMo
 
 // Rates count only the stays that answered the question, each weighted by
 // how recent it is, so a run of old refusals does not bury a fresh upgrade.
-export function aggregateSourced(reports: Pick<SourcedReport, 'upgrade' | 'upgradeType' | 'breakfast' | 'lateCheckout' | 'sentiment' | 'stayMonth' | 'postDate'>[], now = new Date()): SourcedAggregate {
+export function aggregateSourced(reports: Pick<SourcedReport, 'upgrade' | 'upgradeType' | 'sentiment' | 'stayMonth' | 'postDate'>[], now = new Date()): SourcedAggregate {
   const rs = reports.map((r) => ({ r, recency: recencyOfMonth(stayMonth(r), now) }))
   const said = rs.filter(({ r }) => r.upgrade !== 'unknown')
-  const bEligible = rs.filter(({ r }) => r.breakfast !== 'unknown' && r.breakfast !== 'not-eligible')
-  const cAsked = rs.filter(({ r }) => r.lateCheckout === 'honoured' || r.lateCheckout === 'declined')
+  const noCert = said.filter(({ r }) => r.upgrade !== 'award')
   const months = reports.map(stayMonth).filter((m): m is string => Boolean(m)).sort()
   const recencies = rs.map((x) => x.recency)
   return {
@@ -52,8 +50,7 @@ export function aggregateSourced(reports: Pick<SourcedReport, 'upgrade' | 'upgra
     recent: recencies.filter((x) => x === 'high').length,
     upgrade: weightedRate(said.map(({ r, recency }) => ({ recency, yes: r.upgrade === 'yes' || r.upgrade === 'award' }))),
     suite: weightedRate(said.map(({ r, recency }) => ({ recency, yes: r.upgrade === 'award' || (r.upgrade === 'yes' && r.upgradeType === 'suite') }))),
-    breakfast: weightedRate(bEligible.map(({ r, recency }) => ({ recency, yes: r.breakfast !== 'not-honoured' }))),
-    lateCheckout: weightedRate(cAsked.map(({ r, recency }) => ({ recency, yes: r.lateCheckout === 'honoured' }))),
+    suiteNoCert: weightedRate(noCert.map(({ r, recency }) => ({ recency, yes: r.upgrade === 'yes' && r.upgradeType === 'suite' }))),
     sentiment: {
       positive: reports.filter((r) => r.sentiment === 'positive').length,
       mixed: reports.filter((r) => r.sentiment === 'mixed').length,

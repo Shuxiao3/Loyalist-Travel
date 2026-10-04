@@ -1186,13 +1186,14 @@ export interface ReaderStay {
   program: number | Program;
   statusHeld: number | StatusLevel;
   stayYear: number;
-  upgrade: 'none' | 'yes' | 'award';
+  upgrade: 'none' | 'yes';
   upgradeType?: ('floor' | 'view' | 'category' | 'suite') | null;
   suiteType?: ('junior' | 'one-bedroom' | 'two-bedroom' | 'specialty') | null;
   upgradeHow?: ('proactive' | 'asked') | null;
-  breakfast: 'full' | 'buffet' | 'a-la-carte' | 'credit' | 'not-honoured' | 'not-eligible';
-  alaCarteCap?: ('uncapped' | 'capped') | null;
-  lateCheckout: 'honoured' | 'declined' | 'not-requested';
+  /**
+   * A confirmed suite upgrade certificate was applied to the stay.
+   */
+  suiteAward: 'no' | 'yes';
   /**
    * Set when the stay was submitted while signed in. Shows the display name on the latest-stays list.
    */
@@ -1781,9 +1782,7 @@ export interface ReaderStaysSelect<T extends boolean = true> {
   upgradeType?: T;
   suiteType?: T;
   upgradeHow?: T;
-  breakfast?: T;
-  alaCarteCap?: T;
-  lateCheckout?: T;
+  suiteAward?: T;
   reader?: T;
   submitterHash?: T;
   updatedAt?: T;

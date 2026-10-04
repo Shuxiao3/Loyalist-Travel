@@ -87,22 +87,16 @@ export default async function AccountPage() {
                       <dd>{stats.suiteRate}%</dd>
                     </div>
                   )}
-                  {stats.breakfastRate !== null && (
+                  {stats.suiteNoCertRate !== null && (
                     <div>
-                      <dt>Breakfast honoured</dt>
-                      <dd>{stats.breakfastRate}%</dd>
-                    </div>
-                  )}
-                  {stats.lateCheckoutRate !== null && (
-                    <div>
-                      <dt>Late checkout</dt>
-                      <dd>{stats.lateCheckoutRate}%</dd>
+                      <dt>Suite without a certificate</dt>
+                      <dd>{stats.suiteNoCertRate}%</dd>
                     </div>
                   )}
                 </dl>
                 <p className={styles.statFine}>
                   Your published stays only, counted the way every hotel page counts them
-                  {stats.awardStays > 0 ? `. ${stats.awardStays} suite ${stats.awardStays === 1 ? 'award is' : 'awards are'} left out of the upgrade rates` : ''}.
+                  {stats.certStays > 0 ? `. ${stats.certStays} used a suite certificate` : ''}.
                 </p>
               </div>
             )}

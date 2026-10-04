@@ -1,4 +1,4 @@
-import { BREAKFAST_OUTCOMES, LATE_CHECKOUT_OUTCOMES, SUITE_TYPES, UPGRADE_TYPES } from '@/lib/stayOptions'
+import { SUITE_TYPES, UPGRADE_TYPES } from '@/lib/stayOptions'
 import { rel } from '@/lib/format'
 import type { Reader, ReaderStay, StatusLevel } from '@/payload-types'
 
@@ -10,13 +10,12 @@ import styles from './LatestStays.module.css'
 const label = (list: { label: string; value: string }[], v: string | null | undefined) => list.find((o) => o.value === v)?.label ?? null
 
 function upgradeWords(s: ReaderStay): string {
-  if (s.upgrade === 'award') return `Suite award: ${label(SUITE_TYPES, s.suiteType)?.toLowerCase() ?? 'suite'}`
-  if (s.upgrade !== 'yes') return 'No upgrade'
+  if (s.upgrade !== 'yes') return s.suiteAward === 'yes' ? `Suite certificate: ${label(SUITE_TYPES, s.suiteType)?.toLowerCase() ?? 'suite'}` : 'No upgrade'
   const what = s.upgradeType === 'suite' ? (label(SUITE_TYPES, s.suiteType) ?? 'Suite') : (label(UPGRADE_TYPES, s.upgradeType) ?? 'Upgraded')
   return `${what}${s.upgradeHow === 'proactive' ? ', unasked' : s.upgradeHow === 'asked' ? ', on request' : ''}`
 }
 
-// The most recent approved stays at a hotel: who, tier, year, and the three outcomes.
+// The most recent approved stays at a hotel: who, tier, year, and the upgrade outcome.
 export function LatestStays({ stays }: { stays: ReaderStay[] }) {
   if (stays.length === 0) return null
   return (
@@ -36,8 +35,7 @@ export function LatestStays({ stays }: { stays: ReaderStay[] }) {
               </div>
               <div className={styles.facts}>
                 <span>{upgradeWords(s)}</span>
-                <span>Breakfast: {label(BREAKFAST_OUTCOMES, s.breakfast)?.toLowerCase() ?? '–'}</span>
-                <span>Late checkout: {label(LATE_CHECKOUT_OUTCOMES, s.lateCheckout)?.toLowerCase() ?? '–'}</span>
+                {s.suiteAward === 'yes' && s.upgrade === 'yes' && <span>Suite certificate used</span>}
               </div>
             </li>
           )

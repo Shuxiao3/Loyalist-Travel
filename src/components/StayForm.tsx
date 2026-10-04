@@ -3,7 +3,7 @@
 import { useActionState, useEffect, useState } from 'react'
 
 import { submitStay, type SubmitStayState } from '@/app/actions/submitStay'
-import { ALA_CARTE_CAP, BREAKFAST_OUTCOMES, LATE_CHECKOUT_OUTCOMES, stayYearOptions, SUITE_TYPES, UPGRADE_HOW, UPGRADE_OUTCOMES, UPGRADE_TYPES } from '@/lib/stayOptions'
+import { stayYearOptions, SUITE_AWARD, SUITE_TYPES, UPGRADE_HOW, UPGRADE_OUTCOMES, UPGRADE_TYPES } from '@/lib/stayOptions'
 
 import { Turnstile } from './Turnstile'
 import styles from './StayForm.module.css'
@@ -33,13 +33,13 @@ function Select({ name, label, options, placeholder, value, onChange }: { name: 
 }
 
 // Two minutes, dropdowns only. Hotel and program come from the page. The
-// upgrade and breakfast questions unfold only as far as the answer needs.
+// upgrade question unfolds only as far as the answer needs.
 export function StayForm({ hotel, programName, tiers, compact }: { hotel: { id: number; name: string }; programName: string; tiers: StayFormTier[]; compact?: boolean }) {
   const [state, action, pending] = useActionState<SubmitStayState, FormData>(submitStay, null)
   const [statusHeld, setStatusHeld] = useState('')
   const [upgrade, setUpgrade] = useState('')
   const [upgradeType, setUpgradeType] = useState('')
-  const [breakfast, setBreakfast] = useState('')
+  const [suiteAward, setSuiteAward] = useState('')
   const years = stayYearOptions()
 
   // Preselect the tier the reader saved on their account. Asked for here rather
@@ -74,7 +74,6 @@ export function StayForm({ hotel, programName, tiers, compact }: { hotel: { id: 
   }
 
   const upgraded = upgrade === 'yes'
-  const alaCarte = breakfast === 'full' || breakfast === 'a-la-carte'
 
   return (
     <form action={action} className={`${styles.form} ${compact ? styles.compact : ''}`}>
@@ -113,20 +112,12 @@ export function StayForm({ hotel, programName, tiers, compact }: { hotel: { id: 
           <Select name="upgradeHow" label="How it happened" placeholder="Offered or asked" options={UPGRADE_HOW} />
         </div>
       )}
-      {upgrade === 'award' && (
+      <Select name="suiteAward" label="Used a suite upgrade certificate?" placeholder="Yes or no" options={SUITE_AWARD} value={suiteAward} onChange={setSuiteAward} />
+      {suiteAward === 'yes' && !(upgraded && upgradeType === 'suite') && (
         <div className={styles.follow}>
-          <Select name="suiteType" label="Which suite were you placed in" placeholder="Which kind" options={SUITE_TYPES} />
+          <Select name="awardSuiteType" label="Which suite did it get you" placeholder="Which kind" options={SUITE_TYPES} />
         </div>
       )}
-
-      <Select name="breakfast" label="Breakfast" placeholder="What you got" options={BREAKFAST_OUTCOMES} value={breakfast} onChange={setBreakfast} />
-      {alaCarte && (
-        <div className={styles.follow}>
-          <Select name="alaCarteCap" label="Was the à la carte capped?" placeholder="Capped or not" options={ALA_CARTE_CAP} />
-        </div>
-      )}
-
-      <Select name="lateCheckout" label="Late checkout" placeholder="What happened" options={LATE_CHECKOUT_OUTCOMES} />
 
       <Turnstile resetKey={state} />
 

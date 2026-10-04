@@ -1,5 +1,5 @@
 import { aggregate } from '@/lib/readerData'
-import { BREAKFAST_OUTCOMES, LATE_CHECKOUT_OUTCOMES, UPGRADE_OUTCOMES } from '@/lib/stayOptions'
+import { UPGRADE_OUTCOMES } from '@/lib/stayOptions'
 import { getPayloadClient } from '@/lib/payload'
 
 // Everything one reader has submitted, in one list. Three collections carry a
@@ -33,8 +33,7 @@ const doc = <T,>(v: unknown): T | null => (v && typeof v === 'object' ? (v as T)
 function stayDetail(stay: Record<string, unknown>): string {
   const parts = [
     label(UPGRADE_OUTCOMES, stay.upgrade) === 'No' ? 'no upgrade' : label(UPGRADE_OUTCOMES, stay.upgrade)?.toLowerCase(),
-    label(BREAKFAST_OUTCOMES, stay.breakfast) ? `breakfast ${label(BREAKFAST_OUTCOMES, stay.breakfast)!.toLowerCase()}` : null,
-    label(LATE_CHECKOUT_OUTCOMES, stay.lateCheckout) ? `checkout ${label(LATE_CHECKOUT_OUTCOMES, stay.lateCheckout)!.toLowerCase()}` : null,
+    stay.suiteAward === 'yes' ? 'suite certificate used' : null,
   ].filter(Boolean)
   return parts.join(' · ')
 }

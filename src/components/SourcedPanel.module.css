@@ -33,7 +33,7 @@
 
 .figures {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--s3);
   padding-bottom: var(--s5);
 }
@@ -175,9 +175,7 @@
   }
 
   .tiers th:nth-child(5),
-  .tiers td:nth-child(5),
-  .tiers th:nth-child(6),
-  .tiers td:nth-child(6) {
+  .tiers td:nth-child(5) {
     display: none;
   }
 }

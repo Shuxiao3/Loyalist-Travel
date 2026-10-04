@@ -67,7 +67,7 @@ export default async function HomePage() {
       text:
         featured.hotel.heroSummary ??
         (d.all
-          ? `${d.all.stays} reader stays. ${d.all.suiteRate ?? 0}% got a suite, ${d.all.proactiveRate ?? 0}% of upgrades came unasked, ${d.all.breakfastRate ?? 0}% had breakfast as printed.`
+          ? `${d.all.stays} reader stays. ${d.all.suiteRate ?? 0}% got a suite, ${d.all.suiteNoCertRate ?? 0}% without a certificate, ${d.all.proactiveRate ?? 0}% of upgrades came unasked.`
           : null),
       figure: d.all?.upgradeRate != null ? { value: `${d.all.upgradeRate}%`, label: 'got an upgrade' } : null,
       cta: 'The hotel',
@@ -285,7 +285,7 @@ export default async function HomePage() {
             <div className={styles.ctaCol}>
               <span className="eyebrow">Reader data</span>
               <h3>Stayed somewhere on status?</h3>
-              <p>Two minutes. Your upgrade, breakfast and late checkout outcome joins the data for that property, and the upgrade odds update for everyone.</p>
+              <p>Two minutes. Your upgrade outcome joins the data for that property, and the upgrade odds update for everyone.</p>
               <Link className="btn" href="/submit-a-stay">
                 Submit a stay
               </Link>

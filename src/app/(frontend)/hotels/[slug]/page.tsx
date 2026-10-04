@@ -36,8 +36,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const where = destination ? ` in ${destination.locationLabel ?? destination.name}` : ''
   const elites = program ? `${program.name} elites` : 'elite members'
   const description = hotel.reviewStatus === 'reviewed'
-    ? `${hotel.name}${where}: our scored review, plus reader-reported upgrade odds, breakfast and late checkout outcomes for ${elites}.`
-    : `${hotel.name}${where}${brand ? `, ${brand.name}` : ''}: reader-reported upgrade odds, breakfast and late checkout outcomes for ${elites}. Add your stay in two minutes.`
+    ? `${hotel.name}${where}: our scored review, plus reader-reported upgrade and suite odds for ${elites}.`
+    : `${hotel.name}${where}${brand ? `, ${brand.name}` : ''}: reader-reported upgrade and suite odds for ${elites}. Add your stay in two minutes.`
   const seo = await getSeo()
   const vars = { Hotel: hotel.name, Destination: destination?.name, Location: destination?.locationLabel ?? destination?.name, Brand: brand?.name, Program: program?.name, Elite: await topTierOf(program), Elites: elites }
   const text = metaText(hotel.reviewStatus === 'reviewed' ? seo?.hotel : seo?.hotelUnreviewed, vars, { title: `${hotel.name}${destination ? `, ${destination.name}` : ''}`, description })

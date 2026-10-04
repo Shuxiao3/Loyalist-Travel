@@ -3,7 +3,7 @@
 import { createHash } from 'crypto'
 import { headers } from 'next/headers'
 
-import { ALA_CARTE_CAP, BREAKFAST_OUTCOMES, EARLIEST_STAY_YEAR, LATE_CHECKOUT_OUTCOMES, SUITE_TYPES, UPGRADE_HOW, UPGRADE_OUTCOMES, UPGRADE_TYPES } from '@/lib/stayOptions'
+import { EARLIEST_STAY_YEAR, SUITE_AWARD, SUITE_TYPES, UPGRADE_HOW, UPGRADE_OUTCOMES, UPGRADE_TYPES } from '@/lib/stayOptions'
 import { getPayloadClient } from '@/lib/payload'
 import { currentReader } from '@/lib/reader'
 import { TURNSTILE_FIELD, verifyTurnstile } from '@/lib/turnstile'
@@ -31,22 +31,21 @@ export async function submitStay(_prev: SubmitStayState, form: FormData): Promis
   const upgradeType = form.get('upgradeType')
   const suiteType = form.get('suiteType')
   const upgradeHow = form.get('upgradeHow')
-  const breakfast = form.get('breakfast')
-  const alaCarteCap = form.get('alaCarteCap')
-  const lateCheckout = form.get('lateCheckout')
+  const suiteAward = form.get('suiteAward')
+  const awardSuiteType = form.get('awardSuiteType')
   const now = new Date()
   if (!Number.isInteger(hotelId) || !Number.isInteger(tierId)) return { ok: false, error: 'Choose a hotel and the status you held.' }
   if (!Number.isInteger(stayYear) || stayYear < EARLIEST_STAY_YEAR || stayYear > now.getFullYear()) return { ok: false, error: 'Choose the year of the stay.' }
-  if (!inList(upgrade, UPGRADE_OUTCOMES) || !inList(breakfast, BREAKFAST_OUTCOMES) || !inList(lateCheckout, LATE_CHECKOUT_OUTCOMES)) {
-    return { ok: false, error: 'Pick an answer for each of the three questions.' }
+  if (!inList(upgrade, UPGRADE_OUTCOMES) || !inList(suiteAward, SUITE_AWARD)) {
+    return { ok: false, error: 'Say whether you were upgraded and whether a suite certificate was used.' }
   }
   const upgraded = upgrade === 'yes'
   if (upgraded && !inList(upgradeType, UPGRADE_TYPES)) return { ok: false, error: 'Say what kind of upgrade it was.' }
-  const award = upgrade === 'award'
-  if (((upgraded && upgradeType === 'suite') || award) && !inList(suiteType, SUITE_TYPES)) return { ok: false, error: 'Say which kind of suite.' }
+  const award = suiteAward === 'yes'
+  const toSuite = upgraded && upgradeType === 'suite'
+  if (toSuite && !inList(suiteType, SUITE_TYPES)) return { ok: false, error: 'Say which kind of suite.' }
+  if (award && !toSuite && !inList(awardSuiteType, SUITE_TYPES)) return { ok: false, error: 'Say which suite the certificate got you.' }
   if (upgraded && !inList(upgradeHow, UPGRADE_HOW)) return { ok: false, error: 'Say whether the upgrade was offered or asked for.' }
-  const alaCarte = breakfast === 'full' || breakfast === 'a-la-carte'
-  if (alaCarte && !inList(alaCarteCap, ALA_CARTE_CAP)) return { ok: false, error: 'Say whether the à la carte was capped.' }
 
   const reader = await currentReader().catch(() => null)
   const payload = await getPayloadClient()
@@ -81,11 +80,9 @@ export async function submitStay(_prev: SubmitStayState, form: FormData): Promis
       stayYear,
       upgrade: upgrade as string,
       upgradeType: upgraded ? (upgradeType as string) : null,
-      suiteType: (upgraded && upgradeType === 'suite') || award ? (suiteType as string) : null,
+      suiteType: toSuite ? (suiteType as string) : award ? (awardSuiteType as string) : null,
       upgradeHow: upgraded ? (upgradeHow as string) : null,
-      breakfast: breakfast as string,
-      alaCarteCap: alaCarte ? (alaCarteCap as string) : null,
-      lateCheckout: lateCheckout as string,
+      suiteAward: suiteAward as string,
       reader: reader?.id ?? null,
       submitterHash,
     } as never,

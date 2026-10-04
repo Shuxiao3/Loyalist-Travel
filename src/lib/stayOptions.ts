@@ -4,7 +4,13 @@
 export const UPGRADE_OUTCOMES = [
   { label: 'No', value: 'none' },
   { label: 'Yes', value: 'yes' },
-  { label: 'Used a suite upgrade award', value: 'award' },
+]
+
+// Whether a confirmed suite upgrade certificate (Hyatt's suite upgrade
+// award, Marriott's nightly upgrade award, and the like) was applied.
+export const SUITE_AWARD = [
+  { label: 'No', value: 'no' },
+  { label: 'Yes', value: 'yes' },
 ]
 
 export const UPGRADE_TYPES = [

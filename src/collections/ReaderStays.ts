@@ -8,7 +8,7 @@ import { notifyOnCreate } from '@/lib/notify'
 // only once a hotel has five or more approved stays.
 
 export * from '../lib/stayOptions'
-import { UPGRADE_OUTCOMES, UPGRADE_TYPES, SUITE_TYPES, UPGRADE_HOW, BREAKFAST_OUTCOMES, ALA_CARTE_CAP, LATE_CHECKOUT_OUTCOMES } from '../lib/stayOptions'
+import { SUITE_AWARD, SUITE_TYPES, UPGRADE_HOW, UPGRADE_OUTCOMES, UPGRADE_TYPES } from '../lib/stayOptions'
 
 // After any change or delete, recount the hotel's approved stays. Plain SQL
 // inside the request's transaction: a document update here would write a
@@ -79,17 +79,17 @@ export const ReaderStays: CollectionConfig = {
       fields: [
         { name: 'upgrade', type: 'select', required: true, options: UPGRADE_OUTCOMES },
         { name: 'upgradeType', type: 'select', options: UPGRADE_TYPES, admin: { condition: (data) => data?.upgrade === 'yes' } },
-        { name: 'suiteType', type: 'select', options: SUITE_TYPES, admin: { condition: (data) => (data?.upgrade === 'yes' && data?.upgradeType === 'suite') || data?.upgrade === 'award' } },
+        { name: 'suiteType', type: 'select', options: SUITE_TYPES, admin: { condition: (data) => (data?.upgrade === 'yes' && data?.upgradeType === 'suite') || data?.suiteAward === 'yes' } },
         { name: 'upgradeHow', type: 'select', options: UPGRADE_HOW, admin: { condition: (data) => data?.upgrade === 'yes' } },
       ],
     },
     {
-      type: 'row',
-      fields: [
-        { name: 'breakfast', type: 'select', required: true, options: BREAKFAST_OUTCOMES },
-        { name: 'alaCarteCap', type: 'select', options: ALA_CARTE_CAP, admin: { condition: (data) => data?.breakfast === 'full' || data?.breakfast === 'a-la-carte' } },
-        { name: 'lateCheckout', type: 'select', required: true, options: LATE_CHECKOUT_OUTCOMES },
-      ],
+      name: 'suiteAward',
+      type: 'select',
+      required: true,
+      defaultValue: 'no',
+      options: SUITE_AWARD,
+      admin: { description: 'A confirmed suite upgrade certificate was applied to the stay.' },
     },
     {
       name: 'reader',
