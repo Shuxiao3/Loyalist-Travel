@@ -45,7 +45,7 @@ export function blockConfidence(recencies: Recency[]): Recency {
   return 'low'
 }
 
-export const CONFIDENCE_TIP = 'Confidence rises with more stays and with more recent stays. High needs five or more stays, three of them within the last year. Medium needs three or more, with at least one in the last two and a half years.'
+export const CONFIDENCE_TIP = 'More stays, and more recent stays, raise the confidence.'
 
 export const CONFIDENCE_NOTE: Record<Recency, string> = {
   high: 'Five or more stays, at least three within the last year.',
