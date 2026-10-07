@@ -57,6 +57,7 @@ export function SiteHeader() {
     <nav className={`${styles.nav} ${hidden && !open ? styles.hidden : ''}`} aria-label="Main">
       <div className={`wrap ${styles.inner}`}>
         <Link className={styles.brand} href="/">
+          <img className={styles.mark} src="/images/brand/mark.svg" alt="" width="28" height="28" />
           Loyalist Travel
         </Link>
         <ul className={styles.links}>

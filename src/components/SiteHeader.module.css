@@ -26,11 +26,21 @@
 }
 
 .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   font-family: var(--serif);
   font-size: 21px;
   font-weight: var(--w-wordmark);
   color: var(--ivory);
   white-space: nowrap;
+}
+
+.mark {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  flex: none;
 }
 
 .brand:hover {
