@@ -24,6 +24,16 @@
   padding-bottom: var(--s7);
 }
 
+/* the hero photo's credit, under the photo */
+.heroCredit {
+  margin: var(--s3) auto 0;
+  font-size: var(--t-xs);
+  line-height: 1.5;
+  text-align: right;
+  color: var(--muted);
+  letter-spacing: var(--track-fine);
+}
+
 /* body and sidebar */
 .body {
   background: var(--page);

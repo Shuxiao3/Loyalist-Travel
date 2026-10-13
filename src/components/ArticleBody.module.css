@@ -29,3 +29,202 @@
 .tip p + p {
   margin-top: var(--s3);
 }
+
+/* a quoted paragraph: the same card as the tip, without the label */
+.quote {
+  margin: var(--s6) 0;
+  padding: var(--s5) var(--s5) var(--s5) var(--s6);
+  background: var(--cream);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--gold);
+  border-radius: var(--r);
+  font-size: var(--t-md);
+  line-height: 1.65;
+  color: var(--text);
+  text-wrap: pretty;
+}
+
+/* the bold lead-in of a quote */
+.quote > strong:first-child {
+  color: var(--heading);
+}
+
+/* a photo with its caption and credit */
+.figure {
+  margin: var(--s6) 0;
+}
+
+.figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--r);
+}
+
+.figure figcaption {
+  margin-top: var(--s3);
+  font-size: var(--t-xs);
+  line-height: 1.5;
+  color: var(--muted);
+  letter-spacing: var(--track-fine);
+}
+
+/* a table scrolls sideways inside the column rather than crushing its
+   columns. The scroller (TableScroll) marks the wrapper with data-left and
+   data-right while columns are hidden on that side, and the wrapper fades
+   that edge; the bottom hairline closes the table. */
+.tableWrap {
+  position: relative;
+  isolation: isolate;
+  margin: var(--s6) 0;
+  max-width: 100%;
+  border-bottom: 1px solid var(--line);
+}
+
+.tableWrap::before,
+.tableWrap::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 28px;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+/* the left fade starts past the fixed first column (its width is measured
+   by the scroller) so the row label is never veiled */
+.tableWrap::before {
+  left: var(--sticky-w, 0px);
+  background: linear-gradient(to right, var(--page), transparent);
+}
+
+.tableWrap::after {
+  right: 0;
+  background: linear-gradient(to left, var(--page), transparent);
+}
+
+.tableWrap[data-left]::before,
+.tableWrap[data-right]::after {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tableWrap::before,
+  .tableWrap::after {
+    transition: none;
+  }
+}
+
+.tableScroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+}
+
+.tableWrap table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--t-sm);
+  line-height: 1.45;
+  color: var(--text);
+}
+
+/* room per column for a table wider than a phone column (data-wide, which
+   the renderer sets from the column count and the cell lengths); data-cols
+   is capped at 6 by the renderer */
+.tableWrap[data-wide][data-cols='3'] table {
+  min-width: 520px;
+}
+
+.tableWrap[data-cols='4'] table {
+  min-width: 640px;
+}
+
+.tableWrap[data-cols='5'] table {
+  min-width: 760px;
+}
+
+.tableWrap[data-cols='6'] table {
+  min-width: 900px;
+}
+
+.tableWrap thead th {
+  padding: 0 12px 10px;
+  text-align: left;
+  vertical-align: bottom;
+  font-size: var(--t-label);
+  font-weight: 700;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--gold-dark);
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.tableWrap tbody td,
+.tableWrap tbody th {
+  padding: 10px 12px;
+  text-align: left;
+  vertical-align: top;
+  font-weight: 400;
+  border-bottom: 1px solid var(--line);
+}
+
+/* the wrapper's hairline closes the table */
+.tableWrap tbody tr:last-child td,
+.tableWrap tbody tr:last-child th {
+  border-bottom: 0;
+}
+
+.tableWrap tbody tr:nth-child(even) td,
+.tableWrap tbody tr:nth-child(even) th {
+  background: var(--cream);
+}
+
+/* the first column names the hotel or program */
+.tableWrap tbody td:first-child,
+.tableWrap tbody th {
+  font-weight: 600;
+  color: var(--heading);
+}
+
+/* the first column stays put while the rest slides underneath it, so each
+   cell repeats its row's background: page on the header and odd rows, cream
+   on even rows */
+.tableWrap thead th:first-child,
+.tableWrap tbody td:first-child,
+.tableWrap tbody th[scope='row']:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: var(--page);
+}
+
+.tableWrap tbody tr:nth-child(even) > td:first-child,
+.tableWrap tbody tr:nth-child(even) > th[scope='row']:first-child {
+  background: var(--cream);
+}
+
+/* once columns have slid under it, the fixed column casts a soft shadow */
+.tableWrap[data-left] thead th:first-child,
+.tableWrap[data-left] tbody td:first-child,
+.tableWrap[data-left] tbody th[scope='row']:first-child {
+  box-shadow: 8px 0 10px -8px rgba(12, 10, 5, 0.18);
+}
+
+@media (max-width: 640px) {
+  .figure {
+    margin: var(--s5) 0;
+  }
+
+  /* in a scrolling table the fixed first column leaves room for the rest to
+     slide; a cell's width is its column's preferred width, so a longer word
+     still widens it */
+  .tableWrap[data-wide] th:first-child,
+  .tableWrap[data-wide] td:first-child {
+    width: 128px;
+  }
+}

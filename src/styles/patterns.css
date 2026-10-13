@@ -378,6 +378,11 @@ a.card-link:hover .score {
 
 /* ---- rich text inside article bodies ---------------------------------- */
 
+/* a long URL or file name wraps instead of widening the page on phones */
+.prose {
+  overflow-wrap: break-word;
+}
+
 .prose p {
   font-size: var(--t-base);
   line-height: var(--lh-article);
@@ -414,6 +419,64 @@ a.card-link:hover .score {
   width: 12px;
   height: 1px;
   background: var(--gold);
+}
+
+/* a numbered list is the bulleted one with a small gold numeral for the dash */
+.prose ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+  counter-reset: item;
+}
+
+.prose ol > li {
+  counter-increment: item;
+}
+
+.prose ol > li::before {
+  content: counter(item) '.';
+  top: 0;
+  width: auto;
+  height: auto;
+  background: none;
+  font-family: var(--sans);
+  font-size: var(--t-sm);
+  font-weight: 600;
+  line-height: calc(var(--t-md) * 1.6);
+  color: var(--gold-dark);
+}
+
+/* a list keeps the paragraph gap from the text around it */
+.prose p + ul,
+.prose p + ol,
+.prose ul + p,
+.prose ol + p {
+  margin-top: var(--s4);
+}
+
+/* a quiet section break; headings do the real separating */
+.prose hr {
+  height: 0;
+  margin: var(--s7) 0;
+  border: 0;
+  border-top: 1px solid var(--line-strong);
+}
+
+/* text inside a table cell takes the table's size, not the paragraph's */
+.prose td p,
+.prose th p {
+  margin: 0;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+}
+
+.prose td p + p,
+.prose th p + p {
+  margin-top: var(--s2);
 }
 
 .prose a {

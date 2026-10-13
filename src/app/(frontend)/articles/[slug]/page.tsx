@@ -34,6 +34,7 @@ export default async function ArticlePage({ params }: Props) {
   const article = await getArticle((await params).slug)
   if (!article) notFound()
   const image = articleImage(article)
+  const heroCredit = (article.heroImage && typeof article.heroImage === 'object' ? article.heroImage.credit ?? '' : '').trim()
   const category = ARTICLE_CATEGORY_LABEL[article.category] ?? article.category
   const hotels = (article.related?.hotels ?? []).map((h) => rel<Hotel>(h)).filter((h): h is Hotel => Boolean(h))
   const programs = (article.related?.programs ?? []).map((p) => rel<Program>(p)).filter((p): p is Program => Boolean(p))
@@ -76,6 +77,7 @@ export default async function ArticlePage({ params }: Props) {
       </header>
 
       {image && <div className="hero-img" role="img" aria-label={article.title} style={{ backgroundImage: `url(${image}), var(--img-a)` }} />}
+      {image && heroCredit && <p className={`wrap ${styles.heroCredit}`}>Photo: {heroCredit}.</p>}
 
       <ReadingProgress />
       <main className={styles.body}>

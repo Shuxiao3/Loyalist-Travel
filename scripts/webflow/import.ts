@@ -10,11 +10,12 @@
 
 import fs from 'fs'
 import path from 'path'
+import { fileURLToPath } from 'url'
 
 import type { CollectionSlug, Payload } from 'payload'
 import { getPayload } from 'payload'
 
-import config from '../../src/payload.config'
+import type { Media } from '../../src/payload-types'
 import { RUBRIC_PRE_V15, RUBRIC_V15 } from '../../src/rubric/v15'
 import { convertV15ToV16, RUBRIC_V16, V15_NARRATIVE_TO_V16 } from '../../src/rubric/v16'
 import { htmlToLexical, lexicalWordCount } from './html-to-lexical'
@@ -666,37 +667,277 @@ async function unseedArticles(payload: Payload) {
 
 // ---- Real articles -----------------------------------------------------------------
 // Each file in data/articles is one article: YAML-ish front matter, then a
-// small markdown subset (##/### headings, paragraphs, - bullets, **bold**,
-// *italic*, [text](url)). Upserted by slug and published.
-function markdownToHtml(md: string): string {
+// markdown subset. Blocks are separated by blank lines: ## and ### headings,
+// paragraphs, - bullets, 1. numbered lists, > blockquotes (one paragraph),
+// --- rules, tables with a header row and a |---| separator row, and images
+// ![alt](source-url "stored-filename") followed on the next line by an
+// optional *Caption. Photo: Credit.* line. Inline: **bold**, *italic*,
+// [text](url). Upserted by slug and published.
+
+// An image the body (or the hero front matter line) refers to. src is the
+// download URL, filename the name it is stored under in Media.
+export type ArticleImage = { src: string; filename: string; alt: string; caption: string; credit: string }
+
+const IMAGE_LINE = /^!\[([^\]]*)\]\(\s*(\S+?)(?:\s+"([^"]*)")?\s*\)$/
+const escapeAttr = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+
+// ![alt](src "stored-filename"); without a title the file is named after the
+// last segment of the URL. Null when the line is not an image.
+export function parseMarkdownImage(line: string): { src: string; alt: string; filename: string } | null {
+  const m = IMAGE_LINE.exec(line.trim())
+  if (!m) return null
+  let filename = (m[3] ?? '').trim()
+  if (!filename) {
+    try {
+      filename = decodeURIComponent(path.posix.basename(new URL(m[2]).pathname))
+    } catch {
+      filename = path.posix.basename(m[2].split(/[?#]/)[0])
+    }
+  }
+  return { src: m[2], alt: m[1].trim(), filename }
+}
+
+// *Caption text. Photo: Credit.* -> caption (keeps its trailing period) and
+// credit (trailing period removed). No "Photo:" means no credit. Null when
+// the line is not a single-asterisk italic line.
+export function parseImageCaption(line: string): { caption: string; credit: string } | null {
+  const m = /^\*(?!\*)(.+)\*$/.exec(line.trim())
+  if (!m) return null
+  const inner = m[1].trim()
+  const at = inner.indexOf('Photo:')
+  if (at < 0) return { caption: inner, credit: '' }
+  return { caption: inner.slice(0, at).trim(), credit: inner.slice(at + 'Photo:'.length).trim().replace(/\.$/, '') }
+}
+
+type TableData = { header: string[] | null; rows: string[][] }
+
+const isPipeRow = (l: string) => l.startsWith('|')
+const isSeparatorRow = (l: string) => /^\|?\s*:?-+:?\s*(\|\s*:?-+:?\s*)*\|?\s*$/.test(l) && l.includes('-')
+const splitRow = (l: string): string[] => {
+  let s = l.trim().replace(/\\\|/g, '\u0000')
+  if (s.startsWith('|')) s = s.slice(1)
+  if (s.endsWith('|')) s = s.slice(0, -1)
+  return s.split('|').map((c) => c.trim().replace(/\u0000/g, '|'))
+}
+
+// A chunk (the text between blank lines) holds several blocks when the author
+// skipped a blank line: a heading on its own line, or table rows touching
+// text. Splits after a heading line and where pipe rows meet other lines.
+const splitChunk = (raw: string[]): string[][] => {
+  const parts: string[][] = []
+  let cur: string[] = []
+  let pipes = false
+  for (const line of raw) {
+    const l = line.trim()
+    const heading = /^#{2,3}\s+\S/.test(l)
+    const pipe = isPipeRow(l)
+    if (cur.length && (heading || pipe !== pipes)) {
+      parts.push(cur)
+      cur = []
+    }
+    if (heading) {
+      parts.push([line])
+      pipes = false
+      continue
+    }
+    pipes = pipe
+    cur.push(line)
+  }
+  if (cur.length) parts.push(cur)
+  return parts
+}
+
+// images collects every image the body refers to, in order; warn is told
+// about text that looks like markup the converter did not recognise.
+export function markdownToHtml(md: string, images: ArticleImage[] = [], warn: (message: string) => void = () => {}): string {
   const inline = (t: string) =>
     t
       .replace(/&/g, '&amp;').replace(/</g, '&lt;')
       .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
       .replace(/(^|[^*])\*([^*\n]+?)\*/g, '$1<em>$2</em>')
       .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
-  const out: string[] = []
-  for (const chunk of md.split(/\n\s*\n/)) {
-    const block = chunk.trim()
+  const image = (img: { src: string; alt: string; filename: string }, caption: { caption: string; credit: string } | null) => {
+    const a: ArticleImage = { src: img.src, filename: img.filename, alt: img.alt, caption: caption?.caption ?? '', credit: caption?.credit ?? '' }
+    images.push(a)
+    return `<img src="${escapeAttr(a.src)}" alt="${escapeAttr(a.alt)}" title="${escapeAttr(a.filename)}" data-caption="${escapeAttr(a.caption)}" data-credit="${escapeAttr(a.credit)}">`
+  }
+  const renderTable = (t: TableData) => {
+    const cols = Math.max(t.header?.length ?? 0, ...t.rows.map((r) => r.length))
+    const pad = (r: string[]) => [...r, ...Array<string>(Math.max(0, cols - r.length)).fill('')]
+    const cells = (r: string[], tag: 'th' | 'td') => `<tr>${pad(r).map((c) => `<${tag}>${inline(c)}</${tag}>`).join('')}</tr>`
+    const head = t.header ? `<thead>${cells(t.header, 'th')}</thead>` : ''
+    return `<table>${head}<tbody>${t.rows.map((r) => cells(r, 'td')).join('')}</tbody></table>`
+  }
+  const out: (string | TableData)[] = []
+  for (const part of md.split(/\n\s*\n/).flatMap((chunk) => splitChunk(chunk.split('\n')))) {
+    const block = part.join('\n').trim()
     if (!block) continue
     const h = /^(#{2,3})\s+(.+)$/.exec(block)
     if (h) {
       out.push(`<h${h[1].length}>${inline(h[2])}</h${h[1].length}>`)
       continue
     }
+    const lines = block.split('\n').map((l) => l.trim())
+    if (/^(-{3,}|\*{3,}|_{3,})$/.test(block)) {
+      out.push('<hr>')
+      continue
+    }
+    // a quote opens with "> "; a bare ">" before text, as in ">50%", is text
+    if (/^>(\s|$)/.test(lines[0])) {
+      out.push(`<blockquote>${inline(lines.map((l) => l.replace(/^>\s?/, '')).join(' ').trim())}</blockquote>`)
+      continue
+    }
+    if (lines.every(isPipeRow)) {
+      const rows = lines.map(splitRow)
+      if (lines.length >= 2 && isSeparatorRow(lines[1])) {
+        out.push({ header: rows[0], rows: rows.slice(2) })
+        continue
+      }
+      // rows with no header: a table continued after a stray blank line, or a header-less table
+      const prev = out[out.length - 1]
+      if (prev && typeof prev === 'object') prev.rows.push(...rows)
+      else out.push({ header: null, rows })
+      continue
+    }
+    if (lines.some((l) => IMAGE_LINE.test(l))) {
+      // images, each with an optional caption on the next line; other lines
+      // around them form a paragraph
+      let text: string[] = []
+      const flush = () => {
+        if (text.length) out.push(`<p>${inline(text.join(' '))}</p>`)
+        text = []
+      }
+      for (let i = 0; i < lines.length; i++) {
+        const img = parseMarkdownImage(lines[i])
+        if (!img) {
+          text.push(lines[i])
+          continue
+        }
+        flush()
+        const caption = i + 1 < lines.length ? parseImageCaption(lines[i + 1]) : null
+        if (caption) i++
+        out.push(image(img, caption))
+      }
+      flush()
+      continue
+    }
+    if (lines.every((l) => /^\d+[.)]\s+/.test(l))) {
+      out.push(`<ol>${lines.map((l) => `<li>${inline(l.replace(/^\d+[.)]\s+/, ''))}</li>`).join('')}</ol>`)
+      continue
+    }
     if (block.split('\n').every((l) => /^[-*]\s+/.test(l))) {
       out.push(`<ul>${block.split('\n').map((l) => `<li>${inline(l.replace(/^[-*]\s+/, ''))}</li>`).join('')}</ul>`)
       continue
     }
+    if (lines.some((l) => l.includes('|') && isSeparatorRow(l))) warn(`paragraph looks like a table: ${lines[0].slice(0, 60)}`)
     out.push(`<p>${inline(block.replace(/\n/g, ' '))}</p>`)
   }
-  return out.join('\n')
+  return out.map((o) => (typeof o === 'string' ? o : renderTable(o))).join('\n')
+}
+
+const MIME_BY_EXT: Record<string, string> = { jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', webp: 'image/webp', gif: 'image/gif', avif: 'image/avif', svg: 'image/svg+xml' }
+const mimeFromName = (name: string) => MIME_BY_EXT[path.extname(name).slice(1).toLowerCase()] ?? 'image/jpeg'
+
+// Downloads an image. A failure with a query string in the URL is retried
+// once without it (Wikimedia's ?width= thumbnails are the usual case). A
+// response that is not an image (a page served with 200, say) is a failure
+// too. filename supplies the type when the server names none.
+export async function fetchImage(src: string, filename = ''): Promise<{ data: Buffer; mimetype: string } | { error: string }> {
+  const attempt = async (url: string) => {
+    try {
+      const res = await fetch(url, { headers: { 'User-Agent': 'LoyalistTravel/1.0 (+https://loyalisttravel.com)' }, redirect: 'follow', signal: AbortSignal.timeout(60000) })
+      if (!res.ok) return { error: `HTTP ${res.status}` }
+      const mimetype = res.headers.get('content-type')?.split(';')[0].trim() || mimeFromName(filename || url.split(/[?#]/)[0])
+      if (!mimetype.startsWith('image/')) return { error: `not an image (${mimetype})` }
+      const data = Buffer.from(await res.arrayBuffer())
+      return { data, mimetype }
+    } catch (err) {
+      // Node wraps network errors as "fetch failed" with the reason in cause
+      const cause = (err as { cause?: { message?: string } })?.cause?.message
+      return { error: err instanceof Error ? [err.message, cause].filter(Boolean).join(': ') : String(err) }
+    }
+  }
+  const first = await attempt(src)
+  if (!('error' in first)) return first
+  const q = src.indexOf('?')
+  if (q < 0) return first
+  const second = await attempt(src.slice(0, q))
+  return 'error' in second ? { error: `${first.error}; retry without query: ${second.error}` } : second
+}
+
+// What a run has resolved so far, by stored filename, with the source that
+// produced it.
+type MediaCache = Map<string, { id: number | null; src: string }>
+
+// The Media id for an article image. A media doc already stored under the
+// filename is reused as is; otherwise the bytes come from
+// ARTICLE_IMAGE_DIR/<filename> when that is set and present (local runs
+// without network), else from the source URL, and a media doc is created.
+// Null when neither works, so the article still imports without the image.
+export async function resolveArticleImage(payload: Payload, file: string, img: ArticleImage, cache: MediaCache): Promise<number | null> {
+  if (!img.filename) {
+    console.log(`articles: ${file}: image ${img.src} skipped (no stored filename)`)
+    return null
+  }
+  const hit = cache.get(img.filename)
+  if (hit) {
+    if (hit.src !== img.src) console.log(`articles: ${file}: warning: ${img.filename} was resolved from ${hit.src}; ${img.src} shares that media doc`)
+    return hit.id
+  }
+  const resolve = async (): Promise<number | null> => {
+    const existing = (await payload.find({ collection: 'media', where: { filename: { equals: img.filename } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
+    if (existing) {
+      console.log(`articles: ${file}: media ${img.filename} reused (id ${existing.id})`)
+      return existing.id
+    }
+    let data: Buffer
+    let mimetype: string
+    let from: string
+    const dir = process.env.ARTICLE_IMAGE_DIR
+    const local = dir ? path.join(dir, img.filename) : null
+    if (local && fs.existsSync(local)) {
+      data = fs.readFileSync(local)
+      mimetype = mimeFromName(img.filename)
+      from = 'ARTICLE_IMAGE_DIR'
+    } else {
+      const got = await fetchImage(img.src, img.filename)
+      if ('error' in got) {
+        console.log(`articles: ${file}: image ${img.filename} skipped (${got.error})`)
+        return null
+      }
+      data = got.data
+      mimetype = got.mimetype
+      from = img.src
+    }
+    // no media doc has the name (checked above), so a stray file left on
+    // disk is overwritten rather than the name being suffixed
+    let media: Media
+    try {
+      media = await payload.create({
+        collection: 'media',
+        data: { alt: img.alt || img.caption || img.filename, credit: img.credit || null },
+        file: { data, mimetype, name: img.filename, size: data.length },
+        overrideAccess: true,
+        overwriteExistingFiles: true,
+      })
+    } catch (err) {
+      console.log(`articles: ${file}: image ${img.filename} skipped (${err instanceof Error ? err.message : String(err)})`)
+      return null
+    }
+    console.log(`articles: ${file}: media ${media.filename} created (${data.length} bytes, from ${from})`)
+    if (media.filename !== img.filename) console.log(`articles: ${file}: warning: stored as ${media.filename}, not ${img.filename}; the next run will not find it by name`)
+    return media.id
+  }
+  const id = await resolve()
+  cache.set(img.filename, { id, src: img.src })
+  return id
 }
 
 async function importArticles(payload: Payload) {
   const dir = path.join(process.cwd(), 'data', 'articles')
   if (!fs.existsSync(dir)) return
   let n = 0
+  const mediaCache: MediaCache = new Map()
   for (const file of fs.readdirSync(dir).filter((f) => f.endsWith('.md')).sort()) {
     const raw = fs.readFileSync(path.join(dir, file), 'utf8')
     const m = /^---\n([\s\S]*?)\n---\n([\s\S]*)$/.exec(raw)
@@ -707,8 +948,26 @@ async function importArticles(payload: Payload) {
       if (kv) meta[kv[1]] = kv[2].trim()
     }
     for (const k of ['title', 'slug', 'category', 'date']) if (!meta[k]) throw new Error(`articles: ${file} is missing ${k}`)
-    const body = htmlToLexical(markdownToHtml(m[2])).value
+
+    // images first, so the body can point at their media ids
+    const images: ArticleImage[] = []
+    const html = markdownToHtml(m[2], images, (message) => console.log(`articles: ${file}: ${message}`))
+    const uploads = new Map<string, number>()
+    for (const img of images) {
+      const id = await resolveArticleImage(payload, file, img, mediaCache)
+      if (id != null) uploads.set(img.src, id)
+    }
+    let heroId: number | null = null
+    if (meta.hero) {
+      const hero = parseMarkdownImage(meta.hero)
+      if (hero) heroId = await resolveArticleImage(payload, file, { ...hero, caption: '', credit: meta.heroCredit ?? '' }, mediaCache)
+      else console.log(`articles: ${file}: hero is not an image line, ignored`)
+    }
+    const converted = htmlToLexical(html, { uploads })
+    droppedImages.push(...converted.droppedImages)
+    const body = converted.value
     if (!body) throw new Error(`articles: ${file} has an empty body`)
+
     const programs: number[] = []
     for (const slug of (meta.programs ?? '').split(',').map((s) => s.trim()).filter(Boolean)) {
       const p = (await payload.find({ collection: 'programs', where: { slug: { equals: slug } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
@@ -731,6 +990,8 @@ async function importArticles(payload: Payload) {
       featured: meta.featured === 'true',
       related: { programs, articles: related },
       seo: { title: meta.metaTitle || null, description: meta.metaDescription || null },
+      // only when the hero resolved; an existing hero is otherwise left alone
+      ...(heroId != null ? { heroImage: heroId } : {}),
       _status: 'published',
     }
     const existing = (await payload.find({ collection: 'articles', where: { slug: { equals: meta.slug } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
@@ -1388,6 +1649,7 @@ async function main() {
   const steps = only.length ? only : Object.keys(STEPS)
   for (const s of steps) if (!STEPS[s]) throw new Error(`Unknown step ${s}. Steps: ${Object.keys(STEPS).join(', ')}`)
 
+  const { default: config } = await import('../../src/payload.config')
   const payload = await getPayload({ config })
   // Preload every id map so a partial run can resolve references to
   // collections imported earlier.
@@ -1397,7 +1659,7 @@ async function main() {
   for (const s of steps) await STEPS[s](payload)
 
   if (droppedImages.length) {
-    console.log(`\nDropped ${droppedImages.length} inline image(s) from rich text (media pipeline is a later step):`)
+    console.log(`\nDropped ${droppedImages.length} inline image(s) from rich text (no media record):`)
     for (const u of droppedImages) console.log('  ' + u)
   }
 
@@ -1409,7 +1671,18 @@ async function main() {
   process.exit(0)
 }
 
-main().catch((err) => {
-  console.error(err)
-  process.exit(1)
-})
+// Only as the entry point: the converter above is also imported by tests.
+// Both sides are real paths, so a symlinked invocation still counts.
+const realPath = (p: string) => {
+  try {
+    return fs.realpathSync(p)
+  } catch {
+    return ''
+  }
+}
+if (process.argv[1] && realPath(path.resolve(process.argv[1])) === realPath(fileURLToPath(import.meta.url))) {
+  main().catch((err) => {
+    console.error(err)
+    process.exit(1)
+  })
+}
