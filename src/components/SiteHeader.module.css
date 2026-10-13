@@ -192,8 +192,9 @@
   display: none;
 }
 
-/* Phone: links collapse into the drawer. */
-@media (max-width: 640px) {
+/* Tablet and phone: the link row needs about 980px, so below the tablet
+   breakpoint the links collapse into the drawer. */
+@media (max-width: 1100px) {
   .inner {
     height: 64px;
   }
