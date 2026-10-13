@@ -1,16 +1,17 @@
 # Runs the Webflow import against the production database.
 #
 # Manual only: Actions tab → "Import Webflow content" → Run workflow.
-# Needs two repository secrets, copied from the Vercel project's environment
-# variables: DATABASE_URL and PAYLOAD_SECRET. The import is idempotent, so
-# running it again is safe.
+# Needs three repository secrets, copied from the Vercel project's environment
+# variables: DATABASE_URL, PAYLOAD_SECRET and BLOB_READ_WRITE_TOKEN (without
+# the last, article photos are skipped; run articles-refresh once it is set).
+# The import is idempotent, so running it again is safe.
 name: Import Webflow content
 
 on:
   workflow_dispatch:
     inputs:
       step:
-        description: 'One step only (regions, programs, status-levels, brands, amenities, destinations, rubric-versions, hotels, reviews, publish, logos, logos-local, images, hilton, seed-stays, unseed-stays, seed-articles, unseed-articles, articles, retire-tiers, lounge-flags, lounge-brand-rules, seed-lounges, sourced-reports, seed-milestones, seed-cards, seed-brand-ranks). Blank runs the import without publish.'
+        description: 'One step only (regions, programs, status-levels, brands, amenities, destinations, rubric-versions, hotels, reviews, publish, logos, logos-local, images, hilton, seed-stays, unseed-stays, seed-articles, unseed-articles, articles, articles-refresh, retire-tiers, lounge-flags, lounge-brand-rules, seed-lounges, sourced-reports, seed-milestones, seed-cards, seed-brand-ranks). Blank runs the import without publish.'
         required: false
         default: ''
 

@@ -874,6 +874,14 @@ type MediaCache = Map<string, { id: number | null; src: string }>
 // ARTICLE_IMAGE_DIR/<filename> when that is set and present (local runs
 // without network), else from the source URL, and a media doc is created.
 // Null when neither works, so the article still imports without the image.
+// On a GitHub runner without the Blob token, an uploaded photo lands on the
+// runner's own disk and is gone when the job ends, leaving a media record
+// that points nowhere. Photos are skipped there instead.
+export function photosUnavailable(): boolean {
+  return Boolean(process.env.GITHUB_ACTIONS) && !process.env.BLOB_READ_WRITE_TOKEN
+}
+const PHOTOS_SKIPPED = 'photos skipped: BLOB_READ_WRITE_TOKEN is not set, so a photo uploaded from this runner would be lost with it. Add the repository secret, then run the articles-refresh step.'
+
 export async function resolveArticleImage(payload: Payload, file: string, img: ArticleImage, cache: MediaCache): Promise<number | null> {
   if (!img.filename) {
     console.log(`articles: ${file}: image ${img.src} skipped (no stored filename)`)
@@ -938,6 +946,8 @@ async function importArticles(payload: Payload) {
   if (!fs.existsSync(dir)) return
   let n = 0
   const mediaCache: MediaCache = new Map()
+  const withPhotos = !photosUnavailable()
+  if (!withPhotos) console.log(`articles: ${PHOTOS_SKIPPED}`)
   for (const file of fs.readdirSync(dir).filter((f) => f.endsWith('.md')).sort()) {
     const raw = fs.readFileSync(path.join(dir, file), 'utf8')
     const m = /^---\n([\s\S]*?)\n---\n([\s\S]*)$/.exec(raw)
@@ -953,18 +963,20 @@ async function importArticles(payload: Payload) {
     const images: ArticleImage[] = []
     const html = markdownToHtml(m[2], images, (message) => console.log(`articles: ${file}: ${message}`))
     const uploads = new Map<string, number>()
-    for (const img of images) {
-      const id = await resolveArticleImage(payload, file, img, mediaCache)
-      if (id != null) uploads.set(img.src, id)
-    }
     let heroId: number | null = null
-    if (meta.hero) {
-      const hero = parseMarkdownImage(meta.hero)
-      if (hero) heroId = await resolveArticleImage(payload, file, { ...hero, caption: '', credit: meta.heroCredit ?? '' }, mediaCache)
-      else console.log(`articles: ${file}: hero is not an image line, ignored`)
+    if (withPhotos) {
+      for (const img of images) {
+        const id = await resolveArticleImage(payload, file, img, mediaCache)
+        if (id != null) uploads.set(img.src, id)
+      }
+      if (meta.hero) {
+        const hero = parseMarkdownImage(meta.hero)
+        if (hero) heroId = await resolveArticleImage(payload, file, { ...hero, caption: '', credit: meta.heroCredit ?? '' }, mediaCache)
+        else console.log(`articles: ${file}: hero is not an image line, ignored`)
+      }
     }
     const converted = htmlToLexical(html, { uploads })
-    droppedImages.push(...converted.droppedImages)
+    if (withPhotos) droppedImages.push(...converted.droppedImages)
     const body = converted.value
     if (!body) throw new Error(`articles: ${file} has an empty body`)
 
@@ -990,8 +1002,9 @@ async function importArticles(payload: Payload) {
       featured: meta.featured === 'true',
       related: { programs, articles: related },
       seo: { title: meta.metaTitle || null, description: meta.metaDescription || null },
-      // only when the hero resolved; an existing hero is otherwise left alone
-      ...(heroId != null ? { heroImage: heroId } : {}),
+      // set when the hero resolved, cleared when photos are skipped (a
+      // leftover hero would point at a lost file), otherwise left alone
+      ...(heroId != null ? { heroImage: heroId } : withPhotos ? {} : { heroImage: null }),
       _status: 'published',
     }
     const existing = (await payload.find({ collection: 'articles', where: { slug: { equals: meta.slug } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
@@ -1000,6 +1013,36 @@ async function importArticles(payload: Payload) {
     n++
   }
   console.log(`articles: upserted ${n} article(s)`)
+}
+
+// Re-creates every photo the articles refer to: the media records are
+// deleted by filename and the articles imported again, so the files are
+// fetched and stored afresh. For a run that happened without the Blob
+// token, whose photos are lost.
+async function refreshArticleImages(payload: Payload) {
+  if (photosUnavailable()) {
+    console.log(`articles-refresh: ${PHOTOS_SKIPPED}`)
+    return
+  }
+  const dir = path.join(process.cwd(), 'data', 'articles')
+  if (!fs.existsSync(dir)) return
+  const filenames = new Set<string>()
+  for (const file of fs.readdirSync(dir).filter((f) => f.endsWith('.md')).sort()) {
+    const raw = fs.readFileSync(path.join(dir, file), 'utf8')
+    const m = /^---\n([\s\S]*?)\n---\n([\s\S]*)$/.exec(raw)
+    if (!m) continue
+    const images: ArticleImage[] = []
+    markdownToHtml(m[2], images)
+    for (const img of images) if (img.filename) filenames.add(img.filename)
+    const heroLine = m[1].split('\n').find((l) => /^hero:\s*/.test(l))
+    const hero = heroLine ? parseMarkdownImage(heroLine.replace(/^hero:\s*/, '')) : null
+    if (hero?.filename) filenames.add(hero.filename)
+  }
+  if (filenames.size) {
+    const res = await payload.delete({ collection: 'media', where: { filename: { in: Array.from(filenames) } }, overrideAccess: true })
+    console.log(`articles-refresh: removed ${res.docs.length} of ${filenames.size} photo record(s)`)
+  }
+  await importArticles(payload)
 }
 
 // ---- Milestone rewards -----------------------------------------------------------
@@ -1634,6 +1677,7 @@ const STEPS: Record<string, (p: Payload) => Promise<void>> = {
   'seed-articles': seedArticles,
   'unseed-articles': unseedArticles,
   articles: importArticles,
+  'articles-refresh': refreshArticleImages,
   'retire-tiers': retireTiers,
   'seed-milestones': seedMilestones,
   'seed-cards': seedCards,
