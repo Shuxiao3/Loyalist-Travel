@@ -18,7 +18,11 @@ export function MobileToc({ items, eyebrow = 'On this page' }: { items: TocItem[
   useEffect(() => {
     const el = card.current
     if (!el || typeof IntersectionObserver === 'undefined') return
-    const io = new IntersectionObserver(([e]) => setPassed(!e.isIntersecting && e.boundingClientRect.top < 0), { threshold: 0 })
+    // The root reaches far below the screen, so "not intersecting" can only
+    // mean the card is above it: a jump that skips the card in one frame
+    // (End or Home, a tap on the status bar) still lands in the right state.
+    // The last entry of a batch is the current one.
+    const io = new IntersectionObserver((entries) => setPassed(!entries[entries.length - 1].isIntersecting), { threshold: 0, rootMargin: '0px 0px 10000px 0px' })
     io.observe(el)
     return () => io.disconnect()
   }, [])

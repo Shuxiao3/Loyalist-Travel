@@ -65,7 +65,7 @@
   margin-top: var(--s3);
   font-size: var(--t-xs);
   line-height: 1.5;
-  color: var(--muted);
+  color: var(--text-2);
   letter-spacing: var(--track-fine);
 }
 
@@ -218,6 +218,13 @@
 @media (max-width: 640px) {
   .figure {
     margin: var(--s5) 0;
+  }
+
+  /* a panorama would be a thin strip on a phone: a photo keeps at least this
+     height and is cropped at the sides instead */
+  .figure img {
+    min-height: 120px;
+    object-fit: cover;
   }
 
   /* in a scrolling table the fixed first column leaves room for the rest to
