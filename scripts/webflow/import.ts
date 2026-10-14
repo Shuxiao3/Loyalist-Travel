@@ -670,12 +670,20 @@ async function unseedArticles(payload: Payload) {
 // markdown subset. Blocks are separated by blank lines: ## and ### headings,
 // paragraphs, - bullets, 1. numbered lists, > blockquotes (one paragraph),
 // --- rules, tables with a header row and a |---| separator row, and images
-// ![alt](source-url "stored-filename") followed on the next line by an
-// optional *Caption. Photo: Credit.* line. Inline: **bold**, *italic*,
-// [text](url). Upserted by slug and published.
+// ![alt](source "stored-filename") followed on the next line by an optional
+// *Caption. Photo: Credit.* line. Inline: **bold**, *italic*, [text](url).
+// Upserted by slug and published.
+//
+// An image source is a URL or a path relative to data/articles: photos
+// shipped with the repo live in data/articles/images/<slug>/ and are
+// written as images/<slug>/name.jpg. The stored filename is the name of the
+// media doc, looked up by name on every run, so it should be unique across
+// articles (two articles each shipping a vail.jpg would otherwise share one
+// media doc); prefix it with the article slug.
 
 // An image the body (or the hero front matter line) refers to. src is the
-// download URL, filename the name it is stored under in Media.
+// download URL or the path relative to data/articles, filename the name it
+// is stored under in Media.
 export type ArticleImage = { src: string; filename: string; alt: string; caption: string; credit: string }
 
 const IMAGE_LINE = /^!\[([^\]]*)\]\(\s*(\S+?)(?:\s+"([^"]*)")?\s*\)$/
@@ -865,6 +873,43 @@ export async function fetchImage(src: string, filename = ''): Promise<{ data: Bu
   return 'error' in second ? { error: `${first.error}; retry without query: ${second.error}` } : second
 }
 
+// The markdown files, and under images/<slug>/ the photos they ship with.
+const articlesDir = () => path.join(process.cwd(), 'data', 'articles')
+
+const isHttpUrl = (src: string) => /^https?:\/\//i.test(src)
+
+// The real path of p (symlinks followed), '' when it does not exist.
+const realPath = (p: string) => {
+  try {
+    return fs.realpathSync(p)
+  } catch {
+    return ''
+  }
+}
+
+// The path of abs inside dir with / separators; null when abs is dir itself
+// or lies outside it.
+const within = (dir: string, abs: string): string | null => {
+  const rel = path.relative(dir, abs)
+  if (!rel || rel === '..' || rel.startsWith(`..${path.sep}`) || path.isAbsolute(rel)) return null
+  return rel.split(path.sep).join('/')
+}
+
+// A source that is not a URL is a path relative to data/articles. Where it
+// is on disk, with the relative path for log lines; null when it points
+// outside that folder: an absolute path, one that climbs out with .., or a
+// symlink whose target is outside. A path that does not exist yet passes
+// and is reported as missing by the caller.
+export function localArticleImage(src: string): { abs: string; rel: string } | null {
+  const dir = articlesDir()
+  const abs = path.resolve(dir, src)
+  const rel = within(dir, abs)
+  if (rel === null) return null
+  const real = realPath(abs)
+  if (real && within(realPath(dir), real) === null) return null
+  return { abs, rel }
+}
+
 // What a run has resolved so far, by stored filename, with the source that
 // produced it.
 type MediaCache = Map<string, { id: number | null; src: string }>
@@ -872,8 +917,10 @@ type MediaCache = Map<string, { id: number | null; src: string }>
 // The Media id for an article image. A media doc already stored under the
 // filename is reused as is; otherwise the bytes come from
 // ARTICLE_IMAGE_DIR/<filename> when that is set and present (local runs
-// without network), else from the source URL, and a media doc is created.
-// Null when neither works, so the article still imports without the image.
+// without network), else from the source: downloaded when it is an http(s)
+// URL, read from data/articles/<path> otherwise. A media doc is created.
+// Null when none of these works (a path outside data/articles is refused),
+// so the article still imports without the image.
 // On a GitHub runner without the Blob token, an uploaded photo lands on the
 // runner's own disk and is gone when the job ends, leaving a media record
 // that points nowhere. Photos are skipped there instead.
@@ -907,7 +954,7 @@ export async function resolveArticleImage(payload: Payload, file: string, img: A
       data = fs.readFileSync(local)
       mimetype = mimeFromName(img.filename)
       from = 'ARTICLE_IMAGE_DIR'
-    } else {
+    } else if (isHttpUrl(img.src)) {
       const got = await fetchImage(img.src, img.filename)
       if ('error' in got) {
         console.log(`articles: ${file}: image ${img.filename} skipped (${got.error})`)
@@ -916,6 +963,19 @@ export async function resolveArticleImage(payload: Payload, file: string, img: A
       data = got.data
       mimetype = got.mimetype
       from = img.src
+    } else {
+      const shipped = localArticleImage(img.src)
+      if (!shipped) {
+        console.log(`articles: ${file}: image ${img.filename} skipped (outside data/articles)`)
+        return null
+      }
+      if (!fs.statSync(shipped.abs, { throwIfNoEntry: false })?.isFile()) {
+        console.log(`articles: ${file}: image ${img.filename} skipped (file not found: ${shipped.rel})`)
+        return null
+      }
+      data = fs.readFileSync(shipped.abs)
+      mimetype = mimeFromName(shipped.abs)
+      from = shipped.rel
     }
     // no media doc has the name (checked above), so a stray file left on
     // disk is overwritten rather than the name being suffixed
@@ -942,7 +1002,7 @@ export async function resolveArticleImage(payload: Payload, file: string, img: A
 }
 
 async function importArticles(payload: Payload) {
-  const dir = path.join(process.cwd(), 'data', 'articles')
+  const dir = articlesDir()
   if (!fs.existsSync(dir)) return
   let n = 0
   const mediaCache: MediaCache = new Map()
@@ -1024,7 +1084,7 @@ async function refreshArticleImages(payload: Payload) {
     console.log(`articles-refresh: ${PHOTOS_SKIPPED}`)
     return
   }
-  const dir = path.join(process.cwd(), 'data', 'articles')
+  const dir = articlesDir()
   if (!fs.existsSync(dir)) return
   const filenames = new Set<string>()
   for (const file of fs.readdirSync(dir).filter((f) => f.endsWith('.md')).sort()) {
@@ -1717,13 +1777,6 @@ async function main() {
 
 // Only as the entry point: the converter above is also imported by tests.
 // Both sides are real paths, so a symlinked invocation still counts.
-const realPath = (p: string) => {
-  try {
-    return fs.realpathSync(p)
-  } catch {
-    return ''
-  }
-}
 if (process.argv[1] && realPath(path.resolve(process.argv[1])) === realPath(fileURLToPath(import.meta.url))) {
   main().catch((err) => {
     console.error(err)

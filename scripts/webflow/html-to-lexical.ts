@@ -261,7 +261,12 @@ export function htmlToLexical(html: string | null | undefined, options: HtmlToLe
         const cleaned = text.replace(/\s+/g, ' ')
         if (!cleaned) return
         if (!current && !link && cleaned.trim() === '') return
-        target().push({ type: 'text', text: cleaned, format, detail: 0, mode: 'normal', style: '', version: 1 })
+        // the parser hands the text around an entity (&amp;) over in pieces;
+        // one run of equally formatted text is one node, as the editor keeps it
+        const siblings = target()
+        const last = siblings[siblings.length - 1]
+        if (last && last.type === 'text' && last.format === format) last.text = (last.text + cleaned).replace(/ {2,}/g, ' ')
+        else siblings.push({ type: 'text', text: cleaned, format, detail: 0, mode: 'normal', style: '', version: 1 })
       },
       onclosetag(name) {
         switch (name) {
