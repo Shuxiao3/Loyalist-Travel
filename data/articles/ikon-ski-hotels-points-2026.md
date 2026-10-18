@@ -241,7 +241,7 @@ BZN is ~52 miles away, rent the car, watch the Gallatin Canyon in weather.
 
 ### Sun Valley & Schweitzer (ID)
 
-- **Sun Valley:** the resort lodges are independent. Base in Hailey / Ketchum value motels (Wyndham-branded options appear at fixed tiers) or accept Boise (2.5 hrs) as a flight base only. This is an Ikon gap in all six programs, say so to readers rather than padding it.
+- **Sun Valley:** the resort lodges are independent. Base in Hailey / Ketchum value motels (Wyndham-branded options appear at fixed tiers) or accept Boise (2.5 hrs) as a flight base only. This is an Ikon gap in all six programs.
 - **Schweitzer:** base in Sandpoint (~20 min), **La Quinta by Wyndham Sandpoint** at a fixed tier, plus Choice options in Sandpoint/Ponderay. Spokane (GEG, ~80 miles) has every program if you're combining with a travel day.
 
 ### Crystal Mountain, The Summit at Snoqualmie (WA) & Mt. Bachelor (OR)

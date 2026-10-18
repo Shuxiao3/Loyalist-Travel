@@ -347,7 +347,7 @@ Full Epic Pass holders get **7 days total across all six RCR resorts**, no black
 
 ### Fernie, British Columbia
 
-The slope-side lodges are independent, the in-town chain flagship flies a flag outside the six programs, and Fernie's old Wyndham-branded motel on Highway 3 now trades as an independent. **Verdict: no verified six-program hotel in Fernie.** The nearest chain base is Cranbrook (see Kimberley), roughly an hour and a quarter away. Fernie on Epic is a cash-lodging trip.
+The slope-side lodges are independent, the in-town chain flagship flies a flag outside the six programs, and Fernie's old Wyndham-branded motel on Highway 3 now trades as an independent. **Verdict: we found no six-program hotel in Fernie.** The nearest chain base is Cranbrook (see Kimberley), roughly an hour and a quarter away. Fernie on Epic is a cash-lodging trip.
 
 ### Kicking Horse, British Columbia: The Golden Base
 
@@ -380,7 +380,7 @@ Canmore (35 minutes) is the fallback: **Holiday Inn Canmore** (IHG), **Super 8 C
 
 ### Stoneham, Québec
 
-The Hôtel Stoneham is resort-run and independent. The base is **Québec City** (about 30 minutes): DoubleTree and Hampton Inn & Suites Beauport (Hilton), Delta Québec, Hotel PUR and Courtyard (Marriott), Travelodge and Super 8 (Wyndham), and Choice's Ascend and Quality flags. No Hyatt or IHG property surfaced in the city listings.
+The Hôtel Stoneham is resort-run and independent. The base is **Québec City** (about 30 minutes): DoubleTree and Hampton Inn & Suites Beauport (Hilton), Delta Québec, Hotel PUR and Courtyard (Marriott), Travelodge and Super 8 (Wyndham), and Choice's Ascend and Quality flags. We found no Hyatt or IHG property in the city listings.
 
 ---
 
