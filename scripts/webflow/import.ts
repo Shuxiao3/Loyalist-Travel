@@ -1350,8 +1350,10 @@ async function seedLounges(payload: Payload) {
 // Reads loyalist-pipeline/data/data_points.csv (one row per stay the
 // extraction found) and upserts each as a sourced report, keyed on source
 // and post id so reruns update in place. Low-confidence rows are skipped;
-// high-confidence ones arrive approved, medium ones pending. An editor's
-// later status change is kept on rerun.
+// high- and medium-confidence ones arrive approved (Austin's call 2026-10-18:
+// display all medium). An editor's later status change is kept on rerun,
+// except records still sitting at the import's old 'pending' holding state
+// are promoted to approved.
 function parseCsv(text: string): Record<string, string>[] {
   const rows: string[][] = []
   let row: string[] = []
@@ -1452,10 +1454,11 @@ async function importSourcedReports(payload: Payload) {
     }
     const existing = (await payload.find({ collection: 'sourced-reports', where: { sourceKey: { equals: sourceKey } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
     if (existing) {
-      await payload.update({ collection: 'sourced-reports', id: existing.id, data: data as never, overrideAccess: true })
+      const promote = (existing as { status?: string }).status === 'pending' ? { status: 'approved' } : {}
+      await payload.update({ collection: 'sourced-reports', id: existing.id, data: { ...data, ...promote } as never, overrideAccess: true })
       updated++
     } else {
-      await payload.create({ collection: 'sourced-reports', data: { ...data, status: r.confidence === 'high' ? 'approved' : 'pending' } as never, overrideAccess: true })
+      await payload.create({ collection: 'sourced-reports', data: { ...data, status: 'approved' } as never, overrideAccess: true })
       created++
     }
   }
