@@ -558,6 +558,10 @@ export interface Media {
   id: number;
   alt: string;
   credit?: string | null;
+  /**
+   * Set by the article import for a photo the site serves from its own files. Pages show this address instead of the uploaded copy.
+   */
+  staticUrl?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -2078,6 +2082,7 @@ export interface AmenitiesSelect<T extends boolean = true> {
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
   credit?: T;
+  staticUrl?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;

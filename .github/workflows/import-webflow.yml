@@ -2,9 +2,11 @@
 #
 # Manual only: Actions tab → "Import Webflow content" → Run workflow.
 # Needs three repository secrets, copied from the Vercel project's environment
-# variables: DATABASE_URL, PAYLOAD_SECRET and BLOB_READ_WRITE_TOKEN (without
-# the last, article photos are skipped; run articles-refresh once it is set).
-# The import is idempotent, so running it again is safe.
+# variables: DATABASE_URL and PAYLOAD_SECRET. BLOB_READ_WRITE_TOKEN is
+# optional: article photos shipped under public/images/articles are served
+# from the site's own files and need no storage; only photos fetched from
+# other sites are skipped without it. The import is idempotent, so running
+# it again is safe.
 name: Import Webflow content
 
 on:

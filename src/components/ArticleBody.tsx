@@ -65,7 +65,9 @@ export function ArticleBody({ data }: { data?: SerializedEditorState | null }) {
       // query did not reach this depth.
       const media = node.value
       if (!media || typeof media !== 'object') return null
-      const { url, alt, credit, width, height, mimeType, filename } = media as Media
+      const { url: stored, staticUrl, alt, credit, width, height, mimeType, filename } = media as Media
+      // a photo the site serves itself shows from there
+      const url = staticUrl || stored
       if (!url) return null
       if (mimeType && !mimeType.startsWith('image/')) {
         return (

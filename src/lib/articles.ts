@@ -41,6 +41,6 @@ export async function getArticleCategoryCounts(): Promise<Record<string, number>
 }
 
 export function articleImage(a: Article): string | null {
-  const media = a.heroImage && typeof a.heroImage === 'object' ? a.heroImage.url : null
+  const media = a.heroImage && typeof a.heroImage === 'object' ? a.heroImage.staticUrl || a.heroImage.url : null
   return media ?? a.externalImageUrl ?? null
 }

@@ -9,7 +9,7 @@ articles: epic-pass-ski-hotels-points-2026
 dek: Where to sleep on points near every Ikon Pass resort for winter 2026–27, across World of Hyatt, Marriott Bonvoy, Hilton Honors, IHG One Rewards, Choice Privileges and Wyndham Rewards. For each stay we flag the status perk that actually matters at 7 a.m. on a powder day.
 metaTitle: Ikon Pass Hotels on Points: The 2026 Guide to Every Resort
 metaDescription: Ikon Pass hotels on points for winter 2026–27: World of Hyatt, Marriott Bonvoy, Hilton Honors, IHG One Rewards, Choice Privileges and Wyndham Rewards.
-hero: ![Aerial view of skiers at a mountain resort](images/ikon-ski-hotels-points-2026/hero.jpg "ikon-2026-hero.jpg")
+hero: ![Aerial view of skiers at a mountain resort](/images/articles/ikon-ski-hotels-points-2026/hero.jpg "ikon-2026-hero.jpg")
 heroCredit: Pexels
 ---
 
@@ -76,7 +76,7 @@ If you read nothing else, read this. These are the stays where points still beat
 
 ### Mammoth Mountain & June Mountain
 
-![Mammoth Mountain, California](images/ikon-ski-hotels-points-2026/mammoth.jpg "ikon-2026-mammoth.jpg")
+![Mammoth Mountain, California](/images/articles/ikon-ski-hotels-points-2026/mammoth.jpg "ikon-2026-mammoth.jpg")
 *Mammoth Mountain, California. Photo: Wikimedia Commons.*
 
 Mammoth Lakes (MMH, or drive from RNO / LAX) remains Marriott's mountain in California.
@@ -93,7 +93,7 @@ Mammoth Lakes (MMH, or drive from RNO / LAX) remains Marriott's mountain in Cali
 
 ### Palisades Tahoe (Olympic Valley + Alpine Meadows)
 
-![Palisades Tahoe aerial tram with Lake Tahoe behind](images/ikon-ski-hotels-points-2026/palisades.jpg "ikon-2026-palisades.jpg")
+![Palisades Tahoe aerial tram with Lake Tahoe behind](/images/articles/ikon-ski-hotels-points-2026/palisades.jpg "ikon-2026-palisades.jpg")
 *The Palisades Tahoe aerial tram, Lake Tahoe behind. Photo: Palisades Tahoe.*
 
 RNO is 47 miles away. There is still no slope-side hotel from our six programs in Olympic Valley, the Village lodging is independent. Stay in Truckee (20 min) or at the lake.
@@ -121,7 +121,7 @@ South Lake Tahoe / Meyers lodging is mostly independent. The practical six-progr
 
 ### Aspen Snowmass (Aspen, Snowmass, Buttermilk, Highlands)
 
-![Snowmass gondola and ski area, Colorado](images/ikon-ski-hotels-points-2026/snowmass.jpg "ikon-2026-snowmass.jpg")
+![Snowmass gondola and ski area, Colorado](/images/articles/ikon-ski-hotels-points-2026/snowmass.jpg "ikon-2026-snowmass.jpg")
 *Snowmass, Colorado. Photo: Wikimedia Commons.*
 
 ASE is 8 miles from Snowmass; DEN is the budget flight + a real drive. Ikon full pass gets 7 days across the four Aspen mountains; **new for 2026–27, Base gets 5 days at Snowmass**.
@@ -137,7 +137,7 @@ ASE is 8 miles from Snowmass; DEN is the budget flight + a real drive. Ikon full
 
 ### Steamboat
 
-![Steamboat Ski Resort, Colorado](images/ikon-ski-hotels-points-2026/steamboat.jpg "ikon-2026-steamboat.jpg")
+![Steamboat Ski Resort, Colorado](/images/articles/ikon-ski-hotels-points-2026/steamboat.jpg "ikon-2026-steamboat.jpg")
 *Steamboat, Colorado. Photo: Wikimedia Commons.*
 
 HDN is 27 miles away; the town bus is free and good, so in-town beats slope-side on value.
@@ -160,7 +160,7 @@ For **Eldora** (64 miles from DEN, 21 miles from Boulder): base in Boulder, **Re
 
 ### Copper Mountain, Arapahoe Basin & Summit County
 
-![Tucker Mountain at Copper Mountain Resort](images/ikon-ski-hotels-points-2026/copper.jpg "ikon-2026-copper.jpg")
+![Tucker Mountain at Copper Mountain Resort](/images/articles/ikon-ski-hotels-points-2026/copper.jpg "ikon-2026-copper.jpg")
 *Tucker Mountain at Copper Mountain. Photo: Wikimedia Commons.*
 
 This cluster changed more than any other in Colorado. You no longer have to sleep in Frisco and drive, though Frisco/Silverthorne/Dillon (10–20 min to Copper, 10–25 min to A-Basin and Keystone, which is Epic) is still the value corridor.
@@ -187,7 +187,7 @@ SLC is the easiest major ski airport in North America: ~40 minutes to Park City/
 
 ### Deer Valley & Park City
 
-![Deer Valley Resort, Utah](images/ikon-ski-hotels-points-2026/deer-valley.jpg "ikon-2026-deer-valley.jpg")
+![Deer Valley Resort, Utah](/images/articles/ikon-ski-hotels-points-2026/deer-valley.jpg "ikon-2026-deer-valley.jpg")
 *Deer Valley, Utah. Photo: Wikimedia Commons.*
 
 | Hotel | Program | Access | 2026 points (indicative) | Loyalist note |
@@ -217,7 +217,7 @@ There is **still no slope-side hotel from our six programs at Alta, Snowbird, Br
 
 ### Jackson Hole (WY)
 
-![Grand Teton over Jackson Hole, Wyoming](images/ikon-ski-hotels-points-2026/jackson.jpg "ikon-2026-jackson.jpg")
+![Grand Teton over Jackson Hole, Wyoming](/images/articles/ikon-ski-hotels-points-2026/jackson.jpg "ikon-2026-jackson.jpg")
 *The Tetons over Jackson Hole. Photo: Wikimedia Commons.*
 
 JAC is 13 miles from the mountain, fly in, and you can be on the tram the same afternoon. Teton Village lodging is mostly independent/Four Seasons; our six programs live in the town of Jackson (~20 min, START bus).
@@ -259,7 +259,7 @@ Girdwood's Alyeska Resort hotel is independent (and the mountain is the trip). A
 
 ### Vermont: Stratton, Killington–Pico, Sugarbush
 
-![View from Killington Peak, Vermont](images/ikon-ski-hotels-points-2026/killington.jpg "ikon-2026-killington.jpg")
+![View from Killington Peak, Vermont](/images/articles/ikon-ski-hotels-points-2026/killington.jpg "ikon-2026-killington.jpg")
 *From Killington Peak, Vermont. Photo: Wikimedia Commons.*
 
 | Resort | Best points bases | Notes |
@@ -300,7 +300,7 @@ Taos town is 19 miles / ~35 min below the valley, stay there, eat better, pay le
 
 ### Tremblant (QC)
 
-![Mont-Tremblant village, Quebec](images/ikon-ski-hotels-points-2026/tremblant.jpg "ikon-2026-tremblant.jpg")
+![Mont-Tremblant village, Quebec](/images/articles/ikon-ski-hotels-points-2026/tremblant.jpg "ikon-2026-tremblant.jpg")
 *Mont-Tremblant, Quebec. Photo: Wikimedia Commons.*
 
 The pedestrian village is the best big-six village in eastern North America, three programs within a short walk of the gondola:
@@ -321,7 +321,7 @@ Loyalist note: Marriott's two village properties + 5th-night-free is the stronge
 
 ### SkiBig3: Banff Sunshine, Lake Louise, Mt. Norquay (AB)
 
-![Skier at Lake Louise, Alberta](images/ikon-ski-hotels-points-2026/banff.jpg "ikon-2026-banff.jpg")
+![Skier at Lake Louise, Alberta](/images/articles/ikon-ski-hotels-points-2026/banff.jpg "ikon-2026-banff.jpg")
 *Lake Louise, Alberta. Photo: Ski Banff–Lake Louise–Sunshine / Dan Evans.*
 
 Stay in Banff or Canmore, the SkiBig3 bus links town to all three mountains, so any Banff bed is a ski bed.
@@ -358,7 +358,7 @@ Baie-Saint-Paul (20 min) is independents; the practical big-six base is **Quebec
 
 ### Zermatt (CH) & St. Moritz (CH)
 
-![The Matterhorn above Zermatt, Switzerland](images/ikon-ski-hotels-points-2026/zermatt.jpg "ikon-2026-zermatt.jpg")
+![The Matterhorn above Zermatt, Switzerland](/images/articles/ikon-ski-hotels-points-2026/zermatt.jpg "ikon-2026-zermatt.jpg")
 *The Matterhorn from Zermatt. Photo: Wikimedia Commons.*
 
 - **Zermatt:** no core-brand hotel from our six in the car-free village. The points routes are **SLH properties via Hilton Honors** and **Mr & Mrs Smith properties via World of Hyatt**, both dynamic, both bookable on points on some dates, neither a bargain guarantee. Otherwise: Täsch (12 min by train) motels, or cash in Zermatt.
@@ -378,7 +378,7 @@ Chamonix town: **Hôtel Mont-Blanc and Alpina are independent; the big-six footh
 
 ### Niseko United & the Expanded Japan Roster (JP)
 
-![Niseko Annupuri, Hokkaido, Japan](images/ikon-ski-hotels-points-2026/niseko.jpg "ikon-2026-niseko.jpg")
+![Niseko Annupuri, Hokkaido, Japan](/images/articles/ikon-ski-hotels-points-2026/niseko.jpg "ikon-2026-niseko.jpg")
 *Niseko Annupuri, Hokkaido. Photo: Wikimedia Commons.*
 
 Japan is now Ikon's deepest international roster, Niseko United, Arai, Shiga Kogen, Mt. T, Myoko Suginohara, Furano, APPI, NEKOMA, Zao Onsen, and new **Madarao** for 2026–27, and it holds this guide's most famous points hotel:

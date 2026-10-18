@@ -9,11 +9,11 @@ articles: ikon-ski-hotels-points-2026
 dek: The Epic Pass covers 90+ resorts for 2026–27, but the points map over it is uneven: two of the best redemptions in skiing at Vail and Beaver Creek, a Marriott stronghold from Whistler to Verbier to Rusutsu, and famous towns where no loyalty program has a hotel at all.
 metaTitle: Epic Pass Ski Hotels on Points: The 2026 Guide
 metaDescription: Where hotel points work on the Epic Pass in winter 2026–27: Vail, Beaver Creek, Whistler, Stowe and the dead zones with no points hotel, across six programs.
-hero: ![Crested Butte mountain and town](images/epic-pass-ski-hotels-points-2026/featured.jpg "epic-2026-featured.jpg")
+hero: ![Crested Butte mountain and town](/images/articles/epic-pass-ski-hotels-points-2026/featured.jpg "epic-2026-featured.jpg")
 heroCredit: Chris Segal, CC0, via Wikimedia Commons
 ---
 
-![Above the gondola at Whistler Blackcomb](images/epic-pass-ski-hotels-points-2026/hero.jpg "epic-2026-hero.jpg")
+![Above the gondola at Whistler Blackcomb](/images/articles/epic-pass-ski-hotels-points-2026/hero.jpg "epic-2026-hero.jpg")
 *Above the gondola at Whistler Blackcomb, the largest ski resort in North America and the Epic Pass’s Canadian flagship. Photo: Shaundd, derivative of a photo by Mogodore, CC BY-SA 3.0, via Wikimedia Commons.*
 
 The Epic Pass grew up. For 2026–27 it covers more than 90 resorts worldwide, and the interesting change is not a new flagship mountain. It is a price cut for skiers aged 13 to 30, a wider map in Austria, and a European partner system that no longer makes skiers in France book a specific hotel to unlock their days. The hotel points game around those resorts changed just as much: Hyatt and Wyndham both repriced in 2026, Marriott, Hilton and IHG price dynamically, and the best Epic redemption in North America is a Hyatt at the base of Vail Mountain.
@@ -75,7 +75,7 @@ If you read nothing else, read this. These are the Epic Pass stays where points 
 
 ## Colorado: The Heart of the Pass
 
-![Vail front side above the village](images/epic-pass-ski-hotels-points-2026/vail.jpg "epic-2026-vail.jpg")
+![Vail front side above the village](/images/articles/epic-pass-ski-hotels-points-2026/vail.jpg "epic-2026-vail.jpg")
 *Vail’s front side. Cascade Village at its base holds the Grand Hyatt Vail, the best Epic Pass redemption in this guide. Photo: Wikimedia Commons, CC BY-SA 3.0.*
 
 ### Vail
@@ -101,7 +101,7 @@ Loyalist note: Grand Hyatt Vail is Hyatt's only Vail property and the rare ski r
 
 Hilton's Beaver Creek answer is the Highline in Vail, one town east. There is no IHG, Choice or Wyndham property in Beaver Creek or Avon proper.
 
-![Peak 8 at Breckenridge](images/epic-pass-ski-hotels-points-2026/breckenridge.jpg "epic-2026-breckenridge.jpg")
+![Peak 8 at Breckenridge](/images/articles/epic-pass-ski-hotels-points-2026/breckenridge.jpg "epic-2026-breckenridge.jpg")
 *Peak 8 at Breckenridge, where Hilton’s Hotel Alpenrock stands a five-minute walk from the lifts. Photo: Drew Stephens, CC BY-SA 2.0, via Wikimedia Commons.*
 
 ### Breckenridge
@@ -127,7 +127,7 @@ There is no Hyatt in Breckenridge. Summit County's Frisco and Silverthorne clust
 
 Keystone's own lodge inventory (Keystone Lodge & Spa, Inn at Keystone) is resort-operated and not bookable on points. The Hyatt Place, unglamorous as it sounds, is the mountain's points hotel.
 
-![Crested Butte mountain and town](images/epic-pass-ski-hotels-points-2026/crested-butte.jpg "epic-2026-crested-butte.jpg")
+![Crested Butte mountain and town](/images/articles/epic-pass-ski-hotels-points-2026/crested-butte.jpg "epic-2026-crested-butte.jpg")
 *Crested Butte: a superb mountain with an empty points map. The nearest chain beds are 30 miles south in Gunnison. Photo: Chris Segal, CC0, via Wikimedia Commons.*
 
 ### Crested Butte
@@ -150,7 +150,7 @@ Treat Crested Butte as a drive-in resort on points: sleep in Gunnison at midscal
 
 Park City Mountain is the Epic resort in town. Deer Valley, across the same valley, belongs to the other pass; its hotels appear in [our Ikon Pass guide](/articles/ikon-ski-hotels-points-2026). The two share a town, a bus system and an airport run, so several Park City bases serve both.
 
-![Main Street, Park City](images/epic-pass-ski-hotels-points-2026/park-city.jpg "epic-2026-park-city.jpg")
+![Main Street, Park City](/images/articles/epic-pass-ski-hotels-points-2026/park-city.jpg "epic-2026-park-city.jpg")
 *Main Street, Park City. The Epic side of town is Park City Mountain and Canyons Village, where the points hotels cluster. Photo: stanisgarage, CC BY-SA 2.0, via Wikimedia Commons.*
 
 ### Park City Mountain
@@ -191,7 +191,7 @@ The Delta is the connoisseur's pick here: the cheapest of the three, the most ge
 
 Full Epic Pass holders get 7 days at each of these. Epic Local does not include Telluride, and partner days are a full-pass benefit across the board. The lodging picture at all three is thin, each in its own way.
 
-![Telluride seen from the ski hill](images/epic-pass-ski-hotels-points-2026/telluride.jpg "epic-2026-telluride.jpg")
+![Telluride seen from the ski hill](/images/articles/epic-pass-ski-hotels-points-2026/telluride.jpg "epic-2026-telluride.jpg")
 *Telluride from the ski hill: seven Epic days, zero points hotels. Photo: John Fowler, CC BY 2.0, via Wikimedia Commons.*
 
 ### Telluride, Colorado: No Points Hotel
@@ -226,7 +226,7 @@ Layton, about 30 minutes out, adds a second full chain cluster. Ogden is an inex
 
 ## Tahoe: Heavenly, Northstar, Kirkwood
 
-![Lake Tahoe from above](images/epic-pass-ski-hotels-points-2026/lake-tahoe.jpg "epic-2026-lake-tahoe.jpg")
+![Lake Tahoe from above](/images/articles/epic-pass-ski-hotels-points-2026/lake-tahoe.jpg "epic-2026-lake-tahoe.jpg")
 *Lake Tahoe: Heavenly and Kirkwood work off the south shore, Northstar off the north. Photo: Christian Abend, CC BY-SA 2.0, via Wikimedia Commons.*
 
 ### Heavenly
@@ -261,7 +261,7 @@ And the basin's other Hyatt: **Hyatt Regency Lake Tahoe** in Incline Village mov
 
 ## The East
 
-![Moguls at Stowe, Vermont](images/epic-pass-ski-hotels-points-2026/stowe.jpg "epic-2026-stowe.jpg")
+![Moguls at Stowe, Vermont](/images/articles/epic-pass-ski-hotels-points-2026/stowe.jpg "epic-2026-stowe.jpg")
 *Moguls on Mount Mansfield at Stowe, with the East’s only slope-side points redemption at its base. Photo: Vermont, CC BY-SA 4.0, via Wikimedia Commons.*
 
 ### Stowe, Vermont
@@ -403,7 +403,7 @@ Epic's European access runs on partner mechanics, and the details matter more th
 
 Tignes and Val d'Isère are worth an explicit note: the Espace Killy partnership ended years ago and neither resort appears on the 2026–27 Epic roster. Any older guide still sending Epic skiers there is out of date.
 
-![Verbier village and slopes](images/epic-pass-ski-hotels-points-2026/verbier.jpg "epic-2026-verbier.jpg")
+![Verbier village and slopes](/images/articles/epic-pass-ski-hotels-points-2026/verbier.jpg "epic-2026-verbier.jpg")
 *Verbier, where the W gives Marriott the only core-brand flag in the village. Photo: Leo-setä, CC BY 2.0, via Wikimedia Commons.*
 
 ### Verbier
@@ -452,7 +452,7 @@ Both resorts are unlimited on the full Epic Pass, which makes their lodging gaps
 
 Epic's Japan access is 5 consecutive days in Hakuba Valley (usable across its 10 resorts, moving between them inside the five days) and 5 consecutive days at Rusutsu. Epic Local carries both with holiday restrictions; the Epic Day Pass includes neither.
 
-![The Hakuba Alps in winter](images/epic-pass-ski-hotels-points-2026/hakuba.jpg "epic-2026-hakuba.jpg")
+![The Hakuba Alps in winter](/images/articles/epic-pass-ski-hotels-points-2026/hakuba.jpg "epic-2026-hakuba.jpg")
 *The Hakuba Alps: five consecutive Epic days across ten resorts, and exactly one hotel in the six programs to sleep in. Photo: Raita Futo, CC BY 2.0, via Wikimedia Commons.*
 
 ### Hakuba

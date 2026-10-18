@@ -18,8 +18,13 @@ export function score(value?: number | null): string {
 }
 
 // The URL of an uploaded image, when populated.
+// A populated media doc's address: the site's own copy when it serves the
+// photo itself (staticUrl), else the uploaded one.
 export function mediaUrl(value: unknown): string | null {
-  return value && typeof value === 'object' && 'url' in value && typeof (value as { url?: unknown }).url === 'string' ? (value as { url: string }).url : null
+  if (!value || typeof value !== 'object') return null
+  const { staticUrl, url } = value as { staticUrl?: unknown; url?: unknown }
+  if (typeof staticUrl === 'string' && staticUrl) return staticUrl
+  return typeof url === 'string' ? url : null
 }
 
 export function count(n: number): string {

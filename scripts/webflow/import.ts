@@ -934,6 +934,21 @@ export function localArticleImage(src: string): { abs: string; rel: string } | n
   return { abs, rel }
 }
 
+// A source that starts with / is a file the site serves itself, from
+// public/ (photos shipped with an article live in public/images/articles/
+// <slug>/). Where it is on disk; null when it points outside public/.
+const publicDir = () => path.join(process.cwd(), 'public')
+export const isSitePath = (src: string) => src.startsWith('/') && !src.startsWith('//')
+export function siteImage(src: string): { abs: string; rel: string } | null {
+  const dir = publicDir()
+  const abs = path.resolve(dir, '.' + decodeURI(src.split(/[?#]/)[0]))
+  const rel = within(dir, abs)
+  if (rel === null) return null
+  const real = realPath(abs)
+  if (real && within(realPath(dir), real) === null) return null
+  return { abs, rel: `public/${rel}` }
+}
+
 // What a run has resolved so far, by stored filename, with the source that
 // produced it.
 type MediaCache = Map<string, { id: number | null; src: string }>
@@ -942,16 +957,19 @@ type MediaCache = Map<string, { id: number | null; src: string }>
 // filename is reused as is; otherwise the bytes come from
 // ARTICLE_IMAGE_DIR/<filename> when that is set and present (local runs
 // without network), else from the source: downloaded when it is an http(s)
-// URL, read from data/articles/<path> otherwise. A media doc is created.
-// Null when none of these works (a path outside data/articles is refused),
-// so the article still imports without the image.
-// On a GitHub runner without the Blob token, an uploaded photo lands on the
-// runner's own disk and is gone when the job ends, leaving a media record
-// that points nowhere. Photos are skipped there instead.
+// URL, read from public/ for a site path (/images/...), read from
+// data/articles/<path> otherwise. A media doc is created. A photo the site
+// serves itself keeps that path in the doc's staticUrl, which is what the
+// pages show, so it never depends on where the uploaded copy is stored.
+// Null when none of these works (a path outside its folder is refused), so
+// the article still imports without the image.
+// On a GitHub runner without the Blob token, an uploaded copy lands on the
+// runner's own disk and is gone when the job ends. A photo the site serves
+// itself is unaffected; any other photo is skipped there.
 export function photosUnavailable(): boolean {
   return Boolean(process.env.GITHUB_ACTIONS) && !process.env.BLOB_READ_WRITE_TOKEN
 }
-const PHOTOS_SKIPPED = 'photos skipped: BLOB_READ_WRITE_TOKEN is not set, so a photo uploaded from this runner would be lost with it. Add the repository secret, then run the articles-refresh step.'
+const PHOTOS_SKIPPED = 'photos from other sites skipped: BLOB_READ_WRITE_TOKEN is not set, so a copy uploaded from this runner would be lost with it. Ship the photo under public/images/articles/ instead.'
 
 export async function resolveArticleImage(payload: Payload, file: string, img: ArticleImage, cache: MediaCache): Promise<number | null> {
   if (!img.filename) {
@@ -964,9 +982,18 @@ export async function resolveArticleImage(payload: Payload, file: string, img: A
     return hit.id
   }
   const resolve = async (): Promise<number | null> => {
+    const site = isSitePath(img.src) ? siteImage(img.src) : null
+    if (isSitePath(img.src) && !site) {
+      console.log(`articles: ${file}: image ${img.filename} skipped (outside public)`)
+      return null
+    }
+    const staticUrl = site ? img.src : null
     const existing = (await payload.find({ collection: 'media', where: { filename: { equals: img.filename } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
     if (existing) {
-      console.log(`articles: ${file}: media ${img.filename} reused (id ${existing.id})`)
+      if (staticUrl && existing.staticUrl !== staticUrl) {
+        await payload.update({ collection: 'media', id: existing.id, data: { staticUrl }, overrideAccess: true })
+        console.log(`articles: ${file}: media ${img.filename} reused (id ${existing.id}), now served from ${staticUrl}`)
+      } else console.log(`articles: ${file}: media ${img.filename} reused (id ${existing.id})`)
       return existing.id
     }
     let data: Buffer
@@ -987,6 +1014,14 @@ export async function resolveArticleImage(payload: Payload, file: string, img: A
       data = got.data
       mimetype = got.mimetype
       from = img.src
+    } else if (site) {
+      if (!fs.statSync(site.abs, { throwIfNoEntry: false })?.isFile()) {
+        console.log(`articles: ${file}: image ${img.filename} skipped (file not found: ${site.rel})`)
+        return null
+      }
+      data = fs.readFileSync(site.abs)
+      mimetype = mimeFromName(site.abs)
+      from = site.rel
     } else {
       const shipped = localArticleImage(img.src)
       if (!shipped) {
@@ -1007,7 +1042,7 @@ export async function resolveArticleImage(payload: Payload, file: string, img: A
     try {
       media = await payload.create({
         collection: 'media',
-        data: { alt: img.alt || img.caption || img.filename, credit: img.credit || null },
+        data: { alt: img.alt || img.caption || img.filename, credit: img.credit || null, staticUrl },
         file: { data, mimetype, name: img.filename, size: data.length },
         overrideAccess: true,
         overwriteExistingFiles: true,
@@ -1030,8 +1065,15 @@ async function importArticles(payload: Payload) {
   if (!fs.existsSync(dir)) return
   let n = 0
   const mediaCache: MediaCache = new Map()
-  const withPhotos = !photosUnavailable()
-  if (!withPhotos) console.log(`articles: ${PHOTOS_SKIPPED}`)
+  // without a place to store uploads, only photos the site serves itself
+  const canStore = !photosUnavailable()
+  const usable = (src: string) => canStore || isSitePath(src)
+  let warned = false
+  const skipNote = (src: string) => {
+    if (usable(src) || warned) return
+    warned = true
+    console.log(`articles: ${PHOTOS_SKIPPED}`)
+  }
   for (const file of fs.readdirSync(dir).filter((f) => f.endsWith('.md')).sort()) {
     const raw = fs.readFileSync(path.join(dir, file), 'utf8')
     const m = /^---\n([\s\S]*?)\n---\n([\s\S]*)$/.exec(raw)
@@ -1049,19 +1091,24 @@ async function importArticles(payload: Payload) {
     const html = markdownToHtml(m[2], images, (message) => console.log(`articles: ${file}: ${message}`))
     const uploads = new Map<string, number>()
     let heroId: number | null = null
-    if (withPhotos) {
-      for (const img of images) {
-        const id = await resolveArticleImage(payload, file, img, mediaCache)
-        if (id != null) uploads.set(img.src, id)
-      }
-      if (meta.hero) {
-        const hero = parseMarkdownImage(meta.hero)
-        if (hero) heroId = await resolveArticleImage(payload, file, { ...hero, caption: '', credit: meta.heroCredit ?? '' }, mediaCache)
-        else console.log(`articles: ${file}: hero is not an image line, ignored`)
+    let heroLost = false
+    for (const img of images) {
+      skipNote(img.src)
+      if (!usable(img.src)) continue
+      const id = await resolveArticleImage(payload, file, img, mediaCache)
+      if (id != null) uploads.set(img.src, id)
+    }
+    if (meta.hero) {
+      const hero = parseMarkdownImage(meta.hero)
+      if (!hero) console.log(`articles: ${file}: hero is not an image line, ignored`)
+      else if (usable(hero.src)) heroId = await resolveArticleImage(payload, file, { ...hero, caption: '', credit: meta.heroCredit ?? '' }, mediaCache)
+      else {
+        skipNote(hero.src)
+        heroLost = true
       }
     }
     const converted = htmlToLexical(html, { uploads })
-    if (withPhotos) droppedImages.push(...converted.droppedImages)
+    if (canStore) droppedImages.push(...converted.droppedImages)
     const body = converted.value
     if (!body) throw new Error(`articles: ${file} has an empty body`)
 
@@ -1087,9 +1134,9 @@ async function importArticles(payload: Payload) {
       featured: meta.featured === 'true',
       related: { programs, articles: related },
       seo: { title: meta.metaTitle || null, description: meta.metaDescription || null },
-      // set when the hero resolved, cleared when photos are skipped (a
+      // set when the hero resolved, cleared when it had to be skipped (a
       // leftover hero would point at a lost file), otherwise left alone
-      ...(heroId != null ? { heroImage: heroId } : withPhotos ? {} : { heroImage: null }),
+      ...(heroId != null ? { heroImage: heroId } : heroLost ? { heroImage: null } : {}),
       _status: 'published',
     }
     const existing = (await payload.find({ collection: 'articles', where: { slug: { equals: meta.slug } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
@@ -1101,14 +1148,11 @@ async function importArticles(payload: Payload) {
 }
 
 // Re-creates every photo the articles refer to: the media records are
-// deleted by filename and the articles imported again, so the files are
-// fetched and stored afresh. For a run that happened without the Blob
-// token, whose photos are lost.
+// deleted by filename and the articles imported again, so each record is
+// made afresh from its source. Without a place to store uploads, only
+// photos the site serves itself are redone; the rest are left as they are.
 async function refreshArticleImages(payload: Payload) {
-  if (photosUnavailable()) {
-    console.log(`articles-refresh: ${PHOTOS_SKIPPED}`)
-    return
-  }
+  const canStore = !photosUnavailable()
   const dir = articlesDir()
   if (!fs.existsSync(dir)) return
   const filenames = new Set<string>()
@@ -1118,10 +1162,13 @@ async function refreshArticleImages(payload: Payload) {
     if (!m) continue
     const images: ArticleImage[] = []
     markdownToHtml(m[2], images)
-    for (const img of images) if (img.filename) filenames.add(img.filename)
     const heroLine = m[1].split('\n').find((l) => /^hero:\s*/.test(l))
     const hero = heroLine ? parseMarkdownImage(heroLine.replace(/^hero:\s*/, '')) : null
-    if (hero?.filename) filenames.add(hero.filename)
+    for (const img of hero ? [...images, hero] : images) {
+      if (!img.filename) continue
+      if (canStore || isSitePath(img.src)) filenames.add(img.filename)
+      else console.log(`articles-refresh: ${img.filename} left as it is (${PHOTOS_SKIPPED})`)
+    }
   }
   if (filenames.size) {
     const res = await payload.delete({ collection: 'media', where: { filename: { in: Array.from(filenames) } }, overrideAccess: true })
