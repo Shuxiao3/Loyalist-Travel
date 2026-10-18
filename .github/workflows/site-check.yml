@@ -1,0 +1,49 @@
+# Fetches live pages and every image they reference, and prints the status
+# of each, so a missing photo shows up as a non-200 line.
+#
+# Manual only: Actions tab → "Check live pages" → Run workflow.
+name: Check live pages
+
+on:
+  workflow_dispatch:
+    inputs:
+      site:
+        description: 'Site address'
+        required: false
+        default: 'https://loyalisttravel.com'
+      paths:
+        description: 'Page paths, comma-separated'
+        required: false
+        default: '/articles/ikon-ski-hotels-points-2026,/articles/epic-pass-ski-hotels-points-2026'
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Fetch pages and their images
+        env:
+          SITE: ${{ github.event.inputs.site }}
+          PATHS: ${{ github.event.inputs.paths }}
+        run: |
+          site="${SITE%/}"
+          bad=0
+          for p in $(printf '%s' "$PATHS" | tr ',' ' '); do
+            code=$(curl -sS -L -o page.html -w '%{http_code}' "$site$p")
+            echo "== $site$p -> $code, $(wc -c < page.html) bytes"
+            [ "$code" = 200 ] || bad=1
+            sed 's/&amp;/\&/g' page.html | grep -oE '(src|href)="[^"]+"|url\([^)]+\)' \
+              | grep -oE '(https?://[^" )]+|/[^" )]+)' | grep -iE '\.(jpe?g|png|webp|avif|gif|svg)([?#][^" )]*)?$' \
+              | sort -u > imgs.txt
+            echo "images referenced: $(wc -l < imgs.txt)"
+            while read -r i; do
+              case "$i" in http*) u="$i" ;; *) u="$site$i" ;; esac
+              c=$(curl -sS -L -o /dev/null -w '%{http_code}' "$u")
+              echo "$c $i"
+              [ "$c" = 200 ] || bad=1
+            done < imgs.txt
+          done
+          exit $bad
