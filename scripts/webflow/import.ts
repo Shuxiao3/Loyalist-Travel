@@ -1295,6 +1295,23 @@ async function reportArticles(payload: Payload) {
   console.log(`articles-report: ikon media: ${media.docs.length} doc(s), ${media.docs.filter((m) => m.staticUrl).length} with a static url`)
 }
 
+// Read-only: the latest uploads and every hotel, review and lounge whose
+// photo comes from an upload, to see what an editor has added.
+async function reportMedia(payload: Payload) {
+  const latest = await payload.find({ collection: 'media', sort: '-createdAt', limit: 15, depth: 0, overrideAccess: true })
+  for (const m of latest.docs) console.log(`media-report: media ${m.id} ${m.filename} (${m.mimeType}, ${m.width}x${m.height}) created ${String(m.createdAt).slice(0, 16)}${m.staticUrl ? ` static ${m.staticUrl}` : ''}`)
+  for (const slug of ['hotels', 'reviews'] as const) {
+    const res = await payload.find({ collection: slug, where: { heroImage: { exists: true } }, limit: 50, depth: 1, draft: true, overrideAccess: true })
+    for (const d of res.docs as { slug?: string; heroImage?: unknown; externalImageUrl?: string | null; updatedAt?: string }[]) {
+      const h = d.heroImage && typeof d.heroImage === 'object' ? (d.heroImage as { filename?: string; url?: string }) : null
+      console.log(`media-report: ${slug} ${d.slug}: hero image ${h ? `${h.filename} (${h.url})` : String(d.heroImage)}; webflow photo ${d.externalImageUrl ? 'yes' : 'no'}; updated ${String(d.updatedAt).slice(0, 16)}`)
+    }
+    console.log(`media-report: ${slug} with an uploaded hero image: ${res.totalDocs}`)
+  }
+  const total = await payload.count({ collection: 'hotels', where: { externalImageUrl: { exists: true } }, overrideAccess: true })
+  console.log(`media-report: hotels with a webflow photo: ${total.totalDocs}`)
+}
+
 // ---- Milestone rewards -----------------------------------------------------------
 // The same terms as a list: one entry per milestone, choices one per line.
 const MILESTONE_LIST: Record<string, { at: string; rewards: string }[]> = {
@@ -1933,6 +1950,7 @@ const STEPS: Record<string, (p: Payload) => Promise<void>> = {
   articles: importArticles,
   'articles-refresh': refreshArticleImages,
   'articles-report': reportArticles,
+  'media-report': reportMedia,
   'articles-force': forceImportArticles,
   'retire-tiers': retireTiers,
   'seed-milestones': seedMilestones,
