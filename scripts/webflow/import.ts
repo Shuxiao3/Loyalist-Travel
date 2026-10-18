@@ -8,6 +8,7 @@
 // regions, programs, status levels, brands, amenities, destinations, rubric
 // versions, hotels, reviews.
 
+import { createHash } from 'crypto'
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -1060,10 +1061,69 @@ export async function resolveArticleImage(payload: Payload, file: string, img: A
   return id
 }
 
+// ---- Article words and photos ------------------------------------------------
+type LexNode = { type?: string; text?: string; value?: unknown; children?: LexNode[] }
+type LexDoc = { root: { children: LexNode[] } }
+
+// The words of a Lexical node or document, spaces normalised.
+export function lexicalText(node: unknown): string {
+  const walk = (n: LexNode): string => (n.type === 'text' ? (n.text ?? '') : (n.children ?? []).map(walk).join(' '))
+  const start = (node as { root?: LexNode } | null)?.root ?? (node as LexNode | null) ?? {}
+  return walk(start).replace(/\s+/g, ' ').trim()
+}
+
+// A fingerprint of an article's words: title, dek and body text. Photos
+// carry no words, so adding or moving one does not change it.
+export const articleWordsHash = (title: unknown, dek: unknown, body: unknown) =>
+  createHash('sha256').update(JSON.stringify([String(title ?? ''), String(dek ?? ''), lexicalText(body)])).digest('hex').slice(0, 32)
+
+const uploadId = (n: LexNode) => (n.value && typeof n.value === 'object' ? (n.value as { id?: unknown }).id : n.value)
+
+// Puts the photos of an imported body into a stored one that was edited in
+// the admin, without touching its words: each missing photo goes right after
+// the block it followed in the import (matched by its words), or failing
+// that right before the block it preceded. Photos whose neighbours are both
+// gone are left out and named.
+export function mergePhotos(stored: LexDoc, imported: LexDoc): { body: LexDoc; added: number; missed: number[] } {
+  const body = structuredClone(stored)
+  const nodes = body.root.children
+  const have = new Set(nodes.filter((n) => n.type === 'upload').map(uploadId))
+  const inc = imported.root.children
+  const words = (n: LexNode) => (n.type === 'upload' ? '' : lexicalText(n))
+  const find = (text: string) => (text ? nodes.findIndex((n) => n.type !== 'upload' && words(n) === text) : -1)
+  let added = 0
+  const missed: number[] = []
+  inc.forEach((n, i) => {
+    if (n.type !== 'upload' || have.has(uploadId(n))) return
+    let before = ''
+    for (let k = i - 1; k >= 0 && !before; k--) before = words(inc[k])
+    let after = ''
+    for (let k = i + 1; k < inc.length && !after; k++) after = words(inc[k])
+    let at = find(before)
+    if (at >= 0) {
+      at += 1
+      // keep photos that already follow the same block in their order
+      while (at < nodes.length && nodes[at].type === 'upload') at++
+    } else at = find(after)
+    if (at < 0) {
+      missed.push(Number(uploadId(n)))
+      return
+    }
+    nodes.splice(at, 0, structuredClone(n))
+    have.add(uploadId(n))
+    added++
+  })
+  return { body, added, missed }
+}
+
+// articles-force: overwrite even articles edited in the admin
+let forceArticles = false
+
 async function importArticles(payload: Payload) {
   const dir = articlesDir()
   if (!fs.existsSync(dir)) return
   let n = 0
+  let kept = 0
   const mediaCache: MediaCache = new Map()
   // without a place to store uploads, only photos the site serves itself
   const canStore = !photosUnavailable()
@@ -1139,12 +1199,34 @@ async function importArticles(payload: Payload) {
       ...(heroId != null ? { heroImage: heroId } : heroLost ? { heroImage: null } : {}),
       _status: 'published',
     }
+    const importedHash = articleWordsHash(data.title, data.dek, body)
     const existing = (await payload.find({ collection: 'articles', where: { slug: { equals: meta.slug } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
-    if (existing) await payload.update({ collection: 'articles', id: existing.id, data: data as never, overrideAccess: true })
-    else await payload.create({ collection: 'articles', data: data as never, overrideAccess: true })
+    if (existing) {
+      // Words edited in the admin since the last import are kept: the stored
+      // words no longer match what the import wrote (or, before fingerprints
+      // existed, what it would write now).
+      const storedHash = articleWordsHash(existing.title, existing.dek, existing.body)
+      const edited = existing.importedHash ? storedHash !== existing.importedHash : storedHash !== importedHash
+      if (edited && !forceArticles) {
+        const merged = mergePhotos(existing.body as unknown as LexDoc, body as unknown as LexDoc)
+        const hero = !existing.heroImage && heroId != null ? { heroImage: heroId } : {}
+        if (merged.added || 'heroImage' in hero) {
+          await payload.update({ collection: 'articles', id: existing.id, data: { body: merged.body, ...hero, _status: 'published' } as never, overrideAccess: true })
+        }
+        console.log(`articles: ${file}: edited in the admin since the last import, so its words are left as they are; ${merged.added} photo(s) added${'heroImage' in hero ? ', hero set' : ''}${merged.missed.length ? `; ${merged.missed.length} photo(s) not placed, their sections are gone (media ${merged.missed.join(', ')})` : ''}. Run articles-force to overwrite it from ${file}.`)
+        kept++
+        continue
+      }
+      await payload.update({ collection: 'articles', id: existing.id, data: { ...data, importedHash } as never, overrideAccess: true })
+    } else await payload.create({ collection: 'articles', data: { ...data, importedHash } as never, overrideAccess: true })
     n++
   }
-  console.log(`articles: upserted ${n} article(s)`)
+  console.log(`articles: upserted ${n} article(s)${kept ? `, kept the words of ${kept} edited in the admin` : ''}`)
+}
+
+async function forceImportArticles(payload: Payload) {
+  forceArticles = true
+  await importArticles(payload)
 }
 
 // Re-creates every photo the articles refer to: the media records are
@@ -1193,10 +1275,7 @@ async function reportArticles(payload: Payload) {
     console.log(`articles-report: ${a.slug}: status ${a._status ?? '?'}, updated ${String(a.updatedAt).slice(0, 16)}, ${versions.totalDocs} version(s); latest draft ${nodes.length} photo node(s); published ${pub ? `${pubNodes.length} photo node(s), ${populated.length} resolved, ${withAddress.length} with an address; hero ${hero ? `${hero.filename} -> ${hero.staticUrl ?? '(no static url)'}` : 'none'}` : 'NOT FOUND'}`)
   }
   // what the last save changed in the words, against the version before it
-  const textOf = (body: unknown): string => {
-    const walk = (n: { type?: string; text?: string; children?: unknown[] }): string => (n.type === 'text' ? (n.text ?? '') : (n.children ?? []).map((c) => walk(c as never)).join(' '))
-    return walk(((body as { root?: unknown } | null)?.root ?? {}) as never).replace(/\s+/g, ' ').trim()
-  }
+  const textOf = lexicalText
   for (const a of all.docs) {
     // against the newest version saved more than two minutes before the last
     // (one save from the admin can write a draft and a published version)
@@ -1854,6 +1933,7 @@ const STEPS: Record<string, (p: Payload) => Promise<void>> = {
   articles: importArticles,
   'articles-refresh': refreshArticleImages,
   'articles-report': reportArticles,
+  'articles-force': forceImportArticles,
   'retire-tiers': retireTiers,
   'seed-milestones': seedMilestones,
   'seed-cards': seedCards,

@@ -58,5 +58,9 @@ export const Articles: CollectionConfig = {
     { name: 'heroImage', type: 'upload', relationTo: 'media', admin: { position: 'sidebar' } },
     { name: 'externalImageUrl', type: 'text', admin: { position: 'sidebar', description: 'Hosted image URL until owned media is uploaded.' } },
     { name: 'featured', type: 'checkbox', defaultValue: false, admin: { position: 'sidebar', description: 'Pin to the top of the hub and the homepage.' } },
+    // Fingerprint of the words the markdown import last wrote. When the
+    // stored words no longer match it, the article was edited here, and the
+    // import leaves its words alone.
+    { name: 'importedHash', type: 'text', admin: { hidden: true } },
   ],
 }

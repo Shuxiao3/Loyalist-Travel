@@ -407,6 +407,7 @@ export interface Article {
    * Pin to the top of the hub and the homepage.
    */
   featured?: boolean | null;
+  importedHash?: string | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -1773,6 +1774,7 @@ export interface ArticlesSelect<T extends boolean = true> {
   heroImage?: T;
   externalImageUrl?: T;
   featured?: T;
+  importedHash?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
