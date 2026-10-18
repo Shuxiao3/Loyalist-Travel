@@ -868,6 +868,75 @@ export function markdownToHtml(md: string, images: ArticleImage[] = [], warn: (m
   return out.map((o) => (typeof o === 'string' ? o : renderTable(o))).join('\n')
 }
 
+// Phrasing that reads like a note a writing or research tool left in the
+// copy, not like an editor. Case-insensitive; a phrase matches as whole
+// words, a RegExp as written (a bracketed instruction such as [Insert photo]).
+// Kept narrow on purpose: ordinary English ("a mock Tudor facade", "this run
+// of storms", "the date is TBD") and newsroom forms ("[Update: ...]",
+// "[Editor's note: ...]") must not warn, since a warning invites a rewrite.
+export const TOOL_NOTE_PATTERNS: readonly (string | RegExp)[] = [
+  /\b(?:verified|confirmed|checked|found)\s+(?:in|during)\s+this\s+(?:run|session)\b/i,
+  /\b(?:verified|confirmed|checked)\s+this\s+(?:run|session)\s*:/i,
+  /\bas\s+of\s+this\s+(?:run|session)\b/i,
+  'research stream',
+  'publish pack',
+  'suggested headline',
+  'suggested slug',
+  /\bdek\s*:/i,
+  'as an ai',
+  'language model',
+  'per the prompt',
+  'per the brief',
+  /\bnote\s+to\s+(?:the\s+)?editors?\b/i,
+  /\b(?:say\s+so\s+to\s+readers(?:\s+rather\s+than\s+padding)?|rather\s+than\s+padding)\b/i,
+  'placeholder',
+  'todo',
+  /\bmock\s+(?:article|draft|copy|headline|story)\b/i,
+  'lorem ipsum',
+  '[citation needed]',
+  /\binsert\s+(?:an?\s+|the\s+)?(?:photo|image|picture|link|quote|chart|table|caption|credit|here)\b/i,
+  /\$\s?X{2,}\b/i,
+  'used for discovery',
+  'citation source',
+  /\[\s*(?:add|insert|link|confirm|check|verify|fill|cite|source|photo|image|caption|credit|tk|tbd|todo|placeholder|citation|needs?|replace|write|expand)\b[^\]\n]*\]/gi,
+]
+
+const toolNoteRegExps = TOOL_NOTE_PATTERNS.map((p) => {
+  if (p instanceof RegExp) return new RegExp(p.source, 'gi')
+  const body = p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/ +/g, '\\s+')
+  return new RegExp(`${/^\w/.test(p) ? '(?<!\\w)' : ''}${body}${/\w$/.test(p) ? '(?!\\w)' : ''}`, 'gi')
+})
+
+// Each spot in an article's words (title, dek, search title and description,
+// hero alt text and credit, and the body with its table cells and captions)
+// that matches a pattern, with up to 30 characters either side. Link and
+// image addresses and photo file names are not words, so they are left out.
+export function toolNotes(body: string, meta: Record<string, string | undefined> = {}): string[] {
+  const fields = [meta.title, meta.dek, meta.metaTitle, meta.metaDescription, meta.hero, meta.heroCredit, body]
+  const notes: string[] = []
+  for (const field of fields) {
+    if (!field) continue
+    const words = field
+      .replace(/!?\[([^\]]*)\]\([^)\s]*(?:\s+"[^"]*")?\s*\)/g, ' $1 ')
+      .replace(/https?:\/\/\S+/g, ' ')
+      .replace(/\*+/g, '')
+      .replace(/\s+/g, ' ')
+      .trim()
+    const hits: { start: number; end: number }[] = []
+    for (const re of toolNoteRegExps) for (const m of words.matchAll(re)) hits.push({ start: m.index, end: m.index + m[0].length })
+    hits.sort((a, b) => a.start - b.start || b.end - a.end)
+    let last = -1
+    for (const { start, end } of hits) {
+      if (start < last) continue // inside a longer hit, such as "in this run" in "verified in this run"
+      last = end
+      const from = Math.max(0, start - 30)
+      const to = Math.min(words.length, end + 30)
+      notes.push(`${from > 0 ? '...' : ''}${words.slice(from, to).trim()}${to < words.length ? '...' : ''}`)
+    }
+  }
+  return notes
+}
+
 const MIME_BY_EXT: Record<string, string> = { jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', webp: 'image/webp', gif: 'image/gif', avif: 'image/avif', svg: 'image/svg+xml' }
 const mimeFromName = (name: string) => MIME_BY_EXT[path.extname(name).slice(1).toLowerCase()] ?? 'image/jpeg'
 
@@ -1145,6 +1214,8 @@ async function importArticles(payload: Payload) {
     }
     for (const k of ['title', 'slug', 'category', 'date']) if (!meta[k]) throw new Error(`articles: ${file} is missing ${k}`)
     if (!ARTICLE_CATEGORIES.some((c) => c.value === meta.category)) throw new Error(`articles: ${file} has unknown category ${meta.category}; expected one of ${ARTICLE_CATEGORIES.map((c) => c.value).join(', ')}`)
+    // a warning only: the article still imports
+    for (const note of toolNotes(m[2], meta)) console.log(`articles: ${file}: reads like a tool note: "${note}"`)
 
     // images first, so the body can point at their media ids
     const images: ArticleImage[] = []
@@ -1214,6 +1285,11 @@ async function importArticles(payload: Payload) {
           await payload.update({ collection: 'articles', id: existing.id, data: { body: merged.body, ...hero, _status: 'published' } as never, overrideAccess: true })
         }
         console.log(`articles: ${file}: edited in the admin since the last import, so its words are left as they are; ${merged.added} photo(s) added${'heroImage' in hero ? ', hero set' : ''}${merged.missed.length ? `; ${merged.missed.length} photo(s) not placed, their sections are gone (media ${merged.missed.join(', ')})` : ''}. Run articles-force to overwrite it from ${file}.`)
+        // the words on the site are the admin's, so they are the ones to check
+        const seo = existing.seo
+        for (const note of toolNotes(lexicalText(existing.body), { title: existing.title, dek: existing.dek ?? undefined, metaTitle: seo?.title ?? undefined, metaDescription: seo?.description ?? undefined })) {
+          console.log(`articles: ${file}: the words saved in the admin read like a tool note: "${note}"`)
+        }
         kept++
         continue
       }
@@ -1302,9 +1378,13 @@ async function reportMedia(payload: Payload) {
   for (const m of latest.docs) console.log(`media-report: media ${m.id} ${m.filename} (${m.mimeType}, ${m.width}x${m.height}) created ${String(m.createdAt).slice(0, 16)}${m.staticUrl ? ` static ${m.staticUrl}` : ''}`)
   for (const slug of ['hotels', 'reviews'] as const) {
     const res = await payload.find({ collection: slug, where: { heroImage: { exists: true } }, limit: 50, depth: 1, draft: true, overrideAccess: true })
-    for (const d of res.docs as { slug?: string; heroImage?: unknown; externalImageUrl?: string | null; updatedAt?: string }[]) {
+    for (const d of res.docs as { id: number; slug?: string; heroImage?: unknown; externalImageUrl?: string | null; updatedAt?: string }[]) {
       const h = d.heroImage && typeof d.heroImage === 'object' ? (d.heroImage as { filename?: string; url?: string }) : null
-      console.log(`media-report: ${slug} ${d.slug}: hero image ${h ? `${h.filename} (${h.url})` : String(d.heroImage)}; webflow photo ${d.externalImageUrl ? 'yes' : 'no'}; updated ${String(d.updatedAt).slice(0, 16)}`)
+      // public pages read the published version only; an upload saved as a
+      // draft is not on the site until someone presses Publish changes
+      const live = (await payload.find({ collection: slug, where: { id: { equals: d.id } }, limit: 1, depth: 0, draft: false, overrideAccess: true })).docs[0] as { _status?: string; heroImage?: unknown } | undefined
+      const shown = live?._status === 'published' && live.heroImage != null
+      console.log(`media-report: ${slug} ${d.slug}: hero image ${h ? `${h.filename} (${h.url})` : String(d.heroImage)}; webflow photo ${d.externalImageUrl ? 'yes' : 'no'}; updated ${String(d.updatedAt).slice(0, 16)}; ${shown ? 'published with it' : `not published with it (published version: ${live?._status ?? 'none'}, hero image ${live?.heroImage != null ? 'set' : 'not set'})`}`)
     }
     console.log(`media-report: ${slug} with an uploaded hero image: ${res.totalDocs}`)
   }
