@@ -1192,6 +1192,22 @@ async function reportArticles(payload: Payload) {
     const versions = await payload.countVersions({ collection: 'articles', where: { parent: { equals: a.id } }, overrideAccess: true })
     console.log(`articles-report: ${a.slug}: status ${a._status ?? '?'}, updated ${String(a.updatedAt).slice(0, 16)}, ${versions.totalDocs} version(s); latest draft ${nodes.length} photo node(s); published ${pub ? `${pubNodes.length} photo node(s), ${populated.length} resolved, ${withAddress.length} with an address; hero ${hero ? `${hero.filename} -> ${hero.staticUrl ?? '(no static url)'}` : 'none'}` : 'NOT FOUND'}`)
   }
+  // what the last save changed in the words, against the version before it
+  const textOf = (body: unknown): string => {
+    const walk = (n: { type?: string; text?: string; children?: unknown[] }): string => (n.type === 'text' ? (n.text ?? '') : (n.children ?? []).map((c) => walk(c as never)).join(' '))
+    return walk(((body as { root?: unknown } | null)?.root ?? {}) as never).replace(/\s+/g, ' ').trim()
+  }
+  for (const a of all.docs) {
+    const v = await payload.findVersions({ collection: 'articles', where: { parent: { equals: a.id } }, sort: '-updatedAt', limit: 2, depth: 0, overrideAccess: true })
+    if (v.docs.length < 2) continue
+    const [last, prev] = v.docs as { updatedAt: string; version: { body?: unknown; title?: string; dek?: string | null } }[]
+    const t1 = textOf(last.version.body)
+    const t0 = textOf(prev.version.body)
+    const same = t1 === t0 && last.version.title === prev.version.title && last.version.dek === prev.version.dek
+    let at = 0
+    while (at < Math.min(t0.length, t1.length) && t0[at] === t1[at]) at++
+    console.log(`articles-report: ${a.slug}: last save ${String(last.updatedAt).slice(0, 16)} vs ${String(prev.updatedAt).slice(0, 16)}: words ${same ? 'unchanged' : `changed (${t0.length} -> ${t1.length} chars; first difference: "${t0.slice(at, at + 60)}" -> "${t1.slice(at, at + 60)}")`}`)
+  }
   const media = await payload.find({ collection: 'media', where: { filename: { like: 'ikon-2026-' } }, limit: 50, depth: 0, overrideAccess: true })
   console.log(`articles-report: ikon media: ${media.docs.length} doc(s), ${media.docs.filter((m) => m.staticUrl).length} with a static url`)
 }
