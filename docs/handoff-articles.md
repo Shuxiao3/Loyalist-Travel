@@ -33,7 +33,7 @@ category: news
 date: 2026-10-15
 featured: false
 dek: One or two sentences, 300 characters at most.
-metaTitle: 60 characters at most
+metaTitle: 42 characters at most (the site adds " | Loyalist Travel"; 60 in all)
 metaDescription: 140 to 160 characters
 programs: world-of-hyatt, ikon            (optional, comma-separated program slugs)
 articles: other-article-slug              (optional, related articles)
@@ -83,7 +83,7 @@ heroCredit: Colin Brown, CC BY 2.0
      - "per the brief"
      - bracketed instructions and placeholders
    - Rewrite such lines as plain editorial wording, keep every fact, and tell Austin each change (before and after).
-   - The import warns `reads like a tool note: "..."` for these. Fix every warning before shipping.
+   - The import warns `reads like a tool note: "..."` for these. Review every warning before shipping: reword the real tool notes, and leave Austin's ordinary words alone when a warning is a false alarm.
    - Credits read "Photo: Name, CC BY 2.0" (or whichever license). Add an "Image Credits" section at the end only if the upload has one.
    - No em dashes in anything you write. Austin's own text keeps theirs.
 4. **Photos.**
@@ -105,7 +105,7 @@ heroCredit: Colin Brown, CC BY 2.0
 6. **Ship** (see "Shipping" below).
 7. **Load it into production.** Run the **Import Webflow content** workflow with `step: articles`. Read the job log to confirm:
    - the "upserted N article(s)" line;
-   - no `reads like a tool note` warnings;
+   - no `reads like a tool note` warning you have not reviewed;
    - no photo errors.
 8. **Check live.** Run the **Check live pages** workflow with `paths: /articles/<slug>,/articles`. Every page and image should be 200. The log also prints the number of figures on each page.
 9. **Tell Austin:** the live link, what you reworded (before and after), any fact you questioned, and anything still missing (a photo, a credit).
@@ -216,15 +216,15 @@ Live articles:
 | `what-hyatt-globalist-status-gets-you` | guides | no | |
 | `united-status-match-extension` | news | no | First news article |
 
-Work started in the previous chat. Check `git log origin/main` to see what landed before relying on it:
+Done in the previous chat (on `main` since 2026-10-18):
 
-1. **Uploaded photos on hotel, review and lounge pages**:
-   - New `src/lib/photos.ts` that prefers an uploaded hero image over the imported one.
-   - The United article's tool-sounding source notes reworded.
-   - A `TOOL_NOTE_PATTERNS` check in `scripts/webflow/import.ts`.
-   - `CLAUDE.md` added at the repo root.
-   - If `CLAUDE.md` and `src/lib/photos.ts` are on `main`, this landed.
-2. **Multiple categories per article** (queued after item 1). The plan:
+- Photos uploaded in the admin now show first on hotel, review and lounge pages and cards (`src/lib/photos.ts`). Admin uploads only appear once the hotel is published; the `media-report` step says, per hotel, whether its published version has the photo.
+- The `articles` step warns about tool-sounding phrasing (`TOOL_NOTE_PATTERNS` in `scripts/webflow/import.ts`). That covers the markdown and, for an article edited in the admin, the words saved there.
+- `CLAUDE.md` at the repo root.
+
+Work still open from the previous chat. Check `git log origin/main` before relying on it:
+
+1. **Multiple categories per article**. The plan:
    - `categories` becomes a Payload `select` with `hasMany: true`. The first value is the main category.
    - Cards and breadcrumbs show the main category, and the article page lists all of them ("News · Airlines").
    - The `/articles?category=` filter matches any article carrying that category.
@@ -257,6 +257,9 @@ Still waiting on Austin:
 - Whether the Ikon guide's admin word changes (saved 2026-10-18 at about 22:23 UTC) were intended. If not, restore that one article from the markdown. `articles-force` touches every file, so confirm first.
 - The photographer and license for the Vail photo in the Epic guide.
 - Optionally, a higher-resolution Palisades photo for the Ikon guide (the current one is 480px wide).
+- Epic guide, Stoneham: it says no Hyatt or IHG property is in Québec City, but the Holiday Inn Express Québec City Sainte-Foy is IHG, and the Ikon guide lists "Holiday Inn options (IHG)" there. Suggested fix: "IHG's option is the Holiday Inn Express Québec City Sainte-Foy; we found no Hyatt in the city." Not changed until Austin says so.
+- Ikon guide, Sun Valley: the live words (edited in the admin) still end with a note to the writer, "say so to readers rather than padding it". Austin can delete it in the admin, or say to overwrite the article from the markdown.
+- All five articles have a `metaTitle` longer than 42 characters, so search results may cut them off. Austin's call whether to shorten them.
 
 ## Files Worth Knowing
 
