@@ -1,0 +1,59 @@
+# Downloads a photograph into public/images/articles/<article>/<file>, where
+# article photos live, and commits it, so the article can ship it from the
+# site's own files.
+#
+# Manual: Actions tab → "Add an article photo" → Run workflow, with the
+# article's slug, the file name to store it under and the image address.
+name: Add an article photo
+
+on:
+  workflow_dispatch:
+    inputs:
+      slug:
+        description: 'Article slug (folder), e.g. united-status-match-extension'
+        required: true
+      name:
+        description: 'File name, e.g. united-737-ohare.jpg'
+        required: true
+      url:
+        description: 'Image address (jpg, png or webp)'
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  photo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      SLUG: ${{ github.event.inputs.slug }}
+      NAME: ${{ github.event.inputs.name }}
+      URL: ${{ github.event.inputs.url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download
+        run: |
+          set -e
+          [[ "$SLUG" =~ ^[a-z0-9][a-z0-9-]*$ ]] || { echo "Bad slug: $SLUG"; exit 1; }
+          [[ "$NAME" =~ ^[a-z0-9][a-z0-9.-]*\.(jpg|jpeg|png|webp)$ ]] || { echo "Bad file name: $NAME"; exit 1; }
+          [[ "$URL" =~ ^https:// ]] || { echo "Image address must start with https://"; exit 1; }
+          tmp=$(mktemp)
+          curl -fsSL -A 'LoyalistTravel/1.0 (+https://loyalisttravel.com)' -o "$tmp" "$URL"
+          type=$(file -b --mime-type "$tmp")
+          case "$type" in
+            image/jpeg|image/png|image/webp) ;;
+            *) echo "Not an image: $type"; exit 1 ;;
+          esac
+          mkdir -p "public/images/articles/$SLUG"
+          mv "$tmp" "public/images/articles/$SLUG/$NAME"
+          chmod 644 "public/images/articles/$SLUG/$NAME"
+          file "public/images/articles/$SLUG/$NAME"
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add "public/images/articles/$SLUG/$NAME"
+          git commit -m "Article photo: $SLUG/$NAME" || echo "nothing to commit"
+          # main may have moved while this ran: bring it in, then push, a few tries
+          for i in 1 2 3 4; do git pull --rebase origin main && git push && break; sleep 10; done
