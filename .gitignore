@@ -18,3 +18,6 @@ out
 .DS_Store
 npm-debug.log*
 .vercel
+
+# decoded at import time from flyertalk-stays.csv.gz.b64
+loyalist-pipeline/data/data_points.csv
