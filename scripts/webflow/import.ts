@@ -1371,6 +1371,53 @@ async function reportArticles(payload: Payload) {
   console.log(`articles-report: ikon media: ${media.docs.length} doc(s), ${media.docs.filter((m) => m.staticUrl).length} with a static url`)
 }
 
+// Read-only: what was changed in the admin since the last import, block by
+// block. The last import is the saved version whose words match its
+// fingerprint; the blocks only it has were removed or rewritten, the blocks
+// only the current version has were added or are the rewrites.
+async function diffArticles(payload: Payload) {
+  const blocks = (body: unknown) => ((body as { root?: { children?: unknown[] } } | null)?.root?.children ?? []).map((n) => lexicalText(n)).filter(Boolean)
+  const cut = (t: string) => (t.length > 200 ? `${t.slice(0, 200)}...` : t)
+  const all = await payload.find({ collection: 'articles', limit: 100, depth: 0, draft: true, overrideAccess: true, sort: 'slug' })
+  for (const a of all.docs) {
+    const v = await payload.findVersions({ collection: 'articles', where: { parent: { equals: a.id } }, sort: 'updatedAt', limit: 100, depth: 0, overrideAccess: true })
+    const docs = v.docs as { updatedAt: string; version: { title?: string; dek?: string | null; body?: unknown; _status?: string } }[]
+    const hashOf = (d: (typeof docs)[number]) => articleWordsHash(d.version.title, d.version.dek, d.version.body)
+    let imported = a.importedHash ? docs.filter((d) => hashOf(d) === a.importedHash).pop() : undefined
+    console.log(`articles-diff: ${a.slug}: versions ${docs.map((d) => `${d.updatedAt.slice(5, 16)}${d.version._status === 'draft' ? ' draft' : ''}${a.importedHash && hashOf(d) === a.importedHash ? ' (import)' : ''}`).join(', ')}`)
+    if (!imported) {
+      // edited before fingerprints existed: compare with the markdown file
+      const file = path.join(articlesDir(), `${a.slug}.md`)
+      const m = fs.existsSync(file) ? /^---\n([\s\S]*?)\n---\n([\s\S]*)$/.exec(fs.readFileSync(file, 'utf8')) : null
+      if (!m) {
+        console.log(`articles-diff: ${a.slug}: no saved version matches the last import, and there is no markdown file to compare with`)
+        continue
+      }
+      const meta = Object.fromEntries(m[1].split('\n').map((l) => /^(\w+):\s*(.*)$/.exec(l)).filter((kv): kv is RegExpExecArray => Boolean(kv)).map((kv) => [kv[1], kv[2].trim()]))
+      console.log(`articles-diff: ${a.slug}: no saved version matches the last import${a.importedHash ? '' : ' (no fingerprint)'}; comparing with ${a.slug}.md instead`)
+      imported = { updatedAt: '', version: { title: meta.title, dek: meta.dek || null, body: htmlToLexical(markdownToHtml(m[2])).value } }
+    }
+    if (articleWordsHash(a.title, a.dek, a.body) === a.importedHash) {
+      console.log(`articles-diff: ${a.slug}: words as imported`)
+      continue
+    }
+    if (imported.version.title !== a.title) console.log(`articles-diff: ${a.slug}: title "${imported.version.title}" -> "${a.title}"`)
+    if ((imported.version.dek ?? '') !== (a.dek ?? '')) console.log(`articles-diff: ${a.slug}: dek "${cut(imported.version.dek ?? '')}" -> "${cut(a.dek ?? '')}"`)
+    const before = blocks(imported.version.body)
+    const after = blocks(a.body)
+    const left = [...after]
+    const removed = before.filter((b) => {
+      const i = left.indexOf(b)
+      if (i === -1) return true
+      left.splice(i, 1)
+      return false
+    })
+    console.log(`articles-diff: ${a.slug}: ${before.length} -> ${after.length} block(s); ${removed.length} only in the import, ${left.length} only now`)
+    for (const b of removed.slice(0, 15)) console.log(`articles-diff: ${a.slug}:   - ${cut(b)}`)
+    for (const b of left.slice(0, 15)) console.log(`articles-diff: ${a.slug}:   + ${cut(b)}`)
+  }
+}
+
 // Read-only: the latest uploads and every hotel, review and lounge whose
 // photo comes from an upload, to see what an editor has added.
 async function reportMedia(payload: Payload) {
@@ -2030,6 +2077,7 @@ const STEPS: Record<string, (p: Payload) => Promise<void>> = {
   articles: importArticles,
   'articles-refresh': refreshArticleImages,
   'articles-report': reportArticles,
+  'articles-diff': diffArticles,
   'media-report': reportMedia,
   'articles-force': forceImportArticles,
   'retire-tiers': retireTiers,
