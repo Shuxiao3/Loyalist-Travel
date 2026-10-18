@@ -209,6 +209,10 @@ export interface Hotel {
    */
   stayCount?: number | null;
   /**
+   * Approved reader stays plus aggregated reports. Kept in step automatically.
+   */
+  reportCount?: number | null;
+  /**
    * Whether the hotel has an executive or club lounge, as its own page states (Marriott: by brand and region until a page or report answers). Blank means not checked yet.
    */
   clubLounge?: ('yes' | 'no') | null;
@@ -1578,6 +1582,7 @@ export interface HotelsSelect<T extends boolean = true> {
   externalImageUrl?: T;
   views?: T;
   stayCount?: T;
+  reportCount?: T;
   clubLounge?: T;
   featured?: T;
   enrichmentStatus?: T;

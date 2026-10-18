@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 import { BREAKFAST_OUTCOMES, LATE_CHECKOUT_OUTCOMES, LOUNGE_ACCESS, SUITE_TYPES, UPGRADE_HOW, UPGRADE_OUTCOMES, UPGRADE_TYPES } from '../lib/stayOptions'
+import { recountHotelAfterChange, recountHotelAfterDelete } from './Hotels'
 
 // Stays reported on forums (Reddit, FlyerTalk), extracted by the pipeline in
 // loyalist-pipeline and imported by the `sourced-reports` step. A third
@@ -13,6 +14,11 @@ const unknown = { label: 'Not stated', value: 'unknown' }
 export const SourcedReports: CollectionConfig = {
   slug: 'sourced-reports',
   labels: { singular: 'Reported stay', plural: 'Reported stays' },
+  // Approved reports count towards the hotel's reportCount (recountHotel in Hotels.ts).
+  hooks: {
+    afterChange: [recountHotelAfterChange],
+    afterDelete: [recountHotelAfterDelete],
+  },
   admin: {
     useAsTitle: 'summary',
     defaultColumns: ['hotel', 'source', 'statusHeld', 'stayMonth', 'upgrade', 'confidence', 'status'],

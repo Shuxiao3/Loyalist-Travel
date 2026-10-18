@@ -2,6 +2,7 @@ import Link from 'next/link'
 
 import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
 
+import { getHotelSnapshots } from '@/lib/hotelSnapshot'
 import type { Hotel, Review } from '@/payload-types'
 
 import { HotelList } from './HotelCard'
@@ -9,9 +10,10 @@ import { ReviewCard } from './ReviewCard'
 import { RichText } from './RichText'
 import styles from './ReferenceBody.module.css'
 
-// Shared body for brand, destination and program pages: an overview, the
-// scored stays, and the hotel list.
-export function ReferenceBody({
+// Shared body for brand and destination pages: an overview, the scored
+// stays, and the hotel list, each hotel card carrying its snapshot of what
+// has been reported there.
+export async function ReferenceBody({
   overview,
   reviews,
   hotels,
@@ -26,6 +28,7 @@ export function ReferenceBody({
   hotelsHref: string
   name: string
 }) {
+  const snapshots = hotels.length ? await getHotelSnapshots(hotels.map((h) => h.id)) : {}
   return (
     <>
       {overview && (
@@ -72,7 +75,7 @@ export function ReferenceBody({
               </Link>
             )}
           </div>
-          {hotels.length > 0 ? <HotelList hotels={hotels} grid /> : <p className={styles.empty}>No published hotels yet.</p>}
+          {hotels.length > 0 ? <HotelList hotels={hotels} grid snapshots={snapshots} /> : <p className={styles.empty}>No published hotels yet.</p>}
         </div>
       </section>
     </>

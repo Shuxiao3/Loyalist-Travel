@@ -1,4 +1,4 @@
-import type { CollectionConfig, PayloadRequest } from 'payload'
+import type { CollectionConfig } from 'payload'
 
 import { notifyOnCreate } from '@/lib/notify'
 
@@ -9,32 +9,15 @@ import { notifyOnCreate } from '@/lib/notify'
 
 export * from '../lib/stayOptions'
 import { SUITE_AWARD, SUITE_TYPES, UPGRADE_HOW, UPGRADE_OUTCOMES, UPGRADE_TYPES } from '../lib/stayOptions'
+import { recountHotelAfterChange, recountHotelAfterDelete } from './Hotels'
 
-// After any change or delete, recount the hotel's approved stays. Plain SQL
-// inside the request's transaction: a document update here would write a
-// hotel version from within the stay's own operation, which Payload rejects.
-async function recount(req: PayloadRequest, hotelId: number | null | undefined) {
-  if (!hotelId) return
-  const { sql } = await import('@payloadcms/db-postgres')
-  const adapter = req.payload.db as unknown as { drizzle: { execute: (q: unknown) => Promise<unknown> }; sessions?: Record<string, { db: { execute: (q: unknown) => Promise<unknown> } }> }
-  const db = (req.transactionID && adapter.sessions?.[String(req.transactionID)]?.db) || adapter.drizzle
-  await db.execute(sql`update hotels set stay_count = (select count(*) from reader_stays where hotel_id = ${hotelId} and status = 'approved') where id = ${hotelId}`)
-  await db.execute(sql`update _hotels_v set version_stay_count = (select stay_count from hotels where id = ${hotelId}) where parent_id = ${hotelId} and id = (select max(id) from _hotels_v where parent_id = ${hotelId})`)
-}
-
-const hotelIdOf = (doc: { hotel?: number | { id: number } | null } | undefined) => (doc?.hotel && typeof doc.hotel === 'object' ? doc.hotel.id : (doc?.hotel as number | null | undefined))
-
+// After any change or delete, the hotel's stayCount and reportCount are
+// recounted (recountHotel in Hotels.ts).
 export const ReaderStays: CollectionConfig = {
   slug: 'reader-stays',
   hooks: {
-    afterChange: [
-      async ({ doc, previousDoc, req }) => {
-        await recount(req, hotelIdOf(doc))
-        if (previousDoc && hotelIdOf(previousDoc) !== hotelIdOf(doc)) await recount(req, hotelIdOf(previousDoc))
-      },
-      notifyOnCreate('reader-stays'),
-    ],
-    afterDelete: [async ({ doc, req }) => recount(req, hotelIdOf(doc))],
+    afterChange: [recountHotelAfterChange, notifyOnCreate('reader-stays')],
+    afterDelete: [recountHotelAfterDelete],
   },
   admin: {
     useAsTitle: 'id',

@@ -542,6 +542,7 @@ async function seedStays(payload: Payload) {
     }
   }
   console.log(`seed-stays: ${rows.length} approved mock stays on ${hotel.name}, a mock lounge and ${ratings} lounge ratings`)
+  await recountReportCounts(payload)
 }
 
 async function unseedStays(payload: Payload) {
@@ -549,6 +550,28 @@ async function unseedStays(payload: Payload) {
   const r = await payload.delete({ collection: 'lounge-ratings', where: { submitterHash: { equals: MOCK_HASH } }, overrideAccess: true })
   const l = await payload.delete({ collection: 'lounges', where: { slug: { equals: 'mock-park-club-new-york' } }, overrideAccess: true })
   console.log(`unseed-stays: removed ${res.docs.length} mock stays, ${r.docs.length} lounge ratings and ${l.docs.length} mock lounge`)
+  await recountReportCounts(payload)
+}
+
+// hotels.stay_count (approved reader stays) and hotels.report_count (those
+// plus approved reported stays) are kept in step by hooks one record at a
+// time; after a bulk step one SQL pass sets every hotel straight, latest
+// version row included, and says how many were off.
+async function recountReportCounts(payload: Payload) {
+  const { sql } = await import('@payloadcms/db-postgres')
+  const db = payload.db as unknown as { drizzle: { execute: (q: unknown) => Promise<{ rows: unknown[] }> } }
+  const changed = await db.drizzle.execute(sql`
+    update hotels h set stay_count = sub.rs, report_count = sub.rs + sub.sr from (
+      select h2.id,
+        (select count(*) from reader_stays rs where rs.hotel_id = h2.id and rs.status = 'approved') as rs,
+        (select count(*) from sourced_reports sr where sr.hotel_id = h2.id and sr.status = 'approved') as sr
+      from hotels h2
+    ) sub where sub.id = h.id and (h.stay_count is distinct from sub.rs or h.report_count is distinct from sub.rs + sub.sr)
+    returning h.id`)
+  await db.drizzle.execute(sql`
+    update _hotels_v v set version_stay_count = h.stay_count, version_report_count = h.report_count from hotels h
+    where v.parent_id = h.id and v.latest = true and (v.version_stay_count is distinct from h.stay_count or v.version_report_count is distinct from h.report_count)`)
+  console.log(`recount: stay_count or report_count changed on ${changed.rows.length} hotel(s)`)
 }
 
 // Program logos from Webflow, downloaded into public/images/programs so the
@@ -1462,6 +1485,7 @@ async function importSourcedReports(payload: Payload) {
     }
   }
   console.log(`sourced-reports: ${created} created, ${updated} updated, ${skipped} skipped (low confidence or incomplete), ${unmatched} with no matching hotel`)
+  await recountReportCounts(payload)
 }
 
 // ---- Brand hierarchy ------------------------------------------------------------

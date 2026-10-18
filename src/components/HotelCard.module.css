@@ -1,4 +1,6 @@
-/* The "glist" pattern from the homepage mockup: rows in a white card. */
+/* ---- rows: the "glist" pattern from the homepage mockup ----------------- */
+
+/* rows in a white card, for the related hotels on a hotel page */
 .list {
   background: var(--card);
   border: 1px solid var(--line);
@@ -18,6 +20,10 @@
 
 .row:first-child {
   border-top: 0;
+}
+
+.main {
+  min-width: 0;
 }
 
 .row :global(.label) {
@@ -54,44 +60,165 @@
   padding-top: 22px;
 }
 
-/* the grid: white tiles on hairlines, three across */
+/* ---- cards: the hotel index and the program pages ---------------------- */
+
+/* each hotel its own card, three across */
 .grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1px;
-  background: var(--line);
+  gap: var(--s5);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: var(--card);
   border: 1px solid var(--line);
   border-radius: var(--r);
   overflow: hidden;
-}
-
-.tile {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: var(--s4);
-  min-width: 0;
-  padding: var(--s5);
-  background: var(--card);
   color: inherit;
 }
 
-.tile:hover .title {
+.card:hover {
+  border-color: var(--gold-dark);
+}
+
+.card:hover .title {
   color: var(--gold-dark);
 }
 
-.tile .main {
-  min-width: 0;
+/* the photo over a placeholder gradient, which shows until the photo loads
+   and stays when there is none; the three tones cycle by position. The
+   same height as the review and article cards' pictures. */
+.photo {
+  position: relative;
+  display: block;
+  height: 190px;
+  overflow: hidden;
+  background: var(--img-a);
 }
 
-.tile :global(.label) {
+.photo.a {
+  background: var(--img-a);
+}
+
+.photo.b {
+  background: var(--img-b);
+}
+
+.photo.c {
+  background: var(--img-c);
+}
+
+/* a photo that fails to load shows nothing, not the browser's broken image
+   mark, so the gradient stays */
+.img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  text-indent: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.card:hover .img {
+  transform: scale(1.03);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  padding: var(--s5);
+}
+
+.text {
+  display: block;
+  flex: 1;
+  min-width: 0;
+  padding-bottom: var(--s5);
+}
+
+.text :global(.label) {
   display: block;
   margin-bottom: var(--s2);
 }
 
-.tile .right {
-  padding-top: 0;
-  white-space: normal;
+/* the snapshot: a figure with its label, and a line under them. Every
+   variant (the upgrade rate, the count of stays, none yet) has the same
+   two lines, so the feet of a row sit level. The tag wraps under the figure
+   when the two do not fit side by side. */
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--s3);
+  padding-top: var(--s4);
+  border-top: 1px solid var(--line);
+}
+
+.snap {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.figure {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s2);
+  min-width: 0;
+}
+
+/* the one figure on a card, in the gold of the review cards' score */
+.rate {
+  font-family: var(--serif);
+  font-size: calc(var(--t-lg) + 2px);
+  line-height: 1;
+  color: var(--gold-dark);
+}
+
+.card:hover .rate {
+  color: var(--gold-deeper);
+}
+
+.stays {
+  font-size: var(--t-xs);
+  line-height: 1.4;
+  color: var(--muted);
+  letter-spacing: var(--track-fine);
+}
+
+/* the Lounge tag: a small gold outlined pill */
+.tag {
+  flex: none;
+  font-size: var(--t-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  line-height: 1;
+  color: var(--gold-dark);
+  border: 1px solid var(--gold-dark);
+  border-radius: 999px;
+  padding: 5px 10px 4px;
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .img {
+    transition: none;
+  }
+
+  .card:hover .img {
+    transform: none;
+  }
 }
 
 @media (max-width: 1100px) {
@@ -105,28 +232,40 @@
     padding: 4px var(--s5);
   }
 
-  .grid {
-    grid-template-columns: 1fr;
-  }
-
-  .tile {
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: space-between;
-    padding: var(--s4) var(--s5);
-  }
-
-  .tile .right {
-    display: block;
-    padding-top: 22px;
-    white-space: nowrap;
-  }
-
   .row {
     padding: var(--s4) 0;
   }
 
   .right {
     display: none;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: var(--s4);
+  }
+
+  /* one across, the photo on the left as on the landing hero's card, so a
+     page of 24 is a list and not 24 screens of pictures */
+  .card {
+    display: grid;
+    grid-template-columns: 112px minmax(0, 1fr);
+  }
+
+  .photo {
+    height: auto;
+    min-height: 132px;
+  }
+
+  .body {
+    padding: var(--s4);
+  }
+
+  .text {
+    padding-bottom: var(--s3);
+  }
+
+  .foot {
+    padding-top: var(--s3);
   }
 }

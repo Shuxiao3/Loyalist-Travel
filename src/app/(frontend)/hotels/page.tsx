@@ -8,7 +8,8 @@ import { HERO_FALLBACK_PHOTO, LandingHero } from '@/components/LandingHero'
 import { Pager } from '@/components/Pager'
 import { SortMenu } from '@/components/SortMenu'
 import { count } from '@/lib/format'
-import { findHotels, getFeaturedHotel, getHotelFilterOptions, HOTELS_PER_PAGE, type HotelFilters } from '@/lib/queries'
+import { getHotelSnapshots } from '@/lib/hotelSnapshot'
+import { findHotels, getFeaturedHotel, getHotelFilterOptions, HOTEL_SORTS, HOTELS_PER_PAGE, type HotelFilters } from '@/lib/queries'
 import styles from './page.module.css'
 
 export const revalidate = 300
@@ -35,7 +36,10 @@ export default async function HotelsIndex({ searchParams }: Props) {
     page: Math.max(1, Number(first(sp.page)) || 1),
   }
   const [result, options, featured] = await Promise.all([findHotels(filters), getHotelFilterOptions(), getFeaturedHotel()])
+  const snapshots = result.docs.length ? await getHotelSnapshots(result.docs.map((h) => h.id)) : {}
   const active = Object.entries(filters).filter(([k, v]) => k !== 'page' && k !== 'sort' && v).length
+  // the results eyebrow names the order when nothing is filtered
+  const order = (HOTEL_SORTS.find((s) => s.value === (filters.sort ?? '')) ?? HOTEL_SORTS[0]).label
   const fHotel = featured?.hotel
 
   const href = (page: number) => {
@@ -120,15 +124,7 @@ export default async function HotelsIndex({ searchParams }: Props) {
               <button className="btn" type="submit">
                 Filter
               </button>
-              <SortMenu
-                value={filters.sort}
-                options={[
-                  { value: '', label: 'Most popular' },
-                  { value: 'stays', label: 'Most submissions' },
-                  { value: 'az', label: 'Name, A to Z' },
-                  { value: 'za', label: 'Name, Z to A' },
-                ]}
-              />
+              <SortMenu value={filters.sort} options={HOTEL_SORTS} />
               {(active > 0 || filters.sort) && (
                 <Link className="more" href="/hotels">
                   Clear
@@ -143,7 +139,7 @@ export default async function HotelsIndex({ searchParams }: Props) {
         <div className="wrap">
           <div className="section-head">
             <div>
-              <span className="eyebrow on-light">{active ? 'Filtered' : 'A to Z'}</span>
+              <span className="eyebrow on-light">{active ? 'Filtered' : order}</span>
               <h2>
                 {count(result.totalDocs)} {result.totalDocs === 1 ? 'hotel' : 'hotels'}
                 {active ? ' match' : ''}
@@ -151,7 +147,7 @@ export default async function HotelsIndex({ searchParams }: Props) {
             </div>
           </div>
           {result.docs.length > 0 ? (
-            <HotelList hotels={result.docs} grid />
+            <HotelList hotels={result.docs} grid snapshots={snapshots} />
           ) : (
             <p className={styles.empty}>No hotels match those filters.</p>
           )}

@@ -90,6 +90,14 @@ export type HotelFilters = {
 
 export const HOTELS_PER_PAGE = 24
 
+// The sort menu on the hotels index. The first is the default (no sort param).
+export const HOTEL_SORTS: { value: string; label: string }[] = [
+  { value: '', label: 'Most stays reported' },
+  { value: 'popular', label: 'Most viewed' },
+  { value: 'az', label: 'Name, A to Z' },
+  { value: 'za', label: 'Name, Z to A' },
+]
+
 export async function findHotels(f: HotelFilters) {
   const payload = await getPayloadClient()
   const and: Where[] = [published]
@@ -99,8 +107,11 @@ export async function findHotels(f: HotelFilters) {
   if (f.country) and.push({ 'destination.country': { equals: f.country } })
   if (f.scored === 'yes') and.push({ reviewStatus: { equals: 'reviewed' } })
   if (f.lounge === 'yes') and.push({ clubLounge: { equals: 'yes' } })
-  // Most popular by default on the hotels index; the program pages pass 'az'.
-  const sort = f.sort === 'za' ? '-name' : f.sort === 'az' ? 'name' : f.sort === 'stays' ? ['-stayCount', 'name'] : f.sort === 'popular' || !f.sort ? ['-views', '-stayCount', 'name'] : 'name'
+  // Most stays reported (reader stays plus forum reports) by default on the
+  // hotels index, page views breaking ties; 'popular' flips the two. The
+  // program pages pass 'az'. A value the menu does not know gets the default,
+  // which is also what the results eyebrow then says.
+  const sort = f.sort === 'za' ? '-name' : f.sort === 'az' ? 'name' : f.sort === 'popular' ? ['-views', '-reportCount', 'name'] : ['-reportCount', '-views', 'name']
   return payload.find({
     collection: 'hotels',
     where: { and },

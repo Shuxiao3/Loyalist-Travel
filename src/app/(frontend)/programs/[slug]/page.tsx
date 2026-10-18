@@ -10,6 +10,7 @@ import { ReviewCard } from '@/components/ReviewCard'
 import { RichText } from '@/components/RichText'
 import { SortMenu } from '@/components/SortMenu'
 import { count } from '@/lib/format'
+import { getHotelSnapshots } from '@/lib/hotelSnapshot'
 import { brandsOf, findHotels, getHotelFilterOptions, getPayloadClient, getProgram, HOTELS_PER_PAGE, type HotelFilters, topTierOf } from '@/lib/queries'
 import { getSeo, metaText, pageMeta } from '@/lib/seo'
 import { rel } from '@/lib/format'
@@ -66,6 +67,7 @@ export default async function ProgramPage({ params, searchParams }: Props) {
     payload.find({ collection: 'status-levels', where: { program: { equals: program.id } }, sort: 'rank', limit: 10, depth: 1 }),
     brandsOf(program.id),
   ])
+  const snapshots = hotels.docs.length ? await getHotelSnapshots(hotels.docs.map((h) => h.id)) : {}
   const levels: StatusLevel[] = tiers.docs
   const brands = options.brands.filter((b) => (typeof b.program === 'object' ? b.program?.id : b.program) === program.id)
   const active = ['q', 'brand', 'country', 'lounge'].filter((k) => filters[k as keyof HotelFilters]).length
@@ -279,8 +281,8 @@ export default async function ProgramPage({ params, searchParams }: Props) {
                 options={[
                   { value: 'az', label: 'Name, A to Z' },
                   { value: 'za', label: 'Name, Z to A' },
-                  { value: 'popular', label: 'Most popular' },
-                  { value: 'stays', label: 'Most submissions' },
+                  { value: 'stays', label: 'Most stays reported' },
+                  { value: 'popular', label: 'Most viewed' },
                 ]}
               />
               {(active > 0 || filters.sort !== 'az') && (
@@ -290,7 +292,7 @@ export default async function ProgramPage({ params, searchParams }: Props) {
               )}
             </div>
           </form>
-          {hotels.docs.length > 0 ? <HotelList hotels={hotels.docs} grid /> : <p className={styles.empty}>No hotels match those filters.</p>}
+          {hotels.docs.length > 0 ? <HotelList hotels={hotels.docs} grid snapshots={snapshots} /> : <p className={styles.empty}>No hotels match those filters.</p>}
           <Pager page={hotels.page ?? 1} totalPages={hotels.totalPages} totalDocs={hotels.totalDocs} perPage={HOTELS_PER_PAGE} href={href} />
         </div>
       </section>
