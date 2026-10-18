@@ -1,0 +1,33 @@
+# Proves uploads work on the live site: uploads a one-pixel image to Media
+# through the site, fetches it back from its file address, deletes it and
+# checks it is gone. Calls POST /api/blob-check with a key derived from
+# PAYLOAD_SECRET (the same secret the Vercel project uses).
+#
+# Manual only: Actions tab → "Check Blob storage" → Run workflow.
+name: Check Blob storage
+
+on:
+  workflow_dispatch:
+    inputs:
+      site:
+        description: 'Site address'
+        required: false
+        default: 'https://loyalisttravel.com'
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Upload, serve and delete a test image on the live site
+        env:
+          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
+          SITE: ${{ github.event.inputs.site }}
+        run: |
+          key=$(printf '%s' blob-check | openssl dgst -sha256 -hmac "$PAYLOAD_SECRET" -r | cut -d' ' -f1)
+          out=$(curl -sS -L -X POST -H "x-blob-check: $key" "${SITE%/}/api/blob-check")
+          echo "$out"
+          echo "$out" | grep -q '"ok":true'

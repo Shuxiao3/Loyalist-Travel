@@ -3,7 +3,6 @@ import { fileURLToPath } from 'url'
 
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { EXPERIMENTAL_TableFeature, lexicalEditor, UploadFeature } from '@payloadcms/richtext-lexical'
-import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import { buildConfig } from 'payload'
 import sharp from 'sharp'
 
@@ -26,6 +25,8 @@ import { Reviews } from './collections/Reviews'
 import { RubricVersions } from './collections/RubricVersions'
 import { StatusLevels } from './collections/StatusLevels'
 import { Users } from './collections/Users'
+import { blobCheck } from './endpoints/blobCheck'
+import { blobStorage } from './lib/blobStorage'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -120,10 +121,10 @@ export default buildConfig({
     push: false,
   }),
   sharp,
-  // Media lives in Vercel Blob wherever BLOB_READ_WRITE_TOKEN is set (Vercel
-  // and the import workflow); on a local machine without it, the media
-  // folder on disk.
-  plugins: process.env.BLOB_READ_WRITE_TOKEN
-    ? [vercelBlobStorage({ collections: { media: true }, token: process.env.BLOB_READ_WRITE_TOKEN })]
-    : [],
+  // Uploads live in Vercel Blob wherever the deployment has Blob credentials
+  // (on Vercel: BLOB_STORE_ID, or a BLOB_READ_WRITE_TOKEN); on a local
+  // machine or a GitHub runner without them, the media folder on disk.
+  plugins: [blobStorage({ collections: ['media'] })],
+  // POST /api/blob-check, the "Check Blob storage" workflow's round trip
+  endpoints: [blobCheck],
 })
