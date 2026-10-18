@@ -1177,6 +1177,25 @@ async function refreshArticleImages(payload: Payload) {
   await importArticles(payload)
 }
 
+// Read-only: what each article holds, as stored and as the site reads it
+// (published version, photos resolved), to tell a stale page from missing
+// data.
+async function reportArticles(payload: Payload) {
+  const all = await payload.find({ collection: 'articles', limit: 100, depth: 0, draft: true, overrideAccess: true, sort: 'slug' })
+  for (const a of all.docs) {
+    const nodes = ((a.body as { root?: { children?: { type?: string; value?: unknown }[] } } | null)?.root?.children ?? []).filter((n) => n.type === 'upload')
+    const pub = (await payload.find({ collection: 'articles', where: { slug: { equals: a.slug } }, limit: 1, depth: 2, overrideAccess: true })).docs[0]
+    const pubNodes = ((pub?.body as { root?: { children?: { type?: string; value?: unknown }[] } } | null)?.root?.children ?? []).filter((n) => n.type === 'upload')
+    const populated = pubNodes.filter((n) => n.value && typeof n.value === 'object')
+    const withAddress = populated.filter((n) => { const v = n.value as { staticUrl?: string | null; url?: string | null }; return Boolean(v.staticUrl || v.url) })
+    const hero = pub?.heroImage && typeof pub.heroImage === 'object' ? (pub.heroImage as { filename?: string; staticUrl?: string | null }) : null
+    const versions = await payload.countVersions({ collection: 'articles', where: { parent: { equals: a.id } }, overrideAccess: true })
+    console.log(`articles-report: ${a.slug}: status ${a._status ?? '?'}, updated ${String(a.updatedAt).slice(0, 16)}, ${versions.totalDocs} version(s); latest draft ${nodes.length} photo node(s); published ${pub ? `${pubNodes.length} photo node(s), ${populated.length} resolved, ${withAddress.length} with an address; hero ${hero ? `${hero.filename} -> ${hero.staticUrl ?? '(no static url)'}` : 'none'}` : 'NOT FOUND'}`)
+  }
+  const media = await payload.find({ collection: 'media', where: { filename: { like: 'ikon-2026-' } }, limit: 50, depth: 0, overrideAccess: true })
+  console.log(`articles-report: ikon media: ${media.docs.length} doc(s), ${media.docs.filter((m) => m.staticUrl).length} with a static url`)
+}
+
 // ---- Milestone rewards -----------------------------------------------------------
 // The same terms as a list: one entry per milestone, choices one per line.
 const MILESTONE_LIST: Record<string, { at: string; rewards: string }[]> = {
@@ -1814,6 +1833,7 @@ const STEPS: Record<string, (p: Payload) => Promise<void>> = {
   'unseed-articles': unseedArticles,
   articles: importArticles,
   'articles-refresh': refreshArticleImages,
+  'articles-report': reportArticles,
   'retire-tiers': retireTiers,
   'seed-milestones': seedMilestones,
   'seed-cards': seedCards,
