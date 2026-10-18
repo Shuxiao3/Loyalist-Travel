@@ -357,7 +357,7 @@ export interface Article {
   id: number;
   title: string;
   slug: string;
-  category: 'elite-benefits' | 'programs' | 'points-awards' | 'credit-cards' | 'hotels-lounges';
+  category: 'news' | 'guides' | 'hotels' | 'airlines' | 'credit-cards';
   publishedDate: string;
   /**
    * One or two sentences under the title and on cards.

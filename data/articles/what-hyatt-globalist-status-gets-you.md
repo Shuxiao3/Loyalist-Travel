@@ -1,7 +1,7 @@
 ---
 title: What Hyatt Globalist Status Gets You
 slug: what-hyatt-globalist-status-gets-you
-category: elite-benefits
+category: guides
 date: 2026-09-27
 featured: true
 programs: world-of-hyatt

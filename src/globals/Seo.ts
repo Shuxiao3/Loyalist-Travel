@@ -30,7 +30,7 @@ const LOUNGE = { Lounge: 'Grand Club', Hotel: 'Grand Hyatt Tokyo', Access: 'Glob
 const PROGRAM = { Program: 'World of Hyatt', Elite: 'Globalist', Description: "Hyatt's loyalty program: four tiers, milestone rewards from 20 nights, and the most consistently honoured top-tier benefits in hotel loyalty." }
 const BRAND = { Brand: 'Park Hyatt', Program: 'World of Hyatt', Elite: 'Globalist', Description: "Hyatt's flagship luxury brand: quiet, residential hotels with the best rooms in the portfolio." }
 const DESTINATION = { Destination: 'Tokyo', Country: 'Japan', Description: 'Every indexed hotel in Tokyo across the four programs, with reader-reported upgrade odds where enough stays are in.' }
-const ARTICLE = { Title: 'What Hyatt Globalist status gets you', Dek: 'Sixty nights a year buys the most consistently honoured top-tier status in hotel loyalty. Here is what it gets you, and where it falls short.', Category: 'Elite benefits' }
+const ARTICLE = { Title: 'What Hyatt Globalist status gets you', Dek: 'Sixty nights a year buys the most consistently honoured top-tier status in hotel loyalty. Here is what it gets you, and where it falls short.', Category: 'Guides' }
 
 export const Seo: GlobalConfig = {
   slug: 'seo',
@@ -58,7 +58,7 @@ export const Seo: GlobalConfig = {
             pair('reviews', 'Reviews index', { fallback: { title: 'Reviews', description: 'Every scored stay, on a 100-point rubric, written from a full stay and never a site inspection.' }, url: 'loyalisttravel.com › reviews' }),
             pair('hotels', 'Hotels index', { fallback: { title: 'Hotels', description: 'Every hotel indexed across World of Hyatt, Marriott Bonvoy, IHG One Rewards and Hilton Honors, filterable by program, brand and country.' }, url: 'loyalisttravel.com › hotels' }),
             pair('lounges', 'Lounges index', { fallback: { title: 'Lounges', description: 'Club and executive lounges: who gets in, hours, what is served, and whether it beats the restaurant, scored by readers who sat in them.' }, url: 'loyalisttravel.com › lounges' }),
-            pair('articles', 'Articles index', { fallback: { title: 'Articles', description: 'Elite benefits, loyalty programs, points and awards, credit cards, lounges and hotels, written from stays we paid for.' }, url: 'loyalisttravel.com › articles' }),
+            pair('articles', 'Articles index', { fallback: { title: 'Articles', description: 'News, guides, hotels, airlines and credit cards, written from stays we paid for.' }, url: 'loyalisttravel.com › articles' }),
             pair('submitAStay', 'Submit a stay', { fallback: { title: 'Submit a stay', description: 'Two minutes, no typing. Your upgrade outcome joins the data for that hotel.' }, url: 'loyalisttravel.com › submit-a-stay' }),
           ],
         },

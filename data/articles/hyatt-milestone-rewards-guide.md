@@ -1,7 +1,7 @@
 ---
 title: A Guide to Hyatt Milestones. What You Should Pick at Every Tier.
 slug: hyatt-milestone-rewards-guide
-category: programs
+category: guides
 date: 2026-09-30
 featured: false
 programs: world-of-hyatt

@@ -1,7 +1,7 @@
 ---
 title: How to Stay Near Every Epic Pass Resort With Hotel Points: The 2026 Guide
 slug: epic-pass-ski-hotels-points-2026
-category: points-awards
+category: guides
 date: 2026-10-13
 featured: true
 programs: world-of-hyatt, marriott-bonvoy, hilton-honors, ihg-one-rewards

@@ -51,7 +51,7 @@ Collections in Payload. Field lists are indicative; the migration script finalis
 
 **Lounges.** Own collection, linked to a hotel; a lounge record exists only where a lounge exists, and a hotel can hold more than one for the rare twin-tower case. Lounge type (executive, club, Ritz Club), access rules by status, hours, food and drink service windows, dress code, editorial notes, and the reader lounge ratings aggregated from Reader Stays.
 
-**Guides.** Title, slug, category (loyalty programs, lounges, credit cards, hotels), pillar or standalone, cluster (relation to a Content Cluster record), body, related hotels and guides.
+**Guides.** Title, slug, category (news, guides, hotels, airlines, credit cards), pillar or standalone, cluster (relation to a Content Cluster record), body, related hotels and guides.
 
 **Brands, Destinations, Programs, Content Clusters.** All four are real collections with their own records and pages. Programs (World of Hyatt, Marriott Bonvoy, IHG One Rewards, Hilton Honors) get hub pages that hold program-level content. Content Clusters replaces the workbook tab so cluster tracking lives beside the content it tracks.
 

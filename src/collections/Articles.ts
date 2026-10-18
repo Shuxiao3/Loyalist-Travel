@@ -23,7 +23,7 @@ export const Articles: CollectionConfig = {
     {
       type: 'row',
       fields: [
-        { name: 'category', type: 'select', required: true, options: ARTICLE_CATEGORIES, index: true },
+        { name: 'category', type: 'select', required: true, options: [...ARTICLE_CATEGORIES], index: true },
         { name: 'publishedDate', type: 'date', required: true, admin: { date: { pickerAppearance: 'dayOnly' } }, index: true },
       ],
     },

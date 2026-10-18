@@ -2,12 +2,14 @@ import type { Metadata } from 'next'
 
 import { getSeo, metaText, pageMeta } from '@/lib/seo'
 import Link from 'next/link'
+import { permanentRedirect } from 'next/navigation'
 
 import { ARTICLE_CATEGORIES, ARTICLE_CATEGORY_LABEL } from '@/collections/Articles'
 import { ArticleCard } from '@/components/ArticleCard'
 import { LandingHero } from '@/components/LandingHero'
 import { Pager } from '@/components/Pager'
 import { ARTICLES_PER_PAGE, articleImage, getArticleCategoryCounts, getArticles } from '@/lib/articles'
+import { isArticleCategory, LEGACY_ARTICLE_CATEGORY } from '@/lib/articleOptions'
 import { count, shortDate } from '@/lib/format'
 
 import styles from './page.module.css'
@@ -16,7 +18,7 @@ export const revalidate = 300
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getSeo()
-  return pageMeta({ ...metaText(seo?.articles, {}, { title: 'Articles', description: 'Elite benefits, loyalty programs, points and awards, credit cards, lounges and hotels, written from stays we paid for.' }), path: '/articles' })
+  return pageMeta({ ...metaText(seo?.articles, {}, { title: 'Articles', description: 'News, guides, hotels, airlines and credit cards, written from stays we paid for.' }), path: '/articles' })
 }
 
 type Props = { searchParams: Promise<Record<string, string | string[] | undefined>> }
@@ -25,7 +27,10 @@ const first = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v
 export default async function ArticlesIndex({ searchParams }: Props) {
   const sp = await searchParams
   const page = Math.max(1, Number(first(sp.page)) || 1)
-  const category = ARTICLE_CATEGORIES.some((c) => c.value === first(sp.category)) ? first(sp.category) : undefined
+  const asked = first(sp.category)
+  // a link to a category from before the rename lands on what it became
+  if (asked && LEGACY_ARTICLE_CATEGORY[asked]) permanentRedirect(`/articles?category=${LEGACY_ARTICLE_CATEGORY[asked]}`)
+  const category = isArticleCategory(asked) ? asked : undefined
   const [result, latestRes, counts] = await Promise.all([getArticles({ page, category, featuredFirst: !category }), getArticles({ limit: 1, featuredFirst: true }), getArticleCategoryCounts()])
   const latest = latestRes.docs[0]
   const total = Object.values(counts).reduce((a, b) => a + b, 0)
@@ -42,7 +47,7 @@ export default async function ArticlesIndex({ searchParams }: Props) {
       <LandingHero
         eyebrow="Articles"
         title="How the programs actually work"
-        text="Elite benefits, points and awards, credit cards, lounges and the hotels themselves. Written from stays we paid for, and updated when the rules change."
+        text="News, guides, hotels, airlines and credit cards. Written from stays we paid for, and updated when the rules change."
         photo={latest ? articleImage(latest) : null}
         card={
           latest
@@ -60,12 +65,13 @@ export default async function ArticlesIndex({ searchParams }: Props) {
 
       <nav className={`section ${styles.cats}`} aria-label="Article categories">
         <div className={`wrap ${styles.catRow}`}>
-          <Link className={`${styles.cat} ${!category ? styles.catOn : ''}`} href="/articles">
+          <Link className={`${styles.cat} ${!category ? styles.catOn : ''}`} href="/articles" aria-current={!category ? 'true' : undefined}>
             All <span className={styles.catN}>{count(total)}</span>
           </Link>
           {ARTICLE_CATEGORIES.map((c) => (
-            <Link className={`${styles.cat} ${category === c.value ? styles.catOn : ''}`} href={`/articles?category=${c.value}`} key={c.value}>
-              {c.label} <span className={styles.catN}>{count(counts[c.value] ?? 0)}</span>
+            <Link className={`${styles.cat} ${category === c.value ? styles.catOn : ''}`} href={`/articles?category=${c.value}`} key={c.value} aria-current={category === c.value ? 'true' : undefined}>
+              {/* a category with nothing in it yet shows no count */}
+              {c.label} {(counts[c.value] ?? 0) > 0 && <span className={styles.catN}>{count(counts[c.value])}</span>}
             </Link>
           ))}
         </div>

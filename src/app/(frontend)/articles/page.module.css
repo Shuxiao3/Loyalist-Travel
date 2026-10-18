@@ -9,7 +9,9 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--s3);
-  padding: var(--s5) 0;
+  /* top and bottom only: the row is also the .wrap, whose gutters stay */
+  padding-top: var(--s5);
+  padding-bottom: var(--s5);
 }
 
 .cat {
