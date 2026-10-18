@@ -11,7 +11,7 @@ import { RichText } from '@/components/RichText'
 import { SortMenu } from '@/components/SortMenu'
 import { count } from '@/lib/format'
 import { getHotelSnapshots } from '@/lib/hotelSnapshot'
-import { brandsOf, findHotels, getHotelFilterOptions, getPayloadClient, getProgram, HOTELS_PER_PAGE, type HotelFilters, topTierOf } from '@/lib/queries'
+import { brandsOf, findHotels, getHotelFilterOptions, getPayloadClient, getProgram, HOTELS_PER_PAGE, type HotelFilters, topTierOf, withHotelPhotos } from '@/lib/queries'
 import { getSeo, metaText, pageMeta } from '@/lib/seo'
 import { rel } from '@/lib/format'
 import type { Article, StatusLevel } from '@/payload-types'
@@ -63,7 +63,7 @@ export default async function ProgramPage({ params, searchParams }: Props) {
     findHotels(filters),
     payload.count({ collection: 'hotels', where: { and: [{ _status: { equals: 'published' } }, { program: { equals: program.id } }] } }),
     getHotelFilterOptions(),
-    payload.find({ collection: 'reviews', where: { and: [{ _status: { equals: 'published' } }, { 'hotel.program': { equals: program.id } }] }, sort: '-publishedDate', depth: 1, limit: 6 }),
+    payload.find({ collection: 'reviews', where: { and: [{ _status: { equals: 'published' } }, { 'hotel.program': { equals: program.id } }] }, sort: '-publishedDate', depth: 1, limit: 6 }).then((res) => withHotelPhotos(res.docs).then(() => res)),
     payload.find({ collection: 'status-levels', where: { program: { equals: program.id } }, sort: 'rank', limit: 10, depth: 1 }),
     brandsOf(program.id),
   ])

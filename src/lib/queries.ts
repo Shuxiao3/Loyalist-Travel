@@ -5,6 +5,7 @@ import type { Where } from 'payload'
 
 import type { Brand, Destination, Hotel, Program, Review } from '@/payload-types'
 
+import { mediaUrl } from './format'
 import { getPayloadClient } from './payload'
 import { hotelReaderData, MIN_STAYS, type HotelReaderData } from './readerData'
 
@@ -45,7 +46,7 @@ export async function getReviews(opts: { limit?: number; page?: number; excludeI
   if (opts.country) and.push({ 'hotel.destination.country': { equals: opts.country } })
   if (opts.type === 'city' || opts.type === 'resort') and.push({ propertyType: { equals: opts.type } })
   const sort = opts.sort === 'top' ? '-totals.overall' : opts.sort === 'low' ? 'totals.overall' : '-stayDate'
-  return payload.find({
+  const res = await payload.find({
     collection: 'reviews',
     where: { and },
     sort,
@@ -53,6 +54,26 @@ export async function getReviews(opts: { limit?: number; page?: number; excludeI
     limit: opts.limit ?? 12,
     page: opts.page ?? 1,
   })
+  await withHotelPhotos(res.docs)
+  return res
+}
+
+// Review lists are read at depth 1, which leaves each hotel's uploaded
+// photo as an id. A review with no photo of its own shows its hotel's, so
+// those few photos are read in one query rather than the whole list a
+// level deeper.
+export async function withHotelPhotos<T extends Pick<Review, 'hotel' | 'heroImage' | 'externalImageUrl'>>(reviews: T[]): Promise<T[]> {
+  const waiting = reviews
+    .filter((r) => !mediaUrl(r.heroImage) && !r.externalImageUrl?.trim())
+    .map((r) => (typeof r.hotel === 'object' ? r.hotel : null))
+    .filter((h): h is Hotel => typeof h?.heroImage === 'number')
+  if (waiting.length === 0) return reviews
+  const ids = [...new Set(waiting.map((h) => h.heroImage as number))]
+  const payload = await getPayloadClient()
+  const media = await payload.find({ collection: 'media', where: { id: { in: ids } }, depth: 0, limit: ids.length, pagination: false })
+  const byId = new Map(media.docs.map((m) => [m.id, m]))
+  for (const h of waiting) h.heroImage = byId.get(h.heroImage as number) ?? h.heroImage
+  return reviews
 }
 
 export async function getReviewsForHotel(hotelId: number) {

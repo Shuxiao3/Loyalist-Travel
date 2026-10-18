@@ -8,6 +8,7 @@ import { Pager } from '@/components/Pager'
 import { SortMenu } from '@/components/SortMenu'
 import { ReviewCard } from '@/components/ReviewCard'
 import { count, rel, score } from '@/lib/format'
+import { reviewPhoto } from '@/lib/photos'
 import { getHotelFilterOptions, getReviews, type ReviewFilters } from '@/lib/queries'
 import type { Hotel } from '@/payload-types'
 
@@ -43,7 +44,7 @@ export default async function ReviewsIndex({ searchParams }: Props) {
 
   const latest = latestRes.docs[0]
   const latestHotel = latest ? rel<Hotel>(latest.hotel) : null
-  const image = latest?.externalImageUrl ?? latestHotel?.externalImageUrl
+  const image = reviewPhoto(latest, latestHotel)
 
   return (
     <>

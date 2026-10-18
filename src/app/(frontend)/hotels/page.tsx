@@ -8,6 +8,7 @@ import { HERO_FALLBACK_PHOTO, LandingHero } from '@/components/LandingHero'
 import { Pager } from '@/components/Pager'
 import { SortMenu } from '@/components/SortMenu'
 import { count } from '@/lib/format'
+import { hotelPhoto } from '@/lib/photos'
 import { getHotelSnapshots } from '@/lib/hotelSnapshot'
 import { findHotels, getFeaturedHotel, getHotelFilterOptions, HOTEL_SORTS, HOTELS_PER_PAGE, type HotelFilters } from '@/lib/queries'
 import styles from './page.module.css'
@@ -63,7 +64,7 @@ export default async function HotelsIndex({ searchParams }: Props) {
         eyebrow="Hotel"
         title="Find the hotel. See the odds."
         text="Search by name, or filter by program, brand and country. Each hotel page carries the upgrade odds readers have reported there, its lounge if it has one, and the review when there is one."
-        photo={fHotel?.externalImageUrl ?? HERO_FALLBACK_PHOTO}
+        photo={hotelPhoto(fHotel) ?? HERO_FALLBACK_PHOTO}
       />
 
       <section className={`section ${styles.filters}`}>

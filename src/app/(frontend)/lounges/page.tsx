@@ -7,6 +7,7 @@ import { HERO_FALLBACK_PHOTO, LandingHero } from '@/components/LandingHero'
 import { LoungeRows } from '@/components/LoungeRows'
 import { Pager } from '@/components/Pager'
 import { count } from '@/lib/format'
+import { loungePhoto } from '@/lib/photos'
 import { getLoungeDirectory, getTopLounge, type LoungeFilters, LOUNGES_PER_PAGE } from '@/lib/lounges'
 import { getHotelFilterOptions } from '@/lib/queries'
 
@@ -40,7 +41,7 @@ export default async function LoungesIndex({ searchParams }: Props) {
         eyebrow="Lounges"
         title="Hotel lounges rated"
         text="Readers score every club lounge on food, drink, space and ambiance, and service, give it an overall mark out of five, and say whether it was worth booking a club room. Access rules and hours sit alongside, as printed."
-        photo={top?.lounge.externalImageUrl ?? top?.hotel?.externalImageUrl ?? HERO_FALLBACK_PHOTO}
+        photo={(top && loungePhoto(top.lounge, top.hotel)) ?? HERO_FALLBACK_PHOTO}
       />
 
       <section className={`section ${styles.filters}`}>

@@ -8,6 +8,7 @@ import { MobileToc } from '@/components/MobileToc'
 import { ReadingProgress } from '@/components/ReadingProgress'
 import { RichText } from '@/components/RichText'
 import { monthYear, rel, score, shortDate } from '@/lib/format'
+import { reviewPhoto } from '@/lib/photos'
 import { getReview, getReviews, topTierOf } from '@/lib/queries'
 import { bandFor, categoriesFor, labelFor, REVIEW_SECTIONS, sectionTotal } from '@/lib/rubric'
 import { PROPERTY_TYPE_LABEL, RATE_BASIS_LABEL, SITE } from '@/lib/site'
@@ -33,7 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: review.seo?.title ?? text.title,
     description: review.seo?.description ?? text.description,
     path: `/reviews/${review.slug}`,
-    image: review.externalImageUrl ?? hotel?.externalImageUrl,
+    image: reviewPhoto(review, hotel),
     type: 'article',
   })
 }
@@ -61,7 +62,7 @@ export default async function ReviewPage({ params }: Props) {
   const categories = categoriesFor(review)
   const typeLabel = PROPERTY_TYPE_LABEL[review.propertyType]
   const band = bandFor(review.totals?.overall, 100)
-  const image = review.externalImageUrl ?? hotel?.externalImageUrl
+  const image = reviewPhoto(review, hotel)
   const related = (await getReviews({ limit: 3, excludeId: review.id })).docs
 
   const elite = ELITE.map((e) => ({ ...e, value: review[e.key] })).filter((e) => e.value?.outcome || e.value?.note)

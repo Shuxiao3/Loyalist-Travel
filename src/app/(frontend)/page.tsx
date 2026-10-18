@@ -5,6 +5,7 @@ import { HomeHero, type HeroSlide } from '@/components/HomeHero'
 import { ArticleCard } from '@/components/ArticleCard'
 import { ReviewCard } from '@/components/ReviewCard'
 import { count, mediaUrl, rel, score, shortDate } from '@/lib/format'
+import { hotelPhoto, reviewPhoto } from '@/lib/photos'
 import { ARTICLE_CATEGORY_LABEL } from '@/collections/Articles'
 import { getFeaturedHotel, getPrograms, getReviews, getSiteCounts } from '@/lib/queries'
 import { articleImage, getArticles } from '@/lib/articles'
@@ -44,7 +45,7 @@ export default async function HomePage() {
     slides.push({
       kind: 'review',
       eyebrow: 'Latest scored stay',
-      image: latest.externalImageUrl ?? hotel?.externalImageUrl,
+      image: reviewPhoto(latest, hotel),
       meta: [program?.name, destination?.name].filter((m): m is string => Boolean(m)),
       title: latest.title,
       text: latest.shortVerdict,
@@ -61,7 +62,7 @@ export default async function HomePage() {
     slides.push({
       kind: 'hotel',
       eyebrow: 'Featured hotel',
-      image: featured.hotel.externalImageUrl,
+      image: hotelPhoto(featured.hotel),
       meta: [brand?.name, destination?.locationLabel ?? destination?.name].filter((m): m is string => Boolean(m)),
       title: featured.hotel.name,
       text:
@@ -82,11 +83,13 @@ export default async function HomePage() {
       eyebrow: 'Program spotlight',
       image:
         spotlight.program.images?.heroImageUrl ??
-        reviews.docs.find((r) => {
-          const hotel = rel<Hotel>(r.hotel)
-          const p = hotel?.program
-          return (typeof p === 'object' ? p?.id : p) === spotlight.program.id && Boolean(r.externalImageUrl ?? hotel?.externalImageUrl)
-        })?.externalImageUrl,
+        reviews.docs
+          .filter((r) => {
+            const p = rel<Hotel>(r.hotel)?.program
+            return (typeof p === 'object' ? p?.id : p) === spotlight.program.id
+          })
+          .map((r) => reviewPhoto(r))
+          .find(Boolean),
       meta: [`${count(spotlight.hotels)} hotels`, `${count(spotlight.scored)} scored ${spotlight.scored === 1 ? 'stay' : 'stays'}`],
       title: spotlight.program.name,
       text: spotlight.program.shortDescription,

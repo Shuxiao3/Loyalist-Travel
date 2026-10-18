@@ -7,6 +7,7 @@ import { Comments } from '@/components/Comments'
 import { RichText } from '@/components/RichText'
 import { ScoreBar } from '@/components/ScoreBar'
 import { rel } from '@/lib/format'
+import { loungePhoto } from '@/lib/photos'
 import { accessLine, getLounge, getLoungeRatings, loungeReaderData } from '@/lib/lounges'
 import { LoungeRatingForm } from '@/components/LoungeRatingForm'
 import { getPayloadClient } from '@/lib/payload'
@@ -33,7 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const hotel = rel<Hotel>(lounge.hotel)
   const seo = await getSeo()
   const text = metaText(seo?.lounge, { Lounge: lounge.name, Hotel: hotel?.name, Access: accessLine(lounge), Program: rel<Program>(hotel?.program)?.name, Elite: await topTierOf(rel<Program>(hotel?.program)) }, { title: `${lounge.name}${hotel ? `, ${hotel.name}` : ''}`, description: `Who gets in, hours, what is served, and whether it is worth a club room. ${accessLine(lounge)}.` })
-  return pageMeta({ ...text, path: `/lounges/${lounge.slug}`, image: lounge.externalImageUrl ?? hotel?.externalImageUrl })
+  return pageMeta({ ...text, path: `/lounges/${lounge.slug}`, image: loungePhoto(lounge, hotel) })
 }
 
 export default async function LoungePage({ params }: Props) {
@@ -50,7 +51,7 @@ export default async function LoungePage({ params }: Props) {
   ])
   const programTiers = (tiersRes?.docs ?? []).map((t) => ({ id: t.id, name: t.name, shortName: t.shortName }))
   const tiers = (lounge.access?.tiers ?? []).map((t) => rel<StatusLevel>(t)).filter((t): t is StatusLevel => Boolean(t))
-  const image = lounge.externalImageUrl ?? hotel?.externalImageUrl
+  const image = loungePhoto(lounge, hotel)
 
   const facts = [
     { label: 'Where', value: lounge.location },

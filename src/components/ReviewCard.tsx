@@ -1,6 +1,7 @@
 import Link from 'next/link'
 
 import { monthYear, rel, score } from '@/lib/format'
+import { reviewPhoto } from '@/lib/photos'
 import type { Hotel, Program, Review } from '@/payload-types'
 
 // A scored stay on the homepage and index. The whole card is the link.
@@ -8,7 +9,7 @@ import type { Hotel, Program, Review } from '@/payload-types'
 export function ReviewCard({ review, tone = 'a' }: { review: Review; tone?: 'a' | 'b' | 'c' }) {
   const hotel = rel<Hotel>(review.hotel)
   const program = hotel ? rel<Program>(hotel.program) : null
-  const image = review.externalImageUrl ?? hotel?.externalImageUrl
+  const image = reviewPhoto(review, hotel)
   return (
     <Link className="card card-link" href={`/reviews/${review.slug}`}>
       <div className={`img ${tone}`} role="img" aria-label={review.title} style={image ? { backgroundImage: `url(${image}), var(--img-${tone})` } : undefined} />

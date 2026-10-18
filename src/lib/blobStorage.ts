@@ -122,7 +122,13 @@ export function createBlobAdapter(client: BlobClient = sdkClient): Adapter {
         const r = await readFromStore(client, fileKey, req.headers.get('if-none-match') ?? undefined)
         if (!r) return new Response(null, { status: 404, statusText: 'Not Found' })
         let headers = new Headers(incoming)
-        headers.set('Cache-Control', `public, max-age=${CACHE_SECONDS}`)
+        // a day in browsers and Vercel's CDN, then a week served stale while
+        // it refreshes, so a deleted photo does not linger for a year. File
+        // names are not unique for good: Payload reuses one once the upload
+        // that held it is deleted, so a re-upload under that name can show
+        // the old picture until this runs out. The site's hotel, review and
+        // lounge photos add ?v=<updatedAt> (src/lib/photos.ts) to avoid that.
+        headers.set('Cache-Control', 'public, max-age=86400, s-maxage=86400, stale-while-revalidate=604800')
         if (r.etag) headers.set('ETag', r.etag)
         headers.set('Last-Modified', r.uploadedAt.toUTCString())
         if (r.statusCode === 304) return new Response(null, { status: 304, headers })

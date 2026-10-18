@@ -11,6 +11,7 @@ import { StickyReview } from '@/components/StickyReview'
 import { StayForm } from '@/components/StayForm'
 import { ViewBeacon } from '@/components/ViewBeacon'
 import { rel, score } from '@/lib/format'
+import { hotelPhoto } from '@/lib/photos'
 import { bandFor } from '@/lib/rubric'
 import { getHotel, getHotelsIn, getPayloadClient, getReviewsForHotel, topTierOf } from '@/lib/queries'
 import { accessLine, getLoungesForHotel, loungeReaderData, servicesLine } from '@/lib/lounges'
@@ -41,7 +42,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const seo = await getSeo()
   const vars = { Hotel: hotel.name, Destination: destination?.name, Location: destination?.locationLabel ?? destination?.name, Brand: brand?.name, Program: program?.name, Elite: await topTierOf(program), Elites: elites }
   const text = metaText(hotel.reviewStatus === 'reviewed' ? seo?.hotel : seo?.hotelUnreviewed, vars, { title: `${hotel.name}${destination ? `, ${destination.name}` : ''}`, description })
-  return pageMeta({ ...text, path: `/hotels/${hotel.slug}`, image: hotel.externalImageUrl })
+  return pageMeta({ ...text, path: `/hotels/${hotel.slug}`, image: hotelPhoto(hotel) })
 }
 
 export default async function HotelPage({ params }: Props) {
@@ -52,6 +53,7 @@ export default async function HotelPage({ params }: Props) {
   const brand = rel<Brand>(hotel.brand)
   const program = rel<Program>(hotel.program)
   const destination = rel<Destination>(hotel.destination)
+  const photo = hotelPhoto(hotel)
   const amenities = (hotel.amenities ?? []).map((a) => rel<Amenity>(a)).filter((a): a is Amenity => Boolean(a))
   const payload = await getPayloadClient()
   const [reviewsRes, readerData, tiersRes, lounges, recentStays, sourced] = await Promise.all([
@@ -151,7 +153,7 @@ export default async function HotelPage({ params }: Props) {
         </div>
       </header>
 
-      <div className="hero-img" role="img" aria-label={hotel.name} style={hotel.externalImageUrl ? { backgroundImage: `url(${hotel.externalImageUrl}), var(--img-a)` } : undefined} />
+      <div className="hero-img" role="img" aria-label={hotel.name} style={photo ? { backgroundImage: `url(${photo}), var(--img-a)` } : undefined} />
 
       <section className={`section ${styles.reader}`} aria-labelledby="data-h">
         <div className="wrap">

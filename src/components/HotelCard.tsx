@@ -1,7 +1,8 @@
 import Link from 'next/link'
 
-import { count, mediaUrl, rel } from '@/lib/format'
+import { count, rel } from '@/lib/format'
 import { EMPTY_SNAPSHOT, type HotelSnapshot } from '@/lib/hotelSnapshot'
+import { hotelPhoto } from '@/lib/photos'
 import type { Brand, Destination, Hotel } from '@/payload-types'
 
 import styles from './HotelCard.module.css'
@@ -44,12 +45,13 @@ export function HotelCard({ hotel, grid, index = 0, snapshot }: CardProps) {
     )
   }
 
-  // The Webflow-hosted hero first, then an uploaded one; the gradient shows
-  // until a photo loads, and stays when there is none. The image is
-  // decorative (the link already carries the hotel's name) and lazy, so a
-  // page of cards fetches only the photos that scroll into view. The tone
-  // shifts by one each row so a column is not one colour top to bottom.
-  const photo = hotel.externalImageUrl || mediaUrl(hotel.heroImage)
+  // A photo uploaded in the admin first, then the Webflow-hosted one; the
+  // gradient shows until a photo loads, and stays when there is none. The
+  // image is decorative (the link already carries the hotel's name) and
+  // lazy, so a page of cards fetches only the photos that scroll into view.
+  // The tone shifts by one each row so a column is not one colour top to
+  // bottom.
+  const photo = hotelPhoto(hotel)
   const tone = TONES[(index + Math.floor(index / TONES.length)) % TONES.length]
   return (
     <Link className={styles.card} href={href}>

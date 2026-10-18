@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation'
 import { ReferenceBody } from '@/components/ReferenceBody'
 import { ReferenceHero } from '@/components/ReferenceHero'
 import { count, rel } from '@/lib/format'
-import { getDestination, getHotelsIn, getPayloadClient } from '@/lib/queries'
+import { getDestination, getHotelsIn, getPayloadClient, withHotelPhotos } from '@/lib/queries'
 import { getSeo, metaText, pageMeta } from '@/lib/seo'
 import type { Region } from '@/payload-types'
 
@@ -26,7 +26,7 @@ export default async function DestinationPage({ params }: Props) {
   const payload = await getPayloadClient()
   const [hotels, reviews] = await Promise.all([
     getHotelsIn({ destination: { equals: destination.id } }, 60),
-    payload.find({ collection: 'reviews', where: { and: [{ _status: { equals: 'published' } }, { 'hotel.destination': { equals: destination.id } }] }, sort: '-publishedDate', depth: 1, limit: 6 }),
+    payload.find({ collection: 'reviews', where: { and: [{ _status: { equals: 'published' } }, { 'hotel.destination': { equals: destination.id } }] }, sort: '-publishedDate', depth: 1, limit: 6 }).then((res) => withHotelPhotos(res.docs).then(() => res)),
   ])
   return (
     <>
