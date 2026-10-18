@@ -1198,9 +1198,13 @@ async function reportArticles(payload: Payload) {
     return walk(((body as { root?: unknown } | null)?.root ?? {}) as never).replace(/\s+/g, ' ').trim()
   }
   for (const a of all.docs) {
-    const v = await payload.findVersions({ collection: 'articles', where: { parent: { equals: a.id } }, sort: '-updatedAt', limit: 2, depth: 0, overrideAccess: true })
-    if (v.docs.length < 2) continue
-    const [last, prev] = v.docs as { updatedAt: string; version: { body?: unknown; title?: string; dek?: string | null } }[]
+    // against the newest version saved more than two minutes before the last
+    // (one save from the admin can write a draft and a published version)
+    const v = await payload.findVersions({ collection: 'articles', where: { parent: { equals: a.id } }, sort: '-updatedAt', limit: 10, depth: 0, overrideAccess: true })
+    const docs = v.docs as { updatedAt: string; version: { body?: unknown; title?: string; dek?: string | null } }[]
+    const last = docs[0]
+    const prev = last && docs.find((d) => Date.parse(last.updatedAt) - Date.parse(d.updatedAt) > 120_000)
+    if (!last || !prev) continue
     const t1 = textOf(last.version.body)
     const t0 = textOf(prev.version.body)
     const same = t1 === t0 && last.version.title === prev.version.title && last.version.dek === prev.version.dek
