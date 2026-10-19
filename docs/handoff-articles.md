@@ -65,9 +65,16 @@ heroCredit: Colin Brown, CC BY 2.0
 ### Edit Protection (Important)
 
 - Each article stores `importedHash`, a fingerprint of the title, dek and body text from the last import.
-- If Austin edits the article's words in the admin, the `articles` step **keeps their words**. It only adds back missing photos, plus a hero if the article has none, and its log says so ("edited in the admin since the last import…").
+- Austin edits articles in the admin in their own voice (the Ikon guide and the United article both carry their rewrites). If the words were edited there, the `articles` step **keeps them**. It only adds photos that are new to the markdown, plus a hero if the article has none, and its log says so ("edited in the admin since the last import…").
+- A photo taken out in the admin stays out, and the log says "left out, taken out in the admin". To bring one back, give it a new stored name in the markdown.
+- An article with a draft saved in the admin but not published yet is left alone entirely ("has a draft saved in the admin…"), so the import never publishes over work in progress.
+- Step `articles-diff` (read-only) prints, block by block, what was changed in the admin since the last import. Run it before deciding anything about an edited article.
+- If an edited article still has a tool note in its saved words (the import warns "the words saved in the admin read like a tool note"), fix just that phrase:
+  - add `{ "slug": ..., "from": ..., "to": ... }` to `data/article-rewords.json`;
+  - ship it, then run the `articles-reword` step.
+  - `from` must be the exact saved text inside one run of plain text. Running the step again changes nothing.
 - Step `articles-force` overwrites the article from the markdown. Use it only when Austin asks for that article to be replaced.
-- Note: `articles-force` applies to every file in `data/articles/`, so the Ikon guide's admin edits would be overwritten too. Confirm with Austin first.
+- Note: `articles-force` applies to every file in `data/articles/`, so Austin's admin edits to the Ikon guide and United would be overwritten too. Confirm with Austin first.
 
 ## Step by Step, for Each Article Austin Sends
 

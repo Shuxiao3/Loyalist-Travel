@@ -1153,7 +1153,7 @@ const uploadId = (n: LexNode) => (n.value && typeof n.value === 'object' ? (n.va
 // the block it followed in the import (matched by its words), or failing
 // that right before the block it preceded. Photos whose neighbours are both
 // gone are left out and named.
-export function mergePhotos(stored: LexDoc, imported: LexDoc): { body: LexDoc; added: number; missed: number[] } {
+export function mergePhotos(stored: LexDoc, imported: LexDoc, removed: ReadonlySet<number> = new Set()): { body: LexDoc; added: number; missed: number[]; left: number[] } {
   const body = structuredClone(stored)
   const nodes = body.root.children
   const have = new Set(nodes.filter((n) => n.type === 'upload').map(uploadId))
@@ -1162,8 +1162,14 @@ export function mergePhotos(stored: LexDoc, imported: LexDoc): { body: LexDoc; a
   const find = (text: string) => (text ? nodes.findIndex((n) => n.type !== 'upload' && words(n) === text) : -1)
   let added = 0
   const missed: number[] = []
+  const left: number[] = []
   inc.forEach((n, i) => {
     if (n.type !== 'upload' || have.has(uploadId(n))) return
+    // taken out in the admin: an editor's choice, not something to undo
+    if (removed.has(Number(uploadId(n)))) {
+      left.push(Number(uploadId(n)))
+      return
+    }
     let before = ''
     for (let k = i - 1; k >= 0 && !before; k--) before = words(inc[k])
     let after = ''
@@ -1182,7 +1188,17 @@ export function mergePhotos(stored: LexDoc, imported: LexDoc): { body: LexDoc; a
     have.add(uploadId(n))
     added++
   })
-  return { body, added, missed }
+  return { body, added, missed, left }
+}
+
+// Every photo an article has carried in any saved version.
+const photosEver = (versions: { version?: { body?: unknown } }[]) =>
+  new Set(versions.flatMap((d) => ((d.version?.body as LexDoc | undefined)?.root?.children ?? []).filter((n) => n.type === 'upload').map((n) => Number(uploadId(n)))))
+
+// The newest saved version, when it is a draft nobody has published yet.
+async function unpublishedDraft(payload: Payload, id: number) {
+  const newest = (await payload.findVersions({ collection: 'articles', where: { parent: { equals: id } }, sort: '-updatedAt', limit: 1, depth: 0, overrideAccess: true })).docs[0] as { updatedAt?: string; version?: { _status?: string } } | undefined
+  return newest?.version?._status === 'draft' ? newest : null
 }
 
 // articles-force: overwrite even articles edited in the admin
@@ -1193,6 +1209,7 @@ async function importArticles(payload: Payload) {
   if (!fs.existsSync(dir)) return
   let n = 0
   let kept = 0
+  let waiting = 0
   const mediaCache: MediaCache = new Map()
   // without a place to store uploads, only photos the site serves itself
   const canStore = !photosUnavailable()
@@ -1273,18 +1290,31 @@ async function importArticles(payload: Payload) {
     const importedHash = articleWordsHash(data.title, data.dek, body)
     const existing = (await payload.find({ collection: 'articles', where: { slug: { equals: meta.slug } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
     if (existing) {
+      // a draft saved in the admin and not published yet is work in
+      // progress; writing now would publish over it
+      const draft = forceArticles ? null : await unpublishedDraft(payload, existing.id)
+      if (draft) {
+        console.log(`articles: ${file}: has a draft saved in the admin ${String(draft.updatedAt).slice(0, 16)} that is not published yet, so it is left alone until it is published`)
+        waiting++
+        continue
+      }
+      // a photo the article carried in an earlier version and does not now
+      // was taken out in the admin, so the import does not put it back
+      const history = await payload.findVersions({ collection: 'articles', where: { parent: { equals: existing.id } }, limit: 100, depth: 0, overrideAccess: true })
+      const current = photosEver([{ version: { body: existing.body } }])
+      const taken = new Set([...photosEver(history.docs as { version?: { body?: unknown } }[])].filter((id) => !current.has(id)))
       // Words edited in the admin since the last import are kept: the stored
       // words no longer match what the import wrote (or, before fingerprints
       // existed, what it would write now).
       const storedHash = articleWordsHash(existing.title, existing.dek, existing.body)
       const edited = existing.importedHash ? storedHash !== existing.importedHash : storedHash !== importedHash
       if (edited && !forceArticles) {
-        const merged = mergePhotos(existing.body as unknown as LexDoc, body as unknown as LexDoc)
+        const merged = mergePhotos(existing.body as unknown as LexDoc, body as unknown as LexDoc, taken)
         const hero = !existing.heroImage && heroId != null ? { heroImage: heroId } : {}
         if (merged.added || 'heroImage' in hero) {
           await payload.update({ collection: 'articles', id: existing.id, data: { body: merged.body, ...hero, _status: 'published' } as never, overrideAccess: true })
         }
-        console.log(`articles: ${file}: edited in the admin since the last import, so its words are left as they are; ${merged.added} photo(s) added${'heroImage' in hero ? ', hero set' : ''}${merged.missed.length ? `; ${merged.missed.length} photo(s) not placed, their sections are gone (media ${merged.missed.join(', ')})` : ''}. Run articles-force to overwrite it from ${file}.`)
+        console.log(`articles: ${file}: edited in the admin since the last import, so its words are left as they are; ${merged.added} photo(s) added${'heroImage' in hero ? ', hero set' : ''}${merged.left.length ? `; ${merged.left.length} photo(s) left out, taken out in the admin (media ${merged.left.join(', ')})` : ''}${merged.missed.length ? `; ${merged.missed.length} photo(s) not placed, their sections are gone (media ${merged.missed.join(', ')})` : ''}. Run articles-force to overwrite it from ${file}.`)
         // the words on the site are the admin's, so they are the ones to check
         const seo = existing.seo
         for (const note of toolNotes(lexicalText(existing.body), { title: existing.title, dek: existing.dek ?? undefined, metaTitle: seo?.title ?? undefined, metaDescription: seo?.description ?? undefined })) {
@@ -1293,11 +1323,17 @@ async function importArticles(payload: Payload) {
         kept++
         continue
       }
+      if (!forceArticles && taken.size) {
+        const doc = body as unknown as LexDoc
+        const left = doc.root.children.filter((c) => c.type === 'upload' && taken.has(Number(uploadId(c)))).map((c) => Number(uploadId(c)))
+        doc.root.children = doc.root.children.filter((c) => !(c.type === 'upload' && taken.has(Number(uploadId(c)))))
+        if (left.length) console.log(`articles: ${file}: ${left.length} photo(s) left out, taken out in the admin (media ${left.join(', ')})`)
+      }
       await payload.update({ collection: 'articles', id: existing.id, data: { ...data, importedHash } as never, overrideAccess: true })
     } else await payload.create({ collection: 'articles', data: { ...data, importedHash } as never, overrideAccess: true })
     n++
   }
-  console.log(`articles: upserted ${n} article(s)${kept ? `, kept the words of ${kept} edited in the admin` : ''}`)
+  console.log(`articles: upserted ${n} article(s)${kept ? `, kept the words of ${kept} edited in the admin` : ''}${waiting ? `, left ${waiting} with an unpublished draft alone` : ''}`)
 }
 
 async function forceImportArticles(payload: Payload) {
@@ -1369,6 +1405,46 @@ async function reportArticles(payload: Payload) {
   }
   const media = await payload.find({ collection: 'media', where: { filename: { like: 'ikon-2026-' } }, limit: 50, depth: 0, overrideAccess: true })
   console.log(`articles-report: ikon media: ${media.docs.length} doc(s), ${media.docs.filter((m) => m.staticUrl).length} with a static url`)
+}
+
+// articles-reword: changes a phrase in an article's saved words, for an
+// article edited in the admin whose words the import leaves alone (a note
+// a writing tool left behind, say). Each entry in data/article-rewords.json
+// is { slug, from, to }; "from" must appear whole inside one run of text.
+// Running it again changes nothing, since "from" is gone.
+async function rewordArticles(payload: Payload) {
+  const file = path.join(process.cwd(), 'data', 'article-rewords.json')
+  const entries = JSON.parse(fs.readFileSync(file, 'utf8')) as { slug: string; from: string; to: string }[]
+  for (const { slug, from, to } of entries) {
+    const a = (await payload.find({ collection: 'articles', where: { slug: { equals: slug } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
+    if (!a) {
+      console.log(`articles-reword: ${slug}: no such article`)
+      continue
+    }
+    const draft = await unpublishedDraft(payload, a.id)
+    if (draft) {
+      console.log(`articles-reword: ${slug}: has a draft saved in the admin ${String(draft.updatedAt).slice(0, 16)} that is not published yet, so it is left alone`)
+      continue
+    }
+    const body = structuredClone(a.body) as unknown as LexDoc
+    let hits = 0
+    const walk = (n: LexNode) => {
+      if (n.type === 'text' && n.text?.includes(from)) {
+        n.text = n.text.split(from).join(to)
+        hits++
+      }
+      ;(n.children ?? []).forEach(walk)
+    }
+    body.root.children.forEach(walk)
+    const dek = a.dek?.includes(from) ? a.dek.split(from).join(to) : a.dek
+    if (dek !== a.dek) hits++
+    if (!hits) {
+      console.log(`articles-reword: ${slug}: "${from.slice(0, 60)}" not found, nothing to change`)
+      continue
+    }
+    await payload.update({ collection: 'articles', id: a.id, data: { body, dek, _status: 'published' } as never, overrideAccess: true })
+    console.log(`articles-reword: ${slug}: changed ${hits} place(s): "${from.slice(0, 60)}" -> "${to.slice(0, 60)}"`)
+  }
 }
 
 // Read-only: what was changed in the admin since the last import, block by
@@ -2078,6 +2154,7 @@ const STEPS: Record<string, (p: Payload) => Promise<void>> = {
   'articles-refresh': refreshArticleImages,
   'articles-report': reportArticles,
   'articles-diff': diffArticles,
+  'articles-reword': rewordArticles,
   'media-report': reportMedia,
   'articles-force': forceImportArticles,
   'retire-tiers': retireTiers,
