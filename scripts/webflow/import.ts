@@ -1146,6 +1146,23 @@ export function lexicalText(node: unknown): string {
 export const articleWordsHash = (title: unknown, dek: unknown, body: unknown) =>
   createHash('sha256').update(JSON.stringify([String(title ?? ''), String(dek ?? ''), lexicalText(body)])).digest('hex').slice(0, 32)
 
+// The settings the import writes besides the words. Their fingerprint rides
+// after the words' in importedHash ("<words>.<settings>"), so settings
+// changed in the admin can be told apart from the file's, separately from
+// the words. A fingerprint from before this has the words part only.
+type ArticleSettings = { categories?: string[] | null; heroImage?: unknown; featured?: boolean | null; seo?: { title?: string | null; description?: string | null } | null }
+const SETTING_NAMES: Record<keyof ArticleSettings, string> = { categories: 'categories', heroImage: 'hero', featured: 'featured', seo: 'search title and description' }
+const settingValue = (a: ArticleSettings, k: keyof ArticleSettings) => {
+  if (k === 'heroImage') return a.heroImage && typeof a.heroImage === 'object' ? ((a.heroImage as { id?: unknown }).id ?? null) : (a.heroImage ?? null)
+  if (k === 'categories') return a.categories ?? []
+  if (k === 'featured') return Boolean(a.featured)
+  return [a.seo?.title || null, a.seo?.description || null]
+}
+const settingsOf = (a: ArticleSettings) => (Object.keys(SETTING_NAMES) as (keyof ArticleSettings)[]).map((k) => settingValue(a, k))
+export const articleSettingsHash = (a: ArticleSettings) => createHash('sha256').update(JSON.stringify(settingsOf(a))).digest('hex').slice(0, 16)
+const wordsPart = (h: string | null | undefined) => (h ?? '').split('.')[0]
+const settingsPart = (h: string | null | undefined) => (h ?? '').split('.')[1] ?? ''
+
 const uploadId = (n: LexNode) => (n.value && typeof n.value === 'object' ? (n.value as { id?: unknown }).id : n.value)
 
 // Puts the photos of an imported body into a stored one that was edited in
@@ -1312,17 +1329,36 @@ async function importArticles(payload: Payload) {
       // words no longer match what the import wrote (or, before fingerprints
       // existed, what it would write now).
       const storedHash = articleWordsHash(existing.title, existing.dek, existing.body)
-      const edited = existing.importedHash ? storedHash !== existing.importedHash : storedHash !== importedHash
+      const lastWords = wordsPart(existing.importedHash)
+      const edited = lastWords ? storedHash !== lastWords : storedHash !== importedHash
+      // Settings are kept the same way, on their own: the file's apply unless
+      // the saved ones no longer match what the import last set. Before
+      // settings had a fingerprint, the hero, featured flag and search text
+      // the admin holds are kept; categories come from the file, since the
+      // admin could not hold more than one until now.
+      const fromFile: ArticleSettings = { categories, heroImage: 'heroImage' in data ? data.heroImage : existing.heroImage, featured: data.featured, seo: data.seo }
+      const keys = Object.keys(SETTING_NAMES) as (keyof ArticleSettings)[]
+      const differs = (k: keyof ArticleSettings) => JSON.stringify(settingValue(existing, k)) !== JSON.stringify(settingValue(fromFile, k))
+      const lastSettings = settingsPart(existing.importedHash)
+      const keep = forceArticles
+        ? []
+        : lastSettings
+          ? articleSettingsHash(existing) !== lastSettings ? keys.filter(differs) : []
+          : keys.filter((k) => k !== 'categories' && differs(k) && JSON.stringify(settingValue(existing, k)) !== JSON.stringify(settingValue({}, k)))
+      const settings = Object.fromEntries(keys.map((k) => [k, keep.includes(k) ? existing[k] : fromFile[k]])) as ArticleSettings
+      if (keep.length) console.log(`articles: ${file}: settings changed in the admin are kept (${keep.map((k) => SETTING_NAMES[k]).join(', ')}); the file's are not applied. Run articles-force to overwrite them from ${file}.`)
+      const had = (existing.categories ?? []).join(', ')
+      if (!keep.includes('categories') && had !== categories.join(', ')) console.log(`articles: ${file}: categories set to ${categories.join(', ')} from the file (they were ${had || 'empty'})`)
+      // what the import would set, so the next run can tell an admin change
+      const settingsHash = articleSettingsHash(fromFile)
       if (edited && !forceArticles) {
         const merged = mergePhotos(existing.body as unknown as LexDoc, body as unknown as LexDoc, taken)
-        const hero = !existing.heroImage && heroId != null ? { heroImage: heroId } : {}
-        if (merged.added || 'heroImage' in hero) {
-          await payload.update({ collection: 'articles', id: existing.id, data: { body: merged.body, ...hero, _status: 'published' } as never, overrideAccess: true })
+        const hash = `${lastWords}.${settingsHash}`
+        const changed = merged.added > 0 || keys.some((k) => JSON.stringify(settingValue(existing, k)) !== JSON.stringify(settingValue(settings, k))) || hash !== existing.importedHash
+        if (changed) {
+          await payload.update({ collection: 'articles', id: existing.id, data: { body: merged.body, ...settings, importedHash: hash, _status: 'published' } as never, overrideAccess: true })
         }
-        // categories are left as saved too; say so when the file names others
-        const saved = (existing.categories ?? []).join(', ')
-        const cats = saved === categories.join(', ') ? '' : ` Its categories stay ${saved || 'empty'} (the file says ${categories.join(', ')}).`
-        console.log(`articles: ${file}: edited in the admin since the last import, so its words are left as they are; ${merged.added} photo(s) added${'heroImage' in hero ? ', hero set' : ''}${merged.left.length ? `; ${merged.left.length} photo(s) left out, taken out in the admin (media ${merged.left.join(', ')})` : ''}${merged.missed.length ? `; ${merged.missed.length} photo(s) not placed, their sections are gone (media ${merged.missed.join(', ')})` : ''}. Run articles-force to overwrite it from ${file}.${cats}`)
+        console.log(`articles: ${file}: edited in the admin since the last import, so its words are left as they are; ${merged.added} photo(s) added${merged.left.length ? `; ${merged.left.length} photo(s) left out, taken out in the admin (media ${merged.left.join(', ')})` : ''}${merged.missed.length ? `; ${merged.missed.length} photo(s) not placed, their sections are gone (media ${merged.missed.join(', ')})` : ''}. Run articles-force to overwrite it from ${file}.`)
         // the words on the site are the admin's, so they are the ones to check
         const seo = existing.seo
         for (const note of toolNotes(lexicalText(existing.body), { title: existing.title, dek: existing.dek ?? undefined, metaTitle: seo?.title ?? undefined, metaDescription: seo?.description ?? undefined })) {
@@ -1331,18 +1367,17 @@ async function importArticles(payload: Payload) {
         kept++
         continue
       }
-      // Only the words are protected, so categories come from the file. Say
-      // when that changes them: a change made only in the admin is undone.
-      const had = (existing.categories ?? []).join(', ')
-      if (had !== categories.join(', ')) console.log(`articles: ${file}: categories set to ${categories.join(', ')} from the file (they were ${had || 'empty'}); a change made only in the admin is replaced, so make it in the file too`)
       if (!forceArticles && taken.size) {
         const doc = body as unknown as LexDoc
         const left = doc.root.children.filter((c) => c.type === 'upload' && taken.has(Number(uploadId(c)))).map((c) => Number(uploadId(c)))
         doc.root.children = doc.root.children.filter((c) => !(c.type === 'upload' && taken.has(Number(uploadId(c)))))
         if (left.length) console.log(`articles: ${file}: ${left.length} photo(s) left out, taken out in the admin (media ${left.join(', ')})`)
       }
-      await payload.update({ collection: 'articles', id: existing.id, data: { ...data, importedHash } as never, overrideAccess: true })
-    } else await payload.create({ collection: 'articles', data: { ...data, importedHash } as never, overrideAccess: true })
+      await payload.update({ collection: 'articles', id: existing.id, data: { ...data, ...settings, importedHash: `${importedHash}.${settingsHash}` } as never, overrideAccess: true })
+    } else {
+      const settingsHash = articleSettingsHash({ categories, heroImage: 'heroImage' in data ? data.heroImage : null, featured: data.featured, seo: data.seo })
+      await payload.create({ collection: 'articles', data: { ...data, importedHash: `${importedHash}.${settingsHash}` } as never, overrideAccess: true })
+    }
     n++
   }
   console.log(`articles: upserted ${n} article(s)${kept ? `, kept the words of ${kept} edited in the admin` : ''}${waiting ? `, left ${waiting} with an unpublished draft alone` : ''}`)
@@ -1474,8 +1509,9 @@ async function diffArticles(payload: Payload) {
     const v = await payload.findVersions({ collection: 'articles', where: { parent: { equals: a.id } }, sort: 'updatedAt', limit: 100, depth: 0, overrideAccess: true })
     const docs = v.docs as { updatedAt: string; version: { title?: string; dek?: string | null; body?: unknown; _status?: string } }[]
     const hashOf = (d: (typeof docs)[number]) => articleWordsHash(d.version.title, d.version.dek, d.version.body)
-    let imported = a.importedHash ? docs.filter((d) => hashOf(d) === a.importedHash).pop() : undefined
-    console.log(`articles-diff: ${a.slug}: versions ${docs.map((d) => `${d.updatedAt.slice(5, 16)}${d.version._status === 'draft' ? ' draft' : ''}${a.importedHash && hashOf(d) === a.importedHash ? ' (import)' : ''}`).join(', ')}`)
+    const lastWords = wordsPart(a.importedHash)
+    let imported = lastWords ? docs.filter((d) => hashOf(d) === lastWords).pop() : undefined
+    console.log(`articles-diff: ${a.slug}: versions ${docs.map((d) => `${d.updatedAt.slice(5, 16)}${d.version._status === 'draft' ? ' draft' : ''}${lastWords && hashOf(d) === lastWords ? ' (import)' : ''}`).join(', ')}`)
     if (!imported) {
       // edited before fingerprints existed: compare with the markdown file
       const file = path.join(articlesDir(), `${a.slug}.md`)
@@ -1485,10 +1521,10 @@ async function diffArticles(payload: Payload) {
         continue
       }
       const meta = Object.fromEntries(m[1].split('\n').map((l) => /^(\w+):\s*(.*)$/.exec(l)).filter((kv): kv is RegExpExecArray => Boolean(kv)).map((kv) => [kv[1], kv[2].trim()]))
-      console.log(`articles-diff: ${a.slug}: no saved version matches the last import${a.importedHash ? '' : ' (no fingerprint)'}; comparing with ${a.slug}.md instead`)
+      console.log(`articles-diff: ${a.slug}: no saved version matches the last import${lastWords ? '' : ' (no fingerprint)'}; comparing with ${a.slug}.md instead`)
       imported = { updatedAt: '', version: { title: meta.title, dek: meta.dek || null, body: htmlToLexical(markdownToHtml(m[2])).value } }
     }
-    if (articleWordsHash(a.title, a.dek, a.body) === a.importedHash) {
+    if (articleWordsHash(a.title, a.dek, a.body) === lastWords) {
       console.log(`articles-diff: ${a.slug}: words as imported`)
       continue
     }
