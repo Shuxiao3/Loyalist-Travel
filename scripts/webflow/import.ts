@@ -1473,11 +1473,25 @@ async function reportArticles(payload: Payload) {
 // article edited in the admin whose words the import leaves alone (a note
 // a writing tool left behind, say). Each entry in data/article-rewords.json
 // is { slug, from, to }; "from" must appear whole inside one run of text.
-// Running it again changes nothing, since "from" is gone.
+// An entry { media, credit } sets the credit of a photo already on the site
+// (named by its stored file name), since the import writes a photo's credit
+// only when it first adds the photo. Running it again changes nothing.
+type Reword = { slug: string; from: string; to: string } | { media: string; credit: string }
 async function rewordArticles(payload: Payload) {
   const file = path.join(process.cwd(), 'data', 'article-rewords.json')
-  const entries = JSON.parse(fs.readFileSync(file, 'utf8')) as { slug: string; from: string; to: string }[]
-  for (const { slug, from, to } of entries) {
+  const entries = JSON.parse(fs.readFileSync(file, 'utf8')) as Reword[]
+  for (const entry of entries) {
+    if ('media' in entry) {
+      const m = (await payload.find({ collection: 'media', where: { filename: { equals: entry.media } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
+      if (!m) console.log(`articles-reword: media ${entry.media}: no such photo`)
+      else if ((m.credit ?? '') === entry.credit) console.log(`articles-reword: media ${entry.media}: credit already "${entry.credit}", nothing to change`)
+      else {
+        await payload.update({ collection: 'media', id: m.id, data: { credit: entry.credit }, overrideAccess: true })
+        console.log(`articles-reword: media ${entry.media}: credit "${m.credit ?? ''}" -> "${entry.credit}"`)
+      }
+      continue
+    }
+    const { slug, from, to } = entry
     const a = (await payload.find({ collection: 'articles', where: { slug: { equals: slug } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
     if (!a) {
       console.log(`articles-reword: ${slug}: no such article`)

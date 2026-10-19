@@ -76,7 +76,7 @@ If you read nothing else, read this. These are the Epic Pass stays where points 
 ## Colorado: The Heart of the Pass
 
 ![Vail front side above the village](/images/articles/epic-pass-ski-hotels-points-2026/vail.jpg "epic-2026-vail.jpg")
-*Vail’s front side. Cascade Village at its base holds the Grand Hyatt Vail, the best Epic Pass redemption in this guide. Photo: Wikimedia Commons, CC BY-SA 3.0.*
+*Vail’s front side. Cascade Village at its base holds the Grand Hyatt Vail, the best Epic Pass redemption in this guide. Photo: David Benbennick, CC BY-SA 3.0.*
 
 ### Vail
 
@@ -524,4 +524,4 @@ Property facts: Grand Hyatt Vail (Category 7) and Park Hyatt Beaver Creek (Categ
 
 ### Image Credits
 
-All photos via Wikimedia Commons: Whistler gondola panorama, derivative of a photo by Mogodore, by Shaundd (CC BY-SA 3.0); Vail front side (CC BY-SA 3.0); Breckenridge Peak 8, by Drew Stephens (CC BY-SA 2.0); Crested Butte, by Chris Segal (CC0); Park City Main Street, by stanisgarage (CC BY-SA 2.0); Lake Tahoe, by Christian Abend (CC BY-SA 2.0); Stowe moguls, by Vermont (CC BY-SA 4.0); Telluride from the ski hill, by John Fowler (CC BY 2.0); Verbier, by Leo-setä (CC BY 2.0); Hakuba mountains, by Raita Futo (CC BY 2.0).
+All photos via Wikimedia Commons: Whistler gondola panorama, derivative of a photo by Mogodore, by Shaundd (CC BY-SA 3.0); Vail front side, by David Benbennick (CC BY-SA 3.0); Breckenridge Peak 8, by Drew Stephens (CC BY-SA 2.0); Crested Butte, by Chris Segal (CC0); Park City Main Street, by stanisgarage (CC BY-SA 2.0); Lake Tahoe, by Christian Abend (CC BY-SA 2.0); Stowe moguls, by Vermont (CC BY-SA 4.0); Telluride from the ski hill, by John Fowler (CC BY 2.0); Verbier, by Leo-setä (CC BY 2.0); Hakuba mountains, by Raita Futo (CC BY 2.0).

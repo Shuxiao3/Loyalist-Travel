@@ -75,6 +75,7 @@ heroCredit: Colin Brown, CC BY 2.0
   - add `{ "slug": ..., "from": ..., "to": ... }` to `data/article-rewords.json`;
   - ship it, then run the `articles-reword` step.
   - `from` must be the exact saved text inside one run of plain text. Running the step again changes nothing.
+- A photo's credit is stored with the photo, and the import writes it only when it first adds the photo. To change a credit already on the site, fix the caption in the markdown and add `{ "media": "<stored name>", "credit": "Name, license" }` to `data/article-rewords.json`, then run `articles-reword`.
 - Step `articles-force` overwrites the article from the markdown. Use it only when Austin asks for that article to be replaced.
 - Note: `articles-force` applies to every file in `data/articles/`, so Austin's admin edits to the Ikon guide and United would be overwritten too. Confirm with Austin first.
 
@@ -153,6 +154,7 @@ heroCredit: Colin Brown, CC BY 2.0
   | Check live pages (`site-check.yml`) | `site`, `paths`, `find` | Status of each page and every image it references; how often each `find` phrase appears |
   | Add an article photo (`add-article-photo.yml`) | `slug`, `name`, `url` | Downloads a photo into the repo and commits to `main` |
   | Check Blob storage (`blob-check.yml`) | `site` | Proves admin uploads work end to end |
+| Look up a Commons photo (`commons-lookup.yml`) | `query`, `compare`, `limit` | Searches Wikimedia Commons and prints each photo's author and license; with `compare` (a repo path), scores each result against that photo to find an uncredited photo's original |
 
 - Find the run with `mcp__github__actions_list` (list runs for that workflow), then its jobs.
 - Read logs with `mcp__github__get_job_logs` using `return_content: true` and `tail_lines: 200`. `gh api .../jobs/<id>/logs` returns empty here.
@@ -242,7 +244,6 @@ Settled on 2026-10-19 (`articles-diff` showed it): the admin changes to the Ikon
 
 Still waiting on Austin:
 
-- The photographer and license for the Vail photo in the Epic guide.
 - Optionally, a higher-resolution Palisades photo for the Ikon guide (the current one is 480px wide).
 - All five articles have a `metaTitle` longer than 42 characters, so search results may cut them off. Austin's call whether to shorten them.
 

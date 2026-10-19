@@ -45,7 +45,11 @@ House rules: no em dashes in copy you write; no AI model names in code or commen
 - `articles-diff` (read-only) prints what was changed in the admin since the last import, block by
   block. To fix one phrase in an article edited in the admin (a tool note it still carries), add
   `{ "slug", "from", "to" }` to `data/article-rewords.json` and run the `articles-reword` step; it
-  changes only that phrase and leaves the rest of the admin's words alone.
+  changes only that phrase and leaves the rest of the admin's words alone. A photo's credit is
+  written only when the import first adds the photo, so to change one already on the site, fix the
+  caption in the markdown and add `{ "media": "<stored name>", "credit": "..." }` there too.
+- A photo with no known author: the **Look up a Commons photo** workflow (inputs: query, and
+  `compare` with the photo's repo path) finds the Commons original and prints its author and license.
 - Production import: the **Import Webflow content** workflow with step `articles`. It applies
   migrations, imports, then spot-checks. It uses the repository secrets DATABASE_URL and
   PAYLOAD_SECRET; BLOB_READ_WRITE_TOKEN is optional, since photos under `public/` need no storage.
