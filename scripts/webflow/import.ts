@@ -1162,6 +1162,11 @@ const settingsOf = (a: ArticleSettings) => (Object.keys(SETTING_NAMES) as (keyof
 export const articleSettingsHash = (a: ArticleSettings) => createHash('sha256').update(JSON.stringify(settingsOf(a))).digest('hex').slice(0, 16)
 const wordsPart = (h: string | null | undefined) => (h ?? '').split('.')[0]
 const settingsPart = (h: string | null | undefined) => (h ?? '').split('.')[1] ?? ''
+// A third part fingerprints what the import read: the markdown file and the
+// photos and related pages it resolved to. While that and the saved article
+// are both unchanged, there is nothing to write, so the article is not
+// saved again (each save would show readers a new "Updated" date).
+const sourcePart = (h: string | null | undefined) => (h ?? '').split('.')[2] ?? ''
 
 const uploadId = (n: LexNode) => (n.value && typeof n.value === 'object' ? (n.value as { id?: unknown }).id : n.value)
 
@@ -1227,6 +1232,7 @@ async function importArticles(payload: Payload) {
   let n = 0
   let kept = 0
   let waiting = 0
+  let unchanged = 0
   const mediaCache: MediaCache = new Map()
   // without a place to store uploads, only photos the site serves itself
   const canStore = !photosUnavailable()
@@ -1310,6 +1316,7 @@ async function importArticles(payload: Payload) {
       _status: 'published',
     }
     const importedHash = articleWordsHash(data.title, data.dek, body)
+    const source = createHash('sha256').update(JSON.stringify([raw, [...uploads.entries()], heroId, heroLost, data.related])).digest('hex').slice(0, 16)
     const existing = (await payload.find({ collection: 'articles', where: { slug: { equals: meta.slug } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
     if (existing) {
       // a draft saved in the admin and not published yet is work in
@@ -1353,7 +1360,7 @@ async function importArticles(payload: Payload) {
       const settingsHash = articleSettingsHash(fromFile)
       if (edited && !forceArticles) {
         const merged = mergePhotos(existing.body as unknown as LexDoc, body as unknown as LexDoc, taken)
-        const hash = `${lastWords}.${settingsHash}`
+        const hash = `${lastWords}.${settingsHash}.${source}`
         const changed = merged.added > 0 || keys.some((k) => JSON.stringify(settingValue(existing, k)) !== JSON.stringify(settingValue(settings, k))) || hash !== existing.importedHash
         if (changed) {
           await payload.update({ collection: 'articles', id: existing.id, data: { body: merged.body, ...settings, importedHash: hash, _status: 'published' } as never, overrideAccess: true })
@@ -1367,20 +1374,25 @@ async function importArticles(payload: Payload) {
         kept++
         continue
       }
+      // the file and the saved article are as the last import left them
+      if (!forceArticles && sourcePart(existing.importedHash) === source && storedHash === importedHash) {
+        unchanged++
+        continue
+      }
       if (!forceArticles && taken.size) {
         const doc = body as unknown as LexDoc
         const left = doc.root.children.filter((c) => c.type === 'upload' && taken.has(Number(uploadId(c)))).map((c) => Number(uploadId(c)))
         doc.root.children = doc.root.children.filter((c) => !(c.type === 'upload' && taken.has(Number(uploadId(c)))))
         if (left.length) console.log(`articles: ${file}: ${left.length} photo(s) left out, taken out in the admin (media ${left.join(', ')})`)
       }
-      await payload.update({ collection: 'articles', id: existing.id, data: { ...data, ...settings, importedHash: `${importedHash}.${settingsHash}` } as never, overrideAccess: true })
+      await payload.update({ collection: 'articles', id: existing.id, data: { ...data, ...settings, importedHash: `${importedHash}.${settingsHash}.${source}` } as never, overrideAccess: true })
     } else {
       const settingsHash = articleSettingsHash({ categories, heroImage: 'heroImage' in data ? data.heroImage : null, featured: data.featured, seo: data.seo })
-      await payload.create({ collection: 'articles', data: { ...data, importedHash: `${importedHash}.${settingsHash}` } as never, overrideAccess: true })
+      await payload.create({ collection: 'articles', data: { ...data, importedHash: `${importedHash}.${settingsHash}.${source}` } as never, overrideAccess: true })
     }
     n++
   }
-  console.log(`articles: upserted ${n} article(s)${kept ? `, kept the words of ${kept} edited in the admin` : ''}${waiting ? `, left ${waiting} with an unpublished draft alone` : ''}`)
+  console.log(`articles: upserted ${n} article(s)${unchanged ? `, ${unchanged} unchanged since the last import` : ''}${kept ? `, kept the words of ${kept} edited in the admin` : ''}${waiting ? `, left ${waiting} with an unpublished draft alone` : ''}`)
 }
 
 async function forceImportArticles(payload: Payload) {

@@ -39,7 +39,8 @@ House rules: no em dashes in copy you write; no AI model names in code or commen
   changed in the admin (categories, the hero, `featured`, the search title and description) are kept
   the same way, words edited or not. A photo taken out in the admin stays out (to bring one back,
   give it a new stored name). An article with an unpublished draft in the admin is left alone
-  entirely. `articles-force` overwrites every article from the markdown, on purpose only, when
+  entirely, and one whose file and saved copy are unchanged is not saved again (its "Updated" date
+  stays put). `articles-force` overwrites every article from the markdown, on purpose only, when
   Austin asks.
 - `articles-diff` (read-only) prints what was changed in the admin since the last import, block by
   block. To fix one phrase in an article edited in the admin (a tool note it still carries), add
