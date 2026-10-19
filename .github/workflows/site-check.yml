@@ -15,6 +15,10 @@ on:
         description: 'Page paths, comma-separated'
         required: false
         default: '/articles/ikon-ski-hotels-points-2026,/articles/epic-pass-ski-hotels-points-2026'
+      find:
+        description: 'Optional phrases to look for on each page, separated by |'
+        required: false
+        default: ''
 
 permissions:
   contents: read
@@ -28,6 +32,7 @@ jobs:
         env:
           SITE: ${{ github.event.inputs.site }}
           PATHS: ${{ github.event.inputs.paths }}
+          FIND: ${{ github.event.inputs.find }}
         run: |
           site="${SITE%/}"
           bad=0
@@ -37,6 +42,13 @@ jobs:
             grep -iE '^(x-vercel-cache|age|x-nextjs-cache|x-nextjs-prerender|last-modified|date):' headers.txt | tr -d '\r' | sed 's/^/   /'
             echo "   figures: $(grep -o '<figure' page.html | wc -l); $(grep -oE 'Updated [A-Z][a-z]{2} [0-9]{1,2}, 20[0-9]{2}' page.html | head -1)"
             [ "$code" = 200 ] || bad=1
+            # how often each phrase appears in the page's text (a check, not a failure)
+            if [ -n "$FIND" ]; then
+              sed -e 's/<[^>]*>/ /g' -e 's/&amp;/\&/g' -e "s/&#x27;/'/g" -e 's/&quot;/"/g' page.html | tr -s ' \n' ' ' > text.txt
+              printf '%s' "$FIND" | tr '|' '\n' | while IFS= read -r phrase; do
+                if [ -n "$phrase" ]; then echo "   \"$phrase\": $(grep -oF -- "$phrase" text.txt | wc -l) time(s)"; fi
+              done
+            fi
             sed 's/&amp;/\&/g' page.html | grep -oE '(src|href)="[^"]+"|url\([^)]+\)' \
               | grep -oE '(https?://[^" )]+|/[^" )]+)' | grep -iE '\.(jpe?g|png|webp|avif|gif|svg)([?#][^" )]*)?$' \
               | sort -u > imgs.txt

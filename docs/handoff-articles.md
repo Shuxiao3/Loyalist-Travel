@@ -115,6 +115,7 @@ heroCredit: Colin Brown, CC BY 2.0
    - no `reads like a tool note` warning you have not reviewed;
    - no photo errors.
 8. **Check live.** Run the **Check live pages** workflow with `paths: /articles/<slug>,/articles`. Every page and image should be 200. The log also prints the number of figures on each page.
+   - To confirm wording on the live page, add `find` with phrases separated by `|` (for example `Verified in this run|It confirms`). The log prints how often each one appears.
 9. **Tell Austin:** the live link, what you reworded (before and after), any fact you questioned, and anything still missing (a photo, a credit).
 
 ## Shipping
@@ -147,7 +148,7 @@ heroCredit: Colin Brown, CC BY 2.0
   | Workflow (file) | Inputs | What it does |
   | --- | --- | --- |
   | Import Webflow content (`import-webflow.yml`) | `step` | `articles`, `articles-force`, `articles-refresh`, `articles-report` (per-article status, photo count, last save), `media-report` |
-  | Check live pages (`site-check.yml`) | `site`, `paths` | Status of each page and every image it references |
+  | Check live pages (`site-check.yml`) | `site`, `paths`, `find` | Status of each page and every image it references; how often each `find` phrase appears |
   | Add an article photo (`add-article-photo.yml`) | `slug`, `name`, `url` | Downloads a photo into the repo and commits to `main` |
   | Check Blob storage (`blob-check.yml`) | `site` | Proves admin uploads work end to end |
 
