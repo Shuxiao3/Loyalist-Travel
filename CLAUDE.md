@@ -33,14 +33,18 @@ House rules: no em dashes in copy you write; no AI model names in code or commen
   for such phrasing (the list is `TOOL_NOTE_PATTERNS` in `scripts/webflow/import.ts`). It does not
   stop the import. Review every warning before shipping: reword the real tool notes, and leave
   Austin's ordinary words alone when a warning is a false alarm.
-- Never overwrite an article edited in the admin. The `articles` step keeps the words of any
-  article changed in the admin since the last import (it only adds missing photos, and a hero if it
-  has none) and says so in its output. `articles-force` overwrites from the markdown, on purpose
-  only, when Austin asks.
-- Only the words (title, dek, body) are protected. Every other article is rewritten from its file
-  on each import, categories included, so a category Austin changes only in the admin is replaced;
-  the log then says `categories set to ... from the file (they were ...)`. Put his change in the
-  file too.
+- Never overwrite an article edited in the admin; Austin edits articles there in their own voice. The
+  `articles` step keeps the words of any article changed in the admin since the last import (it only
+  adds photos new to the markdown, and a hero if it has none) and says so in its output. Settings
+  changed in the admin (categories, the hero, `featured`, the search title and description) are kept
+  the same way, words edited or not. A photo taken out in the admin stays out (to bring one back,
+  give it a new stored name). An article with an unpublished draft in the admin is left alone
+  entirely. `articles-force` overwrites every article from the markdown, on purpose only, when
+  Austin asks.
+- `articles-diff` (read-only) prints what was changed in the admin since the last import, block by
+  block. To fix one phrase in an article edited in the admin (a tool note it still carries), add
+  `{ "slug", "from", "to" }` to `data/article-rewords.json` and run the `articles-reword` step; it
+  changes only that phrase and leaves the rest of the admin's words alone.
 - Production import: the **Import Webflow content** workflow with step `articles`. It applies
   migrations, imports, then spot-checks. It uses the repository secrets DATABASE_URL and
   PAYLOAD_SECRET; BLOB_READ_WRITE_TOKEN is optional, since photos under `public/` need no storage.

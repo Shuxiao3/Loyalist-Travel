@@ -65,10 +65,17 @@ heroCredit: Colin Brown, CC BY 2.0
 ### Edit Protection (Important)
 
 - Each article stores `importedHash`, a fingerprint of the title, dek and body text from the last import.
-- If Austin edits the article's words in the admin, the `articles` step **keeps their words**. It only adds back missing photos, plus a hero if the article has none, and its log says so ("edited in the admin since the last import…").
-- Only the words are protected. An article whose words were not edited is rewritten from its file on every import, categories, `featured` and SEO included. So a category Austin changes only in the admin (reordering, adding one) is replaced the next time any article is imported, and the log says "categories set to … from the file (they were …)". Put his change in the markdown too.
+- Austin edits articles in the admin in their own voice (the Ikon guide and the United article both carry their rewrites). If the words were edited there, the `articles` step **keeps them**. It only adds photos that are new to the markdown, plus a hero if the article has none, and its log says so ("edited in the admin since the last import…").
+- Settings changed in the admin are kept the same way, whether or not the words were edited: categories (including their order), the hero, `featured`, and the search title and description. The log says "settings changed in the admin are kept". A settings change Austin asks for in chat goes in the markdown and needs `articles-force`, or Austin can make it in the admin.
+- A photo taken out in the admin stays out, and the log says "left out, taken out in the admin". To bring one back, give it a new stored name in the markdown.
+- An article with a draft saved in the admin but not published yet is left alone entirely ("has a draft saved in the admin…"), so the import never publishes over work in progress.
+- Step `articles-diff` (read-only) prints, block by block, what was changed in the admin since the last import. Run it before deciding anything about an edited article.
+- If an edited article still has a tool note in its saved words (the import warns "the words saved in the admin read like a tool note"), fix just that phrase:
+  - add `{ "slug": ..., "from": ..., "to": ... }` to `data/article-rewords.json`;
+  - ship it, then run the `articles-reword` step.
+  - `from` must be the exact saved text inside one run of plain text. Running the step again changes nothing.
 - Step `articles-force` overwrites the article from the markdown. Use it only when Austin asks for that article to be replaced.
-- Note: `articles-force` applies to every file in `data/articles/`, so the Ikon guide's admin edits would be overwritten too. Confirm with Austin first.
+- Note: `articles-force` applies to every file in `data/articles/`, so Austin's admin edits to the Ikon guide and United would be overwritten too. Confirm with Austin first.
 
 ## Step by Step, for Each Article Austin Sends
 
@@ -109,6 +116,7 @@ heroCredit: Colin Brown, CC BY 2.0
    - no `reads like a tool note` warning you have not reviewed;
    - no photo errors.
 8. **Check live.** Run the **Check live pages** workflow with `paths: /articles/<slug>,/articles`. Every page and image should be 200. The log also prints the number of figures on each page.
+   - To confirm wording on the live page, add `find` with phrases separated by `|` (for example `Verified in this run|It confirms`). The log prints how often each one appears.
 9. **Tell Austin:** the live link, what you reworded (before and after), any fact you questioned, and anything still missing (a photo, a credit).
 
 ## Shipping
@@ -141,7 +149,7 @@ heroCredit: Colin Brown, CC BY 2.0
   | Workflow (file) | Inputs | What it does |
   | --- | --- | --- |
   | Import Webflow content (`import-webflow.yml`) | `step` | `articles`, `articles-force`, `articles-refresh`, `articles-report` (per-article status, photo count, last save), `media-report` |
-  | Check live pages (`site-check.yml`) | `site`, `paths` | Status of each page and every image it references |
+  | Check live pages (`site-check.yml`) | `site`, `paths`, `find` | Status of each page and every image it references; how often each `find` phrase appears |
   | Add an article photo (`add-article-photo.yml`) | `slug`, `name`, `url` | Downloads a photo into the repo and commits to `main` |
   | Check Blob storage (`blob-check.yml`) | `site` | Proves admin uploads work end to end |
 
@@ -229,13 +237,13 @@ Work from the previous chat. Check `git log origin/main` before relying on it:
    - Ship it only once 20261019_010000 and the code reading `categories` are live in production: move it up into `src/migrations/` and register it in `src/migrations/index.ts`. Payload runs every file directly in `src/migrations/`, so it must not sit there before then.
    - Until then, triggers from 20261019_010000 copy any save the old code makes into the new tables, and the follow-up first carries over anything they missed, so nothing saved during the deploy is lost. Push the branch and `main` together all the same, so the old code serves as briefly as possible.
 
+Settled on 2026-10-19 (`articles-diff` showed it): the admin changes to the Ikon guide and the United article are Austin's own rewrites, so they stay. United's leftover "Verified in this run" line was reworded in place with `articles-reword`.
+
 Still waiting on Austin:
 
-- Whether the Ikon guide's admin word changes (saved 2026-10-18 at about 22:23 UTC) were intended. If not, restore that one article from the markdown. `articles-force` touches every file, so confirm first.
 - The photographer and license for the Vail photo in the Epic guide.
 - Optionally, a higher-resolution Palisades photo for the Ikon guide (the current one is 480px wide).
 - Epic guide, Stoneham: it says no Hyatt or IHG property is in Québec City, but the Holiday Inn Express Québec City Sainte-Foy is IHG, and the Ikon guide lists "Holiday Inn options (IHG)" there. Suggested fix: "IHG's option is the Holiday Inn Express Québec City Sainte-Foy; we found no Hyatt in the city." Not changed until Austin says so.
-- Ikon guide, Sun Valley: the live words (edited in the admin) still end with a note to the writer, "say so to readers rather than padding it". Austin can delete it in the admin, or say to overwrite the article from the markdown.
 - All five articles have a `metaTitle` longer than 42 characters, so search results may cut them off. Austin's call whether to shorten them.
 
 ## Files Worth Knowing
