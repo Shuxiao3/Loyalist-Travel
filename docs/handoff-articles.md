@@ -260,13 +260,13 @@ Work still open from the previous chat. Check `git log origin/main` before relyi
 
    Querying with `where: { categories: { in: [...] } }` and `{ equals: 'news' }` both work against this.
 
+Settled on 2026-10-19 (`articles-diff` showed it): the admin changes to the Ikon guide and the United article are Austin's own rewrites, so they stay. United's leftover "Verified in this run" line was reworded in place with `articles-reword`.
+
 Still waiting on Austin:
 
-- Whether the Ikon guide's admin word changes (saved 2026-10-18 at about 22:23 UTC) were intended. If not, restore that one article from the markdown. `articles-force` touches every file, so confirm first.
 - The photographer and license for the Vail photo in the Epic guide.
 - Optionally, a higher-resolution Palisades photo for the Ikon guide (the current one is 480px wide).
 - Epic guide, Stoneham: it says no Hyatt or IHG property is in Québec City, but the Holiday Inn Express Québec City Sainte-Foy is IHG, and the Ikon guide lists "Holiday Inn options (IHG)" there. Suggested fix: "IHG's option is the Holiday Inn Express Québec City Sainte-Foy; we found no Hyatt in the city." Not changed until Austin says so.
-- Ikon guide, Sun Valley: the live words (edited in the admin) still end with a note to the writer, "say so to readers rather than padding it". Austin can delete it in the admin, or say to overwrite the article from the markdown.
 - All five articles have a `metaTitle` longer than 42 characters, so search results may cut them off. Austin's call whether to shorten them.
 
 ## Files Worth Knowing
