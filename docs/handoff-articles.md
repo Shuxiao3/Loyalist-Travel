@@ -236,7 +236,7 @@ Done in the previous chat (on `main` since 2026-10-18):
 
 Work from the previous chat. Check `git log origin/main` before relying on it:
 
-1. **Multiple categories per article**: done. The migration is `src/migrations/20261019_010000.ts`. The follow-up that drops the old single `category` columns and their enums is still pending: `src/migrations/pending/20261019_020000.ts`.
+1. **Multiple categories per article**: done. The migration is `src/migrations/20261019_010000.ts`. The follow-up that drops the old single `category` columns and their enums is still pending: `src/migrations/pending/20261026_010000.ts`.
    - Ship it only once 20261019_010000 and the code reading `categories` are live in production: move it up into `src/migrations/` and register it in `src/migrations/index.ts`. Payload runs every file directly in `src/migrations/`, so it must not sit there before then.
    - Until then, triggers from 20261019_010000 copy any save the old code makes into the new tables, and the follow-up first carries over anything they missed, so nothing saved during the deploy is lost. Push the branch and `main` together all the same, so the old code serves as briefly as possible.
 

@@ -9,7 +9,7 @@ import { type MigrateDownArgs, type MigrateUpArgs, sql } from '@payloadcms/db-po
 // The old category columns and their enums stay for now: while a deploy is
 // in flight the old code still serves the site and reads them, and they are
 // nullable, so the new code can save without them. A later migration drops
-// them once this one is live (src/migrations/pending/20261019_020000.ts).
+// them once this one is live (src/migrations/pending/20261026_010000.ts).
 //
 // The old code also keeps saving to the old columns until the deploy is
 // live, so triggers copy each such save across: an article it creates gets
