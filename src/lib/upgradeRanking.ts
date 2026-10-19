@@ -33,6 +33,14 @@ function group<T extends { hotel?: number | { id: number } | null }>(rows: T[]):
   return by
 }
 
+// What an empty list under one of these sorts says: the bar to rank, not
+// "no hotels match", which reads as a filter problem.
+export function noRankText(pool: UpgradePool): string {
+  return pool === 'reader'
+    ? `No hotel here has ${MIN_STAYS} reader stays yet, the number it takes to rank by reader upgrade chance.`
+    : `No hotel here has ${MIN_RATED_REPORTS} reported stays that say whether an upgrade came, the number it takes to rank by upgrade chance.`
+}
+
 // Highest rate first; more stays behind the same rate rank higher.
 export async function rankByUpgrade(pool: UpgradePool): Promise<UpgradeRank[]> {
   const payload = await getPayloadClient()

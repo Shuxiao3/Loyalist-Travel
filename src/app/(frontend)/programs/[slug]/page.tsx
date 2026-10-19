@@ -11,6 +11,7 @@ import { RichText } from '@/components/RichText'
 import { SortMenu } from '@/components/SortMenu'
 import { count } from '@/lib/format'
 import { getHotelSnapshots } from '@/lib/hotelSnapshot'
+import { noRankText } from '@/lib/upgradeRanking'
 import { brandsOf, findHotels, getHotelFilterOptions, getPayloadClient, getProgram, HOTELS_PER_PAGE, type HotelFilters, topTierOf, upgradePoolOf, withHotelPhotos } from '@/lib/queries'
 import { getSeo, metaText, pageMeta } from '@/lib/seo'
 import { rel } from '@/lib/format'
@@ -295,7 +296,7 @@ export default async function ProgramPage({ params, searchParams }: Props) {
               )}
             </div>
           </form>
-          {hotels.docs.length > 0 ? <HotelList hotels={hotels.docs} grid snapshots={snapshots} pool={pool} /> : <p className={styles.empty}>No hotels match those filters.</p>}
+          {hotels.docs.length > 0 ? <HotelList hotels={hotels.docs} grid snapshots={snapshots} pool={pool} /> : <p className={styles.empty}>{pool ? noRankText(pool) : 'No hotels match those filters.'}</p>}
           <Pager page={hotels.page ?? 1} totalPages={hotels.totalPages} totalDocs={hotels.totalDocs} perPage={HOTELS_PER_PAGE} href={href} />
         </div>
       </section>

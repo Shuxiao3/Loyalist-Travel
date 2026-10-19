@@ -10,6 +10,7 @@ import { SortMenu } from '@/components/SortMenu'
 import { count } from '@/lib/format'
 import { hotelPhoto } from '@/lib/photos'
 import { getHotelSnapshots } from '@/lib/hotelSnapshot'
+import { noRankText } from '@/lib/upgradeRanking'
 import { findHotels, getFeaturedHotel, getHotelFilterOptions, HOTEL_SORTS, HOTELS_PER_PAGE, type HotelFilters, upgradePoolOf } from '@/lib/queries'
 import styles from './page.module.css'
 
@@ -152,7 +153,7 @@ export default async function HotelsIndex({ searchParams }: Props) {
           {result.docs.length > 0 ? (
             <HotelList hotels={result.docs} grid snapshots={snapshots} pool={pool} />
           ) : (
-            <p className={styles.empty}>No hotels match those filters.</p>
+            <p className={styles.empty}>{pool ? noRankText(pool) : 'No hotels match those filters.'}</p>
           )}
           <Pager page={result.page ?? 1} totalPages={result.totalPages} totalDocs={result.totalDocs} perPage={HOTELS_PER_PAGE} href={href} />
         </div>
