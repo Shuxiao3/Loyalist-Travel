@@ -1,7 +1,7 @@
 ---
 title: United Extends Its Delta and American Status Match to October 22
 slug: united-status-match-extension
-category: news
+category: news, airlines
 date: 2026-10-15
 featured: false
 dek: United moved the application deadline for its Switch to Better Wi-Fi status match from October 15 to October 22, 2026, giving Delta and American elites one more week to apply.

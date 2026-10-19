@@ -678,7 +678,7 @@ async function seedArticles(payload: Payload) {
     await payload.create({
       collection: 'articles',
       overrideAccess: true,
-      data: { title: a.title, slug: a.slug, category: a.category, publishedDate: a.date, dek: a.dek, body: paragraphs(a.paras), featured: n === 0, _status: 'published' } as never,
+      data: { title: a.title, slug: a.slug, categories: [a.category], publishedDate: a.date, dek: a.dek, body: paragraphs(a.paras), featured: n === 0, _status: 'published' } as never,
     })
     n++
   }
@@ -1212,8 +1212,13 @@ async function importArticles(payload: Payload) {
       const kv = /^(\w+):\s*(.*)$/.exec(line)
       if (kv) meta[kv[1]] = kv[2].trim()
     }
-    for (const k of ['title', 'slug', 'category', 'date']) if (!meta[k]) throw new Error(`articles: ${file} is missing ${k}`)
-    if (!ARTICLE_CATEGORIES.some((c) => c.value === meta.category)) throw new Error(`articles: ${file} has unknown category ${meta.category}; expected one of ${ARTICLE_CATEGORIES.map((c) => c.value).join(', ')}`)
+    for (const k of ['title', 'slug', 'date']) if (!meta[k]) throw new Error(`articles: ${file} is missing ${k}`)
+    // "categories:" means the same as "category:". Either takes one value or
+    // a comma list; the first is the main category.
+    if (meta.category && meta.categories) throw new Error(`articles: ${file} has both category and categories; keep one`)
+    const categories = [...new Set((meta.category || meta.categories || '').split(',').map((c) => c.trim()).filter(Boolean))]
+    if (!categories.length) throw new Error(`articles: ${file} is missing category`)
+    for (const c of categories) if (!ARTICLE_CATEGORIES.some((o) => o.value === c)) throw new Error(`articles: ${file} has unknown category ${c}; expected one of ${ARTICLE_CATEGORIES.map((o) => o.value).join(', ')}`)
     // a warning only: the article still imports
     for (const note of toolNotes(m[2], meta)) console.log(`articles: ${file}: reads like a tool note: "${note}"`)
 
@@ -1258,7 +1263,7 @@ async function importArticles(payload: Payload) {
     const data = {
       title: meta.title,
       slug: meta.slug,
-      category: meta.category,
+      categories,
       publishedDate: meta.date,
       dek: meta.dek || null,
       body,
@@ -1284,7 +1289,10 @@ async function importArticles(payload: Payload) {
         if (merged.added || 'heroImage' in hero) {
           await payload.update({ collection: 'articles', id: existing.id, data: { body: merged.body, ...hero, _status: 'published' } as never, overrideAccess: true })
         }
-        console.log(`articles: ${file}: edited in the admin since the last import, so its words are left as they are; ${merged.added} photo(s) added${'heroImage' in hero ? ', hero set' : ''}${merged.missed.length ? `; ${merged.missed.length} photo(s) not placed, their sections are gone (media ${merged.missed.join(', ')})` : ''}. Run articles-force to overwrite it from ${file}.`)
+        // categories are left as saved too; say so when the file names others
+        const saved = (existing.categories ?? []).join(', ')
+        const cats = saved === categories.join(', ') ? '' : ` Its categories stay ${saved || 'empty'} (the file says ${categories.join(', ')}).`
+        console.log(`articles: ${file}: edited in the admin since the last import, so its words are left as they are; ${merged.added} photo(s) added${'heroImage' in hero ? ', hero set' : ''}${merged.missed.length ? `; ${merged.missed.length} photo(s) not placed, their sections are gone (media ${merged.missed.join(', ')})` : ''}. Run articles-force to overwrite it from ${file}.${cats}`)
         // the words on the site are the admin's, so they are the ones to check
         const seo = existing.seo
         for (const note of toolNotes(lexicalText(existing.body), { title: existing.title, dek: existing.dek ?? undefined, metaTitle: seo?.title ?? undefined, metaDescription: seo?.description ?? undefined })) {
@@ -1293,6 +1301,10 @@ async function importArticles(payload: Payload) {
         kept++
         continue
       }
+      // Only the words are protected, so categories come from the file. Say
+      // when that changes them: a change made only in the admin is undone.
+      const had = (existing.categories ?? []).join(', ')
+      if (had !== categories.join(', ')) console.log(`articles: ${file}: categories set to ${categories.join(', ')} from the file (they were ${had || 'empty'}); a change made only in the admin is replaced, so make it in the file too`)
       await payload.update({ collection: 'articles', id: existing.id, data: { ...data, importedHash } as never, overrideAccess: true })
     } else await payload.create({ collection: 'articles', data: { ...data, importedHash } as never, overrideAccess: true })
     n++
@@ -1348,7 +1360,10 @@ async function reportArticles(payload: Payload) {
     const withAddress = populated.filter((n) => { const v = n.value as { staticUrl?: string | null; url?: string | null }; return Boolean(v.staticUrl || v.url) })
     const hero = pub?.heroImage && typeof pub.heroImage === 'object' ? (pub.heroImage as { filename?: string; staticUrl?: string | null }) : null
     const versions = await payload.countVersions({ collection: 'articles', where: { parent: { equals: a.id } }, overrideAccess: true })
-    console.log(`articles-report: ${a.slug}: status ${a._status ?? '?'}, updated ${String(a.updatedAt).slice(0, 16)}, ${versions.totalDocs} version(s); latest draft ${nodes.length} photo node(s); published ${pub ? `${pubNodes.length} photo node(s), ${populated.length} resolved, ${withAddress.length} with an address; hero ${hero ? `${hero.filename} -> ${hero.staticUrl ?? '(no static url)'}` : 'none'}` : 'NOT FOUND'}`)
+    // the published categories, as the site shows them, and a draft's when it differs
+    const cats = (doc?: { categories?: string[] | null }) => (doc?.categories ?? []).join(', ') || 'none'
+    const categories = pub ? `${cats(pub)}${cats(a) !== cats(pub) ? ` (draft: ${cats(a)})` : ''}` : `none published (draft: ${cats(a)})`
+    console.log(`articles-report: ${a.slug}: categories ${categories}, status ${a._status ?? '?'}, updated ${String(a.updatedAt).slice(0, 16)}, ${versions.totalDocs} version(s); latest draft ${nodes.length} photo node(s); published ${pub ? `${pubNodes.length} photo node(s), ${populated.length} resolved, ${withAddress.length} with an address; hero ${hero ? `${hero.filename} -> ${hero.staticUrl ?? '(no static url)'}` : 'none'}` : 'NOT FOUND'}`)
   }
   // what the last save changed in the words, against the version before it
   const textOf = lexicalText

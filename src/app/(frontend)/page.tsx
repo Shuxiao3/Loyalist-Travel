@@ -6,7 +6,7 @@ import { ArticleCard } from '@/components/ArticleCard'
 import { ReviewCard } from '@/components/ReviewCard'
 import { count, mediaUrl, rel, score, shortDate } from '@/lib/format'
 import { hotelPhoto, reviewPhoto } from '@/lib/photos'
-import { ARTICLE_CATEGORY_LABEL } from '@/collections/Articles'
+import { articleCategoryLabel, mainArticleCategory } from '@/lib/articleOptions'
 import { getFeaturedHotel, getPrograms, getReviews, getSiteCounts } from '@/lib/queries'
 import { articleImage, getArticles } from '@/lib/articles'
 import { getLoungeDirectory } from '@/lib/lounges'
@@ -103,7 +103,7 @@ export default async function HomePage() {
       kind: 'article',
       eyebrow: latestArticle.featured ? 'Featured article' : 'Latest article',
       image: articleImage(latestArticle),
-      meta: [ARTICLE_CATEGORY_LABEL[latestArticle.category] ?? latestArticle.category, shortDate(latestArticle.publishedDate) ?? ''].filter(Boolean),
+      meta: [articleCategoryLabel(mainArticleCategory(latestArticle)) ?? '', shortDate(latestArticle.publishedDate) ?? ''].filter(Boolean),
       title: latestArticle.title,
       text: latestArticle.dek,
       figure: null,

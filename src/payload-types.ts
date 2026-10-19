@@ -361,7 +361,10 @@ export interface Article {
   id: number;
   title: string;
   slug: string;
-  category: 'news' | 'guides' | 'hotels' | 'airlines' | 'credit-cards';
+  /**
+   * Pick one or more. The first is the main category, shown on cards and in the breadcrumb. Drag to change the order.
+   */
+  categories: ('news' | 'guides' | 'hotels' | 'airlines' | 'credit-cards')[];
   publishedDate: string;
   /**
    * One or two sentences under the title and on cards.
@@ -1753,7 +1756,7 @@ export interface ReviewsSelect<T extends boolean = true> {
 export interface ArticlesSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
-  category?: T;
+  categories?: T;
   publishedDate?: T;
   dek?: T;
   body?: T;

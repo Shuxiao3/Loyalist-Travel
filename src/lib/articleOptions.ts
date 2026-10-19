@@ -10,6 +10,12 @@ export const ARTICLE_CATEGORIES = [
 export type ArticleCategory = (typeof ARTICLE_CATEGORIES)[number]['value']
 export const ARTICLE_CATEGORY_LABEL: Record<string, string> = Object.fromEntries(ARTICLE_CATEGORIES.map((c) => [c.value, c.label]))
 export const isArticleCategory = (v: unknown): v is ArticleCategory => ARTICLE_CATEGORIES.some((c) => c.value === v)
+export const articleCategoryLabel = (v: string | null | undefined) => (v ? (ARTICLE_CATEGORY_LABEL[v] ?? v) : undefined)
+
+// An article's first category is its main one: cards and the breadcrumb
+// show it, it fills {Category} in the SEO settings' article template, and
+// the article page lists the rest after it.
+export const mainArticleCategory = (a: { categories?: readonly string[] | null }) => a.categories?.[0]
 
 // The categories the site published before these five, as the nav linked
 // them on every page; the hub sends each on to the category it became.

@@ -13,7 +13,8 @@ export const ARTICLES_PER_PAGE = 12
 export async function getArticles(opts: { limit?: number; page?: number; category?: string; excludeId?: number; featuredFirst?: boolean } = {}) {
   const payload = await getPayloadClient()
   const and: Where[] = [published]
-  if (opts.category) and.push({ category: { equals: opts.category } })
+  // any article carrying the category, main or not
+  if (opts.category) and.push({ categories: { in: [opts.category] } })
   if (opts.excludeId) and.push({ id: { not_equals: opts.excludeId } })
   return payload.find({
     collection: 'articles',
@@ -31,13 +32,15 @@ export async function getArticle(slug: string): Promise<Article | null> {
   return res.docs[0] ?? null
 }
 
-// How many published articles sit in each category, for the hub chips.
-export async function getArticleCategoryCounts(): Promise<Record<string, number>> {
+// How many published articles sit in each category, for the hub chips. An
+// article counts once in every category it carries, so the total of all
+// articles is counted on its own.
+export async function getArticleCategoryCounts(): Promise<{ total: number; counts: Record<string, number> }> {
   const payload = await getPayloadClient()
-  const res = await payload.find({ collection: 'articles', where: published, limit: 2000, depth: 0, select: { category: true } })
+  const res = await payload.find({ collection: 'articles', where: published, limit: 2000, depth: 0, select: { categories: true } })
   const counts: Record<string, number> = {}
-  for (const a of res.docs) counts[a.category] = (counts[a.category] ?? 0) + 1
-  return counts
+  for (const a of res.docs) for (const c of new Set(a.categories ?? [])) counts[c] = (counts[c] ?? 0) + 1
+  return { total: res.totalDocs, counts }
 }
 
 export function articleImage(a: Article): string | null {

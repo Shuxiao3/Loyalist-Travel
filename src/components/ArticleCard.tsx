@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-import { ARTICLE_CATEGORY_LABEL } from '@/collections/Articles'
+import { articleCategoryLabel, mainArticleCategory } from '@/lib/articleOptions'
 import { articleImage } from '@/lib/articles'
 import { shortDate } from '@/lib/format'
 import type { Article } from '@/payload-types'
@@ -13,7 +13,7 @@ export function ArticleCard({ article, tone = 'a' }: { article: Article; tone?: 
       <div className={`img ${tone}`} role="img" aria-label={article.title} style={image ? { backgroundImage: `url(${image}), var(--img-${tone})` } : undefined} />
       <div className="body">
         <div className="meta">
-          <span>{ARTICLE_CATEGORY_LABEL[article.category] ?? article.category}</span>
+          <span>{articleCategoryLabel(mainArticleCategory(article))}</span>
         </div>
         <h3>{article.title}</h3>
         {article.dek && <p>{article.dek}</p>}

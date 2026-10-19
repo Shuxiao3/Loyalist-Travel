@@ -2,14 +2,14 @@ import type { Metadata } from 'next'
 
 import { getSeo, metaText, pageMeta } from '@/lib/seo'
 import Link from 'next/link'
-import { permanentRedirect } from 'next/navigation'
+import { permanentRedirect, redirect } from 'next/navigation'
 
 import { ARTICLE_CATEGORIES, ARTICLE_CATEGORY_LABEL } from '@/collections/Articles'
 import { ArticleCard } from '@/components/ArticleCard'
 import { LandingHero } from '@/components/LandingHero'
 import { Pager } from '@/components/Pager'
 import { ARTICLES_PER_PAGE, articleImage, getArticleCategoryCounts, getArticles } from '@/lib/articles'
-import { isArticleCategory, LEGACY_ARTICLE_CATEGORY } from '@/lib/articleOptions'
+import { articleCategoryLabel, isArticleCategory, LEGACY_ARTICLE_CATEGORY, mainArticleCategory } from '@/lib/articleOptions'
 import { count, shortDate } from '@/lib/format'
 
 import styles from './page.module.css'
@@ -31,9 +31,8 @@ export default async function ArticlesIndex({ searchParams }: Props) {
   // a link to a category from before the rename lands on what it became
   if (asked && LEGACY_ARTICLE_CATEGORY[asked]) permanentRedirect(`/articles?category=${LEGACY_ARTICLE_CATEGORY[asked]}`)
   const category = isArticleCategory(asked) ? asked : undefined
-  const [result, latestRes, counts] = await Promise.all([getArticles({ page, category, featuredFirst: !category }), getArticles({ limit: 1, featuredFirst: true }), getArticleCategoryCounts()])
+  const [result, latestRes, { total, counts }] = await Promise.all([getArticles({ page, category, featuredFirst: !category }), getArticles({ limit: 1, featuredFirst: true }), getArticleCategoryCounts()])
   const latest = latestRes.docs[0]
-  const total = Object.values(counts).reduce((a, b) => a + b, 0)
   const href = (p: number) => {
     const q = new URLSearchParams()
     if (category) q.set('category', category)
@@ -41,6 +40,10 @@ export default async function ArticlesIndex({ searchParams }: Props) {
     const s = q.toString()
     return s ? `/articles?${s}` : '/articles'
   }
+  // A page past the end (an old link, after articles moved or went) goes to
+  // the last one; for a category, Payload counts 0 articles on an empty page.
+  const last = Math.max(1, Math.ceil((category ? (counts[category] ?? 0) : total) / ARTICLES_PER_PAGE))
+  if (page > last && result.docs.length === 0) redirect(href(last))
 
   return (
     <>
@@ -54,7 +57,7 @@ export default async function ArticlesIndex({ searchParams }: Props) {
             ? {
                 eyebrow: latest.featured ? 'Featured' : 'Latest',
                 image: articleImage(latest),
-                meta: [ARTICLE_CATEGORY_LABEL[latest.category] ?? latest.category, shortDate(latest.publishedDate)].filter((m): m is string => Boolean(m)),
+                meta: [articleCategoryLabel(mainArticleCategory(latest)), shortDate(latest.publishedDate)].filter((m): m is string => Boolean(m)),
                 title: latest.title,
                 cta: 'Read it',
                 href: `/articles/${latest.slug}`,

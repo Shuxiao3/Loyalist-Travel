@@ -3,7 +3,8 @@ import type { CollectionConfig } from 'payload'
 import { publishedOrLoggedIn } from '../access/publishedOrLoggedIn'
 import { slugField } from './fields/slug'
 
-// Editorial articles, one flat hub at /articles with a category filter.
+// Editorial articles, one flat hub at /articles with a category filter. An
+// article can carry several categories; the first is its main one.
 import { ARTICLE_CATEGORIES } from '../lib/articleOptions'
 
 export { ARTICLE_CATEGORIES, ARTICLE_CATEGORY_LABEL, type ArticleCategory } from '../lib/articleOptions'
@@ -12,7 +13,7 @@ export const Articles: CollectionConfig = {
   slug: 'articles',
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'category', 'publishedDate', '_status'],
+    defaultColumns: ['title', 'categories', 'publishedDate', '_status'],
     group: 'Editorial',
   },
   access: { read: publishedOrLoggedIn },
@@ -23,7 +24,15 @@ export const Articles: CollectionConfig = {
     {
       type: 'row',
       fields: [
-        { name: 'category', type: 'select', required: true, options: [...ARTICLE_CATEGORIES], index: true },
+        {
+          name: 'categories',
+          type: 'select',
+          hasMany: true,
+          required: true,
+          options: [...ARTICLE_CATEGORIES],
+          index: true,
+          admin: { description: 'Pick one or more. The first is the main category, shown on cards and in the breadcrumb. Drag to change the order.' },
+        },
         { name: 'publishedDate', type: 'date', required: true, admin: { date: { pickerAppearance: 'dayOnly' } }, index: true },
       ],
     },

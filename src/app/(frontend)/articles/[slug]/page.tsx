@@ -2,11 +2,11 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
-import { ARTICLE_CATEGORY_LABEL } from '@/collections/Articles'
 import { Comments } from '@/components/Comments'
 import { ReadingProgress } from '@/components/ReadingProgress'
 import { ArticleBody } from '@/components/ArticleBody'
 import { MobileToc } from '@/components/MobileToc'
+import { articleCategoryLabel, mainArticleCategory } from '@/lib/articleOptions'
 import { articleImage, getArticle, getArticles } from '@/lib/articles'
 import { rel, shortDate } from '@/lib/format'
 import { outlineOf } from '@/lib/outline'
@@ -24,7 +24,7 @@ type Props = { params: Promise<{ slug: string }> }
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const article = await getArticle((await params).slug)
   if (!article) return {}
-  const text = metaText((await getSeo())?.article, { Title: article.title, Dek: article.dek, Category: ARTICLE_CATEGORY_LABEL[article.category] }, { title: article.title, description: article.dek })
+  const text = metaText((await getSeo())?.article, { Title: article.title, Dek: article.dek, Category: articleCategoryLabel(mainArticleCategory(article)) }, { title: article.title, description: article.dek })
   if (article.seo?.title?.trim()) text.title = article.seo.title.trim()
   if (article.seo?.description?.trim()) text.description = article.seo.description.trim()
   return pageMeta({ ...text, path: `/articles/${article.slug}`, image: articleImage(article), type: 'article' })
@@ -35,12 +35,14 @@ export default async function ArticlePage({ params }: Props) {
   if (!article) notFound()
   const image = articleImage(article)
   const heroCredit = (article.heroImage && typeof article.heroImage === 'object' ? article.heroImage.credit ?? '' : '').trim()
-  const category = ARTICLE_CATEGORY_LABEL[article.category] ?? article.category
+  // the main category leads the breadcrumb; the eyebrow lists them all
+  const main = mainArticleCategory(article)
+  const categories = (article.categories ?? []).map(articleCategoryLabel).join(' · ')
   const hotels = (article.related?.hotels ?? []).map((h) => rel<Hotel>(h)).filter((h): h is Hotel => Boolean(h))
   const programs = (article.related?.programs ?? []).map((p) => rel<Program>(p)).filter((p): p is Program => Boolean(p))
   const lounges = (article.related?.lounges ?? []).map((l) => rel<Lounge>(l)).filter((l): l is Lounge => Boolean(l))
   const picked = (article.related?.articles ?? []).map((a) => rel<Article>(a)).filter((a): a is Article => Boolean(a))
-  const more = picked.length > 0 ? picked : (await getArticles({ limit: 3, category: article.category, excludeId: article.id })).docs
+  const more = picked.length > 0 ? picked : (await getArticles({ limit: 3, category: main, excludeId: article.id })).docs
   const fallback = more.length > 0 ? more : (await getArticles({ limit: 3, excludeId: article.id })).docs
   const outline = outlineOf(article.body)
   const toc = outline.length >= 2 ? outline.map((h) => ({ href: `#${h.id}`, label: h.text })) : []
@@ -53,12 +55,16 @@ export default async function ArticlePage({ params }: Props) {
             <li>
               <Link href="/articles">Articles</Link>
             </li>
-            <li aria-hidden="true">/</li>
-            <li>
-              <Link href={`/articles?category=${article.category}`}>{category}</Link>
-            </li>
+            {main && (
+              <>
+                <li aria-hidden="true">/</li>
+                <li>
+                  <Link href={`/articles?category=${main}`}>{articleCategoryLabel(main)}</Link>
+                </li>
+              </>
+            )}
           </ol>
-          <span className="eyebrow">{category}</span>
+          {categories && <span className="eyebrow">{categories}</span>}
           <h1 className={styles.h1}>{article.title}</h1>
           {article.dek && <p className={`sub ${styles.sub}`}>{article.dek}</p>}
           <div className={`byline ${styles.byline}`}>
@@ -144,7 +150,7 @@ export default async function ArticlePage({ params }: Props) {
                   {fallback.map((a) => (
                     <li key={a.id}>
                       <span className="label">
-                        {ARTICLE_CATEGORY_LABEL[a.category] ?? a.category} · {shortDate(a.publishedDate)}
+                        {[articleCategoryLabel(mainArticleCategory(a)), shortDate(a.publishedDate)].filter(Boolean).join(' · ')}
                       </span>
                       <Link href={`/articles/${a.slug}`}>{a.title}</Link>
                     </li>
