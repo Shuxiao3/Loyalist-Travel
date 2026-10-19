@@ -1961,11 +1961,40 @@ async function importSourcedReports(payload: Payload) {
 // The extraction's summary of a stay runs to sixty words and reads like a
 // report. The hotel page shows each stay's facts (status, upgrade, room,
 // breakfast and so on) in a box of their own, so what goes under them is a
-// line or two on what stood out. This step writes that short summary for
-// every stay without one; the import above clears it when a stay's summary
-// changes, so only new and changed stays are written again, and one edited in
-// the admin is kept. Without ANTHROPIC_API_KEY it does nothing, and the page
-// shows the full summary.
+// line or two on what stood out: the stay's short summary. The import above
+// clears it when a stay's summary changes, and one edited in the admin is
+// kept. Two steps fill it, each only for stays without one:
+//
+//   short-summaries     from data/stay-short-summaries.json, written ahead
+//                       and keyed by a hash of the full summary each was
+//                       written from, so a changed summary matches nothing;
+//                       it lists the stays still without one
+//   shorten-summaries   written on the spot (needs ANTHROPIC_API_KEY)
+//
+// Until a stay has one, the page shows its full summary.
+
+const shortSummaryKey = (summary: string) => createHash('sha256').update(summary.replace(/\s+/g, ' ').trim()).digest('hex').slice(0, 16)
+
+const withoutShortSummary: Where = { and: [{ status: { not_equals: 'rejected' } }, { or: [{ shortSummary: { exists: false } }, { shortSummary: { equals: '' } }] }] }
+
+async function applyShortSummaries(payload: Payload) {
+  const file = path.resolve(process.cwd(), 'data/stay-short-summaries.json')
+  const shorts: Record<string, { hotel?: string; short: string }> = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) : {}
+  const docs = (await payload.find({ collection: 'sourced-reports', where: withoutShortSummary, sort: '-postDate', depth: 0, pagination: false, overrideAccess: true, select: { summary: true, sourceKey: true } })).docs
+  const missing: typeof docs = []
+  let written = 0
+  for (const d of docs) {
+    const short = shorts[shortSummaryKey(d.summary)]?.short?.trim()
+    if (!short) {
+      missing.push(d)
+      continue
+    }
+    await payload.update({ collection: 'sourced-reports', id: d.id, data: { shortSummary: short }, depth: 0, overrideAccess: true })
+    written++
+  }
+  console.log(`short-summaries: wrote ${written}, ${missing.length} still without one`)
+  for (const d of missing) console.log(`  ${shortSummaryKey(d.summary)}  ${d.sourceKey}  ${d.summary}`)
+}
 
 const SHORTEN_MODEL = 'claude-opus-5-5'
 const SHORTEN_BATCH = 20
@@ -2068,9 +2097,7 @@ async function shortenSummaries(payload: Payload, preview = 0) {
   const client = new Anthropic({ maxRetries: 4 })
   const tiers = await payload.find({ collection: 'status-levels', limit: 500, depth: 0, overrideAccess: true })
   const tierName = new Map(tiers.docs.map((t) => [t.id, t.shortName ?? t.name]))
-  const where: Where = preview
-    ? { status: { equals: 'approved' } }
-    : { and: [{ status: { not_equals: 'rejected' } }, { or: [{ shortSummary: { exists: false } }, { shortSummary: { equals: '' } }] }] }
+  const where: Where = preview ? { status: { equals: 'approved' } } : withoutShortSummary
   const docs = (await payload.find({ collection: 'sourced-reports', where, sort: '-postDate', depth: 0, overrideAccess: true, ...(preview ? { limit: preview } : { pagination: false }) })).docs
   const items: ShortenItem[] = docs.map((d) => {
     const tierId = typeof d.statusHeld === 'object' && d.statusHeld ? d.statusHeld.id : d.statusHeld
@@ -2402,6 +2429,7 @@ const STEPS: Record<string, (p: Payload) => Promise<void>> = {
   'lounge-flags': loungeFlags,
   'seed-lounges': seedLounges,
   'sourced-reports': importSourcedReports,
+  'short-summaries': applyShortSummaries,
   'shorten-summaries': (p) => shortenSummaries(p),
   'shorten-summaries-preview': (p) => shortenSummaries(p, 12),
   'lounge-brand-rules': loungeBrandRules,

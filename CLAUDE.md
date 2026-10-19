@@ -56,6 +56,22 @@ House rules: no em dashes in copy you write; no AI model names in code or commen
 - Check the live result with the **Check live pages** workflow (site, comma-separated paths):
   it prints the status of each page and of every image it references; anything but 200 fails.
 
+## Reported stays (hotel pages)
+
+- Each stay in a hotel's Aggregated data window shows a facts strip built from its fields
+  (`src/lib/stayFacts.ts`), then its short summary (`shortSummary`), else the full one.
+- Short summaries live in `data/stay-short-summaries.json`, keyed by a hash of the full summary
+  each was written from (`shortSummaryKey` in `scripts/webflow/import.ts`). The `short-summaries`
+  step fills stays that have none and lists those still missing (hash, sourceKey, full summary).
+  A push to main touching that file reruns the Import FlyerTalk stays workflow, which applies it.
+- New FlyerTalk stays show the full summary until theirs is added. Write it by the rules in
+  `SHORTEN_SYSTEM` in the same file: one or two plain sentences, 25 words at most, nothing the
+  facts strip already shows, no "the guest" or "a Globalist" as subject, no reporting verbs,
+  every fact from the full summary and nothing else. With an ANTHROPIC_API_KEY repository secret
+  (not set today), the `shorten-summaries` step writes the missing ones itself after each import.
+- A short summary edited in the admin is kept; the import clears it only when the full summary
+  changes.
+
 ## Shipping
 
 - Commit on the working branch, merge origin/main into it, then push the branch and main

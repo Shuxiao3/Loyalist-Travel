@@ -9,11 +9,14 @@
 # importSourcedReports expects.
 #
 # The import upserts by sourceKey, so re-running the same file is safe and
-# new/changed rows are picked up automatically. Then shorten-summaries writes
-# the short summary the hotel page shows for each new or changed stay
-# (ANTHROPIC_API_KEY; without it the page shows the full summary).
+# new/changed rows are picked up automatically. Then each new or changed stay
+# gets the short summary the hotel page shows: short-summaries takes it from
+# data/stay-short-summaries.json, and shorten-summaries writes any still
+# missing when ANTHROPIC_API_KEY is set. A stay without one shows its full
+# summary.
 #
-# Triggers: push to the data file, or manual dispatch from the Actions tab.
+# Triggers: push to the data file or to the short summaries, or manual
+# dispatch from the Actions tab.
 
 name: Import FlyerTalk stays
 
@@ -22,6 +25,7 @@ on:
     branches: [main]
     paths:
       - 'loyalist-pipeline/data/flyertalk-stays.csv.gz.b64'
+      - 'data/stay-short-summaries.json'
   workflow_dispatch:
 
 permissions:
@@ -47,4 +51,4 @@ jobs:
           base64 -d loyalist-pipeline/data/flyertalk-stays.csv.gz.b64 | gunzip > loyalist-pipeline/data/data_points.csv
           echo "rows: $(($(wc -l < loyalist-pipeline/data/data_points.csv) - 1))"
           npm run migrate
-          npm run import:webflow -- sourced-reports shorten-summaries
+          npm run import:webflow -- sourced-reports short-summaries shorten-summaries
