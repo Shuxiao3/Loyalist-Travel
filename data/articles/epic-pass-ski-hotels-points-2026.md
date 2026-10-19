@@ -380,7 +380,7 @@ Canmore (35 minutes) is the fallback: **Holiday Inn Canmore** (IHG), **Super 8 C
 
 ### Stoneham, Québec
 
-The Hôtel Stoneham is resort-run and independent. The base is **Québec City** (about 30 minutes): DoubleTree and Hampton Inn & Suites Beauport (Hilton), Delta Québec, Hotel PUR and Courtyard (Marriott), Travelodge and Super 8 (Wyndham), and Choice's Ascend and Quality flags. We found no Hyatt or IHG property in the city listings.
+The Hôtel Stoneham is resort-run and independent. The base is **Québec City** (about 30 minutes): DoubleTree and Hampton Inn & Suites Beauport (Hilton), Delta Québec, Hotel PUR and Courtyard (Marriott), Travelodge and Super 8 (Wyndham), and Choice's Ascend and Quality flags. IHG's option is the Holiday Inn Express Québec City Sainte-Foy; we found no Hyatt in the city.
 
 ---
 

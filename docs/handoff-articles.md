@@ -244,7 +244,6 @@ Still waiting on Austin:
 
 - The photographer and license for the Vail photo in the Epic guide.
 - Optionally, a higher-resolution Palisades photo for the Ikon guide (the current one is 480px wide).
-- Epic guide, Stoneham: it says no Hyatt or IHG property is in Québec City, but the Holiday Inn Express Québec City Sainte-Foy is IHG, and the Ikon guide lists "Holiday Inn options (IHG)" there. Suggested fix: "IHG's option is the Holiday Inn Express Québec City Sainte-Foy; we found no Hyatt in the city." Not changed until Austin says so.
 - All five articles have a `metaTitle` longer than 42 characters, so search results may cut them off. Austin's call whether to shorten them.
 
 ## Files Worth Knowing
