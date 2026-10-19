@@ -31,7 +31,7 @@ export default async function ArticlesIndex({ searchParams }: Props) {
   // a link to a category from before the rename lands on what it became
   if (asked && LEGACY_ARTICLE_CATEGORY[asked]) permanentRedirect(`/articles?category=${LEGACY_ARTICLE_CATEGORY[asked]}`)
   const category = isArticleCategory(asked) ? asked : undefined
-  const [result, latestRes, { total, counts }] = await Promise.all([getArticles({ page, category, featuredFirst: !category }), getArticles({ limit: 1, featuredFirst: true }), getArticleCategoryCounts()])
+  const [result, latestRes, { total, counts }] = await Promise.all([getArticles({ page, category }), getArticles({ limit: 1, featuredFirst: true }), getArticleCategoryCounts()])
   const latest = latestRes.docs[0]
   const href = (p: number) => {
     const q = new URLSearchParams()
