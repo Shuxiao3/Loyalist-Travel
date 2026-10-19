@@ -1,0 +1,103 @@
+# Looks up photos on Wikimedia Commons and prints who took each one and its
+# license, for photo credits. With "compare", each result is also scored
+# against a photo in the repo (lower is closer), to find where a photo
+# without a credit came from.
+#
+# Manual only: Actions tab → "Look up a Commons photo" → Run workflow.
+name: Look up a Commons photo
+
+on:
+  workflow_dispatch:
+    inputs:
+      query:
+        description: 'Search words, or an exact file name starting with File:'
+        required: true
+      compare:
+        description: 'Optional: a photo in the repo to compare against, e.g. public/images/articles/<slug>/<file>.jpg'
+        required: false
+        default: ''
+      limit:
+        description: 'How many results'
+        required: false
+        default: '20'
+
+permissions:
+  contents: read
+
+jobs:
+  lookup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install --quiet pillow
+      - name: Search Commons
+        env:
+          QUERY: ${{ github.event.inputs.query }}
+          COMPARE: ${{ github.event.inputs.compare }}
+          LIMIT: ${{ github.event.inputs.limit }}
+        shell: python
+        run: |
+          import io, json, os, re, urllib.parse, urllib.request
+          from PIL import Image, ImageOps
+
+          UA = {'User-Agent': 'LoyalistTravel photo credits (https://loyalisttravel.com)'}
+          def get(url):
+              with urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=60) as r:
+                  return r.read()
+
+          query, compare = os.environ['QUERY'].strip(), os.environ['COMPARE'].strip()
+          limit = max(1, min(50, int(os.environ.get('LIMIT') or 20)))
+          params = {'action': 'query', 'format': 'json', 'prop': 'imageinfo',
+                    'iiprop': 'url|size|extmetadata', 'iiurlwidth': '960',
+                    'iiextmetadatafilter': 'Artist|LicenseShortName|Credit|ImageDescription|DateTimeOriginal'}
+          if query.startswith('File:'):
+              params['titles'] = query
+          else:
+              params.update({'generator': 'search', 'gsrsearch': query, 'gsrnamespace': '6', 'gsrlimit': str(limit)})
+          pages = json.loads(get('https://commons.wikimedia.org/w/api.php?' + urllib.parse.urlencode(params))).get('query', {}).get('pages', {})
+
+          # the repo photo as small greyscale, to slide over each result
+          target = None
+          if compare:
+              path = os.path.realpath(compare)
+              if not path.startswith(os.path.realpath('.') + os.sep) or not os.path.isfile(path):
+                  raise SystemExit(f'compare: no such file in the repo: {compare}')
+              target = ImageOps.grayscale(Image.open(path))
+              target = target.resize((120, max(1, round(120 * target.height / target.width))))
+
+          def score(thumb_url):
+              img = ImageOps.grayscale(Image.open(io.BytesIO(get(thumb_url))))
+              img = img.resize((120, max(1, round(120 * img.height / img.width))))
+              if img.height < target.height:
+                  return None
+              t, best = target.tobytes(), None
+              for top in range(img.height - target.height + 1):
+                  crop = img.crop((0, top, 120, top + target.height)).tobytes()
+                  d = sum(abs(a - b) for a, b in zip(t, crop)) / len(t)
+                  best = d if best is None else min(best, d)
+              return best
+
+          plain = lambda s: re.sub(r'\s+', ' ', re.sub(r'<[^>]+>', '', s or '')).strip()
+          rows = []
+          for p in pages.values():
+              info = (p.get('imageinfo') or [{}])[0]
+              meta = info.get('extmetadata', {})
+              val = lambda k: plain(meta.get(k, {}).get('value', ''))
+              s = None
+              if target is not None and info.get('thumburl'):
+                  try:
+                      s = score(info['thumburl'])
+                  except Exception as e:
+                      print(f"   could not compare {p.get('title')}: {e}")
+              rows.append((s, p.get('title'), info, val))
+          if target is not None:
+              rows.sort(key=lambda r: (r[0] is None, r[0] or 0))
+          for s, title, info, val in rows:
+              print(f"== {title}" + (f"  [difference {s:.1f}]" if s is not None else ''))
+              print(f"   by: {val('Artist') or '?'} | license: {val('LicenseShortName') or '?'} | {info.get('width')}x{info.get('height')}")
+              if val('Credit'): print(f"   credit line: {val('Credit')[:200]}")
+              if val('ImageDescription'): print(f"   about: {val('ImageDescription')[:200]}")
+              print(f"   page: {info.get('descriptionurl', '')}")
+          if not rows:
+              print('no results')
