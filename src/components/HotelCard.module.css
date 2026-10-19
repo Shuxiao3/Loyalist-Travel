@@ -75,7 +75,7 @@
   min-width: 0;
   background: var(--card);
   border: 1px solid var(--line);
-  border-radius: var(--r);
+  border-radius: var(--r-card);
   overflow: hidden;
   color: inherit;
 }

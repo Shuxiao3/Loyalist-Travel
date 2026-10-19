@@ -213,7 +213,7 @@ a.cell:hover h3 {
   border: 1px solid var(--line);
   display: flex;
   flex-direction: column;
-  border-radius: var(--r);
+  border-radius: var(--r-card);
   overflow: hidden;
 }
 

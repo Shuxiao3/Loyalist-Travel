@@ -121,6 +121,7 @@
   /* soft corners, one-pixel borders, no shadows */
   --r: 3px;
   --r-btn: 3px;
+  --r-card: 6px;
 
   /* ---- Spacing ------------------------------------------------------ */
 
