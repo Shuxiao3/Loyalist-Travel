@@ -92,4 +92,4 @@ jobs:
           git commit -m "Sourced reports: FlyerTalk extraction results" || echo "nothing to commit"
           for i in 1 2 3 4; do git pull --rebase origin main && git push && break; sleep 10; done
           npm run migrate
-          npm run import:webflow -- sourced-reports
+          npm run import:webflow -- sourced-reports shorten-summaries

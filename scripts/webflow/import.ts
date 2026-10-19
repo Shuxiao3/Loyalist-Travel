@@ -13,11 +13,13 @@ import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
 
-import type { CollectionSlug, Payload } from 'payload'
+import Anthropic from '@anthropic-ai/sdk'
+import type { CollectionSlug, Payload, Where } from 'payload'
 import { getPayload } from 'payload'
 
 import { ARTICLE_CATEGORIES, type ArticleCategory } from '../../src/lib/articleOptions'
 import type { Media } from '../../src/payload-types'
+import { stayFacts } from '../../src/lib/stayFacts'
 import { RUBRIC_PRE_V15, RUBRIC_V15 } from '../../src/rubric/v15'
 import { convertV15ToV16, RUBRIC_V16, V15_NARRATIVE_TO_V16 } from '../../src/rubric/v16'
 import { htmlToLexical, lexicalWordCount } from './html-to-lexical'
@@ -1942,7 +1944,9 @@ async function importSourcedReports(payload: Payload) {
     const existing = (await payload.find({ collection: 'sourced-reports', where: { sourceKey: { equals: sourceKey } }, limit: 1, depth: 0, overrideAccess: true })).docs[0]
     if (existing) {
       const promote = (existing as { status?: string }).status === 'pending' ? { status: 'approved' } : {}
-      await payload.update({ collection: 'sourced-reports', id: existing.id, data: { ...data, ...promote } as never, overrideAccess: true })
+      // a new summary needs a new short one (shorten-summaries writes it)
+      const reshorten = existing.summary !== data.summary ? { shortSummary: null } : {}
+      await payload.update({ collection: 'sourced-reports', id: existing.id, data: { ...data, ...promote, ...reshorten } as never, overrideAccess: true })
       updated++
     } else {
       await payload.create({ collection: 'sourced-reports', data: { ...data, status: 'approved' } as never, overrideAccess: true })
@@ -1951,6 +1955,163 @@ async function importSourcedReports(payload: Payload) {
   }
   console.log(`sourced-reports: ${created} created, ${updated} updated, ${skipped} skipped (low confidence or incomplete), ${unmatched} with no matching hotel`)
   await recountReportCounts(payload)
+}
+
+// ---- Short summaries of reported stays ------------------------------------------
+// The extraction's summary of a stay runs to sixty words and reads like a
+// report. The hotel page shows each stay's facts (status, upgrade, room,
+// breakfast and so on) in a box of their own, so what goes under them is a
+// line or two on what stood out. This step writes that short summary for
+// every stay without one; the import above clears it when a stay's summary
+// changes, so only new and changed stays are written again, and one edited in
+// the admin is kept. Without ANTHROPIC_API_KEY it does nothing, and the page
+// shows the full summary.
+
+const SHORTEN_MODEL = 'claude-opus-5-5'
+const SHORTEN_BATCH = 20
+const SHORTEN_AT_ONCE = 4
+const SHORT_MAX_WORDS = 32
+
+const SHORTEN_SYSTEM = `You rewrite summaries of hotel stays for a travel site. Each item has the stay's facts, which the site shows in a box right above your text, and a longer summary of a forum post about the stay. Write the short version that goes under the facts box.
+
+How to write it:
+- One or two short sentences, 25 words at most.
+- Plain, everyday English, the way a friend who stayed there would sum it up over coffee. Short words. No semicolons, no em dashes.
+- Lead with what stood out: what made the stay good or bad, a problem, a price or a fee, how the upgrade came about, whether they would go back.
+- Do not repeat the facts box (status, whether there was an upgrade, the room names, breakfast, lounge, late checkout, the welcome amenity) unless you add something it does not say, such as the breakfast bill being waived or the gift being wine.
+- No person as the subject. Never "the poster", "the guest", "the member", "a Globalist", "this traveler". Start with the thing itself: "Upgraded the morning of check-in", "Paid for the suite", "Breakfast was".
+- No reporting words such as praised, noted, described, highlighted, reported, called, said, mentioned, criticized.
+- No brochure words such as seamless, world-class, stunning, standout, highlight, elevated, exceptional, impeccable.
+- Use only what the summary says. Add nothing, guess nothing, and keep every number, price and name exact. If the summary says little beyond the facts, write one short sentence.
+
+Examples:
+
+Facts: Status: Globalist · Upgrade: One-bedroom suite, offered without asking · Room: 2 queen room (cash) → One bedroom villa
+Summary: A Globalist on a four-night cash stay for three adults was texted the morning of check-in about an upgrade from a 2-queen room to a one-bedroom villa, with a golf-cart shuttle since the villa sits behind the pools. Check-in was quick with the room ready at 1pm, though Globalist amenities were not explained and late checkout had to be requested separately.
+Short: Heard about the villa by text the morning of check-in. Room ready at 1pm, but nobody explained the perks and late checkout took a separate ask.
+
+Facts: Status: Discoverist · Upgrade: Better view, offered without asking · Room: base King → high floor King with City View · Breakfast: Full: buffet and à la carte · Welcome amenity: Given
+Summary: A Discoverist couple split a two-night February stay between a $720 Prive cash rate and a 35,000-point award night. The Prive rate brought a complimentary move from a base King to a high-floor north-facing city view King with a bright bathroom, plus an anniversary amenity and breakfast charges wiped, though the front desk charged $50 to keep the same upgraded room on the points night. They praised the warm service and spacious room but found the restaurant breakfast only okay and the second-night upsell irritating.
+Short: The $720 Prive night came with the upgrade, but keeping the room for the 35,000-point night cost $50. Warm service, breakfast only okay.
+
+Facts: Status: Globalist · Upgrade: None · Room: 1-bedroom suite (paid)
+Summary: A Globalist who paid for a 1-bedroom suite called it an absolute disgrace, describing a tiny closet-like bathroom, unsightly furnishings, trash in the hallways, and unsecured elevators. They said they would never stay at the property again.
+Short: A disgrace for a paid suite: a closet-sized bathroom, ugly furniture, trash in the halls and unsecured elevators. Would never stay again.
+
+Facts: Status: Titanium · Upgrade: Better view · Room: standard room → premium oceanview room · Breakfast: Restaurant or F&B credit
+Summary: Titanium guest on a recent stay was upgraded to a premium oceanview room but not to a suite; used a breakfast voucher at the on-site Starbucks and described a great stay overall.
+Short: Breakfast was a voucher for the hotel's Starbucks. A great stay overall.
+
+Return every item's id with its short version.`
+
+const SHORTEN_SCHEMA = {
+  type: 'object',
+  properties: {
+    items: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: { id: { type: 'integer' }, short: { type: 'string' } },
+        required: ['id', 'short'],
+        additionalProperties: false,
+      },
+    },
+  },
+  required: ['items'],
+  additionalProperties: false,
+}
+
+type ShortenItem = { id: number; facts: string; summary: string }
+
+// No em dashes on the site; en dashes only in ranges like 2–4pm
+const plainShort = (s: string): string | null => {
+  const t = s
+    .replace(/(\d)\s*–\s*(\d)/g, '$1-$2')
+    .replace(/\s*[—–]\s*/g, ', ')
+    .replace(/\s+/g, ' ')
+    .trim()
+  return t && t.split(' ').length <= SHORT_MAX_WORDS ? t : null
+}
+
+async function writeShortSummaries(client: Anthropic, items: ShortenItem[]): Promise<Map<number, string>> {
+  const res = await client.beta.messages.create({
+    model: SHORTEN_MODEL,
+    max_tokens: 16000,
+    betas: ['server-side-fallback-2026-07-01'],
+    fallbacks: 'default',
+    system: SHORTEN_SYSTEM,
+    output_config: { effort: 'low', format: { type: 'json_schema', schema: SHORTEN_SCHEMA } },
+    messages: [{ role: 'user', content: JSON.stringify(items) }],
+  })
+  if (res.stop_reason === 'refusal') throw new Error('the request was declined')
+  if (res.stop_reason === 'max_tokens') throw new Error('the answer ran out of room')
+  const text = res.content.find((b) => b.type === 'text')
+  if (!text || text.type !== 'text') throw new Error('no text in the answer')
+  const out = new Map<number, string>()
+  for (const { id, short } of (JSON.parse(text.text) as { items: { id: number; short: string }[] }).items) {
+    const clean = plainShort(short)
+    if (clean) out.set(id, clean)
+    else console.log(`shorten-summaries: ${id}: too long, left for the next run: ${short}`)
+  }
+  return out
+}
+
+const errorText = (err: unknown) => (err instanceof Anthropic.APIError ? `${err.status ?? ''} ${err.message}`.trim() : err instanceof Error ? err.message : String(err))
+const wordCount = (s: string) => s.split(/\s+/).filter(Boolean).length
+
+// preview: write nothing, print the before and after of the newest stays
+async function shortenSummaries(payload: Payload, preview = 0) {
+  if (!process.env.ANTHROPIC_API_KEY) {
+    console.log('shorten-summaries: no ANTHROPIC_API_KEY, so the site keeps showing the full summaries')
+    return
+  }
+  const client = new Anthropic({ maxRetries: 4 })
+  const tiers = await payload.find({ collection: 'status-levels', limit: 500, depth: 0, overrideAccess: true })
+  const tierName = new Map(tiers.docs.map((t) => [t.id, t.shortName ?? t.name]))
+  const where: Where = preview
+    ? { status: { equals: 'approved' } }
+    : { and: [{ status: { not_equals: 'rejected' } }, { or: [{ shortSummary: { exists: false } }, { shortSummary: { equals: '' } }] }] }
+  const docs = (await payload.find({ collection: 'sourced-reports', where, sort: '-postDate', depth: 0, overrideAccess: true, ...(preview ? { limit: preview } : { pagination: false }) })).docs
+  const items: ShortenItem[] = docs.map((d) => {
+    const tierId = typeof d.statusHeld === 'object' && d.statusHeld ? d.statusHeld.id : d.statusHeld
+    const facts = stayFacts({ ...d, tier: tierId != null ? (tierName.get(tierId) ?? null) : null })
+    return { id: d.id, facts: facts.map((f) => `${f.label}: ${f.value}`).join(' · '), summary: d.summary }
+  })
+  console.log(`shorten-summaries: ${items.length} ${preview ? 'to preview' : 'without a short summary'}`)
+  const batches: ShortenItem[][] = []
+  for (let i = 0; i < items.length; i += SHORTEN_BATCH) batches.push(items.slice(i, i + SHORTEN_BATCH))
+  let written = 0
+  let missing = 0
+  let failed = 0
+  let next = 0
+  const work = async () => {
+    while (next < batches.length) {
+      const batch = batches[next++]
+      let shorts: Map<number, string>
+      try {
+        shorts = await writeShortSummaries(client, batch)
+      } catch (err) {
+        failed += batch.length
+        console.log(`::warning::shorten-summaries: a batch of ${batch.length} failed and is left for the next run: ${errorText(err)}`)
+        continue
+      }
+      for (const it of batch) {
+        const short = shorts.get(it.id)
+        if (!short) {
+          missing++
+          continue
+        }
+        if (preview) {
+          console.log(`\n#${it.id}  ${it.facts}\n  before (${wordCount(it.summary)} words): ${it.summary}\n  after  (${wordCount(short)} words): ${short}`)
+          continue
+        }
+        await payload.update({ collection: 'sourced-reports', id: it.id, data: { shortSummary: short }, depth: 0, overrideAccess: true })
+        written++
+      }
+    }
+  }
+  await Promise.all(Array.from({ length: Math.min(SHORTEN_AT_ONCE, batches.length) }, work))
+  console.log(`shorten-summaries: ${preview ? 'previewed' : 'wrote'} ${preview ? items.length - missing - failed : written}, ${missing} left out, ${failed} failed`)
 }
 
 // ---- Brand hierarchy ------------------------------------------------------------
@@ -2241,6 +2402,8 @@ const STEPS: Record<string, (p: Payload) => Promise<void>> = {
   'lounge-flags': loungeFlags,
   'seed-lounges': seedLounges,
   'sourced-reports': importSourcedReports,
+  'shorten-summaries': (p) => shortenSummaries(p),
+  'shorten-summaries-preview': (p) => shortenSummaries(p, 12),
   'lounge-brand-rules': loungeBrandRules,
 }
 

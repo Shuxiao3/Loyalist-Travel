@@ -1284,6 +1284,10 @@ export interface SourcedReport {
    * Written by the extraction in its own words, never quoted from the post.
    */
   summary: string;
+  /**
+   * What the site shows: one or two plain sentences, written from the summary by the shorten-summaries import step. Edit it to change what readers see; it is rewritten only if the summary above changes.
+   */
+  shortSummary?: string | null;
   upgrade: 'none' | 'yes' | 'award' | 'unknown';
   upgradeType?: ('floor' | 'view' | 'category' | 'suite') | null;
   suiteType?: ('junior' | 'one-bedroom' | 'two-bedroom' | 'specialty') | null;
@@ -1817,6 +1821,7 @@ export interface SourcedReportsSelect<T extends boolean = true> {
   postDate?: T;
   stayMonth?: T;
   summary?: T;
+  shortSummary?: T;
   upgrade?: T;
   upgradeType?: T;
   suiteType?: T;

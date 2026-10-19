@@ -82,4 +82,4 @@ jobs:
       - name: Import into the site
         run: |
           npm run migrate
-          npm run import:webflow -- sourced-reports
+          npm run import:webflow -- sourced-reports shorten-summaries

@@ -18,8 +18,8 @@ const ROWS_BEFORE_SCROLL = 8
 
 // The aggregated-data panel on a hotel page: stays members reported on
 // forums and blogs. The page shows the figures at a glance; a click opens
-// the breakdown by status band and every stay, each behind a fold with a
-// link to its post.
+// the breakdown by status band and every stay, each behind a fold: the
+// stay's facts, a line on what stood out, and a link to its post.
 export function SourcedPanel({ data, hotelName }: { data: HotelSourcedData; hotelName: string }) {
   if (!data.data) {
     return (
@@ -122,6 +122,16 @@ export function SourcedPanel({ data, hotelName }: { data: HotelSourcedData; hote
                       <polyline points="6 9 12 15 18 9" />
                     </svg>
                   </summary>
+                  {r.facts.length > 0 && (
+                    <dl className={styles.facts}>
+                      {r.facts.map((f) => (
+                        <div key={f.label}>
+                          <dt>{f.label}</dt>
+                          <dd>{f.value}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  )}
                   <p>{r.summary}</p>
                   <a href={r.postUrl} target="_blank" rel="noopener noreferrer nofollow">
                     Read the post on {SOURCE_LABEL[r.source] ?? r.source} ↗

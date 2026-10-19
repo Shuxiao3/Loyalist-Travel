@@ -7,6 +7,7 @@ import type { SourcedReport, StatusLevel } from '@/payload-types'
 
 import { getPayloadClient } from './payload'
 import { blockConfidence, type Recency, recencyOfMonth, weightedRate } from './recency'
+import { type StayFact, stayFacts } from './stayFacts'
 
 export type Rate = { value: number | null; n: number }
 export type SourcedAggregate = {
@@ -25,7 +26,8 @@ export type SourcedRow = {
   postUrl: string
   when: string | null // stay month, else post month
   tier: string | null
-  summary: string
+  facts: StayFact[] // status, upgrade, room and perks, as stated in the post
+  summary: string // the short summary when there is one, else the full one
   upgrade: SourcedReport['upgrade']
   recency: Recency
 }
@@ -72,14 +74,16 @@ export async function hotelSourcedData(hotelId: number): Promise<HotelSourcedDat
   })
   if (res.docs.length === 0) return { count: 0, data: null, rows: [], bands: [] }
   const rows: SourcedRow[] = res.docs.map((r) => {
-    const tier = typeof r.statusHeld === 'object' && r.statusHeld ? (r.statusHeld as StatusLevel) : null
+    const statusHeld = typeof r.statusHeld === 'object' && r.statusHeld ? (r.statusHeld as StatusLevel) : null
+    const tier = statusHeld ? (statusHeld.shortName ?? statusHeld.name) : null
     return {
       id: r.id,
       source: r.source,
       postUrl: r.postUrl,
       when: r.stayMonth || (r.postDate ? r.postDate.slice(0, 7) : null),
-      tier: tier ? (tier.shortName ?? tier.name) : null,
-      summary: r.summary,
+      tier,
+      facts: stayFacts({ ...r, tier }),
+      summary: r.shortSummary?.trim() || r.summary,
       upgrade: r.upgrade,
       recency: recencyOfMonth(stayMonth(r)),
     }

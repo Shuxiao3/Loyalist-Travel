@@ -197,6 +197,39 @@
   color: var(--gold);
 }
 
+/* the stay at a glance: a short strip of label and value pairs that wraps */
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px var(--s5);
+  margin: 0 0 var(--s3);
+  padding: 10px var(--s4);
+  border-left: 2px solid var(--gold-border);
+  background: rgba(255, 255, 255, 0.03);
+  font-size: var(--t-sm);
+  line-height: 1.45;
+}
+
+.facts div {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+}
+
+.facts dt {
+  flex: none;
+  font-size: var(--t-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--on-navy-muted);
+}
+
+.facts dd {
+  margin: 0;
+  color: var(--ivory);
+}
+
 .stay p {
   padding: 0 0 var(--s3);
   font-size: var(--t-sm);

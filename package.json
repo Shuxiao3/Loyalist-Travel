@@ -23,6 +23,7 @@
     "fetch:flyertalk": "node node_modules/.bin/tsx scripts/flyertalk/fetch.ts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.135.0",
     "@payloadcms/db-postgres": "3.89.0",
     "@payloadcms/next": "3.89.0",
     "@payloadcms/plugin-cloud-storage": "3.89.0",

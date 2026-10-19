@@ -86,6 +86,13 @@ export const SourcedReports: CollectionConfig = {
     },
     { name: 'summary', type: 'textarea', required: true, admin: { description: 'Written by the extraction in its own words, never quoted from the post.' } },
     {
+      name: 'shortSummary',
+      type: 'textarea',
+      admin: {
+        description: 'What the site shows: one or two plain sentences, written from the summary by the shorten-summaries import step. Edit it to change what readers see; it is rewritten only if the summary above changes.',
+      },
+    },
+    {
       type: 'row',
       fields: [
         { name: 'upgrade', type: 'select', required: true, options: [...UPGRADE_OUTCOMES, { label: 'Used a suite upgrade award', value: 'award' }, unknown] },
