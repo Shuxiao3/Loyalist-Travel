@@ -57,7 +57,9 @@ const idOf = (v: number | { id: number } | null | undefined): number | null => (
 
 // Snapshots for a page of hotels in two queries, one per pool. Every id asked
 // for is in the result, with zeros and a null rate when nothing is reported.
-export async function getHotelSnapshots(ids: number[]): Promise<Record<number, HotelSnapshot>> {
+// With `only`, the figures come from that pool alone, to match a list sorted
+// by its upgrade chance.
+export async function getHotelSnapshots(ids: number[], only?: 'aggregated' | 'reader'): Promise<Record<number, HotelSnapshot>> {
   const wanted = [...new Set(ids)]
   const out: Record<number, HotelSnapshot> = {}
   for (const id of wanted) out[id] = { ...EMPTY_SNAPSHOT }
@@ -84,6 +86,6 @@ export async function getHotelSnapshots(ids: number[]): Promise<Record<number, H
   }
 
   const now = new Date()
-  for (const id of wanted) out[id] = snapshotOf(readerBy.get(id) ?? [], sourcedBy.get(id) ?? [], now)
+  for (const id of wanted) out[id] = snapshotOf(only === 'aggregated' ? [] : (readerBy.get(id) ?? []), only === 'reader' ? [] : (sourcedBy.get(id) ?? []), now)
   return out
 }

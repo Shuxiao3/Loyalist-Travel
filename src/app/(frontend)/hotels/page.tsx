@@ -10,7 +10,7 @@ import { SortMenu } from '@/components/SortMenu'
 import { count } from '@/lib/format'
 import { hotelPhoto } from '@/lib/photos'
 import { getHotelSnapshots } from '@/lib/hotelSnapshot'
-import { findHotels, getFeaturedHotel, getHotelFilterOptions, HOTEL_SORTS, HOTELS_PER_PAGE, type HotelFilters } from '@/lib/queries'
+import { findHotels, getFeaturedHotel, getHotelFilterOptions, HOTEL_SORTS, HOTELS_PER_PAGE, type HotelFilters, upgradePoolOf } from '@/lib/queries'
 import styles from './page.module.css'
 
 export const revalidate = 300
@@ -37,7 +37,9 @@ export default async function HotelsIndex({ searchParams }: Props) {
     page: Math.max(1, Number(first(sp.page)) || 1),
   }
   const [result, options, featured] = await Promise.all([findHotels(filters), getHotelFilterOptions(), getFeaturedHotel()])
-  const snapshots = result.docs.length ? await getHotelSnapshots(result.docs.map((h) => h.id)) : {}
+  // sorted by one pool's upgrade chance, the cards show that pool's figure
+  const pool = upgradePoolOf(filters.sort) ?? undefined
+  const snapshots = result.docs.length ? await getHotelSnapshots(result.docs.map((h) => h.id), pool) : {}
   const active = Object.entries(filters).filter(([k, v]) => k !== 'page' && k !== 'sort' && v).length
   // the results eyebrow names the order when nothing is filtered
   const order = (HOTEL_SORTS.find((s) => s.value === (filters.sort ?? '')) ?? HOTEL_SORTS[0]).label
@@ -148,7 +150,7 @@ export default async function HotelsIndex({ searchParams }: Props) {
             </div>
           </div>
           {result.docs.length > 0 ? (
-            <HotelList hotels={result.docs} grid snapshots={snapshots} />
+            <HotelList hotels={result.docs} grid snapshots={snapshots} pool={pool} />
           ) : (
             <p className={styles.empty}>No hotels match those filters.</p>
           )}

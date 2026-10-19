@@ -1,13 +1,14 @@
 // Every public read goes through here. Public pages see published records
 // only; drafts are for the admin.
 
-import type { Where } from 'payload'
+import type { PaginatedDocs, Where } from 'payload'
 
 import type { Brand, Destination, Hotel, Program, Review } from '@/payload-types'
 
 import { mediaUrl } from './format'
 import { getPayloadClient } from './payload'
 import { hotelReaderData, MIN_STAYS, type HotelReaderData } from './readerData'
+import { rankByUpgrade, type UpgradePool } from './upgradeRanking'
 
 export { getPayloadClient }
 
@@ -115,9 +116,14 @@ export const HOTELS_PER_PAGE = 24
 export const HOTEL_SORTS: { value: string; label: string }[] = [
   { value: '', label: 'Most stays reported' },
   { value: 'popular', label: 'Most viewed' },
+  { value: 'aggregated', label: 'Highest upgrade chance: aggregated data' },
+  { value: 'reader', label: 'Highest upgrade chance: reader data' },
   { value: 'az', label: 'Name, A to Z' },
   { value: 'za', label: 'Name, Z to A' },
 ]
+
+// The sorts that rank by an upgrade rate, and the pool each reads.
+export const upgradePoolOf = (sort?: string): UpgradePool | null => (sort === 'aggregated' || sort === 'reader' ? sort : null)
 
 export async function findHotels(f: HotelFilters) {
   const payload = await getPayloadClient()
@@ -132,6 +138,8 @@ export async function findHotels(f: HotelFilters) {
   // hotels index, page views breaking ties; 'popular' flips the two. The
   // program pages pass 'az'. A value the menu does not know gets the default,
   // which is also what the results eyebrow then says.
+  const pool = upgradePoolOf(f.sort)
+  if (pool) return findHotelsByUpgrade(pool, and, f.page ?? 1)
   const sort = f.sort === 'za' ? '-name' : f.sort === 'az' ? 'name' : f.sort === 'popular' ? ['-views', '-reportCount', 'name'] : ['-reportCount', '-views', 'name']
   return payload.find({
     collection: 'hotels',
@@ -141,6 +149,38 @@ export async function findHotels(f: HotelFilters) {
     limit: HOTELS_PER_PAGE,
     page: f.page ?? 1,
   })
+}
+
+// Highest upgrade chance first, among the hotels that match the filters and
+// have enough stays in the pool to rank; a hotel without a rate is left out
+// of these sorts rather than listed after the rest. Paged by hand, since the
+// order comes from the ranking and not the database.
+async function findHotelsByUpgrade(pool: UpgradePool, and: Where[], page: number): Promise<PaginatedDocs<Hotel>> {
+  const payload = await getPayloadClient()
+  const ranked = await rankByUpgrade(pool)
+  const ids = ranked.map((r) => r.id)
+  const matching = ids.length
+    ? new Set((await payload.find({ collection: 'hotels', where: { and: [...and, { id: { in: ids } }] }, depth: 0, pagination: false, select: {} })).docs.map((h) => h.id))
+    : new Set<number>()
+  const ordered = ids.filter((id) => matching.has(id))
+  const totalDocs = ordered.length
+  const totalPages = Math.max(1, Math.ceil(totalDocs / HOTELS_PER_PAGE))
+  const pageIds = ordered.slice((page - 1) * HOTELS_PER_PAGE, page * HOTELS_PER_PAGE)
+  const docs = pageIds.length ? (await payload.find({ collection: 'hotels', where: { id: { in: pageIds } }, depth: 1, pagination: false })).docs : []
+  const at = new Map(pageIds.map((id, i) => [id, i]))
+  docs.sort((a, b) => (at.get(a.id) ?? 0) - (at.get(b.id) ?? 0))
+  return {
+    docs,
+    totalDocs,
+    limit: HOTELS_PER_PAGE,
+    page,
+    totalPages,
+    pagingCounter: (page - 1) * HOTELS_PER_PAGE + 1,
+    hasPrevPage: page > 1,
+    hasNextPage: page < totalPages,
+    prevPage: page > 1 ? page - 1 : null,
+    nextPage: page < totalPages ? page + 1 : null,
+  }
 }
 
 export async function getHotelFilterOptions() {

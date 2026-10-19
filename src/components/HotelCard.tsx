@@ -23,9 +23,11 @@ const MIN_RATE_STAYS = 3
 
 const NO_STAYS: HotelSnapshot = { ...EMPTY_SNAPSHOT }
 
-type CardProps = { hotel: Hotel; grid?: boolean; index?: number; snapshot?: HotelSnapshot }
+// `pool` names whose stays the figure counts, when it is one pool alone
+type Pool = 'aggregated' | 'reader'
+type CardProps = { hotel: Hotel; grid?: boolean; index?: number; snapshot?: HotelSnapshot; pool?: Pool }
 
-export function HotelCard({ hotel, grid, index = 0, snapshot }: CardProps) {
+export function HotelCard({ hotel, grid, index = 0, snapshot, pool }: CardProps) {
   const brand = rel<Brand>(hotel.brand)
   const destination = rel<Destination>(hotel.destination)
   const place = destination ? destination.locationLabel ?? destination.name : null
@@ -64,7 +66,7 @@ export function HotelCard({ hotel, grid, index = 0, snapshot }: CardProps) {
         </span>
         {(snapshot || lounge) && (
           <span className={styles.foot}>
-            {snapshot ? <Snapshot data={snapshot} /> : <span />}
+            {snapshot ? <Snapshot data={snapshot} pool={pool} /> : <span />}
             {lounge && <span className={styles.tag}>Lounge</span>}
           </span>
         )}
@@ -77,10 +79,11 @@ export function HotelCard({ hotel, grid, index = 0, snapshot }: CardProps) {
 // feet of a row sit level: the upgrade rate over the stays reported there
 // once enough of them have said, otherwise how many stays there are, or
 // that there are none yet.
-function Snapshot({ data }: { data: HotelSnapshot }) {
+function Snapshot({ data, pool }: { data: HotelSnapshot; pool?: Pool }) {
   const one = data.stays === 1
   if (typeof data.upgradeRate === 'number' && data.rated >= MIN_RATE_STAYS) {
-    return <Figure big={`${Math.round(data.upgradeRate)}%`} label="upgraded" note={`${count(data.stays)} ${one ? 'stay' : 'stays'}`} />
+    const kind = pool === 'aggregated' ? 'reported ' : pool === 'reader' ? 'reader ' : ''
+    return <Figure big={`${Math.round(data.upgradeRate)}%`} label="upgraded" note={`${count(data.stays)} ${kind}${one ? 'stay' : 'stays'}`} />
   }
   if (data.stays > 0) {
     return <Figure big={count(data.stays)} label={one ? 'stay' : 'stays'} note={data.stays < MIN_RATE_STAYS ? `Rate shown from ${MIN_RATE_STAYS} stays` : 'Upgrade rate unknown'} />
@@ -102,11 +105,11 @@ function Figure({ big, label, note }: { big: string; label: string; note: string
 
 // `snapshots` is keyed by hotel id; a hotel missing from it has no stays.
 // Without the map (reference pages) the cards carry no snapshot line.
-export function HotelList({ hotels, grid, snapshots }: { hotels: Hotel[]; grid?: boolean; snapshots?: Record<number, HotelSnapshot> }) {
+export function HotelList({ hotels, grid, snapshots, pool }: { hotels: Hotel[]; grid?: boolean; snapshots?: Record<number, HotelSnapshot>; pool?: Pool }) {
   return (
     <div className={grid ? styles.grid : styles.list}>
       {hotels.map((h, i) => (
-        <HotelCard key={h.id} hotel={h} grid={grid} index={i} snapshot={snapshots ? (snapshots[h.id] ?? NO_STAYS) : undefined} />
+        <HotelCard key={h.id} hotel={h} grid={grid} index={i} snapshot={snapshots ? (snapshots[h.id] ?? NO_STAYS) : undefined} pool={pool} />
       ))}
     </div>
   )

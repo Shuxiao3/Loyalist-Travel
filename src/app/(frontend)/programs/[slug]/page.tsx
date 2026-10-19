@@ -11,7 +11,7 @@ import { RichText } from '@/components/RichText'
 import { SortMenu } from '@/components/SortMenu'
 import { count } from '@/lib/format'
 import { getHotelSnapshots } from '@/lib/hotelSnapshot'
-import { brandsOf, findHotels, getHotelFilterOptions, getPayloadClient, getProgram, HOTELS_PER_PAGE, type HotelFilters, topTierOf, withHotelPhotos } from '@/lib/queries'
+import { brandsOf, findHotels, getHotelFilterOptions, getPayloadClient, getProgram, HOTELS_PER_PAGE, type HotelFilters, topTierOf, upgradePoolOf, withHotelPhotos } from '@/lib/queries'
 import { getSeo, metaText, pageMeta } from '@/lib/seo'
 import { rel } from '@/lib/format'
 import type { Article, StatusLevel } from '@/payload-types'
@@ -67,7 +67,8 @@ export default async function ProgramPage({ params, searchParams }: Props) {
     payload.find({ collection: 'status-levels', where: { program: { equals: program.id } }, sort: 'rank', limit: 10, depth: 1 }),
     brandsOf(program.id),
   ])
-  const snapshots = hotels.docs.length ? await getHotelSnapshots(hotels.docs.map((h) => h.id)) : {}
+  const pool = upgradePoolOf(filters.sort) ?? undefined
+  const snapshots = hotels.docs.length ? await getHotelSnapshots(hotels.docs.map((h) => h.id), pool) : {}
   const levels: StatusLevel[] = tiers.docs
   const brands = options.brands.filter((b) => (typeof b.program === 'object' ? b.program?.id : b.program) === program.id)
   const active = ['q', 'brand', 'country', 'lounge'].filter((k) => filters[k as keyof HotelFilters]).length
@@ -283,6 +284,8 @@ export default async function ProgramPage({ params, searchParams }: Props) {
                   { value: 'za', label: 'Name, Z to A' },
                   { value: 'stays', label: 'Most stays reported' },
                   { value: 'popular', label: 'Most viewed' },
+                  { value: 'aggregated', label: 'Highest upgrade chance: aggregated data' },
+                  { value: 'reader', label: 'Highest upgrade chance: reader data' },
                 ]}
               />
               {(active > 0 || filters.sort !== 'az') && (
@@ -292,7 +295,7 @@ export default async function ProgramPage({ params, searchParams }: Props) {
               )}
             </div>
           </form>
-          {hotels.docs.length > 0 ? <HotelList hotels={hotels.docs} grid snapshots={snapshots} /> : <p className={styles.empty}>No hotels match those filters.</p>}
+          {hotels.docs.length > 0 ? <HotelList hotels={hotels.docs} grid snapshots={snapshots} pool={pool} /> : <p className={styles.empty}>No hotels match those filters.</p>}
           <Pager page={hotels.page ?? 1} totalPages={hotels.totalPages} totalDocs={hotels.totalDocs} perPage={HOTELS_PER_PAGE} href={href} />
         </div>
       </section>
