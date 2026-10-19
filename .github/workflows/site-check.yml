@@ -45,7 +45,7 @@ jobs:
             # how often each phrase appears in the page's text (a check, not a failure)
             if [ -n "$FIND" ]; then
               sed -e 's/<[^>]*>/ /g' -e 's/&amp;/\&/g' -e "s/&#x27;/'/g" -e 's/&quot;/"/g' page.html | tr -s ' \n' ' ' > text.txt
-              printf '%s' "$FIND" | tr '|' '\n' | while IFS= read -r phrase; do
+              printf '%s' "$FIND" | tr '|' '\n' | while IFS= read -r phrase || [ -n "$phrase" ]; do
                 if [ -n "$phrase" ]; then echo "   \"$phrase\": $(grep -oF -- "$phrase" text.txt | wc -l) time(s)"; fi
               done
             fi
