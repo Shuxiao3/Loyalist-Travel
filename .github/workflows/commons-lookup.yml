@@ -83,7 +83,9 @@ jobs:
           for p in pages.values():
               info = (p.get('imageinfo') or [{}])[0]
               meta = info.get('extmetadata', {})
-              val = lambda k: plain(meta.get(k, {}).get('value', ''))
+              # read now: a lambda over meta would see only the last result's
+              fields = {k: plain(meta.get(k, {}).get('value', '')) for k in ('Artist', 'LicenseShortName', 'Credit', 'ImageDescription')}
+              val = fields.get
               s = None
               if target is not None and info.get('thumburl'):
                   try:
