@@ -84,6 +84,9 @@ export async function hotelSourcedData(hotelId: number): Promise<HotelSourcedDat
       recency: recencyOfMonth(stayMonth(r)),
     }
   })
+  // newest stay first by the month shown, undated ones last (the query's
+  // newest-first by post date puts posts with no date at the top)
+  rows.sort((a, b) => (b.when ?? '').localeCompare(a.when ?? ''))
   return { count: res.docs.length, data: aggregateSourced(res.docs), rows, bands: await bandsFor(res.docs) }
 }
 

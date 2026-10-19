@@ -10,7 +10,13 @@
   gap: var(--s3);
 }
 
+.headDetail {
+  margin-bottom: var(--s4);
+}
+
 .badge {
+  position: relative;
+  z-index: 1; /* above the panel-wide button, so its tip still opens */
   font-size: var(--t-label);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
@@ -23,6 +29,11 @@
   color: var(--light);
   max-width: 52ch;
   margin-bottom: var(--s5);
+}
+
+/* the last thing in the panel on the page, above its foot */
+.flush {
+  margin-bottom: 0;
 }
 
 .none {
@@ -105,6 +116,44 @@
 
 .rows li {
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.count {
+  margin-bottom: var(--s3);
+  font-size: var(--t-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--on-navy-muted);
+}
+
+/* a long list scrolls in place, about eight and a half rows tall, so the
+   half row at the foot shows there is more */
+.scroll {
+  max-height: 22.5rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: var(--s3);
+  scrollbar-width: thin;
+  scrollbar-color: var(--gold) rgba(255, 255, 255, 0.08);
+}
+
+.scroll:focus-visible {
+  outline: 1px solid var(--gold);
+  outline-offset: 4px;
+}
+
+.scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scroll::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  background: var(--gold);
+  border-radius: 3px;
 }
 
 .stay summary {
