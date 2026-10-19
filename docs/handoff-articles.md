@@ -43,9 +43,9 @@ heroCredit: Colin Brown, CC BY 2.0
 ```
 
 - `title`, `slug`, `category` and `date` are required. The import stops without them.
-- `category` must be one of `news`, `guides`, `hotels`, `airlines` or `credit-cards`.
-  - Multiple categories may have shipped by the time you read this; see "Current State" below.
-  - If they have, the key is a comma list (`category: news, airlines`), and the first one is the main category.
+- `category` is one of `news`, `guides`, `hotels`, `airlines` or `credit-cards`, or a comma list of them (`category: news, airlines`). A `categories:` key works the same.
+  - The first one is the main category. Cards and the breadcrumb show it, and it fills `{Category}` in the SEO settings' article template; the article page lists them all ("News · Airlines").
+  - The article shows on `/articles?category=` for every category it carries.
 - `featured: true` puts the article in the homepage and hub feature slots. News is usually `false` unless Austin says so.
 
 ### Body Markdown the Converter Understands
@@ -66,6 +66,7 @@ heroCredit: Colin Brown, CC BY 2.0
 
 - Each article stores `importedHash`, a fingerprint of the title, dek and body text from the last import.
 - If Austin edits the article's words in the admin, the `articles` step **keeps their words**. It only adds back missing photos, plus a hero if the article has none, and its log says so ("edited in the admin since the last import…").
+- Only the words are protected. An article whose words were not edited is rewritten from its file on every import, categories, `featured` and SEO included. So a category Austin changes only in the admin (reordering, adding one) is replaced the next time any article is imported, and the log says "categories set to … from the file (they were …)". Put his change in the markdown too.
 - Step `articles-force` overwrites the article from the markdown. Use it only when Austin asks for that article to be replaced.
 - Note: `articles-force` applies to every file in `data/articles/`, so the Ikon guide's admin edits would be overwritten too. Confirm with Austin first.
 
@@ -101,7 +102,7 @@ heroCredit: Colin Brown, CC BY 2.0
 5. **Check it locally** (see "Local Setup" below):
    - Run `npm run import:webflow -- articles`, then build and start the site.
    - Screenshot `/articles/<slug>` with Playwright on desktop (1280px) and phone (390px). Look at the screenshots.
-   - Check that the tables scroll on the phone, the photos and captions show, and the article appears on `/articles` under its category.
+   - Check that the tables scroll on the phone, the photos and captions show, and the article appears on `/articles` under each of its categories.
 6. **Ship** (see "Shipping" below).
 7. **Load it into production.** Run the **Import Webflow content** workflow with `step: articles`. Read the job log to confirm:
    - the "upserted N article(s)" line;
@@ -208,13 +209,13 @@ NO_PROXY=localhost,127.0.0.1 NODE_PATH=/opt/node22/lib/node_modules node shot.cj
 
 Live articles:
 
-| Slug | Category | Featured | Note |
+| Slug | Categories | Featured | Note |
 | --- | --- | --- | --- |
 | `epic-pass-ski-hotels-points-2026` | guides | yes | Vail photo credit still owed by Austin |
 | `ikon-ski-hotels-points-2026` | guides | yes | Austin edited its words in the admin; protected |
 | `hyatt-milestone-rewards-guide` | guides | no | |
 | `what-hyatt-globalist-status-gets-you` | guides | no | |
-| `united-status-match-extension` | news | no | First news article |
+| `united-status-match-extension` | news, airlines | no | First news article |
 
 Done in the previous chat (on `main` since 2026-10-18):
 
@@ -222,35 +223,11 @@ Done in the previous chat (on `main` since 2026-10-18):
 - The `articles` step warns about tool-sounding phrasing (`TOOL_NOTE_PATTERNS` in `scripts/webflow/import.ts`). That covers the markdown and, for an article edited in the admin, the words saved there.
 - `CLAUDE.md` at the repo root.
 
-Work still open from the previous chat. Check `git log origin/main` before relying on it:
+Work from the previous chat. Check `git log origin/main` before relying on it:
 
-1. **Multiple categories per article**. The plan:
-   - `categories` becomes a Payload `select` with `hasMany: true`. The first value is the main category.
-   - Cards and breadcrumbs show the main category, and the article page lists all of them ("News · Airlines").
-   - The `/articles?category=` filter matches any article carrying that category.
-   - The front matter key takes a comma list.
-   - United gets `news, airlines`.
-   - Migration: create `articles_categories` and `_articles_v_version_categories`, copy the old `category` value in as order 1, then drop the old column and its enums.
-   - If `git log` shows no categories commit, check with Austin whether the old chat finished it before building it yourself.
-
-   Exact DDL Payload expects for that `hasMany` select:
-
-   ```sql
-   CREATE TYPE "public"."enum_articles_categories" AS ENUM('news','guides','hotels','airlines','credit-cards');
-   CREATE TYPE "public"."enum__articles_v_version_categories" AS ENUM('news','guides','hotels','airlines','credit-cards');
-   CREATE TABLE "articles_categories" ("order" integer NOT NULL, "parent_id" integer NOT NULL, "value" "enum_articles_categories", "id" serial PRIMARY KEY NOT NULL);
-   CREATE TABLE "_articles_v_version_categories" ("order" integer NOT NULL, "parent_id" integer NOT NULL, "value" "enum__articles_v_version_categories", "id" serial PRIMARY KEY NOT NULL);
-   ALTER TABLE "articles_categories" ADD CONSTRAINT "articles_categories_parent_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."articles"("id") ON DELETE cascade ON UPDATE no action;
-   ALTER TABLE "_articles_v_version_categories" ADD CONSTRAINT "_articles_v_version_categories_parent_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."_articles_v"("id") ON DELETE cascade ON UPDATE no action;
-   CREATE INDEX "articles_categories_order_idx" ON "articles_categories" USING btree ("order");
-   CREATE INDEX "articles_categories_parent_idx" ON "articles_categories" USING btree ("parent_id");
-   CREATE INDEX "articles_categories_value_idx" ON "articles_categories" USING btree ("value");
-   CREATE INDEX "_articles_v_version_categories_order_idx" ON "_articles_v_version_categories" USING btree ("order");
-   CREATE INDEX "_articles_v_version_categories_parent_idx" ON "_articles_v_version_categories" USING btree ("parent_id");
-   CREATE INDEX "_articles_v_version_categories_value_idx" ON "_articles_v_version_categories" USING btree ("value");
-   ```
-
-   Querying with `where: { categories: { in: [...] } }` and `{ equals: 'news' }` both work against this.
+1. **Multiple categories per article**: done. The migration is `src/migrations/20261019_010000.ts`. The follow-up that drops the old single `category` columns and their enums is still pending: `src/migrations/pending/20261019_020000.ts`.
+   - Ship it only once 20261019_010000 and the code reading `categories` are live in production: move it up into `src/migrations/` and register it in `src/migrations/index.ts`. Payload runs every file directly in `src/migrations/`, so it must not sit there before then.
+   - Until then, triggers from 20261019_010000 copy any save the old code makes into the new tables, and the follow-up first carries over anything they missed, so nothing saved during the deploy is lost. Push the branch and `main` together all the same, so the old code serves as briefly as possible.
 
 Still waiting on Austin:
 

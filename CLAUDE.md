@@ -8,7 +8,10 @@ House rules: no em dashes in copy you write; no AI model names in code or commen
 
 - One markdown file per article: `data/articles/<slug>.md`, front matter first:
   - `title`, `slug`, `category`, `date` (YYYY-MM-DD) are required; the import stops without them.
-  - `category` is one of `news`, `guides`, `hotels`, `airlines`, `credit-cards`.
+  - `category` is one of `news`, `guides`, `hotels`, `airlines`, `credit-cards`, or a comma list of them
+    (`category: news, airlines`; a `categories:` key works the same). The first is the main category:
+    cards and the breadcrumb show it, it fills `{Category}` in the SEO settings' article template,
+    and the article page lists them all.
   - `featured: true|false`; `programs:` and `articles:` are comma-separated slugs (programs such as `world-of-hyatt`; related articles).
   - `dek` 300 characters at most (the field's limit); `metaTitle` 42 at most (the site adds
     " | Loyalist Travel", and the admin's search preview counts 60 with it); `metaDescription` 140 to 160.
@@ -34,6 +37,10 @@ House rules: no em dashes in copy you write; no AI model names in code or commen
   article changed in the admin since the last import (it only adds missing photos, and a hero if it
   has none) and says so in its output. `articles-force` overwrites from the markdown, on purpose
   only, when Austin asks.
+- Only the words (title, dek, body) are protected. Every other article is rewritten from its file
+  on each import, categories included, so a category Austin changes only in the admin is replaced;
+  the log then says `categories set to ... from the file (they were ...)`. Put his change in the
+  file too.
 - Production import: the **Import Webflow content** workflow with step `articles`. It applies
   migrations, imports, then spot-checks. It uses the repository secrets DATABASE_URL and
   PAYLOAD_SECRET; BLOB_READ_WRITE_TOKEN is optional, since photos under `public/` need no storage.
@@ -47,7 +54,8 @@ House rules: no em dashes in copy you write; no AI model names in code or commen
 - Vercel builds with `npm run ci`: migrations (`payload migrate`) then `next build`, preview
   builds of branch pushes included, against the one production database. A schema change ships
   with a hand-written migration in `src/migrations/`, registered in `src/migrations/index.ts`
-  (copy an existing one; `npm run migrate:create` does not work in this repo).
+  (copy an existing one; `npm run migrate:create` does not work in this repo). Payload runs every
+  file directly in that folder, listed or not, so one that must wait sits in `src/migrations/pending/`.
 - Verify a deploy through GitHub deployments, which Vercel creates per commit:
   `gh api 'repos/Shuxiao3/Loyalist-Travel/deployments?sha=<sha>'`, then
   `gh api repos/Shuxiao3/Loyalist-Travel/deployments/<id>/statuses` (Production should be `success`).
