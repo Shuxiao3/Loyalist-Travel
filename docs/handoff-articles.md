@@ -222,7 +222,7 @@ Live articles:
 
 | Slug | Categories | Featured | Note |
 | --- | --- | --- | --- |
-| `epic-pass-ski-hotels-points-2026` | guides | yes | Vail photo credit still owed by Austin |
+| `epic-pass-ski-hotels-points-2026` | guides | yes | |
 | `ikon-ski-hotels-points-2026` | guides | yes | Austin edited its words in the admin; protected |
 | `hyatt-milestone-rewards-guide` | guides | no | |
 | `what-hyatt-globalist-status-gets-you` | guides | no | |
