@@ -1,48 +1,45 @@
-.form {
-  display: grid;
-  gap: var(--s4);
-}
+/* The status-you-hold form on the account page (mockup: account.html, .acct-tiers): the program
+   name beside its dropdown. */
 
 .field {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s2);
+  display: grid;
+  grid-template-columns: 128px minmax(0, 1fr);
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.field + .field {
+  margin-top: var(--sp-2);
 }
 
 .field :global(.label) {
-  color: var(--muted);
-}
-
-.field select {
-  width: 100%;
-  background: var(--page);
-  border: 1px solid var(--line-strong);
-  color: var(--text);
-  padding: 11px 14px;
-  font: inherit;
-  font-size: var(--t-sm);
-  border-radius: var(--r-btn);
-}
-
-.field select:focus-visible {
-  outline: 2px solid var(--gold-dark);
-  outline-offset: 2px;
-}
-
-.error {
   margin: 0;
-  font-size: var(--t-sm);
-  color: var(--gold-deeper);
+  font-size: var(--fs-2);
+  font-weight: 400;
+  color: var(--ink);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-top: var(--sp-3);
 }
 
 .saved {
-  margin: 0;
-  font-size: var(--t-sm);
-  color: var(--muted);
+  font-size: var(--fs-1);
+  font-weight: 600;
+  color: var(--ink);
 }
 
-.form :global(.ghost) {
-  justify-self: start;
-  color: var(--gold-dark);
-  border-color: var(--gold-dark);
+@media (max-width: 960px) {
+  .form {
+    max-width: 520px;
+  }
+}
+
+@media (max-width: 760px) {
+  .field {
+    grid-template-columns: 140px minmax(0, 1fr);
+  }
 }

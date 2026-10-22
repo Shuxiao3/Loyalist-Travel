@@ -1,30 +1,60 @@
-.hero :global(.wrap) {
-  padding-top: var(--s7);
-  padding-bottom: var(--s7);
+/* Add your stay (mockups: submit-a-stay*.html; the mockups' css/forms.css). The form's own
+   rules are in StayForm.module.css and StayPicker.module.css. */
+
+/* A short page keeps the footer at the bottom of the screen */
+:global(body):has(.main) {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-.h1 {
-  font-size: var(--t-h1);
-  line-height: 1.1;
-  color: var(--ivory);
-  letter-spacing: -0.01em;
-  margin: 0 0 var(--s5);
-  max-width: 16ch;
-  text-wrap: pretty;
+.main {
+  flex: 1 0 auto;
+  width: 100%;
+  padding-top: 20px;
 }
 
-.body {
-  padding-bottom: var(--section);
+.grid {
+  align-items: start;
 }
 
-.panel {
-  max-width: 640px;
+/* Side column */
+.side > * + * {
+  margin-top: 20px;
 }
 
-.fine {
-  margin-top: var(--s4);
-  font-size: var(--t-xs);
-  color: var(--muted);
-  letter-spacing: var(--track-fine);
-  max-width: 64ch;
+.side :global(.bullets) {
+  margin-top: var(--sp-2);
+}
+
+.side :global(.bullets li) {
+  margin-bottom: 5px;
+}
+
+.aside {
+  padding-top: var(--sp-3);
+  border-top: 1px solid var(--rule-2);
+}
+
+.aside :global(.h4) {
+  font-size: var(--fs-2);
+}
+
+.aside p {
+  font-size: var(--fs-2);
+  line-height: 1.42;
+  color: var(--ink-2);
+  margin-top: var(--sp-1);
+}
+
+@media (max-width: 960px) {
+  .side {
+    margin-top: var(--sp-2);
+  }
+}
+
+@media (max-width: 760px) {
+  .main {
+    padding-top: var(--sp-4);
+  }
 }

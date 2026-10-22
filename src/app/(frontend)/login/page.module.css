@@ -1,71 +1,65 @@
-.hero :global(.wrap) {
-  padding-top: var(--s7);
-  padding-bottom: var(--s7);
+/* Sign in, and the page an emailed link lands on (mockups: login*.html; the mockups'
+   css/forms.css, .login-*). The email form's own rules are in SignInLinkForm.module.css. */
+
+/* A short page keeps the footer at the bottom of the screen */
+:global(body):has(.main) {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-.h1 {
-  font-size: var(--t-h1);
-  line-height: 1.1;
-  color: var(--ivory);
-  letter-spacing: -0.01em;
-  margin: 0 0 var(--s5);
+.main {
+  flex: 1 0 auto;
+  width: 100%;
+  padding-top: var(--sp-6);
+  padding-bottom: var(--sp-8);
 }
 
-.body {
-  padding-bottom: var(--section);
+.grid {
+  align-items: start;
 }
 
-.panel {
-  max-width: 480px;
+.card {
+  max-width: 560px;
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-top: 3px solid var(--navy);
+  padding: var(--sp-4) var(--sp-5) var(--sp-5);
 }
 
-.google {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--s3);
-  background: var(--ivory);
-  border-color: var(--ivory);
-  color: var(--navy);
+.lede {
+  font-size: var(--fs-2);
+  line-height: 1.45;
+  color: var(--ink-2);
+  margin: var(--sp-1) 0 var(--sp-4);
 }
 
-.google:hover {
-  background: var(--gold-pale);
-  border-color: var(--gold-pale);
+/* the card's last line when sign-in is switched off */
+.lede:last-child {
+  margin-bottom: 0;
 }
 
-.fine {
-  margin-top: var(--s5);
-  font-size: var(--t-xs);
-  line-height: 1.6;
-  color: var(--on-navy-dim);
-  letter-spacing: var(--track-fine);
+.card > :global(.help) {
+  margin-top: var(--sp-2);
 }
 
-.error {
-  margin-top: var(--s4);
-  font-size: var(--t-sm);
-  color: var(--gold-pale);
+.alert {
+  margin-bottom: var(--sp-4);
 }
 
-.back {
-  margin-top: var(--s5);
-  font-size: var(--t-sm);
+.google :global(.btn) {
+  height: 42px;
+  gap: 10px;
 }
 
-.back a {
-  color: var(--gold-dark);
-}
-
-/* A rule with "or" sitting in the gap, between the two ways in. */
+/* A rule with "or" in the gap, between the two ways in */
 .or {
   display: flex;
   align-items: center;
-  gap: var(--s4);
-  margin: var(--s5) 0;
-  font-size: var(--t-xs);
-  letter-spacing: var(--track-fine);
-  color: var(--on-navy-dim);
-  text-transform: uppercase;
+  gap: var(--sp-3);
+  margin: var(--sp-4) 0;
+  font-size: var(--fs-1);
+  color: var(--muted);
 }
 
 .or::before,
@@ -73,5 +67,57 @@
   content: '';
   flex: 1;
   height: 1px;
-  background: var(--gold-border);
+  background: var(--rule);
+}
+
+/* What an account does */
+.list > div {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.list dt {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.list dd {
+  margin-top: 2px;
+  color: var(--ink-2);
+  line-height: 1.45;
+}
+
+.list dd :global(.link) {
+  white-space: nowrap;
+}
+
+/* The emailed link's page: one button */
+.actions {
+  margin-top: var(--sp-1);
+}
+
+@media (max-width: 960px) {
+  .card {
+    max-width: none;
+  }
+
+  .what {
+    margin-top: var(--sp-2);
+  }
+}
+
+@media (max-width: 760px) {
+  .main {
+    padding-top: var(--sp-4);
+    padding-bottom: var(--sp-7);
+  }
+
+  .card {
+    padding: var(--sp-3) var(--sp-4) var(--sp-4);
+  }
+
+  .actions :global(.btn) {
+    width: 100%;
+    height: 44px;
+  }
 }

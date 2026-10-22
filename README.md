@@ -91,13 +91,12 @@ src/
   migrations/               Postgres migrations
   rubric/                   the locked rubric definitions
   styles/
-    tokens.css              every colour, font, size and spacing value on the site
-    globals.css             base styles and shared primitives, all from tokens
+    kit.css                 the one shared stylesheet: colours, type, spacing and shared components
   payload.config.ts
   payload-types.ts          generated
 ```
 
-`src/styles/tokens.css` is the design system. Templates consume its variables; nothing is styled ad hoc. Anything a page needs that is not there gets added there.
+`src/styles/kit.css` is the design system: every colour, type size and spacing value, and the shared components, with the class names of the approved mockups. Page-only rules go in a CSS module next to the page or component and use the kit's variables.
 
 ## Milestones
 

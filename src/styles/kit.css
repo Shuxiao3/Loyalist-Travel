@@ -18,8 +18,7 @@
 
    Differences from the mockup stylesheet: the fonts come from next/font (layout.tsx sets
    --font-newsreader and --font-source-sans on <html>); the header gains the rules its script
-   needs (marked "Site:"); the end of the file adds a few site rules and undoes the old
-   stylesheets where they share a class name with the kit. */
+   needs (marked "Site:"); the end of the file adds a few site rules. */
 
 :root {
   /* color */
@@ -46,9 +45,6 @@
   /* type */
   --serif: var(--font-newsreader, "Newsreader"), Georgia, serif;
   --sans: var(--font-source-sans, "Source Sans 3"), "Helvetica Neue", Arial, sans-serif;
-  /* the old stylesheets' font variables, until every page is converted */
-  --font-playfair: var(--font-newsreader, "Newsreader");
-  --font-lato: var(--font-source-sans, "Source Sans 3");
   --fs-1: 13px;
   --fs-2: 15px;
   --fs-3: 17px;
@@ -711,31 +707,18 @@ html { background: var(--navy); }
   .head-row .brand img { width: 24px; height: 24px; }
 }
 
-/* =====================================================================
-   The old stylesheets
-   Until every page is converted, src/styles/tokens.css, globals.css and patterns.css still
-   load, inside the "legacy" cascade layer, so nothing in them can outrank this file or a
-   page's CSS module. Where an old rule shares a selector with the kit, it still sets the
-   properties the kit leaves alone; these lines take those back to the browser default.
-   They have no specificity, so any kit or module rule overrides them.
-   Delete this block together with those three files.
-   ===================================================================== */
-:where(body) { -webkit-font-smoothing: revert; }
-:where(h1, h2, h3) { font-family: revert; font-weight: revert; line-height: revert; }
-:where(.label, .btn, .crumbs, .byline, .pager) { letter-spacing: revert; text-transform: revert; }
-:where(.crumbs) { display: revert; flex-wrap: revert; align-items: revert; gap: revert; margin: revert; padding: revert; }
-:where(.byline) { display: revert; flex-direction: revert; flex-wrap: revert; align-items: revert; gap: revert; padding: revert; border-top: revert; }
-:where(.band) { border-top: revert; }
-:where(.band .wrap) { display: revert; flex-direction: revert; align-items: revert; justify-content: revert; gap: revert; }
-:where(.band h2) { font-size: revert; line-height: revert; color: revert; }
-:where(.band p) { font-size: revert; line-height: revert; color: revert; max-width: revert; text-wrap: revert; }
-:where(.prose p) { font-size: revert; line-height: revert; color: revert; text-wrap: revert; }
-:where(.prose ul, .prose ol) { display: revert; flex-direction: revert; gap: revert; }
-:where(.prose li) { position: revert; padding-left: revert; font-size: revert; line-height: revert; color: revert; }
-:where(.prose li)::before { content: none; }
-:where(.prose a) { border-bottom: revert; }
-:where(.pager) { margin-top: revert; border-top: revert; font-size: revert; color: revert; }
-/* The old pages' breadcrumb (<ol class="crumbs"> of <li>, on their navy .hero) stays one pale,
-   readable line until each page moves to the kit's <nav class="crumbs"> in a .band */
-.hero ol.crumbs { display: flex; flex-wrap: wrap; gap: 4px 8px; margin: 0 0 var(--sp-5); color: var(--on-navy-3); }
-.hero ol.crumbs a { color: var(--on-navy-2); }
+/* Final review: the browser's own clear button in search fields, drawn in the field's text colour
+   (the default is a bright blue cross, which sat dark on the navy header search) */
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  margin-left: 6px;
+  cursor: pointer;
+  background: currentColor;
+  opacity: 0.55;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 4l8 8M12 4l-8 8' stroke='%23000' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E") center / 14px 14px no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 4l8 8M12 4l-8 8' stroke='%23000' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E") center / 14px 14px no-repeat;
+}
+input[type="search"]::-webkit-search-cancel-button:hover { opacity: 0.85; }

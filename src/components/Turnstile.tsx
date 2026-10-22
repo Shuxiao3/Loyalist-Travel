@@ -37,8 +37,9 @@ function loadTurnstile(): Promise<TurnstileApi> {
 // The Cloudflare Turnstile box inside a form. Writes its token into a hidden
 // field the server action checks. Renders nothing when the site key is not
 // set, so forms work unchanged until the keys are added. `resetKey` changes
-// after a failed submit so the token is fresh for the next try.
-export function Turnstile({ resetKey }: { resetKey?: unknown }) {
+// after a failed submit so the token is fresh for the next try. `className`
+// replaces the default spacing with the caller's own slot styles.
+export function Turnstile({ resetKey, className }: { resetKey?: unknown; className?: string }) {
   const box = useRef<HTMLDivElement>(null)
   const widget = useRef<string | null>(null)
 
@@ -68,5 +69,5 @@ export function Turnstile({ resetKey }: { resetKey?: unknown }) {
   }, [resetKey])
 
   if (!SITE_KEY) return null
-  return <div ref={box} style={{ minHeight: 65, marginTop: 4 }} />
+  return className ? <div ref={box} className={className} /> : <div ref={box} style={{ minHeight: 65, marginTop: 4 }} />
 }

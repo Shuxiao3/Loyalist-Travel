@@ -1,251 +1,574 @@
-.tiers :global(.eyebrow) {
-  display: block;
-  margin-bottom: var(--s5);
-}
+/* Program page (mockup: program.html, page rules from css/programs.css). Shared components come
+   from src/styles/kit.css; the hotel table has its own module. */
 
-/* one column per tier, as many as the program has */
-.tierGrid {
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-}
-
-.tier {
-  gap: var(--s3);
-}
-
-.tierName {
-  display: flex;
+/* ---------- Band: the logo beside the title ---------- */
+.title {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  gap: 20px;
   align-items: center;
-  gap: var(--s2);
-  font-family: var(--serif);
-  font-size: var(--t-lg);
-  font-weight: var(--w-heading);
-  color: var(--heading);
 }
 
-/* which card grants the tier */
-.cardLine {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--s2);
-  font-size: var(--t-xs);
-  line-height: 1.4;
-  color: var(--gold-dark);
-  letter-spacing: var(--track-fine);
-}
-
-.cardLine svg {
-  flex: none;
-  margin-top: 1px;
-}
-
-.benefits :global(li),
-.benefits :global(p) {
-  font-size: var(--t-sm);
-  line-height: 1.5;
-}
-
-.benefits :global(ul) {
-  gap: var(--s2);
-}
-
-.none {
-  font-size: var(--t-sm);
-  color: var(--muted);
-}
-
-/* the card's foot: share of members, and the link to the full breakdown */
-.tierFoot {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--s2) var(--s4);
-  margin-top: auto;
-  padding-top: var(--s4);
-  border-top: 1px solid var(--line);
-  font-size: var(--t-xs);
-  color: var(--muted);
-  letter-spacing: var(--track-fine);
-}
-
-.share b {
-  font-family: var(--serif);
-  font-size: var(--t-md);
-  font-weight: var(--w-heading);
-  color: var(--gold-dark);
-  letter-spacing: 0;
-  margin-right: 3px;
-}
-
-.breakdown {
-  font-size: var(--t-xs);
-  letter-spacing: var(--track-cta);
-  text-transform: uppercase;
-  color: var(--gold-dark);
-  border-bottom: 1px solid var(--gold-dark);
-  padding-bottom: 3px;
-  white-space: nowrap;
-}
-
-/* every brand under the program: logo tiles */
-.brandGrid {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(124px, 1fr));
-  gap: var(--s2);
-}
-
-.brand {
-  display: grid;
-  place-items: center;
-  aspect-ratio: 3 / 2;
-  padding: var(--s3) var(--s4);
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: var(--r);
-  text-decoration: none;
-  color: inherit;
-  transition: border-color 0.15s ease;
-}
-
-.brand:hover,
-.brand:focus-visible {
-  border-color: var(--gold-dark);
-}
-
-.brandLogo {
-  max-width: 100%;
-  max-height: 44px;
-  width: auto;
-  height: auto;
+.logo {
+  display: block;
+  width: 76px;
+  height: 76px;
+  border-radius: 2px;
   object-fit: contain;
 }
 
-/* a brand with no logo yet: its name set as a small wordmark */
-.brandMark {
-  font-family: var(--serif);
+/* a wordmark (not the square Hyatt mark) sits on a white tile, so a dark logo reads on navy */
+.logoTile {
+  padding: 8px;
+  background: #fff;
+}
+
+.nw {
+  white-space: nowrap;
+}
+
+/* ---------- Layout ---------- */
+.col > * + *,
+.side > * + * {
+  margin-top: 32px;
+}
+
+.side > * + * {
+  margin-top: 28px;
+}
+
+.cardI {
+  display: inline-block;
+  flex: none;
+  vertical-align: -3px;
+  margin-right: 6px;
+  color: var(--muted);
+}
+
+/* ---------- Elite tiers: one row per tier, benefits in two columns ---------- */
+.tierTable th,
+.tierTable td {
+  vertical-align: top;
+}
+
+.tierTable tbody th,
+.tierTable tbody td {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.tierTable th.cTier {
+  width: 168px;
+}
+
+.tierTable th.cQ {
+  width: 188px;
+}
+
+.tn {
+  display: block;
+  font: 600 var(--fs-4) / 1.2 var(--serif);
+  color: var(--ink);
+}
+
+.tTop {
+  display: block;
+  margin-top: 2px;
+  font: 600 var(--fs-1) / 1.3 var(--sans);
+  color: var(--gold-ink);
+}
+
+.tShare {
+  display: block;
+  margin-top: 2px;
+  font: 400 var(--fs-1) / 1.3 var(--sans);
+  color: var(--muted);
+}
+
+.tierTable td.cQ {
   font-weight: 600;
-  font-size: 12px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  text-align: center;
-  line-height: 1.15;
-  color: var(--heading);
+  color: var(--ink);
+  padding-top: 12px;
 }
 
-@media (max-width: 640px) {
-  .brandGrid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .brandLogo {
-    max-height: 40px;
-  }
+.tCard {
+  display: flex;
+  align-items: center;
+  margin-top: 3px;
+  font-size: var(--fs-1);
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--ink-2);
 }
 
-/* milestone rewards */
-.msCard {
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: var(--r);
-  padding: var(--s6);
+.tCard .cardI {
+  margin-right: 6px;
+  vertical-align: 0;
+}
+
+.tierTable td.cBen {
+  padding-top: 12px;
+}
+
+.tb {
+  columns: 2;
+  column-gap: var(--sp-5);
+}
+
+.tb li {
+  position: relative;
+  break-inside: avoid;
+  padding-left: 14px;
+  margin-bottom: 3px;
+  font-size: var(--fs-2);
+  line-height: 1.38;
+  color: var(--ink-2);
+}
+
+.tb li::before {
+  content: '';
+  position: absolute;
+  left: 1px;
+  top: 8px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+
+.isTop .tb li {
+  color: var(--ink);
+}
+
+.benProse {
+  font-size: var(--fs-2);
+  line-height: 1.38;
+  color: var(--ink-2);
+}
+
+.tLink {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: var(--fs-1);
+}
+
+/* ---------- Milestones: one row per milestone ---------- */
+.intro {
+  font-size: var(--fs-2);
+  line-height: 1.45;
+  color: var(--ink-2);
+  margin: 6px 0 2px;
+  max-width: 72ch;
+}
+
+.msTable {
+  margin-top: var(--sp-2);
+}
+
+.msTable th,
+.msTable td {
+  vertical-align: top;
+}
+
+.msTable tbody th,
+.msTable tbody td {
+  padding-top: 9px;
+  padding-bottom: 9px;
+  line-height: 1.38;
+}
+
+.msTable th.cN {
+  width: 120px;
+}
+
+.msTable tbody th.cN {
+  padding-left: 10px;
+  font: 700 var(--fs-3) / 1.25 var(--sans);
+  color: var(--gold-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.msUnit {
+  display: none;
+}
+
+.msTable th.cAll {
+  width: 21%;
+}
+
+.msTable th.cPick {
+  width: 17%;
+}
+
+.msTable td.cAll,
+.msTable td.cChoice {
+  color: var(--ink-2);
+}
+
+.msTable td.cPick b {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.msTable tr.isKey th,
+.msTable tr.isKey td {
+  background: var(--warm);
+}
+
+.msTable tr.isKey td.cAll b {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.msTable tbody tr.isKey:hover td,
+.msTable tbody tr.isKey:hover th {
+  background: var(--warm);
+}
+
+/* the program's own list (no guide): the milestone, then its rewards */
+.msList li {
+  position: relative;
+  padding-left: 14px;
+}
+
+.msList li::before {
+  content: '';
+  position: absolute;
+  left: 1px;
+  top: 8px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--gold);
 }
 
 .msProse {
-  max-width: 68ch;
+  margin-top: var(--sp-2);
+  font-size: var(--fs-2);
 }
 
-.msProse :global(li) {
-  font-size: var(--t-md);
-}
-
-.legend {
-  display: flex;
-  align-items: center;
-  gap: var(--s2);
-  margin-top: var(--s4);
-  font-size: var(--t-xs);
-  color: var(--muted);
-  letter-spacing: var(--track-fine);
-}
-
-.legend svg {
-  color: var(--gold-dark);
-}
-
-/* the hotel list's own filter bar */
-.form {
+.defs {
   display: grid;
-  grid-template-columns: 1.4fr repeat(3, minmax(0, 1fr)) auto;
-  gap: var(--s4);
-  align-items: end;
-  padding: var(--s5);
-  margin-bottom: var(--s5);
-  background: var(--cream);
-  border: 1px solid var(--line);
-  border-radius: var(--r);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-2) var(--sp-5);
+  margin-top: var(--sp-3);
 }
 
-.form label {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s2);
-  min-width: 0;
+.defs dt {
+  font: 600 var(--fs-1) / 1.35 var(--sans);
+  color: var(--ink);
 }
 
-.form select,
-.form input {
-  min-width: 0;
-  width: 100%;
-  background: var(--card);
-  border: 1px solid var(--line-strong);
-  color: var(--text);
-  padding: 11px 12px;
-  font-size: var(--t-sm);
-  border-radius: var(--r-btn);
+.defs dd {
+  font-size: var(--fs-1);
+  line-height: 1.45;
+  color: var(--ink-2);
+  margin-top: 1px;
 }
 
-.form select:focus-visible,
-.form input:focus-visible {
-  outline: 2px solid var(--gold);
-  outline-offset: 2px;
+/* ---------- Hotels ---------- */
+.filter {
+  margin-top: var(--sp-2);
 }
 
-.actions {
-  display: flex;
-  align-items: center;
-  gap: var(--s4);
+/* the sort menu alone, at the right (no count of the hotels) */
+.rlEnd {
+  justify-content: flex-end;
 }
 
-.actions :global(.btn) {
-  padding: 12px 22px;
+.rlEnd :global(.sort) {
+  flex: none;
 }
 
-.hotels {
-  padding-bottom: var(--section);
+/* the menu as wide as the chosen sort, where the browser can size it so, and never narrower
+   than the mockup's menu */
+.rlEnd :global(.sort) :global(.select) {
+  field-sizing: content;
+  min-width: 146px;
 }
 
 .empty {
-  font-size: var(--t-md);
-  color: var(--text-2);
+  margin-top: var(--sp-4);
 }
 
-@media (max-width: 1100px) {
-  .form {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+.empty a {
+  color: var(--link);
+  font-weight: 600;
+}
+
+@media (min-width: 761px) {
+  .pagerEnd :global(.pager) {
+    justify-content: flex-end;
+  }
+}
+
+/* ---------- Side column ---------- */
+.sideTable td,
+.sideTable th {
+  font-size: var(--fs-2);
+}
+
+.sideTable thead th {
+  font-size: var(--fs-1);
+}
+
+.sideTable tbody th a {
+  color: var(--ink);
+}
+
+.sideTable tbody th a:hover {
+  color: var(--link);
+}
+
+.brandTable th:global(.r) {
+  width: 64px;
+}
+
+.revList h3 {
+  font-size: var(--fs-3);
+  line-height: 1.25;
+}
+
+.revList :global(.verdict) {
+  font-size: var(--fs-1);
+  line-height: 1.4;
+}
+
+.revList > li {
+  grid-template-columns: 48px minmax(0, 1fr);
+  gap: var(--sp-3);
+}
+
+.revList :global(.score) {
+  width: 48px;
+  height: 48px;
+}
+
+.revList :global(.score) b {
+  font-size: var(--fs-4);
+}
+
+.box :global(.btn) {
+  margin-top: 2px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1180px) {
+  .tierTable th.cQ {
+    width: 150px;
   }
 
-  .q,
-  .actions {
+  .tb {
+    columns: 1;
+  }
+}
+
+/* One column, the sections in reading order */
+@media (max-width: 960px) {
+  .grid {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .col,
+  .side {
+    display: contents;
+  }
+
+  .col > * + *,
+  .side > * + *,
+  .grid :global(.mod) + :global(.mod) {
+    margin-top: 0;
+  }
+
+  .tiers {
+    order: 1;
+  }
+
+  .ms {
+    order: 2;
+  }
+
+  .brands {
+    order: 3;
+  }
+
+  .reviews {
+    order: 4;
+  }
+
+  .guides {
+    order: 5;
+  }
+
+  .hotels {
+    order: 6;
+  }
+
+  .box {
+    order: 7;
+  }
+
+  .regions {
+    order: 8;
+  }
+}
+
+/* Phone */
+@media (max-width: 760px) {
+  /* the logo smaller */
+  .title {
+    grid-template-columns: 52px minmax(0, 1fr);
+    gap: var(--sp-3);
+    align-items: start;
+  }
+
+  .logo {
+    width: 52px;
+    height: 52px;
+    margin-top: 4px;
+  }
+
+  .logoTile {
+    padding: 5px;
+  }
+
+  /* Elite tiers: name and nights on one line, benefits below */
+  .tierTable thead {
+    display: none;
+  }
+
+  .tierTable,
+  .tierTable tbody {
+    display: block;
+  }
+
+  .tierTable tr {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: var(--sp-3);
+    padding: 10px 0 8px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .tierTable tbody th,
+  .tierTable tbody td {
+    padding: 0;
+    border: 0;
+  }
+
+  .tierTable th.cTier {
+    width: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: var(--sp-2);
+  }
+
+  .tTop,
+  .tShare {
+    margin-top: 0;
+  }
+
+  .tierTable td.cQ {
+    padding-top: 3px;
+    text-align: right;
+    font-size: var(--fs-2);
+  }
+
+  .tCard {
+    justify-content: flex-end;
+  }
+
+  .tierTable td.cBen {
     grid-column: 1 / -1;
+    padding-top: 6px;
   }
-}
 
-@media (max-width: 640px) {
-  .form {
-    grid-template-columns: 1fr 1fr;
-    padding: var(--s4);
+  .tierTable tbody tr:hover td,
+  .tierTable tbody tr:hover th {
+    background: none;
+  }
+
+  .tb li {
+    font-size: var(--fs-2);
+    line-height: 1.35;
+    margin-bottom: 2px;
+  }
+
+  /* Milestones: one block per milestone, labelled lines */
+  .msTable thead {
+    display: none;
+  }
+
+  .msTable,
+  .msTable tbody,
+  .msTable tr {
+    display: block;
+  }
+
+  .msTable tr {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .msTable tr.isKey {
+    padding: 10px;
+    background: var(--warm);
+  }
+
+  .msTable tbody th,
+  .msTable tbody td {
+    display: block;
+    padding: 0;
+    border: 0;
+    width: auto;
+  }
+
+  .msTable tbody th.cN {
+    width: auto;
+    padding-left: 0;
+    font-size: var(--fs-4);
+    margin-bottom: 4px;
+  }
+
+  .msUnit {
+    display: inline;
+    font-weight: 600;
+  }
+
+  .msTable td {
+    font-size: var(--fs-2);
+    margin-top: 3px;
+  }
+
+  .msTable td[data-label]::before {
+    content: attr(data-label) ': ';
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .msTable tr.isKey td::before {
+    content: none;
+  }
+
+  .msTable tr:not(.isKey) td.isEmpty {
+    display: none;
+  }
+
+  .msTable tbody tr:hover td,
+  .msTable tbody tr:hover th {
+    background: none;
+  }
+
+  .defs {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* the sort menu narrower */
+  .rlEnd :global(.sort) :global(.select) {
+    max-width: 190px;
+    text-overflow: ellipsis;
   }
 }

@@ -16,6 +16,8 @@ type Props = { searchParams: Promise<{ token?: string; next?: string }> }
  * cookie, only an action can; and mail scanners, link previewers and corporate
  * antivirus all follow links in email, which would spend a single-use token
  * before the reader ever saw it.
+ *
+ * Laid out like the sign-in page (mockup: login.html): the band, then one card.
  */
 export default async function LinkPage({ searchParams }: Props) {
   const { token, next } = await searchParams
@@ -23,41 +25,53 @@ export default async function LinkPage({ searchParams }: Props) {
 
   return (
     <>
-      <header className={`hero ${styles.hero}`}>
+      <section className="band page-band">
         <div className="wrap">
-          <span className="eyebrow">Readers</span>
-          <h1 className={styles.h1}>{token ? 'Finish signing in' : 'That link is incomplete'}</h1>
-          <p className="sub">{token ? 'One click and you are in. The link works once.' : 'Ask for a new one and it will be in your inbox in a moment.'}</p>
-        </div>
-      </header>
-      <section className={`section ${styles.body}`}>
-        <div className="wrap">
-          <div className={`panel ${styles.panel}`}>
-            {token ? (
-              <form
-                action={async () => {
-                  'use server'
-                  // Auth.js redirects on success. On a spent, wrong or expired
-                  // token it sends the reader to the error page, which is
-                  // /login, where they can ask for another.
-                  await signIn('email-link', { token, redirectTo: target })
-                }}
-              >
-                <button className="btn" type="submit">
-                  Sign in
-                </button>
-              </form>
-            ) : (
-              <p className={styles.fine}>
-                <Link href="/login">Ask for a new link</Link>
-              </p>
-            )}
+          <div className="pb-row">
+            <div className="pb-title">
+              <h1>{token ? 'Finish signing in' : 'That link is incomplete'}</h1>
+              <p className="pb-dek">{token ? 'One click and you are in. The link works once.' : 'Ask for a new one and it will be in your inbox in a moment.'}</p>
+            </div>
           </div>
-          <p className={styles.back}>
-            <Link href="/">Back to the site</Link>
-          </p>
         </div>
       </section>
+
+      <main className={`wrap main ${styles.main}`}>
+        <div className={`grid-side ${styles.grid}`}>
+          <section className={styles.card}>
+            {token ? (
+              <>
+                <h2 className="h2">Sign in</h2>
+                <p className={styles.lede}>This signs you in on this device.</p>
+                <form
+                  className={styles.actions}
+                  action={async () => {
+                    'use server'
+                    // Auth.js redirects on success. On a spent, wrong or expired
+                    // token it sends the reader to the error page, which is
+                    // /login, where they can ask for another.
+                    await signIn('email-link', { token, redirectTo: target })
+                  }}
+                >
+                  <button className="btn" type="submit">
+                    Sign in
+                  </button>
+                </form>
+              </>
+            ) : (
+              <>
+                <h2 className="h2">Sign in</h2>
+                <p className={styles.lede}>Part of the address is missing, so it cannot sign you in. A new link comes from the sign-in page.</p>
+                <p className={styles.actions}>
+                  <Link className="btn" href="/login">
+                    Ask for a new link
+                  </Link>
+                </p>
+              </>
+            )}
+          </section>
+        </div>
+      </main>
     </>
   )
 }

@@ -3,7 +3,7 @@ import type { DefaultNodeTypes, SerializedParagraphNode, SerializedTableCellNode
 import { type JSXConvertersFunction, RichText as LexicalRichText } from '@payloadcms/richtext-lexical/react'
 import type { ReactNode } from 'react'
 
-import { headingId, textOf } from '@/lib/outline'
+import { headingId, outlineOf, textOf } from '@/lib/outline'
 import type { Media } from '@/payload-types'
 
 import styles from './ArticleBody.module.css'
@@ -21,18 +21,29 @@ type Node = SerializedLexicalNode & { tag?: string; children?: Node[] }
 // The headings that open an article's end notes: its sources and image credits.
 const NOTES_HEADING = /^(sources?|image credits?|photo credits?|sources and (image|photo) credits?)$/i
 
-// The id each heading carries, in document order, so the table of contents (src/lib/outline.ts,
-// same rule) and the text agree however the text is split up.
-function headingIds(nodes: Node[]): Map<Node, string> {
+// The id each heading carries, worked out once for the whole text so the ids hold however the
+// text is split up. The section headings (h2) take theirs from outlineOf (src/lib/outline.ts),
+// which builds the contents, so every contents link lands on its heading; the other headings
+// then take a free id, never one a section heading already has.
+function headingIds(data: SerializedEditorState, nodes: Node[]): Map<Node, string> {
   const ids = new Map<Node, string>()
-  const seen = new Map<string, number>()
-  for (const n of nodes) {
-    if (n.type !== 'heading') continue
-    let id = headingId(textOf(n as never))
-    const k = seen.get(id) ?? 0
-    seen.set(id, k + 1)
-    if (k) id = `${id}-${k + 1}`
+  const used = new Set<string>()
+  const outline = outlineOf(data)
+  // outlineOf lists the h2s with any text, in order
+  const sections = nodes.filter((n) => n.type === 'heading' && n.tag === 'h2' && textOf(n as never).trim())
+  sections.forEach((n, i) => {
+    const id = outline[i]?.id
+    if (!id) return
     ids.set(n, id)
+    used.add(id)
+  })
+  for (const n of nodes) {
+    if (n.type !== 'heading' || ids.has(n)) continue
+    const base = headingId(textOf(n as never))
+    let id = base
+    for (let k = 2; used.has(id); k++) id = `${base}-${k}`
+    ids.set(n, id)
+    used.add(id)
   }
   return ids
 }
@@ -47,7 +58,7 @@ function headingIds(nodes: Node[]): Map<Node, string> {
 export function ArticleBody({ data, className }: { data?: SerializedEditorState | null; className?: string }) {
   if (!data) return null
   const all = ((data.root as unknown as Node).children ?? []) as Node[]
-  const ids = headingIds(all)
+  const ids = headingIds(data, all)
   const notesAt = all.findIndex((n) => n.type === 'heading' && n.tag === 'h2' && NOTES_HEADING.test(textOf(n as never).trim()))
   const part = (children: Node[]): SerializedEditorState => ({ ...data, root: { ...data.root, children: children as never } })
   const text = notesAt >= 0 ? part(all.slice(0, notesAt)) : data

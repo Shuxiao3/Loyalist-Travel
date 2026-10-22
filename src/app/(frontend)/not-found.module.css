@@ -1,26 +1,80 @@
-.main :global(.wrap) {
-  padding-top: var(--s9);
-  padding-bottom: var(--s9);
+/* The 404, laid out like the sign-in page (the mockups' css/forms.css, .login-*). */
+
+/* A short page keeps the footer at the bottom of the screen */
+:global(body):has(.main) {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-.eyebrow {
-  display: block;
-  margin-bottom: var(--s4);
+.main {
+  flex: 1 0 auto;
+  width: 100%;
+  padding-top: var(--sp-6);
+  padding-bottom: var(--sp-8);
 }
 
-.h1 {
-  font-size: var(--t-3xl);
-  line-height: 1.15;
-  color: var(--heading);
-  margin-bottom: var(--s4);
-  text-wrap: pretty;
+.grid {
+  align-items: start;
 }
 
-.sub {
-  font-size: var(--t-md);
-  line-height: 1.7;
-  color: var(--text-2);
-  max-width: 48ch;
-  margin-bottom: var(--s6);
-  text-wrap: pretty;
+.card {
+  max-width: 560px;
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-top: 3px solid var(--navy);
+  padding: var(--sp-4) var(--sp-5) var(--sp-5);
+}
+
+.lede {
+  font-size: var(--fs-2);
+  line-height: 1.45;
+  color: var(--ink-2);
+  margin: var(--sp-1) 0 var(--sp-4);
+}
+
+.search :global(.input),
+.search :global(.btn) {
+  height: 40px;
+}
+
+.card > :global(.help) {
+  margin-top: var(--sp-3);
+}
+
+.list > div {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.list dt {
+  font-weight: 600;
+  color: var(--link);
+}
+
+.list dd {
+  margin-top: 2px;
+  color: var(--ink-2);
+  line-height: 1.45;
+}
+
+@media (max-width: 960px) {
+  .card {
+    max-width: none;
+  }
+
+  .grid > aside {
+    margin-top: var(--sp-2);
+  }
+}
+
+@media (max-width: 760px) {
+  .main {
+    padding-top: var(--sp-4);
+    padding-bottom: var(--sp-7);
+  }
+
+  .card {
+    padding: var(--sp-3) var(--sp-4) var(--sp-4);
+  }
 }

@@ -1,47 +1,19 @@
+/* The display name form, inside the account page's "Display name" box (mockup: account.html,
+   .acct-form). */
+
 .form {
-  display: grid;
-  gap: var(--s4);
-  max-width: 420px;
-}
-
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s2);
-}
-
-.field :global(.label) {
-  color: var(--on-navy-muted);
-}
-
-.field input {
-  width: 100%;
-  background: var(--navy-deep);
-  border: 1px solid var(--gold-border);
-  color: var(--ivory);
-  padding: 13px 16px;
-  font: inherit;
-  font-size: var(--t-sm);
-  border-radius: var(--r-btn);
-}
-
-.field input:focus-visible {
-  outline: 2px solid var(--gold);
-  outline-offset: 2px;
-}
-
-.error {
-  font-size: var(--t-sm);
-  color: var(--gold-pale);
-  margin: 0;
+  margin-top: 10px;
 }
 
 .saved {
-  font-size: var(--t-sm);
-  color: var(--light);
-  margin: 0;
+  margin-top: var(--sp-1);
+  font-size: var(--fs-1);
+  font-weight: 600;
+  color: var(--ink);
 }
 
-.form :global(.btn) {
-  justify-self: start;
+@media (max-width: 960px) {
+  .form {
+    max-width: 520px;
+  }
 }

@@ -10,7 +10,7 @@ import { useReader } from '@/lib/useReader'
 import styles from './PlainComments.module.css'
 
 // The sign-in line, or for a signed-in reader with a display name the comment form, in the
-// kit's form classes. Posts through the same action as the older CommentForm.
+// kit's form classes. Posts through the submitComment server action.
 export function PlainCommentForm({ kind, id }: { kind: CommentTarget; id: number }) {
   const reader = useReader()
   const fieldId = useId()

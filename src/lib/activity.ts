@@ -1,10 +1,10 @@
 import { aggregate } from '@/lib/readerData'
-import { UPGRADE_OUTCOMES } from '@/lib/stayOptions'
+import { SUITE_TYPES, UPGRADE_TYPES } from '@/lib/stayOptions'
 import { getPayloadClient } from '@/lib/payload'
 
 // Everything one reader has submitted, in one list. Three collections carry a
 // reader: stays, comments and lounge ratings. Each has a moderation status, and
-// seeing it is the point — a reader who cannot tell whether their stay was
+// seeing it is the point: a reader who cannot tell whether their stay was
 // approved has no reason to believe the next one will be read either.
 
 export type ActivityKind = 'stay' | 'comment' | 'rating'
@@ -29,13 +29,21 @@ const label = (options: { label: string; value: string }[], value: unknown) =>
 // A relationship read at depth 1 is the document; at depth 0 it is the id.
 const doc = <T,>(v: unknown): T | null => (v && typeof v === 'object' ? (v as T) : null)
 
-/** What a stay reports, in one line, without repeating the hotel name. */
+/** What a stay reports, in one line, without repeating the hotel name or the tier:
+ *  "upgraded to a one-bedroom suite, offered without asking", "no upgrade". */
 function stayDetail(stay: Record<string, unknown>): string {
-  const parts = [
-    label(UPGRADE_OUTCOMES, stay.upgrade) === 'No' ? 'no upgrade' : label(UPGRADE_OUTCOMES, stay.upgrade)?.toLowerCase(),
-    stay.suiteAward === 'yes' ? 'suite certificate used' : null,
-  ].filter(Boolean)
-  return parts.join(' · ')
+  const how = stay.upgradeHow === 'proactive' ? 'offered without asking' : stay.upgradeHow === 'asked' ? 'given when asked' : null
+  const suite = label(SUITE_TYPES, stay.suiteType)?.toLowerCase()
+  const to =
+    stay.upgradeType === 'suite' ? `a ${suite ?? 'suite'}` : stay.upgradeType ? `a ${label(UPGRADE_TYPES, stay.upgradeType)?.toLowerCase() ?? 'better room'}` : null
+  const outcome = stay.upgrade === 'yes' ? [to ? `upgraded to ${to}` : 'upgraded', how].filter(Boolean).join(', ') : 'no upgrade'
+  return [outcome, stay.suiteAward === 'yes' ? 'suite certificate used' : null].filter(Boolean).join(' · ')
+}
+
+// A lounge by its name and its hotel's, as "Grand Club, Grand Hyatt Melbourne".
+function loungeTitle(lounge: { name?: string; hotel?: unknown } | null): string {
+  const hotel = doc<{ name?: string }>(lounge?.hotel)
+  return [lounge?.name ?? 'A lounge', hotel?.name].filter(Boolean).join(', ')
 }
 
 export async function readerActivity(readerId: number, limit = 200): Promise<ActivityItem[]> {
@@ -43,24 +51,25 @@ export async function readerActivity(readerId: number, limit = 200): Promise<Act
   const where = { reader: { equals: readerId } }
   const opts = { where, limit, depth: 1, overrideAccess: true, sort: '-createdAt' } as const
 
+  // Comments and ratings go one level deeper, for the hotel a lounge belongs to.
   const [stays, comments, ratings] = await Promise.all([
     payload.find({ collection: 'reader-stays', ...opts }),
-    payload.find({ collection: 'comments', ...opts }),
-    payload.find({ collection: 'lounge-ratings', ...opts }),
+    payload.find({ collection: 'comments', ...opts, depth: 2 }),
+    payload.find({ collection: 'lounge-ratings', ...opts, depth: 2 }),
   ])
 
   const items: ActivityItem[] = []
 
   for (const s of stays.docs as unknown as Record<string, unknown>[]) {
     const hotel = doc<{ name?: string; slug?: string }>(s.hotel)
-    const tier = doc<{ name?: string }>(s.statusHeld)
+    const tier = doc<{ name?: string; shortName?: string | null }>(s.statusHeld)
     items.push({
       kind: 'stay',
       id: s.id as number,
       status: (s.status as ActivityStatus) ?? 'pending',
       createdAt: String(s.createdAt),
       title: [hotel?.name ?? 'A hotel', s.stayYear].filter(Boolean).join(', '),
-      detail: [tier?.name, stayDetail(s)].filter(Boolean).join(' — ') || null,
+      detail: [tier?.shortName ?? tier?.name, stayDetail(s)].filter(Boolean).join(' · ') || null,
       href: hotel?.slug ? `/hotels/${hotel.slug}` : null,
     })
   }
@@ -68,22 +77,28 @@ export async function readerActivity(readerId: number, limit = 200): Promise<Act
   for (const c of comments.docs as unknown as Record<string, unknown>[]) {
     // `on` is polymorphic: a review, an article or a lounge.
     const on = c.on as { relationTo?: string; value?: unknown } | undefined
-    const target = doc<{ title?: string; name?: string; slug?: string }>(on?.value)
+    const target = doc<{ title?: string; name?: string; slug?: string; hotel?: unknown }>(on?.value)
     const section = on?.relationTo === 'reviews' ? 'reviews' : on?.relationTo === 'articles' ? 'articles' : 'lounges'
     items.push({
       kind: 'comment',
       id: c.id as number,
       status: (c.status as ActivityStatus) ?? 'pending',
       createdAt: String(c.createdAt),
-      title: target?.title ?? target?.name ?? 'A page',
+      title: target?.title ?? (on?.relationTo === 'lounges' && target ? loungeTitle(target) : target?.name) ?? 'A page',
       detail: String(c.body ?? '').replace(/\s+/g, ' ').slice(0, 140) || null,
       href: target?.slug ? `/${section}/${target.slug}` : null,
     })
   }
 
   for (const r of ratings.docs as unknown as Record<string, unknown>[]) {
-    const lounge = doc<{ name?: string; slug?: string }>(r.lounge)
-    const scores = [r.overall && `${r.overall}/5 overall`, r.worthIt === 'yes' ? 'worth a club room' : r.worthIt === 'no' ? 'not worth a club room' : null]
+    const lounge = doc<{ name?: string; slug?: string; hotel?: unknown }>(r.lounge)
+    const tier = doc<{ name?: string; shortName?: string | null }>(r.statusHeld)
+    const scores = [
+      r.stayYear ? `Stayed ${r.stayYear}` : null,
+      tier?.shortName ?? tier?.name,
+      r.overall && `${r.overall}/5 overall`,
+      r.worthIt === 'yes' ? 'worth a club room' : r.worthIt === 'no' ? 'not worth a club room' : null,
+    ]
       .filter(Boolean)
       .join(' · ')
     items.push({
@@ -91,7 +106,7 @@ export async function readerActivity(readerId: number, limit = 200): Promise<Act
       id: r.id as number,
       status: (r.status as ActivityStatus) ?? 'pending',
       createdAt: String(r.createdAt),
-      title: [lounge?.name ?? 'A lounge', r.stayYear].filter(Boolean).join(', '),
+      title: loungeTitle(lounge),
       detail: scores || null,
       href: lounge?.slug ? `/lounges/${lounge.slug}` : null,
     })

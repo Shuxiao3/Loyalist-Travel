@@ -1,0 +1,124 @@
+/* The lounge rating form in the lounge page's side box (mockups' css/programs.css, .lp-form).
+   Fields, labels, selects, radios and the button are the kit's. */
+
+.form > * + * {
+  margin-top: var(--sp-3);
+}
+
+.form > .hp + * {
+  margin-top: 0;
+}
+
+.hint {
+  margin-top: var(--sp-4);
+  padding-top: var(--sp-3);
+  border-top: 1px solid var(--rule-2);
+}
+
+/* a score: the label at the left, five segments at the right */
+.segRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 196px;
+  align-items: center;
+  gap: 10px;
+}
+
+.form > .segRow {
+  margin-top: 6px;
+}
+
+.form > .hint + .segRow {
+  margin-top: var(--sp-2);
+}
+
+.segRow :global(.label) {
+  margin: 0;
+}
+
+.seg {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 4px;
+}
+
+.seg label {
+  position: relative;
+  display: block;
+  cursor: pointer;
+}
+
+.seg input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.seg span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  border-radius: 2px;
+  background: var(--warm-2);
+  font: 600 var(--fs-1) / 1 var(--sans);
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.seg label:hover span {
+  background: #e2ddd3;
+  color: var(--ink);
+}
+
+/* filled up to the score chosen */
+.seg label.on span,
+.seg label.on:hover span {
+  background: var(--navy);
+  color: #fff;
+}
+
+.seg input:focus-visible + span {
+  outline: 2px solid var(--link);
+  outline-offset: 2px;
+}
+
+.choices {
+  gap: var(--sp-2) 24px;
+}
+
+.wide:empty {
+  display: none;
+}
+
+.form .actions {
+  margin-top: var(--sp-4);
+  gap: var(--sp-2) var(--sp-3);
+}
+
+/* the honeypot field, off screen */
+.hp {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+@media (max-width: 760px) {
+  .segRow {
+    grid-template-columns: minmax(0, 1fr) 210px;
+  }
+
+  .seg span {
+    height: 36px;
+    font-size: var(--fs-2);
+  }
+}
+
+/* one column but not yet a phone: the box runs the full width, the form keeps a readable one */
+@media (min-width: 761px) and (max-width: 960px) {
+  .form {
+    max-width: 560px;
+  }
+}

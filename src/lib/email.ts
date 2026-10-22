@@ -42,14 +42,14 @@ export function signInEmail(url: string, minutes: number): Omit<Email, 'to'> {
       url,
       '',
       `It works once, and for ${minutes} minutes.`,
-      'If you did not ask to sign in, you can ignore this email — nobody can get in without the link.',
+      'If you did not ask to sign in, you can ignore this email. Nobody can get in without the link.',
     ].join('\n'),
     html: `<!doctype html><html><body style="margin:0;padding:24px;background:#f6f5f3;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;color:#1a1a1a">
   <div style="max-width:520px;margin:0 auto;background:#fff;border-radius:8px;padding:32px">
     <p style="margin:0 0 20px;font-size:16px;line-height:1.5">Use this link to sign in to Loyalist Travel:</p>
     <p style="margin:0 0 20px"><a href="${url}" style="display:inline-block;background:#1a1a1a;color:#fff;text-decoration:none;padding:12px 20px;border-radius:4px;font-size:15px">Sign in</a></p>
     <p style="margin:0 0 20px;font-size:14px;line-height:1.5;color:#555">It works once, and for ${minutes} minutes.</p>
-    <p style="margin:0;font-size:14px;line-height:1.5;color:#555">If you did not ask to sign in, you can ignore this email — nobody can get in without the link.</p>
+    <p style="margin:0;font-size:14px;line-height:1.5;color:#555">If you did not ask to sign in, you can ignore this email. Nobody can get in without the link.</p>
   </div>
 </body></html>`,
   }

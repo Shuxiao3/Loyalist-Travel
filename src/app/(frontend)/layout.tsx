@@ -3,11 +3,7 @@ import { Newsreader, Source_Sans_3 } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import React from 'react'
 
-// The old stylesheets sit in the "legacy" cascade layer until every page is converted; the
-// kit (src/styles/kit.css) and the pages' CSS modules always win over them.
-import '@/styles/tokens.css'
-import '@/styles/globals.css'
-import '@/styles/patterns.css'
+// The site's one shared stylesheet; page-only rules live in CSS modules next to each page.
 import '@/styles/kit.css'
 
 import { SiteFooter } from '@/components/SiteFooter'

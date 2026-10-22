@@ -25,7 +25,7 @@ const articleHref = (a: Article) => `/articles/${a.slug}`
 const joinList = (names: string[]) => (names.length < 3 ? names.join(' and ') : `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`)
 
 export default async function HomePage() {
-  const [articles, reviews, programs, lounges] = await Promise.all([getArticles({ limit: 1 + SECONDARY + MORE }), getReviews({ limit: 6 }), programsInOrder(), loungePrograms()])
+  const [articles, reviews, programs, lounges] = await Promise.all([getArticles({ limit: 1 + SECONDARY + MORE, featuredFirst: true }), getReviews({ limit: 6 }), programsInOrder(), loungePrograms()])
   const places = await reviewPlaces(reviews.docs)
 
   const [lead, ...rest] = articles.docs

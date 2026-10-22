@@ -12,34 +12,55 @@ export const dynamic = 'force-dynamic'
 
 type Props = { searchParams: Promise<{ next?: string; error?: string }> }
 
+// Sign in (mockups: login.html, login-sent.html, login-error.html, login-google.html): the
+// ways in on a card, what an account does beside it.
 export default async function LoginPage({ searchParams }: Props) {
   const { next, error } = await searchParams
   const session = await auth()
   const target = next && next.startsWith('/') && !next.startsWith('//') ? next : '/account'
   if (session?.reader?.id) redirect(target)
 
+  const lede =
+    googleEnabled && magicLinkEnabled
+      ? 'With your Google account, or a link we email you. There is no password.'
+      : googleEnabled
+        ? 'With your Google account. There is no password.'
+        : 'We email you a link to sign in. There is no password.'
+
   return (
     <>
-      <header className={`hero ${styles.hero}`}>
+      <section className="band page-band">
         <div className="wrap">
-          <span className="eyebrow">Readers</span>
-          <h1 className={styles.h1}>Sign in</h1>
-          <p className="sub">A name on your lounge ratings and comments. Stays stay anonymous either way, and nothing here is needed to submit one.</p>
+          <div className="pb-row">
+            <div className="pb-title">
+              <h1>Sign in</h1>
+              <p className="pb-dek">A name on your lounge ratings and comments. Stays are anonymous either way, and nothing here is needed to submit one.</p>
+            </div>
+          </div>
         </div>
-      </header>
-      <section className={`section ${styles.body}`}>
-        <div className="wrap">
-          <div className={`panel ${styles.panel}`}>
+      </section>
+
+      <main className={`wrap main ${styles.main}`}>
+        <div className={`grid-side ${styles.grid}`}>
+          <section className={styles.card}>
             {authEnabled ? (
               <>
+                <h2 className="h2">{googleEnabled ? 'Sign in' : 'Sign in with your email'}</h2>
+                <p className={styles.lede}>{lede}</p>
+                {error && (
+                  <p className={`form-alert ${styles.alert}`} role="alert">
+                    Sign-in did not complete. The link may have been used already, or expired. Ask for another.
+                  </p>
+                )}
                 {googleEnabled && (
                   <form
+                    className={styles.google}
                     action={async () => {
                       'use server'
                       await signIn('google', { redirectTo: target })
                     }}
                   >
-                    <button className={`btn ${styles.google}`} type="submit">
+                    <button className="btn btn-soft btn-block" type="submit">
                       <GoogleMark />
                       Continue with Google
                     </button>
@@ -51,19 +72,54 @@ export default async function LoginPage({ searchParams }: Props) {
                   </p>
                 )}
                 {magicLinkEnabled && <SignInLinkForm next={target} />}
-                {error && <p className={styles.error}>Sign-in did not complete. The link may have been used already, or expired. Ask for another.</p>}
-                <p className={styles.fine}>We keep your email to recognise you and never show it. You pick a display name next.</p>
+                <p className="help">We keep your email to recognise you and never show it. You pick a display name next.</p>
               </>
             ) : (
-              <p className={styles.fine}>Sign-in is not switched on yet. Reader accounts arrive shortly.</p>
+              <>
+                <h2 className="h2">Sign in</h2>
+                <p className={styles.lede}>Sign-in is not switched on yet. Reader accounts arrive shortly.</p>
+              </>
             )}
-          </div>
-          <p className={styles.back}>
-            <Link href="/">Back to the site</Link>
-          </p>
+          </section>
+
+          <AccountDoes />
         </div>
-      </section>
+      </main>
     </>
+  )
+}
+
+// What an account is for, beside the sign-in card.
+function AccountDoes() {
+  return (
+    <aside className={styles.what}>
+      <div className="mod-head">
+        <h2>What an account does</h2>
+      </div>
+      <dl className={styles.list}>
+        <div>
+          <dt>Your name</dt>
+          <dd>Shown next to your lounge ratings and comments. You pick it after signing in, and it can change once every six months.</dd>
+        </div>
+        <div>
+          <dt>Your record</dt>
+          <dd>Every stay, lounge rating and comment you send, with whether it is published or waiting to be read. Withdraw anything not yet read.</dd>
+        </div>
+        <div>
+          <dt>Your status</dt>
+          <dd>Save the tier you hold in each program and the stay form fills it in for you.</dd>
+        </div>
+        <div>
+          <dt>Your stays</dt>
+          <dd>
+            Always anonymous, signed in or not. You do not need an account to add one.{' '}
+            <Link className="link" href="/submit-a-stay">
+              Add your stay
+            </Link>
+          </dd>
+        </div>
+      </dl>
+    </aside>
   )
 }
 

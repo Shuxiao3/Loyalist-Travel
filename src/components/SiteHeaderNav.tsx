@@ -146,10 +146,15 @@ export function SiteHeaderNav({ menus }: { menus: HeaderMenus }) {
   }
 
   // Programs is a button: a tap or a key toggles it; a click keeps open what hovering opened.
+  // A mouse click always leaves it open (set, not toggled), so a click that lands before the
+  // hover's render has happened cannot close it again.
   const onProgramsClick = () => {
     const how = pressedWith.current
     pressedWith.current = ''
-    if (how === 'mouse' && menu === 'programs') return
+    if (how === 'mouse') {
+      setMenu('programs')
+      return
+    }
     setMenu((m) => (m === 'programs' ? null : 'programs'))
   }
 

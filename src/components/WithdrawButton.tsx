@@ -6,8 +6,8 @@ import { withdrawSubmission, type WithdrawState } from '@/app/actions/account'
 
 import styles from './WithdrawButton.module.css'
 
-// Only shown on pending items. Asks once, in the browser, because the action
-// deletes without a second round trip.
+// Only shown on pending items, under their state (mockup: account.html, .act-btn). Asks once,
+// in the browser, because the action deletes without a second round trip.
 export function WithdrawButton({ kind, id }: { kind: 'stay' | 'comment' | 'rating'; id: number }) {
   const [state, action, pending] = useActionState<WithdrawState, FormData>(withdrawSubmission, null)
 
@@ -24,7 +24,11 @@ export function WithdrawButton({ kind, id }: { kind: 'stay' | 'comment' | 'ratin
       <button type="submit" className={styles.button} disabled={pending}>
         {pending ? 'Withdrawing' : 'Withdraw'}
       </button>
-      {state && !state.ok && <span className={styles.error}>{state.error}</span>}
+      {state && !state.ok && (
+        <span className={styles.error} role="alert">
+          {state.error}
+        </span>
+      )}
     </form>
   )
 }

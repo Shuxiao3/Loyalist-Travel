@@ -1,0 +1,119 @@
+/* The lounge directory's table (mockups' css/programs.css, .lt). The kit's .table does the rest. */
+.lt :global(.hn) {
+  color: var(--ink);
+}
+
+.lt :global(.hn):hover {
+  color: var(--link);
+}
+
+.lt :global(.sub-b) {
+  margin-top: 1px;
+}
+
+.lt td.city {
+  color: var(--ink);
+}
+
+.lt td.prog,
+.lt td.who {
+  font-size: var(--fs-1);
+  color: var(--ink-2);
+}
+
+.lt th.city {
+  width: 190px;
+}
+
+.lt th.prog {
+  width: 140px;
+}
+
+.lt th.who {
+  width: 290px;
+}
+
+.mk {
+  white-space: nowrap;
+}
+
+.mk :global(.score-inline),
+.mk :global(.score-inline) small {
+  font-size: var(--fs-1);
+}
+
+/* the phone's one line of place and who gets in */
+.m {
+  display: none;
+}
+
+@media (max-width: 1180px) {
+  .lt th.city {
+    width: 150px;
+  }
+
+  .lt th.prog {
+    width: 124px;
+  }
+
+  .lt th.who {
+    width: 200px;
+  }
+}
+
+@media (max-width: 960px) {
+  .lt .prog {
+    display: none;
+  }
+}
+
+/* Phone: hotel, lounge, then city and who gets in */
+@media (max-width: 760px) {
+  .lt,
+  .lt thead,
+  .lt tbody {
+    display: block;
+  }
+
+  .lt thead {
+    display: none;
+  }
+
+  .lt tr {
+    display: block;
+    padding: 9px 0 10px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .lt td {
+    display: none;
+    border: 0;
+    padding: 0;
+  }
+
+  .lt td.hotel {
+    display: block;
+  }
+
+  .lt :global(.hn) {
+    font-size: var(--fs-3);
+    line-height: 1.25;
+  }
+
+  .lt :global(.sub-b) {
+    font-size: var(--fs-2);
+    color: var(--ink-2);
+  }
+
+  .m {
+    display: block;
+    font-size: var(--fs-1);
+    line-height: 1.35;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .lt tbody tr:hover td {
+    background: none;
+  }
+}

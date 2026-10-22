@@ -11,7 +11,8 @@ House rules: no em dashes in copy you write; no AI model names in code or commen
   - `category` is one of `news`, `guides`, `hotels`, `airlines`, `credit-cards`, or a comma list of them
     (`category: news, airlines`; a `categories:` key works the same). The first is the main category:
     cards and the breadcrumb show it, it fills `{Category}` in the SEO settings' article template,
-    and the article page lists them all.
+    and the article page lists them all. Lists are `/news` and `/guides` (the other categories are
+    topic tabs inside them), so every article needs `news` or `guides` among its categories.
   - `featured: true|false`; `programs:` and `articles:` are comma-separated slugs (programs such as `world-of-hyatt`; related articles).
   - `dek` 300 characters at most (the field's limit); `metaTitle` 42 at most (the site adds
     " | Loyalist Travel", and the admin's search preview counts 60 with it); `metaDescription` 140 to 160.
