@@ -9,6 +9,9 @@
 .hero :global(.pb-meta) a { color: var(--on-navy-2); font-weight: 600; }
 .hero :global(.pb-meta) a:global(.link) { color: #fff; white-space: nowrap; }
 .hero :global(.pb-meta) b { font-weight: 600; color: var(--on-navy-2); }
+/* the meta lines wrap between items only, in lines of even length (no item left alone on a line) */
+.hero :global(.pb-meta) { text-wrap: balance; }
+.mi { white-space: nowrap; }
 .scores { display: grid; grid-template-columns: auto auto; align-items: end; gap: 0 var(--sp-5); }
 .total { padding-right: var(--sp-5); border-right: 1px solid var(--navy-line); }
 .total :global(.fig-n) { color: var(--gold); }
@@ -96,12 +99,6 @@
 .hotel :global(.kv) { margin-top: var(--sp-2); }
 .hotel :global(.kv) > div { grid-template-columns: 84px minmax(0, 1fr); }
 .hotelAct { margin-top: var(--sp-3); }
-.more :global(.rev-list) h3 { font-size: var(--fs-3); line-height: 1.25; }
-.more :global(.rev-list) h3 a:hover { color: var(--link); }
-.more :global(.rev-list) :global(.verdict) { font-size: var(--fs-1); line-height: 1.4; }
-.more :global(.rev-list) :global(.score) { width: 48px; height: 48px; }
-.more :global(.rev-list) :global(.score) b { font-size: var(--fs-4); }
-.more :global(.rev-list) > li { grid-template-columns: 48px minmax(0, 1fr); gap: var(--sp-3); }
 .toc { position: sticky; top: var(--sp-4); }
 
 /* ======================================================= Responsive */

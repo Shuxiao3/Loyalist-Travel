@@ -3,12 +3,14 @@ import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
 
 import { BrowseSide, SideLinks, SideReviews, StayBox } from '@/components/BrowseSide'
+import { CurrentTabInView } from '@/components/CurrentTabInView'
 import { HotelTable, HotelTableNote } from '@/components/HotelTable'
 import { PageNumbers } from '@/components/PageNumbers'
 import { RichText } from '@/components/RichText'
 import { rel } from '@/lib/format'
 import { browseHotels, hotelRowExtras, loungesIn, moreInCountry, programsIn } from '@/lib/hotelBrowse'
 import { getDestination, getPayloadClient } from '@/lib/queries'
+import { reviewPhoto } from '@/lib/photos'
 import { getSeo, metaText, pageMeta } from '@/lib/seo'
 import type { Hotel, Program, Region } from '@/payload-types'
 
@@ -91,7 +93,7 @@ export default async function DestinationPage({ params, searchParams }: Props) {
             </div>
           </div>
           {programs.length > 1 && (
-            <nav className="tabs" aria-label="Programs">
+            <nav className="tabs tabs-bleed" aria-label="Programs">
               <Link className={!program ? 'on' : undefined} aria-current={!program ? 'page' : undefined} href={href({})}>
                 All
               </Link>
@@ -105,6 +107,7 @@ export default async function DestinationPage({ params, searchParams }: Props) {
               })}
             </nav>
           )}
+          <CurrentTabInView current={program} />
         </div>
       </section>
 
@@ -123,7 +126,7 @@ export default async function DestinationPage({ params, searchParams }: Props) {
               </div>
               {hotels.docs.length > 0 ? (
                 <>
-                  <HotelTable hotels={hotels.docs} extras={rows} caption={`Hotels in ${destination.name}`} columns={{ brand: true, program: true, segment: true }} />
+                  <HotelTable hotels={hotels.docs} extras={rows} caption={`Hotels in ${destination.name}`} columns={{ brand: true, program: true }} />
                   <HotelTableNote />
                 </>
               ) : (
@@ -139,7 +142,7 @@ export default async function DestinationPage({ params, searchParams }: Props) {
               title={`Our ${destination.name} reviews`}
               reviews={reviews.docs.map((r) => {
                 const hotel = rel<Hotel>(r.hotel)
-                return { slug: r.slug, title: r.title, score: r.totals?.overall ?? null, stayDate: r.stayDate, verdict: r.shortVerdict, place: rel<Program>(hotel?.program)?.name ?? null }
+                return { slug: r.slug, title: r.title, score: r.totals?.overall ?? null, stayDate: r.stayDate, verdict: r.shortVerdict, place: rel<Program>(hotel?.program)?.name ?? null, photo: reviewPhoto(r, hotel) }
               })}
             />
             <SideLinks

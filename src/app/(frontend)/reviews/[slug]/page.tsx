@@ -5,6 +5,7 @@ import { Fragment, type ReactNode } from 'react'
 
 import { PlainComments } from '@/components/PlainComments'
 import { ReadingProgress } from '@/components/ReadingProgress'
+import { ReviewRows } from '@/components/ReviewRows'
 import { RichText } from '@/components/RichText'
 import { monthYear, rel, score, shortDate, shortMonthYear } from '@/lib/format'
 import { reviewPhoto } from '@/lib/photos'
@@ -65,12 +66,13 @@ function siteName(url?: string | null): string | null {
 }
 
 // Items joined by middle dots, as the band's meta lines run. The dot keeps to the item before
-// it, so a wrapped line never starts with one.
+// it, so a wrapped line never starts with one, and an item never breaks inside itself (a phone
+// wraps between items, never in a date or a name).
 const dotted = (items: ReactNode[]) =>
   items.map((item, i) => (
     <Fragment key={i}>
       {i > 0 && '\u00a0· '}
-      {item}
+      <span className={styles.mi}>{item}</span>
     </Fragment>
   ))
 
@@ -309,7 +311,14 @@ export default async function ReviewPage({ params }: Props) {
                 })}
                 {s.silent.length > 0 && (
                   <p className={`${styles.silent} ${styles.indent}`}>
-                    Scored without a note: {s.silent.map((k) => `${cat(k)?.label ?? k} ${score(review.scores?.[k])}/${cat(k)?.max ?? 5}`).join(', ')}.
+                    Scored without a note:{' '}
+                    {s.silent.map((k, i) => (
+                      <Fragment key={k}>
+                        {i > 0 && ', '}
+                        <span className={styles.mi}>{`${cat(k)?.label ?? k} ${score(review.scores?.[k])}/${cat(k)?.max ?? 5}`}</span>
+                      </Fragment>
+                    ))}
+                    .
                   </p>
                 )}
                 {s.id === 'service' && elite.length > 0 && (
@@ -439,30 +448,14 @@ export default async function ReviewPage({ params }: Props) {
                   <h2 id="h-more">More reviews</h2>
                   <Link href="/reviews">All reviews</Link>
                 </div>
-                <ol className="rev-list">
-                  {related.map((r) => {
-                    const href = `/reviews/${r.slug}`
-                    const s = score(r.totals?.overall)
+                <ReviewRows
+                  size="side"
+                  rows={related.map((r) => {
                     const f = relatedFacts.get(r.id)
                     const when = shortMonthYear(r.stayDate)
-                    const meta = [f?.city, f?.program, when ? `Stayed ${when}` : null].filter(Boolean).join(' · ')
-                    return (
-                      <li key={r.id}>
-                        <Link className="score" href={href} aria-label={`Score ${s} out of 100`}>
-                          <b>{s}</b>
-                          <span>of 100</span>
-                        </Link>
-                        <div>
-                          <h3>
-                            <Link href={href}>{r.title}</Link>
-                          </h3>
-                          {meta && <p className="meta">{meta}</p>}
-                          {r.shortVerdict && <p className="verdict">{r.shortVerdict}</p>}
-                        </div>
-                      </li>
-                    )
+                    return { id: r.id, slug: r.slug, title: r.title, score: r.totals?.overall, photo: reviewPhoto(r), meta: [f?.city, f?.program, when && `Stayed ${when}`], verdict: r.shortVerdict }
                   })}
-                </ol>
+                />
               </section>
             )}
 

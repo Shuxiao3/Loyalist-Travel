@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
-import type { ReactNode } from 'react'
+import { Fragment, type ReactNode } from 'react'
 
 import { signOut } from '@/auth'
 import { DeleteAccountForm } from '@/components/DeleteAccountForm'
@@ -44,6 +44,20 @@ const STATE = {
   rejected: { label: 'Not published', className: 'stNo' },
 } as const
 
+// A stay's or a rating's detail ("Stayed 2026 · Platinum Elite · 4/5 overall") wraps between its
+// parts, so a phone never leaves one word of a short part ("worth a club room") alone on a line.
+// A long part ("upgraded to a junior suite, offered without asking") may still wrap inside, so it
+// never runs past a narrow screen. A comment is the reader's own text and wraps as written.
+function detailParts(item: ActivityItem): ReactNode {
+  if (!item.detail || item.kind === 'comment') return item.detail
+  return item.detail.split(' · ').map((part, i) => (
+    <Fragment key={i}>
+      {i > 0 && '\u00a0· '}
+      <span className={part.length <= 30 ? styles.part : undefined}>{part}</span>
+    </Fragment>
+  ))
+}
+
 // One sent thing: when, what, the detail, and where it stands (mockup: account.html, .acts).
 function ActivityRow({ item }: { item: ActivityItem }) {
   const state = STATE[item.status]
@@ -52,7 +66,7 @@ function ActivityRow({ item }: { item: ActivityItem }) {
       <div>
         <p className="meta">Sent {shortDate(item.createdAt)}</p>
         <h3>{item.href ? <Link href={item.href}>{item.title}</Link> : item.title}</h3>
-        {item.detail && <p className={styles.detail}>{item.detail}</p>}
+        {item.detail && <p className={styles.detail}>{detailParts(item)}</p>}
       </div>
       <div className={styles.state}>
         <p className={`${styles.st} ${styles[state.className]}`}>{state.label}</p>

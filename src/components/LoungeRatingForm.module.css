@@ -106,6 +106,12 @@
 }
 
 @media (max-width: 760px) {
+  /* Phone audit: Yes and No are 40px tall tap targets, through padding the layout does not see */
+  .choices :global(.choice) {
+    padding: 10px 12px 10px 0;
+    margin: -10px -12px -10px 0;
+  }
+
   .segRow {
     grid-template-columns: minmax(0, 1fr) 210px;
   }

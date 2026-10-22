@@ -3,12 +3,14 @@ import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
 
 import { BrowseSide, SideLinks, SideReviews, StayBox } from '@/components/BrowseSide'
+import { CurrentTabInView } from '@/components/CurrentTabInView'
 import { HotelTable, HotelTableNote } from '@/components/HotelTable'
 import { PageNumbers } from '@/components/PageNumbers'
 import { RichText } from '@/components/RichText'
 import { rel } from '@/lib/format'
-import { browseHotels, hotelRowExtras, regionsOf, segmentLabel, siblingBrands } from '@/lib/hotelBrowse'
+import { browseHotels, hotelRowExtras, regionsOf, siblingBrands } from '@/lib/hotelBrowse'
 import { getBrand, getPayloadClient, topTierOf } from '@/lib/queries'
+import { reviewPhoto } from '@/lib/photos'
 import { getSeo, metaText, pageMeta } from '@/lib/seo'
 import type { Destination, Hotel, Program } from '@/payload-types'
 
@@ -35,7 +37,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 // A brand (mockup: brand.html). The band carries the breadcrumb, the brand, its line, its
-// program and segment, and a tab per region with one of its hotels. Below: the hotels in a table
+// program, and a tab per region with one of its hotels. Below: the hotels in a table
 // (most stays reported first), and a side column of the site's reviews of them, the program's
 // other brands and the "Add your stay" box. No counts.
 export default async function BrandPage({ params, searchParams }: Props) {
@@ -65,7 +67,6 @@ export default async function BrandPage({ params, searchParams }: Props) {
   if (hotels.docs.length === 0 && page > 1) redirect(href({ region }))
   const rows = await hotelRowExtras(hotels.docs)
   const filterHref = `/hotels?brand=${encodeURIComponent(brand.slug)}${region ? `&region=${encodeURIComponent(region)}` : ''}`
-  const segment = segmentLabel(brand.segment)
 
   return (
     <>
@@ -86,17 +87,15 @@ export default async function BrandPage({ params, searchParams }: Props) {
             <div className="pb-title">
               <h1>{brand.name}</h1>
               {brand.shortDescription && <p className="pb-dek">{brand.shortDescription}</p>}
-              {(program || segment) && (
+              {program && (
                 <p className={`pb-meta ${styles.meta}`}>
-                  {program && <Link href={`/programs/${program.slug}`}>{program.name}</Link>}
-                  {program && segment && ' · '}
-                  {segment}
+                  <Link href={`/programs/${program.slug}`}>{program.name}</Link>
                 </p>
               )}
             </div>
           </div>
           {regions.length > 1 && (
-            <nav className="tabs" aria-label="Regions">
+            <nav className="tabs tabs-bleed" aria-label="Regions">
               <Link className={!region ? 'on' : undefined} aria-current={!region ? 'page' : undefined} href={href({})}>
                 All
               </Link>
@@ -110,6 +109,7 @@ export default async function BrandPage({ params, searchParams }: Props) {
               })}
             </nav>
           )}
+          <CurrentTabInView current={region} />
         </div>
       </section>
 
@@ -144,7 +144,7 @@ export default async function BrandPage({ params, searchParams }: Props) {
               title={`Our ${brand.name} reviews`}
               reviews={reviews.docs.map((r) => {
                 const hotel = rel<Hotel>(r.hotel)
-                return { slug: r.slug, title: r.title, score: r.totals?.overall ?? null, stayDate: r.stayDate, verdict: r.shortVerdict, place: rel<Destination>(hotel?.destination)?.name ?? null }
+                return { slug: r.slug, title: r.title, score: r.totals?.overall ?? null, stayDate: r.stayDate, verdict: r.shortVerdict, place: rel<Destination>(hotel?.destination)?.name ?? null, photo: reviewPhoto(r, hotel) }
               })}
             />
             {program && <SideLinks id="brands-h" title={`More ${program.name} brands`} link={{ href: `/programs/${program.slug}#brands`, label: 'All brands' }} rows={siblings.map((b) => ({ href: `/brands/${b.slug}`, name: b.name }))} />}

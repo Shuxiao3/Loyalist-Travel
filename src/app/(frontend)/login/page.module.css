@@ -120,4 +120,19 @@
     width: 100%;
     height: 44px;
   }
+
+  /* Phone audit: the band's "Sign in" sits right above the card, so the card's own "Sign in"
+     heading is left to screen readers here and the card starts with its line */
+  .cardH {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .cardH + .lede {
+    margin-top: 0;
+  }
 }

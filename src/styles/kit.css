@@ -172,8 +172,9 @@ button.nav-link { margin: 0; padding: 2px 0 0; background: none; border-top: 0; 
 .signin-name { display: block; max-width: 144px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height: 1.25; }
 .signin-short { display: none; }
 
-/* Phone section row and drawer (hidden on desktop) */
-.nav-row { display: none; }
+/* Phone search bar and drawer (hidden on desktop) */
+.search-toggle { display: none; }
+.search-drop { display: none; }
 .drawer-toggle { display: none; }
 .drawer { display: none; }
 
@@ -266,11 +267,37 @@ button.nav-link { margin: 0; padding: 2px 0 0; background: none; border-top: 0; 
 .band .score-inline { color: var(--gold); }
 .band .score-inline small { color: var(--on-navy-3); }
 
-.rev-list > li { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 14px; padding: var(--sp-3) 0; border-bottom: 1px solid var(--rule); }
-.rev-list .score { margin-top: 3px; }
+/* A review's picture (3:2) with its score in the bottom left corner. The photo is a background
+   over a navy frame, so one that fails to load leaves a navy tile with the score in its corner.
+   With no photo the score fills the frame. */
+.rev-thumb { --rb-w: 50px; --rb-h: 44px; --rb-fs: var(--fs-4); --rb-fs-tile: var(--fs-6); position: relative; display: block; aspect-ratio: 3 / 2; background: var(--navy); border-radius: 2px; overflow: hidden; }
+.rev-thumb:hover { text-decoration: none; }
+.rev-photo { position: absolute; inset: 0; background: center / cover no-repeat; transition: opacity 0.15s; }
+.rev-thumb:hover .rev-photo { opacity: 0.88; }
+.rev-thumb .score { position: absolute; left: 0; bottom: 0; width: auto; min-width: var(--rb-w); height: var(--rb-h); padding: 0 6px; border-radius: 0 2px 0 0; }
+.rev-thumb .score b { font-size: var(--rb-fs); }
+.rev-thumb.no-photo .score { inset: 0; width: 100%; min-width: 0; height: 100%; border-radius: 0; }
+.rev-thumb.no-photo .score b { font-size: var(--rb-fs-tile); }
+
+/* Review rows: the picture, then the name, its line and the verdict */
+.rev-list > li { display: grid; grid-template-columns: 120px minmax(0, 1fr); grid-template-rows: auto 1fr; grid-template-areas: "thumb head" "thumb body"; gap: 0 14px; padding: var(--sp-3) 0; border-bottom: 1px solid var(--rule); }
+.rev-list .rev-thumb { grid-area: thumb; align-self: start; margin-top: 3px; }
+.rev-list .rev-head { grid-area: head; }
 .rev-list h3 { font: 600 var(--fs-4)/1.2 var(--serif); }
+.rev-list h3 a:hover { color: var(--link); }
 .rev-list .meta { margin-top: 1px; }
-.rev-list .verdict { font-size: var(--fs-2); line-height: 1.4; color: var(--ink-2); margin-top: var(--sp-1); }
+.rev-list .meta span { white-space: nowrap; }
+.rev-list .verdict { grid-area: body; font-size: var(--fs-2); line-height: 1.4; color: var(--ink-2); margin-top: var(--sp-1); }
+/* In a side column: a smaller picture and type */
+.rev-list-side > li { grid-template-columns: 96px minmax(0, 1fr); gap: 0 var(--sp-3); }
+.rev-list-side .rev-thumb { --rb-w: 44px; --rb-h: 38px; --rb-fs: var(--fs-3); --rb-fs-tile: var(--fs-5); }
+.rev-list-side h3 { font-size: var(--fs-3); line-height: 1.25; }
+.rev-list-side .verdict { font-size: var(--fs-1); line-height: 1.4; }
+/* Two columns at tablet width leave a main list narrow: the verdict runs full width under the picture, as on phones */
+@media (min-width: 761px) and (max-width: 960px) {
+  .rev-list:not(.rev-list-side) > li { grid-template-columns: 112px minmax(0, 1fr); grid-template-rows: auto auto; grid-template-areas: "thumb head" "body body"; gap: 0 var(--sp-3); }
+  .rev-list:not(.rev-list-side) .verdict { margin-top: var(--sp-2); }
+}
 
 /* Compact review element for a hotel page: score, one-line verdict, link. Never bigger. */
 .review-strip { display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; align-items: center; gap: var(--sp-4); padding: var(--sp-3) var(--sp-4); background: var(--warm); border: 1px solid var(--rule); border-radius: var(--radius); }
@@ -366,7 +393,7 @@ button.nav-link { margin: 0; padding: 2px 0 0; background: none; border-top: 0; 
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--sp-2); height: 38px; padding: 0 var(--sp-4); border: 0; border-radius: var(--radius); background: var(--navy); color: #fff; font: 600 var(--fs-2)/1 var(--sans); white-space: nowrap; cursor: pointer; }
 .btn:hover { background: #1d3054; text-decoration: none; }
 .btn-light { background: #fff; color: var(--navy); }
-.btn-light:hover { background: #eef1f5; }
+.btn-light:hover, .band .btn-light:hover { background: #eef1f5; color: var(--navy); }
 .btn-soft { background: var(--warm-2); color: var(--navy); box-shadow: inset 0 0 0 1px var(--rule-2); }
 .btn-soft:hover { background: #e7e3db; }
 .btn-sm { height: 32px; padding: 0 var(--sp-3); }
@@ -374,14 +401,17 @@ button.nav-link { margin: 0; padding: 2px 0 0; background: none; border-top: 0; 
 .btn[disabled], .btn.is-disabled { opacity: 0.45; cursor: not-allowed; }
 .text-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) 18px; }
 
-/* Tabs as plain links */
-.tabs { display: flex; gap: var(--sp-5); border-bottom: 1px solid var(--rule-2); overflow-x: auto; scrollbar-width: none; }
+/* Tabs as plain links. The row scrolls sideways only: nothing overflows it vertically (the rule
+   under it is an inset shadow the underlines paint over, not a border they hang into), vertical
+   scrolling is off, a sideways swipe stops at its ends instead of carrying on to the page, and
+   no scrollbar shows. A vertical swipe that starts on the row still scrolls the page. */
+.tabs { display: flex; gap: var(--sp-5); box-shadow: inset 0 -1px 0 var(--rule-2); overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
 .tabs::-webkit-scrollbar { display: none; }
-.tabs a { flex: none; padding: 10px 0 7px; margin-bottom: -1px; border-bottom: 3px solid transparent; font: 600 var(--fs-2)/1.2 var(--sans); color: var(--muted); white-space: nowrap; }
+.tabs a { flex: none; padding: 10px 0 7px; border-bottom: 3px solid transparent; font: 600 var(--fs-2)/1.2 var(--sans); color: var(--muted); white-space: nowrap; }
 .tabs a:hover { color: var(--ink); text-decoration: none; }
 .tabs a.on, .tabs a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--navy); }
 .tabs a span { font-weight: 400; color: var(--muted); margin-left: var(--sp-1); }
-.band .tabs { border-bottom-color: transparent; }
+.band .tabs { box-shadow: none; }
 .band .tabs a { color: var(--on-navy-3); }
 .band .tabs a:hover { color: #fff; }
 .band .tabs a.on, .band .tabs a[aria-current="page"] { color: #fff; border-bottom-color: var(--gold); }
@@ -504,8 +534,9 @@ body:has(.modal-layer.is-open) { overflow: hidden; }
   .signin-short { display: inline; }
 }
 
-/* Compact header: the main nav moves to a row of section links under the
-   brand, and the menu button opens the drawer. */
+/* Compact header: brand, search button, Sign in and the menu button. The menu button opens
+   the drawer, the only navigation here; the search button drops a slim search bar under the
+   header, over the top of the page (the rest of the page stays in view). */
 @media (max-width: 960px) {
   :root { --head-h: 52px; }
   .head-row { gap: var(--sp-2); }
@@ -515,23 +546,23 @@ body:has(.modal-layer.is-open) { overflow: hidden; }
   .head-tools { gap: var(--sp-1); }
   .signin { padding: 0 6px; }
   .icon-btn { display: flex; }
-  .nav-row { display: block; border-top: 1px solid var(--navy-line); }
-  .sec-nav { display: flex; justify-content: space-between; gap: var(--sp-2); overflow-x: auto; scrollbar-width: none; }
-  .sec-nav::-webkit-scrollbar { display: none; }
-  .sec-nav a { flex: none; padding: 11px 0 9px; border-bottom: 2px solid transparent; color: var(--on-navy-2); font: 600 var(--fs-2)/1 var(--sans); white-space: nowrap; }
-  .sec-nav a:hover { color: #fff; text-decoration: none; }
-  .sec-nav a.on, .sec-nav a[aria-current="page"] { color: #fff; border-bottom-color: var(--gold); }
+
+  .search-toggle { display: block; }
+  .search-toggle[open] > summary { color: var(--gold); }
+  .search-toggle[open] > .search-drop { display: block; }
+  .search-drop { position: absolute; top: 100%; left: 0; right: 0; z-index: 65; background: var(--navy-2); border-top: 1px solid var(--navy-line); border-bottom: 1px solid var(--navy-line); box-shadow: 0 14px 28px rgba(18, 32, 58, 0.28); }
+  .search-drop-form { display: flex; gap: var(--sp-2); padding-top: 10px; padding-bottom: var(--sp-3); }
+  .search-drop .input { flex: 1; height: 42px; border-color: transparent; font-size: var(--fs-3); }
+  .search-drop .input:focus { border-color: transparent; box-shadow: 0 0 0 2px var(--gold); }
+  .search-drop .btn { flex: none; height: 42px; }
 
   .drawer-toggle { display: block; }
   .drawer-toggle .i-close { display: none; }
   .drawer-toggle[open] .i-menu { display: none; }
   .drawer-toggle[open] .i-close { display: block; }
   .drawer-toggle[open] > .drawer { display: block; }
-  .site-head:has(.drawer-toggle[open]) .nav-row { display: none; }
   body:has(.drawer-toggle[open]) { overflow: hidden; }
-  .drawer { position: fixed; top: calc(var(--head-h) + 1px); left: 0; right: 0; bottom: 0; z-index: 70; overflow-y: auto; padding: var(--sp-3) var(--gutter) var(--sp-6); background: #fff; color: var(--ink); }
-  .drawer-search { display: flex; align-items: center; gap: var(--sp-2); height: 42px; padding: 0 var(--sp-3); margin-bottom: var(--sp-2); border: 1px solid var(--rule-2); border-radius: var(--radius); color: var(--muted); }
-  .drawer-search input { width: 100%; min-width: 0; border: 0; outline: none; background: transparent; font-size: var(--fs-3); color: var(--ink); }
+  .drawer { position: fixed; top: calc(var(--head-h) + 1px); left: 0; right: 0; bottom: 0; z-index: 70; overflow-y: auto; overscroll-behavior: contain; padding: var(--sp-3) var(--gutter) var(--sp-6); background: #fff; color: var(--ink); }
   .drawer-list > li { border-bottom: 1px solid var(--rule); }
   .drawer-list > li > a, .drawer-group > summary { display: flex; align-items: center; justify-content: space-between; min-height: 48px; font: 600 var(--fs-3)/1.2 var(--sans); color: var(--ink); }
   .drawer-list > li > a[aria-current="page"] { color: var(--link); }
@@ -601,7 +632,11 @@ body:has(.modal-layer.is-open) { overflow: hidden; }
   .secondary li + li { margin-top: 0; padding-top: 10px; }
   .secondary .dek { font-size: var(--fs-3); line-height: 1.3; margin-top: var(--sp-1); white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 
-  .rev-list .verdict { font-size: var(--fs-3); line-height: 1.35; }
+  /* Phone review rows: the picture beside the name, the verdict full width below */
+  .rev-list > li, .rev-list-side > li { grid-template-columns: 112px minmax(0, 1fr); grid-template-rows: auto auto; grid-template-areas: "thumb head" "body body"; gap: 0 var(--sp-3); }
+  .rev-list .verdict { font-size: var(--fs-3); line-height: 1.35; margin-top: var(--sp-2); }
+  .rev-list-side h3 { font-size: var(--fs-4); line-height: 1.2; }
+  .rev-list-side .rev-thumb { --rb-w: 50px; --rb-h: 44px; --rb-fs: var(--fs-4); --rb-fs-tile: var(--fs-6); }
   .review-strip { grid-template-columns: 56px minmax(0, 1fr); gap: var(--sp-1) var(--sp-3); padding: var(--sp-3); }
   .review-strip .rs-link { grid-column: 2; }
 
@@ -722,3 +757,35 @@ input[type="search"]::-webkit-search-cancel-button {
   mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 4l8 8M12 4l-8 8' stroke='%23000' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E") center / 14px 14px no-repeat;
 }
 input[type="search"]::-webkit-search-cancel-button:hover { opacity: 0.85; }
+
+/* ---------- phone audit a ----------
+   The header's tap areas and the fields' text size apply on every page and move nothing; the
+   edge-to-edge tab row is opt-in (.tabs-bleed). */
+
+/* The compact header's buttons keep their look and get a 44px tap area: the search and menu
+   icons through an invisible frame around them, Sign in through the height of the bar */
+@media (max-width: 960px) {
+  .head-tools .icon-btn { position: relative; }
+  .head-tools .icon-btn::after { content: ""; position: absolute; inset: -4px; }
+  .head-tools .signin { display: flex; align-items: center; min-height: 44px; }
+}
+
+@media (max-width: 760px) {
+  /* iPhone zooms into a field whose text is under 16px when it is tapped, and stays zoomed. On
+     phones the fields' text is 16px; their size is unchanged. (A sort menu sizes to its text, so
+     a list page sets its own.) */
+  .input, .textarea, .select:not(:where(.sort .select)) { font-size: 16px; }
+
+  /* .tabs.tabs-bleed, opt-in: on phones the row scrolls edge to edge, so a tab it cuts off is cut
+     by the screen rather than short of it; at rest the first tab still lines up with the page */
+  .tabs.tabs-bleed { margin-left: calc(-1 * var(--gutter)); margin-right: calc(-1 * var(--gutter)); padding-left: var(--gutter); padding-right: var(--gutter); scroll-padding-inline: var(--gutter); }
+}
+
+/* ---------- phone audit b ----------
+   Tap areas only: these rules move nothing on any page. */
+
+@media (max-width: 760px) {
+  /* A section head's link ("All reviews", "Hotel page") keeps its look and gets a 40px tall tap
+     area, through padding the layout does not see */
+  .mod-head > a { padding: 12px 0 12px 12px; margin: -12px 0 -12px -12px; }
+}

@@ -1,6 +1,6 @@
 // What the program pages need beyond the shared queries (mockup: program.html): the tiers'
 // benefits as plain lines, the milestone table read from the program's milestone guide, the
-// program's guides, its brands with their segment, and whether it has club lounges on record.
+// program's guides, and whether it has club lounges on record.
 
 import type { Where } from 'payload'
 

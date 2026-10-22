@@ -3,7 +3,7 @@ title: How to Stay Near Every Epic Pass Resort With Hotel Points: The 2026 Guide
 slug: epic-pass-ski-hotels-points-2026
 category: guides
 date: 2026-10-13
-featured: true
+featured: false
 programs: world-of-hyatt, marriott-bonvoy, hilton-honors, ihg-one-rewards
 articles: ikon-ski-hotels-points-2026
 dek: The Epic Pass covers 90+ resorts for 2026–27, but the points map over it is uneven: two of the best redemptions in skiing at Vail and Beaver Creek, a Marriott stronghold from Whistler to Verbier to Rusutsu, and famous towns where no loyalty program has a hotel at all.

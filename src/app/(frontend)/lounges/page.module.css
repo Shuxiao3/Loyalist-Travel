@@ -101,4 +101,47 @@
   .results :global(.sort) :global(.select) {
     max-width: 190px;
   }
+
+  /* Phone audit: the sort menu's text at 16px (smaller, iPhone zooms in when it is tapped);
+     "Filters" opens from a 40px tall strip without moving; the region rows and the page numbers
+     are 40px tall targets */
+  .results :global(.sort) :global(.select) {
+    font-size: 16px;
+  }
+
+  .filter :global(.hf-more) > summary {
+    padding: 10px 0;
+    margin: -10px 0;
+  }
+
+  .sideTable tbody th {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .sideTable tbody th a {
+    display: block;
+    padding: 10px 0;
+  }
+
+  .pagerEnd :global(.pager-pages) {
+    gap: 0;
+  }
+
+  .pagerEnd :global(.pager-pages) a,
+  .pagerEnd :global(.pager-pages) span {
+    min-width: 32px;
+    height: 40px;
+    padding: 0 5px;
+  }
+
+  .pagerEnd :global(.pager-pages) > :first-child,
+  .pagerEnd :global(.pager-pages) > :last-child {
+    padding: 0 6px;
+  }
+
+  .pagerEnd :global(.pager-pages) :global(.gap) {
+    min-width: 0;
+    padding: 0 1px;
+  }
 }

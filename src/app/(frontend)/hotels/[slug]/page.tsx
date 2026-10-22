@@ -6,7 +6,7 @@ import type { ReactNode } from 'react'
 
 import { HotelStayForm } from '@/components/HotelStayForm'
 import { ReaderPanel } from '@/components/ReaderPanel'
-import { SourcedFigures, SourcedFoot, SourcedPanel } from '@/components/SourcedPanel'
+import { SourcedPanel, SourcedSummary } from '@/components/SourcedPanel'
 import { ViewBeacon } from '@/components/ViewBeacon'
 import { rel, score, shortDate } from '@/lib/format'
 import { getHotelSnapshots } from '@/lib/hotelSnapshot'
@@ -42,16 +42,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const vars = { Hotel: hotel.name, Destination: destination?.name, Location: destination?.locationLabel ?? destination?.name, Brand: brand?.name, Program: program?.name, Elite: await topTierOf(program), Elites: elites }
   const text = metaText(hotel.reviewStatus === 'reviewed' ? seo?.hotel : seo?.hotelUnreviewed, vars, { title: `${hotel.name}${destination ? `, ${destination.name}` : ''}`, description })
   return pageMeta({ ...text, path: `/hotels/${hotel.slug}`, image: hotelPhoto(hotel) })
-}
-
-// Segment as the site writes it, sentence case ("Ultra luxury")
-const SEGMENT_LABEL: Record<NonNullable<Hotel['segment']>, string> = {
-  'ultra-luxury': 'Ultra luxury',
-  luxury: 'Luxury',
-  upscale: 'Upscale',
-  midscale: 'Midscale',
-  budget: 'Budget',
-  'extended-stay': 'Extended stay',
 }
 
 // The resort fee as a figure ("$30", "a night") when it is a plain amount, else null and it
@@ -103,7 +93,8 @@ async function otherHotels(hotel: Hotel, destination: Destination | null, brand:
     const b = rel<Brand>(h.brand)
     const d = rel<Destination>(h.destination)
     const snap = snapshots[h.id]
-    const parts = by === 'brand' ? [b?.name, d?.locationLabel ?? d?.name] : [b?.name, h.neighborhood, h.clubLounge === 'yes' ? 'Club lounge' : null]
+    // under "More Alila hotels" every row is an Alila, so the line is where it is
+    const parts = by === 'brand' ? [d?.locationLabel ?? d?.name] : [b?.name, h.neighborhood, h.clubLounge === 'yes' ? 'Club lounge' : null]
     return {
       hotel: h,
       program: rel<Program>(h.program),
@@ -194,7 +185,6 @@ export default async function HotelPage({ params }: Props) {
         )
       ) : null,
     },
-    { k: 'Segment', v: hotel.segment ? SEGMENT_LABEL[hotel.segment] : null },
     { k: 'Rooms', v: !inBand.has('rooms') && hotel.numberOfRooms ? hotel.numberOfRooms.toLocaleString('en-US') : null },
     { k: 'Opened', v: !inBand.has('opened') && hotel.openingYear ? [hotel.openingYear, renovated ? `renovated ${renovated}` : null].filter(Boolean).join(', ') : null },
     { k: 'Renovated', v: !hotel.openingYear && renovated ? String(renovated) : null },
@@ -269,9 +259,7 @@ export default async function HotelPage({ params }: Props) {
               </p>
             </div>
             {sourced.data ? (
-              <SourcedFigures data={sourced.data}>
-                <SourcedFoot data={sourced.data} />
-              </SourcedFigures>
+              <SourcedSummary data={sourced.data} />
             ) : (
               hotelFigs.length > 0 && (
                 <div className="figs figs-sm">
@@ -405,7 +393,9 @@ export default async function HotelPage({ params }: Props) {
                     destinationHref && (
                       <>
                         <h2 id="others-h">More hotels in {destination.name}</h2>
-                        <Link href={destinationHref}>All hotels in {destination.name}</Link>
+                        <Link href={destinationHref}>
+                          All hotels<span className={styles.lgInline}> in {destination.name}</span>
+                        </Link>
                       </>
                     )
                   )}
@@ -427,7 +417,8 @@ export default async function HotelPage({ params }: Props) {
                           </Link>
                           <span className="sub-b">
                             {o.sub}
-                            {o.program && <span className={styles.smOnly}>{o.sub ? ' · ' : ''}{o.program.name}</span>}
+                            {/* on phones the program joins the line, unless every row shares it (the brand's list) */}
+                            {o.program && others.by === 'destination' && <span className={styles.smOnly}>{o.sub ? ' · ' : ''}{o.program.name}</span>}
                           </span>
                         </th>
                         <td className={styles.lgCol}>{o.program?.name}</td>

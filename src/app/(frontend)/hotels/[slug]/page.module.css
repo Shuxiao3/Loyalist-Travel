@@ -109,9 +109,27 @@
   .lounge :global(.kv) { margin-top: 10px; }
   .lounge :global(.kv) > div { grid-template-columns: 112px minmax(0, 1fr); }
 
-  /* other hotels: name and its line on the left, odds on the right; the program joins the line */
-  .others thead { display: none; }
+  /* other hotels: name and its line on the left, odds on the right; the program joins the line.
+     Built like the Hotels list's table on phones: the column heads stay ("Got an upgrade" over
+     the figures and dashes), and each row is its own two-column grid, so a row with a dash gives
+     its name the full width */
   .lgCol { display: none; }
   .smOnly { display: inline; }
+  .others, .others thead, .others tbody { display: block; }
+  .others tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: var(--sp-3); align-items: baseline; border-bottom: 1px solid var(--rule); }
+  .others thead tr { border-bottom-color: var(--rule-2); }
+  :global(.table).others th, :global(.table).others td { border-bottom: 0; padding-left: 0; padding-right: 0; }
+  :global(.table).others thead th { padding-top: 6px; padding-bottom: 5px; }
   :global(.table).others tbody th, :global(.table).others td { padding-top: var(--sp-2); padding-bottom: var(--sp-2); }
+  :global(.table).others tbody tr:hover > * { background: none; }
+
+  /* "All hotels in Washington, D.C." beside "More hotels in Washington, D.C." squeezed the
+     heading onto two lines: on phones the link is "All hotels" */
+  .lgInline { display: none; }
+
+  /* The band: the address line goes, since the hotel's details right under the band open with
+     the same address and neighborhood; the actions are 40px tall to tap */
+  .hbRow :global(.pb-meta) { display: none; }
+  .hbRow :global(.pb-actions) :global(.btn) { height: 40px; }
+  .hbRow :global(.pb-actions) > a:not(:global(.btn)) { display: inline-flex; align-items: center; min-height: 40px; }
 }

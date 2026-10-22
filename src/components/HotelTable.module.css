@@ -34,8 +34,7 @@
   color: var(--link);
 }
 
-.ht td.prog,
-.ht td.type {
+.ht td.prog {
   font-size: var(--fs-1);
   color: var(--ink-2);
   white-space: nowrap;
@@ -43,10 +42,6 @@
 
 .ht th.prog {
   width: 160px;
-}
-
-.ht th.type {
-  width: 112px;
 }
 
 .ht th.up {
@@ -61,13 +56,7 @@
   margin-top: var(--sp-2);
 }
 
-@media (max-width: 1180px) {
-  .ht .type {
-    display: none;
-  }
-}
-
-/* Phone: rows keep the hotel and the upgrade figure; program and segment drop */
+/* Phone: rows keep the hotel and the upgrade figure; the program drops */
 @media (max-width: 760px) {
   .ht,
   .ht thead,

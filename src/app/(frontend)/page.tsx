@@ -1,11 +1,12 @@
 import Form from 'next/form'
 import Link from 'next/link'
 
+import { ReviewRows } from '@/components/ReviewRows'
 import { mainArticleCategory } from '@/lib/articleOptions'
 import { articleImage, getArticles } from '@/lib/articles'
-import { score, shortDate, shortMonthYear } from '@/lib/format'
+import { shortDate, shortMonthYear } from '@/lib/format'
 import { loungePrograms, programsInOrder, reviewPlaces } from '@/lib/homeData'
-import { programLogo } from '@/lib/photos'
+import { programLogo, reviewPhoto } from '@/lib/photos'
 import { getReviews } from '@/lib/queries'
 import { ARTICLE_SECTIONS, categoryName, PROGRAM_LINKS, SITE } from '@/lib/site'
 import type { Article } from '@/payload-types'
@@ -144,30 +145,13 @@ export default async function HomePage() {
                   <h2 id="rev-h">Latest reviews</h2>
                   <Link href="/reviews">All reviews</Link>
                 </div>
-                <ol className="rev-list">
-                  {reviews.docs.map((r) => {
-                    const href = `/reviews/${r.slug}`
-                    const s = score(r.totals?.overall)
+                <ReviewRows
+                  rows={reviews.docs.map((r) => {
                     const place = places.get(r.id)
                     const stayed = shortMonthYear(r.stayDate)
-                    const meta = [place?.city, place?.program, stayed ? `Stayed ${stayed}` : null].filter(Boolean).join(' · ')
-                    return (
-                      <li key={r.id}>
-                        <Link className="score" href={href} aria-label={`Score ${s} out of 100`}>
-                          <b>{s}</b>
-                          <span>of 100</span>
-                        </Link>
-                        <div>
-                          <h3>
-                            <Link href={href}>{r.title}</Link>
-                          </h3>
-                          {meta && <p className="meta">{meta}</p>}
-                          {r.shortVerdict && <p className="verdict">{r.shortVerdict}</p>}
-                        </div>
-                      </li>
-                    )
+                    return { id: r.id, slug: r.slug, title: r.title, score: r.totals?.overall, photo: reviewPhoto(r), meta: [place?.city, place?.program, stayed && `Stayed ${stayed}`], verdict: r.shortVerdict }
                   })}
-                </ol>
+                />
               </section>
             )}
           </div>

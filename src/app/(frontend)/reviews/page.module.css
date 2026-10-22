@@ -10,10 +10,13 @@
    desktop and in the Filters fold on phones. */
 .filter :global(.grow) { flex: 1 1 260px; }
 .fold { display: none; flex-basis: 100%; }
-.fold > summary { display: inline-flex; align-items: center; gap: 6px; list-style: none; cursor: pointer; font: 600 var(--fs-2)/1.2 var(--sans); color: var(--link); }
+.fold > summary { display: flex; align-items: baseline; gap: var(--sp-2); list-style: none; cursor: pointer; font: 600 var(--fs-2)/1.3 var(--sans); color: var(--link); }
 .fold > summary::-webkit-details-marker { display: none; }
-.fold > summary svg { width: 12px; height: 12px; }
-.fold[open] > summary svg { transform: rotate(180deg); }
+/* the same caret and muted line as the kit's Filters fold on the other lists */
+.sum { display: inline-flex; align-items: center; gap: 5px; }
+.sum::after { content: ""; width: 7px; height: 7px; margin-top: -4px; border-right: 1.6px solid currentColor; border-bottom: 1.6px solid currentColor; transform: rotate(45deg); }
+.fold[open] .sum::after { margin-top: 3px; transform: rotate(-135deg); }
+.sumSub { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--fs-1); font-weight: 400; color: var(--muted); }
 .foldBody { padding-top: var(--sp-1); }
 .foldH { font-size: var(--fs-1); color: var(--muted); margin-top: var(--sp-2); }
 .flinks { display: flex; flex-wrap: wrap; gap: 6px var(--sp-4); margin-top: 2px; }
@@ -25,19 +28,21 @@
 .colhead { display: none; }
 .colhead small { font-size: var(--fs-1); }
 
-/* Review rows: score, then the review; the six category totals sit under it as one short
-   line, or in aligned columns on wide screens (see the last block). */
-.rows > li { display: grid; grid-template-columns: 74px minmax(0, 1fr); grid-template-rows: auto 1fr; gap: var(--sp-2) var(--sp-5); padding: var(--sp-4) 0; border-bottom: 1px solid var(--rule); }
-.mark { grid-row: 1 / span 2; text-align: center; }
-.mark :global(.score) { margin: 3px auto 0; }
+/* Review rows: the picture with its score and band, then the review; the six category totals
+   sit under it as one short line, or in aligned columns on wide screens (see the last block). */
+.rows > li { display: grid; grid-template-columns: 152px minmax(0, 1fr); grid-template-rows: auto auto 1fr; grid-template-areas: "mark text" "mark body" "mark subs"; gap: 0 var(--sp-5); padding: var(--sp-4) 0; border-bottom: 1px solid var(--rule); }
+.mark { grid-area: mark; padding-top: 3px; }
+.mark :global(.rev-thumb) { --rb-w: 60px; --rb-h: 54px; --rb-fs: var(--fs-5); --rb-fs-tile: var(--fs-7); }
 .bandname { font-size: var(--fs-1); line-height: 1.25; font-weight: 600; color: var(--ink-2); margin-top: 6px; white-space: nowrap; }
+.text { grid-area: text; }
+.body { grid-area: body; }
 .text h3 { font: 600 var(--fs-4)/1.2 var(--serif); }
 .text h3 a:hover { color: var(--link); }
 .text :global(.meta) { margin-top: 2px; }
 .verdict { font-size: var(--fs-3); line-height: 1.42; color: var(--ink-2); margin-top: 6px; max-width: 62ch; }
-.text :global(.byline) { margin-top: 6px; }
-.text :global(.meta) span, .text :global(.byline) span { white-space: nowrap; }
-.subs { grid-column: 2; align-self: start; display: flex; flex-wrap: wrap; gap: 2px var(--sp-4); font-size: var(--fs-1); line-height: 1.35; }
+.body :global(.byline) { margin-top: 6px; }
+.text :global(.meta) span, .body :global(.byline) span { white-space: nowrap; }
+.subs { grid-area: subs; margin-top: var(--sp-2); align-self: start; display: flex; flex-wrap: wrap; gap: 2px var(--sp-4); font-size: var(--fs-1); line-height: 1.35; }
 .subs > div { display: flex; gap: 5px; white-space: nowrap; }
 .subs dt { color: var(--muted); }
 .subs dd { font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
@@ -66,9 +71,8 @@
   .results :global(.sort) { justify-self: start; }
   .colhead { display: grid; grid-template-columns: var(--rv-cols); column-gap: var(--rv-colgap); font-size: var(--fs-1); line-height: 1.2; font-weight: 600; color: var(--ink-2); text-align: right; }
   .colhead small { display: block; font-size: var(--fs-1); font-weight: 400; color: var(--muted); margin-top: 1px; }
-  .rows > li { grid-template-columns: 74px minmax(0, 1fr) var(--rv-subs-w); grid-template-rows: auto; }
-  .mark { grid-row: auto; }
-  .subs { grid-column: 3; grid-row: 1; display: grid; grid-template-columns: var(--rv-cols); column-gap: var(--rv-colgap); align-content: start; padding-top: 3px; text-align: right; }
+  .rows > li { grid-template-columns: 152px minmax(0, 1fr) var(--rv-subs-w); grid-template-rows: auto 1fr; grid-template-areas: "mark text subs" "mark body subs"; }
+  .subs { margin-top: 0; display: grid; grid-template-columns: var(--rv-cols); column-gap: var(--rv-colgap); align-content: start; padding-top: 3px; text-align: right; }
   .subs > div { display: block; }
   .subs dt { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
   .subs dd { font-size: var(--fs-3); line-height: 1.2; }
@@ -91,10 +95,19 @@
   .results:global(.results-line) { flex-wrap: nowrap; }
   .results :global(.sort) { min-width: 0; }
   .results :global(.sort) :global(.select) { max-width: 190px; }
-  .rows > li { grid-template-columns: 64px minmax(0, 1fr); gap: var(--sp-1) 12px; padding: 14px 0; }
-  .rows :global(.score-lg) { width: 56px; height: 56px; }
-  .rows :global(.score-lg) b { font-size: var(--fs-5); }
-  .bandname { margin-top: var(--sp-1); }
+  /* Phone audit: the sort menu at the right, as on the other lists, its text at 16px (smaller,
+     iPhone zooms in when it is tapped); "Filters" opens from a 40px tall strip without moving,
+     and its country and type links are 36px tall targets */
+  .results:global(.results-line) { justify-content: flex-end; }
+  .results :global(.sort) :global(.select) { font-size: 16px; }
+  .fold > summary { padding: 11px 0; margin: -11px 0; }
+  .flinks { gap: 0 var(--sp-4); margin-top: -4px; }
+  .flinks a { display: inline-block; padding: 9px 0; }
+  /* the picture beside the name; the verdict and the category totals full width below */
+  .rows > li { grid-template-columns: 112px minmax(0, 1fr); grid-template-rows: auto auto auto; grid-template-areas: "mark text" "body body" "subs subs"; gap: 0 12px; padding: 14px 0; }
+  .mark :global(.rev-thumb) { --rb-w: 50px; --rb-h: 44px; --rb-fs: var(--fs-4); --rb-fs-tile: var(--fs-6); }
+  .bandname { margin-top: 5px; }
+  .body { margin-top: var(--sp-1); }
   .verdict { font-size: var(--fs-3); line-height: 1.38; }
   .subs { gap: 0 var(--sp-3); }
   .side { display: block; margin-top: var(--sp-4); }

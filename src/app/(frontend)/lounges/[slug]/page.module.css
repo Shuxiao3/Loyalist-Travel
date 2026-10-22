@@ -15,6 +15,10 @@
   color: #fff;
 }
 
+.nw {
+  white-space: nowrap;
+}
+
 /* ---------- Layout ---------- */
 .col > * + * {
   margin-top: 32px;
@@ -289,23 +293,45 @@
 
 /* Phone */
 @media (max-width: 760px) {
-  /* the band: the title first, the photo small at its right, as on the hotel pages */
+  /* the band: the title full width (a lounge's name is long: beside the photo it ran to four
+     lines), then the photo small at the right of the program and access lines, then the actions */
   .bandRow {
     grid-template-columns: minmax(0, 1fr) 96px;
-    gap: var(--sp-4) var(--sp-3);
+    gap: 0 var(--sp-3);
   }
 
   .bandRow :global(.pb-title) {
-    grid-column: 1;
+    display: contents;
+  }
+
+  .bandRow h1 {
+    grid-column: 1 / -1;
     grid-row: 1;
+    text-wrap: balance;
+  }
+
+  .bandRow :global(.pb-dek) {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .bandRow :global(.pb-meta) {
+    grid-column: 1;
+    grid-row: 3;
+    text-wrap: balance;
+  }
+
+  .bandRow :global(.pb-actions) {
+    grid-column: 1 / -1;
+    grid-row: 4;
   }
 
   .bandPhoto {
     grid-column: 2;
-    grid-row: 1;
+    grid-row: 2 / span 2;
     align-self: start;
     height: 66px;
-    margin-top: 5px;
+    margin-top: 9px;
   }
 
   .actions {
@@ -314,6 +340,11 @@
 
   .accessKv > div {
     grid-template-columns: 112px minmax(0, 1fr);
+  }
+
+  /* "Rate it", when it wraps to a line of its own, starts flush with the text */
+  .none :global(.link) {
+    margin-left: 0;
   }
 
   .bars li {

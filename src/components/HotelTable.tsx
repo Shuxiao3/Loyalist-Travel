@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { Fragment, type ReactNode } from 'react'
 
 import { score } from '@/lib/format'
-import { type HotelRowExtras, MIN_UPGRADE_STAYS, segmentLabel } from '@/lib/hotelBrowse'
+import { type HotelRowExtras, MIN_UPGRADE_STAYS } from '@/lib/hotelBrowse'
 import type { Brand, Destination, Hotel, Program } from '@/payload-types'
 
 import styles from './HotelTable.module.css'
@@ -10,11 +10,11 @@ import styles from './HotelTable.module.css'
 // The kit's hotel table (mockups: hotels.html, destination.html, brand.html; .table.ht). Each
 // row is the hotel's name over a muted line of its brand and place, chosen per page, ending in a
 // small mark for a review ("Our review 87.5/100") or a club lounge, never a column of its own.
-// Then, as the page asks, the program and the segment, and always "Got an upgrade": the share of
+// Then, as the page asks, the program, and always "Got an upgrade": the share of
 // stays that got one, out of those that said, once enough have said, else a muted dash. On
 // phones only the hotel and the upgrade figure stay.
 
-export type HotelTableColumns = { brand?: boolean; place?: boolean; program?: boolean; segment?: boolean }
+export type HotelTableColumns = { brand?: boolean; place?: boolean; program?: boolean }
 
 const obj = <T extends object>(v: unknown): T | null => (v && typeof v === 'object' ? (v as T) : null)
 
@@ -29,7 +29,6 @@ export function HotelTable({ hotels, extras, caption, columns = {} }: { hotels: 
         <tr>
           <th className={styles.hotel}>Hotel</th>
           {columns.program && <th className={styles.prog}>Program</th>}
-          {columns.segment && <th className={styles.type}>Segment</th>}
           <th className={`r ${styles.up}`}>Got an upgrade</th>
         </tr>
       </thead>
@@ -80,7 +79,6 @@ export function HotelTable({ hotels, extras, caption, columns = {} }: { hotels: 
                 )}
               </td>
               {columns.program && <td className={styles.prog}>{program?.name ?? ''}</td>}
-              {columns.segment && <td className={styles.type}>{segmentLabel(h.segment) ?? <span className="na">&ndash;</span>}</td>}
               <td className={`r ${styles.up}`}>
                 {rated ? (
                   <>

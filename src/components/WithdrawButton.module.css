@@ -40,4 +40,10 @@
   .form {
     align-items: flex-end;
   }
+
+  /* Phone audit: a 40px tall tap target, through padding the layout does not see */
+  .button {
+    padding: 12px 0 12px 16px;
+    margin: -12px 0 -12px -16px;
+  }
 }

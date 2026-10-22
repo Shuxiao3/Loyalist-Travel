@@ -3,8 +3,10 @@ import Link from 'next/link'
 import { Fragment } from 'react'
 
 import { PageNumbers } from '@/components/PageNumbers'
+import { ReviewThumb } from '@/components/ReviewRows'
 import { SortSelect } from '@/components/SortSelect'
 import { monthYear, score, shortDate } from '@/lib/format'
+import { reviewPhoto } from '@/lib/photos'
 import { getReviews, type ReviewFilters } from '@/lib/queries'
 import { reviewFacets, reviewRowFacts } from '@/lib/reviewsIndex'
 import { bandFor, categoriesFor, REVIEW_SECTIONS, SCORE_BANDS, sectionTotal } from '@/lib/rubric'
@@ -22,9 +24,10 @@ export async function generateMetadata(): Promise<Metadata> {
   return pageMeta({ ...metaText(seo?.reviews, {}, { title: 'Reviews', description: 'Every scored stay, on a 100-point rubric, written from a full stay and never a site inspection.' }), path: '/reviews' })
 }
 
-// Reviews (mockup: reviews.html). The band carries the title and the program tabs; below, the
-// search bar, the sort menu and the review rows, each with its six category totals, and a side
-// column of countries, types, the rubric and the score bands. No counts of the site's reviews.
+// Reviews (mockup: reviews.html). The band carries the title and its line (no program tabs: the
+// list is not split by program, and an old link's `program` is ignored); below, the search bar,
+// the sort menu and the review rows, each with its picture and score, and its six category totals, and a side column of
+// countries, types, the rubric and the score bands. No counts of the site's reviews.
 
 const PER_PAGE = 12
 const FORM_ID = 'reviews-filter'
@@ -49,11 +52,6 @@ const BAND_RANGES = SCORE_BANDS.map((b, i) => ({
 // Between the items of a meta line: the dot keeps to the item before it, so a line never starts with one
 const SEP = '\u00a0· '
 
-const caret = (
-  <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-    <path d="M2 4.5l4 4 4-4" />
-  </svg>
-)
 
 // A section's total, or a dash when none of its sub-scores is in
 function sectionScore(review: Review, keys: (typeof REVIEW_SECTIONS)[number]['keys']): string {
@@ -64,8 +62,8 @@ function sectionScore(review: Review, keys: (typeof REVIEW_SECTIONS)[number]['ke
 export default async function ReviewsIndex({ searchParams }: Props) {
   const sp = await searchParams
   const page = Math.max(1, Number(first(sp.page)) || 1)
-  const filters: ReviewFilters = { q: first(sp.q)?.trim() || undefined, program: first(sp.program), country: first(sp.country), type: first(sp.type), sort: first(sp.sort) }
-  const active = Boolean(filters.q || filters.program || filters.country || filters.type)
+  const filters: ReviewFilters = { q: first(sp.q)?.trim() || undefined, country: first(sp.country), type: first(sp.type), sort: first(sp.sort) }
+  const active = Boolean(filters.q || filters.country || filters.type)
   const [result, facets] = await Promise.all([getReviews({ limit: PER_PAGE, page, ...filters }), reviewFacets()])
   const facts = await reviewRowFacts(result.docs)
 
@@ -80,8 +78,6 @@ export default async function ReviewsIndex({ searchParams }: Props) {
   // A filter link: picks the value, or clears it when it is the one already picked
   const toggle = (key: 'country' | 'type', value: string) => with_({ [key]: filters[key] === value ? undefined : value })
 
-  const tabs = [{ slug: '', name: 'All' }, ...facets.programs]
-
   return (
     <>
       <section className="band page-band">
@@ -93,18 +89,6 @@ export default async function ReviewsIndex({ searchParams }: Props) {
               <p className="pb-meta">By {SITE.author}. Six categories and 100 points, the same rubric every time.</p>
             </div>
           </div>
-          {facets.programs.length > 1 && (
-            <nav className="tabs" aria-label="Programs">
-              {tabs.map((t) => {
-                const on = (filters.program ?? '') === t.slug
-                return (
-                  <Link key={t.slug || 'all'} className={on ? 'on' : undefined} aria-current={on ? 'page' : undefined} href={with_({ program: t.slug || undefined })}>
-                    {t.name}
-                  </Link>
-                )
-              })}
-            </nav>
-          )}
         </div>
       </section>
 
@@ -118,7 +102,6 @@ export default async function ReviewsIndex({ searchParams }: Props) {
                 </label>
                 <input key={filters.q ?? ''} className="input" id="reviews-q" type="search" name="q" defaultValue={filters.q ?? ''} placeholder="Hotel or city" />
               </div>
-              {filters.program && <input type="hidden" name="program" value={filters.program} />}
               {filters.country && <input type="hidden" name="country" value={filters.country} />}
               {filters.type && <input type="hidden" name="type" value={filters.type} />}
               <div className="fb-actions">
@@ -133,7 +116,14 @@ export default async function ReviewsIndex({ searchParams }: Props) {
               </div>
               {(facets.countries.length > 0 || facets.types.length > 0) && (
                 <details className={styles.fold} open={Boolean(filters.country || filters.type) || undefined}>
-                  <summary>Filters{caret}</summary>
+                  {/* as the other lists' folds: "Filters", its caret, then what it holds or what is chosen */}
+                  <summary>
+                    <span className={styles.sum}>Filters</span>
+                    <span className={styles.sumSub}>
+                      {[filters.country, filters.type ? TYPE_LINKS[filters.type as 'city' | 'resort'] : null].filter(Boolean).join(', ') ||
+                        [facets.countries.length > 0 ? 'Country' : null, facets.types.length > 0 ? 'type' : null].filter(Boolean).join(', ')}
+                    </span>
+                  </summary>
                   <div className={styles.foldBody}>
                     {facets.countries.length > 0 && (
                       <>
@@ -186,7 +176,6 @@ export default async function ReviewsIndex({ searchParams }: Props) {
               <ol className={styles.rows}>
                 {result.docs.map((r) => {
                   const href = `/reviews/${r.slug}`
-                  const s = score(r.totals?.overall)
                   const band = bandFor(r.totals?.overall, 100)
                   const f = facts.get(r.id)
                   const meta = [f?.place, f?.brand, f?.program, PROPERTY_TYPE_LABEL[r.propertyType]].filter((m): m is string => Boolean(m))
@@ -196,10 +185,7 @@ export default async function ReviewsIndex({ searchParams }: Props) {
                   return (
                     <li key={r.id}>
                       <div className={styles.mark}>
-                        <Link className="score score-lg" href={href} aria-label={`Score ${s} out of 100`}>
-                          <b>{s}</b>
-                          <span>of 100</span>
-                        </Link>
+                        <ReviewThumb href={href} photo={reviewPhoto(r)} value={r.totals?.overall} />
                         {band && <p className={styles.bandname}>{band}</p>}
                       </div>
                       <div className={styles.text}>
@@ -216,6 +202,8 @@ export default async function ReviewsIndex({ searchParams }: Props) {
                             ))}
                           </p>
                         )}
+                      </div>
+                      <div className={styles.body}>
                         {r.shortVerdict && <p className={styles.verdict}>{r.shortVerdict}</p>}
                         {byline.length > 0 && (
                           <p className="byline">

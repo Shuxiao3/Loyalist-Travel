@@ -47,6 +47,10 @@
 
 @media (max-width: 760px) {
   .body h2 { margin-top: var(--sp-6); }
+  /* a section heading wraps in lines of even length ("What's New for Winter / 2026–27: At a
+     Glance", not "...: At / a Glance"); a subheading only never ends on one word alone */
+  .body h2 { text-wrap: balance; }
+  .body h3 { text-wrap: pretty; }
   .body .figure { margin: 20px 0; }
   /* a panorama would be a thin strip on a phone: a photo keeps at least this height */
   .figure img { min-height: 120px; object-fit: cover; }

@@ -4,13 +4,15 @@ import type { HotelSourcedData, Rate, SourcedAggregate, SourcedRow } from '@/lib
 import { monthLabel } from '@/lib/sourcedData'
 
 import { BreakdownWindow } from './BreakdownWindow'
+import { ConfidenceDot, Dot } from './ConfidenceDot'
 import styles from './SourcedPanel.module.css'
 
 // Aggregated data on a hotel page: stays members reported on forums and blogs (mockups:
-// hotel.html, hotel-breakdown.html). The band shows the three figures and a line under them
-// (SourcedFigures); "See the breakdown" opens the window (SourcedPanel) with the figures, the
-// rates by status and every stay: its facts, the short summary and a muted "Source" link. Where
-// the stays came from is not named on the page itself.
+// hotel.html, hotel-breakdown.html). The band shows a label row ("Aggregated data" and the
+// confidence dot), the three figures, then the stays they come from and a "See the breakdown"
+// button (SourcedSummary). The button opens the window (SourcedPanel) with the confidence, the
+// figures, the rates by status (each with its own dot) and every stay: its facts, the short
+// summary and a muted "Source" link. Where the stays came from is not named on the page itself.
 
 export const BREAKDOWN_ID = 'breakdown'
 
@@ -26,28 +28,54 @@ function Fig({ rate, label }: { rate: Rate; label: string }) {
   )
 }
 
-// The three figures (.figs), with a caption line under them.
-export function SourcedFigures({ data, className = 'figs', children }: { data: SourcedAggregate; className?: string; children: ReactNode }) {
+// The three figures (.figs) under a label row with the confidence, and a foot under them.
+function Figures({ data, small, label, align, foot }: { data: SourcedAggregate; small?: boolean; label?: string; align: 'start' | 'end'; foot: ReactNode }) {
   return (
-    <div className={className}>
+    <div className={`figs ${small ? 'figs-sm' : ''} ${styles.figs}`}>
+      <div className={styles.figsHead}>
+        {label && <span className={styles.figsLabel}>{label}</span>}
+        <ConfidenceDot level={data.confidence} align={align} />
+      </div>
       <Fig rate={data.upgrade} label="Got an upgrade" />
       <Fig rate={data.suite} label="Got a suite" />
       <Fig rate={data.suiteNoCert} label="Suite without a certificate" />
-      <p className="figs-foot">{children}</p>
+      {foot}
     </div>
   )
 }
 
-// "Aggregated data from 19 stays, newest Sep 2025. Confidence: medium. See the breakdown"
-export function SourcedFoot({ data }: { data: SourcedAggregate }) {
+function OpenIcon() {
   return (
-    <>
-      Aggregated data from {staysLabel(data.stays)}
-      {data.latest ? `, newest ${monthLabel(data.latest)}` : ''}. Confidence: {data.confidence}.{' '}
-      <a className="link" href={`#${BREAKDOWN_ID}`}>
-        See the breakdown
-      </a>
-    </>
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <polyline points="15 3 21 3 21 9" />
+      <polyline points="9 21 3 21 3 15" />
+      <line x1="21" y1="3" x2="14" y2="10" />
+      <line x1="3" y1="21" x2="10" y2="14" />
+    </svg>
+  )
+}
+
+// The band's figures on a hotel page: "Aggregated data" and the confidence above them, then
+// "From 19 stays, newest Sep 2025." and the "See the breakdown" button under them.
+export function SourcedSummary({ data }: { data: SourcedAggregate }) {
+  return (
+    <Figures
+      data={data}
+      label="Aggregated data"
+      align="end"
+      foot={
+        <div className={`figs-foot ${styles.foot}`}>
+          <p>
+            From {staysLabel(data.stays)}
+            {data.latest ? `, newest ${monthLabel(data.latest)}` : ''}.
+          </p>
+          <a className={`btn btn-light ${styles.open}`} href={`#${BREAKDOWN_ID}`} aria-haspopup="dialog">
+            See the breakdown
+            <OpenIcon />
+          </a>
+        </div>
+      }
+    />
   )
 }
 
@@ -103,14 +131,20 @@ export function SourcedPanel({ data, hotelName }: { data: HotelSourcedData; hote
   const undated = data.rows.filter((r) => !r.when)
   return (
     <BreakdownWindow id={BREAKDOWN_ID} eyebrow="Aggregated data" title={hotelName} foot={`${staysLabel(a.stays)}${a.latest ? `, newest ${monthLabel(a.latest)}` : ''}`}>
-      <SourcedFigures data={a} className="figs figs-sm">
-        Confidence: {a.confidence}. From {staysLabel(a.stays)}, a rough idea of your chances at an upgrade.
-      </SourcedFigures>
+      <Figures data={a} small align="start" foot={<p className="figs-foot">From {staysLabel(a.stays)}, a rough idea of your chances at an upgrade.</p>} />
       {data.bands.length > 0 && (
         <section aria-labelledby="bd-status-h">
           <div className="mod-head thin">
             <h2 id="bd-status-h">By status</h2>
-            <span className="aside">{staysLabel(a.stays)}</span>
+            <span className={`aside ${styles.legend}`}>
+              Confidence:
+              {(['high', 'medium', 'low'] as const).map((l) => (
+                <span key={l}>
+                  <Dot level={l} />
+                  {l}
+                </span>
+              ))}
+            </span>
           </div>
           <table className={`table table-stack ${styles.bands}`}>
             <thead>
@@ -125,7 +159,11 @@ export function SourcedPanel({ data, hotelName }: { data: HotelSourcedData; hote
               {data.bands.map((b) => (
                 <tr key={b.label}>
                   <th scope="row">
-                    {b.label} <span className="sub">{staysLabel(b.data.stays)}</span>
+                    <span className={styles.status}>
+                      <Dot level={b.data.confidence} label={`Confidence: ${b.data.confidence}`} />
+                      {b.label}
+                    </span>{' '}
+                    <span className="sub">{staysLabel(b.data.stays)}</span>
                   </th>
                   <Cell rate={b.data.upgrade} label="Upgrade" />
                   <Cell rate={b.data.suite} label="Suite" />

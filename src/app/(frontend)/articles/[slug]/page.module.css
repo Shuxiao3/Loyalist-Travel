@@ -80,4 +80,6 @@
   .side :global(.mod) + :global(.mod) { margin-top: 28px; }
   .comments { margin-top: var(--sp-6); }
   .side .stay { margin-top: 28px; }
+  /* the title and the More to read headlines wrap in lines of even length (no word left alone) */
+  .head h1, .side h3 { text-wrap: balance; }
 }

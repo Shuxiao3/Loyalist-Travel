@@ -1,20 +1,28 @@
-/* The side column of the hotel browsing pages (mockups' css/browse.css: .side, .side-table,
-   .side-list and the smaller review rows). */
+/* The side column of the hotel browsing pages (mockups' css/browse.css: .side, .side-table and
+   .side-list; the review rows are the kit's .rev-list-side). */
 .side > * + * {
   margin-top: 28px;
 }
 
-.sideTable td,
-.sideTable th {
+.places > li {
+  padding: 7px 0 8px;
+  border-bottom: 1px solid var(--rule);
   font-size: var(--fs-2);
+  line-height: 1.3;
 }
 
-.sideTable :global(.sub) {
-  margin-left: 4px;
+.places a {
+  font-weight: 600;
+  color: var(--ink);
 }
 
-.sideTable a[aria-current] {
+.places a:hover,
+.places a[aria-current] {
   color: var(--link);
+}
+
+.places :global(.sub) {
+  margin-left: 4px;
 }
 
 .sideList > li {
@@ -40,30 +48,6 @@
   margin-top: 1px;
 }
 
-.revList > li h3 {
-  font-size: var(--fs-3);
-  line-height: 1.25;
-}
-
-.revList > li :global(.verdict) {
-  font-size: var(--fs-1);
-  line-height: 1.4;
-}
-
-.revList :global(.score) {
-  width: 48px;
-  height: 48px;
-}
-
-.revList :global(.score) b {
-  font-size: var(--fs-4);
-}
-
-ol.revList > li {
-  grid-template-columns: 48px minmax(0, 1fr);
-  gap: var(--sp-3);
-}
-
 .boxBtn {
   margin-top: 2px;
 }
@@ -82,11 +66,12 @@ ol.revList > li {
   }
 }
 
-/* Phone */
+/* Phone: under the list, as far below it as the grid's gap (32px), close to the 28px between
+   its own sections (with a margin of its own as well, the step was 56px and read as a hole) */
 @media (max-width: 760px) {
   .side {
     display: block;
-    margin-top: var(--sp-5);
+    margin-top: 0;
   }
 
   .side > * + *,

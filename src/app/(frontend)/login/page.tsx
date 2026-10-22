@@ -45,7 +45,7 @@ export default async function LoginPage({ searchParams }: Props) {
           <section className={styles.card}>
             {authEnabled ? (
               <>
-                <h2 className="h2">{googleEnabled ? 'Sign in' : 'Sign in with your email'}</h2>
+                <h2 className={googleEnabled ? `h2 ${styles.cardH}` : 'h2'}>{googleEnabled ? 'Sign in' : 'Sign in with your email'}</h2>
                 <p className={styles.lede}>{lede}</p>
                 {error && (
                   <p className={`form-alert ${styles.alert}`} role="alert">
@@ -76,7 +76,7 @@ export default async function LoginPage({ searchParams }: Props) {
               </>
             ) : (
               <>
-                <h2 className="h2">Sign in</h2>
+                <h2 className={`h2 ${styles.cardH}`}>Sign in</h2>
                 <p className={styles.lede}>Sign-in is not switched on yet. Reader accounts arrive shortly.</p>
               </>
             )}

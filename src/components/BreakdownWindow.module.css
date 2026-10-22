@@ -33,3 +33,19 @@
 :global(body):has(.layer:not([data-ready]):target) {
   overflow: hidden;
 }
+
+/* Phones: the window's two ways out are easy to tap. The close button grows to 44px around the
+   same icon (the negative margins keep the icon and the head where they were), and the Close
+   link at the foot gets a taller tap area */
+@media (max-width: 760px) {
+  .layer :global(.modal-close) {
+    width: 44px;
+    height: 44px;
+    margin: -8px -12px -4px 0;
+  }
+
+  .layer :global(.modal-foot) :global(.link) {
+    padding: 12px 0;
+    margin: -12px 0;
+  }
+}

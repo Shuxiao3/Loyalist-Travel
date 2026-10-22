@@ -152,4 +152,10 @@
   .name {
     font-size: var(--fs-4);
   }
+
+  /* Phone audit: "Change" is a 40px tall tap target, through padding the layout does not see */
+  .change {
+    padding: 9px 0 9px 12px;
+    margin: -9px 0 -9px -12px;
+  }
 }

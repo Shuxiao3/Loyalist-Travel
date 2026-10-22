@@ -1,13 +1,12 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import type { ReactNode } from 'react'
+import { Fragment, type ReactNode } from 'react'
 
 import { LoungeRatingForm } from '@/components/LoungeRatingForm'
 import { PlainComments } from '@/components/PlainComments'
 import { RichText } from '@/components/RichText'
 import { rel } from '@/lib/format'
-import { SEGMENT_LABEL } from '@/lib/hotelBrowse'
 import { accessLine, getLounge, getLoungeRatings, loungeReaderData, relatedLounges } from '@/lib/lounges'
 import { getPayloadClient } from '@/lib/payload'
 import { hotelPhoto, loungePhoto, programLogo } from '@/lib/photos'
@@ -103,7 +102,6 @@ export default async function LoungePage({ params }: Props) {
 
   // The hotel's details, in two columns
   const renovated = hotel?.renovationYear && hotel.renovationYear !== hotel.openingYear ? hotel.renovationYear : null
-  const segment = hotel?.segment ? SEGMENT_LABEL[hotel.segment] : brand?.segment ? (SEGMENT_LABEL as Record<string, string>)[brand.segment] : null
   const logo = programLogo(program)
   const hotelLeft: { k: string; v: ReactNode }[] = hotel
     ? [
@@ -121,12 +119,9 @@ export default async function LoungePage({ params }: Props) {
         {
           k: 'Brand',
           v: brand ? (
-            <>
-              <Link className={styles.kvA} href={`/brands/${brand.slug}`}>
-                {brand.name}
-              </Link>
-              {segment ? ` · ${segment}` : null}
-            </>
+            <Link className={styles.kvA} href={`/brands/${brand.slug}`}>
+              {brand.name}
+            </Link>
           ) : null,
         },
         {
@@ -182,7 +177,18 @@ export default async function LoungePage({ params }: Props) {
             {image && <div className={styles.bandPhoto} role="img" aria-label={hotel && image === hotelPhotoUrl ? hotel.name : lounge.name} style={{ backgroundImage: `url(${image})` }} />}
             <div className="pb-title">
               <h1>{title}</h1>
-              {(program || place) && <p className="pb-dek">{[program?.name, place].filter(Boolean).join(' · ')}</p>}
+              {(program || place) && (
+                <p className="pb-dek">
+                  {[program?.name, place]
+                    .filter(Boolean)
+                    .map((part, i) => (
+                      <Fragment key={i}>
+                        {i > 0 && '\u00a0· '}
+                        <span className={styles.nw}>{part}</span>
+                      </Fragment>
+                    ))}
+                </p>
+              )}
               <p className="pb-meta">Who gets in: {accessLine(lounge)}</p>
               <p className={`pb-actions ${styles.actions}`}>
                 <a className="btn btn-light" href="#rate">

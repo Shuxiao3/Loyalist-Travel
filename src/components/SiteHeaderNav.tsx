@@ -4,6 +4,7 @@ import Form from 'next/form'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState, useSyncExternalStore, type FocusEvent, type KeyboardEvent, type MouseEvent, type PointerEvent, type ReactNode } from 'react'
+import { flushSync } from 'react-dom'
 
 import type { HeaderMenus, MenuStory } from '@/lib/nav'
 import { ARTICLE_SECTIONS, ARTICLE_TOPICS, NAV_LINKS, PROGRAM_LINKS, topicHref, type NavMenu, type NavSection } from '@/lib/site'
@@ -57,11 +58,12 @@ function sectionOf(pathname: string): NavSection | null {
 
 // The site header (kit: .site-head). Desktop: brand, the six sections (Programs, News and
 // Guides open a menu on hover, keyboard focus or tap), hotel search and the account link.
-// At 960px and below: a row of the six sections under the brand, and a menu button that opens
-// the drawer (search, the sections, and Programs, News and Guides as folds). Every part works
-// without script through CSS (hover, focus-within, <details>); once hydrated the script owns
-// the menus (.js on the header) so they close on Escape, on a click elsewhere and on
-// navigation.
+// At 960px and below: brand, a search button, the account link and a menu button. The search
+// button drops a slim hotel search bar under the header (the page stays in view below it); the
+// menu button opens the drawer (the sections, and Programs, News and Guides as folds), the only
+// navigation on phones. Every part works without script through CSS (hover, focus-within,
+// <details>); once hydrated the script owns the menus (.js on the header) so they close on
+// Escape, on a click elsewhere and on navigation.
 export function SiteHeaderNav({ menus }: { menus: HeaderMenus }) {
   const pathname = usePathname()
   const marked = useSyncExternalStore(
@@ -75,9 +77,13 @@ export function SiteHeaderNav({ menus }: { menus: HeaderMenus }) {
   const [menu, setMenu] = useState<NavMenu | null>(null)
   const [drawer, setDrawer] = useState(false)
   const [fold, setFold] = useState<NavMenu | null>(null)
+  const [search, setSearch] = useState(false)
   const headRef = useRef<HTMLElement>(null)
   const navRef = useRef<HTMLElement>(null)
   const summaryRef = useRef<HTMLElement>(null)
+  const searchRef = useRef<HTMLDetailsElement>(null)
+  const searchSummaryRef = useRef<HTMLElement>(null)
+  const searchInputRef = useRef<HTMLInputElement>(null)
   // the kind of pointer that last pressed a menu trigger: a mouse already opened the menu by
   // hovering, a finger opens it with the first tap
   const pressedWith = useRef('')
@@ -89,20 +95,26 @@ export function SiteHeaderNav({ menus }: { menus: HeaderMenus }) {
     setMenu(null)
     setDrawer(false)
     setFold(null)
+    setSearch(false)
     const active = document.activeElement
     if (active instanceof HTMLElement && headRef.current?.contains(active)) active.blur()
   }, [pathname])
 
-  // A click or tap outside the desktop nav closes its menu; Escape closes a menu (one opened by
-  // hovering too, wherever focus is) or the drawer.
+  // A click or tap outside the desktop nav closes its menu, and one outside the phone search bar
+  // closes the bar; Escape closes a menu (one opened by hovering too, wherever focus is), the
+  // drawer or the search bar.
   useEffect(() => {
-    if (!menu && !drawer) return
+    if (!menu && !drawer && !search) return
     const onDown = (e: globalThis.PointerEvent) => {
       if (menu && !navRef.current?.contains(e.target as Node)) setMenu(null)
+      if (search && !searchRef.current?.contains(e.target as Node)) setSearch(false)
     }
     const onKey = (e: globalThis.KeyboardEvent) => {
       if (e.key !== 'Escape') return
-      if (drawer) {
+      if (search) {
+        setSearch(false)
+        searchSummaryRef.current?.focus()
+      } else if (drawer) {
         setDrawer(false)
         summaryRef.current?.focus()
       } else if (menu) setMenu(null)
@@ -113,7 +125,23 @@ export function SiteHeaderNav({ menus }: { menus: HeaderMenus }) {
       document.removeEventListener('pointerdown', onDown)
       document.removeEventListener('keydown', onKey)
     }
-  }, [menu, drawer])
+  }, [menu, drawer, search])
+
+  // The phone search button: opens the bar and puts the cursor in its field within the same tap
+  // (so the phone's keyboard comes up), or closes it. The drawer gives way to it.
+  const onSearchClick = (e: MouseEvent) => {
+    e.preventDefault()
+    if (search) {
+      setSearch(false)
+      return
+    }
+    flushSync(() => {
+      setSearch(true)
+      setDrawer(false)
+      setFold(null)
+    })
+    searchInputRef.current?.focus()
+  }
 
   const close = (key: NavMenu) => setMenu((m) => (m === key ? null : m))
 
@@ -277,9 +305,27 @@ export function SiteHeaderNav({ menus }: { menus: HeaderMenus }) {
             <SearchIcon size={16} />
             <input type="search" name="q" placeholder="Search hotels" aria-label="Search hotels" />
           </Form>
-          <Link className="icon-btn" href="/hotels" aria-label="Search hotels">
-            <SearchIcon size={19} />
-          </Link>
+          <details className="search-toggle" open={search} ref={searchRef} onToggle={(e) => setSearch(e.currentTarget.open)}>
+            <summary className="icon-btn" aria-label="Search hotels" ref={searchSummaryRef} onClick={onSearchClick}>
+              <SearchIcon size={19} />
+            </summary>
+            <div className="search-drop">
+              <Form
+                className="wrap search-drop-form"
+                role="search"
+                action="/hotels"
+                onSubmit={() => {
+                  searchInputRef.current?.blur()
+                  setSearch(false)
+                }}
+              >
+                <input ref={searchInputRef} className="input" type="search" name="q" placeholder="Search hotels" aria-label="Search hotels" enterKeyHint="search" autoComplete="off" />
+                <button className="btn btn-light" type="submit">
+                  Search
+                </button>
+              </Form>
+            </div>
+          </details>
           <AccountLink />
           <details
             className="drawer-toggle"
@@ -287,7 +333,8 @@ export function SiteHeaderNav({ menus }: { menus: HeaderMenus }) {
             onToggle={(e) => {
               const opened = e.currentTarget.open
               setDrawer(opened)
-              if (!opened) setFold(null)
+              if (opened) setSearch(false)
+              else setFold(null)
             }}
           >
             <summary className="icon-btn" aria-label="Menu" ref={summaryRef}>
@@ -299,10 +346,6 @@ export function SiteHeaderNav({ menus }: { menus: HeaderMenus }) {
               </svg>
             </summary>
             <div className="drawer" onClick={closeOnLink(() => setDrawer(false))}>
-              <Form className="drawer-search" role="search" action="/hotels" onSubmit={() => setDrawer(false)}>
-                <SearchIcon size={16} />
-                <input type="search" name="q" placeholder="Search hotels" aria-label="Search hotels" />
-              </Form>
               <ul className="drawer-list">
                 {NAV_LINKS.map((item) => {
                   if (!item.menu)
@@ -360,28 +403,6 @@ export function SiteHeaderNav({ menus }: { menus: HeaderMenus }) {
             </div>
           </details>
         </div>
-      </div>
-      <div className="wrap nav-row">
-        <nav className="sec-nav" aria-label="Sections">
-          {NAV_LINKS.map((item) => {
-            const on = isOn(item.section)
-            // Programs has no page: it opens the drawer with the programs unfolded (without
-            // script, /programs leads to the homepage's Programs section)
-            const onClick =
-              item.menu === 'programs'
-                ? (e: MouseEvent) => {
-                    e.preventDefault()
-                    setDrawer(true)
-                    setFold('programs')
-                  }
-                : undefined
-            return (
-              <Link key={item.href} className={on ? 'on' : undefined} href={item.href} aria-current={on ? 'page' : undefined} onClick={onClick}>
-                {item.label}
-              </Link>
-            )
-          })}
-        </nav>
       </div>
     </header>
   )

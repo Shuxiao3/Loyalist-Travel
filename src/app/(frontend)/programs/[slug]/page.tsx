@@ -4,12 +4,13 @@ import { notFound, redirect } from 'next/navigation'
 
 import { HotelTable, HotelTableNote } from '@/components/HotelTable'
 import { PageNumbers } from '@/components/PageNumbers'
+import { ReviewRows } from '@/components/ReviewRows'
 import { RichText } from '@/components/RichText'
 import { SortSelect } from '@/components/SortSelect'
-import { rel, score, shortDate, shortMonthYear } from '@/lib/format'
+import { rel, shortDate, shortMonthYear } from '@/lib/format'
 import { articleImage } from '@/lib/articles'
-import { hotelRowExtras, hotelSideCounts, segmentLabel } from '@/lib/hotelBrowse'
-import { programLogo } from '@/lib/photos'
+import { hotelRowExtras, hotelSideCounts } from '@/lib/hotelBrowse'
+import { programLogo, reviewPhoto } from '@/lib/photos'
 import { benefitLinesFromDescription, brandSortKey, listLines, milestoneGuide, type MilestoneGuide, programGuides, programHasLounges, programShortName, programStayQuestion } from '@/lib/programPage'
 import { brandsOf, findHotels, getHotelFilterOptions, getPayloadClient, getProgram, type HotelFilters, topTierOf, upgradePoolOf } from '@/lib/queries'
 import { getSeo, metaText, pageMeta } from '@/lib/seo'
@@ -45,6 +46,14 @@ const FORM_ID = 'program-hotels'
 
 // "60 nights" is "60" after the tier's name ("Globalist at 60"); anything longer stays whole
 const nightsAfterName = (nights: string) => /^(\d+)\s+nights$/i.exec(nights.trim())?.[1] ?? nights.trim()
+
+// The band's line wraps between its facts, never inside a figure: "100 nights", "at 60",
+// "+ $23k spend" and a tier's name each stay on one line (no-break spaces).
+const keepFigures = (s: string) =>
+  s
+    .replace(/(\d[\d,.]*k?)\s+(?=[a-z])/gi, '$1\u00a0')
+    .replace(/\b(at|from)\s+(?=[\d$])/g, '$1\u00a0')
+    .replace(/\+\s+/g, '+\u00a0')
 
 // A program (mockup: program.html). The band carries the logo, the name, its line, where elite
 // status starts and the top tier, a link to its club lounges, and jump links to the sections.
@@ -92,12 +101,9 @@ export default async function ProgramPage({ params, searchParams }: Props) {
   const pool = upgradePoolOf(filters.sort) ?? undefined
   const rows = await hotelRowExtras(hotels.docs, pool)
   const levels: StatusLevel[] = tiers.docs
-  const brandProgram = (b: (typeof options.brands)[number]) => (typeof b.program === 'object' ? b.program?.id : b.program)
-  const segmentOf = new Map(options.brands.filter((b) => brandProgram(b) === program.id).map((b) => [b.id, segmentLabel(b.segment)]))
   // the brands with a hotel on the site, A to Z
   const brands = brandList
     .filter((b) => b.n > 0)
-    .map((b) => ({ ...b, segment: segmentOf.get(b.id) ?? null }))
     .sort((a, b) => brandSortKey(a.name).localeCompare(brandSortKey(b.name)))
   const regions = [...side.regions].sort((a, b) => a.name.localeCompare(b.name))
 
@@ -114,8 +120,10 @@ export default async function ProgramPage({ params, searchParams }: Props) {
   const topName = top ? (top.shortName ?? top.name) : null
   const topAt = top?.nights && /\d/.test(top.nights) ? nightsAfterName(top.nights) : null
   const simple = Boolean(firstElite?.nights && /^\d+\s+nights$/i.test(firstElite.nights) && top?.nights && /^\d+\s+nights$/i.test(top.nights))
-  const metaParts = [firstElite?.nights ? `Elite status from ${firstElite.nights.trim()}` : null, topName && topAt ? `${topName} at ${topAt}` : null].filter((p): p is string => Boolean(p))
-  const metaLine = metaParts.join(simple ? ', ' : ' · ')
+  const metaParts = [firstElite?.nights ? `Elite status from ${firstElite.nights.trim()}` : null, topName && topAt ? `${topName.replace(/\s+/g, '\u00a0')} at ${topAt}` : null]
+    .filter((p): p is string => Boolean(p))
+    .map(keepFigures)
+  const metaLine = metaParts.join(simple ? ', ' : '\u00a0· ')
   const short = programShortName(program)
   const logo = programLogo(program)
 
@@ -142,9 +150,9 @@ export default async function ProgramPage({ params, searchParams }: Props) {
                 <h1>{program.name}</h1>
                 {program.shortDescription && <p className="pb-dek">{program.shortDescription}</p>}
                 {(metaLine || hasLounges) && (
-                  <p className="pb-meta">
+                  <p className={`pb-meta ${styles.meta}`}>
                     {metaLine}
-                    {metaLine && hasLounges && ' · '}
+                    {metaLine && hasLounges && '\u00a0· '}
                     {hasLounges && (
                       <Link className={styles.nw} href={`/lounges?program=${encodeURIComponent(program.slug)}`}>
                         {short} club lounges
@@ -155,9 +163,9 @@ export default async function ProgramPage({ params, searchParams }: Props) {
               </div>
             </div>
           </div>
-          <nav className="tabs" aria-label="On this page">
+          <nav className={`tabs tabs-bleed ${styles.tabs}`} aria-label="On this page">
             {tabs.map((t) => (
-              <a key={t.id} href={`#${t.id}`}>
+              <a key={t.id} href={`#${t.id}`} className={t.id === 'hotels' ? styles.tabHotels : undefined}>
                 {t.label}
               </a>
             ))}
@@ -358,7 +366,7 @@ export default async function ProgramPage({ params, searchParams }: Props) {
               </div>
               {hotels.docs.length > 0 ? (
                 <>
-                  <HotelTable hotels={hotels.docs} extras={rows} caption={`${program.name} hotels`} columns={{ brand: true, place: true, segment: true }} />
+                  <HotelTable hotels={hotels.docs} extras={rows} caption={`${program.name} hotels`} columns={{ brand: true, place: true }} />
                   <HotelTableNote pool={pool} />
                 </>
               ) : (
@@ -379,20 +387,13 @@ export default async function ProgramPage({ params, searchParams }: Props) {
                 <div className="mod-head">
                   <h2 id="brands-h">Brands</h2>
                 </div>
-                <table className={`table ${styles.sideTable} ${styles.brandTable}`}>
-                  <thead>
-                    <tr>
-                      <th>Brand</th>
-                      <th className="r">Segment</th>
-                    </tr>
-                  </thead>
+                <table className={`table ${styles.sideTable}`}>
                   <tbody>
                     {brands.map((b) => (
                       <tr key={b.id}>
                         <th scope="row">
                           <Link href={`/brands/${b.slug}`}>{b.name}</Link>
                         </th>
-                        <td className="r">{b.segment ? <span className="sub">{b.segment}</span> : <span className="na">&ndash;</span>}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -404,33 +405,17 @@ export default async function ProgramPage({ params, searchParams }: Props) {
               <section className={`mod ${styles.reviews}`} id="reviews" aria-labelledby="rev-h">
                 <div className="mod-head">
                   <h2 id="rev-h">Our {program.name} reviews</h2>
-                  <Link href={`/reviews?program=${encodeURIComponent(program.slug)}`}>All reviews</Link>
+                  <Link href="/reviews">All reviews</Link>
                 </div>
-                <ol className={`rev-list ${styles.revList}`}>
-                  {reviews.docs.map((r) => {
+                <ReviewRows
+                  size="side"
+                  rows={reviews.docs.map((r) => {
                     const hotel = rel<Hotel>(r.hotel)
                     const place = rel<Destination>(hotel?.destination)?.name
                     const stayed = shortMonthYear(r.stayDate)
-                    const meta = [place, stayed ? `Stayed ${stayed}` : null].filter(Boolean).join(' · ')
-                    const s = score(r.totals?.overall)
-                    const reviewHref = `/reviews/${r.slug}`
-                    return (
-                      <li key={r.id}>
-                        <Link className="score" href={reviewHref} aria-label={`Score ${s} out of 100`}>
-                          <b>{s}</b>
-                          <span>of 100</span>
-                        </Link>
-                        <div>
-                          <h3>
-                            <Link href={reviewHref}>{r.title}</Link>
-                          </h3>
-                          {meta && <p className="meta">{meta}</p>}
-                          {r.shortVerdict && <p className="verdict">{r.shortVerdict}</p>}
-                        </div>
-                      </li>
-                    )
+                    return { id: r.id, slug: r.slug, title: r.title, score: r.totals?.overall, photo: reviewPhoto(r, hotel), meta: [place, stayed && `Stayed ${stayed}`], verdict: r.shortVerdict }
                   })}
-                </ol>
+                />
               </section>
             )}
 

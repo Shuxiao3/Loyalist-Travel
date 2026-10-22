@@ -320,34 +320,6 @@
   color: var(--link);
 }
 
-.brandTable th:global(.r) {
-  width: 64px;
-}
-
-.revList h3 {
-  font-size: var(--fs-3);
-  line-height: 1.25;
-}
-
-.revList :global(.verdict) {
-  font-size: var(--fs-1);
-  line-height: 1.4;
-}
-
-.revList > li {
-  grid-template-columns: 48px minmax(0, 1fr);
-  gap: var(--sp-3);
-}
-
-.revList :global(.score) {
-  width: 48px;
-  height: 48px;
-}
-
-.revList :global(.score) b {
-  font-size: var(--fs-4);
-}
-
 .box :global(.btn) {
   margin-top: 2px;
 }
@@ -412,6 +384,11 @@
 
   .regions {
     order: 8;
+  }
+
+  /* the jump links in the same order as the sections below them: Hotels comes last */
+  .tabs .tabHotels {
+    order: 1;
   }
 }
 
@@ -570,5 +547,52 @@
   .rlEnd :global(.sort) :global(.select) {
     max-width: 190px;
     text-overflow: ellipsis;
+  }
+
+  /* Phone audit: the band's line wraps in even lines; the sort menu's text at 16px (smaller,
+     iPhone zooms in when it is tapped); "Filters" opens from a 40px tall strip without moving;
+     the brand and region rows and the page numbers are 40px tall targets */
+  .meta {
+    text-wrap: balance;
+  }
+
+  .rlEnd :global(.sort) :global(.select) {
+    font-size: 16px;
+  }
+
+  .filter :global(.hf-more) > summary {
+    padding: 10px 0;
+    margin: -10px 0;
+  }
+
+  .sideTable tbody th {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .sideTable tbody th a {
+    display: block;
+    padding: 10px 0;
+  }
+
+  .pagerEnd :global(.pager-pages) {
+    gap: 0;
+  }
+
+  .pagerEnd :global(.pager-pages) a,
+  .pagerEnd :global(.pager-pages) span {
+    min-width: 32px;
+    height: 40px;
+    padding: 0 5px;
+  }
+
+  .pagerEnd :global(.pager-pages) > :first-child,
+  .pagerEnd :global(.pager-pages) > :last-child {
+    padding: 0 6px;
+  }
+
+  .pagerEnd :global(.pager-pages) :global(.gap) {
+    min-width: 0;
+    padding: 0 1px;
   }
 }

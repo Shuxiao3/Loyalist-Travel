@@ -26,4 +26,8 @@
   .lead :global(.dek) { font-size: var(--fs-3); line-height: 1.38; }
   .side { margin-top: var(--sp-3); }
   .rows > li:global(.no-img) > div { padding-left: 0; }
+  /* headlines never end on one word alone ("October / 22"): the lead keeps its full measure,
+     the narrow rows beside their pictures wrap in lines of even length */
+  .lead h2, .lead :global(.dek) { text-wrap: pretty; }
+  .rows h3, .side h3 { text-wrap: balance; }
 }

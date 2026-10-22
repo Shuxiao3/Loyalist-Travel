@@ -2,8 +2,8 @@
 // destination.html, brand.html): the marks and figures on each hotel row, the program tabs and
 // side lists of the Hotels list, and the side lists of destination and brand pages.
 //
-// Counts appear on the Hotels list only (its tabs and its region and city lists). Destination
-// and brand pages use these lists without their counts.
+// No page prints a count of the site's hotels: the side lists below are counted only to choose
+// and order them, and the pages show them as plain links.
 
 import type { Where } from 'payload'
 
@@ -11,21 +11,8 @@ import type { Hotel } from '@/payload-types'
 
 import { getHotelSnapshots, type HotelSnapshot } from './hotelSnapshot'
 import { getPayloadClient } from './payload'
-import { hotelWhere, type HotelFilters } from './queries'
 import { PROGRAM_LINKS } from './site'
-import { MIN_RATED_REPORTS, rankByUpgrade, type UpgradePool } from './upgradeRanking'
-
-// Segment as the site writes it, sentence case ("Ultra luxury"), in order from the top
-export const SEGMENT_LABEL: Record<NonNullable<Hotel['segment']>, string> = {
-  'ultra-luxury': 'Ultra luxury',
-  luxury: 'Luxury',
-  upscale: 'Upscale',
-  midscale: 'Midscale',
-  budget: 'Budget',
-  'extended-stay': 'Extended stay',
-}
-
-export const segmentLabel = (value?: string | null): string | null => (value ? ((SEGMENT_LABEL as Record<string, string>)[value] ?? null) : null)
+import { MIN_RATED_REPORTS, type UpgradePool } from './upgradeRanking'
 
 // "Got an upgrade" prints once this many stays have said whether an upgrade came; a dash until then
 export const MIN_UPGRADE_STAYS = MIN_RATED_REPORTS
@@ -79,24 +66,13 @@ export async function hotelRowExtras(hotels: Hotel[], pool?: UpgradePool): Promi
 
 // ---------- Hotels list ----------
 
-export type ProgramTab = { slug: string; name: string; n: number }
+export type ProgramTab = { slug: string; name: string }
 
-// The Hotels list's program tabs: every program, in menu order, with how many hotels match the
-// other filters in each, and the total for "All". A brand belongs to one program, and a tab for
-// another program drops it (`brandProgram` is the slug of the brand's program), so that tab
-// counts the program's hotels without it. Sorted by an upgrade chance (`pool`), the list holds only
-// the hotels that rank, and so do the counts.
-export async function programTabs(f: Omit<HotelFilters, 'sort' | 'page' | 'program'>, brandProgram?: string, pool?: UpgradePool): Promise<{ all: number; programs: ProgramTab[] }> {
+// The Hotels list's program tabs: every program, in menu order (no counts)
+export async function programTabs(): Promise<ProgramTab[]> {
   const payload = await getPayloadClient()
-  const [programs, ranked] = await Promise.all([payload.find({ collection: 'programs', sort: 'name', limit: 20, depth: 0, select: { name: true, slug: true } }), pool ? rankByUpgrade(pool) : null])
-  const only: Where[] = ranked ? [{ id: { in: ranked.length ? ranked.map((r) => r.id) : [0] } }] : []
-  const countOf = async (where: Where[]) => (await payload.count({ collection: 'hotels', where: { and: [...where, ...only] } })).totalDocs
-  const forProgram = (slug: string) => ({ ...f, program: slug, brand: f.brand && brandProgram && brandProgram !== slug ? undefined : f.brand })
-  const [all, ...each] = await Promise.all([countOf(hotelWhere(f)), ...programs.docs.map((p) => countOf(hotelWhere(forProgram(p.slug))))])
-  return {
-    all,
-    programs: programs.docs.map((p, i) => ({ slug: p.slug, name: p.name, n: each[i] })).sort((a, b) => programRank(a.slug) - programRank(b.slug) || a.name.localeCompare(b.name)),
-  }
+  const programs = await payload.find({ collection: 'programs', sort: 'name', limit: 20, depth: 0, select: { name: true, slug: true } })
+  return programs.docs.map((p) => ({ slug: p.slug, name: p.name })).sort((a, b) => programRank(a.slug) - programRank(b.slug) || a.name.localeCompare(b.name))
 }
 
 export type RegionCount = { slug: string; name: string; n: number }
@@ -126,20 +102,11 @@ export async function hotelSideCounts(program?: string): Promise<{ regions: Regi
   }
 }
 
-// The regions in their display order, and the segments that have a hotel, for the filter menus
-export async function hotelFilterExtras(): Promise<{ regions: { slug: string; name: string }[]; segments: { value: string; label: string }[] }> {
-  const { payload, db: d, sql } = await db()
-  const [regions, segs] = await Promise.all([
-    payload.find({ collection: 'regions', sort: 'displayOrder', limit: 50, depth: 0, select: { name: true, slug: true } }),
-    d.drizzle.execute(sql`select distinct segment from hotels where _status = 'published' and segment is not null`),
-  ])
-  const present = new Set((segs.rows ?? []).map((r) => String(r.segment)))
-  return {
-    regions: regions.docs.map((r) => ({ slug: r.slug, name: r.name })),
-    segments: Object.entries(SEGMENT_LABEL)
-      .filter(([v]) => present.has(v))
-      .map(([value, label]) => ({ value, label })),
-  }
+// The regions in their display order, for the filter menu
+export async function hotelFilterExtras(): Promise<{ regions: { slug: string; name: string }[] }> {
+  const payload = await getPayloadClient()
+  const regions = await payload.find({ collection: 'regions', sort: 'displayOrder', limit: 50, depth: 0, select: { name: true, slug: true } })
+  return { regions: regions.docs.map((r) => ({ slug: r.slug, name: r.name })) }
 }
 
 // ---------- Destination and brand pages ----------

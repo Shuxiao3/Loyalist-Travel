@@ -69,3 +69,16 @@
   text-decoration: underline;
   text-underline-offset: 2px;
 }
+
+/* Phone audit: "Close my account" is a 40px tall tap target, through padding the layout does
+   not see (the open fold keeps its 10px under the summary) */
+@media (max-width: 760px) {
+  .fold > summary {
+    padding: 9px 0;
+    margin: -9px 0;
+  }
+
+  .fold[open] > summary {
+    margin-bottom: 1px;
+  }
+}

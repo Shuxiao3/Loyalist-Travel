@@ -57,4 +57,17 @@
   .main {
     padding-top: var(--sp-4);
   }
+
+  /* Phone audit: each answer and the side column's links are 40px tall tap targets, through
+     padding the layout does not see */
+  .grid :global(.choices) :global(.choice) {
+    padding: 6px 0;
+    margin: -6px 0;
+  }
+
+  .aside :global(.link) {
+    display: inline-block;
+    padding: 10px 0;
+    margin: -10px 0;
+  }
 }
