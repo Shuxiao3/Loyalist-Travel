@@ -104,6 +104,8 @@ export type HotelFilters = {
   program?: string
   brand?: string
   country?: string
+  region?: string // a region's slug ("europe")
+  segment?: string // a segment value ("luxury")
   sort?: string
   scored?: string
   lounge?: string
@@ -125,15 +127,26 @@ export const HOTEL_SORTS: { value: string; label: string }[] = [
 // The sorts that rank by an upgrade rate, and the pool each reads.
 export const upgradePoolOf = (sort?: string): UpgradePool | null => (sort === 'aggregated' || sort === 'reader' ? sort : null)
 
-export async function findHotels(f: HotelFilters) {
-  const payload = await getPayloadClient()
+// The published hotels that match the filters, as the parts of a where clause. The sort and the
+// page are not filters. The Hotels list also counts its program tabs with this.
+export function hotelWhere(f: Omit<HotelFilters, 'sort' | 'page'>): Where[] {
   const and: Where[] = [published]
   if (f.q) and.push({ or: [{ name: { contains: f.q } }, { fullName: { contains: f.q } }] })
   if (f.program) and.push({ 'program.slug': { equals: f.program } })
   if (f.brand) and.push({ 'brand.slug': { equals: f.brand } })
   if (f.country) and.push({ 'destination.country': { equals: f.country } })
-  if (f.scored === 'yes') and.push({ reviewStatus: { equals: 'reviewed' } })
+  if (f.region) and.push({ 'destination.region.slug': { equals: f.region } })
+  if (f.segment) and.push({ segment: { equals: f.segment } })
+  // "Reviewed hotels": a hotel marked reviewed in the admin, or one with a published review (the
+  // mark is set by hand and lags behind the reviews themselves)
+  if (f.scored === 'yes') and.push({ or: [{ reviewStatus: { equals: 'reviewed' } }, { 'reviews._status': { equals: 'published' } }] })
   if (f.lounge === 'yes') and.push({ clubLounge: { equals: 'yes' } })
+  return and
+}
+
+export async function findHotels(f: HotelFilters) {
+  const payload = await getPayloadClient()
+  const and = hotelWhere(f)
   // Most stays reported (reader stays plus forum reports) by default on the
   // hotels index, page views breaking ties; 'popular' flips the two. The
   // program pages pass 'az'. A value the menu does not know gets the default,

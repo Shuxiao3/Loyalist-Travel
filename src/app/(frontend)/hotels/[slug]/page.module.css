@@ -1,179 +1,117 @@
-.hero :global(.wrap) {
-  padding-top: var(--s7);
+/* Hotel page (mockups: hotel.html, hotel-reviewed.html, hotel-empty.html, hotel-breakdown.html).
+   Ported from the mockups' css/hotel.css; the kit's classes are :global. The add-your-stay form
+   (HotelStayForm), reader odds (ReaderPanel) and the breakdown window (SourcedPanel,
+   BreakdownWindow) carry their own modules. */
+
+/* ---------- Band: photo, title, key figures ---------- */
+:global(.pb-row).hbRow { grid-template-columns: 184px minmax(0, 1fr) auto; }
+:global(.pb-row).hbRow.noPhoto { grid-template-columns: minmax(0, 1fr) auto; }
+.hbPhoto { height: 138px; }
+.hbRow :global(.pb-title) h1 { text-wrap: balance; }
+
+/* hotel and lounge photos are backgrounds: one that fails to load leaves the box's own color.
+   Specific enough to outlast the kit's ".band .img-box" background shorthand */
+:global(.img-box).hbPhoto.cover, :global(.img-box).loungePh.cover { background-size: cover; background-position: center; background-repeat: no-repeat; }
+
+/* ---------- Main column ---------- */
+.col > * + * { margin-top: 28px; }
+.side > * + * { margin-top: 28px; }
+
+/* The review, when there is one: the kit strip, nothing bigger */
+.col > .review + * { margin-top: 24px; }
+.review :global(.rs-label) .nw { white-space: nowrap; }
+.rsLinkIn { display: none; font: 600 var(--fs-2)/1 var(--sans); color: var(--link); white-space: nowrap; }
+
+/* Hotel details: two key and value lists side by side, one full-width row under them */
+.kvPair { margin-top: var(--sp-2); }
+:global(.kv).kvWide { border-top: 0; }
+.kvA { color: var(--link); font-weight: 600; }
+
+/* Club lounge */
+.lounge { display: grid; grid-template-columns: 184px minmax(0, 1fr); grid-template-rows: auto auto 1fr; gap: 0 var(--sp-5); margin-top: 10px; }
+.lounge.loungeNoPh { grid-template-columns: minmax(0, 1fr); }
+.lounge + .lounge { margin-top: var(--sp-5); }
+.loungePh { grid-row: 1 / -1; height: 124px; }
+.lounge h3 { font: 600 var(--fs-4)/1.2 var(--serif); margin-bottom: var(--sp-2); }
+.lounge :global(.kv) > div { grid-template-columns: 144px minmax(0, 1fr); }
+.loungeAct { margin-top: 10px; font-size: var(--fs-2); }
+
+/* Other hotels */
+.others { margin-top: 2px; }
+:global(.table).others tbody th { font-weight: 400; }
+.others :global(.hn) { font-weight: 600; color: var(--ink); }
+.others :global(.sub-b) { margin-top: 1px; }
+:global(.table).others td { color: var(--ink-2); }
+.smOnly { display: none; }
+
+/* ---------- Side column ---------- */
+.addBox { scroll-margin-top: var(--sp-4); }
+:global(.box).addBox > p { margin-bottom: var(--sp-3); }
+
+/* Program, brand and city context. The program entry is its logo alone, linked to the program
+   (the alt carries the name; no name, no tier line). The logo box is the menu's 72 by 46:
+   wordmarks fill its width, the square World of Hyatt mark its height */
+.ctx { padding: var(--sp-3) 0; border-bottom: 1px solid var(--rule); }
+.ctxHead { display: block; width: max-content; }
+.ctxHead:hover .ctxLogo { opacity: 0.8; }
+.ctxLogo { display: block; width: 72px; height: 46px; object-fit: contain; object-position: left center; }
+.ctx h3 { font: 600 var(--fs-3)/1.25 var(--serif); }
+.ctx p { font-size: var(--fs-2); line-height: 1.4; color: var(--ink-2); margin-top: 2px; }
+.ctx .ctxLinks { display: flex; flex-wrap: wrap; gap: 2px var(--sp-4); margin-top: var(--sp-1); font-size: var(--fs-1); font-weight: 600; }
+.ctxLinks a { color: var(--link); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1180px) {
+  :global(.pb-row).hbRow { grid-template-columns: 160px minmax(0, 1fr); }
+  :global(.pb-row).hbRow.noPhoto { grid-template-columns: minmax(0, 1fr); }
+  .hbPhoto { height: 124px; }
+  .hbRow :global(.figs) { grid-column: 1 / -1; padding-top: var(--sp-3); border-top: 1px solid var(--navy-line); }
 }
 
-.heroGrid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 300px;
-  gap: var(--s8);
-  align-items: end;
-  padding-bottom: var(--s5);
+@media (max-width: 960px) {
+  /* One column: the hotel first, then the stay form, then other hotels and the program context */
+  :global(.grid-side).grid { gap: 28px; }
+  .col, .side { display: contents; }
+  .col > * + *, .side > * + *, .col > .review + *, .grid :global(.mod + .mod) { margin-top: 0; }
+  .addBox { order: 1; }
+  .mOthers { order: 2; }
+  .side > :global(.mod) { order: 3; }
 }
 
-.h1 {
-  font-size: var(--t-h1);
-  line-height: 1.1;
-  color: var(--ivory);
-  letter-spacing: -0.01em;
-  margin: 0 0 var(--s5);
-  text-wrap: pretty;
-}
+@media (max-width: 760px) {
+  :global(.pb-row).hbRow { grid-template-columns: minmax(0, 1fr) 96px; gap: var(--sp-4) var(--sp-3); }
+  :global(.pb-row).hbRow.noPhoto { grid-template-columns: minmax(0, 1fr); }
+  .hbRow :global(.pb-title) { grid-column: 1; grid-row: 1; }
+  .hbPhoto { grid-column: 2; grid-row: 1; align-self: start; height: 66px; margin-top: 5px; }
+  .hbRow :global(.figs) { grid-column: 1 / -1; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-3) var(--sp-3); padding-top: var(--sp-3); }
+  .hbRow :global(.fig-n) { font-size: var(--fs-6); }
+  .hbRow :global(.fig-l) { font-size: var(--fs-1); margin-top: var(--sp-1); }
+  .hbRow :global(.pb-actions) { flex-wrap: wrap; }
 
-.sub {
-  margin: 0 0 var(--s6);
-}
+  /* the h1 right under the breadcrumb names the hotel, so the crumb trail stops at the city and stays on one line */
+  .band :global(.crumbs) [aria-current], .band :global(.crumbs .sep):has(+ [aria-current]) { display: none; }
 
-.scorePanel {
-  display: flex;
-  flex-direction: column;
-  background: var(--navy-deep);
-  border: 1px solid var(--gold-border);
-  padding: var(--s5) var(--s6);
-  border-radius: var(--r);
-  color: inherit;
-}
+  :global(.grid-side).grid { gap: 24px; }
 
-a.scorePanel:hover {
-  border-color: var(--gold-dark);
-}
+  /* the review strip: label on one line, link at the end of the verdict */
+  :global(.review-strip).review { align-items: start; padding: 10px var(--sp-3); }
+  .review .rsBy, .review :global(.rs-link) { display: none; }
+  .review :global(.rs-verdict) { font-size: var(--fs-3); line-height: 1.28; }
+  .review .rsLinkIn { display: inline; margin-left: 2px; }
 
-.scoreLabel {
-  display: block;
-  color: var(--on-navy-muted);
-  margin-bottom: var(--s2);
-}
+  :global(.cols2).kvPair > :global(.kv + .kv) { border-top: 0; }
 
-.scoreBig {
-  font-family: var(--serif);
-  font-size: var(--t-num);
-  color: var(--gold);
-  line-height: 1;
-}
+  .lounge { grid-template-columns: minmax(0, 1fr) 96px; grid-template-rows: auto; gap: 0 var(--sp-3); }
+  .lounge.loungeNoPh { grid-template-columns: minmax(0, 1fr); }
+  .lounge h3 { grid-column: 1; grid-row: 1; align-self: center; margin-bottom: 0; }
+  .loungePh { grid-column: 2; grid-row: 1; height: 64px; }
+  .lounge :global(.kv), .loungeAct { grid-column: 1 / -1; }
+  .lounge :global(.kv) { margin-top: 10px; }
+  .lounge :global(.kv) > div { grid-template-columns: 112px minmax(0, 1fr); }
 
-.scoreNote {
-  margin-top: var(--s4);
-  padding-top: var(--s4);
-  border-top: 1px solid var(--line-dark);
-  font-size: var(--t-xs);
-  color: var(--on-navy-dim);
-  letter-spacing: var(--track-fine);
-}
-
-.byline {
-  padding-bottom: var(--s7);
-}
-
-.facts :global(.eyebrow) {
-  display: block;
-  margin-bottom: var(--s5);
-}
-
-.empty {
-  font-size: var(--t-md);
-  line-height: 1.7;
-  color: var(--text-2);
-  max-width: 56ch;
-}
-
-.latest {
-  margin-top: var(--s7);
-}
-
-/* reader data and aggregated data across the top, the form beneath */
-.dataGrid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: var(--card-gap);
-  align-items: start;
-}
-
-/* the form panel runs the full width beneath the two data panels */
-.dataGrid .stayPanel {
-  grid-column: 1 / -1;
-}
-
-.sourcedP {
-  font-size: var(--t-md);
-  line-height: 1.6;
-  color: var(--light);
-  max-width: 52ch;
-  margin-bottom: var(--s4);
-}
-
-.sourcedNone {
-  font-size: var(--t-sm);
-  color: var(--on-navy-muted);
-  letter-spacing: var(--track-fine);
-}
-
-.stayPanel :global(.eyebrow) {
-  display: block;
-  margin-bottom: var(--s3);
-}
-
-.stayTitle {
-  font-size: var(--t-lg);
-  color: var(--ivory);
-  margin-bottom: var(--s5);
-}
-
-.loungeOne {
-  grid-template-columns: minmax(0, 1fr);
-  max-width: 560px;
-}
-
-.loungeCell :global(.label) {
-  color: var(--gold-dark);
-}
-
-.loungeName {
-  font-family: var(--serif);
-  font-size: var(--t-lg);
-  color: var(--heading);
-  line-height: 1.25;
-}
-
-.loungeScore {
-  margin-top: var(--s2);
-  font-size: var(--t-xs);
-  color: var(--muted);
-  letter-spacing: var(--track-fine);
-}
-
-.nearby {
-  padding-bottom: var(--section);
-}
-
-@media (max-width: 1100px) {
-  .heroGrid {
-    grid-template-columns: 1fr;
-    gap: var(--s7);
-  }
-
-  .dataGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .scorePanel {
-    max-width: 360px;
-  }
-}
-
-@media (max-width: 640px) {
-  .hero :global(.wrap) {
-    padding-top: var(--s6);
-  }
-
-  .heroGrid {
-    gap: var(--s6);
-  }
-
-  .h1 {
-    font-size: calc(var(--t-h1) * 0.85);
-    margin-bottom: var(--s4);
-  }
-
-  .sub {
-    margin-bottom: var(--s5);
-  }
+  /* other hotels: name and its line on the left, odds on the right; the program joins the line */
+  .others thead { display: none; }
+  .lgCol { display: none; }
+  .smOnly { display: inline; }
+  :global(.table).others tbody th, :global(.table).others td { padding-top: var(--sp-2); padding-bottom: var(--sp-2); }
 }

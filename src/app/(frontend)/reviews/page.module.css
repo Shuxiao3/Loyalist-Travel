@@ -1,177 +1,103 @@
-/* the filter bar sits on the warmer cream */
-.filters {
-  padding-top: 0;
-  background: var(--cream);
-  border-bottom: 1px solid var(--line);
+/* Reviews list (mockup: reviews.html, page rules from css/reviews.css). Shared components come
+   from src/styles/kit.css. */
+
+/* Band: on phones the line under the dek gives way */
+@media (max-width: 760px) {
+  .head :global(.pb-meta) { display: none; }
 }
 
-.form {
-  display: grid;
-  grid-template-columns: 1.3fr repeat(3, minmax(0, 1fr)) auto;
-  gap: var(--s4);
-  align-items: end;
-  padding: var(--s5) 0;
+/* Search bar: one field and its button. Country and type are links in the side column on
+   desktop and in the Filters fold on phones. */
+.filter :global(.grow) { flex: 1 1 260px; }
+.fold { display: none; flex-basis: 100%; }
+.fold > summary { display: inline-flex; align-items: center; gap: 6px; list-style: none; cursor: pointer; font: 600 var(--fs-2)/1.2 var(--sans); color: var(--link); }
+.fold > summary::-webkit-details-marker { display: none; }
+.fold > summary svg { width: 12px; height: 12px; }
+.fold[open] > summary svg { transform: rotate(180deg); }
+.foldBody { padding-top: var(--sp-1); }
+.foldH { font-size: var(--fs-1); color: var(--muted); margin-top: var(--sp-2); }
+.flinks { display: flex; flex-wrap: wrap; gap: 6px var(--sp-4); margin-top: 2px; }
+.flinks a { font-weight: 600; color: var(--link); }
+.flinks a[aria-current] { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 2px; }
+.clear { font: 600 var(--fs-2)/1.2 var(--sans); color: var(--link); }
+
+/* Sort: the kit's menu; the six category names head the score columns on wide screens */
+.colhead { display: none; }
+.colhead small { font-size: var(--fs-1); }
+
+/* Review rows: score, then the review; the six category totals sit under it as one short
+   line, or in aligned columns on wide screens (see the last block). */
+.rows > li { display: grid; grid-template-columns: 74px minmax(0, 1fr); grid-template-rows: auto 1fr; gap: var(--sp-2) var(--sp-5); padding: var(--sp-4) 0; border-bottom: 1px solid var(--rule); }
+.mark { grid-row: 1 / span 2; text-align: center; }
+.mark :global(.score) { margin: 3px auto 0; }
+.bandname { font-size: var(--fs-1); line-height: 1.25; font-weight: 600; color: var(--ink-2); margin-top: 6px; white-space: nowrap; }
+.text h3 { font: 600 var(--fs-4)/1.2 var(--serif); }
+.text h3 a:hover { color: var(--link); }
+.text :global(.meta) { margin-top: 2px; }
+.verdict { font-size: var(--fs-3); line-height: 1.42; color: var(--ink-2); margin-top: 6px; max-width: 62ch; }
+.text :global(.byline) { margin-top: 6px; }
+.text :global(.meta) span, .text :global(.byline) span { white-space: nowrap; }
+.subs { grid-column: 2; align-self: start; display: flex; flex-wrap: wrap; gap: 2px var(--sp-4); font-size: var(--fs-1); line-height: 1.35; }
+.subs > div { display: flex; gap: 5px; white-space: nowrap; }
+.subs dt { color: var(--muted); }
+.subs dd { font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
+
+.empty { margin-top: var(--sp-4); }
+.empty a { color: var(--link); font-weight: 600; }
+
+/* Side column */
+.side > * + * { margin-top: 28px; }
+.p { font-size: var(--fs-2); line-height: 1.42; color: var(--ink-2); margin: var(--sp-1) 0 var(--sp-2); }
+.rubric tbody th { font-weight: 600; }
+.rubric :global(.sub-b) { margin-top: 1px; white-space: normal; }
+.rubric td:global(.r) { vertical-align: top; padding-top: 7px; }
+.bands td { font-size: var(--fs-2); color: var(--ink-2); }
+.bands td:global(.hn) { color: var(--ink); }
+.sideTable :global(.hn) { color: var(--ink); }
+.sideTable :global(.hn):hover { color: var(--link); }
+.sideTable :global(.hn)[aria-current] { color: var(--link); }
+.sideTable td:global(.r) a { font-size: var(--fs-1); font-weight: 600; color: var(--link); }
+
+/* Wide screens: the six category totals as aligned number columns, named once in the
+   results line. */
+@media (min-width: 1341px) {
+  .rows, .results { --rv-cols: 36px 52px 70px 44px 64px 56px; --rv-colgap: 14px; --rv-subs-w: 392px; }
+  .results { display: grid; grid-template-columns: minmax(0, 1fr) var(--rv-subs-w); align-items: end; gap: var(--sp-5); }
+  .results :global(.sort) { justify-self: start; }
+  .colhead { display: grid; grid-template-columns: var(--rv-cols); column-gap: var(--rv-colgap); font-size: var(--fs-1); line-height: 1.2; font-weight: 600; color: var(--ink-2); text-align: right; }
+  .colhead small { display: block; font-size: var(--fs-1); font-weight: 400; color: var(--muted); margin-top: 1px; }
+  .rows > li { grid-template-columns: 74px minmax(0, 1fr) var(--rv-subs-w); grid-template-rows: auto; }
+  .mark { grid-row: auto; }
+  .subs { grid-column: 3; grid-row: 1; display: grid; grid-template-columns: var(--rv-cols); column-gap: var(--rv-colgap); align-content: start; padding-top: 3px; text-align: right; }
+  .subs > div { display: block; }
+  .subs dt { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .subs dd { font-size: var(--fs-3); line-height: 1.2; }
 }
 
-.form label {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s2);
-  min-width: 0;
+@media (max-width: 960px) {
+  /* the side's lists sit in two columns under the reviews */
+  .side { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px var(--sp-6); margin-top: var(--sp-2); }
+  .side > * + *, .side :global(.mod) + :global(.mod) { margin-top: 0; }
 }
 
-.form select,
-.form input {
-  width: 100%;
-  min-width: 0;
-  background: var(--card);
-  border: 1px solid var(--line-strong);
-  color: var(--text);
-  padding: 11px 12px;
-  font-size: var(--t-sm);
-  border-radius: var(--r-btn);
-}
-
-.form select:focus-visible,
-.form input:focus-visible {
-  outline: 2px solid var(--gold);
-  outline-offset: 2px;
-}
-
-.actions {
-  display: flex;
-  align-items: center;
-  gap: var(--s4);
-}
-
-.actions :global(.btn) {
-  padding: 12px 22px;
-}
-
-/* the top three, a small panel beside the hero text */
-.podium {
-  background: var(--navy-deep);
-  border: 1px solid var(--gold-border);
-  border-radius: var(--r);
-  padding: var(--s5);
-  min-width: 0;
-}
-
-.podium :global(.eyebrow) {
-  display: block;
-  margin-bottom: var(--s4);
-}
-
-.podiumList {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.podiumRow {
-  display: grid;
-  grid-template-columns: 28px minmax(0, 1fr) auto;
-  align-items: center;
-  gap: var(--s3);
-  padding: var(--s3) 0;
-  border-top: 1px solid var(--line-dark);
-  color: inherit;
-}
-
-.podiumList li:first-child .podiumRow {
-  border-top: 0;
-  padding-top: 0;
-}
-
-.medal {
-  width: 26px;
-  height: 26px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  background: var(--medal);
-  color: var(--medal-text, var(--ivory));
-  font-family: var(--serif);
-  font-size: var(--t-sm);
-  line-height: 1;
-}
-
-.gold {
-  --medal: var(--gold);
-  --medal-text: var(--navy);
-}
-
-.silver {
-  --medal: #b7babe;
-  --medal-text: var(--navy);
-}
-
-.bronze {
-  --medal: #a8703f;
-}
-
-.podiumName {
-  font-family: var(--serif);
-  font-size: var(--t-md);
-  color: var(--ivory);
-  line-height: 1.3;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.podiumRow:hover .podiumName {
-  color: var(--gold-pale);
-}
-
-.podiumScore {
-  font-family: var(--serif);
-  font-size: var(--t-lg);
-  color: var(--gold);
-  line-height: 1;
-}
-
-.podiumScore small {
-  font-family: var(--sans);
-  font-size: var(--t-xs);
-  color: var(--on-navy-muted);
-  margin-left: 2px;
-}
-
-.podiumMore {
-  display: inline-block;
-  margin-top: var(--s4);
-  font-size: var(--t-xs);
-  letter-spacing: var(--track-cta);
-  text-transform: uppercase;
-  color: var(--gold);
-  border-bottom: 1px solid var(--gold);
-  padding-bottom: 2px;
-}
-
-.list {
-  padding-bottom: var(--section);
-}
-
-.list :global(.section-head) {
-  margin-bottom: var(--s6);
-}
-
-.empty {
-  font-size: var(--t-md);
-  color: var(--text-2);
-}
-
-@media (max-width: 900px) {
-  .form {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .q {
-    grid-column: 1 / -1;
-  }
-
-  .actions {
-    grid-column: 1 / -1;
-  }
+@media (max-width: 760px) {
+  .filter :global(.label) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .filter { gap: 10px var(--sp-2); }
+  .filter :global(.grow) { flex: 1 1 200px; }
+  .filter :global(.fb-actions) { flex: none; flex-basis: auto; height: 40px; }
+  .filter :global(.fb-actions) :global(.btn) { flex: none; }
+  .fold { display: block; }
+  .sideFilter { display: none; }
+  .results:global(.results-line) { flex-wrap: nowrap; }
+  .results :global(.sort) { min-width: 0; }
+  .results :global(.sort) :global(.select) { max-width: 190px; }
+  .rows > li { grid-template-columns: 64px minmax(0, 1fr); gap: var(--sp-1) 12px; padding: 14px 0; }
+  .rows :global(.score-lg) { width: 56px; height: 56px; }
+  .rows :global(.score-lg) b { font-size: var(--fs-5); }
+  .bandname { margin-top: var(--sp-1); }
+  .verdict { font-size: var(--fs-3); line-height: 1.38; }
+  .subs { gap: 0 var(--sp-3); }
+  .side { display: block; margin-top: var(--sp-4); }
+  .side > * + *, .side :global(.mod) + :global(.mod) { margin-top: 28px; }
+  .side > .sideFilter + :global(.mod):not(.sideFilter) { margin-top: 0; }
 }

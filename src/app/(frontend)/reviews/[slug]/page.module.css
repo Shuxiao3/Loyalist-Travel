@@ -1,645 +1,159 @@
-/* Review template. Ported from docs/park-hyatt-new-york-review.html. */
-
-.hero :global(.wrap) {
-  padding-top: var(--s7);
-}
-
-.heroGrid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 360px;
-  gap: var(--s8);
-  align-items: end;
-  padding-bottom: var(--s5);
-}
-
-.h1 {
-  font-size: var(--t-h1);
-  line-height: 1.1;
-  color: var(--ivory);
-  letter-spacing: -0.01em;
-  margin: 0 0 var(--s5);
-  text-wrap: pretty;
-}
-
-.sub {
-  margin: 0 0 var(--s6);
-}
-
-/* score panel */
-.scorePanel {
-  background: var(--navy-deep);
-  border: 1px solid var(--gold-border);
-  padding: var(--s5) var(--s6);
-  border-radius: var(--r);
-  overflow: hidden;
-}
-
-.scoreTop {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: var(--s5);
-  padding-bottom: var(--s4);
-  border-bottom: 1px solid var(--line-dark);
-}
-
-.scoreLabel {
-  display: block;
-  color: var(--on-navy-muted);
-  margin-bottom: var(--s2);
-}
-
-.scoreBig {
-  font-family: var(--serif);
-  font-size: var(--t-num);
-  color: var(--gold);
-  line-height: 1;
-}
-
-/* the score band, e.g. "Great" */
-.band {
-  margin-top: var(--s3);
-  font-family: var(--serif);
-  font-size: var(--t-xl);
-  color: var(--ivory);
-  line-height: 1.1;
-}
-
-/* the six category totals beside the big number */
-.scoreSplit {
-  display: grid;
-  grid-template-columns: repeat(3, auto);
-  gap: var(--s3) var(--s5);
-  text-align: right;
-  padding-bottom: 4px;
-}
-
-.scoreSplit a {
-  color: inherit;
-}
-
-.scoreSplit a:hover .scoreMid {
-  color: var(--gold);
-}
-
-.scoreMid {
-  font-family: var(--serif);
-  font-size: var(--t-lg);
-  color: var(--ivory);
-  line-height: 1;
-}
-
-.scoreMid small {
-  font-family: var(--sans);
-  font-size: var(--t-xs);
-  color: var(--on-navy-muted);
-  margin-left: 3px;
-}
-
-.scoreNote {
-  padding-top: var(--s4);
-  font-size: var(--t-xs);
-  color: var(--on-navy-dim);
-  letter-spacing: var(--track-fine);
-}
-
-/* facts and scorecard */
-.facts :global(.eyebrow),
-.scorecard :global(.eyebrow) {
-  display: block;
-  margin-bottom: var(--s5);
-}
-
-/* six category cards on hairlines, three across */
-.scCard {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1px;
-  background: var(--line);
-  border: 1px solid var(--line);
-  border-radius: var(--r);
-  overflow: hidden;
-}
-
-.scCol {
-  padding: var(--s5) var(--s6) var(--s4);
-  background: var(--card);
-}
-
-.scHead h2 a {
-  color: inherit;
-}
-
-.scHead h2 a:hover {
-  color: var(--gold-dark);
-}
-
-/* the category total beside the article heading */
-.h2Score {
-  font-family: var(--serif);
-  font-size: var(--t-lg);
-  color: var(--gold-dark);
-  margin-left: var(--s4);
-  white-space: nowrap;
-}
-
-.h2Score small {
-  font-family: var(--sans);
-  font-size: var(--t-xs);
-  color: var(--muted);
-  margin-left: 3px;
-}
-
-.scHead {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--s4);
-  padding-bottom: var(--s4);
-  border-bottom: 1px solid var(--line);
-}
-
-.scHead h2 {
-  font-size: var(--t-lg);
-  color: var(--heading);
-}
-
-.scSum {
-  font-family: var(--serif);
-  font-size: var(--t-lg);
-  color: var(--gold-dark);
-}
-
-.scSum small {
-  font-family: var(--sans);
-  font-size: var(--t-eyebrow);
-  color: var(--muted);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin-left: 5px;
-}
-
-.scRows {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.scRows li {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 34% 48px;
-  gap: var(--s4);
-  align-items: center;
-  padding: var(--s3) 0;
-  border-bottom: 1px solid var(--line);
-  font-size: var(--t-sm);
-  color: var(--text-2);
-}
-
-.scRows li:last-child {
-  border-bottom: 0;
-}
-
-/* every bar the same width; the fill is the score out of the maximum */
-.bar {
-  display: block;
-  height: 3px;
-  background: var(--cream);
-  width: 100%;
-  position: relative;
-  border-radius: 2px;
-}
-
-.bar i {
-  position: absolute;
-  inset: 0;
-  width: calc(var(--val) / var(--max) * 100%);
-  background: var(--gold);
-  border-radius: 2px;
-}
-
-.scPts {
-  text-align: right;
-  color: var(--heading);
-  font-weight: 700;
-}
-
-.scPts small {
-  font-weight: 400;
-  color: var(--muted);
-  font-size: var(--t-xs);
-}
-
-.scLegend {
-  margin-top: var(--s4);
-  font-size: var(--t-xs);
-  color: var(--muted);
-  letter-spacing: 0.02em;
-}
-
-/* article body and sidebar */
-.bodyWrap {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) var(--sidebar);
-  gap: var(--col-gap);
-  padding-top: var(--s8);
-  padding-bottom: var(--s9);
-  align-items: start;
-}
-
-.main {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s6);
-}
-
-.section {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s5);
-}
-
-.section h2 {
-  font-size: var(--t-2xl);
-  line-height: 1.25;
-  color: var(--heading);
-  margin-top: var(--s3);
-}
-
-.cat :global(.label) {
-  display: block;
-  margin-bottom: var(--s3);
-}
-
-.cat :global(.label) b {
-  color: var(--gold-dark);
-  font-weight: 700;
-  letter-spacing: 0.04em;
-}
-
-.eliteGrid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--s5) var(--s7);
-}
-
-.eliteGrid :global(.label) {
-  display: block;
-  color: var(--on-navy-muted);
-  margin-bottom: var(--s2);
-}
-
-.eliteVal {
-  font-size: var(--t-md);
-  line-height: 1.55;
-  color: var(--ivory);
-}
-
-.pc {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--s6);
-}
-
-.pc h3 {
-  font-size: var(--t-lg);
-  color: var(--heading);
-  margin-bottom: var(--s4);
-}
-
-.pc ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.pc li {
-  position: relative;
-  padding: var(--s3) 0 var(--s3) 26px;
-  border-top: 1px solid var(--line);
-  font-size: var(--t-md);
-  line-height: 1.55;
-  color: var(--text);
-}
-
-.pc li:last-child {
-  border-bottom: 1px solid var(--line);
-}
-
-.pc li::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: calc(var(--s3) + 0.75em);
-  width: 12px;
-  height: 1px;
-  background: var(--gold);
-}
-
-.verdictBand {
-  background: var(--navy);
-  border: 1px solid var(--gold-border);
-  padding: var(--s7);
-  display: flex;
-  align-items: center;
-  gap: var(--s8);
-  color: var(--ivory);
-  border-radius: var(--r);
-  overflow: hidden;
-}
-
-.bigWrap {
-  flex-shrink: 0;
-}
-
-.big {
-  font-family: var(--serif);
-  font-size: var(--t-big);
-  color: var(--gold);
-  line-height: 1;
-  flex-shrink: 0;
-}
-
-.bigBand {
-  margin-top: var(--s3);
-  font-family: var(--serif);
-  font-size: var(--t-xl);
-  color: var(--ivory);
-}
-
-.rule {
-  width: 1px;
-  align-self: stretch;
-  background: var(--line-dark);
-}
-
-.say {
-  font-family: var(--serif);
-  font-size: var(--t-xl);
-  line-height: 1.35;
-  color: var(--ivory);
-  margin-bottom: var(--s3);
-  text-wrap: pretty;
-  max-width: 34ch;
-}
-
-.small {
-  font-size: var(--t-sm);
-  color: var(--on-navy-muted);
-  letter-spacing: var(--track-fine);
-}
-
-.bookit :global(.label) {
-  color: var(--gold-dark);
-}
-
-.cellProse :global(li) {
-  font-size: var(--t-md);
-}
-
-/* the sidebar follows the reader down the page */
-.side {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s6);
-  position: sticky;
-  top: calc(76px + var(--s5));
-  /* taller than the screen on a long review: the column scrolls on its own,
-     so every card stays reachable. The padding and negative margin keep
-     focus rings from being clipped. */
-  max-height: calc(100vh - 76px - 2 * var(--s5));
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: var(--line-strong) transparent;
-  padding: 4px;
-  margin: -4px;
-}
-
-/* headings land below the sticky nav when jumped to */
-.section h2,
-.main :global(#elite-h) {
-  scroll-margin-top: calc(76px + var(--s5));
-}
-
-
-
-.sideCard {
-  background: var(--card);
-  border: 1px solid var(--line);
-  padding: var(--s5);
-  border-radius: var(--r);
-}
-
-.sideCard :global(.eyebrow) {
-  display: block;
-  margin-bottom: var(--s4);
-}
-
-.toc {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s3);
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.toc a {
-  display: block;
-  font-size: var(--t-sm);
-  color: var(--text-2);
-  border-left: 2px solid var(--line-strong);
-  padding-left: 12px;
-}
-
-.toc a:hover {
-  color: var(--heading);
-  border-left-color: var(--gold);
-}
-
-.sideCta {
-  background: var(--navy);
-  border: 1px solid var(--gold-border);
-  padding: var(--s6) var(--s5);
-  color: var(--ivory);
-  border-radius: var(--r);
-}
-
-.sideCta h3 {
-  font-size: var(--t-lg);
-  color: var(--ivory);
-  line-height: 1.3;
-  margin-bottom: var(--s3);
-}
-
-.sideCta p {
-  font-size: var(--t-sm);
-  line-height: 1.6;
-  color: var(--light);
-  margin-bottom: var(--s5);
-  text-wrap: pretty;
-}
-
-.sideCta :global(.btn) {
-  display: block;
-}
-
-.related {
-  border-top: 1px solid var(--line);
-  padding-top: var(--s5);
-}
-
-.related :global(.eyebrow) {
-  display: block;
-  margin-bottom: var(--s4);
-}
-
-.related ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--s4);
-}
-
-.related li {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.related li a {
-  font-family: var(--serif);
-  font-size: var(--t-base);
-  line-height: 1.3;
-  color: var(--heading);
-  text-wrap: pretty;
-}
-
-.related li a:hover {
-  color: var(--gold-dark);
-}
-
-/* tablet */
-@media (max-width: 1100px) {
-  .heroGrid {
-    grid-template-columns: 1fr;
-    gap: var(--s7);
-  }
-
-  .scCard {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .scorePanel {
-    max-width: 560px;
-  }
-
-  .bodyWrap {
-    grid-template-columns: 1fr;
-    gap: var(--s7);
-  }
-
-  .side {
-    position: static;
-    max-height: none;
-    overflow: visible;
-    padding: 0;
-    margin: 0;
-  }
-
-  .tocCard {
-    display: none;
-  }
-
-  .section h2,
-  .main :global(#elite-h) {
-    scroll-margin-top: calc(64px + var(--s5));
-  }
-}
-
-/* phone */
-@media (max-width: 640px) {
-  .hero :global(.wrap) {
-    padding-top: var(--s6);
-  }
-
-  .heroGrid {
-    gap: var(--s6);
-    padding-bottom: var(--s5);
-  }
-
-  .h1 {
-    margin-bottom: var(--s4);
-  }
-
-  .sub {
-    margin-bottom: var(--s5);
-  }
-
-  .scorePanel {
-    padding: var(--s5);
-  }
-
-  .scoreTop {
-    gap: var(--s4);
-  }
-
-  .long,
-  .pub {
-    display: none;
-  }
-
-  .scCard {
-    grid-template-columns: 1fr;
-  }
-
-  .scCol {
-    padding: var(--s5) var(--s5) var(--s4);
-  }
-
-  .scoreSplit {
-    grid-template-columns: repeat(2, auto);
-  }
-
-  .scRows li {
-    grid-template-columns: minmax(0, 1fr) 30% 44px;
-    gap: 14px;
-  }
-
-  .bodyWrap {
-    padding-top: var(--s7);
-    padding-bottom: var(--s8);
-  }
-
-  .main {
-    gap: var(--s5);
-  }
-
-  .section h2 {
-    margin-top: var(--s2);
-  }
-
-  .eliteGrid {
-    grid-template-columns: 1fr;
-    gap: var(--s4);
-  }
-
-  .pc {
-    grid-template-columns: 1fr;
-    gap: var(--s5);
-  }
-
-  .verdictBand {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--s5);
-    padding: var(--s6) var(--s5);
-  }
-
-  .rule {
-    display: none;
-  }
+/* One review (mockup: review.html, page rules from css/reviews.css). Shared components come
+   from src/styles/kit.css. */
+
+/* Band: title, verdict and facts on the left, the score and its six categories on the right */
+.hero { align-items: end; }
+.hero :global(.pb-title) h1 { text-wrap: balance; }
+.verdict { font: 500 var(--fs-4)/1.35 var(--serif); color: #fff; margin-top: 6px; max-width: 64ch; text-wrap: balance; }
+.what { margin-top: var(--sp-2); }
+.hero :global(.pb-meta) a { color: var(--on-navy-2); font-weight: 600; }
+.hero :global(.pb-meta) a:global(.link) { color: #fff; white-space: nowrap; }
+.hero :global(.pb-meta) b { font-weight: 600; color: var(--on-navy-2); }
+.scores { display: grid; grid-template-columns: auto auto; align-items: end; gap: 0 var(--sp-5); }
+.total { padding-right: var(--sp-5); border-right: 1px solid var(--navy-line); }
+.total :global(.fig-n) { color: var(--gold); }
+.total :global(.fig-n) small { color: var(--on-navy-3); }
+.total :global(.fig-l) { color: #fff; }
+.total :global(.fig-s) { color: var(--on-navy-3); }
+.cats { display: grid; grid-template-columns: repeat(3, auto); gap: 10px var(--sp-5); }
+.cats a { display: block; }
+.cats a:hover { text-decoration: none; }
+.cats a:hover span { color: #fff; }
+.cats span { display: block; font-size: var(--fs-1); line-height: 1.2; color: var(--on-navy-3); white-space: nowrap; }
+.cats b { display: block; font: 700 var(--fs-5)/1.1 var(--sans); color: var(--gold); font-variant-numeric: tabular-nums; margin-top: 2px; white-space: nowrap; }
+.cats b small { font-size: var(--fs-1); font-weight: 400; color: var(--on-navy-3); margin-left: 1px; }
+
+/* Main column */
+.article { min-width: 0; }
+.kv { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0 var(--sp-5); border-top: 0; }
+/* align-content: a value that wraps in one cell leaves its neighbours' values under their labels */
+.kv > div { grid-template-columns: minmax(0, 1fr); align-content: start; gap: 1px; padding: 7px 0 8px; }
+.kv dt { font-size: var(--fs-1); }
+.kv dd { font-weight: 600; }
+
+/* Scorecard: the one chart of the sub-scores. Category totals live in the band. */
+.scGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: var(--sp-2); }
+.sc { min-width: 0; padding: 0 var(--sp-5) var(--sp-3); border-left: 1px solid var(--rule); }
+.sc:nth-child(3n + 1) { padding-left: 0; border-left: 0; }
+.sc:nth-child(3n) { padding-right: 0; }
+.sc:nth-child(n + 4) { padding-top: var(--sp-3); border-top: 1px solid var(--rule); }
+.sc h3 { font: 600 var(--fs-4)/1.2 var(--serif); margin-bottom: 6px; }
+.sc h3 a:hover { color: var(--link); }
+.sc :global(.bars) li { grid-template-columns: 136px minmax(0, 1fr) 40px; gap: var(--sp-2); font-size: var(--fs-1); line-height: 1.25; padding: 3px 0; color: var(--ink-2); }
+.sc :global(.bars) :global(.v) { font-size: var(--fs-2); color: var(--ink); }
+
+.photo { height: 280px; margin-top: 28px; }
+
+.open { margin-top: var(--sp-5); }
+.sec { margin-top: 40px; scroll-margin-top: var(--sp-4); }
+.sec :global(.mod-head) { justify-content: flex-start; margin-bottom: var(--sp-2); }
+.secscore { flex: none; font: 700 var(--fs-4)/1 var(--sans); color: var(--gold-ink); font-variant-numeric: tabular-nums; }
+.secscore small { font-size: var(--fs-1); font-weight: 400; color: var(--muted); margin-left: 1px; }
+/* Each sub-score sits in a margin beside its text: name and score */
+.article { --rv-margin: 168px; --rv-gap: 32px; }
+.indent { margin-left: calc(var(--rv-margin) + var(--rv-gap)); }
+.item { display: grid; grid-template-columns: var(--rv-margin) minmax(0, 1fr); gap: var(--rv-gap); margin-top: 22px; }
+.sec :global(.mod-head) + .item { margin-top: var(--sp-3); }
+.sub { display: flex; justify-content: space-between; align-items: baseline; gap: var(--sp-2); padding-top: 4px; font: 600 var(--fs-2)/1.3 var(--sans); color: var(--ink); }
+.subS { flex: none; font-weight: 700; color: var(--gold-ink); font-variant-numeric: tabular-nums; }
+.subS small { font-size: var(--fs-1); font-weight: 400; color: var(--muted); }
+.silent { font-size: var(--fs-1); line-height: 1.4; color: var(--muted); margin-top: var(--sp-4); }
+
+/* Elite recognition, reported under Service when the review records it */
+.elite { max-width: 68ch; margin-top: 28px; }
+.elite h3 { font: 600 var(--fs-4)/1.2 var(--serif); }
+.elite :global(.kv) { margin-top: var(--sp-2); }
+.elite :global(.note) { margin-top: var(--sp-2); }
+
+/* What worked and what fell short, under the verdict's text */
+.pc { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--sp-5); max-width: 68ch; margin-top: var(--sp-5); }
+.pc > div + div { padding-left: var(--sp-5); border-left: 1px solid var(--rule); }
+.pc h3, .ifs h3 { font: 600 var(--fs-4)/1.2 var(--serif); margin-bottom: var(--sp-2); }
+.pc :global(.bullets) li { margin-bottom: 6px; }
+
+/* The verdict: value in one row, then book it if / skip it if */
+.final { margin-top: var(--sp-5); padding: var(--sp-3) var(--sp-5) var(--sp-4); }
+.value { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; }
+.value > div { padding: 2px var(--sp-6) var(--sp-3); border-left: 1px solid var(--rule-2); }
+.value > div:first-child { padding-left: 0; border-left: 0; }
+.value dt { font-size: var(--fs-1); line-height: 1.3; color: var(--muted); }
+.value dd { font-size: var(--fs-3); line-height: 1.3; font-weight: 700; color: var(--ink); margin-top: 2px; }
+.valueNote { font-size: var(--fs-2); line-height: 1.45; color: var(--ink-2); max-width: 80ch; padding-bottom: var(--sp-3); }
+.ifs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--sp-5); padding-top: var(--sp-3); border-top: 1px solid var(--rule-2); }
+.ifs:first-child { padding-top: 0; border-top: 0; }
+.ifs.one { grid-template-columns: minmax(0, 1fr); }
+.ifs > div + div { padding-left: var(--sp-5); border-left: 1px solid var(--rule-2); }
+/* Austin writes these as lists in the admin; they read as the kit's small bullets */
+.ifsText:global(.prose) { max-width: none; font-size: var(--fs-2); line-height: 1.4; color: var(--ink-2); }
+.ifsText ul, .ifsText ol { padding-left: 0; list-style: none; }
+.ifsText li { position: relative; padding-left: 14px; margin-bottom: 6px; font-size: var(--fs-2); line-height: 1.4; color: var(--ink-2); }
+.ifsText li + li { margin-top: 0; }
+.ifsText li::before { content: ""; position: absolute; left: 1px; top: 8px; width: 5px; height: 5px; border-radius: 50%; background: var(--ink-2); }
+.ifsText p + p { margin-top: var(--sp-2); }
+
+/* Side column */
+.side > * + * { margin-top: 28px; }
+.hotel :global(.kv) { margin-top: var(--sp-2); }
+.hotel :global(.kv) > div { grid-template-columns: 84px minmax(0, 1fr); }
+.hotelAct { margin-top: var(--sp-3); }
+.more :global(.rev-list) h3 { font-size: var(--fs-3); line-height: 1.25; }
+.more :global(.rev-list) h3 a:hover { color: var(--link); }
+.more :global(.rev-list) :global(.verdict) { font-size: var(--fs-1); line-height: 1.4; }
+.more :global(.rev-list) :global(.score) { width: 48px; height: 48px; }
+.more :global(.rev-list) :global(.score) b { font-size: var(--fs-4); }
+.more :global(.rev-list) > li { grid-template-columns: 48px minmax(0, 1fr); gap: var(--sp-3); }
+.toc { position: sticky; top: var(--sp-4); }
+
+/* ======================================================= Responsive */
+@media (max-width: 1180px) {
+  .scGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sc:nth-child(n) { padding: 0 var(--sp-5) var(--sp-3); border-left: 1px solid var(--rule); border-top: 0; }
+  .sc:nth-child(2n + 1) { padding-left: 0; border-left: 0; }
+  .sc:nth-child(2n) { padding-right: 0; }
+  .sc:nth-child(n + 3) { padding-top: var(--sp-3); border-top: 1px solid var(--rule); }
+  .kv { gap: 0 var(--sp-4); }
+}
+
+@media (max-width: 960px) {
+  /* the band stacks, the scores run in one row under the title */
+  .hero { grid-template-columns: minmax(0, 1fr); gap: var(--sp-4); }
+  .scores { padding-top: var(--sp-3); border-top: 1px solid var(--navy-line); grid-template-columns: auto minmax(0, 1fr); align-items: start; }
+  .cats { grid-template-columns: repeat(6, auto); justify-content: start; }
+
+  /* one column. The hotel box follows The stay; more reviews close the page. */
+  .layout { row-gap: 0; }
+  .layout > .article, .layout > .side { display: contents; }
+  .layout .article > *, .layout .side > * { order: 3; }
+  .layout .stay { order: 1; }
+  .layout .hotel { order: 2; margin-top: 28px; }
+  .layout .more { order: 4; margin-top: 40px; }
+  .toc { display: none; }
+}
+
+@media (max-width: 760px) {
+  .verdict { font-size: var(--fs-3); }
+  .scores { gap: 0 var(--sp-4); }
+  .total { padding-right: var(--sp-4); }
+  .total :global(.fig-n) { font-size: var(--fs-6); }
+  .cats { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-2) var(--sp-3); }
+  .cats b { font-size: var(--fs-3); }
+  .kv { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--sp-4); }
+  .scGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--sp-4); }
+  .sc:nth-child(n) { padding: 10px 0; border-left: 0; border-top: 1px solid var(--rule); }
+  .sc:nth-child(-n + 2) { border-top: 0; padding-top: 0; }
+  .sc h3 { font-size: var(--fs-3); margin-bottom: 2px; }
+  .sc :global(.bars) li { grid-template-columns: minmax(0, 1fr) auto; padding: 2px 0; }
+  .sc :global(.bars) :global(.bar) { display: none; }
+  .sc :global(.bars) :global(.v) { font-size: var(--fs-1); }
+  .photo { height: 210px; margin-top: var(--sp-5); }
+  .article { --rv-margin: 0px; --rv-gap: 0px; }
+  .item { display: block; margin-top: 20px; }
+  .sub { justify-content: flex-start; padding-top: 0; margin-bottom: 6px; }
+  .sec { margin-top: var(--sp-6); }
+  .final { padding: var(--sp-3) var(--sp-4) var(--sp-4); }
+  .value > div { padding: 0 var(--sp-3) var(--sp-3); }
+  .value dd { font-size: var(--fs-2); }
+  .ifs, .pc { grid-template-columns: minmax(0, 1fr); }
+  .ifs > div + div, .pc > div + div { padding-left: 0; border-left: 0; padding-top: var(--sp-3); margin-top: var(--sp-1); border-top: 1px solid var(--rule-2); }
+  .pc > div + div { border-top-color: var(--rule); }
 }

@@ -1,0 +1,58 @@
+/* The add-your-stay form in a hotel page's side column (mockup: css/hotel.css, .add-form).
+   One column in the side column; two to a row once the page is one column (960px and below);
+   one again on phones. Fields, labels, selects and the button are the kit's. */
+
+.form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--sp-3);
+}
+
+/* follow-up questions, set under the answer that opened them */
+.follow {
+  display: grid;
+  gap: var(--sp-3);
+  padding-left: var(--sp-3);
+  border-left: 2px solid var(--rule-2);
+}
+
+.wide:empty {
+  display: none;
+}
+
+.form .actions {
+  margin-top: var(--sp-1);
+  gap: var(--sp-2) var(--sp-3);
+}
+
+/* the honeypot field, off screen */
+.hp {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+@media (max-width: 960px) {
+  .form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--sp-3) var(--sp-4);
+  }
+  .follow,
+  .wide,
+  .form .actions {
+    grid-column: 1 / -1;
+  }
+  .follow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--sp-4);
+  }
+}
+
+@media (max-width: 760px) {
+  .form,
+  .follow {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

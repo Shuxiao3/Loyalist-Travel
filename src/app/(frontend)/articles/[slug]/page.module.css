@@ -1,217 +1,83 @@
-.hero :global(.wrap) {
-  padding-top: var(--s7);
+/* An article page (mockups: article.html, article-news.html; css/articles.css). The kit carries
+   the band, the contents (.toc), story rows, boxes and the prose type; the text's own rules sit in
+   src/components/ArticleBody.module.css and the fold in MobileToc.module.css. */
+
+/* Band: the kit's page band (breadcrumb, title, dek), plus the byline */
+.head h1 { max-width: 24em; }
+.head :global(.pb-dek) { max-width: 864px; }
+.head :global(.byline) { margin-top: 10px; }
+.topic { color: var(--on-navy-2); }
+.topic:hover { color: #fff; }
+
+/* Three columns on a wide screen: contents rail, the text, the side column.
+   The text column is the kit's prose measure (68ch at 17px, about 576px); spare width
+   goes to the rail. */
+.grid { display: grid; grid-template-columns: minmax(200px, 1fr) minmax(0, 576px) 360px; column-gap: 48px; }
+.main { align-items: start; padding-top: var(--sp-6); padding-bottom: var(--sp-7); }
+
+/* Contents rail: stays in view while reading; a list taller than the window scrolls inside
+   itself, so its last sections stay reachable */
+.rail { position: sticky; top: var(--sp-5); min-width: 0; max-height: calc(100vh - 2 * var(--sp-5)); overflow-y: auto; overscroll-behavior: contain; }
+
+/* The text */
+.body { min-width: 0; }
+
+.hero { margin: 0 0 var(--sp-5); }
+.hero img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; background: #e4e2dd; }
+
+/* Comments: the kit's plain lines (.c-signin) */
+.comments { margin-top: var(--sp-7); }
+
+/* Side column: stays in view beside the text when the window is tall enough to show all of it */
+.side { min-width: 0; }
+@media (min-width: 961px) and (min-height: 760px) {
+  .side { position: sticky; top: var(--sp-5); }
+}
+.side > * + * { margin-top: 28px; }
+
+/* Mentioned here: each program is its logo alone, linking to its page (the alt carries the name).
+   Two columns, so four programs make a tidy two by two; one rule closes the list. */
+.progs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--sp-5); border-bottom: 1px solid var(--rule); }
+.prog { display: block; width: max-content; max-width: 100%; padding: 12px 0; }
+.prog img { display: block; width: 96px; height: 44px; object-fit: contain; object-position: left center; }
+.prog:hover img { opacity: 0.8; }
+.progName { display: block; font: 600 var(--fs-3)/1.25 var(--serif); color: var(--ink); }
+.stay :global(.btn) { margin-top: 2px; }
+
+/* ---------- Narrow desktop: the rail folds into the text column ---------- */
+@media (max-width: 1180px) {
+  /* The text keeps its measure; spare width goes to the space before the side column */
+  .grid { grid-template-columns: minmax(0, 576px) 340px; justify-content: space-between; column-gap: 48px; }
+  .head h1, .head :global(.pb-dek) { max-width: 720px; }
+  .rail { display: none; }
 }
 
-.hero :global(.crumbs) {
-  margin-bottom: var(--s6);
+/* One column: after the text come Mentioned here and More to read (side by side),
+   then Comments, then the Add your stay box. The body and side wrappers step aside
+   (display: contents) so their sections can be reordered. */
+@media (max-width: 960px) {
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); justify-content: stretch; column-gap: var(--sp-6); }
+  .body, .side { display: contents; }
+  .hero, .tocM, .prose, .comments, .stay { grid-column: 1 / -1; }
+  /* The hero and contents share the text's measure; what follows the article runs full width */
+  .hero, .tocM { max-width: 576px; }
+  .side :global(.mod) { order: 1; margin-top: var(--sp-7); }
+  .comments { order: 2; margin-top: var(--sp-7); }
+  .side .stay { order: 3; margin-top: var(--sp-6); }
 }
 
-.h1 {
-  font-size: var(--t-h1);
-  line-height: 1.1;
-  color: var(--ivory);
-  letter-spacing: -0.01em;
-  margin: 0 0 var(--s5);
-  max-width: 20ch;
-  text-wrap: pretty;
-}
-
-.sub {
-  margin: 0 0 var(--s6);
-}
-
-.byline {
-  padding-bottom: var(--s7);
-}
-
-/* the hero photo's credit, under the photo */
-.heroCredit {
-  margin: var(--s3) auto 0;
-  font-size: var(--t-xs);
-  line-height: 1.5;
-  text-align: right;
-  color: var(--text-2);
-  letter-spacing: var(--track-fine);
-}
-
-/* body and sidebar */
-.body {
-  background: var(--page);
-}
-
-.bodyWrap {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) var(--sidebar);
-  gap: var(--col-gap);
-  padding-top: var(--s8);
-  padding-bottom: var(--s9);
-  align-items: start;
-}
-
-.main {
-  min-width: 0;
-}
-
-.main :global(.prose h2) {
-  font-size: var(--t-2xl);
-  line-height: 1.25;
-  color: var(--heading);
-  margin: var(--s7) 0 var(--s4);
-}
-
-.main :global(.prose h3) {
-  font-size: var(--t-lg);
-  line-height: 1.3;
-  color: var(--heading);
-  margin: var(--s6) 0 var(--s3);
-}
-
-.side {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s6);
-  position: sticky;
-  top: calc(76px + var(--s5));
-  /* a long guide's column is taller than the screen: it scrolls on its own,
-     so the cards below the section list stay reachable while reading. The
-     padding and negative margin keep focus rings from being clipped. */
-  max-height: calc(100vh - 76px - 2 * var(--s5));
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: var(--line-strong) transparent;
-  padding: 4px;
-  margin: -4px;
-}
-
-/* headings land below the sticky nav when jumped to */
-.main :global(.prose h2),
-.main :global(.prose h3) {
-  scroll-margin-top: calc(76px + var(--s5));
-}
-
-.sideCard {
-  background: var(--card);
-  border: 1px solid var(--line);
-  padding: var(--s5);
-  border-radius: var(--r);
-}
-
-.sideCard :global(.eyebrow) {
-  display: block;
-  margin-bottom: var(--s4);
-}
-
-.toc {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s3);
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.toc a {
-  display: block;
-  font-size: var(--t-sm);
-  color: var(--text-2);
-  border-left: 2px solid var(--line-strong);
-  padding-left: 12px;
-}
-
-.toc a:hover {
-  color: var(--heading);
-  border-left-color: var(--gold);
-}
-
-.sideCta {
-  background: var(--navy);
-  border: 1px solid var(--gold-border);
-  padding: var(--s6) var(--s5);
-  color: var(--ivory);
-  border-radius: var(--r);
-}
-
-.sideCta h3 {
-  font-size: var(--t-lg);
-  color: var(--ivory);
-  line-height: 1.3;
-  margin-bottom: var(--s3);
-}
-
-.sideCta p {
-  font-size: var(--t-sm);
-  line-height: 1.6;
-  color: var(--light);
-  margin-bottom: var(--s5);
-  text-wrap: pretty;
-}
-
-.sideCta :global(.btn) {
-  display: block;
-}
-
-.related {
-  border-top: 1px solid var(--line);
-  padding-top: var(--s5);
-}
-
-.related :global(.eyebrow) {
-  display: block;
-  margin-bottom: var(--s4);
-}
-
-.related ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--s4);
-}
-
-.related li {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.related li a {
-  font-family: var(--serif);
-  font-size: var(--t-base);
-  line-height: 1.3;
-  color: var(--heading);
-  text-wrap: pretty;
-}
-
-.related li a:hover {
-  color: var(--gold-dark);
-}
-
-@media (max-width: 1100px) {
-  .bodyWrap {
-    grid-template-columns: 1fr;
-  }
-
-  .side {
-    position: static;
-    max-height: none;
-    overflow: visible;
-    padding: 0;
-    margin: 0;
-  }
-
-  .tocCard {
-    display: none;
-  }
-
-  .main :global(.prose h2),
-  .main :global(.prose h3) {
-    scroll-margin-top: calc(64px + var(--s5));
-  }
-}
-
-@media (max-width: 640px) {
-  .hero :global(.wrap) {
-    padding-top: var(--s6);
-  }
+/* ---------- Phone ---------- */
+@media (max-width: 760px) {
+  /* The trail stops at the section; the h1 right under it names the article */
+  .band :global(.crumbs) [aria-current], .band :global(.crumbs) :global(.sep):has(+ [aria-current]) { display: none; }
+  .head :global(.pb-dek) { font-size: var(--fs-3); line-height: 1.38; }
+  .main { padding-top: var(--sp-4); padding-bottom: var(--sp-6); }
+  .main.hasHero { padding-top: 0; }
+  .hero { margin: 0 calc(-1 * var(--gutter)) 20px; }
+  .hero :global(.caption) { padding: 0 var(--gutter); }
+  .grid { grid-template-columns: minmax(0, 1fr); }
+  .side :global(.mod) { margin-top: var(--sp-6); }
+  .side :global(.mod) + :global(.mod) { margin-top: 28px; }
+  .comments { margin-top: var(--sp-6); }
+  .side .stay { margin-top: 28px; }
 }

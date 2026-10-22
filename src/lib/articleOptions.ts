@@ -25,3 +25,10 @@ export const LEGACY_ARTICLE_CATEGORY: Record<string, ArticleCategory> = {
   'points-awards': 'guides',
   'hotels-lounges': 'hotels',
 }
+
+// The section an article sits in, News or Guides (the header marks it, the breadcrumb leads to
+// it): whichever of the two its categories name first. An article carrying neither counts as a
+// guide.
+export type ArticleSectionKey = 'news' | 'guides'
+export const articleSection = (a: { categories?: readonly string[] | null }): ArticleSectionKey =>
+  (a.categories ?? []).find((c): c is ArticleSectionKey => c === 'news' || c === 'guides') ?? 'guides'

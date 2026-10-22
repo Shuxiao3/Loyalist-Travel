@@ -1,0 +1,35 @@
+/* The kit's .modal-layer, drawn by a <dialog>: the kit sets the layer (fixed, dimmed, padded)
+   and the window (.modal); these lines take back the browser's own dialog box and show the
+   layer while the dialog is open. */
+
+.layer {
+  margin: 0;
+  border: 0;
+  width: auto;
+  height: auto;
+  max-width: none;
+  max-height: none;
+  color: var(--ink);
+}
+
+:global(.modal-layer).layer[open] {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+/* once the script runs, the address's #breakdown no longer shows a closed window */
+:global(.modal-layer).layer[data-ready]:target:not([open]) {
+  display: none;
+}
+
+/* the layer is the dimmed page; the dialog's own backdrop stays clear */
+.layer::backdrop {
+  background: transparent;
+}
+
+/* the page behind stops scrolling */
+:global(body):has(.layer[open]),
+:global(body):has(.layer:not([data-ready]):target) {
+  overflow: hidden;
+}

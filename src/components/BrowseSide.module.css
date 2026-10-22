@@ -1,0 +1,96 @@
+/* The side column of the hotel browsing pages (mockups' css/browse.css: .side, .side-table,
+   .side-list and the smaller review rows). */
+.side > * + * {
+  margin-top: 28px;
+}
+
+.sideTable td,
+.sideTable th {
+  font-size: var(--fs-2);
+}
+
+.sideTable :global(.sub) {
+  margin-left: 4px;
+}
+
+.sideTable a[aria-current] {
+  color: var(--link);
+}
+
+.sideList > li {
+  padding: var(--sp-2) 0 9px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.sideList :global(.hn) {
+  display: block;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.3;
+}
+
+.sideList :global(.hn):hover {
+  color: var(--link);
+}
+
+.slMeta {
+  font-size: var(--fs-1);
+  line-height: 1.4;
+  color: var(--muted);
+  margin-top: 1px;
+}
+
+.revList > li h3 {
+  font-size: var(--fs-3);
+  line-height: 1.25;
+}
+
+.revList > li :global(.verdict) {
+  font-size: var(--fs-1);
+  line-height: 1.4;
+}
+
+.revList :global(.score) {
+  width: 48px;
+  height: 48px;
+}
+
+.revList :global(.score) b {
+  font-size: var(--fs-4);
+}
+
+ol.revList > li {
+  grid-template-columns: 48px minmax(0, 1fr);
+  gap: var(--sp-3);
+}
+
+.boxBtn {
+  margin-top: 2px;
+}
+
+@media (max-width: 960px) {
+  .side {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px var(--sp-6);
+    margin-top: var(--sp-3);
+  }
+
+  .side > * + *,
+  .side :global(.mod) + :global(.mod) {
+    margin-top: 0;
+  }
+}
+
+/* Phone */
+@media (max-width: 760px) {
+  .side {
+    display: block;
+    margin-top: var(--sp-5);
+  }
+
+  .side > * + *,
+  .side :global(.mod) + :global(.mod) {
+    margin-top: 28px;
+  }
+}

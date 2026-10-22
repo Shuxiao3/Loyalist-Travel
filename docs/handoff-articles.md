@@ -44,8 +44,8 @@ heroCredit: Colin Brown, CC BY 2.0
 
 - `title`, `slug`, `category` and `date` are required. The import stops without them.
 - `category` is one of `news`, `guides`, `hotels`, `airlines` or `credit-cards`, or a comma list of them (`category: news, airlines`). A `categories:` key works the same.
-  - The first one is the main category. Cards and the breadcrumb show it, and it fills `{Category}` in the SEO settings' article template; the article page lists them all ("News · Airlines").
-  - The article shows on `/articles?category=` for every category it carries.
+  - The first one is the main category. Cards show it, and it fills `{Category}` in the SEO settings' article template. The breadcrumb names the article's section (News or Guides, whichever of the two it carries first), and the byline lists its other categories as links ("· Airlines").
+  - Articles list under `/news` (those carrying `news`) and `/guides` (those carrying `guides`); `hotels`, `airlines` and `credit-cards` are topic tabs inside each (`/news?topic=airlines`). An article that carries neither `news` nor `guides` appears in neither list, so give every article one of the two. The old `/articles` and `/articles?category=` addresses redirect to these lists.
 - `featured: true` puts the article in the homepage and hub feature slots. News is usually `false` unless Austin says so.
 
 ### Body Markdown the Converter Understands
@@ -111,7 +111,7 @@ heroCredit: Colin Brown, CC BY 2.0
 5. **Check it locally** (see "Local Setup" below):
    - Run `npm run import:webflow -- articles`, then build and start the site.
    - Screenshot `/articles/<slug>` with Playwright on desktop (1280px) and phone (390px). Look at the screenshots.
-   - Check that the tables scroll on the phone, the photos and captions show, and the article appears on `/articles` under each of its categories.
+   - Check that the tables read on the phone (each row becomes a labelled block), the photos and captions show, and the article appears on `/news` or `/guides` and under each topic tab it carries.
 6. **Ship** (see "Shipping" below).
 7. **Load it into production.** Run the **Import Webflow content** workflow with `step: articles`. Read the job log to confirm:
    - the "upserted N article(s)" line;

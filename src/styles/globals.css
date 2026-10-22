@@ -1,3 +1,8 @@
+/* Old stylesheet, kept until every page is converted to the kit (src/styles/kit.css).
+   Everything here sits in the "legacy" cascade layer, so the kit and every page's CSS module
+   win over it whatever their specificity. Delete this file once no page needs it. */
+@layer legacy {
+
 /*
   Base styles and the handful of shared primitives every template uses.
   Every value here is a token from tokens.css.
@@ -146,3 +151,5 @@ input {
     padding: 13px 20px;
   }
 }
+
+} /* @layer legacy */

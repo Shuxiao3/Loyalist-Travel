@@ -1,0 +1,29 @@
+/* The News and Guides lists (src/components/SectionIndex.tsx), from the mockups' css/articles.css
+   (.idx-*). Story rows, the band, tabs and section heads come from the kit. */
+
+/* The newest article leads the list: a large photo beside the headline */
+.lead { display: grid; grid-template-columns: 440px minmax(0, 1fr); gap: var(--sp-5); padding: 0 0 20px; border-bottom: 1px solid var(--rule); }
+.lead :global(.img-box) { height: 264px; }
+.lead h2 { font: 600 var(--fs-6)/1.15 var(--serif); letter-spacing: -0.005em; margin: 3px 0 var(--sp-2); }
+.lead h2 a { color: var(--ink); }
+.lead :global(.dek) { font-size: var(--fs-3); line-height: 1.45; color: var(--ink-2); margin-bottom: var(--sp-2); }
+/* a lead without a photo runs the text full width */
+.leadText { grid-template-columns: minmax(0, 1fr); }
+
+/* A row without an image keeps the image rows' text column: one headline edge down the list */
+.rows > li:global(.no-img) > div { padding-left: 220px; }
+
+@media (max-width: 1180px) {
+  .lead { grid-template-columns: 320px minmax(0, 1fr); }
+  .lead :global(.img-box) { height: 200px; }
+  .leadText { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 760px) {
+  .lead { display: block; padding-top: var(--sp-3); }
+  .lead :global(.img-box) { height: auto; aspect-ratio: 2 / 1; margin-bottom: 10px; }
+  .lead h2 { font-size: var(--fs-5); line-height: 1.18; }
+  .lead :global(.dek) { font-size: var(--fs-3); line-height: 1.38; }
+  .side { margin-top: var(--sp-3); }
+  .rows > li:global(.no-img) > div { padding-left: 0; }
+}

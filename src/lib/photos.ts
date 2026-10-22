@@ -60,3 +60,13 @@ export function loungePhoto(lounge: Maybe<LoungeLike>, hotel?: Maybe<HotelLike>)
   if (!l) return hotelPhoto(hotel)
   return address(uploadUrl(l.image)) ?? address(l.externalImageUrl) ?? hotelPhoto(doc<HotelLike>(hotel) ?? doc<HotelLike>(l.hotel))
 }
+
+// A program's logo: one uploaded in the admin, else images.logoUrl (the site's own copy under
+// public/images/programs once the import's images step has run). Wherever a logo shows, it
+// stands alone as the link to the program, its alt the program's name.
+type ProgramLike = { logo?: unknown; images?: { logoUrl?: string | null } | null }
+export function programLogo(program: Maybe<ProgramLike>): string | null {
+  const p = doc<ProgramLike>(program)
+  if (!p) return null
+  return address(uploadUrl(p.logo)) ?? address(p.images?.logoUrl)
+}

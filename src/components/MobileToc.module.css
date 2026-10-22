@@ -1,108 +1,37 @@
-/* Section list for phones and tablets: a card first, then a round button. */
+/* "On this page" below 1180px (src/components/MobileToc.tsx): the mockups' .art-toc-m fold,
+   then a small button that keeps the list in reach once the fold is scrolled past. */
 
-.card,
-.float {
-  display: none;
-}
+.fold, .float { display: none; }
 
-.list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s3);
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
+.list a { display: block; padding: 5px 0; border-bottom: 1px solid var(--rule); font-size: var(--fs-2); line-height: 1.3; color: var(--ink); }
+.list a:hover { color: var(--link); text-decoration: none; }
 
-.list a {
-  display: block;
-  font-size: var(--t-sm);
-  color: var(--text-2);
-  border-left: 2px solid var(--line-strong);
-  padding-left: 12px;
-}
+.fold summary { display: flex; align-items: center; gap: var(--sp-2); min-height: 44px; font: 600 var(--fs-2)/1.2 var(--sans); color: var(--ink); }
+.fold summary :global(.muted) { margin-left: auto; font-size: var(--fs-1); font-weight: 400; }
+.caret { width: 12px; height: 12px; opacity: 0.7; }
+.fold[open] .caret { transform: rotate(180deg); }
+.fold .list { padding-bottom: var(--sp-3); }
 
-.list a:hover {
-  color: var(--heading);
-  border-left-color: var(--gold);
-}
+.button { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; margin-left: auto; padding: 0; border: 0; border-radius: var(--radius); background: var(--navy); color: #fff; box-shadow: 0 6px 18px rgba(18, 32, 58, 0.28); cursor: pointer; }
+.button:focus-visible { outline: 2px solid var(--link); outline-offset: 2px; }
 
-@media (max-width: 1100px) {
-  .card {
-    display: block;
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: var(--r);
-    padding: var(--s5);
-    margin-bottom: var(--s6);
-  }
+.drop { width: min(320px, calc(100vw - 2 * var(--gutter))); max-height: calc(100vh - 96px); overflow-y: auto; margin-top: var(--sp-2); padding: var(--sp-3) var(--sp-4) var(--sp-2); background: #fff; border: 1px solid var(--rule-2); border-top: 3px solid var(--navy); border-radius: 0 0 var(--radius) var(--radius); box-shadow: 0 16px 36px rgba(18, 32, 58, 0.24); }
+.drop[hidden] { display: none; }
+.dropH { font: 600 var(--fs-4)/1.2 var(--serif); color: var(--ink); margin-bottom: var(--sp-1); }
+.drop .list li:last-child a { border-bottom: 0; }
 
-  .card :global(.eyebrow),
-  .drop :global(.eyebrow) {
-    display: block;
-    margin-bottom: var(--s4);
-  }
+@media (max-width: 1180px) {
+  .fold { display: block; margin-bottom: 20px; border-top: 3px solid var(--navy); border-bottom: 1px solid var(--rule); }
 
-  /* the button and its dropdown, pinned near the top right once the card is passed */
-  .float {
-    display: block;
-    position: fixed;
-    top: calc(64px + var(--s4));
-    right: var(--gutter);
-    z-index: 14;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-8px);
-    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s linear 0.2s;
-  }
-
-  .float.shown {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-    transition: opacity 0.2s ease, transform 0.2s ease;
-  }
-
-  .button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 46px;
-    height: 46px;
-    margin-left: auto;
-    border-radius: 50%;
-    background: var(--navy);
-    border: 1px solid var(--gold-border);
-    color: var(--gold);
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
-    cursor: pointer;
-  }
-
-  .float {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: var(--s3);
-  }
-
-  .drop {
-    width: min(300px, calc(100vw - 2 * var(--gutter)));
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: var(--r);
-    padding: var(--s5);
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
-    max-height: calc(100vh - 160px);
-    overflow-y: auto;
-  }
-
-  .drop[hidden] {
-    display: none;
-  }
+  /* pinned near the top right once the fold is passed */
+  .float { display: block; position: fixed; top: var(--sp-4); right: var(--gutter); z-index: 40; opacity: 0; visibility: hidden; transform: translateY(-8px); transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s linear 0.2s; }
+  .float.shown { opacity: 1; visibility: visible; transform: none; transition: opacity 0.2s ease, transform 0.2s ease; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .float {
-    transition: none;
-  }
+  .float, .float.shown { transition: none; }
+}
+
+@media print {
+  .float { display: none; }
 }

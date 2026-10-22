@@ -1,102 +1,26 @@
-.panel :global(.eyebrow) {
-  display: block;
-  margin-bottom: var(--s5);
-}
+/* Reader odds on a hotel page: the kit's figures and table, spaced inside one section. */
 
-.head {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: var(--s3);
-}
-
-.badge {
-  font-size: var(--t-label);
-  letter-spacing: var(--track-label);
-  text-transform: uppercase;
+.figs {
+  margin-top: var(--sp-2);
 }
 
 .waiting {
-  font-size: var(--t-md);
-  line-height: 1.6;
-  color: var(--light);
-  max-width: 48ch;
-}
-
-.figures {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--s3);
-}
-
-.n {
-  font-family: var(--serif);
-  font-size: calc(var(--t-stat) * 0.78);
-  line-height: 1;
-  color: var(--gold);
-  margin-bottom: var(--s2);
-}
-
-.l {
-  font-size: var(--t-label);
-  letter-spacing: var(--track-label);
-  text-transform: uppercase;
-  color: var(--on-navy-muted);
-  line-height: 1.6;
+  font-size: var(--fs-2);
+  line-height: 1.4;
+  color: var(--ink-2);
+  margin-top: var(--sp-2);
 }
 
 .tiers {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: var(--s6);
-  font-size: var(--t-sm);
-  color: var(--light);
+  margin-top: var(--sp-4);
 }
 
-.tiers th {
-  text-align: left;
-  font-weight: 400;
-  font-size: var(--t-label);
-  letter-spacing: var(--track-label);
-  text-transform: uppercase;
-  color: var(--on-navy-muted);
-  padding: 0 var(--s3) var(--s3) 0;
-  border-bottom: 1px solid var(--line-dark);
-}
-
-.tiers td {
-  padding: var(--s3) var(--s3) var(--s3) 0;
-  border-bottom: 1px solid var(--line-dark);
-}
-
-.tiers th:last-child,
-.tiers td:last-child {
-  padding-right: 0;
-}
-
-.tiers td:first-child {
-  color: var(--ivory);
-}
-
-.tiers th:not(:first-child),
-.tiers td:not(:first-child) {
-  text-align: right;
-  width: 13%;
-}
-
-@media (max-width: 1100px) {
-  .figures {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 640px) {
-  .figures {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .tiers th:nth-child(5),
-  .tiers td:nth-child(5) {
-    display: none;
+@media (max-width: 760px) {
+  /* the long column label wraps, and the values stay on one line */
+  .tiers :global(td.r) {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    white-space: normal;
   }
 }

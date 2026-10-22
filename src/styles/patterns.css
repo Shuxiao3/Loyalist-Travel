@@ -1,3 +1,8 @@
+/* Old stylesheet, kept until every page is converted to the kit (src/styles/kit.css).
+   Everything here sits in the "legacy" cascade layer, so the kit and every page's CSS module
+   win over it whatever their specificity. Delete this file once no page needs it. */
+@layer legacy {
+
 /*
   Shared page patterns, ported from the two mockups in docs/. Class names
   match the mockups so a template reads against its artboard. Every value
@@ -637,3 +642,5 @@ a.card-link:hover .score {
   white-space: nowrap;
   border: 0;
 }
+
+} /* @layer legacy */

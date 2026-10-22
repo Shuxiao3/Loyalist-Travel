@@ -1,310 +1,209 @@
+import Form from 'next/form'
 import Link from 'next/link'
 
-import { Arrow, Band } from '@/components/Band'
-import { HomeHero, type HeroSlide } from '@/components/HomeHero'
-import { ArticleCard } from '@/components/ArticleCard'
-import { ReviewCard } from '@/components/ReviewCard'
-import { count, mediaUrl, rel, score, shortDate } from '@/lib/format'
-import { hotelPhoto, reviewPhoto } from '@/lib/photos'
-import { articleCategoryLabel, mainArticleCategory } from '@/lib/articleOptions'
-import { getFeaturedHotel, getPrograms, getReviews, getSiteCounts } from '@/lib/queries'
+import { mainArticleCategory } from '@/lib/articleOptions'
 import { articleImage, getArticles } from '@/lib/articles'
-import { getLoungeDirectory } from '@/lib/lounges'
-import { readerStayCount, sitewideReaderData } from '@/lib/readerData'
-import { LoungeRows } from '@/components/LoungeRows'
-import type { Brand, Destination, Hotel, Program } from '@/payload-types'
+import { score, shortDate, shortMonthYear } from '@/lib/format'
+import { loungePrograms, programsInOrder, reviewPlaces } from '@/lib/homeData'
+import { programLogo } from '@/lib/photos'
+import { getReviews } from '@/lib/queries'
+import { ARTICLE_SECTIONS, categoryName, PROGRAM_LINKS, SITE } from '@/lib/site'
+import type { Article } from '@/payload-types'
 
 import styles from './page.module.css'
 
 export const revalidate = 300
 
-// Homepage, from docs/loyalist-travel-homepage.html. The hero panel rotates
-// through the latest review, the featured hotel and a program spotlight; the
-// "One in five" reads better than "20%" in a sentence.
-function suiteWords(rate: number): string {
-  if (rate >= 45) return 'About half'
-  if (rate >= 28) return 'One in three'
-  if (rate >= 17) return 'One in five'
-  if (rate >= 8) return 'One in ten'
-  return 'A few'
-}
+// Homepage (mockup: home.html). A navy band of the latest stories, then three columns: more
+// stories and the programs, Austin's latest reviews, and the tools (hotel search, club
+// lounges, adding a stay). No stay reports and no counts of the site's content.
+
+const SECONDARY = 3
+const MORE = 3
+
+const articleHref = (a: Article) => `/articles/${a.slug}`
+const joinList = (names: string[]) => (names.length < 3 ? names.join(' and ') : `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`)
 
 export default async function HomePage() {
-  const [reviews, programs, counts, featured, reader, readerCount, lounges, articles] = await Promise.all([getReviews({ limit: 4 }), getPrograms(), getSiteCounts(), getFeaturedHotel(), sitewideReaderData(), readerStayCount(), getLoungeDirectory({ rated: 'yes' }), getArticles({ limit: 3, featuredFirst: true })])
-  const latestArticle = articles.docs[0]
-  const ratedLounges = lounges.rows.slice(0, 4)
-  const latest = reviews.docs[0]
-  const cards = reviews.docs.slice(latest ? 1 : 0, 4)
+  const [articles, reviews, programs, lounges] = await Promise.all([getArticles({ limit: 1 + SECONDARY + MORE }), getReviews({ limit: 6 }), programsInOrder(), loungePrograms()])
+  const places = await reviewPlaces(reviews.docs)
 
-  const slides: HeroSlide[] = []
-
-  if (latest) {
-    const hotel = rel<Hotel>(latest.hotel)
-    const program = hotel ? rel<Program>(hotel.program) : null
-    const destination = hotel ? rel<Destination>(hotel.destination) : null
-    slides.push({
-      kind: 'review',
-      eyebrow: 'Latest scored stay',
-      image: reviewPhoto(latest, hotel),
-      meta: [program?.name, destination?.name].filter((m): m is string => Boolean(m)),
-      title: latest.title,
-      text: latest.shortVerdict,
-      figure: { value: score(latest.totals?.overall), label: 'of 100' },
-      cta: 'Read the review',
-      href: `/reviews/${latest.slug}`,
-    })
-  }
-
-  if (featured) {
-    const brand = rel<Brand>(featured.hotel.brand)
-    const destination = rel<Destination>(featured.hotel.destination)
-    const d = featured.data
-    slides.push({
-      kind: 'hotel',
-      eyebrow: 'Featured hotel',
-      image: hotelPhoto(featured.hotel),
-      meta: [brand?.name, destination?.locationLabel ?? destination?.name].filter((m): m is string => Boolean(m)),
-      title: featured.hotel.name,
-      text:
-        featured.hotel.heroSummary ??
-        (d.all
-          ? `${d.all.stays} reader stays. ${d.all.suiteRate ?? 0}% got a suite, ${d.all.suiteNoCertRate ?? 0}% without a certificate, ${d.all.proactiveRate ?? 0}% of upgrades came unasked.`
-          : null),
-      figure: d.all?.upgradeRate != null ? { value: `${d.all.upgradeRate}%`, label: 'got an upgrade' } : null,
-      cta: 'The hotel',
-      href: `/hotels/${featured.hotel.slug}`,
-    })
-  }
-
-  const spotlight = [...programs].sort((a, b) => b.scored - a.scored || b.hotels - a.hotels)[0]
-  if (spotlight && spotlight.hotels > 0) {
-    slides.push({
-      kind: 'program',
-      eyebrow: 'Program spotlight',
-      image:
-        spotlight.program.images?.heroImageUrl ??
-        reviews.docs
-          .filter((r) => {
-            const p = rel<Hotel>(r.hotel)?.program
-            return (typeof p === 'object' ? p?.id : p) === spotlight.program.id
-          })
-          .map((r) => reviewPhoto(r))
-          .find(Boolean),
-      meta: [`${count(spotlight.hotels)} hotels`, `${count(spotlight.scored)} scored ${spotlight.scored === 1 ? 'stay' : 'stays'}`],
-      title: spotlight.program.name,
-      text: spotlight.program.shortDescription,
-      figure: spotlight.program.topTierName ? { value: spotlight.program.topTierName, label: 'top tier' } : null,
-      cta: 'The program',
-      href: `/programs/${spotlight.program.slug}`,
-    })
-  }
-  if (latestArticle) {
-    slides.push({
-      kind: 'article',
-      eyebrow: latestArticle.featured ? 'Featured article' : 'Latest article',
-      image: articleImage(latestArticle),
-      meta: [articleCategoryLabel(mainArticleCategory(latestArticle)) ?? '', shortDate(latestArticle.publishedDate) ?? ''].filter(Boolean),
-      title: latestArticle.title,
-      text: latestArticle.dek,
-      figure: null,
-      cta: 'Read the article',
-      href: `/articles/${latestArticle.slug}`,
-    })
-  }
-
-  const stats = [
-    { n: count(counts.hotels), l: `Hotels indexed across ${['', 'one', 'two', 'three', 'four'][counts.programs] ?? counts.programs} programs` },
-    { n: '19', l: 'Sub-scores in six categories behind every score' },
-    { n: count(counts.reviews), l: 'Scored stays' },
-    { n: count(readerCount), l: 'Reader-submitted stays' },
-  ]
+  const [lead, ...rest] = articles.docs
+  const secondary = rest.slice(0, SECONDARY)
+  const more = rest.slice(SECONDARY, SECONDARY + MORE)
+  // "All news" when the further stories are news, else "All guides"
+  const moreSection = more.length > 0 && mainArticleCategory(more[0]) === 'news' ? ARTICLE_SECTIONS.news : ARTICLE_SECTIONS.guides
+  const leadImage = lead ? articleImage(lead) : null
 
   return (
-    <main>
-      <HomeHero
-        slides={slides}
-        stats={
-          <div className={styles.stats} aria-label="Site at a glance">
-            {stats.map((stat) => (
-              <div className={styles.stat} key={stat.l}>
-                <div className={styles.statN}>{stat.n}</div>
-                <div className={styles.statL}>{stat.l}</div>
-              </div>
-            ))}
-          </div>
-        }
-      >
-        <span className="eyebrow">Loyalty travel, reported</span>
-        <h1 className={styles.h1}>Elite status upgrade rates, hotel reviews, lounge ratings and more.</h1>
-        <p className={`sub ${styles.sub}`}>
-          Readers report what their status actually got them, so every hotel shows its real upgrade odds. Club lounges are rated by the people who sat in them. And every review is scored on the same 100-point rubric.
-        </p>
-        <div className={styles.ctas}>
-          <Link className="btn" href="/reviews">
-            Latest reviews
-          </Link>
-          <Link className="ghost" href="/hotels">
-            Browse {count(counts.hotels)} hotels
-            <Arrow />
-          </Link>
-        </div>
-      </HomeHero>
-
-      {cards.length > 0 && (
-        <section className="section" aria-labelledby="rev-h">
-          <div className="wrap">
-            <div className="section-head">
+    <>
+      {lead && (
+        <section className="band" aria-label="Top stories">
+          <div className="wrap top-stories">
+            <article className={`lead${leadImage ? '' : ' no-img'}`}>
+              {leadImage && (
+                <Link className="img-box" href={articleHref(lead)} tabIndex={-1} aria-hidden="true">
+                  <img src={leadImage} alt="" />
+                </Link>
+              )}
               <div>
-                <span className="eyebrow on-light">Scored stays</span>
-                <h2 id="rev-h">Latest reviews</h2>
+                <p className="cat">{categoryName(mainArticleCategory(lead))}</p>
+                <h2>
+                  <Link href={articleHref(lead)}>{lead.title}</Link>
+                </h2>
+                {lead.dek && <p className="dek">{lead.dek}</p>}
+                <p className="byline">
+                  By <b>{SITE.author}</b> &middot; {shortDate(lead.publishedDate)}
+                </p>
               </div>
-              <Link className="more" href="/reviews">
-                All reviews
-              </Link>
-            </div>
-            <div className="cards rail-m">
-              {cards.map((r, i) => (
-                <ReviewCard key={r.id} review={r} tone={(['a', 'b', 'c'] as const)[i % 3]} />
-              ))}
-            </div>
+            </article>
+            {secondary.length > 0 && (
+              <ol className="secondary">
+                {secondary.map((a) => {
+                  const image = articleImage(a)
+                  return (
+                    <li key={a.id} className={image ? undefined : 'no-img'}>
+                      {image && (
+                        <Link className="img-box" href={articleHref(a)} tabIndex={-1} aria-hidden="true">
+                          <img src={image} alt="" />
+                        </Link>
+                      )}
+                      <div>
+                        <p className="meta">
+                          <span className="cat">{categoryName(mainArticleCategory(a))}</span> &middot; {shortDate(a.publishedDate)}
+                        </p>
+                        <h3>
+                          <Link href={articleHref(a)}>{a.title}</Link>
+                        </h3>
+                        {a.dek && <p className="dek">{a.dek}</p>}
+                      </div>
+                    </li>
+                  )
+                })}
+              </ol>
+            )}
           </div>
         </section>
       )}
 
-      {reader && reader.topTierCity.stays >= 10 && reader.topTierCity.upgradeRate != null && (
-        <section className="section" aria-labelledby="sb-h">
-          <div className="wrap">
-            <div className={styles.bandInner}>
-              <div className={styles.big}>{reader.topTierCity.upgradeRate}%</div>
-              <div className={styles.rule} />
-              <div>
-                <span className="eyebrow" id="sb-h">
-                  Reader data
-                </span>
-                <div className={styles.say}>
-                  of top-tier stays at city hotels received a room upgrade at check-in.
-                  {reader.topTierCity.suiteRate != null && reader.topTierCity.suiteRate > 0 ? ` ${suiteWords(reader.topTierCity.suiteRate)} got a suite.` : ''}
+      <main className={`wrap main ${styles.main}`}>
+        <div className="cols3">
+          <div className="col">
+            {more.length > 0 && (
+              <section className={`mod ${styles.mMore}`} aria-labelledby="more-h">
+                <div className="mod-head">
+                  <h2 id="more-h">More stories</h2>
+                  <Link href={moreSection.href}>{moreSection.all}</Link>
                 </div>
-                <div className={styles.small}>
-                  From {count(reader.all.stays)} reader-submitted stays. <Link href="/submit-a-stay">Add yours</Link>
+                <ol className="stories">
+                  {more.map((a) => {
+                    const image = articleImage(a)
+                    return (
+                      <li key={a.id} className={image ? undefined : 'no-img'}>
+                        {image && (
+                          <Link className="img-box" href={articleHref(a)} tabIndex={-1} aria-hidden="true">
+                            <img src={image} alt="" loading="lazy" />
+                          </Link>
+                        )}
+                        <div>
+                          <p className="cat">{categoryName(mainArticleCategory(a))}</p>
+                          <h3>
+                            <Link href={articleHref(a)}>{a.title}</Link>
+                          </h3>
+                          {a.dek && <p className="dek">{a.dek}</p>}
+                          <p className="byline">{shortDate(a.publishedDate)}</p>
+                        </div>
+                      </li>
+                    )
+                  })}
+                </ol>
+              </section>
+            )}
+            <section className={`mod ${styles.mProgs}`} aria-labelledby="prog-h">
+              {/* #prog-h is where /programs leads (next.config.mjs) */}
+              <div className="mod-head">
+                <h2 id="prog-h">Programs</h2>
+              </div>
+              <ul className={styles.progLogos}>
+                {programs.map((p) => {
+                  const logo = programLogo(p)
+                  return (
+                    <li key={p.id}>
+                      <Link href={`/programs/${p.slug}`}>{logo ? <img src={logo} alt={p.name} /> : <span className={styles.progName}>{p.name}</span>}</Link>
+                    </li>
+                  )
+                })}
+              </ul>
+            </section>
+          </div>
+
+          <div className="col">
+            {reviews.docs.length > 0 && (
+              <section className={`mod ${styles.mReviews}`} aria-labelledby="rev-h">
+                <div className="mod-head">
+                  <h2 id="rev-h">Latest reviews</h2>
+                  <Link href="/reviews">All reviews</Link>
                 </div>
+                <ol className="rev-list">
+                  {reviews.docs.map((r) => {
+                    const href = `/reviews/${r.slug}`
+                    const s = score(r.totals?.overall)
+                    const place = places.get(r.id)
+                    const stayed = shortMonthYear(r.stayDate)
+                    const meta = [place?.city, place?.program, stayed ? `Stayed ${stayed}` : null].filter(Boolean).join(' · ')
+                    return (
+                      <li key={r.id}>
+                        <Link className="score" href={href} aria-label={`Score ${s} out of 100`}>
+                          <b>{s}</b>
+                          <span>of 100</span>
+                        </Link>
+                        <div>
+                          <h3>
+                            <Link href={href}>{r.title}</Link>
+                          </h3>
+                          {meta && <p className="meta">{meta}</p>}
+                          {r.shortVerdict && <p className="verdict">{r.shortVerdict}</p>}
+                        </div>
+                      </li>
+                    )
+                  })}
+                </ol>
+              </section>
+            )}
+          </div>
+
+          <div className="col">
+            <section className={`mod ${styles.mFind}`} aria-labelledby="find-h">
+              <div className="mod-head">
+                <h2 id="find-h">Find a hotel</h2>
+                <Link href="/hotels">Browse all hotels</Link>
               </div>
-            </div>
-          </div>
-        </section>
-      )}
-
-      <section className={`section ${styles.programs}`} aria-labelledby="prog-h">
-        <div className="wrap">
-          <div className="section-head">
-            <div>
-              <span className="eyebrow on-light">Browse by program</span>
-              <h2 id="prog-h">Where your points work</h2>
-            </div>
-          </div>
-          <div className="grid-cells">
-            {programs.map(({ program, hotels, scored }) => (
-              <Link className={`cell ${styles.prog}`} href={`/programs/${program.slug}`} key={program.id}>
-                <span className={styles.progTop}>
-                  <span className="label">Program</span>
-                  <Arrow size={16} />
-                </span>
-                <h3 className={styles.progName}>
-                  {mediaUrl(program.logo) ?? program.images?.logoUrl ? (
-                    <>
-                      <span className={styles.logoBox}>
-                        <img className={styles.logo} src={(mediaUrl(program.logo) ?? program.images?.logoUrl)!} alt={program.name} />
-                      </span>
-                      <span className="sr-only">{program.name}</span>
-                    </>
-                  ) : (
-                    program.name
-                  )}
-                </h3>
-                <span className={styles.progN}>
-                  {hotels > 0 ? (
-                    <>
-                      <b>{count(hotels)}</b> hotels indexed
-                      <br />
-                      <b>{count(scored)}</b> scored {scored === 1 ? 'stay' : 'stays'}
-                    </>
-                  ) : (
-                    <>
-                      Coming soon
-                      <br />
-                      Portfolio being indexed
-                    </>
-                  )}
-                </span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {articles.docs.length > 0 && (
-        <section className="section" aria-labelledby="art-h">
-          <div className="wrap">
-            <div className="section-head">
-              <div>
-                <span className="eyebrow on-light">Articles</span>
-                <h2 id="art-h">How the programs actually work</h2>
+              <Form className={`inline-form ${styles.find}`} role="search" action="/hotels">
+                <input className="input" type="search" name="q" placeholder="Hotel name" aria-label="Hotel name" />
+                <button className="btn" type="submit">
+                  Search
+                </button>
+              </Form>
+              <p className="mod-note">Search by hotel name across {joinList(PROGRAM_LINKS.map((p) => p.label))}.</p>
+            </section>
+            <section className={`mod ${styles.mLounges}`} aria-labelledby="lounge-h">
+              <div className="mod-head">
+                <h2 id="lounge-h">Club lounges</h2>
+                <Link href="/lounges">All lounges</Link>
               </div>
-              <Link className="more" href="/articles">
-                All articles
-              </Link>
-            </div>
-            <div className="cards rail-m">
-              {articles.docs.map((a, i) => (
-                <ArticleCard key={a.id} article={a} tone={(['b', 'c', 'a'] as const)[i % 3]} />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {ratedLounges.length > 0 && (
-        <section className={`section ${styles.lounges}`} aria-labelledby="lg-h">
-          <div className={`wrap ${styles.loungesGrid}`}>
-            <div>
-              <span className={`eyebrow on-light ${styles.loungesEyebrow}`}>Lounges</span>
-              <h2 id="lg-h" className={styles.loungesH2}>
-                Is the club lounge worth the room category?
-              </h2>
-              <p className={styles.loungesP}>Access rules by status, hours, what actually gets served, and whether it beats the restaurant downstairs. Every lounge scored by readers who sat in it.</p>
-              <Link className={`ghost ${styles.loungesGhost}`} href="/lounges">
-                Browse the directory
-                <Arrow />
-              </Link>
-            </div>
-            <LoungeRows rows={ratedLounges} />
-          </div>
-        </section>
-      )}
-
-      <section className={`section ${styles.cta}`} aria-label="Contribute">
-        <div className="wrap">
-          <div className={styles.ctaPanel}>
-            <div className={styles.ctaCol}>
-              <span className="eyebrow">Reader data</span>
-              <h3>Stayed somewhere on status?</h3>
-              <p>Two minutes. Your upgrade outcome joins the data for that property, and the upgrade odds update for everyone.</p>
+              <p className={styles.loungeText}>{lounges.length > 0 ? `Lounges at ${joinList(lounges)} hotels, with who gets in at each.` : 'Club lounges, with who gets in at each.'}</p>
+              <p className="mod-note">Readers score each lounge on food, drink, space and ambiance, and service, and say whether it was worth booking a club room.</p>
+            </section>
+            <section className={`mod box ${styles.mStay}`} aria-labelledby="stay-h">
+              <h2 id="stay-h">Stayed somewhere on status?</h2>
+              <p>Two minutes, dropdowns only. Your upgrade outcome joins the data for that property, and the upgrade odds update for everyone. No name, no email.</p>
               <Link className="btn" href="/submit-a-stay">
-                Submit a stay
+                Add your stay
               </Link>
-            </div>
-            <div className={styles.ctaCol}>
-              <span className="eyebrow">How it works</span>
-              <h3>Dropdowns only. Checked before it counts.</h3>
-              <p>No name, no email. Every submission is reviewed, and a hotel shows its odds only once five stays are in.</p>
-            </div>
+            </section>
           </div>
         </div>
-      </section>
-
-      <div className={styles.last} />
-
-      <Band eyebrow="Every hotel, one place" title="The hotel index" text="Every property across four programs, with brand and place. Filter by program, brand, country, or scored stays only." cta="Browse hotels" href="/hotels" />
-    </main>
+      </main>
+    </>
   )
 }

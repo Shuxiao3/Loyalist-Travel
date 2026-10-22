@@ -1,12 +1,12 @@
-import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
+import type { SerializedEditorState, SerializedLexicalNode } from '@payloadcms/richtext-lexical/lexical'
 import type { DefaultNodeTypes, SerializedParagraphNode, SerializedTableCellNode, SerializedTableNode, SerializedTableRowNode } from '@payloadcms/richtext-lexical'
 import { type JSXConvertersFunction, RichText as LexicalRichText } from '@payloadcms/richtext-lexical/react'
+import type { ReactNode } from 'react'
 
 import { headingId, textOf } from '@/lib/outline'
 import type { Media } from '@/payload-types'
 
 import styles from './ArticleBody.module.css'
-import { TableScroll } from './TableScroll'
 
 const BOLD = 1
 
@@ -16,25 +16,48 @@ const HEADER_ROW = 1
 const HEADER_COLUMN = 2
 
 type Nodes = DefaultNodeTypes | SerializedTableNode | SerializedTableRowNode | SerializedTableCellNode
+type Node = SerializedLexicalNode & { tag?: string; children?: Node[] }
 
-// Article text with a few additions over the plain renderer: headings carry
-// ids so the table of contents can jump to them, a paragraph that opens with
-// a bold "Pro tip" becomes a callout card, a quote becomes a callout without
-// the label, photos render as figures with caption and credit, and tables get
-// a real header row inside a wrapper that scrolls sideways on narrow screens,
-// fading the edge that hides more columns and keeping the first column put.
-export function ArticleBody({ data }: { data?: SerializedEditorState | null }) {
-  if (!data) return null
+// The headings that open an article's end notes: its sources and image credits.
+const NOTES_HEADING = /^(sources?|image credits?|photo credits?|sources and (image|photo) credits?)$/i
+
+// The id each heading carries, in document order, so the table of contents (src/lib/outline.ts,
+// same rule) and the text agree however the text is split up.
+function headingIds(nodes: Node[]): Map<Node, string> {
+  const ids = new Map<Node, string>()
   const seen = new Map<string, number>()
+  for (const n of nodes) {
+    if (n.type !== 'heading') continue
+    let id = headingId(textOf(n as never))
+    const k = seen.get(id) ?? 0
+    seen.set(id, k + 1)
+    if (k) id = `${id}-${k + 1}`
+    ids.set(n, id)
+  }
+  return ids
+}
+
+// Article text in the kit's article style (the mockups' article.html and article-news.html).
+// Headings carry ids so the contents can jump to them; a paragraph that opens with a bold
+// "Pro tip" becomes a tip panel, a quote a panel without the label; photos render as figures
+// with caption and credit; tables keep their header row and header column, scroll sideways
+// inside themselves when too wide, and on phones turn into one labelled block per row (the
+// kit's .table-stack). The sources and image credits at the end (from a "Sources" or "Image
+// credits" heading on) read as end notes: the same words, in smaller type under a rule.
+export function ArticleBody({ data, className }: { data?: SerializedEditorState | null; className?: string }) {
+  if (!data) return null
+  const all = ((data.root as unknown as Node).children ?? []) as Node[]
+  const ids = headingIds(all)
+  const notesAt = all.findIndex((n) => n.type === 'heading' && n.tag === 'h2' && NOTES_HEADING.test(textOf(n as never).trim()))
+  const part = (children: Node[]): SerializedEditorState => ({ ...data, root: { ...data.root, children: children as never } })
+  const text = notesAt >= 0 ? part(all.slice(0, notesAt)) : data
+  const notes = notesAt >= 0 ? part(all.slice(notesAt)) : null
+
   const converters: JSXConvertersFunction<Nodes> = ({ defaultConverters }) => ({
     ...defaultConverters,
     heading: ({ node, nodesToJSX }) => {
-      const Tag = node.tag as 'h2' | 'h3'
-      let id = headingId(textOf(node as never))
-      const k = seen.get(id) ?? 0
-      seen.set(id, k + 1)
-      if (k) id = `${id}-${k + 1}`
-      return <Tag id={id}>{nodesToJSX({ nodes: node.children })}</Tag>
+      const Tag = node.tag as 'h2' | 'h3' | 'h4'
+      return <Tag id={ids.get(node as never) ?? headingId(textOf(node as never))}>{nodesToJSX({ nodes: node.children })}</Tag>
     },
     paragraph: ({ node, nodesToJSX }) => {
       const first = node.children[0] as { type?: string; text?: string; format?: number } | undefined
@@ -46,12 +69,7 @@ export function ArticleBody({ data }: { data?: SerializedEditorState | null }) {
         if (next?.type === 'text' && next.text) next.text = next.text.replace(/^[\s:.–—-]+/, '')
         return (
           <aside className={styles.tip}>
-            <span className={styles.tipLabel}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2z" />
-              </svg>
-              Pro tip
-            </span>
+            <p className={styles.tipLabel}>Pro tip</p>
             <p>{nodesToJSX({ nodes: rest })}</p>
           </aside>
         )
@@ -60,6 +78,7 @@ export function ArticleBody({ data }: { data?: SerializedEditorState | null }) {
       return <p>{children.length ? children : <br />}</p>
     },
     quote: ({ node, nodesToJSX }) => <blockquote className={styles.quote}>{nodesToJSX({ nodes: node.children })}</blockquote>,
+    horizontalrule: () => <hr className={styles.rule} />,
     upload: ({ node }) => {
       // Only a populated media document can be drawn; a bare id means the
       // query did not reach this depth.
@@ -79,71 +98,94 @@ export function ArticleBody({ data }: { data?: SerializedEditorState | null }) {
       const fields = (node.fields ?? {}) as { caption?: unknown }
       const caption = typeof fields.caption === 'string' ? fields.caption.trim() : ''
       const by = (credit ?? '').trim()
-      const text = (caption + (by ? ` Photo: ${by}.` : '')).trim()
+      const words = (caption + (by ? ` Photo: ${by}.` : '')).trim()
       return (
         <figure className={styles.figure}>
           <img src={url} alt={alt ?? ''} width={width ?? undefined} height={height ?? undefined} loading="lazy" decoding="async" />
-          {text && <figcaption>{text}</figcaption>}
+          {words && <figcaption className="caption">{words}</figcaption>}
         </figure>
       )
     },
     table: ({ node, nodesToJSX }) => {
       const rows = node.children.filter((r): r is SerializedTableRowNode => r.type === 'tablerow')
       const cells = (row: SerializedTableRowNode) => row.children.filter((c): c is SerializedTableCellNode => c.type === 'tablecell')
-      const cols = rows.reduce((max, row) => Math.max(max, cells(row).reduce((n, c) => n + (c.colSpan ?? 1), 0)), 0)
       const first = rows[0]
       const headCells = first ? cells(first) : []
       const hasHead = headCells.length > 0 && headCells.every((c) => (c.headerState & HEADER_ROW) !== 0)
       const body = hasHead ? rows.slice(1) : rows
-      const text = (c: SerializedTableCellNode) => textOf(c as never).trim()
-      // a table wider than a phone column scrolls there; three columns of
-      // short cells lay out in the column as they are
-      const longest = rows.reduce((max, row) => cells(row).reduce((m, c) => Math.max(m, text(c).length), max), 0)
-      const wide = cols >= 4 || (cols === 3 && longest > 100)
-      const headers = headCells.map(text).filter(Boolean)
+      const cellText = (c: SerializedTableCellNode) => textOf(c as never).trim()
+      // each column's heading, for the labels a stacked row shows on a phone
+      const heads: string[] = []
+      for (const c of headCells) for (let i = 0; i < (c.colSpan ?? 1); i++) heads.push(cellText(c))
+      const cols = rows.reduce((max, row) => Math.max(max, cells(row).reduce((n, c) => n + (c.colSpan ?? 1), 0)), 0)
+      const named = heads.filter(Boolean)
       return (
-        // the min-width steps stop at six columns, so wider tables share that step
-        <TableScroll cols={Math.min(cols, 6)} wide={wide} label={headers.length ? `Table: ${headers.join(', ')}` : 'Table'}>
-          <table>
+        <div className={styles.table} role="region" aria-label={named.length ? `Table: ${named.join(', ')}` : 'Table'} tabIndex={0}>
+          <table className={`table${hasHead ? ' table-stack' : ''}${cols === 2 ? ` ${styles.cols2}` : ''}`}>
             {hasHead && first && <thead>{nodesToJSX({ nodes: [first] })}</thead>}
-            <tbody>{nodesToJSX({ nodes: body })}</tbody>
+            <tbody>
+              {body.map((row, r) => {
+                let col = 0
+                return (
+                  <tr key={r}>
+                    {cells(row).map((cell, i) => {
+                      const at = col
+                      col += cell.colSpan ?? 1
+                      return <Cell key={i} cell={cell} label={hasHead ? heads[at] : undefined} content={nodesToJSX({ nodes: cellContent(cell) })} />
+                    })}
+                  </tr>
+                )
+              })}
+            </tbody>
           </table>
-        </TableScroll>
+        </div>
       )
     },
     tablerow: ({ node, nodesToJSX }) => <tr>{nodesToJSX({ nodes: node.children })}</tr>,
-    tablecell: ({ node, nodesToJSX }) => {
-      // A cell that holds a single paragraph renders the paragraph's inline
-      // content directly; anything richer keeps its blocks.
-      const kid = node.children.length === 1 ? node.children[0] : undefined
-      const only = kid?.type === 'paragraph' ? (kid as SerializedParagraphNode) : null
-      const content = nodesToJSX({ nodes: only ? only.children : node.children })
-      const colSpan = node.colSpan && node.colSpan > 1 ? node.colSpan : undefined
-      const rowSpan = node.rowSpan && node.rowSpan > 1 ? node.rowSpan : undefined
-      if (node.headerState & HEADER_ROW) {
-        return (
-          <th scope="col" colSpan={colSpan} rowSpan={rowSpan}>
-            {content}
-          </th>
-        )
-      }
-      if (node.headerState & HEADER_COLUMN) {
-        return (
-          <th scope="row" colSpan={colSpan} rowSpan={rowSpan}>
-            {content}
-          </th>
-        )
-      }
-      return (
-        <td colSpan={colSpan} rowSpan={rowSpan}>
-          {content}
-        </td>
-      )
-    },
+    tablecell: ({ node, nodesToJSX }) => <Cell cell={node} content={nodesToJSX({ nodes: cellContent(node) })} />,
   })
+
   return (
-    <div className="prose">
-      <LexicalRichText data={data} converters={converters as JSXConvertersFunction} />
+    <div className={`prose ${styles.body}${className ? ` ${className}` : ''}`} data-article-text="">
+      <LexicalRichText data={text} converters={converters as JSXConvertersFunction} disableContainer />
+      {notes && (
+        <div className={styles.notes}>
+          <LexicalRichText data={notes} converters={converters as JSXConvertersFunction} disableContainer />
+        </div>
+      )}
     </div>
+  )
+}
+
+// A cell that holds a single paragraph renders the paragraph's inline content directly;
+// anything richer keeps its blocks.
+function cellContent(cell: SerializedTableCellNode) {
+  const kid = cell.children.length === 1 ? cell.children[0] : undefined
+  return kid?.type === 'paragraph' ? (kid as SerializedParagraphNode).children : cell.children
+}
+
+// A header-row cell is a column head, a header-column cell a row head (the first line of a
+// stacked row on a phone); every other cell carries its column's label for the stacked view.
+function Cell({ cell, content, label }: { cell: SerializedTableCellNode; content: ReactNode; label?: string }) {
+  const colSpan = cell.colSpan && cell.colSpan > 1 ? cell.colSpan : undefined
+  const rowSpan = cell.rowSpan && cell.rowSpan > 1 ? cell.rowSpan : undefined
+  if (cell.headerState & HEADER_ROW) {
+    return (
+      <th scope="col" colSpan={colSpan} rowSpan={rowSpan}>
+        {content}
+      </th>
+    )
+  }
+  if (cell.headerState & HEADER_COLUMN) {
+    return (
+      <th scope="row" colSpan={colSpan} rowSpan={rowSpan}>
+        {content}
+      </th>
+    )
+  }
+  return (
+    <td colSpan={colSpan} rowSpan={rowSpan} data-label={label || undefined}>
+      {content}
+    </td>
   )
 }

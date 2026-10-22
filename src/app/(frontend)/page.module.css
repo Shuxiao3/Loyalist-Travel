@@ -1,297 +1,34 @@
-/* Homepage hero, stats and programs. Every value is a token. */
+/* Homepage only (mockup: home.html, css/home.css). Shared components live in src/styles/kit.css. */
 
-.h1 {
-  font-size: var(--t-hero);
-  line-height: 1.05;
-  color: var(--ivory);
-  letter-spacing: -0.012em;
-  margin: 0 0 var(--s5);
-  max-width: 18ch;
-  text-wrap: pretty;
+/* Columns: stories and programs, Austin's reviews (the widest), then the tools */
+.main :global(.cols3) { grid-template-columns: minmax(0, 1fr) minmax(0, 1.16fr) minmax(0, 1fr); }
+.find { margin-top: 10px; }
+.loungeText { font-size: var(--fs-2); line-height: 1.4; color: var(--ink-2); margin-top: var(--sp-2); }
+
+/* Programs: the four logos alone, two by two, each a link to its program page (the alt carries the name).
+   Each logo sits in a 72 by 46 box: wordmarks fill its width, the square Hyatt mark fills its height. */
+.progLogos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.progLogos > li { border-bottom: 1px solid var(--rule); }
+.progLogos a { display: flex; align-items: center; min-height: 68px; padding: var(--sp-3) 0; }
+.progLogos img { display: block; width: 72px; height: 46px; object-fit: contain; object-position: left center; }
+.progLogos a:hover img { opacity: 0.8; }
+/* a program whose logo is missing shows its name instead */
+.progName { font-weight: 600; color: var(--ink); }
+
+/* Narrow desktop: the third column runs full width under the first two, its three parts side by side */
+@media (max-width: 1180px) and (min-width: 761px) {
+  .main :global(.cols3) { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .main :global(.cols3) > :global(.col):nth-child(3) { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 var(--sp-6); align-items: start; }
+  .main :global(.cols3) > :global(.col):nth-child(3) :global(.mod + .mod) { margin-top: 0; }
 }
 
-.sub {
-  margin: 0 0 var(--s6);
-  max-width: 52ch;
-}
-
-.ctas {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-}
-
-/* stats row under the hero */
-.stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  border-top: 1px solid var(--line-dark);
-}
-
-.stat {
-  padding: var(--s6) var(--s6) var(--s7) 0;
-}
-
-.stat + .stat {
-  padding-left: var(--s6);
-  border-left: 1px solid var(--line-dark);
-}
-
-.statN {
-  font-family: var(--serif);
-  font-size: var(--t-stat);
-  line-height: 1;
-  color: var(--gold);
-  margin-bottom: var(--s3);
-}
-
-.statL {
-  font-size: var(--t-label);
-  letter-spacing: var(--track-label);
-  text-transform: uppercase;
-  color: var(--on-navy-muted);
-  line-height: 1.6;
-}
-
-/* programs grid */
-.progTop {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--s3);
-}
-
-.progTop svg {
-  color: var(--gold-dark);
-}
-
-/* every logo sits in the same box, left aligned, scaled to fit */
-.logoBox {
-  display: flex;
-  align-items: center;
-  width: 150px;
-  height: 40px;
-}
-
-.logo {
-  height: 100%;
-  width: auto;
-  max-width: 100%;
-  object-fit: contain;
-  object-position: left center;
-}
-
-.progName {
-  font-size: var(--t-lg);
-  color: var(--heading);
-  margin: var(--s2) 0;
-}
-
-.progN {
-  font-size: var(--t-sm);
-  color: var(--text-2);
-  line-height: 1.6;
-}
-
-.progN b {
-  font-weight: 700;
-  color: var(--heading);
-}
-
-/* reader-data band, from the homepage mockup */
-.bandInner {
-  background: var(--navy);
-  border: 1px solid var(--gold-border);
-  padding: var(--s7);
-  display: flex;
-  align-items: center;
-  gap: var(--s8);
-  color: var(--ivory);
-  border-radius: var(--r);
-  overflow: hidden;
-}
-
-.bandInner :global(.eyebrow) {
-  display: block;
-  margin-bottom: var(--s4);
-}
-
-.big {
-  font-family: var(--serif);
-  font-size: var(--t-big);
-  color: var(--gold);
-  line-height: 1;
-  flex-shrink: 0;
-}
-
-.rule {
-  width: 1px;
-  align-self: stretch;
-  background: var(--line-dark);
-}
-
-.say {
-  font-family: var(--serif);
-  font-size: var(--t-xl);
-  line-height: 1.35;
-  color: var(--ivory);
-  margin-bottom: var(--s3);
-  text-wrap: pretty;
-  max-width: 34ch;
-}
-
-.small {
-  font-size: var(--t-sm);
-  color: var(--on-navy-muted);
-  letter-spacing: var(--track-fine);
-}
-
-.small a {
-  color: var(--gold);
-}
-
-/* lounges, from the homepage mockup */
-.loungesGrid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 560px;
-  gap: var(--s9);
-  align-items: start;
-}
-
-.loungesEyebrow {
-  display: block;
-  margin-bottom: var(--s4);
-}
-
-.loungesH2 {
-  font-size: var(--t-3xl);
-  line-height: 1.15;
-  color: var(--heading);
-  margin-bottom: var(--s4);
-  text-wrap: pretty;
-}
-
-.loungesP {
-  font-size: calc(var(--t-base) - 1px);
-  line-height: 1.7;
-  color: var(--text-2);
-  margin-bottom: var(--s6);
-  max-width: 44ch;
-  text-wrap: pretty;
-}
-
-.loungesGhost {
-  color: var(--gold-dark);
-  border-color: var(--gold-dark);
-}
-
-.loungesGhost:hover {
-  background: var(--gold-dark);
-  color: var(--ivory);
-}
-
-/* contribute panel */
-.ctaPanel {
-  background: var(--navy);
-  border: 1px solid var(--gold-border);
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  color: var(--ivory);
-  border-radius: var(--r);
-  overflow: hidden;
-}
-
-.ctaCol {
-  padding: var(--s7);
-}
-
-.ctaCol + .ctaCol {
-  border-left: 1px solid var(--line-dark);
-}
-
-.ctaCol :global(.eyebrow) {
-  display: block;
-  margin-bottom: var(--s4);
-}
-
-.ctaCol h3 {
-  font-size: var(--t-xl);
-  color: var(--ivory);
-  line-height: 1.2;
-  margin-bottom: var(--s3);
-  text-wrap: pretty;
-}
-
-.ctaCol p {
-  font-size: var(--t-md);
-  line-height: 1.65;
-  color: var(--light);
-  margin-bottom: var(--s5);
-  max-width: 40ch;
-  text-wrap: pretty;
-}
-
-.last {
-  height: var(--section);
-}
-
-@media (max-width: 1100px) {
-  .loungesGrid {
-    grid-template-columns: 1fr;
-    gap: var(--s6);
-  }
-}
-
-/* phone */
-@media (max-width: 640px) {
-  .stats {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .stat {
-    padding: var(--s5) var(--s4) var(--s5) 0;
-  }
-
-  .stat + .stat {
-    padding-left: var(--s4);
-  }
-
-  .stat:nth-child(3) {
-    padding-left: 0;
-    border-left: 0;
-    border-top: 1px solid var(--line-dark);
-  }
-
-  .stat:nth-child(4) {
-    border-top: 1px solid var(--line-dark);
-  }
-
-  .bandInner {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--s5);
-    padding: var(--s6) var(--s5);
-  }
-
-  .rule {
-    display: none;
-  }
-
-  .ctaPanel {
-    grid-template-columns: 1fr;
-  }
-
-  .loungesGrid {
-    grid-template-columns: 1fr;
-    gap: var(--s6);
-  }
-
-  .ctaCol {
-    padding: var(--s6) var(--s5);
-  }
-
-  .ctaCol + .ctaCol {
-    border-left: 0;
-    border-top: 1px solid var(--line-dark);
-  }
+@media (max-width: 760px) {
+  /* Austin's reviews first, then the stories, then the tools */
+  .mReviews { order: 1; }
+  .mMore { order: 2; }
+  .mFind { order: 3; }
+  .mProgs { order: 4; }
+  .mLounges { order: 5; }
+  .mStay { order: 6; }
+  .mReviews :global(.rev-list) > li:nth-child(n+5) { display: none; }
 }

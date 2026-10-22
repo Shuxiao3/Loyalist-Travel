@@ -35,3 +35,9 @@ export function count(n: number): string {
 export function rel<T extends object>(value: number | T | null | undefined): T | null {
   return value && typeof value === 'object' ? value : null
 }
+
+// "Aug 2026", for a stay in a list row ("Stayed Aug 2026").
+export function shortMonthYear(value?: string | null): string | null {
+  if (!value) return null
+  return new Date(value).toLocaleDateString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' })
+}

@@ -1,78 +1,33 @@
-/* the filter bar sits on the warmer cream */
-.filters {
-  padding-top: 0;
-  background: var(--cream);
-  border-bottom: 1px solid var(--line);
-}
-
-.form {
-  display: grid;
-  grid-template-columns: 1.4fr repeat(4, minmax(0, 1fr)) auto;
-  gap: var(--s4);
-  align-items: end;
-  padding: var(--s5) 0;
-}
-
-.form label {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s2);
-  min-width: 0;
-}
-
-.form select,
-.form input {
-  min-width: 0;
-  width: 100%;
-  background: var(--card);
-  border: 1px solid var(--line-strong);
-  color: var(--text);
-  padding: 11px 12px;
-  font-size: var(--t-sm);
-  border-radius: var(--r-btn);
-}
-
-.form select:focus-visible,
-.form input:focus-visible {
-  outline: 2px solid var(--gold);
-  outline-offset: 2px;
-}
-
-.actions {
-  display: flex;
-  align-items: center;
-  gap: var(--s4);
-}
-
-.actions :global(.btn) {
-  padding: 12px 22px;
-}
-
-.results {
-  padding-bottom: var(--section);
-}
+/* Hotels list (mockup: hotels.html, page rules from css/browse.css). Shared components come
+   from src/styles/kit.css; the hotel table and the side column have their own modules. */
 
 .empty {
-  font-size: var(--t-md);
-  color: var(--text-2);
+  margin-top: var(--sp-4);
 }
 
-@media (max-width: 1100px) {
-  .form {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .q {
-    grid-column: 1 / -1;
-  }
-
-  .actions {
-    grid-column: 1 / -1;
-  }
+.empty a {
+  color: var(--link);
+  font-weight: 600;
 }
 
-@media (max-width: 640px) {
-  .form {
-    grid-template-columns: 1fr 1fr;
+/* Phone: the count and the sort menu share one line */
+@media (max-width: 760px) {
+  .results {
+    flex-wrap: nowrap;
+    padding-top: var(--sp-3);
+  }
+
+  .results > p {
+    flex: none;
+  }
+
+  .results :global(.sort) {
+    min-width: 0;
+  }
+
+  .results :global(.sort) :global(.select) {
+    min-width: 0;
+    max-width: 210px;
+    text-overflow: ellipsis;
   }
 }

@@ -1,263 +1,33 @@
-.panel :global(.eyebrow) {
-  display: block;
-  margin-bottom: var(--s3);
+/* The breakdown window's own rules (mockup: css/hotel.css, "Breakdown window"). The window,
+   figures, table and report rows are the kit's. */
+
+/* "Date not stated, 10 stays": a thin subhead over the undated stays */
+.group {
+  font: 600 var(--fs-2)/1.3 var(--sans);
+  color: var(--ink);
+  margin-top: var(--sp-5);
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--rule-2);
 }
 
-.head {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: var(--s3);
+/* undated stays lead with the status alone, a little larger */
+:global(.reports).undated :global(.r-when) span {
+  font-size: var(--fs-2);
+  color: var(--ink-2);
+}
+:global(.reports).undated :global(.r-when) span.ns {
+  color: var(--muted);
 }
 
-.headDetail {
-  margin-bottom: var(--s4);
-}
-
-.badge {
-  position: relative;
-  z-index: 1; /* above the panel-wide button, so its tip still opens */
-  font-size: var(--t-label);
-  letter-spacing: var(--track-label);
-  text-transform: uppercase;
-}
-
-
-.intro {
-  font-size: var(--t-sm);
-  line-height: 1.6;
-  color: var(--light);
-  max-width: 52ch;
-  margin-bottom: var(--s5);
-}
-
-/* the last thing in the panel on the page, above its foot */
-.flush {
-  margin-bottom: 0;
-}
-
-.none {
-  font-size: var(--t-sm);
-  color: var(--on-navy-muted);
-  letter-spacing: var(--track-fine);
-}
-
-.figures {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--s3);
-  padding-bottom: var(--s5);
-}
-
-.n {
-  font-family: var(--serif);
-  font-size: calc(var(--t-stat) * 0.78);
-  line-height: 1;
-  color: var(--gold);
-}
-
-.l {
-  margin-top: var(--s2);
-  font-size: var(--t-label);
-  letter-spacing: var(--track-label);
-  text-transform: uppercase;
-  line-height: 1.4;
-  color: var(--on-navy-muted);
-}
-
-.of {
-  font-size: var(--t-label);
-  color: var(--light);
-  opacity: 0.7;
-}
-
-.tiers {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: var(--s5);
-  font-size: var(--t-sm);
-  color: var(--light);
-}
-
-.tiers th {
-  text-align: left;
-  font-weight: 400;
-  font-size: var(--t-label);
-  letter-spacing: var(--track-label);
-  text-transform: uppercase;
-  color: var(--on-navy-muted);
-  padding: 0 var(--s3) var(--s3) 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-}
-
-.tiers td {
-  padding: var(--s3) var(--s3) var(--s3) 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-  white-space: nowrap;
-}
-
-.tiers th:last-child,
-.tiers td:last-child {
-  padding-right: 0;
-}
-
-.tiers td:first-child {
-  color: var(--ivory);
-  white-space: normal;
-}
-
-/* each stay is a bar: tier, month and source, opening to its summary */
-.rows {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
-}
-
-.rows li {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-}
-
-.count {
-  margin-bottom: var(--s3);
-  font-size: var(--t-label);
-  letter-spacing: var(--track-label);
-  text-transform: uppercase;
-  color: var(--on-navy-muted);
-}
-
-/* a long list scrolls in place, about eight and a half rows tall, so the
-   half row at the foot shows there is more */
-.scroll {
-  max-height: 22.5rem;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  padding-right: var(--s3);
-  scrollbar-width: thin;
-  scrollbar-color: var(--gold) rgba(255, 255, 255, 0.08);
-}
-
-.scroll:focus-visible {
-  outline: 1px solid var(--gold);
-  outline-offset: 4px;
-}
-
-.scroll::-webkit-scrollbar {
-  width: 6px;
-}
-
-.scroll::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 3px;
-}
-
-.scroll::-webkit-scrollbar-thumb {
-  background: var(--gold);
-  border-radius: 3px;
-}
-
-.stay summary {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--s3);
-  padding: var(--s3) 0;
-  cursor: pointer;
-  list-style: none;
-  color: var(--light);
-}
-
-.stay summary::-webkit-details-marker {
-  display: none;
-}
-
-.stay summary svg {
-  flex: none;
-  color: var(--gold);
-  transition: transform 0.2s ease;
-}
-
-.stay[open] summary svg {
-  transform: rotate(180deg);
-}
-
-.meta {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-width: 0;
-  font-size: var(--t-label);
-  letter-spacing: var(--track-label);
-  text-transform: uppercase;
-  color: var(--on-navy-muted);
-}
-
-.meta em {
-  font-style: normal;
-  color: var(--gold);
-}
-
-/* the stay at a glance: a short strip of label and value pairs that wraps */
-.facts {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px var(--s5);
-  margin: 0 0 var(--s3);
-  padding: 10px var(--s4);
-  border-left: 2px solid var(--gold-border);
-  background: rgba(255, 255, 255, 0.03);
-  font-size: var(--t-sm);
-  line-height: 1.45;
-}
-
-.facts div {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-  min-width: 0;
-}
-
-.facts dt {
-  flex: none;
-  font-size: var(--t-label);
-  letter-spacing: var(--track-label);
-  text-transform: uppercase;
-  color: var(--on-navy-muted);
-}
-
-.facts dd {
-  margin: 0;
-  color: var(--ivory);
-}
-
-.stay p {
-  padding: 0 0 var(--s3);
-  font-size: var(--t-sm);
-  line-height: 1.55;
-  color: var(--light);
-}
-
-.stay a {
-  display: inline-block;
-  padding-bottom: var(--s4);
-  font-size: var(--t-label);
-  letter-spacing: var(--track-label);
-  text-transform: uppercase;
-  color: var(--gold);
-  text-decoration: none;
-}
-
-.stay a:hover {
-  text-decoration: underline;
-}
-
-@media (max-width: 640px) {
-  .figures {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+@media (max-width: 760px) {
+  /* By status: the long column label wraps, and the values stay on one line */
+  .bands :global(td.r) {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    white-space: normal;
   }
-
-  .tiers th:nth-child(5),
-  .tiers td:nth-child(5) {
-    display: none;
+  .bands :global(td.r)::before {
+    margin-bottom: 1px;
   }
 }

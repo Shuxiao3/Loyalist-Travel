@@ -1,0 +1,17 @@
+/* Comments in the kit's plain style (src/components/PlainComments.tsx): the sign-in line or
+   the form, then the comments as plain lines. No box. */
+
+.form { max-width: 640px; margin-top: var(--sp-3); }
+.actions { margin-top: var(--sp-3); }
+.thanks { max-width: 640px; margin-top: var(--sp-3); }
+/* "No comments yet" under the form or the thank-you line */
+.form + :global(.note), .thanks + :global(.note) { margin-top: var(--sp-4); }
+
+/* the field bots fill and people never see */
+.hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+
+.list { max-width: 68ch; margin-top: var(--sp-4); border-top: 1px solid var(--rule); }
+.list > li { padding: 10px 0 11px; border-bottom: 1px solid var(--rule); }
+.who { font-size: var(--fs-1); line-height: 1.35; color: var(--muted); }
+.who b { font-weight: 600; color: var(--ink); }
+.body { font-size: var(--fs-2); line-height: 1.5; color: var(--ink); margin-top: 2px; white-space: pre-line; overflow-wrap: anywhere; }

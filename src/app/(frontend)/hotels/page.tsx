@@ -1,17 +1,17 @@
 import type { Metadata } from 'next'
-
-import { getSeo, metaText, pageMeta } from '@/lib/seo'
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 
-import { HotelList } from '@/components/HotelCard'
-import { HERO_FALLBACK_PHOTO, LandingHero } from '@/components/LandingHero'
-import { Pager } from '@/components/Pager'
-import { SortMenu } from '@/components/SortMenu'
+import { BrowseSide, SideCounts, StayBox } from '@/components/BrowseSide'
+import { HotelTable, HotelTableNote } from '@/components/HotelTable'
+import { PageNumbers } from '@/components/PageNumbers'
+import { SortSelect } from '@/components/SortSelect'
 import { count } from '@/lib/format'
-import { hotelPhoto } from '@/lib/photos'
-import { getHotelSnapshots } from '@/lib/hotelSnapshot'
+import { hotelFilterExtras, hotelRowExtras, hotelSideCounts, programTabs, segmentLabel } from '@/lib/hotelBrowse'
+import { findHotels, getHotelFilterOptions, HOTEL_SORTS, HOTELS_PER_PAGE, type HotelFilters, upgradePoolOf } from '@/lib/queries'
+import { getSeo, metaText, pageMeta } from '@/lib/seo'
 import { noRankText } from '@/lib/upgradeRanking'
-import { findHotels, getFeaturedHotel, getHotelFilterOptions, HOTEL_SORTS, HOTELS_PER_PAGE, type HotelFilters, upgradePoolOf } from '@/lib/queries'
+
 import styles from './page.module.css'
 
 export const revalidate = 300
@@ -21,143 +21,244 @@ export async function generateMetadata(): Promise<Metadata> {
   return pageMeta({ ...metaText(seo?.hotels, {}, { title: 'Hotels', description: 'Every hotel indexed across World of Hyatt, Marriott Bonvoy, IHG One Rewards and Hilton Honors, filterable by program, brand and country.' }), path: '/hotels' })
 }
 
+// Hotels (mockup: hotels.html). The band carries the title and the program tabs, each with its
+// count (the one list page that shows counts). Below: the filter bar (search, then region or
+// country, brand, segment and two "Show only" boxes, folded under "Filters" on phones), the
+// total and the sort menu, the hotel table, the page numbers with the range, and a side column
+// of regions and the cities with the most hotels.
+//
+// The address carries the filters: q, program, brand, country, region, segment, scored=yes,
+// lounge=yes, sort and page. The "Region or country" menu sends one field, `where`
+// ("region:europe" or "country:Austria"); the page moves it into region or country.
+
+const FORM_ID = 'hotels-filter'
+const FILTER_KEYS = ['q', 'program', 'brand', 'country', 'region', 'segment', 'scored', 'lounge', 'sort'] as const
+
 type Props = { searchParams: Promise<Record<string, string | string[] | undefined>> }
 
 const first = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v) || undefined
 
 export default async function HotelsIndex({ searchParams }: Props) {
   const sp = await searchParams
+
+  // The filter form's "Region or country" choice, moved into the address as region or country
+  if (sp.where !== undefined) {
+    const where = first(sp.where) ?? ''
+    const q = new URLSearchParams()
+    for (const k of FILTER_KEYS) {
+      if (k === 'region' || k === 'country') continue
+      const v = first(sp[k])?.trim()
+      if (v) q.set(k, v)
+    }
+    if (where.startsWith('region:') && where.length > 7) q.set('region', where.slice(7))
+    else if (where.startsWith('country:') && where.length > 8) q.set('country', where.slice(8))
+    const s = q.toString()
+    redirect(s ? `/hotels?${s}` : '/hotels')
+  }
+
   const filters: HotelFilters = {
     q: first(sp.q)?.trim() || undefined,
     program: first(sp.program),
     brand: first(sp.brand),
     country: first(sp.country),
+    region: first(sp.region),
+    segment: first(sp.segment),
     scored: first(sp.scored),
     lounge: first(sp.lounge),
     sort: first(sp.sort),
-    page: Math.max(1, Number(first(sp.page)) || 1),
+    page: Math.max(1, Math.floor(Number(first(sp.page))) || 1),
   }
-  const [result, options, featured] = await Promise.all([findHotels(filters), getHotelFilterOptions(), getFeaturedHotel()])
-  // sorted by one pool's upgrade chance, the cards show that pool's figure
-  const pool = upgradePoolOf(filters.sort) ?? undefined
-  const snapshots = result.docs.length ? await getHotelSnapshots(result.docs.map((h) => h.id), pool) : {}
-  const active = Object.entries(filters).filter(([k, v]) => k !== 'page' && k !== 'sort' && v).length
-  // the results eyebrow names the order when nothing is filtered
-  const order = (HOTEL_SORTS.find((s) => s.value === (filters.sort ?? '')) ?? HOTEL_SORTS[0]).label
-  const fHotel = featured?.hotel
+  // the filters apart from the program, which the tabs count across
+  const others = { q: filters.q, brand: filters.brand, country: filters.country, region: filters.region, segment: filters.segment, scored: filters.scored, lounge: filters.lounge }
+  const options = await getHotelFilterOptions()
+  const programDoc = filters.program ? options.programs.find((p) => p.slug === filters.program) : undefined
+  const brandProgram = (b: (typeof options.brands)[number]) => (typeof b.program === 'object' ? b.program?.id : b.program)
+  const brands = programDoc ? options.brands.filter((b) => brandProgram(b) === programDoc.id) : options.brands
+  const brandDoc = filters.brand ? options.brands.find((b) => b.slug === filters.brand) : undefined
+  const brandProgramSlug = brandDoc ? options.programs.find((p) => p.id === brandProgram(brandDoc))?.slug : undefined
 
-  const href = (page: number) => {
+  // sorted by one pool's upgrade chance, the list holds the hotels that rank, and the rows show that pool's figure
+  const pool = upgradePoolOf(filters.sort) ?? undefined
+  const [result, extras, tabs, side] = await Promise.all([findHotels(filters), hotelFilterExtras(), programTabs(others, brandProgramSlug, pool), hotelSideCounts(filters.program)])
+  // The list's address with some filters changed; the page goes back to 1 unless given
+  const with_ = (change: Partial<HotelFilters>, page = 1) => {
     const q = new URLSearchParams()
-    for (const [k, v] of Object.entries(filters)) if (k !== 'page' && v) q.set(k, String(v))
+    for (const [k, v] of Object.entries({ ...filters, ...change, page: undefined })) if (v) q.set(k, String(v))
     if (page > 1) q.set('page', String(page))
     const s = q.toString()
     return s ? `/hotels?${s}` : '/hotels'
   }
+  // A page past the end (an old link after the list shrank) goes to the first page. Its count
+  // cannot be trusted: past the end, a filter on a related field (program, region) reports none.
+  if (result.docs.length === 0 && (filters.page ?? 1) > 1) redirect(with_({}))
 
-  const brands = filters.program
-    ? options.brands.filter((b) => {
-        const p = options.programs.find((x) => x.slug === filters.program)
-        return p && (typeof b.program === 'object' ? b.program?.id : b.program) === p.id
-      })
-    : options.brands
+  const rows = await hotelRowExtras(result.docs, pool)
+  // A program tab keeps the other filters, and the brand only when it belongs to that program
+  const tabHref = (slug?: string) => with_({ program: slug, brand: !slug || !brandProgramSlug || brandProgramSlug === slug ? filters.brand : undefined })
+
+  const folded = Boolean(filters.country || filters.region || filters.brand || filters.segment || filters.scored || filters.lounge)
+  const active = folded || Boolean(filters.q || filters.program || filters.sort)
+  const whereValue = filters.region ? `region:${filters.region}` : filters.country ? `country:${filters.country}` : ''
+  const regionName = filters.region ? extras.regions.find((r) => r.slug === filters.region)?.name : undefined
+  const foldSummary = [regionName ?? filters.region, filters.country, brandDoc?.name ?? filters.brand, segmentLabel(filters.segment), filters.scored === 'yes' ? 'Reviewed' : null, filters.lounge === 'yes' ? 'Club lounge' : null].filter(Boolean).join(', ')
+
+  const total = result.totalDocs
+  const page = result.page ?? 1
+  const from = (page - 1) * HOTELS_PER_PAGE + 1
+  const to = Math.min(page * HOTELS_PER_PAGE, total)
+  const programQuery = filters.program ? `?program=${encodeURIComponent(filters.program)}` : ''
 
   return (
     <>
-      <LandingHero
-        eyebrow="Hotel"
-        title="Find the hotel. See the odds."
-        text="Search by name, or filter by program, brand and country. Each hotel page carries the upgrade odds readers have reported there, its lounge if it has one, and the review when there is one."
-        photo={hotelPhoto(fHotel) ?? HERO_FALLBACK_PHOTO}
-      />
-
-      <section className={`section ${styles.filters}`}>
+      <section className="band page-band">
         <div className="wrap">
-          <form className={styles.form} method="get" action="/hotels">
-            <label className={styles.q}>
-              <span className="label">Search</span>
-              <input type="search" name="q" defaultValue={filters.q ?? ''} placeholder="Hotel name" />
-            </label>
-            <label>
-              <span className="label">Program</span>
-              <select name="program" defaultValue={filters.program ?? ''}>
-                <option value="">All programs</option>
-                {options.programs.map((p) => (
-                  <option key={p.id} value={p.slug}>
-                    {p.name}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label>
-              <span className="label">Brand</span>
-              <select name="brand" defaultValue={filters.brand ?? ''}>
-                <option value="">All brands</option>
-                {brands.map((b) => (
-                  <option key={b.id} value={b.slug}>
-                    {b.name}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label>
-              <span className="label">Country</span>
-              <select name="country" defaultValue={filters.country ?? ''}>
-                <option value="">All countries</option>
-                {options.countries.map((c) => (
-                  <option key={c} value={c}>
-                    {c}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label>
-              <span className="label">Scored</span>
-              <select name="scored" defaultValue={filters.scored ?? ''}>
-                <option value="">All hotels</option>
-                <option value="yes">Scored stays only</option>
-              </select>
-            </label>
-            <label>
-              <span className="label">Club lounge</span>
-              <select name="lounge" defaultValue={filters.lounge ?? ''}>
-                <option value="">All hotels</option>
-                <option value="yes">With a club lounge</option>
-              </select>
-            </label>
-            <div className={styles.actions}>
-              <button className="btn" type="submit">
-                Filter
-              </button>
-              <SortMenu value={filters.sort} options={HOTEL_SORTS} />
-              {(active > 0 || filters.sort) && (
-                <Link className="more" href="/hotels">
-                  Clear
-                </Link>
-              )}
-            </div>
-          </form>
-        </div>
-      </section>
-
-      <section className={`section ${styles.results}`}>
-        <div className="wrap">
-          <div className="section-head">
-            <div>
-              <span className="eyebrow on-light">{active ? 'Filtered' : order}</span>
-              <h2>
-                {count(result.totalDocs)} {result.totalDocs === 1 ? 'hotel' : 'hotels'}
-                {active ? ' match' : ''}
-              </h2>
+          <div className="pb-row">
+            <div className="pb-title">
+              <h1>Hotels</h1>
+              <p className="pb-dek">Every hotel indexed across World of Hyatt, Marriott Bonvoy, IHG One Rewards and Hilton Honors.</p>
             </div>
           </div>
-          {result.docs.length > 0 ? (
-            <HotelList hotels={result.docs} grid snapshots={snapshots} pool={pool} />
-          ) : (
-            <p className={styles.empty}>{pool ? noRankText(pool) : 'No hotels match those filters.'}</p>
-          )}
-          <Pager page={result.page ?? 1} totalPages={result.totalPages} totalDocs={result.totalDocs} perPage={HOTELS_PER_PAGE} href={href} />
+          <nav className="tabs" aria-label="Programs">
+            <Link className={!filters.program ? 'on' : undefined} aria-current={!filters.program ? 'page' : undefined} href={tabHref(undefined)}>
+              All<span>{count(tabs.all)}</span>
+            </Link>
+            {tabs.programs.map((t) => {
+              const on = filters.program === t.slug
+              return (
+                <Link key={t.slug} className={on ? 'on' : undefined} aria-current={on ? 'page' : undefined} href={tabHref(t.slug)}>
+                  {t.name}
+                  <span>{count(t.n)}</span>
+                </Link>
+              )
+            })}
+          </nav>
         </div>
       </section>
+
+      <main className="wrap main">
+        <form className="filter-bar hf" id={FORM_ID} role="search" aria-label="Filter hotels" method="get" action="/hotels">
+          <div className="field grow">
+            <label className="label" htmlFor="hotels-q">
+              Search
+            </label>
+            <input key={filters.q ?? ''} className="input" id="hotels-q" type="search" name="q" defaultValue={filters.q ?? ''} placeholder="Hotel name" />
+          </div>
+          {filters.program && <input type="hidden" name="program" value={filters.program} />}
+          <details className="hf-more" open={folded || undefined}>
+            <summary>
+              <span className="hf-sum">Filters</span>
+              <span className="hf-sum-sub">{foldSummary || 'Region, brand, segment'}</span>
+            </summary>
+            <div className="hf-fields">
+              <div className="field">
+                <label className="label" htmlFor="hotels-where">
+                  Region or country
+                </label>
+                <select key={whereValue} className="select" id="hotels-where" name="where" defaultValue={whereValue}>
+                  <option value="">Anywhere</option>
+                  <optgroup label="Regions">
+                    {extras.regions.map((r) => (
+                      <option key={r.slug} value={`region:${r.slug}`}>
+                        {r.name}
+                      </option>
+                    ))}
+                  </optgroup>
+                  <optgroup label="Countries">
+                    {options.countries.map((c) => (
+                      <option key={c} value={`country:${c}`}>
+                        {c}
+                      </option>
+                    ))}
+                  </optgroup>
+                </select>
+              </div>
+              <div className="field">
+                <label className="label" htmlFor="hotels-brand">
+                  Brand
+                </label>
+                <select key={filters.brand ?? ''} className="select" id="hotels-brand" name="brand" defaultValue={filters.brand ?? ''}>
+                  <option value="">All brands</option>
+                  {brands.map((b) => (
+                    <option key={b.id} value={b.slug}>
+                      {b.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="field">
+                <label className="label" htmlFor="hotels-segment">
+                  Segment
+                </label>
+                <select key={filters.segment ?? ''} className="select" id="hotels-segment" name="segment" defaultValue={filters.segment ?? ''}>
+                  <option value="">All segments</option>
+                  {extras.segments.map((s) => (
+                    <option key={s.value} value={s.value}>
+                      {s.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <fieldset className="field hf-only">
+                <legend className="label">Show only</legend>
+                <div className="choices">
+                  <label className="choice">
+                    <input key={`s${filters.scored ?? ''}`} type="checkbox" name="scored" value="yes" defaultChecked={filters.scored === 'yes'} />
+                    Reviewed hotels
+                  </label>
+                  <label className="choice">
+                    <input key={`l${filters.lounge ?? ''}`} type="checkbox" name="lounge" value="yes" defaultChecked={filters.lounge === 'yes'} />
+                    With a club lounge
+                  </label>
+                </div>
+              </fieldset>
+            </div>
+          </details>
+          <div className="fb-actions">
+            <button className="btn" type="submit">
+              Filter
+            </button>
+            {active && (
+              <Link className="link" href="/hotels">
+                Clear
+              </Link>
+            )}
+          </div>
+        </form>
+
+        <div className="grid-side">
+          <div>
+            <div className={`results-line ${styles.results}`}>
+              <p>
+                <b>{count(total)}</b> {total === 1 ? 'hotel' : 'hotels'}
+              </p>
+              <SortSelect form={FORM_ID} options={HOTEL_SORTS} value={filters.sort ?? ''} />
+            </div>
+            {result.docs.length > 0 ? (
+              <>
+                <HotelTable hotels={result.docs} extras={rows} caption="Hotels" columns={{ brand: true, place: true, program: true, segment: true }} />
+                <HotelTableNote pool={pool} />
+              </>
+            ) : (
+              <p className={`empty ${styles.empty}`}>
+                {pool ? noRankText(pool) : 'No hotels match those filters.'}{' '}
+                {active && <Link href="/hotels">See every hotel</Link>}
+              </p>
+            )}
+            <PageNumbers page={page} totalPages={result.totalPages} href={(p) => with_({}, p)} count={total > 0 ? `${count(from)}–${count(to)} of ${count(total)}` : undefined} />
+          </div>
+
+          <BrowseSide>
+            <SideCounts
+              id="by-region"
+              title="By region"
+              aside="Hotels"
+              rows={side.regions.map((r) => ({ href: `/hotels?${filters.program ? `program=${encodeURIComponent(filters.program)}&` : ''}region=${encodeURIComponent(r.slug)}`, name: r.name, n: count(r.n), on: filters.region === r.slug }))}
+            />
+            <SideCounts id="top-cities" title="Cities with the most hotels" aside="Hotels" rows={side.cities.map((c) => ({ href: `/destinations/${c.slug}${programQuery}`, name: c.name, sub: c.country, n: count(c.n) }))} />
+            <StayBox id="stay-h" title="Stayed somewhere on status?" />
+          </BrowseSide>
+        </div>
+      </main>
     </>
   )
 }

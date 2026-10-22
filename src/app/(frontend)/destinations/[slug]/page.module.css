@@ -1,0 +1,7 @@
+/* Destination page (mockup: destination.html, page rules from css/browse.css). The hotel table
+   and the side column have their own modules; the rest is the kit. */
+
+/* The place's overview, when the admin has one, above its hotels */
+.overview {
+  margin-bottom: 28px;
+}

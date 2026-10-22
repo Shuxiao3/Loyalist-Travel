@@ -1,20 +1,19 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { Fragment, type ReactNode } from 'react'
 
-import { Band } from '@/components/Band'
-import { Comments } from '@/components/Comments'
-import { MobileToc } from '@/components/MobileToc'
+import { PlainComments } from '@/components/PlainComments'
 import { ReadingProgress } from '@/components/ReadingProgress'
 import { RichText } from '@/components/RichText'
-import { monthYear, rel, score, shortDate } from '@/lib/format'
+import { monthYear, rel, score, shortDate, shortMonthYear } from '@/lib/format'
 import { reviewPhoto } from '@/lib/photos'
 import { getReview, getReviews, topTierOf } from '@/lib/queries'
-import { bandFor, categoriesFor, labelFor, REVIEW_SECTIONS, sectionTotal } from '@/lib/rubric'
-import { PROPERTY_TYPE_LABEL, RATE_BASIS_LABEL, SITE } from '@/lib/site'
-import type { Brand, Destination, Hotel, Program, Review, RubricVersion, StatusLevel } from '@/payload-types'
-
+import { reviewRowFacts } from '@/lib/reviewsIndex'
+import { bandFor, categoriesFor, REVIEW_SECTIONS, sectionTotal } from '@/lib/rubric'
 import { getSeo, metaText, pageMeta } from '@/lib/seo'
+import { PROPERTY_TYPE_LABEL, RATE_BASIS_LABEL, SITE } from '@/lib/site'
+import type { Brand, Destination, Hotel, Program, RubricVersion, StatusLevel } from '@/payload-types'
 
 import styles from './page.module.css'
 
@@ -39,6 +38,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   })
 }
 
+// One review (mockup: review.html), where the review lives in full. The band carries the title,
+// the verdict, the facts and the score with its six categories; the main column the stay, the
+// scorecard, the photo, the narrative category by category, the verdict with value and book it
+// if / skip it if, and comments; the side column the hotel, more reviews and the page's sections.
+
 const ELITE: { key: 'upgrade' | 'breakfast' | 'lateCheckout' | 'welcomeAmenity' | 'clubLounge' | 'guestOfHonor'; label: string; outcomes: Record<string, string> }[] = [
   { key: 'upgrade', label: 'Suite upgrade', outcomes: { none: 'None', 'room-category': 'Room category', suite: 'Suite', 'used-award': 'Used award' } },
   { key: 'breakfast', label: 'Breakfast', outcomes: { full: 'Full', capped: 'Capped', 'restaurant-credit': 'Restaurant credit', none: 'None' } },
@@ -47,6 +51,28 @@ const ELITE: { key: 'upgrade' | 'breakfast' | 'lateCheckout' | 'welcomeAmenity' 
   { key: 'clubLounge', label: 'Club lounge', outcomes: { 'none-at-property': 'None at this property', access: 'Access', 'access-with-restrictions': 'Access with restrictions' } },
   { key: 'guestOfHonor', label: 'Guest of Honor', outcomes: { 'not-tested': 'Not tested', honoured: 'Honoured', refused: 'Refused' } },
 ]
+
+const WOULD_STAY: Record<string, string> = { yes: 'Yes', maybe: 'Maybe', no: 'No' }
+const capital = (s?: string | null) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : null)
+
+// "hyatt.com" from a booking address, for "Book direct at hyatt.com"
+function siteName(url?: string | null): string | null {
+  try {
+    return url ? new URL(url).hostname.replace(/^www\./, '') : null
+  } catch {
+    return null
+  }
+}
+
+// Items joined by middle dots, as the band's meta lines run. The dot keeps to the item before
+// it, so a wrapped line never starts with one.
+const dotted = (items: ReactNode[]) =>
+  items.map((item, i) => (
+    <Fragment key={i}>
+      {i > 0 && '\u00a0· '}
+      {item}
+    </Fragment>
+  ))
 
 export default async function ReviewPage({ params }: Props) {
   const { slug } = await params
@@ -64,369 +90,397 @@ export default async function ReviewPage({ params }: Props) {
   const band = bandFor(review.totals?.overall, 100)
   const image = reviewPhoto(review, hotel)
   const related = (await getReviews({ limit: 3, excludeId: review.id })).docs
+  const relatedFacts = await reviewRowFacts(related)
+  const overall = score(review.totals?.overall)
+  const booking = siteName(hotel?.bookingLink)
 
   const elite = ELITE.map((e) => ({ ...e, value: review[e.key] })).filter((e) => e.value?.outcome || e.value?.note)
   const pros = review.pros ?? []
   const cons = review.cons ?? []
   const sections = REVIEW_SECTIONS.map((s) => ({
     ...s,
-    keys: s.keys.filter((k) => review.narrative?.[k] || review.scores?.[k] != null),
-  })).filter((s) => s.keys.length > 0)
+    total: sectionTotal(review, categories, s.keys),
+    // sub-scores with a note, in the rubric's order
+    written: s.keys.filter((k) => review.narrative?.[k]),
+    // sub-scores scored without a note
+    silent: s.keys.filter((k) => !review.narrative?.[k] && review.scores?.[k] != null),
+  })).filter((s) => s.written.length > 0 || s.silent.length > 0)
+  const cat = (k: (typeof REVIEW_SECTIONS)[number]['keys'][number]) => categories.find((c) => c.key === k)
 
-  const facts: { label: string; value: string | null | undefined; gold?: boolean }[] = [
+  const facts: { label: string; value: string | null | undefined }[] = [
     { label: 'Room booked', value: review.roomBooked },
-    { label: 'Room received', value: review.roomReceived, gold: Boolean(review.roomReceived && review.roomReceived !== review.roomBooked) },
+    { label: 'Room received', value: review.roomReceived },
     { label: 'Status held', value: statusHeld?.name },
     { label: 'Nights', value: review.nights ? String(review.nights) : null },
     { label: 'Rate basis', value: review.rateBasis ? RATE_BASIS_LABEL[review.rateBasis] : null },
-    {
-      label: 'Property',
-      value: [typeLabel, hotel?.numberOfRooms ? `${hotel.numberOfRooms} keys` : null, hotel?.openingYear ? `opened ${hotel.openingYear}` : null].filter(Boolean).join(', '),
-    },
-    { label: 'Stayed', value: monthYear(review.stayDate) },
+    { label: 'Property', value: capital([hotel?.numberOfRooms ? `${hotel.numberOfRooms} keys` : null, hotel?.openingYear ? `opened ${hotel.openingYear}` : null].filter(Boolean).join(', ')) },
     { label: 'Club lounge', value: review.clubLounge?.outcome ? ELITE[4].outcomes[review.clubLounge.outcome] : null },
   ].filter((f) => f.value)
 
+  const value = [
+    { label: 'Would stay again', value: review.wouldStayAgain ? WOULD_STAY[review.wouldStayAgain] : null },
+    { label: 'Value for cash', value: capital(review.valueForCash) },
+    { label: 'Value for points', value: capital(review.valueForPoints) },
+  ].filter((v) => v.value)
+  const ifs = [
+    { title: 'Book it if', data: review.bookItIf },
+    { title: 'Skip it if', data: review.skipItIf },
+  ].filter((x) => x.data)
+
+  const what = [
+    typeLabel,
+    brand ? <Link href={`/brands/${brand.slug}`}>{brand.name}</Link> : null,
+    program ? <Link href={`/programs/${program.slug}`}>{program.name}</Link> : null,
+    destination ? <Link href={`/destinations/${destination.slug}`}>{destination.locationLabel?.trim() || destination.name}</Link> : null,
+    hotel ? (
+      <Link className="link" href={`/hotels/${hotel.slug}`}>
+        Hotel page
+      </Link>
+    ) : null,
+  ].filter(Boolean)
+  const stayed = monthYear(review.stayDate)
+  const published = shortDate(review.publishedDate)
+  // shown when the review was checked again after it was published
+  const verified = review.lastVerifiedDate && (!review.publishedDate || review.lastVerifiedDate.slice(0, 10) > review.publishedDate.slice(0, 10)) ? shortDate(review.lastVerifiedDate) : null
+  const byline = [
+    <>
+      By <b>{SITE.author}</b>
+    </>,
+    stayed ? `Stayed ${stayed}` : null,
+    published ? `Published ${published}` : null,
+    verified ? `Last verified ${verified}` : null,
+    review.readTime ? `${review.readTime} min read` : null,
+  ].filter(Boolean)
+
+  const toc = [
+    ...sections.map((s) => ({ href: `#s-${s.id}`, label: s.title })),
+    ...(elite.length > 0 ? [{ href: '#elite', label: 'Elite recognition' }] : []),
+    { href: '#s-verdict', label: 'The verdict' },
+    { href: '#comments', label: 'Comments' },
+  ]
+
   return (
     <>
-      <header className={`hero ${styles.hero}`}>
+      <section className="band page-band">
         <div className="wrap">
-          <ol className="crumbs" aria-label="Breadcrumb">
-            <li>
-              <Link href="/reviews">Reviews</Link>
-            </li>
+          <nav className="crumbs" aria-label="Breadcrumb">
+            <Link href="/reviews">Reviews</Link>
             {program && (
               <>
-                <li aria-hidden="true">/</li>
-                <li>
-                  <Link href={`/programs/${program.slug}`}>{program.name}</Link>
-                </li>
+                <span className="sep">/</span>
+                <Link href={`/programs/${program.slug}`}>{program.name}</Link>
               </>
             )}
             {destination && (
               <>
-                <li aria-hidden="true">/</li>
-                <li>
-                  <Link href={`/destinations/${destination.slug}`}>{destination.name}</Link>
-                </li>
+                <span className="sep">/</span>
+                <Link href={`/destinations/${destination.slug}`}>{destination.name}</Link>
               </>
             )}
-          </ol>
-
-          <div className={styles.heroGrid}>
-            <div>
-              <span className="eyebrow">Scored stay</span>
-              <h1 className={styles.h1}>{review.title}</h1>
-              {review.shortVerdict && <p className={`sub ${styles.sub}`}>{review.shortVerdict}</p>}
-              <div className="chips">
-                <span className="chip solid">{typeLabel}</span>
-                {program && (
-                  <Link className="chip" href={`/programs/${program.slug}`}>
-                    {program.name}
-                  </Link>
-                )}
-                {brand && (
-                  <Link className="chip" href={`/brands/${brand.slug}`}>
-                    {brand.name}
-                  </Link>
-                )}
-              </div>
+            <span className="sep">/</span>
+            <span aria-current="page">{review.title}</span>
+          </nav>
+          <div className={`pb-row ${styles.hero}`}>
+            <div className="pb-title">
+              <h1>{review.title}</h1>
+              {review.shortVerdict && <p className={styles.verdict}>{review.shortVerdict}</p>}
+              {what.length > 0 && <p className={`pb-meta ${styles.what}`}>{dotted(what)}</p>}
+              <p className="pb-meta">{dotted(byline)}</p>
             </div>
-
-            <div className={styles.scorePanel} aria-label={`Loyalist Travel score ${score(review.totals?.overall)} of 100`}>
-              <div className={styles.scoreTop}>
-                <div>
-                  <span className={`label ${styles.scoreLabel}`}>
-                    <span className={styles.long}>Loyalist Travel </span>Score
-                  </span>
-                  <div className={styles.scoreBig}>{score(review.totals?.overall)}</div>
-                  {band && <div className={styles.band}>{band}</div>}
-                </div>
-                <div className={styles.scoreSplit}>
-                  {REVIEW_SECTIONS.map((s) => {
-                    const t = sectionTotal(review, categories, s.keys)
-                    return (
-                      <a href={`#s-${s.id}`} key={s.id}>
-                        <span className={`label ${styles.scoreLabel}`}>{s.title}</span>
-                        <div className={styles.scoreMid}>
+            <div className={styles.scores}>
+              <div className={styles.total} role="group" aria-label={`Loyalist Travel score ${overall} out of 100`}>
+                <p className="fig-n">
+                  {overall}
+                  <small>/100</small>
+                </p>
+                {band && <p className="fig-l">{band}</p>}
+                <p className="fig-s">{version?.name ?? 'Rubric v16'}</p>
+              </div>
+              <ul className={styles.cats} aria-label="Category scores">
+                {REVIEW_SECTIONS.map((s) => {
+                  const t = sectionTotal(review, categories, s.keys)
+                  return (
+                    <li key={s.id}>
+                      <a href={`#s-${s.id}`}>
+                        <span>{s.title}</span>
+                        <b>
                           {score(t.got)}
                           <small>/{t.max}</small>
-                        </div>
+                        </b>
                       </a>
-                    )
-                  })}
-                </div>
-              </div>
-              <div className={styles.scoreNote}>Out of 100. Six categories, every sub-score out of 5. {version?.name ?? 'Rubric v16'}.</div>
+                    </li>
+                  )
+                })}
+              </ul>
             </div>
           </div>
-
-          <div className="byline">
-            <span className="grp">
-              <span className="author">{SITE.author}</span>
-              {review.stayDate && (
-                <>
-                  <span className="dot">·</span>
-                  <span>Stayed {monthYear(review.stayDate)}</span>
-                </>
-              )}
-              {review.publishedDate && (
-                <>
-                  <span className={`dot ${styles.pub}`}>·</span>
-                  <span className={styles.pub}>Published {shortDate(review.publishedDate)}</span>
-                </>
-              )}
-            </span>
-            <span className="grp">
-              {review.lastVerifiedDate && <span className="verified">Last verified {shortDate(review.lastVerifiedDate)}</span>}
-              {review.readTime && (
-                <>
-                  <span className="dot">·</span>
-                  <span>{review.readTime} min read</span>
-                </>
-              )}
-            </span>
-          </div>
-        </div>
-      </header>
-
-      <div className="hero-img" role="img" aria-label={review.title} style={image ? { backgroundImage: `url(${image}), var(--img-a)` } : undefined} />
-
-      {facts.length > 0 && (
-        <section className={`section ${styles.facts}`} aria-labelledby="facts-h">
-          <div className="wrap">
-            <span className="eyebrow on-light" id="facts-h">
-              The stay
-            </span>
-            <div className="grid-cells">
-              {facts.map((f) => (
-                <div className="cell" key={f.label}>
-                  <span className="label">{f.label}</span>
-                  <span className={f.gold ? 'val gold' : 'val'}>{f.value}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      <section className={`section ${styles.scorecard}`} aria-labelledby="sc-h">
-        <div className="wrap">
-          <span className="eyebrow on-light" id="sc-h">
-            Scorecard
-          </span>
-          <div className={styles.scCard}>
-            {REVIEW_SECTIONS.map((s) => {
-              const t = sectionTotal(review, categories, s.keys)
-              return (
-                <div className={styles.scCol} key={s.id}>
-                  <div className={styles.scHead}>
-                    <h2>
-                      <a href={`#s-${s.id}`}>{s.title}</a>
-                    </h2>
-                    <span className={styles.scSum}>
-                      {score(t.got)}
-                      <small>/{t.max}</small>
-                    </span>
-                  </div>
-                  <ul className={styles.scRows}>
-                    {s.keys.map((k) => {
-                      const c = categories.find((x) => x.key === k)!
-                      const value = review.scores?.[k]
-                      return (
-                        <li key={k} style={{ '--max': c.max, '--val': value ?? 0 } as React.CSSProperties}>
-                          <span>{c.label}</span>
-                          <span className={styles.bar}>
-                            <i />
-                          </span>
-                          <span className={styles.scPts}>
-                            {score(value)}
-                            <small>/{c.max}</small>
-                          </span>
-                        </li>
-                      )
-                    })}
-                  </ul>
-                </div>
-              )
-            })}
-          </div>
-          <p className={styles.scLegend}>Six categories, every sub-score out of 5, 100 points in all. Value and elite recognition are reported below and never scored.</p>
         </div>
       </section>
 
-      <ReadingProgress />
-      <main className={styles.body}>
-        <div className={`wrap ${styles.bodyWrap}`}>
-          <article className={styles.main}>
-            <MobileToc items={[...sections.map((s) => ({ href: `#s-${s.id}`, label: s.title })), ...(elite.length > 0 ? [{ href: '#elite-h', label: 'Elite recognition' }] : []), { href: '#s-verdict', label: 'The Verdict' }]} />
-            {review.openingThoughts && <RichText data={review.openingThoughts} />}
+      <ReadingProgress target="main" />
+      <main className="wrap main">
+        <div className={`grid-side ${styles.layout}`}>
+          <article className={styles.article}>
+            {facts.length > 0 && (
+              <section className={`mod ${styles.stay}`} aria-labelledby="h-stay">
+                <div className="mod-head">
+                  <h2 id="h-stay">The stay</h2>
+                </div>
+                <dl className={`kv ${styles.kv}`}>
+                  {facts.map((f) => (
+                    <div key={f.label}>
+                      <dt>{f.label}</dt>
+                      <dd>{f.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </section>
+            )}
 
-            {sections.map((s) => (
-              <section key={s.id} className={styles.section}>
-                <h2 id={`s-${s.id}`}>
-                  {s.title}
-                  <span className={styles.h2Score}>
-                    {score(sectionTotal(review, categories, s.keys).got)}
-                    <small>/{s.max}</small>
-                  </span>
-                </h2>
-                {s.keys.map((k) => (
-                  <div className={styles.cat} key={k}>
-                    <span className="label">
-                      {labelFor(categories, k)}
-                      {review.scores?.[k] != null && (
-                        <b>
-                          {' '}
-                          {score(review.scores[k])}/{categories.find((c) => c.key === k)?.max ?? 5}
-                        </b>
-                      )}
-                    </span>
-                    <RichText data={review.narrative?.[k]} />
+            <section className="mod" aria-labelledby="h-card">
+              <div className="mod-head">
+                <h2 id="h-card">Scorecard</h2>
+              </div>
+              <div className={styles.scGrid}>
+                {REVIEW_SECTIONS.map((s) => (
+                  <div className={styles.sc} key={s.id}>
+                    <h3>
+                      <a href={`#s-${s.id}`}>{s.title}</a>
+                    </h3>
+                    <ul className="bars">
+                      {s.keys.map((k) => {
+                        const c = cat(k)
+                        const v = review.scores?.[k]
+                        const max = c?.max ?? 5
+                        return (
+                          <li key={k}>
+                            <span>{c?.label ?? k}</span>
+                            <span className="bar">
+                              <i style={{ width: `${v != null ? Math.max(0, Math.min(100, (v / max) * 100)) : 0}%` }} />
+                            </span>
+                            <span className="v">
+                              {score(v)}
+                              <small>/{max}</small>
+                            </span>
+                          </li>
+                        )
+                      })}
+                    </ul>
                   </div>
                 ))}
+              </div>
+              <p className="mod-note">Six categories, every sub-score out of 5, 100 points in all. Value is reported with the verdict and never scored.</p>
+            </section>
+
+            {image && (
+              <div className={`img-box ${styles.photo}`}>
+                <img src={image} alt={hotel?.name ?? review.title} />
+              </div>
+            )}
+
+            {review.openingThoughts && <RichText data={review.openingThoughts} className={`${styles.open} ${styles.indent}`} />}
+
+            {sections.map((s) => (
+              <section key={s.id} className={styles.sec} id={`s-${s.id}`} aria-labelledby={`h-${s.id}`}>
+                <div className="mod-head">
+                  <h2 id={`h-${s.id}`}>{s.title}</h2>
+                  <span className={styles.secscore}>
+                    {score(s.total.got)}
+                    <small>/{s.total.max}</small>
+                  </span>
+                </div>
+                {s.written.map((k) => {
+                  const c = cat(k)
+                  const v = review.scores?.[k]
+                  return (
+                    <div className={styles.item} key={k}>
+                      <h3 className={styles.sub}>
+                        <span>{c?.label ?? k}</span>
+                        {v != null && (
+                          <span className={styles.subS}>
+                            {score(v)}
+                            <small>/{c?.max ?? 5}</small>
+                          </span>
+                        )}
+                      </h3>
+                      <RichText data={review.narrative?.[k]} />
+                    </div>
+                  )
+                })}
+                {s.silent.length > 0 && (
+                  <p className={`${styles.silent} ${styles.indent}`}>
+                    Scored without a note: {s.silent.map((k) => `${cat(k)?.label ?? k} ${score(review.scores?.[k])}/${cat(k)?.max ?? 5}`).join(', ')}.
+                  </p>
+                )}
                 {s.id === 'service' && elite.length > 0 && (
-                  <section className="panel" aria-labelledby="elite-h">
-                    <span className="eyebrow" id="elite-h">
-                      Elite recognition{statusHeld ? `, stayed as ${statusHeld.shortName ?? statusHeld.name}` : ''}
-                    </span>
-                    <div className={styles.eliteGrid}>
+                  <div className={`${styles.elite} ${styles.indent}`} id="elite">
+                    <div className="mod-head thin">
+                      <h3>Elite recognition{statusHeld ? `, stayed as ${statusHeld.shortName ?? statusHeld.name}` : ''}</h3>
+                    </div>
+                    <dl className="kv">
                       {elite.map((e) => (
                         <div key={e.key}>
-                          <span className="label">{e.label}</span>
-                          <span className={styles.eliteVal}>
+                          <dt>{e.label}</dt>
+                          <dd>
                             {e.value?.outcome ? e.outcomes[e.value.outcome] : null}
                             {e.value?.outcome && e.value?.note ? '. ' : ''}
                             {e.value?.note}
-                          </span>
+                          </dd>
                         </div>
                       ))}
-                    </div>
-                    <div className="panel-foot">Reported as it happened. Not scored.</div>
-                  </section>
+                    </dl>
+                    <p className="note">Reported as it happened. Not scored.</p>
+                  </div>
                 )}
               </section>
             ))}
 
-            {(pros.length > 0 || cons.length > 0) && (
-              <div className={styles.pc}>
-                {pros.length > 0 && (
-                  <div>
-                    <h3>What Worked</h3>
-                    <ul>
-                      {pros.map((p) => (
-                        <li key={p.id ?? p.text}>{p.text}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-                {cons.length > 0 && (
-                  <div>
-                    <h3>What Fell Short</h3>
-                    <ul>
-                      {cons.map((c) => (
-                        <li key={c.id ?? c.text}>{c.text}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
+            <section className={styles.sec} id="s-verdict" aria-labelledby="h-verdict">
+              <div className="mod-head">
+                <h2 id="h-verdict">The verdict</h2>
               </div>
-            )}
-
-            <section className={styles.section}>
-              <h2 id="s-verdict">The Verdict</h2>
-              {review.finalVerdict && <RichText data={review.finalVerdict} />}
-              <div className={styles.verdictBand}>
-                <div className={styles.bigWrap}>
-                  <div className={styles.big}>{score(review.totals?.overall)}</div>
-                  {band && <div className={styles.bigBand}>{band}</div>}
+              {review.finalVerdict && <RichText data={review.finalVerdict} className={styles.indent} />}
+              {(pros.length > 0 || cons.length > 0) && (
+                <div className={`${styles.pc} ${styles.indent}`}>
+                  {pros.length > 0 && (
+                    <div>
+                      <h3>What worked</h3>
+                      <ul className="bullets">
+                        {pros.map((p) => (
+                          <li key={p.id ?? p.text}>{p.text}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  {cons.length > 0 && (
+                    <div>
+                      <h3>What fell short</h3>
+                      <ul className="bullets">
+                        {cons.map((c) => (
+                          <li key={c.id ?? c.text}>{c.text}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                 </div>
-                <div className={styles.rule} />
-                <div>
-                  {review.shortVerdict && <div className={styles.say}>{review.shortVerdict}</div>}
-                  <div className={styles.small}>
-                    {[
-                      review.wouldStayAgain ? `Would stay again: ${{ yes: 'yes', maybe: 'maybe', no: 'no' }[review.wouldStayAgain]}` : null,
-                      review.valueForCash ? `Value for cash: ${review.valueForCash}` : null,
-                      review.valueForPoints ? `Value for points: ${review.valueForPoints}` : null,
-                    ]
-                      .filter(Boolean)
-                      .join(' · ')}
-                    {review.valueNotes ? ` ${review.valueNotes}` : ''}
-                  </div>
-                </div>
-              </div>
-              {(review.bookItIf || review.skipItIf) && (
-                <div className={`grid-cells two ${styles.bookit}`}>
-                  <div className="cell">
-                    <span className="label">Book it if</span>
-                    <RichText data={review.bookItIf} className={styles.cellProse} />
-                  </div>
-                  <div className="cell">
-                    <span className="label">Skip it if</span>
-                    <RichText data={review.skipItIf} className={styles.cellProse} />
-                  </div>
+              )}
+              {(value.length > 0 || review.valueNotes || ifs.length > 0) && (
+                <div className={`box ${styles.final}`}>
+                  {value.length > 0 && (
+                    <dl className={styles.value}>
+                      {value.map((v) => (
+                        <div key={v.label}>
+                          <dt>{v.label}</dt>
+                          <dd>{v.value}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  )}
+                  {review.valueNotes && <p className={styles.valueNote}>{review.valueNotes}</p>}
+                  {ifs.length > 0 && (
+                    <div className={`${styles.ifs}${ifs.length === 1 ? ` ${styles.one}` : ''}`}>
+                      {ifs.map((x) => (
+                        <div key={x.title}>
+                          <h3>{x.title}</h3>
+                          <RichText data={x.data} className={styles.ifsText} />
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
             </section>
+
+            <PlainComments kind="reviews" id={review.id} className={styles.sec} />
           </article>
 
           <aside className={styles.side}>
-            <div className={`${styles.sideCard} ${styles.tocCard}`}>
-              <span className="eyebrow on-light">On this page</span>
-              <ul className={styles.toc}>
-                {sections.map((s) => (
-                  <li key={s.id}>
-                    <a href={`#s-${s.id}`}>{s.title}</a>
-                  </li>
-                ))}
-                {elite.length > 0 && (
-                  <li>
-                    <a href="#elite-h">Elite recognition</a>
-                  </li>
-                )}
-                <li>
-                  <a href="#s-verdict">The Verdict</a>
-                </li>
-              </ul>
-            </div>
-
             {hotel && (
-              <div className={styles.sideCta}>
-                <h3>{hotel.name}</h3>
-                <p>
-                  {[brand?.name, destination?.locationLabel ?? destination?.name].filter(Boolean).join(' · ')}
-                  {hotel.checkInTime ? `. Check-in ${hotel.checkInTime}` : ''}
-                  {hotel.checkOutTime ? `, checkout ${hotel.checkOutTime}.` : ''}
+              <section className={`box ${styles.hotel}`} aria-labelledby="h-hotel">
+                <h2 id="h-hotel">{hotel.name}</h2>
+                {(hotel.streetAddress || hotel.checkInTime || hotel.checkOutTime) && (
+                  <dl className="kv">
+                    {hotel.streetAddress && (
+                      <div>
+                        <dt>Address</dt>
+                        <dd>{hotel.streetAddress}</dd>
+                      </div>
+                    )}
+                    {hotel.checkInTime && (
+                      <div>
+                        <dt>Check-in</dt>
+                        <dd>{hotel.checkInTime}</dd>
+                      </div>
+                    )}
+                    {hotel.checkOutTime && (
+                      <div>
+                        <dt>Checkout</dt>
+                        <dd>{hotel.checkOutTime}</dd>
+                      </div>
+                    )}
+                  </dl>
+                )}
+                <p className={`text-actions ${styles.hotelAct}`}>
+                  <Link className="btn" href={`/hotels/${hotel.slug}`}>
+                    Go to the hotel
+                  </Link>
+                  {hotel.bookingLink && booking && (
+                    <a className="link" href={hotel.bookingLink} rel="noopener" target="_blank">
+                      Book direct at {booking}
+                    </a>
+                  )}
                 </p>
-                <Link className="btn" href={`/hotels/${hotel.slug}`}>
-                  The hotel
-                </Link>
-              </div>
+              </section>
             )}
 
             {related.length > 0 && (
-              <div className={styles.related}>
-                <span className="eyebrow on-light">More scored stays</span>
-                <ul>
-                  {related.map((r: Review) => (
-                    <li key={r.id}>
-                      <span className="label">
-                        {score(r.totals?.overall)} of 100 · {monthYear(r.stayDate)}
-                      </span>
-                      <Link href={`/reviews/${r.slug}`}>{r.title}</Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <section className={`mod ${styles.more}`} aria-labelledby="h-more">
+                <div className="mod-head">
+                  <h2 id="h-more">More reviews</h2>
+                  <Link href="/reviews">All reviews</Link>
+                </div>
+                <ol className="rev-list">
+                  {related.map((r) => {
+                    const href = `/reviews/${r.slug}`
+                    const s = score(r.totals?.overall)
+                    const f = relatedFacts.get(r.id)
+                    const when = shortMonthYear(r.stayDate)
+                    const meta = [f?.city, f?.program, when ? `Stayed ${when}` : null].filter(Boolean).join(' · ')
+                    return (
+                      <li key={r.id}>
+                        <Link className="score" href={href} aria-label={`Score ${s} out of 100`}>
+                          <b>{s}</b>
+                          <span>of 100</span>
+                        </Link>
+                        <div>
+                          <h3>
+                            <Link href={href}>{r.title}</Link>
+                          </h3>
+                          {meta && <p className="meta">{meta}</p>}
+                          {r.shortVerdict && <p className="verdict">{r.shortVerdict}</p>}
+                        </div>
+                      </li>
+                    )
+                  })}
+                </ol>
+              </section>
             )}
+
+            <nav className={`mod toc ${styles.toc}`} aria-labelledby="h-toc">
+              <div className="mod-head thin">
+                <h2 id="h-toc">On this page</h2>
+              </div>
+              <ol>
+                {toc.map((t) => (
+                  <li key={t.href}>
+                    <a href={t.href}>{t.label}</a>
+                  </li>
+                ))}
+              </ol>
+            </nav>
           </aside>
         </div>
       </main>
-
-      <Comments kind="reviews" id={review.id} />
-
-      <Band eyebrow="Every hotel, one place" title="The hotel index" text="Every property across four programs, with brand and place. Filter by program, brand, country, or scored stays only." cta="Browse hotels" href="/hotels" />
     </>
   )
 }

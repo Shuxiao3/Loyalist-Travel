@@ -1,29 +1,33 @@
 import type { Metadata, Viewport } from 'next'
-import { Lato, Playfair_Display } from 'next/font/google'
+import { Newsreader, Source_Sans_3 } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import React from 'react'
 
+// The old stylesheets sit in the "legacy" cascade layer until every page is converted; the
+// kit (src/styles/kit.css) and the pages' CSS modules always win over them.
 import '@/styles/tokens.css'
 import '@/styles/globals.css'
 import '@/styles/patterns.css'
+import '@/styles/kit.css'
 
 import { SiteFooter } from '@/components/SiteFooter'
 import { DEFAULT_DESCRIPTION, DEFAULT_TITLE, getSeo, SITE_URL } from '@/lib/seo'
 import { SiteHeader } from '@/components/SiteHeader'
 
-// Google Fonts, self-hosted via next/font. The variables feed --serif and
-// --sans in src/styles/tokens.css.
-const playfair = Playfair_Display({
+// Google Fonts, self-hosted via next/font. The variables feed --serif and --sans in
+// src/styles/kit.css: Newsreader for headlines, Source Sans 3 for everything else.
+const newsreader = Newsreader({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-playfair',
+  weight: ['500', '600'],
+  variable: '--font-newsreader',
   display: 'swap',
 })
 
-const lato = Lato({
+const sourceSans = Source_Sans_3({
   subsets: ['latin'],
-  weight: ['300', '400', '700'],
-  variable: '--font-lato',
+  weight: ['400', '600', '700'],
+  style: ['normal', 'italic'],
+  variable: '--font-source-sans',
   display: 'swap',
 })
 
@@ -55,12 +59,12 @@ export async function generateMetadata(): Promise<Metadata> {
 // The palette is fixed in both colour schemes; never invert for dark mode.
 export const viewport: Viewport = {
   colorScheme: 'light',
-  themeColor: '#0d1b2a',
+  themeColor: '#12203a',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${playfair.variable} ${lato.variable}`}>
+    <html lang="en" className={`${newsreader.variable} ${sourceSans.variable}`}>
       <body>
         <SiteHeader />
         {children}

@@ -1,78 +1,99 @@
-import type { HotelReaderData } from '@/lib/readerData'
-import { MIN_STAYS } from '@/lib/readerData'
+import { type HotelReaderData, MIN_STAYS } from '@/lib/readerData'
+import type { ReaderStay } from '@/payload-types'
 
-import { ConfidenceDot } from './ConfidenceDot'
+import { LatestStays } from './LatestStays'
 import styles from './ReaderPanel.module.css'
 
-const pct = (v: number | null) => (v == null ? '–' : `${v}%`)
+const staysLabel = (n: number) => `${n} ${n === 1 ? 'stay' : 'stays'}`
 
-// The reader-data panel on a hotel page: four rates, then a line per tier.
-export function ReaderPanel({ data, hotelName }: { data: HotelReaderData; hotelName: string }) {
-  if (!data.all) {
-    return (
-      <div className={`panel ${styles.panel}`}>
-        <span className="eyebrow" id="reader-h">
-          Reader data
+function Fig({ value, label, n }: { value: number | null; label: string; n: number }) {
+  return (
+    <div className="fig">
+      <p className="fig-n">{value == null ? '–' : `${value}%`}</p>
+      <p className="fig-l">{label}</p>
+      <p className="fig-s">of {staysLabel(n)}</p>
+    </div>
+  )
+}
+
+function Cell({ value, n, label }: { value: number | null; n: number; label: string }) {
+  return (
+    <td className="r" data-label={label}>
+      {value == null || n === 0 ? (
+        <span className="na" aria-label="No stays">
+          –
         </span>
+      ) : (
+        <span className="v">
+          <span className="pct">{value}%</span> <span className="n">of {n}</span>
+        </span>
+      )}
+    </td>
+  )
+}
+
+// Reader odds on a hotel page: the stays readers added here. Once the hotel has enough of them
+// (MIN_STAYS), three figures, the rates by status, then the latest stays; before that, the
+// latest stays alone with a line on when the odds appear; with none, nothing (the
+// add-your-stay box says how many it takes).
+export function ReaderPanel({ data, latest }: { data: HotelReaderData; latest: ReaderStay[] }) {
+  const a = data.all
+  if (!a) {
+    if (latest.length === 0) return null
+    return (
+      <section className="mod" aria-labelledby="reader-h">
+        <div className="mod-head">
+          <h2 id="reader-h">Reader odds</h2>
+        </div>
         <p className={styles.waiting}>
-          {data.count === 0 ? 'No reader stays yet for ' : `${data.count} reader ${data.count === 1 ? 'stay' : 'stays'} so far for `}
-          {hotelName}. Upgrade odds appear once {MIN_STAYS} stays have been checked.
+          Readers have added {staysLabel(data.count)} here so far. The odds appear once {MIN_STAYS} stays have been checked.
         </p>
-      </div>
+        <LatestStays stays={latest} />
+      </section>
     )
   }
-  const a = data.all
+  const noCert = a.stays - a.certStays
   return (
-    <section className={`panel ${styles.panel}`} aria-labelledby="reader-h">
-      <div className={styles.head}>
-        <span className="eyebrow" id="reader-h">
-          Reader data
-        </span>
-        <ConfidenceDot level={a.confidence} label={`Confidence: ${a.confidence}`} className={styles.badge} />
+    <section className="mod" aria-labelledby="reader-h">
+      <div className="mod-head">
+        <h2 id="reader-h">Reader odds</h2>
+        <span className="aside">Confidence: {a.confidence}</span>
       </div>
-      <div className={styles.figures}>
-        <div>
-          <div className={styles.n}>{pct(a.upgradeRate)}</div>
-          <div className={styles.l}>Got an upgrade</div>
-        </div>
-        <div>
-          <div className={styles.n}>{pct(a.suiteRate)}</div>
-          <div className={styles.l}>Got a suite</div>
-        </div>
-        <div>
-          <div className={styles.n}>{pct(a.suiteNoCertRate)}</div>
-          <div className={styles.l}>Suite without a certificate</div>
-        </div>
+      <div className={`figs figs-sm ${styles.figs}`}>
+        <Fig value={a.upgradeRate} label="Got an upgrade" n={a.stays} />
+        <Fig value={a.suiteRate} label="Got a suite" n={a.stays} />
+        <Fig value={a.suiteNoCertRate} label="Suite without a certificate" n={noCert} />
+        <p className="figs-foot">
+          From {staysLabel(a.stays)} readers added, {a.recent} from this year or last
+          {a.latest ? `, newest ${a.latest}` : ''}
+          {a.certStays > 0 ? `; ${a.certStays} with a suite certificate` : ''}. Recent stays count for more. Checked before counting, never scored.
+        </p>
       </div>
       {data.byTier && data.byTier.length > 0 && (
-        <table className={styles.tiers}>
+        <table className={`table table-stack ${styles.tiers}`}>
           <thead>
             <tr>
-              <th>Status held</th>
-              <th>Stays</th>
-              <th>Upgrade</th>
-              <th>Suite</th>
-              <th>Suite w/o certificate</th>
+              <th>Status</th>
+              <th className="r">Upgrade</th>
+              <th className="r">Suite</th>
+              <th className="r">Suite without a certificate</th>
             </tr>
           </thead>
           <tbody>
             {data.byTier.map(({ tier, data: d }) => (
               <tr key={tier.id}>
-                <td>{tier.shortName ?? tier.name}</td>
-                <td>{d.stays}</td>
-                <td>{pct(d.upgradeRate)}</td>
-                <td>{pct(d.suiteRate)}</td>
-                <td>{pct(d.suiteNoCertRate)}</td>
+                <th scope="row">
+                  {tier.shortName ?? tier.name} <span className="sub">{staysLabel(d.stays)}</span>
+                </th>
+                <Cell value={d.upgradeRate} n={d.stays} label="Upgrade" />
+                <Cell value={d.suiteRate} n={d.stays} label="Suite" />
+                <Cell value={d.suiteNoCertRate} n={d.stays - d.certStays} label="Suite without a certificate" />
               </tr>
             ))}
           </tbody>
         </table>
       )}
-      <div className="panel-foot">
-        From {a.stays} reader {a.stays === 1 ? 'stay' : 'stays'}, {a.recent} from this year or last
-        {a.latest ? `, most recent ${a.latest}` : ''}
-        {a.certStays > 0 ? `; ${a.certStays} with a suite certificate` : ''}. Recent stays count for more in the rates. Reported by readers, checked before counting, never scored.
-      </div>
+      <LatestStays stays={latest} />
     </section>
   )
 }

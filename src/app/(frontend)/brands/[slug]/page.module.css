@@ -1,0 +1,13 @@
+/* Brand page (mockup: brand.html, page rules from css/browse.css). The hotel table and the side
+   column have their own modules; the rest is the kit. */
+
+/* The program in the band's meta line is a link */
+.meta a {
+  color: var(--on-navy-2);
+  font-weight: 600;
+}
+
+/* The brand's overview, when the admin has one, above its hotels */
+.overview {
+  margin-bottom: 28px;
+}
