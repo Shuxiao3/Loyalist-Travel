@@ -1774,5 +1774,785 @@
   "a8dc90f325edc52d": {
     "hotel": "walt-disney-world-swan",
     "short": "Awards cleared to an Alcove family suite five days out, then the Grand Suite at arrival. Hot breakfast items cost $6 to $8 extra."
+  },
+  "b92cb55cc3802a28": {
+    "hotel": "rio-hotel-and-casino",
+    "short": "Excellent value and a spacious room, but VIP check-in took over 30 minutes and vegan breakfast meant just potatoes and fruit. Would return."
+  },
+  "4f0f38292dbb9d8b": {
+    "hotel": "rio-hotel-and-casino",
+    "short": "4pm checkout on request, free parking and a VIP desk that knew the perks. The pool was closed and Masquerade Tower felt dated."
+  },
+  "0d66f8a83f6ddabd": {
+    "hotel": "park-hyatt-seoul",
+    "short": "Base rooms ran over $400 a night. Great suite with views of Seoul, one more impressive Hyatt on this Asia trip."
+  },
+  "9a439d923557695b": {
+    "hotel": "park-hyatt-seoul",
+    "short": "Pancakes and an omelet came in under three minutes, and the roughly $50 bill was taken off automatically. Would return in a heartbeat."
+  },
+  "52e8b125f783e0aa": {
+    "hotel": "hyatt-centric-chicago-mag-mile",
+    "short": "Only the bedroom has windows, so the living room gets little daylight. Spacious, quiet, and one block from Michigan Avenue."
+  },
+  "58c36cca7169cab5": {
+    "hotel": "hyatt-centric-chicago-mag-mile",
+    "short": "Quiet, comfortable room despite a dated tub and shower curtain. Breakfast was not included, and the buffet cost $32 a person plus tax."
+  },
+  "470b7c5b561fc87d": {
+    "hotel": "park-hyatt-washington-dc",
+    "short": "Upgrade confirmed by email within a couple of days of booking, and the desk set up 4pm checkout unasked. Would absolutely return."
+  },
+  "aa204467d5cbbf66": {
+    "hotel": "park-hyatt-washington-dc",
+    "short": "Confirmed a Park Suite, got the larger Georgetown Suite. After an overcharge, each day's breakfast bill was wiped, nearly $200 the first morning."
+  },
+  "79466b1a9cb7bba5": {
+    "hotel": "park-hyatt-chicago",
+    "short": "Breakfast covered one main plus hot and cold drinks, and a dirty martini setup was the welcome gift. Good hotel, no wow factor."
+  },
+  "5f83bd33abe895d6": {
+    "hotel": "park-hyatt-chicago",
+    "short": "No suites for any Globalist in house, unlike before the renovation, when they almost always got one. Scratchy towels, but would gladly return."
+  },
+  "2fe5bb4c9cb89966": {
+    "hotel": "the-driskill",
+    "short": "Welcome cookies came late but hot, and a second bag waited at checkout. Bridal suite with a balcony and ceilings at least 12 feet high."
+  },
+  "a993290c5cfe2fcb": {
+    "hotel": "the-driskill",
+    "short": "A breakfast of about $50 was credited in full despite a $20 cap. Practically flawless, even with $55 nightly valet and slow Wi-Fi."
+  },
+  "eca5e92c159315e2": {
+    "hotel": "park-hyatt-new-york",
+    "short": "A 25th anniversary stay with champagne and chocolate-covered strawberries waiting. Very high cash rates, even for New York, but would definitely return."
+  },
+  "d5ff53b170f1faa9": {
+    "hotel": "park-hyatt-new-york",
+    "short": "A fumbled check-in, with the name taken twice and the reservation not found at first. Massive, gorgeous rooms, though holiday service was off."
+  },
+  "dd961adf78beba7e": {
+    "hotel": "carmel-valley-ranch",
+    "short": "The upgrade wasn't needed: only about 100 square feet more, a balcony facing a parking lot, and no vineyard views or outdoor soaking tub."
+  },
+  "45ca392ea92e8515": {
+    "hotel": "carmel-valley-ranch",
+    "short": "Mentioning a major anniversary brought a bottle of the resort's own Swing Pinot Noir. Excellent but pricey dining, and falconry at $135 a person."
+  },
+  "25242671992843d8": {
+    "hotel": "hyatt-regency-maui-resort-and-spa",
+    "short": "1970s-style brown-and-orange decor and a shallow sink that splashes the wallpaper every time. Fine, but not worth going out of the way for."
+  },
+  "87d52313307d96f0": {
+    "hotel": "hyatt-regency-vancouver",
+    "short": "The parlor suite was two connecting rooms, one with a sofa bed. Lounge still closed and no room service, but the staff were all friendly."
+  },
+  "a513fa72226e7bdb": {
+    "hotel": "hyatt-regency-vancouver",
+    "short": "Sold out, so no suite. Breakfast was covered for her mother's separate room too, and a CA$5 tip charge was quickly reversed."
+  },
+  "059137c2543e0dcd": {
+    "hotel": "hyatt-regency-bangkok-sukhumvit",
+    "short": "Excellent value, with standard rooms at about $110 to $150 a night. A Thai outfit and a handwritten card were left for their daughter."
+  },
+  "00b3be16c8108e33": {
+    "hotel": "hyatt-regency-bangkok-sukhumvit",
+    "short": "Chose to wait until 4pm for the suite the app had shown. The water never got hot either night, and the coffee was weak."
+  },
+  "831cd86f2d17bf7a": {
+    "hotel": "the-bellevue-hotel",
+    "short": "The $100 credit covered almost all of a Pergola dinner. The 100,000 sq ft Sporting Club alone made it worthwhile."
+  },
+  "cea5562a88107f7f": {
+    "hotel": "hyatt-regency-maui-resort-and-spa",
+    "short": "Two days without water, and no warning of the second outage even though staff knew. Already booked to return next February."
+  },
+  "69060163773eb6fd": {
+    "hotel": "grand-hyatt-kauai-resort-spa",
+    "short": "Anniversary champagne and a note from the GM were waiting. Late checkout meant a day room until 4pm, as the suite wasn't free past 11am."
+  },
+  "c3ed8e28fa212034": {
+    "hotel": "grand-hyatt-kauai-resort-spa",
+    "short": "Floaties for the boys and wine with a personal note were waiting. For a family, the savings and recognition made the status worth earning."
+  },
+  "54c906fbfef3d759": {
+    "hotel": "andaz-tokyo-toranomon-hills",
+    "short": "Free minibar, and free wine and sake at happy hour. A 2,200 yen per-person Rooftop Bar cover only showed up on the checkout bill."
+  },
+  "63ed275c68521146": {
+    "hotel": "hyatt-house-tokyo-shibuya",
+    "short": "Like a small apartment, with a full kitchen and washer-dryer, but little view. Excellent value on points, with cash around $580 a night."
+  },
+  "e6be2c17ca0ae0a2": {
+    "hotel": "hyatt-house-tokyo-shibuya",
+    "short": "Chosen over the Hyatt Regency Tokyo for the Shibuya location. Spotless room with a kitchenette and a washer-dryer that ran about four hours."
+  },
+  "71e7f5775a1a3b38": {
+    "hotel": "impression-moxche-by-secrets",
+    "short": "Best food yet at an all-inclusive, especially the Cielo rooftop. The beach was a letdown, with kelp and persistent vendors, but no hesitation about returning."
+  },
+  "3e96fb0757ad81b1": {
+    "hotel": "hyatt-ziva-cancun",
+    "short": "A 463 sq ft room with Salvatore Ferragamo toiletries and an excellent ocean view from the small balcony. Near the top of his all-inclusive list."
+  },
+  "3fe7a76789b0172c": {
+    "hotel": "hyatt-ziva-cancun",
+    "short": "Daily schedules and balloons for the kids came from butler Andre. Worth every point, even after a Louisiana hurricane nearly made them cancel."
+  },
+  "bfa89fd4a9aa9231": {
+    "hotel": "hyatt-regency-tokyo",
+    "short": "Emailed ahead about the birthday and found a gift and letter waiting. Best booked on points, with cash often over $400 before taxes."
+  },
+  "56f1853e4e845e7f": {
+    "hotel": "hyatt-regency-tokyo",
+    "short": "The Globalist gift was just a small Kuromoji pillow mist. Breakfast is now in the club, no longer the full Crossroads Kitchen buffet."
+  },
+  "adb89e9f1a646d71": {
+    "hotel": "park-hyatt-tokyo",
+    "short": "Service ranged from excellent concierge help to cold, and the pool was underwhelming. Reclassified as a resort on April 1, so no guaranteed 4pm checkout."
+  },
+  "b4f6dec055cffe88": {
+    "hotel": "park-hyatt-tokyo",
+    "short": "Mount Fuji showed from the west-facing suite one clear morning. Leaving was bittersweet, despite a leaking shower and a concierge booking never followed up."
+  },
+  "928b83d38cf9524c": {
+    "hotel": "hyatt-centric-ginza-tokyo",
+    "short": "Ruinart Blanc de Blancs and butter cookies for the birthday. The bed was firm, bar service lacking, and value doubtful next to the Andaz Tokyo."
+  },
+  "d04ca40d77ee76a2": {
+    "hotel": "hyatt-centric-ginza-tokyo",
+    "short": "A stopover on points, with cash about $650 a night. The room was huge by Tokyo standards, and breakfast excellent apart from slightly underdone eggs."
+  },
+  "4d0f142f7e5f724b": {
+    "hotel": "grand-hyatt-tokyo",
+    "short": "The award confirmed a Grand Executive Suite, then check-in brought the Diplomat Suite. Keeping it meant checkout at 1pm, not 4pm."
+  },
+  "84b770d8ef38f5a8": {
+    "hotel": "grand-hyatt-tokyo",
+    "short": "A rollaway and couch bedding were ready in advance, and the club's evening spread could pass for dinner. Would absolutely return."
+  },
+  "e8039a665527c796": {
+    "hotel": "park-hyatt-maldives-hadahaa",
+    "short": "Paid $560++ a night extra for the water villa, and the New Year's Eve gala was a mandatory $510 per person. A very special island."
+  },
+  "438965c85ab6fd99": {
+    "hotel": "hyatt-ziva-cap-cana",
+    "short": "The ocean view came despite a warning that peak-season upgrades were limited. The resort was full but never felt crowded, and they'd happily return."
+  },
+  "957b02f66068789e": {
+    "hotel": "miraval-arizona-resort-spa",
+    "short": "Gigantic suite with its own gym and a jacuzzi tub, though a semi-public path runs past the patio. Strongly recommended."
+  },
+  "c3af7e6625264959": {
+    "hotel": "miraval-arizona-resort-spa",
+    "short": "A massive but worn suite, with tired cushions, thin towels and a disappointing patio view. Surprisingly great food, but the rooms desperately need renovating."
+  },
+  "a602aac1043e7f6b": {
+    "hotel": "the-cape-a-thompson-hotel",
+    "short": "Large balcony over the waves and El Arco, sofa made into a king bed nightly. Beach not swimmable, but she wants to return with friends."
+  },
+  "ec9c2d414af64e24": {
+    "hotel": "the-cape-a-thompson-hotel",
+    "short": "A deal of a lifetime next to the roughly $3,700 nightly cash rate, with tequila and a fruit plate on arrival."
+  },
+  "f74cbe2c759b60ef": {
+    "hotel": "hyatt-place-kyoto",
+    "short": "The nicest Hyatt Place yet, steps from Marutamachi Station. Breakfast had salmon, miso and eggs to order, about $17 a person without Globalist status."
+  },
+  "a5733c5d2355218b": {
+    "hotel": "hyatt-place-kyoto",
+    "short": "Left-behind bathroom items were cataloged and shipped free to the next hotel, 250 miles away, arriving two days later. Breakfast had make-your-own sushi."
+  },
+  "bd52bcce38b26204": {
+    "hotel": "the-westin-bora-bora-resort-spa",
+    "short": "A top-five room ever, but bags with medication and a laptop went missing until a third follow-up. Just one fish seen in the lagoon."
+  },
+  "d825ed15356d3549": {
+    "hotel": "gild-hall-a-thompson-hotel",
+    "short": "Small room, little view, thin amenities for the price, and no hurry back despite friendly staff. The $35 daily destination fee was never charged."
+  },
+  "a5eb62fbe05d3fec": {
+    "hotel": "gild-hall-a-thompson-hotel",
+    "short": "The $50 Prive credit nearly covered a $52 dinner. A large open-plan suite with a wet bar and soaking tub, highly recommended."
+  },
+  "a3db6a5ace054f2d": {
+    "hotel": "grand-hyatt-hong-kong",
+    "short": "Spectacular value for a suite that retailed for about $1,160 a night. Possibly the best club lounge at any Hyatt so far, with free-flowing Ruinart."
+  },
+  "f925d8a92d68eff6": {
+    "hotel": "grand-hyatt-hong-kong",
+    "short": "Excellent club lounge and magnificent harbor views, though the rooms look aged. Corporate rates booked direct need proof of eligibility here."
+  },
+  "a09a42d5be630931": {
+    "hotel": "grand-hyatt-indian-wells-resort-villas",
+    "short": "Flooding scrapped the confirmed ground-floor room and left the hallway smelly. Kids loved the waterpark, but the crowded resort wasn't his kind of place."
+  },
+  "f1e6060dea1ad0e6": {
+    "hotel": "grand-hyatt-kuala-lumpur",
+    "short": "Suite ready at 9am, red wine waiting. The club breakfast was the most lackluster seen at a Hyatt in Asia, mostly continental and omelets."
+  },
+  "f71eeeb25601b239": {
+    "hotel": "grand-hyatt-kuala-lumpur",
+    "short": "Upgraded before arrival, with a reminder not to expect it every time. Park Hyatt-level service, and would return without hesitation."
+  },
+  "1e4ee0adb602ea2c": {
+    "hotel": "hyatt-regency-aruba-resort-spa-and-casino",
+    "short": "Arrived over an hour early and were offered changing rooms for the pools while the suite was readied. Free parking and $20 casino credit."
+  },
+  "4f4ef95f3d5e766e": {
+    "hotel": "andaz-singapore",
+    "short": "Breakfast across three restaurants was deeply confusing: the menu listed à la carte, then only eggs could be ordered. Back only at the right price."
+  },
+  "18e5992c7e86cbdb": {
+    "hotel": "andaz-singapore",
+    "short": "No waiting after arriving just past 7am: a regular room to shower and nap in until the suite was ready. Free minibar, refilled daily."
+  },
+  "8fd5a2d473c1863d": {
+    "hotel": "park-hyatt-st-kitts",
+    "short": "Confirmed a Sea View Suite, then got bumped further on arrival to one with a private infinity plunge pool. Would return in a heartbeat."
+  },
+  "41f97e1a769d172d": {
+    "hotel": "park-hyatt-st-kitts",
+    "short": "Uncrowded even at a reported near 90 percent occupancy, and the kids club is his daughter's favorite anywhere. Pricey dining, but he'll keep going back."
+  },
+  "e052cf8086489e67": {
+    "hotel": "chicago-athletic-association-hotel",
+    "short": "Check-in was so quick that breakfast and the $30 founders fee never came up. What an Unbound Collection property should be."
+  },
+  "bf94df899e62ee91": {
+    "hotel": "chicago-athletic-association-hotel",
+    "short": "Welcome gift was a voucher for a glass of prosecco. Room not ready at 2pm, but loved the historic feel, service and food."
+  },
+  "53ab783abdc6e3c9": {
+    "hotel": "hana-maui-resort",
+    "short": "Booked as a Guest of Honor by a Globalist friend. Breakfast charges were wiped even past the $42 per person allowance."
+  },
+  "f2a24f7f4afc9f46": {
+    "hotel": "hana-maui-resort",
+    "short": "Absolutely incredible, once a call about a suite open in the app got them out of a hot, dated room with a dead cockroach."
+  },
+  "5cd6030b032914b0": {
+    "hotel": "grand-hyatt-at-sfo",
+    "short": "Binoculars and a plane-spotting guide in the suite, and a tub facing the airfield. One of the two best airport hotels in the world."
+  },
+  "701a22ad80dd4269": {
+    "hotel": "grand-hyatt-at-sfo",
+    "short": "Booked for a nap and shower on a long SFO layover with a toddler. The one to pick for an SFO overnight, cost permitting."
+  },
+  "8395da8952c74c93": {
+    "hotel": "andaz-5th-avenue",
+    "short": "Arrived around 10am and chose to wait for a suite over a basic room right away. Enormous by New York standards."
+  },
+  "bac6a921f333ae18": {
+    "hotel": "andaz-5th-avenue",
+    "short": "No suite because the hotel was busy. Breakfast in The Cellar was really good, but the Thompson Central Park won the head-to-head."
+  },
+  "db1c3c74fc24b1b0": {
+    "hotel": "andaz-miami-beach-resort-spa",
+    "short": "A family favorite for the design, location and food, though check-in meant a line with only two agents. Champagne and macarons on arrival."
+  },
+  "729ac627d9e39d74": {
+    "hotel": "andaz-miami-beach-resort-spa",
+    "short": "Soundproofing and blackout curtains held up despite Collins Avenue, but no real luggage rack. Breakfast at Aguasal was generous and handled dietary restrictions."
+  },
+  "049b267728505e9f": {
+    "hotel": "hyatt-grand-central-new-york",
+    "short": "No hot water in the first room or the second, and breakfast was a reheated sandwich. Won't return until the replacement hotel opens."
+  },
+  "a36971789832cdee": {
+    "hotel": "hyatt-grand-central-new-york",
+    "short": "Underwhelming buffet, so just a bagel and fruit. A tired property, though the price is fair and the Grand Central location can't be beat."
+  },
+  "de9a7593f53ba0c0": {
+    "hotel": "jdv-50-bowery",
+    "short": "The $40 destination fee was irritating and breakfast only acceptable. Would absolutely stay again for the room, views and value."
+  },
+  "dd660f4b11fe5966": {
+    "hotel": "andaz-tokyo-toranomon-hills",
+    "short": "The standard bump to a deluxe Tokyo Tower view room rather than a suite, and a great upgrade all the same."
+  },
+  "a512acf1e879c6f0": {
+    "hotel": "andaz-tokyo-toranomon-hills",
+    "short": "About a week here, after six or more earlier stays, with the usual upgrade. Breakfast had slipped a little since February, the only notable downside."
+  },
+  "e1cb9629cf998aea": {
+    "hotel": "andaz-tokyo-toranomon-hills",
+    "short": "First visit since before COVID, and sublime. Standard rooms and bathrooms beat most suites elsewhere, and the minibar is still free."
+  },
+  "d96d8737908ae6c6": {
+    "hotel": "andaz-tokyo-toranomon-hills",
+    "short": "Room ready on arrival around 7:30am, straight from Haneda. Breakfast was amazing, and 10 out of 10 for attention to detail."
+  },
+  "64b03f0169bfee32": {
+    "hotel": "andaz-tokyo-toranomon-hills",
+    "short": "The January 1 earthquake and a canceled train meant a late arrival, handled after an email. The Sushi restaurant was excellent."
+  },
+  "e9bc02646d1acb1f": {
+    "hotel": "andaz-tokyo-toranomon-hills",
+    "short": "Two connecting rooms for a family of four, and breakfast was honored for both adults and both kids."
+  },
+  "2cc91033248d73bf": {
+    "hotel": "andaz-tokyo-toranomon-hills",
+    "short": "The hotel offered only two Twin rooms at first, then confirmed the suite a few days out. Comfy couch, but suites max out at three."
+  },
+  "543fe7960921036b": {
+    "hotel": "andaz-tokyo-toranomon-hills",
+    "short": "The third adult's breakfast wasn't charged on a December 2022 Guest of Honor stay. Don't ask ahead, just accept it if billed."
+  },
+  "3e567193b81bc78a": {
+    "hotel": "andaz-tokyo-toranomon-hills",
+    "short": "Dorayaki from housekeeping every couple of days, fast help by phone or app. Loved it, but may try The Edition on a future business trip."
+  },
+  "d2b2f491ac376dc0": {
+    "hotel": "hyatt-centric-wall-street-new-york",
+    "short": "Loved the 610 sq ft suite despite an awful buffet and a mobile key that failed all stay. Likely a regular New York base."
+  },
+  "536f5b8eba468807": {
+    "hotel": "hyatt-centric-wall-street-new-york",
+    "short": "Breakfast charges stuck until the Hyatt Concierge contacted the manager. Plans to return, and the suites' space and light make the award worth it."
+  },
+  "58fdb574cf421ee1": {
+    "hotel": "hyatt-centric-fisherman-s-wharf",
+    "short": "Upgraded at check-in once the agent noticed the tall husband, and the hungry daughter got a cookie. The $30 nightly destination fee was one gripe."
+  },
+  "c9459714e35b9f35": {
+    "hotel": "hyatt-centric-fisherman-s-wharf",
+    "short": "A roomy corner suite, but the view was mostly parking lot and the bathroom felt small. The outdoor pool is rare in San Francisco."
+  },
+  "a6789222cc2ee261": {
+    "hotel": "mar-monte-hotel",
+    "short": "A $24 breakfast cap often fell short of the promised entree, coffee and juice. Suite a bit dated, but still a go-to in Santa Barbara."
+  },
+  "bce60adcab019ce8": {
+    "hotel": "mar-monte-hotel",
+    "short": "The $30 resort fee, $20 daily parking and premium internet were all waived. A great, quiet beach getaway, with a room smaller than expected."
+  },
+  "c3e6e55a8f201224": {
+    "hotel": "the-shay",
+    "short": "Instead of the roughly $75 extra, the Hyatt concierge got the balcony suite free. No hot water, ignored texts, no compensation: won't risk a return."
+  },
+  "926f98b24d6de6b8": {
+    "hotel": "park-hyatt-saigon",
+    "short": "Bordeaux waiting and one of the best breakfasts since the pandemic. A lost suitcase never turned up during the stay, despite twice-daily checks."
+  },
+  "45f3d3d8cfe16980": {
+    "hotel": "park-hyatt-saigon",
+    "short": "The hotel topped the upgrade award with a suite of almost 1,200 sq ft. Decor a bit dated for the brand was the only gripe."
+  },
+  "0352ff6d83908b43": {
+    "hotel": "park-hyatt-shanghai",
+    "short": "Just six standard suites, none offered, and a Diplomatic Suite quoted at 10,000 yuan. Fog hid the night views, yet a return is planned."
+  },
+  "66fe4eab40e5ef9b": {
+    "hotel": "park-hyatt-shanghai",
+    "short": "The free fourth night was refused at checkout until the front office manager who promised it stepped in. Still a phenomenal stay and a favorite."
+  },
+  "27157e8dc7183f3c": {
+    "hotel": "jw-marriott-hotel-singapore-south-beach",
+    "short": "Spacious even as a base room, and Beach Road Kitchen had the most extensive breakfast spread ever seen. Almost certain to return."
+  },
+  "2311e1f36ae26929": {
+    "hotel": "jw-marriott-hotel-singapore-south-beach",
+    "short": "For the points night the awards didn't cover, the check-in agent held a Deluxe Suite a few doors down. Best hotel ever, bar all-suite resorts."
+  },
+  "247c5d849fa3264f": {
+    "hotel": "hyatt-regency-lake-tahoe-resort-spa-and-casino",
+    "short": "Free parking, no resort fee, and a big welcome package with a s'mores kit and $5 casino coupon. A 9 out of 10."
+  },
+  "c980bfbedee47b23": {
+    "hotel": "hyatt-regency-lake-tahoe-resort-spa-and-casino",
+    "short": "Upgraded free to a $999-a-night cottage, put down to slow Covid business and an agent who liked them. One of the trip's best parts."
+  },
+  "f2ee32c0e95e0587": {
+    "hotel": "hyatt-at-olive-8",
+    "short": "Small, bland room, the least special of four Seattle Hyatts, though the food ranked first. Probably a skip next visit."
+  },
+  "8668097fea9d1570": {
+    "hotel": "hyatt-at-olive-8",
+    "short": "Traded housekeeping for a bottle of Washington Hills cabernet. Doorless shower, loud pipes, salty dinner: go mainly for the big gym and 84-degree pool."
+  },
+  "ef5c80d3dac969bf": {
+    "hotel": "hyatt-centric-victoria-harbour-hong-kong",
+    "short": "Got 4pm checkout, yet staff called at the usual time anyway. An hour's wait for a seat at the tiny pool, in a near-empty hotel."
+  },
+  "0782c42e70f4605b": {
+    "hotel": "thompson-madrid",
+    "short": "Terrace over the plaza, 4pm checkout offered at check-in, local olive oil as the gift. Polished service that lacked a warmer touch."
+  },
+  "b4bfc100d3bdb33e": {
+    "hotel": "thompson-madrid",
+    "short": "Suite showed in the app a couple of days ahead. Breakfast covered room service too, and the GM left a note and birthday cake."
+  },
+  "2943ca857d8ba240": {
+    "hotel": "hotel-du-louvre",
+    "short": "A corner junior suite with a narrow wraparound balcony over the Louvre. Possibly the best Hyatt in Paris, preferred over the Park Hyatt Paris-Vendome."
+  },
+  "9eac71384d571fe3": {
+    "hotel": "hotel-du-louvre",
+    "short": "Big first-floor suite with a separate living room and shabby furniture. Over a third of the rooms are suites, and breakfast came with champagne."
+  },
+  "93a46d141017b73e": {
+    "hotel": "parisi-udvar-hotel",
+    "short": "Hyatt honored the old 8,000-point rate after two pandemic delays. Superb soundproofing in the corner room, but the blackout curtains let in early sun."
+  },
+  "c2d340ba62270e72": {
+    "hotel": "parisi-udvar-hotel",
+    "short": "A suite for three, paid with points from one card welcome offer. Breakfast cost $0 including tip, and she would gladly return."
+  },
+  "4c7b255a12655021": {
+    "hotel": "everline-resort-and-spa-lake-tahoe",
+    "short": "A curt check-in never mentioned the upgrade. Status waived the $50 daily resort fee, and the gift was a potted plant."
+  },
+  "55d6becd49b1a06b": {
+    "hotel": "park-hyatt-melbourne",
+    "short": "The full hot buffet was $8 extra: nickel-and-diming. Past its prime, more Grand Hyatt than Park Hyatt, but would return."
+  },
+  "6b231a3e0ed2ce57": {
+    "hotel": "park-hyatt-melbourne",
+    "short": "Booked the Terrace Suite outright, a suite no Globalist upgrade would reach. Common areas a little dated and cruise-ship-like, but clean and spacious."
+  },
+  "71bfb6ff9f6e0eb4": {
+    "hotel": "andaz-tokyo-toranomon-hills",
+    "short": "No upgrade, a first in about 40 Hyatt stays, though King rooms looked open. Top-notch service, 4pm checkout, but 30k points a night felt steep."
+  },
+  "8bc248e5b51efd95": {
+    "hotel": "andaz-tokyo-toranomon-hills",
+    "short": "No upgrade with only premium suites open, but staff remembered past visits. Good on a 32,000 JPY corporate rate, probably not at full price."
+  },
+  "417e00d7b186376b": {
+    "hotel": "andaz-tokyo-toranomon-hills",
+    "short": "The hotel no longer sells upgrades, but the app showed one anyway the day before. Breakfast beat Park Hyatt Kyoto's."
+  },
+  "56b267ab1a81c482": {
+    "hotel": "andaz-tokyo-toranomon-hills",
+    "short": "The first room smelled strongly of cigarette smoke, and staff took over 15 minutes to respond. The room felt basic and tired."
+  },
+  "0b625e1c43aaed3c": {
+    "hotel": "andaz-tokyo-toranomon-hills",
+    "short": "Room not ready until 4pm, so dessert at the Pastry Shop while waiting. Massive bathtub and great views, but a quite firm mattress."
+  },
+  "3f0d6cb583351175": {
+    "hotel": "grand-hyatt-singapore",
+    "short": "Told no suites at check-in, then the Grand Club offered one around 5pm. Some service slips, but the renovated hotel is back."
+  },
+  "1d4436409e9eebab": {
+    "hotel": "grand-hyatt-singapore",
+    "short": "Extremely slow Wi-Fi, a room odor, and the chocolates and apples only after a follow-up. Would return only on a free night, otherwise the InterContinental."
+  },
+  "248de5c9bf0613d0": {
+    "hotel": "hyatt-regency-paris-etoile",
+    "short": "The Eiffel view room wasn't ready, so a club twin first and a swap the next day. Evening club food was repetitive light bites."
+  },
+  "41088e008aad84d9": {
+    "hotel": "hyatt-regency-paris-etoile",
+    "short": "Six people across two bookings, with the suite award turning one into two connecting rooms. Good value for families, but the club felt small."
+  },
+  "35dbafed248b44e3": {
+    "hotel": "alila-napa-valley",
+    "short": "Breakfast was a $90 daily credit at Acacia House. The suite looks over greenery, not the Beringer vines, so next time a vineyard view room."
+  },
+  "0c585cb5695a1f4a": {
+    "hotel": "alila-napa-valley",
+    "short": "The view from ground-floor room 311 didn't match the photos, and footsteps overhead kept waking them. Would return, asking for the third floor."
+  },
+  "e69cd4d7f6da4e95": {
+    "hotel": "hyatt-palm-springs",
+    "short": "The Cabana Suite, selling at $418.62 a night, was roomy and clean in a dated hotel. Resort fee and parking waived, no pet fee charged."
+  },
+  "d00349afca906ced": {
+    "hotel": "hyatt-herald-square-new-york",
+    "short": "$117 AAA rate, their lowest ever for a paid New York stay. Small room, filthy window, but about 15 hours of sleep behind blackout curtains."
+  },
+  "f2bded45d0b6d9e4": {
+    "hotel": "hyatt-herald-square-new-york",
+    "short": "Got word in the app at mobile check-in: the hotel's only suite, selling for $774 that night, ready by 11am. Would definitely return."
+  },
+  "1f1daf4d7dadcc2a": {
+    "hotel": "hyatt-union-square-new-york",
+    "short": "Third-party booking meant no breakfast or late checkout, so the desk gave a corner junior suite instead. A new Manhattan favorite despite street noise."
+  },
+  "346fdfa1fdcfc7fb": {
+    "hotel": "hyatt-union-square-new-york",
+    "short": "4pm checkout offered unasked, with 1,000 points as the welcome gift. Breakfast credit was $25 a person, yet the whole $33.75 bill came off."
+  },
+  "caab9a32812a0075": {
+    "hotel": "hyatt-centric-the-loop-chicago",
+    "short": "Often upgraded to a suite here, but this time wanted the first room available to make the most of a stopover. Small but well designed."
+  },
+  "115c6cfbeb41e4d7": {
+    "hotel": "thompson-central-park-new-york",
+    "short": "Upgraded on all three stays, to a suite that's palatial by Manhattan standards. Upper Stories floors aren't eligible for elite upgrades."
+  },
+  "9ac78b447105efab": {
+    "hotel": "thompson-central-park-new-york",
+    "short": "No upgrade though a suite was on sale, put down to an inventory glitch. Dated, dirty hallways, and only the bare minimum for Globalists."
+  },
+  "bbef7ecd03763b42": {
+    "hotel": "thompson-denver",
+    "short": "Breakfast ran past the $40 credit and still came off the bill both days. Less good: a mandatory 20% restaurant charge and aloof staff."
+  },
+  "701b0650677a02a7": {
+    "hotel": "thompson-palm-springs",
+    "short": "Room was late, and the desk refunded a few thousand points. Loved the rooftop pool and the food, and would book the same room again."
+  },
+  "52488596f47b7063": {
+    "hotel": "thompson-palm-springs",
+    "short": "Moved to a balcony room only after spotting one in the app. Asked for 4pm checkout, got 2pm after pushing back on 1pm."
+  },
+  "cc048deea08e07fc": {
+    "hotel": "grayson-hotel",
+    "short": "The $19 omelet at Harta was included, and the Bar Cima rooftop mezcal lounge was a high point. Top of their New York list."
+  },
+  "0d8c5011783baf93": {
+    "hotel": "grayson-hotel",
+    "short": "Four award nights with no cash charges at all, skipping the $30 nightly destination fee and taxes. The Empire State Building view was excellent."
+  },
+  "4ae4ed6708c24265": {
+    "hotel": "park-hyatt-dubai",
+    "short": "The app showed a Family Lagoon Beach room, then the Presidential Suite, which sells for over $3,000 a night. 7pm checkout for a 2:30am flight."
+  },
+  "326f1b3144b33225": {
+    "hotel": "park-hyatt-dubai",
+    "short": "Coffee refills never came at breakfast, and the hotel emailed an apology unprompted. A 9pm checkout cost 800 AED, about $220."
+  },
+  "a0535ffaf786e477": {
+    "hotel": "park-hyatt-busan",
+    "short": "Upgrade confirmed before arrival, no chasing needed. Breakfast had a serious Korean side, with abalone seaweed soup, mandu, kimchi and banchan."
+  },
+  "6ca90a9fa6c264fc": {
+    "hotel": "le-meridien-maldives-resort-spa",
+    "short": "The sunrise villa beat the sunset one a companion was upgraded to. Outstanding service, excellent snorkeling, food good not great."
+  },
+  "5f270ff8510152d0": {
+    "hotel": "le-meridien-maldives-resort-spa",
+    "short": "Put in the villa all four nights since no bungalow was free, though she'd have liked to try both. Champagne, chocolates and macarons were waiting."
+  },
+  "a99cff77a047c253": {
+    "hotel": "grand-hyatt-berlin",
+    "short": "Suites were available but no upgrade, until staff twice opened the door without knocking and the manager made amends with one."
+  },
+  "9ae40a55cce3dbb9": {
+    "hotel": "grand-hyatt-berlin",
+    "short": "15,000 points a night against about 750 euros cash on Berlin marathon weekend. Among their favorite European hotels for location, space and service."
+  },
+  "c21b1c40043d96dc": {
+    "hotel": "hyatt-regency-waikiki-beach-resort-and-spa",
+    "short": "Resort fee waived, parking free, and evening club snacks could replace dinner some nights. Chaotic elevators and valet, but great value on points with status."
+  },
+  "b745705c247e2fab": {
+    "hotel": "hyatt-regency-grand-cypress-resort",
+    "short": "Asked for 4pm checkout and got 2pm. The room was already worn, but the pools rank among the best the kids have seen."
+  },
+  "48057fb7aaa144aa": {
+    "hotel": "hyatt-regency-grand-cypress-resort",
+    "short": "Booked a suite to fit five, then got bumped to the two-floor one. Breakfast was free for all five despite the two-adult, two-child rule."
+  },
+  "83282995cec176bf": {
+    "hotel": "mission-pacific-beach-resort",
+    "short": "Room service breakfast came well over an hour late, and wrong. Amtrak horns past midnight mean the Seabird is probably the pick next time."
+  },
+  "4fca5929d8ecca65": {
+    "hotel": "mission-pacific-beach-resort",
+    "short": "Breezeway Ocean View rooms have full ocean views but more train and street noise, with earplugs in the room. Late checkout stopped at 2pm."
+  },
+  "5139fa9552a88896": {
+    "hotel": "jdv-hotel-kabuki",
+    "short": "Staff pointed to the $29 Japan Center garage over the $45 hotel lot. Great Japantown location, garden and service, and would love to stay again."
+  },
+  "1ae25806cc9553e1": {
+    "hotel": "hyatt-centric-the-liberties-dublin",
+    "short": "Breakfast was the weak spot: a heat-lamped egg and filler-heavy sausage on day one, better avocado toast on day two. Would stay again."
+  },
+  "7680f212913c9668": {
+    "hotel": "hyatt-centric-the-liberties-dublin",
+    "short": "Breakfast covered everything, even lattes to go, and award-stay parking was free, saving 21 euros a night. Roomy suite by European standards, huge bathroom."
+  },
+  "cc1f1c7db66d5520": {
+    "hotel": "thompson-austin",
+    "short": "A better view came up first, then the suite. Street noise meant earplugs, but the short stay set a high bar for Thompson."
+  },
+  "aafeef001b75b9eb": {
+    "hotel": "thompson-austin",
+    "short": "A $200 card credit cut the Amex night to $260.82. Two bookings meant checking out and back in, but it was a fantastic stay."
+  },
+  "cd3c679482799f58": {
+    "hotel": "thompson-chicago",
+    "short": "Dollar for dollar, their favorite Hyatt in Chicago. It felt safe, despite an Uber driver's warning that crime had reached the Gold Coast."
+  },
+  "80fa427edb3bf223": {
+    "hotel": "thompson-chicago",
+    "short": "A $152 family breakfast was fully waived. The lake barely shows past other buildings, and the nearest metro is about a 10-minute walk."
+  },
+  "e9fa9a5674f319b9": {
+    "hotel": "hyatt-house-tokyo-shibuya",
+    "short": "Opening day, February 26, 2024. The opening gift was Hyatt House Shibuya slippers, three coffee packets, a Shibuya map and a notepad."
+  },
+  "962e631472e978c4": {
+    "hotel": "hyatt-house-tokyo-shibuya",
+    "short": "Much like a Toyoko Inn. Category 4 pricing is justified by the location, not by the room or a breakfast short of Hyatt Place Kyoto's."
+  },
+  "f07e8c912b6bfba0": {
+    "hotel": "thompson-seattle",
+    "short": "Would not return despite the views, staff and breakfast: undrinkable instant coffee, a tiny shared gym, elevators jammed by the rooftop bar line."
+  },
+  "b23974f2980298ea": {
+    "hotel": "thompson-seattle",
+    "short": "A confused check-in missed the status at first, but the second-night water view made the stay. Would return only if sure of that view."
+  },
+  "522dc6356be8b398": {
+    "hotel": "thompson-washington-d-c",
+    "short": "Suite was ready on arrival around 2pm, and the $100 Prive credit covered a $98 room-service dinner. Would definitely return."
+  },
+  "c6979d33510f2c52": {
+    "hotel": "thompson-washington-d-c",
+    "short": "A text got the $30 destination fee off the bill within five minutes. Mixed: good rooftop bar, generic vibe, bare-minimum service unless prompted."
+  },
+  "0b08b51c59b4922d": {
+    "hotel": "the-beekman-a-thompson-hotel",
+    "short": "Suites were sold out, so a Premium room instead. The concierge left red wine for the birthday, and free breakfast could come by room service."
+  },
+  "06c4eb05623ad2e2": {
+    "hotel": "the-beekman-a-thompson-hotel",
+    "short": "The corner suite is 600 sq ft, up from 475. A suite upgrade award is worth using here, since standard rooms are fairly small."
+  },
+  "40996c7987e5548e": {
+    "hotel": "thompson-dallas",
+    "short": "Breakfast at Nine at the National was among their favorite Globalist breakfasts in the US. Would return in a heartbeat, the doorless, lukewarm shower aside."
+  },
+  "4437ac1166d7e36c": {
+    "hotel": "thompson-dallas",
+    "short": "Every perk was explained at check-in, and valet, normally $65 a night, was free on the award. Plans to return."
+  },
+  "b6c2cfe39306f487": {
+    "hotel": "thompson-zihuatanejo",
+    "short": "Resort fee waived, 8% service fee not. Slept poorly on an ultrasoft bed, yet would return with an eye mask and their own pillow."
+  },
+  "f9ba4867685db0ef": {
+    "hotel": "thompson-zihuatanejo",
+    "short": "Breakfast rules went unexplained: one entree and drink each, so a side of eggs for the kids was billed. Still loved the beachfront suite."
+  },
+  "b455250b10375ebc": {
+    "hotel": "the-st-regis-maldives-vommuli-resort",
+    "short": "Massive villa, about $23,000 cash for five nights. Wonderful food, magical spa, but the W Maldives had better snorkeling and gets the return visit."
+  },
+  "5057b0ac2217453c": {
+    "hotel": "the-st-regis-maldives-vommuli-resort",
+    "short": "Suite 520 was requested for its distance from the other villas. Seaplane transfers ran about $1,500 and a small load of laundry about $390."
+  },
+  "12e5d2f3b5943406": {
+    "hotel": "wailea-beach-resort-marriott-maui",
+    "short": "The ground-floor room was dark and noisy from the valet stand. The junior suite meant better sleep, and its balcony sunsets justified the higher price."
+  },
+  "2174ee8835e7c433": {
+    "hotel": "andaz-london-liverpool-street",
+    "short": "The king, about $20 a night more, tops 300 sq ft, big for London. Late checkout was 4pm, and minibar and happy hour were free."
+  },
+  "17ecca4d14fe7700": {
+    "hotel": "andaz-london-liverpool-street",
+    "short": "Breakfast at 1901 ranks among their best hotel breakfasts in Europe. Check-in took about 20 minutes, and the $100 Prive credit posted as GBP 60."
+  },
+  "7267bbd5d3adaf50": {
+    "hotel": "the-time-new-york",
+    "short": "Preassigned the largest non-suite room, 275 sq ft, with the $30 facility fee waived. The TV behind a mirror and tiny bathroom counter were misses."
+  },
+  "5be88dc2ef78d62f": {
+    "hotel": "thompson-nashville",
+    "short": "The food kept causing indigestion, and the Work from Hyatt workspace was wrongly refused over the suite. Friendly service, though, and would consider a return."
+  },
+  "b7d0e05f510eb0fb": {
+    "hotel": "thompson-nashville",
+    "short": "Free parking on points saved $46 a day, with no pet fee for the dog. The open-plan suite works more like a junior suite."
+  },
+  "3ee5d05e227da84d": {
+    "hotel": "thompson-houston",
+    "short": "A staycation on a friend's Guest of Honor award, with the $28 destination fee and $55 valet waived. The rooftop pool was still being built."
+  },
+  "f08e8e07934335d3": {
+    "hotel": "hyatt-house-tokyo-shibuya",
+    "short": "Very spacious for Tokyo, with a washer-dryer and kitchen, and the Shibuya location is a big plus. Breakfast beat Hyatt Regency Tokyo's, not Yokohama's."
+  },
+  "4ce01abc99166f8e": {
+    "hotel": "hyatt-house-tokyo-shibuya",
+    "short": "Did six days of laundry in the room, though the washer-dryer took over an hour to dry. Breakfast was not great, despite the view."
+  },
+  "69c83d979991b0d1": {
+    "hotel": "hyatt-house-tokyo-shibuya",
+    "short": "Late checkout was 4pm, offered unasked. From the Narita Express platform at Shibuya, the New South exit leads stair-free to the hotel entrance."
+  },
+  "39c19dcde29b3c06": {
+    "hotel": "impression-moxche-by-secrets",
+    "short": "Room not ready until after 3pm despite a 9am arrival and a resort that looked at least half empty. Gimmicky butler, no plans to return."
+  },
+  "d909cbd9929cd61d": {
+    "hotel": "impression-moxche-by-secrets",
+    "short": "Felt exclusive mostly because it was nearly empty, and the room lacked the usual balcony tub. New points and cash prices rule out a return."
+  },
+  "478fd48db772c090": {
+    "hotel": "thompson-san-antonio-riverwalk",
+    "short": "Nice room and friendly staff, but Wi-Fi under 10 Mbps, a broken toilet seat and a room-service tray left in the hall about eight hours."
+  },
+  "509b2ff3dd08ec17": {
+    "hotel": "thompson-san-antonio-riverwalk",
+    "short": "The $60 breakfast cap was for everyone, not per person, and room service got breakfast wrong twice. Loved the hotel itself, but won't return."
+  },
+  "a25b8854f0c79957": {
+    "hotel": "the-st-regis-bangkok",
+    "short": "Kept the pool and racetrack views over a suite for night two. Several hot breakfast dishes were lukewarm, but he'd return in a heartbeat."
+  },
+  "ec970343d2a33dec": {
+    "hotel": "the-st-regis-singapore",
+    "short": "Sophia's buffet was among the best he'd had. Only gripes: the MRT walk and no Dyson dryer or heated toilet seat in the base room."
+  },
+  "6225455d8f383c1d": {
+    "hotel": "the-st-regis-singapore",
+    "short": "Corner suite looking over the Orchard district and the Botanic Gardens, and a caviar omelet on the breakfast menu. Pre-renovation decor felt dated, service excellent."
+  },
+  "be3d53490780d054": {
+    "hotel": "w-south-beach",
+    "short": "Holiday nights at 35,000 points each, when cash topped $3,000 a night. Breakfast was a meager continental set, and umbrellas cost $25 a day."
+  },
+  "e602c8f8ebfa6dcb": {
+    "hotel": "walt-disney-world-swan",
+    "short": "The $45-a-day amenity fee covered swan boats and spa areas that got used, and Epcot is a 10-minute walk. Now a favorite on Disney property."
+  },
+  "e10e1aed524543c4": {
+    "hotel": "the-westin-maui-resort-spa-ka-anapali",
+    "short": "No upgrades to the renovated Hokupa'a Tower for top elites, and breakfast was a little fruit and coffee. Next time: the Ritz-Carlton or Hyatt Regency."
+  },
+  "e7b0d8ab1c70a3b4": {
+    "hotel": "mauna-kea-beach-hotel-autograph-collection",
+    "short": "Continental breakfast was free, the full buffet $27 a person. A 9.5 out of 10 and top of the list for a yearly return."
+  },
+  "c268749a13ec9209": {
+    "hotel": "the-laylow-waikiki-autograph-collection",
+    "short": "Upgraded twice, to a better view before arrival and to the junior suite at check-in. Parking and resort fees added $371 to the points stay."
+  },
+  "135281270b447156": {
+    "hotel": "the-laylow-waikiki-autograph-collection",
+    "short": "Got 1,750 points instead of any breakfast choice, which felt stingy. Liked the vibe, pool and Hideout bar, and would still have booked it."
+  },
+  "233783e85c0f69a0": {
+    "hotel": "sheraton-grand-sydney-hyde-park",
+    "short": "Suite Night Awards cleared four days out into a suite selling for $750 or more a night. Evening canapes included oysters and prawns."
+  },
+  "d7933ee0ad2891a4": {
+    "hotel": "sheraton-grand-sydney-hyde-park",
+    "short": "Extra bed added for the kids. Across from Hyde Park, with a heated rooftop pool and a very well-stocked buffet at Feast."
+  },
+  "32844864c97cb85e": {
+    "hotel": "the-westin-moana-surfrider-waikiki",
+    "short": "The suite felt bland and a beach umbrella cost $60 on top of the $39 resort fee. Still worth it for the beachfront."
+  },
+  "cb855866a9deeb22": {
+    "hotel": "the-westin-moana-surfrider-waikiki",
+    "short": "Room asked for at 11 a.m. was ready at 2:22 p.m., and parking across the street was a hassle. Fantastic service, would return."
+  },
+  "2f2edbc5413fef11": {
+    "hotel": "alila-bangsar-kuala-lumpur",
+    "short": "Upgraded at a check-in around 1 a.m., on a $90 CAD Prive rate. Breakfast favorites were the nasi lemak and the congee."
+  },
+  "2211c46239d98a72": {
+    "hotel": "alila-bangsar-kuala-lumpur",
+    "short": "Possibly the best value in the Hyatt chain, with excellent entrees around $8 to $12. The small pool and gym can feel tight when full."
   }
 }
