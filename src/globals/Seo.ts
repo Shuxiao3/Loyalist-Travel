@@ -59,7 +59,7 @@ export const Seo: GlobalConfig = {
             pair('hotels', 'Hotels index', { fallback: { title: 'Hotels', description: 'Every hotel indexed across World of Hyatt, Marriott Bonvoy, IHG One Rewards and Hilton Honors, filterable by program, brand and country.' }, url: 'loyalisttravel.com › hotels' }),
             pair('lounges', 'Lounges index', { fallback: { title: 'Lounges', description: 'Club and executive lounges: who gets in, hours, what is served, and whether it beats the restaurant, scored by readers who sat in them.' }, url: 'loyalisttravel.com › lounges' }),
             pair('articles', 'Articles index', { fallback: { title: 'Articles', description: 'News, guides, hotels, airlines and credit cards, written from stays we paid for.' }, url: 'loyalisttravel.com › articles' }),
-            pair('submitAStay', 'Submit a stay', { fallback: { title: 'Submit a stay', description: 'Two minutes, no typing. Your upgrade outcome joins the data for that hotel.' }, url: 'loyalisttravel.com › submit-a-stay' }),
+            pair('submitAStay', 'Add your stay', { fallback: { title: 'Add your stay', description: 'Two minutes, no typing. Your upgrade outcome joins the data for that hotel.' }, url: 'loyalisttravel.com › submit-a-stay' }),
           ],
         },
         {

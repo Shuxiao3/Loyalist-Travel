@@ -95,8 +95,10 @@ export async function hotelSourcedData(hotelId: number): Promise<HotelSourcedDat
 }
 
 // Group the reports by the programme's tiers: top, second, (third for
-// Marriott), then everything below as one band, then stays whose tier the
-// post did not say.
+// Marriott and Hilton, whose top tiers are Ambassador and Diamond Reserve,
+// above the Titanium and Diamond most stays come from), then everything below
+// as one band, then stays whose tier the post did not say. A band without
+// stays is left out.
 async function bandsFor(reports: SourcedReport[]): Promise<SourcedBand[]> {
   const programId = reports.map((r) => (typeof r.program === 'object' && r.program ? r.program.id : r.program)).find((p): p is number => typeof p === 'number')
   if (!programId) return []
@@ -107,7 +109,7 @@ async function bandsFor(reports: SourcedReport[]): Promise<SourcedBand[]> {
   ])
   const tiers = tiersRes.docs.filter((t) => typeof t.rank === 'number')
   if (tiers.length === 0) return []
-  const named = program?.slug === 'marriott-bonvoy' ? 3 : 2
+  const named = program?.slug === 'marriott-bonvoy' || program?.slug === 'hilton-honors' ? 3 : 2
   const top = tiers.slice(0, named)
   const restTop = tiers[named]
   const nameOf = (t: StatusLevel) => t.shortName ?? t.name

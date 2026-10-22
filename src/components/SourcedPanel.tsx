@@ -11,8 +11,10 @@ import styles from './SourcedPanel.module.css'
 // hotel.html, hotel-breakdown.html). The band shows a label row ("Aggregated data" and the
 // confidence dot), the three figures, then the stays they come from and a "See the breakdown"
 // button (SourcedSummary). The button opens the window (SourcedPanel) with the confidence, the
-// figures, the rates by status (each with its own dot) and every stay: its facts, the short
-// summary and a muted "Source" link. Where the stays came from is not named on the page itself.
+// figures, the rates by status (each with its own dot), the reader odds when readers have added
+// stays, and every stay: its facts, the short summary and a muted "Source" link. Where the
+// stays came from is not named on the page itself. A hotel with reader stays and no aggregated
+// data gets the button alone under its own figures (ReaderFoot), and a window of reader odds.
 
 export const BREAKDOWN_ID = 'breakdown'
 
@@ -55,6 +57,15 @@ function OpenIcon() {
   )
 }
 
+function BreakdownButton() {
+  return (
+    <a className={`btn btn-light ${styles.open}`} href={`#${BREAKDOWN_ID}`} aria-haspopup="dialog">
+      See the breakdown
+      <OpenIcon />
+    </a>
+  )
+}
+
 // The band's figures on a hotel page: "Aggregated data" and the confidence above them, then
 // "From 19 stays, newest Sep 2025." and the "See the breakdown" button under them.
 export function SourcedSummary({ data }: { data: SourcedAggregate }) {
@@ -69,13 +80,21 @@ export function SourcedSummary({ data }: { data: SourcedAggregate }) {
             From {staysLabel(data.stays)}
             {data.latest ? `, newest ${monthLabel(data.latest)}` : ''}.
           </p>
-          <a className={`btn btn-light ${styles.open}`} href={`#${BREAKDOWN_ID}`} aria-haspopup="dialog">
-            See the breakdown
-            <OpenIcon />
-          </a>
+          <BreakdownButton />
         </div>
       }
     />
+  )
+}
+
+// Under the hotel's own figures in the band, for a hotel whose only stays are readers': how
+// many, and the button to the window with their odds.
+export function ReaderFoot({ stays }: { stays: number }) {
+  return (
+    <div className={`figs-foot ${styles.foot}`}>
+      <p>Readers have added {staysLabel(stays)}.</p>
+      <BreakdownButton />
+    </div>
   )
 }
 
@@ -123,10 +142,18 @@ function Report({ row, undated }: { row: SourcedRow; undated?: boolean }) {
   )
 }
 
-// The breakdown window. Nothing when the hotel has no aggregated data.
-export function SourcedPanel({ data, hotelName }: { data: HotelSourcedData; hotelName: string }) {
+// The breakdown window: the aggregated data, with the reader odds (readers) after the rates
+// by status. Nothing when the hotel has neither.
+export function SourcedPanel({ data, hotelName, readers, readerStays = 0 }: { data: HotelSourcedData; hotelName: string; readers?: ReactNode; readerStays?: number }) {
   const a = data.data
-  if (!a) return null
+  if (!a && !readers) return null
+  if (!a) {
+    return (
+      <BreakdownWindow id={BREAKDOWN_ID} eyebrow="Reader stays" title={hotelName} foot={`${staysLabel(readerStays)} from readers`}>
+        <div className={styles.only}>{readers}</div>
+      </BreakdownWindow>
+    )
+  }
   const dated = data.rows.filter((r) => r.when)
   const undated = data.rows.filter((r) => !r.when)
   return (
@@ -174,6 +201,7 @@ export function SourcedPanel({ data, hotelName }: { data: HotelSourcedData; hote
           </table>
         </section>
       )}
+      {readers}
       <section aria-labelledby="bd-every-h">
         <div className="mod-head thin">
           <h2 id="bd-every-h">Every stay</h2>

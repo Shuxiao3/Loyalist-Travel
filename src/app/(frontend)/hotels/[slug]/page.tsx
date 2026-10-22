@@ -5,8 +5,8 @@ import type { Where } from 'payload'
 import type { ReactNode } from 'react'
 
 import { HotelStayForm } from '@/components/HotelStayForm'
-import { ReaderPanel } from '@/components/ReaderPanel'
-import { SourcedPanel, SourcedSummary } from '@/components/SourcedPanel'
+import { hasReaderStays, ReaderPanel } from '@/components/ReaderPanel'
+import { ReaderFoot, SourcedPanel, SourcedSummary } from '@/components/SourcedPanel'
 import { ViewBeacon } from '@/components/ViewBeacon'
 import { rel, score, shortDate } from '@/lib/format'
 import { getHotelSnapshots } from '@/lib/hotelSnapshot'
@@ -108,10 +108,10 @@ async function otherHotels(hotel: Hotel, destination: Destination | null, brand:
 // A hotel page (mockups: hotel.html, a hotel without a review; hotel-reviewed.html; hotel-empty.html,
 // no stays yet; hotel-breakdown.html, the window open). A navy band with the photo, the name, the
 // figures (aggregated stay data, else the hotel's own: rooms, opening, resort fee); then the review
-// as one compact strip when there is one, reader odds once readers have added enough stays, the
-// hotel's details, its club lounge and other hotels nearby; the add-your-stay form and the program,
-// brand and city beside them. The individual reported stays and the rates by status sit in the
-// breakdown window.
+// as one compact strip when there is one, the hotel's details, its club lounge and other hotels
+// nearby; the add-your-stay form and the program, brand and city beside them. The individual
+// reported stays, the rates by status and the reader odds sit in the breakdown window, behind
+// "See the breakdown" (under the hotel's own figures when readers are its only stays).
 export default async function HotelPage({ params }: Props) {
   const { slug } = await params
   const hotel = await getHotel(slug)
@@ -205,6 +205,7 @@ export default async function HotelPage({ params }: Props) {
     </dl>
   )
 
+  const readers = hasReaderStays(readerData, recentStays)
   const noStays = !sourced.data && readerData.count === 0
   const addIntro = noStays
     ? `No stays reported for ${hotel.name} yet, so yours would be the first. Two minutes, dropdowns only.`
@@ -261,7 +262,7 @@ export default async function HotelPage({ params }: Props) {
             {sourced.data ? (
               <SourcedSummary data={sourced.data} />
             ) : (
-              hotelFigs.length > 0 && (
+              (hotelFigs.length > 0 || readers) && (
                 <div className="figs figs-sm">
                   {hotelFigs.map((f) => (
                     <div className="fig" key={f.key}>
@@ -270,6 +271,7 @@ export default async function HotelPage({ params }: Props) {
                       {f.s && <p className="fig-s">{f.s}</p>}
                     </div>
                   ))}
+                  {readers && <ReaderFoot stays={readerData.count} />}
                 </div>
               )
             )}
@@ -309,8 +311,6 @@ export default async function HotelPage({ params }: Props) {
                 </Link>
               </div>
             )}
-
-            <ReaderPanel data={readerData} latest={recentStays} />
 
             <section className="mod" aria-labelledby="hotel-h">
               <div className="mod-head">
@@ -503,7 +503,7 @@ export default async function HotelPage({ params }: Props) {
         </div>
       </main>
 
-      <SourcedPanel data={sourced} hotelName={hotel.name} />
+      <SourcedPanel data={sourced} hotelName={hotel.name} readers={readers ? <ReaderPanel data={readerData} latest={recentStays} /> : undefined} readerStays={readerData.count} />
     </>
   )
 }

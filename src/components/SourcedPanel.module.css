@@ -37,6 +37,9 @@
 
 /* ---------- The window ---------- */
 
+/* With reader odds alone in the window, their head sits right under the window's own: no rule */
+.only > section > :global(.mod-head) { border-top: 0; padding-top: 0; }
+
 /* "Date not stated, 10 stays": a thin subhead over the undated stays */
 .group {
   font: 600 var(--fs-2)/1.3 var(--sans);

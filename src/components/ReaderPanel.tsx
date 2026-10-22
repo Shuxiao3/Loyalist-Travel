@@ -32,18 +32,21 @@ function Cell({ value, n, label }: { value: number | null; n: number; label: str
   )
 }
 
-// Reader odds on a hotel page: the stays readers added here. Once the hotel has enough of them
-// (MIN_STAYS), three figures, the rates by status, then the latest stays; before that, the
-// latest stays alone with a line on when the odds appear; with none, nothing (the
-// add-your-stay box says how many it takes).
+// Reader odds, a section of a hotel's breakdown window: like the aggregated data, they sit
+// behind "See the breakdown", never open on the page. The stays readers added here: once the
+// hotel has enough of them (MIN_STAYS), three figures, the rates by status, then the latest
+// stays; before that, the latest stays alone with a line on when the odds appear; with none,
+// nothing (the add-your-stay box says how many it takes).
+export const hasReaderStays = (data: HotelReaderData, latest: ReaderStay[]) => Boolean(data.all) || latest.length > 0
+
 export function ReaderPanel({ data, latest }: { data: HotelReaderData; latest: ReaderStay[] }) {
   const a = data.all
   if (!a) {
     if (latest.length === 0) return null
     return (
-      <section className="mod" aria-labelledby="reader-h">
-        <div className="mod-head">
-          <h2 id="reader-h">Reader odds</h2>
+      <section aria-labelledby="bd-reader-h">
+        <div className="mod-head thin">
+          <h2 id="bd-reader-h">Reader odds</h2>
         </div>
         <p className={styles.waiting}>
           Readers have added {staysLabel(data.count)} here so far. The odds appear once {MIN_STAYS} stays have been checked.
@@ -54,9 +57,9 @@ export function ReaderPanel({ data, latest }: { data: HotelReaderData; latest: R
   }
   const noCert = a.stays - a.certStays
   return (
-    <section className="mod" aria-labelledby="reader-h">
-      <div className="mod-head">
-        <h2 id="reader-h">Reader odds</h2>
+    <section aria-labelledby="bd-reader-h">
+      <div className="mod-head thin">
+        <h2 id="bd-reader-h">Reader odds</h2>
         <span className="aside">Confidence: {a.confidence}</span>
       </div>
       <div className={`figs figs-sm ${styles.figs}`}>

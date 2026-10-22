@@ -11,7 +11,7 @@ import styles from './page.module.css'
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getSeo()
-  return pageMeta({ ...metaText(seo?.submitAStay, {}, { title: 'Submit a stay', description: 'Two minutes, no typing. Your upgrade outcome joins the data for that hotel.' }), path: '/submit-a-stay' })
+  return pageMeta({ ...metaText(seo?.submitAStay, {}, { title: 'Add your stay', description: 'Two minutes, no typing. Your upgrade outcome joins the data for that hotel.' }), path: '/submit-a-stay' })
 }
 
 // Add your stay (mockups: submit-a-stay.html, -search, -cert, -done): the form on the left,
