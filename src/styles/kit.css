@@ -115,7 +115,15 @@ summary::-webkit-details-marker { display: none; }
 .caption { font-size: var(--fs-1); line-height: 1.4; color: var(--muted); margin-top: 6px; }
 
 /* ---------- Header ---------- */
-.site-head { position: relative; z-index: 50; background: var(--navy); color: var(--on-navy); border-bottom: 1px solid var(--navy-line); }
+/* The header sticks to the top. While the reader scrolls down it slides out of view (.away, set
+   by the header script) and it comes back on any scroll up. --head-offset is the room it takes
+   while it shows: sticky side columns and in-page jumps keep clear of it. */
+.site-head { position: sticky; top: 0; z-index: 50; background: var(--navy); color: var(--on-navy); border-bottom: 1px solid var(--navy-line); transition: transform 0.25s ease; }
+.site-head.away { transform: translateY(-100%); }
+:root { --head-offset: calc(var(--head-h) + 1px); }
+:root.head-away { --head-offset: 0px; }
+html { scroll-padding-top: var(--head-offset); }
+@media (prefers-reduced-motion: reduce) { .site-head { transition: none; } }
 .head-row { display: flex; align-items: center; gap: 30px; height: var(--head-h); }
 .brand { flex: none; display: flex; align-items: center; gap: 10px; font: 600 var(--fs-5)/1 var(--serif); color: #fff; white-space: nowrap; }
 .brand img { width: 30px; height: 30px; }

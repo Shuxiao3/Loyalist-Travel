@@ -90,6 +90,32 @@ export function SiteHeaderNav({ menus }: { menus: HeaderMenus }) {
 
   useEffect(() => setReady(true), [])
 
+  // Slides away while the reader scrolls down and comes back on any scroll up, so the nav is
+  // always one small scroll away. It stays near the top of the page, and while a menu, the
+  // drawer or the search bar is open.
+  const [scrolledAway, setScrolledAway] = useState(false)
+  useEffect(() => {
+    let last = window.scrollY
+    let ticking = false
+    const onScroll = () => {
+      if (ticking) return
+      ticking = true
+      requestAnimationFrame(() => {
+        const y = window.scrollY
+        if (y < 80 || y < last - 4) setScrolledAway(false)
+        else if (y > last + 4) setScrolledAway(true)
+        last = y
+        ticking = false
+      })
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+  const away = scrolledAway && !menu && !drawer && !search
+  useEffect(() => {
+    document.documentElement.classList.toggle('head-away', away)
+  }, [away])
+
   // A new page closes everything and lets go of focus held in the header.
   useEffect(() => {
     setMenu(null)
@@ -261,7 +287,7 @@ export function SiteHeaderNav({ menus }: { menus: HeaderMenus }) {
   }
 
   return (
-    <header className={`site-head${ready ? ' js' : ''}`} ref={headRef}>
+    <header className={`site-head${ready ? ' js' : ''}${away ? ' away' : ''}`} ref={headRef}>
       <div className="wrap head-row">
         <Link className="brand" href="/">
           <img src="/icon.svg" alt="" width={30} height={30} />

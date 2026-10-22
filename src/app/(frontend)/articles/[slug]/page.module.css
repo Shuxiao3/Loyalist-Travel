@@ -17,7 +17,7 @@
 
 /* Contents rail: stays in view while reading; a list taller than the window scrolls inside
    itself, so its last sections stay reachable */
-.rail { position: sticky; top: var(--sp-5); min-width: 0; max-height: calc(100vh - 2 * var(--sp-5)); overflow-y: auto; overscroll-behavior: contain; }
+.rail { position: sticky; top: calc(var(--head-offset) + var(--sp-5)); transition: top 0.25s ease; min-width: 0; max-height: calc(100vh - var(--head-offset) - 2 * var(--sp-5)); overflow-y: auto; overscroll-behavior: contain; }
 
 /* The text */
 .body { min-width: 0; }
@@ -31,7 +31,7 @@
 /* Side column: stays in view beside the text when the window is tall enough to show all of it */
 .side { min-width: 0; }
 @media (min-width: 961px) and (min-height: 760px) {
-  .side { position: sticky; top: var(--sp-5); }
+  .side { position: sticky; top: calc(var(--head-offset) + var(--sp-5)); transition: top 0.25s ease; }
 }
 .side > * + * { margin-top: 28px; }
 

@@ -99,7 +99,7 @@
 .hotel :global(.kv) { margin-top: var(--sp-2); }
 .hotel :global(.kv) > div { grid-template-columns: 84px minmax(0, 1fr); }
 .hotelAct { margin-top: var(--sp-3); }
-.toc { position: sticky; top: var(--sp-4); }
+.toc { position: sticky; top: calc(var(--head-offset) + var(--sp-4)); transition: top 0.25s ease; }
 
 /* ======================================================= Responsive */
 @media (max-width: 1180px) {
