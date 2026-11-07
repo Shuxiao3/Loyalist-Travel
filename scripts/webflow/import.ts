@@ -2504,11 +2504,14 @@ type PlaceFixes = {
   // filed an older hotel under (it refreshed one first made from its code)
   merges?: { from: string; name: string; country: string; into: string; alias?: boolean; moveOlder?: string[] }[]
   renames?: { slug: string; was: string; name: string; country: string; newSlug?: string; alias?: boolean }[]
-  hotelSlugs?: { from: string; to: string }[]
+  // code: the hotel code its booking link must hold, so a slug that has
+  // passed to another hotel since is never renamed again
+  hotelSlugs?: { from: string; to: string; code: string }[]
   hotelAddresses?: { slug: string; from: string; to: string }[]
-  // hotels the import filled wrongly: the next Hilton import rewrites them
-  // from the hotel list, as for a hotel first made from its code alone
-  requeue?: string[]
+  // hotels the import filled wrongly, while they still carry the wrong name:
+  // the next Hilton import rewrites them from the hotel list, as for a hotel
+  // first made from its code alone
+  requeue?: { slug: string; whileName: string }[]
 }
 
 async function placeFixes(payload: Payload) {
@@ -2633,7 +2636,7 @@ async function placeFixes(payload: Payload) {
   // 5. hotel slugs and addresses
   for (const x of f.hotelSlugs ?? []) {
     const h = await findHotel(x.from)
-    if (!h || !isNew(h)) continue
+    if (!h || !isNew(h) || !h.bookingLink?.toLowerCase().includes(`/${x.code.toLowerCase()}-`)) continue
     if (await findHotel(x.to)) {
       console.log(`place-fixes: hotel ${x.from}: the slug ${x.to} is taken; kept`)
       continue
@@ -2647,9 +2650,9 @@ async function placeFixes(payload: Payload) {
     await payload.update({ collection: 'hotels', id: h.id, data: { streetAddress: x.to } as never, depth: 0, overrideAccess: true })
     tally('hotel addresses')
   }
-  for (const slug of f.requeue ?? []) {
+  for (const { slug, whileName } of f.requeue ?? []) {
     const h = await findHotel(slug)
-    if (!h || !isNew(h) || h.enrichmentStatus === 'queued') continue
+    if (!h || !isNew(h) || h.enrichmentStatus === 'queued' || h.name !== whileName) continue
     await payload.update({ collection: 'hotels', id: h.id, data: { enrichmentStatus: 'queued' } as never, depth: 0, overrideAccess: true })
     console.log(`place-fixes: hotel ${slug}: queued for the next Hilton import to rewrite`)
     tally('hotels queued')

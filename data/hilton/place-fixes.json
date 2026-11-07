@@ -571,19 +571,23 @@
  "hotelSlugs": [
   {
    "from": "ga-a-riverlodge-an-slh-hotel",
-   "to": "gaia-riverlodge-an-slh-hotel"
+   "to": "gaia-riverlodge-an-slh-hotel",
+   "code": "bzegrlx"
   },
   {
    "from": "torre-del-marqu-s-hotel-spa-and-winery-an-slh-hotel",
-   "to": "torre-del-marques-hotel-spa-and-winery-an-slh-hotel"
+   "to": "torre-del-marques-hotel-spa-and-winery-an-slh-hotel",
+   "code": "bcntdlx"
   },
   {
    "from": "goldwynn-resort-and-residences-an-slh-hotel",
-   "to": "itzana-resort-and-residences-an-slh-hotel"
+   "to": "itzana-resort-and-residences-an-slh-hotel",
+   "code": "bzeirlx"
   },
   {
    "from": "goldwynn-resort-and-residences-an-slh-hotel-nassau",
-   "to": "goldwynn-resort-and-residences-an-slh-hotel"
+   "to": "goldwynn-resort-and-residences-an-slh-hotel",
+   "code": "nasgwlx"
   }
  ],
  "hotelAddresses": [
@@ -599,6 +603,9 @@
   }
  ],
  "requeue": [
-  "itzana-resort-and-residences-an-slh-hotel"
+  {
+   "slug": "itzana-resort-and-residences-an-slh-hotel",
+   "whileName": "Goldwynn Resort & Residences, an SLH Hotel"
+  }
  ]
 }
