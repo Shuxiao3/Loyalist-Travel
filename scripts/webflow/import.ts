@@ -46,6 +46,11 @@ const optionLabel = (collection: string, field: string, id: unknown): string | n
 }
 const slugify = (label: string | null): string | null =>
   label ? label.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') : null
+// For new slugs made from names: accents dropped first ("Málaga" -> "malaga",
+// not "m-laga"; "Wrocław" -> "wroclaw"). Empty when nothing Latin is left.
+const PLAIN_LETTERS: Record<string, string> = { ł: 'l', Ł: 'L', ø: 'o', Ø: 'O', đ: 'd', Đ: 'D', ß: 'ss', æ: 'ae', Æ: 'AE', œ: 'oe', Œ: 'OE', ı: 'i', þ: 'th', ð: 'd' }
+const asciiSlug = (label: string): string =>
+  slugify(label.normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/[łŁøØđĐßæÆœŒıþð]/g, (c) => PLAIN_LETTERS[c])) ?? ''
 
 const imageUrl = (v: unknown): string | null => (v && typeof v === 'object' && 'url' in v ? String((v as { url: string }).url) : null)
 const text = (v: unknown): string | null => (typeof v === 'string' && v.trim() ? v : null)
@@ -2329,14 +2334,26 @@ async function importHilton(payload: Payload) {
       skipped++
       continue
     }
+    // an SLH hotel is created only with its address from slh.com or its
+    // Hilton page; the city in its hotel code is just the nearest airport's
+    if (r.brandCode === 'LX' && r.source === 'slug' && !byCode.get(r.ctyhocn) && !byName.get(r.name.toLowerCase())) {
+      skippedBrands['LX without an address'] = (skippedBrands['LX without an address'] ?? 0) + 1
+      skipped++
+      continue
+    }
     const country = countryName(r.country)!
     const region = country === 'United States' && r.region && US_STATES[r.region.toUpperCase()] ? US_STATES[r.region.toUpperCase()] : r.region
     const key = `${r.city.toLowerCase()}|${country.toLowerCase()}`
     let destId = destByKey.get(key)
     if (!destId) {
-      let slug = slugify(r.city)!
-      if (destSlugs.has(slug)) slug = slugify(`${r.city} ${country}`)!
-      if (destSlugs.has(slug)) slug = slugify(`${r.city} ${region ?? ''} ${country}`)!
+      let slug = asciiSlug(r.city)
+      if (!slug) {
+        console.log(`hilton: ${r.name}: no usable city name ("${r.city}"), skipped`)
+        skipped++
+        continue
+      }
+      if (destSlugs.has(slug)) slug = asciiSlug(`${r.city} ${country}`)
+      if (destSlugs.has(slug)) slug = asciiSlug(`${r.city} ${region ?? ''} ${country}`)
       const d = await payload.create({
         collection: 'destinations',
         overrideAccess: true,
@@ -2376,8 +2393,8 @@ async function importHilton(payload: Payload) {
       }
       continue
     }
-    let slug = slugify(r.name)!
-    if (allSlugs.has(slug)) slug = slugify(`${r.name} ${r.city}`)!
+    let slug = asciiSlug(r.name) || r.ctyhocn.toLowerCase()
+    if (allSlugs.has(slug)) slug = asciiSlug(`${r.name} ${r.city}`) || `${slug}-${asciiSlug(r.city) || 'hotel'}`
     if (allSlugs.has(slug)) slug = `${slug}-${r.ctyhocn.toLowerCase()}`
     const doc = await payload.create({
       collection: 'hotels',

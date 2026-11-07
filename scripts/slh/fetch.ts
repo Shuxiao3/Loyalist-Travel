@@ -57,7 +57,8 @@ export type SlhAddress = { name: string; street: string | null; city: string | n
 export function parseAddress(html: string): SlhAddress | null {
   const m = html.match(/Hotel Address\s*<\/h2>\s*<\/div>((?:\s*<p>[^<]*<\/p>){3,10})/)
   if (!m) return null
-  const p = [...m[1].matchAll(/<p>([^<]*)<\/p>/g)].map((x) => decode(x[1]))
+  // a lone "." or "-" stands for an empty line
+  const p = [...m[1].matchAll(/<p>([^<]*)<\/p>/g)].map((x) => decode(x[1])).map((l) => (/^[\s.,-]*$/.test(l) ? '' : l))
   const [name] = p
   const country = p[p.length - 1] || null
   const mid = p.slice(1, -1)
@@ -77,8 +78,31 @@ export function parseAddress(html: string): SlhAddress | null {
     city = mid[mid.length - 2] || null
     street = mid.slice(0, -2)
   } else city = mid[0] || null
-  const streetLine = street.filter((l) => l && !/^[\s.,-]*$/.test(l) && l !== city).join(', ') || null
+  // Where a country has no postcodes, many blocks move up a line: the town
+  // sits on the postcode line, and the city line holds "." or a district or
+  // PO box (Ka'ana Resort: ".", "San Ignacio"; O Monot: "PO Box 11 6182",
+  // "Beirut"). A postcode line with no digit is that town; the line above it
+  // joins the street. The page title names the town best where it does
+  // ("Calala Island, Luxury Hotel in Pearl Cays, Nicaragua", where the
+  // postcode line says "NiCaribbean").
+  if (postalCode && !/\d/.test(postalCode)) {
+    if (city) street.push(city)
+    city = cityFromTitle(html, country, name) ?? postalCode
+    postalCode = null
+  } else if (!city) city = cityFromTitle(html, country, name)
+  const streetLine = street.filter((l) => l && l !== city).join(', ') || null
   return { name, street: streetLine, city, postalCode, region, country }
+}
+
+// The town in the page title: "Ka'ana Resort, Luxury Hotel in San Ignacio,
+// Belize | SLH" -> "San Ignacio"; "Palacio Solecio, Luxury Hotel, Málaga |
+// SLH" -> "Málaga". Nothing when the title names only the country ("S Hotel
+// Montego Bay, Luxury Boutique Hotel, in Jamaica") or only the hotel.
+export function cityFromTitle(html: string, country: string | null, name: string): string | null {
+  const t = decode(html.match(/<title>([^<]*?)\s*\|\s*SLH/)?.[1] ?? '')
+  const inPlace = t.match(/ in ([^|]+)$/)?.[1]
+  const place = (inPlace ?? (t.includes(',') ? t.split(',').slice(-1)[0] : '')).split(',')[0].trim()
+  return place && place !== country && place !== name ? place : null
 }
 
 async function slhHotelPages(): Promise<string[]> {
