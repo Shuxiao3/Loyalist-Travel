@@ -51,19 +51,34 @@ export type SlhAddress = { name: string; street: string | null; city: string | n
 
 // The "Hotel Address" block: the name, one or more street lines, then the
 // city, the postcode, the state (often blank) and the country, one <p> each.
-// A town repeated as a street line ("Windham", "Windham") is dropped.
+// Where a country has no postcodes the block is one line short, and the
+// line before the country is a postcode only if it has a digit. A town
+// repeated as a street line ("Windham", "Windham") and a lone "." are dropped.
 export function parseAddress(html: string): SlhAddress | null {
   const m = html.match(/Hotel Address\s*<\/h2>\s*<\/div>((?:\s*<p>[^<]*<\/p>){3,10})/)
   if (!m) return null
   const p = [...m[1].matchAll(/<p>([^<]*)<\/p>/g)].map((x) => decode(x[1]))
-  if (p.length < 5) return null
   const [name] = p
   const country = p[p.length - 1] || null
-  const region = p[p.length - 2] || null
-  const postalCode = p[p.length - 3] || null
-  const city = p[p.length - 4] || null
-  const street = p.slice(1, -4).filter((l) => l && l !== city).join(', ') || null
-  return { name, street, city, postalCode, region, country }
+  const mid = p.slice(1, -1)
+  let street: string[] = []
+  let city: string | null = null
+  let postalCode: string | null = null
+  let region: string | null = null
+  if (mid.length >= 4) {
+    region = mid[mid.length - 1] || null
+    postalCode = mid[mid.length - 2] || null
+    city = mid[mid.length - 3] || null
+    street = mid.slice(0, -3)
+  } else if (mid.length >= 2) {
+    const last = mid[mid.length - 1]
+    if (/\d/.test(last)) postalCode = last
+    else region = last || null
+    city = mid[mid.length - 2] || null
+    street = mid.slice(0, -2)
+  } else city = mid[0] || null
+  const streetLine = street.filter((l) => l && !/^[\s.,-]*$/.test(l) && l !== city).join(', ') || null
+  return { name, street: streetLine, city, postalCode, region, country }
 }
 
 async function slhHotelPages(): Promise<string[]> {
