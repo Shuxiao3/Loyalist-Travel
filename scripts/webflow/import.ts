@@ -2393,6 +2393,122 @@ async function importHilton(payload: Payload) {
   console.log('skipped brand codes:', Object.entries(skippedBrands).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${k} ${v}`).join(', ') || 'none')
 }
 
+// ---- Hotels added one by one ----------------------------------------------------
+// data/extra-hotels.json lists hotels that neither the Webflow export nor the
+// Hilton list has, added as someone notices one missing. Each is created and
+// published under its program, brand and city (a city the site lacks is
+// made, in its country's usual region). A hotel already on the site, by slug,
+// only gets the fields it has no value for, so nothing edited in the admin is
+// overwritten.
+type ExtraHotel = {
+  name: string
+  slug: string
+  program: string
+  brand: string
+  city: string
+  country: string
+  stateOrRegion?: string | null
+  propertyType?: 'city' | 'resort' | null
+  neighborhood?: string | null
+  streetAddress?: string | null
+  phone?: string | null
+  bookingLink?: string | null
+  numberOfRooms?: number | null
+  openingYear?: number | null
+  renovationYear?: number | null
+  checkInTime?: string | null
+  checkOutTime?: string | null
+  clubLounge?: 'yes' | 'no' | null
+  resortFee?: string | null
+  petFee?: string | null
+  amenities?: string[]
+  pointsEligible?: boolean
+}
+
+async function importExtraHotels(payload: Payload) {
+  const file = path.resolve(process.cwd(), 'data/extra-hotels.json')
+  const list = (JSON.parse(fs.readFileSync(file, 'utf8')) as { hotels?: ExtraHotel[] }).hotels ?? []
+  const bySlug = async (collection: 'programs' | 'brands' | 'hotels', slug: string) =>
+    (await payload.find({ collection, where: { slug: { equals: slug } }, limit: 1, depth: 0, overrideAccess: true, draft: true })).docs[0]
+  const amenityIds = new Map((await payload.find({ collection: 'amenities', limit: 200, depth: 0, overrideAccess: true })).docs.map((a) => [a.name.toLowerCase(), a.id]))
+  let created = 0
+  let updated = 0
+  let skipped = 0
+  for (const h of list) {
+    const program = await bySlug('programs', h.program)
+    const brand = await bySlug('brands', h.brand)
+    if (!program || !brand) {
+      console.log(`extra-hotels: ${h.slug}: no program "${h.program}" or brand "${h.brand}" on the site, so it is skipped`)
+      skipped++
+      continue
+    }
+    const inCountry = (await payload.find({ collection: 'destinations', where: { country: { equals: h.country } }, limit: 5000, depth: 0, overrideAccess: true, draft: true })).docs
+    const city = h.city.toLowerCase()
+    let destination = inCountry.find((d) => d.city?.toLowerCase() === city) ?? inCountry.find((d) => d.name?.toLowerCase() === city)
+    if (!destination) {
+      const regions = new Map<number, number>()
+      for (const d of inCountry) {
+        const r = typeof d.region === 'object' ? d.region?.id : d.region
+        if (r) regions.set(r, (regions.get(r) ?? 0) + 1)
+      }
+      const region = [...regions.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? null
+      const taken = async (slug: string) => (await payload.find({ collection: 'destinations', where: { slug: { equals: slug } }, limit: 1, depth: 0, overrideAccess: true, draft: true })).totalDocs > 0
+      let slug = slugify(h.city)!
+      if (await taken(slug)) slug = slugify(`${h.city} ${h.country}`)!
+      destination = await payload.create({
+        collection: 'destinations',
+        overrideAccess: true,
+        depth: 0,
+        data: { name: h.city, slug, city: h.city, stateOrRegion: h.stateOrRegion ?? null, country: h.country, locationLabel: `${h.city}, ${h.country}`, region, _status: 'published' } as never,
+      })
+      console.log(`extra-hotels: ${h.slug}: made the destination ${h.city}, ${h.country}`)
+    }
+    const amenities = (h.amenities ?? []).map((a) => amenityIds.get(a.toLowerCase())).filter((id): id is number => id != null)
+    const unknown = (h.amenities ?? []).filter((a) => !amenityIds.has(a.toLowerCase()))
+    if (unknown.length) console.log(`extra-hotels: ${h.slug}: no amenity named ${unknown.join(', ')}, left out`)
+    const data: Record<string, unknown> = {
+      name: h.name,
+      program: program.id,
+      brand: brand.id,
+      destination: destination.id,
+      propertyType: h.propertyType ?? null,
+      neighborhood: h.neighborhood ?? null,
+      streetAddress: h.streetAddress ?? null,
+      phone: h.phone ?? null,
+      bookingLink: h.bookingLink ?? null,
+      numberOfRooms: h.numberOfRooms ?? null,
+      openingYear: h.openingYear ?? null,
+      renovationYear: h.renovationYear ?? null,
+      checkInTime: h.checkInTime ?? null,
+      checkOutTime: h.checkOutTime ?? null,
+      clubLounge: h.clubLounge ?? null,
+      resortFee: h.resortFee ?? null,
+      petFee: h.petFee ?? null,
+      amenities,
+    }
+    const found = (await bySlug('hotels', h.slug)) as unknown as Record<string, unknown> | undefined
+    if (found) {
+      const blank = (v: unknown) => v == null || v === '' || (Array.isArray(v) && v.length === 0)
+      const patch = Object.fromEntries(Object.entries(data).filter(([k, v]) => !blank(v) && blank(found[k])))
+      if (Object.keys(patch).length) {
+        await payload.update({ collection: 'hotels', id: found.id as number, data: patch as never, depth: 0, overrideAccess: true })
+        console.log(`extra-hotels: ${h.slug}: already on the site; filled ${Object.keys(patch).join(', ')}`)
+        updated++
+      } else console.log(`extra-hotels: ${h.slug}: already on the site, nothing to fill`)
+      continue
+    }
+    await payload.create({
+      collection: 'hotels',
+      overrideAccess: true,
+      depth: 0,
+      data: { ...data, slug: h.slug, reviewStatus: 'not-reviewed', pointsEligible: h.pointsEligible !== false, enrichmentStatus: 'enriched', _status: 'published' } as never,
+    })
+    console.log(`extra-hotels: ${h.slug}: created`)
+    created++
+  }
+  console.log(`extra-hotels: ${created} created, ${updated} filled in, ${skipped} skipped`)
+}
+
 // ---- main -------------------------------------------------------------------
 
 const STEPS: Record<string, (p: Payload) => Promise<void>> = {
@@ -2413,6 +2529,7 @@ const STEPS: Record<string, (p: Payload) => Promise<void>> = {
   images: applyImages,
   'logos-local': fetchLogos,
   hilton: importHilton,
+  'extra-hotels': importExtraHotels,
   'seed-articles': seedArticles,
   'unseed-articles': unseedArticles,
   articles: importArticles,

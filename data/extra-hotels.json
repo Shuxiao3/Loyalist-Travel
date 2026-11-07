@@ -1,0 +1,4 @@
+{
+  "_note": "Hotels the Webflow export and the Hilton list do not have, added one by one as someone notices one missing. Applied by `npm run import:webflow -- extra-hotels` (Import Webflow content workflow, step extra-hotels): a hotel not on the site yet is created and published under its program, brand and city (slugs; a city the site lacks is made); one already there, by slug, only gets the fields it has no value for, so nothing edited in the admin is overwritten. Amenities are named as in the admin's Amenities list. Its photo goes through the Add a hotel photo workflow.",
+  "hotels": []
+}
