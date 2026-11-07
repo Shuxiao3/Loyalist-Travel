@@ -2412,6 +2412,34 @@ async function importHilton(payload: Payload) {
   console.log('skipped brand codes:', Object.entries(skippedBrands).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${k} ${v}`).join(', ') || 'none')
 }
 
+// ---- Places report (read-only) ---------------------------------------------------
+// Prints every destination (with its hotel count and region) and every hotel
+// created in the last three days, one line each, so the cities an import
+// made can be checked against the ones the site already had. Changes nothing.
+async function placesReport(payload: Payload) {
+  const regions = new Map((await payload.find({ collection: 'regions', limit: 100, depth: 0, overrideAccess: true })).docs.map((r) => [r.id, r.slug]))
+  const hotels = (await payload.find({ collection: 'hotels', limit: 20000, depth: 0, overrideAccess: true, draft: true, select: { destination: true, slug: true, name: true, streetAddress: true, bookingLink: true, createdAt: true, updatedAt: true, _status: true, brand: true } })).docs
+  const count = new Map<number, number>()
+  for (const h of hotels) {
+    const d = typeof h.destination === 'object' ? h.destination?.id : h.destination
+    if (d) count.set(d, (count.get(d) ?? 0) + 1)
+  }
+  const dests = (await payload.find({ collection: 'destinations', limit: 10000, depth: 0, overrideAccess: true, draft: true, sort: 'id' })).docs
+  const clean = (v: unknown) => String(v ?? '').replace(/[|\n]/g, ' ')
+  for (const d of dests) {
+    const region = typeof d.region === 'object' ? d.region?.id : d.region
+    console.log(['dest', d.id, d.slug, d.name, d.city, d.stateOrRegion, d.country, region ? regions.get(region) : '', d.createdAt?.slice(0, 16), count.get(d.id) ?? 0, d._status].map(clean).join('|'))
+  }
+  const since = new Date(Date.now() - 3 * 86400000).toISOString()
+  const brands = new Map((await payload.find({ collection: 'brands', limit: 500, depth: 0, overrideAccess: true })).docs.map((b) => [b.id, b.slug]))
+  for (const h of hotels.filter((x) => x.createdAt >= since)) {
+    const d = typeof h.destination === 'object' ? h.destination?.id : h.destination
+    const b = typeof h.brand === 'object' ? h.brand?.id : h.brand
+    console.log(['hotel', h.id, h.slug, h.name, b ? brands.get(b) : '', d, h.streetAddress, h.bookingLink, h.createdAt?.slice(0, 16), h.updatedAt?.slice(0, 16), h._status].map(clean).join('|'))
+  }
+  console.log(`places-report: ${dests.length} destinations, ${hotels.length} hotels, ${hotels.filter((x) => x.createdAt >= since).length} created since ${since.slice(0, 10)}`)
+}
+
 // ---- Hotels added one by one ----------------------------------------------------
 // data/extra-hotels.json lists hotels that neither the Webflow export nor the
 // Hilton list has, added as someone notices one missing. Each is created and
@@ -2554,6 +2582,7 @@ const STEPS: Record<string, (p: Payload) => Promise<void>> = {
   'logos-local': fetchLogos,
   hilton: importHilton,
   'extra-hotels': importExtraHotels,
+  'places-report': placesReport,
   'seed-articles': seedArticles,
   'unseed-articles': unseedArticles,
   articles: importArticles,
