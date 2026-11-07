@@ -1,0 +1,598 @@
+{
+ "_note": "City pages the SLH import of 2026-11-07 made, checked against the pages the site already had (each merge and rename judged by one reviewer and checked by a second). Applied by the place-fixes import step to pages and hotels created on or after \"since\" only; the Hilton import also reads it, so a later run files these cities under the right page. A merge whose \"from\" page does not exist only maps that name on import. Entries marked \"alias\": false fix the page but do not map the old name on import, since that name is a different or wider place (Valladolid, Shizuoka, a province or parish).",
+ "since": "2026-11-07T22:05",
+ "merges": [
+  {
+   "from": "ambergris-caye",
+   "name": "Ambergris Caye",
+   "country": "Belize",
+   "into": "san-pedro-town"
+  },
+  {
+   "from": "cable-beach",
+   "name": "Cable Beach",
+   "country": "Bahamas",
+   "into": "nassau"
+  },
+  {
+   "from": "cap-d-antibes-juan-les-pins",
+   "name": "Cap d Antibes - Juan Les Pins",
+   "country": "France",
+   "into": "antibes-juan-les-pins"
+  },
+  {
+   "from": "cartagena-de-indias",
+   "name": "Cartagena de Indias",
+   "country": "Colombia",
+   "into": "cartagena"
+  },
+  {
+   "from": "cayo-district",
+   "name": "Cayo District",
+   "country": "Belize",
+   "into": "san-ignacio",
+   "alias": false
+  },
+  {
+   "from": "copacabana",
+   "name": "Copacabana",
+   "country": "Brazil",
+   "into": "rio-de-janeiro"
+  },
+  {
+   "from": "cork-city",
+   "name": "Cork City",
+   "country": "Ireland",
+   "into": "cork"
+  },
+  {
+   "from": "crans-montana-switzerland",
+   "name": "Crans Montana",
+   "country": "Switzerland",
+   "into": "crans-montana"
+  },
+  {
+   "from": "estoril",
+   "name": "Estoril",
+   "country": "Portugal",
+   "into": "cascais"
+  },
+  {
+   "from": "fez",
+   "name": "Fez",
+   "country": "Morocco",
+   "into": "fes"
+  },
+  {
+   "from": "george-town",
+   "name": "George Town",
+   "country": "Cayman Islands",
+   "into": "grand-cayman"
+  },
+  {
+   "from": "istanbul-turkiye",
+   "name": "Istanbul",
+   "country": "Turkey",
+   "into": "istanbul"
+  },
+  {
+   "from": "lugano-paradiso",
+   "name": "Lugano Paradiso",
+   "country": "Switzerland",
+   "into": "lugano"
+  },
+  {
+   "from": "meads-bay",
+   "name": "Meads Bay",
+   "country": "Anguilla",
+   "into": "anguilla"
+  },
+  {
+   "from": "naxos-and-the-lesser-cyclades",
+   "name": "Naxos and the Lesser Cyclades",
+   "country": "Greece",
+   "into": "naxos"
+  },
+  {
+   "from": "nevsehir-turkiye",
+   "name": "Nevsehir",
+   "country": "Turkey",
+   "into": "nevsehir"
+  },
+  {
+   "from": "orio-al-serio-bg",
+   "name": "Orio al Serio (BG)",
+   "country": "Italy",
+   "into": "lake-como",
+   "alias": false
+  },
+  {
+   "from": "phang-nga-province",
+   "name": "Phang Nga Province",
+   "country": "Thailand",
+   "into": "koh-yao-noi",
+   "alias": false
+  },
+  {
+   "from": "po-box-11-6182",
+   "name": "PO Box 11 6182",
+   "country": "Lebanon",
+   "into": "beirut",
+   "alias": false
+  },
+  {
+   "from": "potts-point",
+   "name": "Potts Point",
+   "country": "Australia",
+   "into": "sydney"
+  },
+  {
+   "from": "san-jose-del-cabo",
+   "name": "San Jose del Cabo",
+   "country": "Mexico",
+   "into": "los-cabos"
+  },
+  {
+   "from": "san-sebastian-spain",
+   "name": "San Sebastian",
+   "country": "Spain",
+   "into": "san-sebastian"
+  },
+  {
+   "from": "santanyi-mallorca",
+   "name": "Santanyi - Mallorca",
+   "country": "Spain",
+   "into": "mallorca"
+  },
+  {
+   "from": "shaoxing-city",
+   "name": "Shaoxing City",
+   "country": "China",
+   "into": "shaoxing"
+  },
+  {
+   "from": "st-marys-parish",
+   "name": "St Marys Parish",
+   "country": "Antigua and Barbuda",
+   "into": "st-mary-s"
+  },
+  {
+   "from": "timisoara",
+   "name": "Timișoara",
+   "country": "Romania",
+   "into": "timi-oara"
+  },
+  {
+   "from": "tlalpan",
+   "name": "Tlalpan",
+   "country": "Mexico",
+   "into": "mexico-city"
+  },
+  {
+   "from": "trat",
+   "name": "Trat",
+   "country": "Thailand",
+   "into": "koh-chang",
+   "alias": false
+  },
+  {
+   "from": "ubud",
+   "name": "Ubud",
+   "country": "Indonesia",
+   "into": "bali"
+  },
+  {
+   "from": "urumqi-county",
+   "name": "Ürümqi County",
+   "country": "China",
+   "into": "r-mqi"
+  },
+  {
+   "from": "xian",
+   "name": "Xian",
+   "country": "China",
+   "into": "xi-an"
+  },
+  {
+   "from": "yantai-penglai",
+   "name": "YanTai, Penglai",
+   "country": "China",
+   "into": "yantai"
+  },
+  {
+   "from": "menaggio",
+   "name": "Menaggio",
+   "country": "Italy",
+   "into": "lake-como"
+  },
+  {
+   "from": "carvalhal",
+   "name": "Carvalhal",
+   "country": "Portugal",
+   "into": "comporta"
+  }
+ ],
+ "renames": [
+  {
+   "slug": "alaior-menorca",
+   "was": "Alaior - Menorca",
+   "name": "Menorca",
+   "country": "Spain",
+   "newSlug": "menorca"
+  },
+  {
+   "slug": "almora",
+   "was": "Almora",
+   "name": "Binsar",
+   "country": "India",
+   "newSlug": "binsar",
+   "alias": false
+  },
+  {
+   "slug": "antibes-juan-les-pins",
+   "was": "Antibes Juan Les Pins",
+   "name": "Antibes",
+   "country": "France",
+   "newSlug": "antibes"
+  },
+  {
+   "slug": "bel-ombre-vca",
+   "was": "Bel Ombre VCA",
+   "name": "Bel Ombre",
+   "country": "Mauritius",
+   "newSlug": "bel-ombre"
+  },
+  {
+   "slug": "ben-ohau",
+   "was": "Ben Ohau",
+   "name": "Lake Pukaki",
+   "country": "New Zealand",
+   "newSlug": "lake-pukaki",
+   "alias": false
+  },
+  {
+   "slug": "blaskogabyggd",
+   "was": "Bláskógabyggð",
+   "name": "Golden Circle",
+   "country": "Iceland",
+   "newSlug": "golden-circle",
+   "alias": false
+  },
+  {
+   "slug": "carruba-di-riposto",
+   "was": "Carruba di Riposto",
+   "name": "Riposto",
+   "country": "Italy",
+   "newSlug": "riposto"
+  },
+  {
+   "slug": "castelnuovo-dell-abate",
+   "was": "Castelnuovo dell'Abate",
+   "name": "Montalcino",
+   "country": "Italy",
+   "newSlug": "montalcino"
+  },
+  {
+   "slug": "cefalu",
+   "was": "Cefalu",
+   "name": "Cefalù",
+   "country": "Italy"
+  },
+  {
+   "slug": "chibi-city",
+   "was": "Chibi City",
+   "name": "Chibi",
+   "country": "China",
+   "newSlug": "chibi"
+  },
+  {
+   "slug": "costigliole-d-asti",
+   "was": "Costigliole d Asti",
+   "name": "Costigliole d'Asti",
+   "country": "Italy"
+  },
+  {
+   "slug": "ehrwald-oberdorf",
+   "was": "Ehrwald Oberdorf",
+   "name": "Ehrwald",
+   "country": "Austria",
+   "newSlug": "ehrwald"
+  },
+  {
+   "slug": "eze-village",
+   "was": "Eze Village",
+   "name": "Èze",
+   "country": "France",
+   "newSlug": "eze"
+  },
+  {
+   "slug": "forest-reserve",
+   "was": "Forest Reserve",
+   "name": "Mountain Pine Ridge",
+   "country": "Belize",
+   "newSlug": "mountain-pine-ridge"
+  },
+  {
+   "slug": "hue-city",
+   "was": "Hue City",
+   "name": "Hue",
+   "country": "Vietnam",
+   "newSlug": "hue"
+  },
+  {
+   "slug": "istria",
+   "was": "Istria",
+   "name": "Buje",
+   "country": "Croatia",
+   "newSlug": "buje",
+   "alias": false
+  },
+  {
+   "slug": "ituzaingo",
+   "was": "Ituzaingo",
+   "name": "Ituzaingó",
+   "country": "Argentina"
+  },
+  {
+   "slug": "le-pontet-avignon",
+   "was": "Le Pontet Avignon",
+   "name": "Le Pontet",
+   "country": "France",
+   "newSlug": "le-pontet"
+  },
+  {
+   "slug": "monachil-sierra-nevada",
+   "was": "Monachil - Sierra Nevada",
+   "name": "Sierra Nevada",
+   "country": "Spain",
+   "newSlug": "sierra-nevada"
+  },
+  {
+   "slug": "monastero-bormida-piedmont",
+   "was": "Monastero Bormida - Piedmont",
+   "name": "Monastero Bormida",
+   "country": "Italy",
+   "newSlug": "monastero-bormida"
+  },
+  {
+   "slug": "morigaon",
+   "was": "Morigaon",
+   "name": "Pobitora",
+   "country": "India",
+   "newSlug": "pobitora",
+   "alias": false
+  },
+  {
+   "slug": "nubra",
+   "was": "Nubra",
+   "name": "Nubra Valley",
+   "country": "India",
+   "newSlug": "nubra-valley"
+  },
+  {
+   "slug": "ojochal-de-osa",
+   "was": "Ojochal de Osa",
+   "name": "Ojochal",
+   "country": "Costa Rica",
+   "newSlug": "ojochal"
+  },
+  {
+   "slug": "ortigia",
+   "was": "Ortigia",
+   "name": "Syracuse",
+   "country": "Italy",
+   "newSlug": "syracuse-italy"
+  },
+  {
+   "slug": "pahang-darul-makmur",
+   "was": "Pahang Darul Makmur",
+   "name": "Cameron Highlands",
+   "country": "Malaysia",
+   "newSlug": "cameron-highlands",
+   "alias": false
+  },
+  {
+   "slug": "phetchaburi",
+   "was": "Phetchaburi",
+   "name": "Cha-am",
+   "country": "Thailand",
+   "newSlug": "cha-am",
+   "alias": false
+  },
+  {
+   "slug": "pissouri-bay-limassol",
+   "was": "Pissouri Bay, Limassol",
+   "name": "Pissouri",
+   "country": "Cyprus",
+   "newSlug": "pissouri"
+  },
+  {
+   "slug": "ploumanac-h",
+   "was": "Ploumanac'h",
+   "name": "Perros-Guirec",
+   "country": "France",
+   "newSlug": "perros-guirec"
+  },
+  {
+   "slug": "riau-islands",
+   "was": "Riau Islands",
+   "name": "Sugi Island",
+   "country": "Indonesia",
+   "newSlug": "sugi-island",
+   "alias": false
+  },
+  {
+   "slug": "saarenkyla",
+   "was": "Saarenkyla",
+   "name": "Rovaniemi",
+   "country": "Finland",
+   "newSlug": "rovaniemi"
+  },
+  {
+   "slug": "santa-teresa-de-cobano",
+   "was": "Santa Teresa de Cobano",
+   "name": "Santa Teresa",
+   "country": "Costa Rica",
+   "newSlug": "santa-teresa"
+  },
+  {
+   "slug": "santo-antonio",
+   "was": "Santo António",
+   "name": "Príncipe",
+   "country": "Sao Tome and Principe",
+   "newSlug": "principe"
+  },
+  {
+   "slug": "serralunga-d-alba",
+   "was": "Serralunga d Alba",
+   "name": "Serralunga d'Alba",
+   "country": "Italy"
+  },
+  {
+   "slug": "shaba",
+   "was": "Shaba",
+   "name": "Paro",
+   "country": "Bhutan",
+   "newSlug": "paro",
+   "alias": false
+  },
+  {
+   "slug": "shizuoka",
+   "was": "Shizuoka",
+   "name": "Ito",
+   "country": "Japan",
+   "newSlug": "ito",
+   "alias": false
+  },
+  {
+   "slug": "silhouette",
+   "was": "Silhouette",
+   "name": "Silhouette Island",
+   "country": "Seychelles",
+   "newSlug": "silhouette-island"
+  },
+  {
+   "slug": "solan",
+   "was": "Solan",
+   "name": "Kasauli",
+   "country": "India",
+   "newSlug": "kasauli",
+   "alias": false
+  },
+  {
+   "slug": "st-christopher",
+   "was": "St Christopher",
+   "name": "Palmetto Point",
+   "country": "Saint Kitts and Nevis",
+   "newSlug": "palmetto-point",
+   "alias": false
+  },
+  {
+   "slug": "st-kitts",
+   "was": "St Kitts",
+   "name": "Nevis",
+   "country": "Saint Kitts and Nevis",
+   "newSlug": "nevis",
+   "alias": false
+  },
+  {
+   "slug": "st-mary-s",
+   "was": "St. Mary's",
+   "name": "Antigua",
+   "country": "Antigua and Barbuda",
+   "newSlug": "antigua"
+  },
+  {
+   "slug": "uchisar-cappadocia",
+   "was": "Uchisar - Cappadocia",
+   "name": "Uchisar",
+   "country": "Turkey",
+   "newSlug": "uchisar"
+  },
+  {
+   "slug": "valladolid",
+   "was": "Valladolid",
+   "name": "Valbuena de Duero",
+   "country": "Spain",
+   "newSlug": "valbuena-de-duero",
+   "alias": false
+  },
+  {
+   "slug": "verbania-pallanza",
+   "was": "Verbania Pallanza",
+   "name": "Verbania",
+   "country": "Italy",
+   "newSlug": "verbania"
+  },
+  {
+   "slug": "vysoke-tatry",
+   "was": "Vysoké Tatry",
+   "name": "High Tatras",
+   "country": "Slovakia",
+   "newSlug": "high-tatras"
+  },
+  {
+   "slug": "wakayama",
+   "was": "Wakayama",
+   "name": "Shirahama",
+   "country": "Japan",
+   "newSlug": "shirahama",
+   "alias": false
+  },
+  {
+   "slug": "westmoreland",
+   "was": "Westmoreland",
+   "name": "Bluefields",
+   "country": "Jamaica",
+   "newSlug": "bluefields",
+   "alias": false
+  },
+  {
+   "slug": "e-me",
+   "was": "Çeşme",
+   "name": "Çeşme",
+   "country": "Turkey",
+   "newSlug": "cesme"
+  },
+  {
+   "slug": "saint-r-my-de-provence",
+   "was": "Saint-Rémy-de-Provence",
+   "name": "Saint-Rémy-de-Provence",
+   "country": "France",
+   "newSlug": "saint-remy-de-provence"
+  }
+ ],
+ "hotelSlugs": [
+  {
+   "from": "ga-a-riverlodge-an-slh-hotel",
+   "to": "gaia-riverlodge-an-slh-hotel"
+  },
+  {
+   "from": "torre-del-marqu-s-hotel-spa-and-winery-an-slh-hotel",
+   "to": "torre-del-marques-hotel-spa-and-winery-an-slh-hotel"
+  },
+  {
+   "from": "goldwynn-resort-and-residences-an-slh-hotel",
+   "to": "itzana-resort-and-residences-an-slh-hotel"
+  },
+  {
+   "from": "goldwynn-resort-and-residences-an-slh-hotel-nassau",
+   "to": "goldwynn-resort-and-residences-an-slh-hotel"
+  }
+ ],
+ "hotelAddresses": [
+  {
+   "slug": "o-monot-boutique-hotel-an-slh-hotel",
+   "from": "Monot Street Saifi, PO Box 11 6182, Beirut Lebanon",
+   "to": "Monot Street Saifi, PO Box 11 6182, Beirut, Lebanon"
+  },
+  {
+   "slug": "gaia-riverlodge-an-slh-hotel",
+   "from": "Mountain Pine Ridge, Forest Reserve, Cayo District Belize",
+   "to": "Mountain Pine Ridge Forest Reserve, Cayo District, Belize"
+  }
+ ],
+ "requeue": [
+  "itzana-resort-and-residences-an-slh-hotel"
+ ]
+}

@@ -120,7 +120,25 @@ export function cityFromTitle(html: string, country: string | null, name: string
 // else the name's (not for an entry filled from slh.com before: that name is
 // slh.com's own), else the one SLH page sharing most of its words, one of
 // them a word that is not common to hotel names
+// SLH pages whose names differ too much from Hilton's to match (or whose
+// address the sitemap leaves out: an apostrophe or comma in it), each checked
+// by hand against the page's own address
+const SLH_PAGES: Record<string, string> = {
+  BGYHVLX: 'grand-hotel-victoria-concept-and-spa',
+  BRISALX: 'sant-angelo-matera',
+  BRSTGLX: 'the-gainsborough',
+  DIJLCLX: 'hotel-le-cep-and-spa',
+  EDIGHLX: 'greywalls-hotel',
+  FCOBALX: 'babuino-181',
+  KIXSKLX: 'sowaka-kyoto',
+  LISQCLX: 'quinta-da-comporta',
+  OPOCBLX: 'carmo-s-boutique-hotel',
+  SOUBHLX: 'bishopstrow-hotel-%2C-a-%2C-spa',
+  BZEIRLX: 'itz%27ana-resort-and-residences',
+}
+
 export function matchSlh(h: HiltonHotel, bySlug: Map<string, string>): string | null {
+  if (SLH_PAGES[h.ctyhocn]) return `https://slh.com/hotels/${SLH_PAGES[h.ctyhocn]}`
   const fromUrl = h.url.match(/\/hotels\/[a-z0-9]+-([a-z0-9-]+)\/?$/)?.[1] ?? ''
   const fromName = h.source === 'slh' ? '' : slug((h.name ?? '').replace(SUFFIX, ''))
   for (const s of [fromUrl, fromName]) if (s && bySlug.has(s)) return bySlug.get(s)!

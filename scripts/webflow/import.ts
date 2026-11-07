@@ -2288,8 +2288,11 @@ function placeAliases(): Map<string, string> {
   const m = new Map<string, string>()
   if (!fs.existsSync(file)) return m
   const f = JSON.parse(fs.readFileSync(file, 'utf8')) as PlaceFixes
-  for (const x of f.merges ?? []) m.set(placeKey(x.name, x.country), x.into)
-  for (const x of f.renames ?? []) m.set(placeKey(x.was, x.country), x.newSlug ?? x.slug)
+  // a merge into a page that is renamed afterwards points at its new slug
+  const moved = new Map((f.renames ?? []).filter((x) => x.newSlug).map((x) => [x.slug, x.newSlug!]))
+  // not for an old name that is a different or wider place ("alias": false)
+  for (const x of f.merges ?? []) if (x.alias !== false) m.set(placeKey(x.name, x.country), moved.get(x.into) ?? x.into)
+  for (const x of f.renames ?? []) if (x.alias !== false) m.set(placeKey(x.was, x.country), x.newSlug ?? x.slug)
   return m
 }
 
@@ -2497,10 +2500,13 @@ async function placesReport(payload: Payload) {
 type PlaceFixes = {
   _note?: string
   since: string
-  merges?: { from: string; name: string; country: string; into: string }[]
-  renames?: { slug: string; was: string; name: string; country: string; newSlug?: string }[]
+  merges?: { from: string; name: string; country: string; into: string; alias?: boolean }[]
+  renames?: { slug: string; was: string; name: string; country: string; newSlug?: string; alias?: boolean }[]
   hotelSlugs?: { from: string; to: string }[]
   hotelAddresses?: { slug: string; from: string; to: string }[]
+  // hotels the import filled wrongly: the next Hilton import rewrites them
+  // from the hotel list, as for a hotel first made from its code alone
+  requeue?: string[]
 }
 
 async function placeFixes(payload: Payload) {
@@ -2539,11 +2545,12 @@ async function placeFixes(payload: Payload) {
     }
   }
 
-  // 2. merges
+  // 2. merges (into a page renamed below: by either slug)
+  const moved = new Map((f.renames ?? []).filter((x) => x.newSlug).map((x) => [x.slug, x.newSlug!]))
   for (const m of f.merges ?? []) {
     const from = await findDest(m.from)
-    if (!from) continue // already merged
-    const into = await findDest(m.into)
+    if (!from) continue // already merged, or only a name to map on import
+    const into = (await findDest(m.into)) ?? (moved.get(m.into) ? await findDest(moved.get(m.into)!) : undefined)
     if (!into) {
       console.log(`place-fixes: ${m.from}: no destination "${m.into}" to merge into; left as is`)
       continue
@@ -2636,6 +2643,13 @@ async function placeFixes(payload: Payload) {
     if (!h || h.streetAddress !== x.from) continue
     await payload.update({ collection: 'hotels', id: h.id, data: { streetAddress: x.to } as never, depth: 0, overrideAccess: true })
     tally('hotel addresses')
+  }
+  for (const slug of f.requeue ?? []) {
+    const h = await findHotel(slug)
+    if (!h || !isNew(h) || h.enrichmentStatus === 'queued') continue
+    await payload.update({ collection: 'hotels', id: h.id, data: { enrichmentStatus: 'queued' } as never, depth: 0, overrideAccess: true })
+    console.log(`place-fixes: hotel ${slug}: queued for the next Hilton import to rewrite`)
+    tally('hotels queued')
   }
   console.log(`place-fixes: ${Object.entries(done).map(([k, v]) => `${v} ${k}`).join(', ') || 'nothing to change'}`)
 }
