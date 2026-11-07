@@ -20,7 +20,7 @@ on:
         required: false
         default: ''
       show:
-        description: 'Optional extended regular expression: prints up to 30 matches from each page''s source (300 characters each at most) to read how a page is built, and skips the image check'
+        description: 'Optional extended regular expression: prints up to 30 matches from each page''s source, read as one line (300 characters each at most) to read how a page is built, and skips the image check'
         required: false
         default: ''
 
@@ -55,7 +55,7 @@ jobs:
               done
             fi
             if [ -n "$SHOW" ]; then
-              grep -oE -- "$SHOW" page.html | head -30 | cut -c1-300 | sed 's/^/   > /' || true
+              tr -s '\r\n\t' '   ' < page.html | grep -oE -- "$SHOW" | head -30 | cut -c1-300 | sed 's/^/   > /' || true
               continue
             fi
             sed 's/&amp;/\&/g' page.html | grep -oE '(src|href)="[^"]+"|url\([^)]+\)' \
