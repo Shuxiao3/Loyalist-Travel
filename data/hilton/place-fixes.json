@@ -160,7 +160,10 @@
    "from": "timisoara",
    "name": "Timișoara",
    "country": "Romania",
-   "into": "timi-oara"
+   "into": "timi-oara",
+   "moveOlder": [
+    "tresor-le-palais-timisoara-curio-collection-by-hilton"
+   ]
   },
   {
    "from": "tlalpan",
@@ -185,7 +188,10 @@
    "from": "urumqi-county",
    "name": "Ürümqi County",
    "country": "China",
-   "into": "r-mqi"
+   "into": "r-mqi",
+   "moveOlder": [
+    "hilton-urumqi"
+   ]
   },
   {
    "from": "xian",

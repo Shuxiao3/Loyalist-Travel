@@ -2500,7 +2500,9 @@ async function placesReport(payload: Payload) {
 type PlaceFixes = {
   _note?: string
   since: string
-  merges?: { from: string; name: string; country: string; into: string; alias?: boolean }[]
+  // moveOlder: also move hotels made before `since`, for a page today's import
+  // filed an older hotel under (it refreshed one first made from its code)
+  merges?: { from: string; name: string; country: string; into: string; alias?: boolean; moveOlder?: string[] }[]
   renames?: { slug: string; was: string; name: string; country: string; newSlug?: string; alias?: boolean }[]
   hotelSlugs?: { from: string; to: string }[]
   hotelAddresses?: { slug: string; from: string; to: string }[]
@@ -2564,8 +2566,9 @@ async function placeFixes(payload: Payload) {
       continue
     }
     const moving = await hotelsIn(from.id)
-    const older = moving.filter((h) => !isNew(h))
-    for (const h of moving.filter(isNew)) {
+    const may = (h: (typeof moving)[number]) => isNew(h) || (m.moveOlder ?? []).includes(h.slug)
+    const older = moving.filter((h) => !may(h))
+    for (const h of moving.filter(may)) {
       await payload.update({ collection: 'hotels', id: h.id, data: { destination: into.id } as never, depth: 0, overrideAccess: true })
       tally('hotels moved')
     }
