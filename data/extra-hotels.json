@@ -1,4 +1,40 @@
 {
-  "_note": "Hotels the Webflow export and the Hilton list do not have, added one by one as someone notices one missing. Applied by `npm run import:webflow -- extra-hotels` (Import Webflow content workflow, step extra-hotels): a hotel not on the site yet is created and published under its program, brand and city (slugs; a city the site lacks is made); one already there, by slug, only gets the fields it has no value for, so nothing edited in the admin is overwritten. Amenities are named as in the admin's Amenities list. Its photo goes through the Add a hotel photo workflow.",
-  "hotels": []
+  "_note": "Hotels the Webflow export and the Hilton list do not have, added one by one as someone notices one missing. Applied by `npm run import:webflow -- extra-hotels` (Import Webflow content workflow, step extra-hotels): a hotel not on the site yet is created and published under its program, brand and city (slugs; a city the site lacks is made); one already there, by slug, only gets the fields it has no value for, so nothing edited in the admin is overwritten, except fields an entry names in \"update\" (for a rebrand, e.g. [\"name\", \"brand\", \"bookingLink\"]). Amenities are named as in the admin's Amenities list. Its photo goes through the Add a hotel photo workflow.",
+  "hotels": [
+    {
+      "name": "Park Hyatt Milan",
+      "slug": "park-hyatt-milan",
+      "program": "world-of-hyatt",
+      "brand": "park-hyatt",
+      "city": "Milan",
+      "country": "Italy",
+      "stateOrRegion": "Lombardy",
+      "propertyType": "city",
+      "neighborhood": "Duomo",
+      "streetAddress": "Via Tommaso Grossi 1, 20121 Milan, Italy",
+      "phone": "+39 02 8821 1234",
+      "bookingLink": "https://www.hyatt.com/park-hyatt/en-US/milph-park-hyatt-milan",
+      "numberOfRooms": 108,
+      "openingYear": 2003,
+      "renovationYear": 2022,
+      "checkInTime": "3:00 PM",
+      "checkOutTime": "12:00 PM",
+      "clubLounge": "no",
+      "petFee": "Dogs under 8 kg, in Deluxe rooms and up: EUR 100 plus VAT a night",
+      "amenities": [
+        "Spa",
+        "Fitness Center",
+        "Restaurant",
+        "Bar",
+        "Free WiFi",
+        "Concierge",
+        "Room Service",
+        "Valet Parking",
+        "Pet Friendly",
+        "Meeting Rooms",
+        "Laundry Service",
+        "EV Charging"
+      ]
+    }
+  ]
 }

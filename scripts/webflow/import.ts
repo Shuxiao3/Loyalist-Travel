@@ -2401,7 +2401,7 @@ async function importHilton(payload: Payload) {
 // published under its program, brand and city (a city the site lacks is
 // made, in its country's usual region). A hotel already on the site, by slug,
 // only gets the fields it has no value for, so nothing edited in the admin is
-// overwritten.
+// overwritten, except fields its entry names in `update` (for a rebrand).
 type ExtraHotel = {
   name: string
   slug: string
@@ -2425,6 +2425,7 @@ type ExtraHotel = {
   petFee?: string | null
   amenities?: string[]
   pointsEligible?: boolean
+  update?: string[]
 }
 
 async function importExtraHotels(payload: Payload) {
@@ -2491,10 +2492,14 @@ async function importExtraHotels(payload: Payload) {
     const found = (await bySlug('hotels', h.slug)) as unknown as Record<string, unknown> | undefined
     if (found) {
       const blank = (v: unknown) => v == null || v === '' || (Array.isArray(v) && v.length === 0)
-      const patch = Object.fromEntries(Object.entries(data).filter(([k, v]) => !blank(v) && blank(found[k])))
+      // blanks are filled; fields named in `update` (a rebrand: name, brand,
+      // booking link) replace what the hotel has
+      const replace = new Set(h.update ?? [])
+      const same = (k: string, v: unknown) => JSON.stringify(found[k]) === JSON.stringify(v)
+      const patch = Object.fromEntries(Object.entries(data).filter(([k, v]) => !blank(v) && (blank(found[k]) || (replace.has(k) && !same(k, v)))))
       if (Object.keys(patch).length) {
         await payload.update({ collection: 'hotels', id: found.id as number, data: patch as never, depth: 0, overrideAccess: true })
-        console.log(`extra-hotels: ${h.slug}: already on the site; filled ${Object.keys(patch).join(', ')}`)
+        console.log(`extra-hotels: ${h.slug}: already on the site; set ${Object.keys(patch).join(', ')}`)
         updated++
       } else console.log(`extra-hotels: ${h.slug}: already on the site, nothing to fill`)
       continue
