@@ -28,7 +28,8 @@ export type HiltonHotel = {
   phone: string | null
   rooms: number | null
   lounge?: boolean // the page lists an executive lounge; absent until the page has been read for it
-  source: 'page' | 'slug' // page: read from the hotel's own page; slug: derived from the address and city code
+  source: 'page' | 'slug' | 'slh' // page: read from the hotel's own page; slug: derived from the address and city code; slh: an SLH hotel's address from slh.com (scripts/slh/fetch.ts)
+  slhUrl?: string
 }
 
 const args = process.argv.slice(2)

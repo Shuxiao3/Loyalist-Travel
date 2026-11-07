@@ -1,5 +1,6 @@
 # Builds the Hilton hotel list from hilton.com's public sitemap and hotel
-# pages, commits it to data/hilton/hotels.json, then imports it.
+# pages (Small Luxury Hotels of the World entries get their addresses from
+# slh.com), commits it to data/hilton/hotels.json, then imports it.
 #
 # Manual: Actions tab → "Fetch Hilton hotels" → Run workflow. Give a limit
 # (e.g. 30) to test the parser on a sample first; leave blank for all.
@@ -44,6 +45,13 @@ jobs:
             npm run fetch:hilton -- --limit ${{ github.event.inputs.limit }} --minutes ${{ github.event.inputs.minutes || 100 }}
           else
             npm run fetch:hilton -- --minutes ${{ github.event.inputs.minutes || 100 }}
+          fi
+      - name: SLH addresses from slh.com
+        run: |
+          if [ -n "${{ github.event.inputs.limit }}" ]; then
+            npm run fetch:slh -- --limit ${{ github.event.inputs.limit }}
+          else
+            npm run fetch:slh
           fi
       - name: Commit
         run: |
