@@ -600,6 +600,16 @@
    "slug": "gaia-riverlodge-an-slh-hotel",
    "from": "Mountain Pine Ridge, Forest Reserve, Cayo District Belize",
    "to": "Mountain Pine Ridge Forest Reserve, Cayo District, Belize"
+  },
+  {
+   "slug": "paradise-beach-nevis-an-slh-hotel",
+   "from": "Paradise Estates, St Thomas Parish, St Kitts, Saint Kitts and Nevis",
+   "to": "Paradise Estates, St Thomas Parish, Nevis, Saint Kitts and Nevis"
+  },
+  {
+   "slug": "itzana-resort-and-residences-an-slh-hotel",
+   "from": "Mile 20 Placencia Road, Stann Creek District, Placencia, 00501 Belize",
+   "to": "Mile 20 Placencia Road, Stann Creek District, Placencia, Belize"
   }
  ],
  "requeue": [
