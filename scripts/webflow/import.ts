@@ -2462,7 +2462,7 @@ async function importExtraHotels(payload: Payload) {
         collection: 'destinations',
         overrideAccess: true,
         depth: 0,
-        data: { name: h.city, slug, city: h.city, stateOrRegion: h.stateOrRegion ?? null, country: h.country, locationLabel: `${h.city}, ${h.country}`, region, _status: 'published' } as never,
+        data: { name: h.city, slug, city: h.city, stateOrRegion: h.stateOrRegion ?? null, country: h.country, locationLabel: h.country === 'United States' && h.stateOrRegion ? `${h.city}, ${h.stateOrRegion}` : `${h.city}, ${h.country}`, region, _status: 'published' } as never,
       })
       console.log(`extra-hotels: ${h.slug}: made the destination ${h.city}, ${h.country}`)
     }
