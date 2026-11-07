@@ -12,7 +12,7 @@
 import fs from 'fs'
 import path from 'path'
 
-import type { HiltonHotel } from '../hilton/fetch'
+import { fromSlug, type HiltonHotel } from '../hilton/fetch'
 import { get, mapLimit } from '../lib/http'
 
 const FILE = path.resolve(process.cwd(), 'data/hilton/hotels.json')
@@ -46,6 +46,9 @@ const slug = (s: string) =>
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '')
 const words = (s: string) => new Set(s.split('-').filter((w) => w.length > 1 && !['the', 'hotel', 'and', 'an', 'slh', 'by', 'de', 'la', 'le'].includes(w)))
+// words many hotel names share: a match needs one word besides these
+// ("itzana-resort-and-residences" is not "goldwynn-resort-and-residences")
+const GENERIC = new Set(['resort', 'resorts', 'residences', 'residence', 'spa', 'villas', 'villa', 'boutique', 'lodge', 'lodges', 'suites', 'retreat', 'beach', 'hotels', 'house', 'palace', 'exclusive', 'collection', 'wellness', 'island', 'grand', 'golf', 'club', 'country', 'estate', 'manor', 'castle', 'inn', 'del', 'di', 'da', 'du', 'des', 'el', 'il'])
 
 export type SlhAddress = { name: string; street: string | null; city: string | null; postalCode: string | null; region: string | null; country: string | null }
 
@@ -82,12 +85,13 @@ export function parseAddress(html: string): SlhAddress | null {
   // sits on the postcode line, and the city line holds "." or a district or
   // PO box (Ka'ana Resort: ".", "San Ignacio"; O Monot: "PO Box 11 6182",
   // "Beirut"). A postcode line with no digit is that town; the line above it
-  // joins the street. The page title names the town best where it does
-  // ("Calala Island, Luxury Hotel in Pearl Cays, Nicaragua", where the
-  // postcode line says "NiCaribbean").
+  // joins the street. The page title is used only when both lines are blank.
+  // Some blocks still come out wrong (Bluefields Bay Villas: "Bluefields",
+  // then its parish); data/hilton/place-fixes.json maps those to the right
+  // city page on import.
   if (postalCode && !/\d/.test(postalCode)) {
     if (city) street.push(city)
-    city = cityFromTitle(html, country, name) ?? postalCode
+    city = postalCode
     postalCode = null
   } else if (!city) city = cityFromTitle(html, country, name)
   const streetLine = street.filter((l) => l && l !== city).join(', ') || null
@@ -95,14 +99,45 @@ export function parseAddress(html: string): SlhAddress | null {
 }
 
 // The town in the page title: "Ka'ana Resort, Luxury Hotel in San Ignacio,
-// Belize | SLH" -> "San Ignacio"; "Palacio Solecio, Luxury Hotel, Málaga |
-// SLH" -> "Málaga". Nothing when the title names only the country ("S Hotel
-// Montego Bay, Luxury Boutique Hotel, in Jamaica") or only the hotel.
+// Belize | SLH" -> "San Ignacio"; "Castello di Spaltenna, Luxury Hotel in
+// Gaiole in Chianti, Italy" -> "Gaiole in Chianti". The hotel's own name is
+// taken off first ("Castle in the Air, ..."). Nothing when the title names no
+// town after "in", or only the country or the hotel.
 export function cityFromTitle(html: string, country: string | null, name: string): string | null {
-  const t = decode(html.match(/<title>([^<]*?)\s*\|\s*SLH/)?.[1] ?? '')
-  const inPlace = t.match(/ in ([^|]+)$/)?.[1]
-  const place = (inPlace ?? (t.includes(',') ? t.split(',').slice(-1)[0] : '')).split(',')[0].trim()
-  return place && place !== country && place !== name ? place : null
+  const raw = html.match(/<title>([^<]*)<\/title>/)?.[1]
+  if (!raw) return null
+  const parts = decode(raw)
+    .split('|')
+    .map((x) => x.trim())
+    .filter((x) => x && x !== 'SLH')
+  const rest = parts.map((x) => (x.startsWith(name) ? x.slice(name.length) : x)).find((x) => / in /.test(x))
+  const place = rest?.match(/ in (.+)$/)?.[1]?.split(',')[0]?.trim()
+  const same = (a: string | null) => Boolean(a) && place!.toLowerCase() === a!.toLowerCase()
+  return place && !same(country) && !same(name) ? place : null
+}
+
+// the Hilton address slug ("adllmlx-le-mas-barossa" -> "le-mas-barossa"),
+// else the name's (not for an entry filled from slh.com before: that name is
+// slh.com's own), else the one SLH page sharing most of its words, one of
+// them a word that is not common to hotel names
+export function matchSlh(h: HiltonHotel, bySlug: Map<string, string>): string | null {
+  const fromUrl = h.url.match(/\/hotels\/[a-z0-9]+-([a-z0-9-]+)\/?$/)?.[1] ?? ''
+  const fromName = h.source === 'slh' ? '' : slug((h.name ?? '').replace(SUFFIX, ''))
+  for (const s of [fromUrl, fromName]) if (s && bySlug.has(s)) return bySlug.get(s)!
+  const want = words(fromUrl || fromName)
+  let best: { url: string; score: number } | null = null
+  let tie = false
+  for (const [s, url] of bySlug) {
+    const have = words(s)
+    const common = [...want].filter((w) => have.has(w))
+    if (!common.some((w) => !GENERIC.has(w))) continue
+    const score = common.length / Math.max(want.size, have.size, 1)
+    if (!best || score > best.score) {
+      best = { url, score }
+      tie = false
+    } else if (score === best.score) tie = true
+  }
+  return best && best.score >= 0.6 && !tie ? best.url : null
 }
 
 async function slhHotelPages(): Promise<string[]> {
@@ -124,33 +159,20 @@ async function main() {
   const bySlug = new Map(pages.map((u) => [u.replace(/^.*\/hotels\//, ''), u]))
   console.log(`${pages.length} hotel pages on slh.com; ${todo.length} SLH entries to fill`)
 
-  // the Hilton address slug ("adllmlx-le-mas-barossa" -> "le-mas-barossa"),
-  // else the name's, else the one SLH page sharing most of its words
-  const match = (h: HiltonHotel): string | null => {
-    const fromUrl = h.url.match(/\/hotels\/[a-z0-9]+-([a-z0-9-]+)\/?$/)?.[1] ?? ''
-    const fromName = slug((h.name ?? '').replace(SUFFIX, ''))
-    for (const s of [fromUrl, fromName]) if (bySlug.has(s)) return bySlug.get(s)!
-    const want = words(fromUrl || fromName)
-    let best: { url: string; score: number } | null = null
-    let tie = false
-    for (const [s, url] of bySlug) {
-      const have = words(s)
-      const shared = [...want].filter((w) => have.has(w)).length
-      const score = shared / Math.max(want.size, have.size, 1)
-      if (!best || score > best.score) {
-        best = { url, score }
-        tie = false
-      } else if (score === best.score) tie = true
-    }
-    return best && best.score >= 0.6 && !tie ? best.url : null
-  }
-
   let filled = 0
+  let reset = 0
   const unmatched: string[] = []
   const unread: string[] = []
   await mapLimit(todo, 4, async (h) => {
-    const url = match(h)
+    const url = matchSlh(h, bySlug)
     if (!url) {
+      // filled from an SLH page it no longer matches: back to what the hotel
+      // code alone says, so the import holds it back
+      if (h.source === 'slh') {
+        Object.assign(h, fromSlug(h.url))
+        delete h.slhUrl
+        reset++
+      }
       unmatched.push(`${h.name} (${h.url})`)
       return
     }
@@ -172,7 +194,7 @@ async function main() {
     if (filled % 50 === 0) console.log(`${filled} filled`)
   })
   fs.writeFileSync(FILE, JSON.stringify(all, null, 1) + '\n')
-  console.log(`slh: ${filled} filled from slh.com, ${unmatched.length} with no SLH page found, ${unread.length} pages without an address`)
+  console.log(`slh: ${filled} filled from slh.com, ${unmatched.length} with no SLH page found (${reset} of them filled before, now reset), ${unread.length} pages without an address`)
   if (unmatched.length) console.log('no SLH page found:\n  ' + unmatched.join('\n  '))
   if (unread.length) console.log('pages without an address:\n  ' + unread.join('\n  '))
 }

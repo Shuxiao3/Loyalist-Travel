@@ -76,7 +76,7 @@ export function nameFromSlug(slug: string, brandCode: string): string {
   return (prefix + words.join(' ')).trim() + (BRAND_SUFFIX[brandCode] ?? '')
 }
 
-function fromSlug(url: string): HiltonHotel {
+export function fromSlug(url: string): HiltonHotel {
   const m = url.match(HOTEL_URL)!
   const ctyhocn = m[1].toUpperCase()
   const brandCode = ctyhocn.slice(-2)
@@ -343,7 +343,8 @@ async function main() {
   process.exit(0)
 }
 
-if (process.argv[1]?.endsWith("fetch.ts")) main().catch((e) => {
+// run only as the script itself, not when another script imports fromSlug
+if (process.argv[1] && path.resolve(process.argv[1]).endsWith(path.join('hilton', 'fetch.ts'))) main().catch((e) => {
   console.error(e)
   process.exit(1)
 })

@@ -2258,6 +2258,39 @@ const COUNTRY_ALIASES: Record<string, string> = {
   Türkiye: 'Turkey', Czechia: 'Czech Republic', 'Korea, Republic of': 'South Korea', Korea: 'South Korea', 'Viet Nam': 'Vietnam',
   'Russian Federation': 'Russia', 'Taiwan, Province of China': 'Taiwan', Curaçao: 'Curacao', 'Virgin Islands, U.S.': 'U.S. Virgin Islands', 'US Virgin Islands': 'U.S. Virgin Islands',
   "Cote d'Ivoire": 'Ivory Coast', 'Côte d’Ivoire': 'Ivory Coast', 'Trinidad & Tobago': 'Trinidad and Tobago', 'St. Kitts & Nevis': 'Saint Kitts and Nevis', 'Bosnia & Herzegovina': 'Bosnia and Herzegovina',
+  // as slh.com and the region codes spell them
+  Turkiye: 'Turkey', 'Saint Kitts And Nevis': 'Saint Kitts and Nevis', "Lao People's Dem Republic": 'Laos', 'Antigua & Barbuda': 'Antigua and Barbuda',
+  'São Tomé & Príncipe': 'Sao Tome and Principe', 'Myanmar (Burma)': 'Myanmar', 'Turks & Caicos Islands': 'Turks and Caicos Islands', 'St. Lucia': 'Saint Lucia',
+  'Congo - Brazzaville': 'Republic of the Congo', 'Congo - Kinshasa': 'Democratic Republic of the Congo',
+}
+
+// The region for a city in a country the site has no other city in yet
+// (a new city otherwise takes its country's usual region).
+const REGION_FALLBACK: Record<string, string> = {
+  Norway: 'europe', Latvia: 'europe', Andorra: 'europe', Jersey: 'europe', Guernsey: 'europe', 'Isle of Man': 'europe', Liechtenstein: 'europe', 'San Marino': 'europe', Kosovo: 'europe',
+  Laos: 'asia', Myanmar: 'asia', 'Hong Kong': 'asia', Tajikistan: 'asia', Mongolia: 'asia',
+  'Papua New Guinea': 'oceania', Yemen: 'middle-east',
+  'Sao Tome and Principe': 'africa', 'Republic of the Congo': 'africa', 'Democratic Republic of the Congo': 'africa', 'Burkina Faso': 'africa', 'Cape Verde': 'africa', Chad: 'africa', Libya: 'africa', 'South Sudan': 'africa', Namibia: 'africa',
+  Jamaica: 'latin-america-caribbean', 'Antigua and Barbuda': 'latin-america-caribbean', 'Saint Kitts and Nevis': 'latin-america-caribbean', 'Saint Vincent and the Grenadines': 'latin-america-caribbean',
+  'Saint Lucia': 'latin-america-caribbean', 'Caribbean Netherlands': 'latin-america-caribbean', 'Turks and Caicos Islands': 'latin-america-caribbean',
+}
+
+// How two spellings of one city are matched: accents, case, hyphens and the
+// country's spelling aside ("San Sebastián|Spain" = "san sebastian|spain",
+// "Istanbul|Turkiye" = "istanbul|turkey").
+const fold = (s: string) => asciiSlug(s) || s.trim().toLowerCase()
+const placeKey = (city: string, country: string) => `${fold(city)}|${fold(countryName(country) ?? country)}`
+
+// Cities the site already has under another name, and pages renamed after an
+// import: data/hilton/place-fixes.json (see placeFixes). "roma|italy" -> "rome".
+function placeAliases(): Map<string, string> {
+  const file = path.resolve(process.cwd(), 'data/hilton/place-fixes.json')
+  const m = new Map<string, string>()
+  if (!fs.existsSync(file)) return m
+  const f = JSON.parse(fs.readFileSync(file, 'utf8')) as PlaceFixes
+  for (const x of f.merges ?? []) m.set(placeKey(x.name, x.country), x.into)
+  for (const x of f.renames ?? []) m.set(placeKey(x.was, x.country), x.newSlug ?? x.slug)
+  return m
 }
 
 const US_STATES: Record<string, string> = {
@@ -2286,14 +2319,15 @@ async function importHilton(payload: Payload) {
   const brands = new Map((await payload.find({ collection: 'brands', limit: 500, depth: 0, overrideAccess: true })).docs.map((b) => [b.slug, b.id]))
 
   // destinations by "city|country", and each country's usual region
-  const dests = (await payload.find({ collection: 'destinations', limit: 5000, depth: 0, overrideAccess: true })).docs
+  const dests = (await payload.find({ collection: 'destinations', limit: 10000, depth: 0, overrideAccess: true, sort: 'id' })).docs
   const destByKey = new Map<string, number>()
   const regionByCountry = new Map<string, Map<number, number>>()
   const destSlugs = new Set<string>()
   for (const d of dests) {
     destSlugs.add(d.slug)
-    if (d.city && d.country) destByKey.set(`${d.city.toLowerCase()}|${d.country.toLowerCase()}`, d.id)
-    if (d.name && d.country) destByKey.set(`${d.name.toLowerCase()}|${d.country.toLowerCase()}`, d.id)
+    // the oldest page wins where two share a key
+    if (d.city && d.country && !destByKey.has(placeKey(d.city, d.country))) destByKey.set(placeKey(d.city, d.country), d.id)
+    if (d.name && d.country && !destByKey.has(placeKey(d.name, d.country))) destByKey.set(placeKey(d.name, d.country), d.id)
     const region = typeof d.region === 'object' ? d.region?.id : d.region
     if (d.country && region) {
       const m = regionByCountry.get(d.country) ?? new Map<number, number>()
@@ -2301,10 +2335,13 @@ async function importHilton(payload: Payload) {
       regionByCountry.set(d.country, m)
     }
   }
+  const regionIds = new Map((await payload.find({ collection: 'regions', limit: 100, depth: 0, overrideAccess: true })).docs.map((r) => [r.slug, r.id]))
   const usualRegion = (country: string) => {
     const m = regionByCountry.get(country)
-    return m ? [...m.entries()].sort((a, b) => b[1] - a[1])[0][0] : null
+    return m ? [...m.entries()].sort((a, b) => b[1] - a[1])[0][0] : (regionIds.get(REGION_FALLBACK[country]) ?? null)
   }
+  const destIdBySlug = new Map(dests.map((d) => [d.slug, d.id]))
+  const aliases = placeAliases()
 
   // existing hotels in the program, by hotel code in the booking link and by name
   const existing = (await payload.find({ collection: 'hotels', where: { program: { equals: program.id } }, limit: 10000, depth: 0, overrideAccess: true })).docs
@@ -2343,8 +2380,13 @@ async function importHilton(payload: Payload) {
     }
     const country = countryName(r.country)!
     const region = country === 'United States' && r.region && US_STATES[r.region.toUpperCase()] ? US_STATES[r.region.toUpperCase()] : r.region
-    const key = `${r.city.toLowerCase()}|${country.toLowerCase()}`
-    let destId = destByKey.get(key)
+    const key = placeKey(r.city, country)
+    // a hotel already on the site keeps its city: none is made for it
+    const found = byCode.get(r.ctyhocn) ?? byName.get(r.name.toLowerCase())
+    const replacing = found?.enrichmentStatus === 'queued' && r.source !== 'slug'
+    const foundDest = found && !replacing ? (typeof found.destination === 'object' ? found.destination?.id : found.destination) : null
+    const alias = aliases.get(key)
+    let destId = destByKey.get(key) ?? (alias ? destIdBySlug.get(alias) : undefined) ?? foundDest ?? undefined
     if (!destId) {
       let slug = asciiSlug(r.city)
       if (!slug) {
@@ -2362,6 +2404,7 @@ async function importHilton(payload: Payload) {
       destId = d.id
       destByKey.set(key, destId)
       destSlugs.add(slug)
+      destIdBySlug.set(slug, d.id)
       newDests++
     }
 
@@ -2375,10 +2418,9 @@ async function importHilton(payload: Payload) {
       numberOfRooms: r.rooms,
       clubLounge: r.lounge === undefined ? null : r.lounge ? 'yes' : 'no',
     }
-    const found = byCode.get(r.ctyhocn) ?? byName.get(r.name.toLowerCase())
     if (found) {
       const patch: Record<string, unknown> = {}
-      if (found.enrichmentStatus === 'queued' && r.source !== 'slug') {
+      if (replacing) {
         // created earlier from the address alone; the page's facts (or, for an
         // SLH hotel, slh.com's) replace it
         Object.assign(patch, data, { name: r.name, enrichmentStatus: 'enriched' })
@@ -2438,6 +2480,164 @@ async function placesReport(payload: Payload) {
     console.log(['hotel', h.id, h.slug, h.name, b ? brands.get(b) : '', d, h.streetAddress, h.bookingLink, h.createdAt?.slice(0, 16), h.updatedAt?.slice(0, 16), h._status].map(clean).join('|'))
   }
   console.log(`places-report: ${dests.length} destinations, ${hotels.length} hotels, ${hotels.filter((x) => x.createdAt >= since).length} created since ${since.slice(0, 10)}`)
+}
+
+// ---- Place fixes ------------------------------------------------------------------
+// data/hilton/place-fixes.json corrects the cities an import made, after a
+// check of the places-report against the cities the site already had:
+//   merges    a new city that is one the site had under another spelling
+//             ("Roma" -> rome): its hotels move there and the empty page goes
+//   renames   a new page named for a PO box, parish or district: the town
+//   hotelSlugs, hotelAddresses   one-off corrections, applied only when the
+//             current value is exactly the one named
+// Only pages and hotels created on or after `since` are changed, so nothing
+// made or edited by hand before then is touched. Every country name is also
+// brought to the site's spelling ("Turkiye" -> "Turkey"), and new pages
+// without a region get their country's. Running it again changes nothing.
+type PlaceFixes = {
+  _note?: string
+  since: string
+  merges?: { from: string; name: string; country: string; into: string }[]
+  renames?: { slug: string; was: string; name: string; country: string; newSlug?: string }[]
+  hotelSlugs?: { from: string; to: string }[]
+  hotelAddresses?: { slug: string; from: string; to: string }[]
+}
+
+async function placeFixes(payload: Payload) {
+  const file = path.resolve(process.cwd(), 'data/hilton/place-fixes.json')
+  const f = JSON.parse(fs.readFileSync(file, 'utf8')) as PlaceFixes
+  if (!/^\d{4}-\d{2}-\d{2}/.test(f.since ?? '')) throw new Error('place-fixes: "since" (YYYY-MM-DD) is required')
+  const isNew = (doc: { createdAt?: string | null }) => (doc.createdAt ?? '') >= f.since
+  const label = (city: string, region: string | null | undefined, country: string) => (country === 'United States' && region ? `${city}, ${region}` : `${city}, ${country}`)
+  const findDest = async (slug: string) => (await payload.find({ collection: 'destinations', where: { slug: { equals: slug } }, limit: 1, depth: 0, overrideAccess: true, draft: true })).docs[0]
+  const findHotel = async (slug: string) => (await payload.find({ collection: 'hotels', where: { slug: { equals: slug } }, limit: 1, depth: 0, overrideAccess: true, draft: true })).docs[0]
+  const hotelsIn = async (id: number) => (await payload.find({ collection: 'hotels', where: { destination: { equals: id } }, limit: 1000, depth: 0, overrideAccess: true, draft: true })).docs
+  const done: Record<string, number> = {}
+  const tally = (k: string) => (done[k] = (done[k] ?? 0) + 1)
+
+  // 1. country names
+  const all = (await payload.find({ collection: 'destinations', limit: 10000, depth: 0, overrideAccess: true, draft: true })).docs
+  const renamedCountry = new Map<string, string>()
+  for (const d of all) {
+    const c = countryName(d.country ?? null)
+    if (!d.country || !c || c === d.country) continue
+    const patch: Record<string, unknown> = { country: c }
+    if (d.locationLabel?.endsWith(`, ${d.country}`)) patch.locationLabel = `${d.locationLabel.slice(0, -d.country.length)}${c}`
+    await payload.update({ collection: 'destinations', id: d.id, data: patch as never, depth: 0, overrideAccess: true })
+    console.log(`place-fixes: ${d.slug}: country "${d.country}" -> "${c}"`)
+    renamedCountry.set(d.country, c)
+    tally('country names')
+  }
+  if (renamedCountry.size) {
+    for (const h of (await payload.find({ collection: 'hotels', where: { createdAt: { greater_than_equal: f.since } }, limit: 5000, depth: 0, overrideAccess: true, draft: true })).docs) {
+      for (const [from, to] of renamedCountry) {
+        if (h.streetAddress?.endsWith(` ${from}`)) {
+          await payload.update({ collection: 'hotels', id: h.id, data: { streetAddress: `${h.streetAddress.slice(0, -from.length)}${to}` } as never, depth: 0, overrideAccess: true })
+          tally('hotel addresses (country)')
+        }
+      }
+    }
+  }
+
+  // 2. merges
+  for (const m of f.merges ?? []) {
+    const from = await findDest(m.from)
+    if (!from) continue // already merged
+    const into = await findDest(m.into)
+    if (!into) {
+      console.log(`place-fixes: ${m.from}: no destination "${m.into}" to merge into; left as is`)
+      continue
+    }
+    if (!isNew(from)) {
+      console.log(`place-fixes: ${m.from}: made before ${f.since}; left as is`)
+      continue
+    }
+    if (countryName(from.country ?? null) !== countryName(into.country ?? null)) {
+      console.log(`place-fixes: ${m.from}: in ${from.country}, but ${m.into} is in ${into.country}; left as is`)
+      continue
+    }
+    const moving = await hotelsIn(from.id)
+    const older = moving.filter((h) => !isNew(h))
+    for (const h of moving.filter(isNew)) {
+      await payload.update({ collection: 'hotels', id: h.id, data: { destination: into.id } as never, depth: 0, overrideAccess: true })
+      tally('hotels moved')
+    }
+    if (older.length) {
+      console.log(`place-fixes: ${m.from}: kept, since ${older.map((h) => h.slug).join(', ')} predate ${f.since}`)
+      continue
+    }
+    await payload.delete({ collection: 'destinations', id: from.id, overrideAccess: true })
+    console.log(`place-fixes: ${m.from} merged into ${m.into} (${moving.length} hotels)`)
+    tally('merged')
+  }
+
+  // 3. renames
+  for (const r of f.renames ?? []) {
+    const d = (await findDest(r.slug)) ?? (r.newSlug ? await findDest(r.newSlug) : undefined)
+    if (!d) {
+      console.log(`place-fixes: ${r.slug}: not found; left as is`)
+      continue
+    }
+    if (!isNew(d)) {
+      console.log(`place-fixes: ${r.slug}: made before ${f.since}; left as is`)
+      continue
+    }
+    const country = countryName(d.country ?? null) ?? d.country ?? ''
+    const clash = all.find((x) => x.id !== d.id && x.country && countryName(x.country) === country && [x.city, x.name].some((v) => v?.toLowerCase() === r.name.toLowerCase()))
+    if (clash) {
+      console.log(`place-fixes: ${r.slug}: ${clash.slug} is already "${r.name}"; list it as a merge instead`)
+      continue
+    }
+    const patch: Record<string, unknown> = {}
+    if (d.name !== r.name) Object.assign(patch, { name: r.name, city: r.name, locationLabel: label(r.name, d.stateOrRegion, country) })
+    if (r.newSlug && d.slug !== r.newSlug) {
+      if (await findDest(r.newSlug)) console.log(`place-fixes: ${r.slug}: the slug ${r.newSlug} is taken; slug kept`)
+      else patch.slug = r.newSlug
+    }
+    if (Object.keys(patch).length) {
+      await payload.update({ collection: 'destinations', id: d.id, data: patch as never, depth: 0, overrideAccess: true })
+      console.log(`place-fixes: ${r.slug}: ${JSON.stringify(patch)}`)
+      tally('renamed')
+    }
+  }
+
+  // 4. regions for new pages
+  const regionIds = new Map((await payload.find({ collection: 'regions', limit: 100, depth: 0, overrideAccess: true })).docs.map((r) => [r.slug, r.id]))
+  const now = (await payload.find({ collection: 'destinations', limit: 10000, depth: 0, overrideAccess: true, draft: true })).docs
+  const usual = new Map<string, Map<number, number>>()
+  for (const d of now) {
+    const reg = typeof d.region === 'object' ? d.region?.id : d.region
+    if (d.country && reg) usual.set(d.country, (usual.get(d.country) ?? new Map()).set(reg, (usual.get(d.country)?.get(reg) ?? 0) + 1))
+  }
+  for (const d of now.filter((x) => isNew(x) && !x.region && x.country)) {
+    const m = usual.get(d.country!)
+    const reg = m ? [...m.entries()].sort((a, b) => b[1] - a[1])[0][0] : regionIds.get(REGION_FALLBACK[d.country!])
+    if (!reg) {
+      console.log(`place-fixes: ${d.slug}: no region known for ${d.country}`)
+      continue
+    }
+    await payload.update({ collection: 'destinations', id: d.id, data: { region: reg } as never, depth: 0, overrideAccess: true })
+    tally('regions filled')
+  }
+
+  // 5. hotel slugs and addresses
+  for (const x of f.hotelSlugs ?? []) {
+    const h = await findHotel(x.from)
+    if (!h || !isNew(h)) continue
+    if (await findHotel(x.to)) {
+      console.log(`place-fixes: hotel ${x.from}: the slug ${x.to} is taken; kept`)
+      continue
+    }
+    await payload.update({ collection: 'hotels', id: h.id, data: { slug: x.to } as never, depth: 0, overrideAccess: true })
+    tally('hotel slugs')
+  }
+  for (const x of f.hotelAddresses ?? []) {
+    const h = await findHotel(x.slug)
+    if (!h || h.streetAddress !== x.from) continue
+    await payload.update({ collection: 'hotels', id: h.id, data: { streetAddress: x.to } as never, depth: 0, overrideAccess: true })
+    tally('hotel addresses')
+  }
+  console.log(`place-fixes: ${Object.entries(done).map(([k, v]) => `${v} ${k}`).join(', ') || 'nothing to change'}`)
 }
 
 // ---- Hotels added one by one ----------------------------------------------------
@@ -2583,6 +2783,7 @@ const STEPS: Record<string, (p: Payload) => Promise<void>> = {
   hilton: importHilton,
   'extra-hotels': importExtraHotels,
   'places-report': placesReport,
+  'place-fixes': placeFixes,
   'seed-articles': seedArticles,
   'unseed-articles': unseedArticles,
   articles: importArticles,
