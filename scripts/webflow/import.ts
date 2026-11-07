@@ -2227,6 +2227,7 @@ const HILTON_BRANDS: Record<string, string> = {
   SA: 'signia',
   NM: 'nomad',
   SL: 'small-luxury-hotels',
+  LX: 'small-luxury-hotels',
   HI: 'hilton-hotels-resorts',
   HH: 'hilton-hotels-resorts',
   HF: 'hilton-hotels-resorts',

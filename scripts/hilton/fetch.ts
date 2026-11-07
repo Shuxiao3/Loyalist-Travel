@@ -121,9 +121,10 @@ const locs = (xml: string): string[] => [...xml.matchAll(/<loc>\s*([^<\s]+)\s*<\
 const HOTEL_URL = /^https:\/\/www\.hilton\.com\/en\/hotels\/([a-z0-9]{7})-([a-z0-9-]+)\/$/
 
 // Hilton brand codes, as they appear in the sitemap file names and at the
-// end of each hotel code. Only these brands are fetched.
+// end of each hotel code. Only these brands are fetched. LX is Small Luxury
+// Hotels of the World, the partner collection bookable through Hilton.
 const brandsArg = args.indexOf('--brands')
-const BRANDS = (brandsArg >= 0 ? args[brandsArg + 1] : 'wa,ch,ol,sa,nd,hi,py,qq,up,dt,es,gu,po,ua').split(',').map((b) => b.trim().toLowerCase())
+const BRANDS = (brandsArg >= 0 ? args[brandsArg + 1] : 'wa,ch,ol,sa,nd,hi,py,qq,up,dt,es,gu,po,ua,lx').split(',').map((b) => b.trim().toLowerCase())
 
 async function mapLimit<T, R>(items: T[], limit: number, fn: (t: T) => Promise<R>): Promise<R[]> {
   const out: R[] = []
